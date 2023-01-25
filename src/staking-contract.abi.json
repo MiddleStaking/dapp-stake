@@ -1,0 +1,374 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.68.0-nightly",
+            "commitHash": "3020239de947ec52677e9b4e853a6a9fc073d1f9",
+            "commitDate": "2023-01-09",
+            "channel": "Nightly",
+            "short": "rustc 1.68.0-nightly (3020239de 2023-01-09)"
+        },
+        "contractCrate": {
+            "name": "staking-contract",
+            "version": "0.0.1"
+        },
+        "framework": {
+            "name": "multiversx-sc",
+            "version": "0.39.0"
+        }
+    },
+    "name": "StakingContract",
+    "constructor": {
+        "inputs": [
+            {
+                "name": "def_staked_token",
+                "type": "TokenIdentifier"
+            },
+            {
+                "name": "burn_wallet",
+                "type": "Address"
+            },
+            {
+                "name": "fee_wallet",
+                "type": "Address"
+            }
+        ],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "fund",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "opt_staked_token",
+                    "type": "optional<TokenIdentifier>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "stake",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "opt_rewarded_token",
+                    "type": "optional<TokenIdentifier>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "unstake",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "opt_staked_token",
+                    "type": "optional<TokenIdentifier>",
+                    "multi_arg": true
+                },
+                {
+                    "name": "opt_rewarded_token",
+                    "type": "optional<TokenIdentifier>",
+                    "multi_arg": true
+                },
+                {
+                    "name": "opt_unstake_amount",
+                    "type": "optional<BigUint>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setFees",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "fees",
+                    "type": "u64"
+                },
+                {
+                    "name": "burn",
+                    "type": "u64"
+                },
+                {
+                    "name": "opt_blocks_to_max",
+                    "type": "optional<u64>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "editConfig",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "def_staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "burn_wallet",
+                    "type": "Address"
+                },
+                {
+                    "name": "fee_wallet",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "pausePool",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "unpausePool",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "closePool",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "claimRewards",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "opt_staked_token",
+                    "type": "optional<TokenIdentifier>",
+                    "multi_arg": true
+                },
+                {
+                    "name": "opt_rewarded_token",
+                    "type": "optional<TokenIdentifier>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "calculateRewardsForUser",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                },
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getStakedTokens",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<TokenIdentifier>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getRewardedTokens",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<TokenIdentifier>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getStakedAddresses",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<Address>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getStakingPosition",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                },
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getTokenPosition",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<BigUint>"
+                }
+            ]
+        },
+        {
+            "name": "getDefTokenIdentifier",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "getBurnWallet",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "getFeeWallet",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "isPaused",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "pause",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "unpause",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        }
+    ],
+    "events": [],
+    "hasCallback": false,
+    "types": {}
+}

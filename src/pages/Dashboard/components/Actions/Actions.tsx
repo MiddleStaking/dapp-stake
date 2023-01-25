@@ -7,11 +7,26 @@ import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
 import { contractAddress } from 'config';
-import { useGetTimeToPong, useGetPingAmount } from './helpers';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import {
+  useGetStakedTokens,
+  useGetRewardedTokens,
+  useGetTokenPosition,
+  useGetStakingPosition,
+  useGetStakingPositionRewards,
+  useGetTimeToPong,
+  useGetPingAmount
+} from './helpers';
 
 export const Actions = () => {
   const { hasPendingTransactions } = useGetPendingTransactions();
   const getTimeToPong = useGetTimeToPong();
+  const stakedTokens = useGetStakedTokens();
+  const rewardedTokens = useGetRewardedTokens();
+  const stakingPosition = useGetStakingPosition();
+  const stakingPositionRewards = useGetStakingPositionRewards();
+  const TokenPosition = useGetTokenPosition();
+
   const pingAmount = useGetPingAmount();
 
   const [secondsLeft, setSecondsLeft] = useState<number>();
@@ -128,7 +143,7 @@ export const Actions = () => {
                 <FontAwesomeIcon icon={faArrowUp} className='text-primary' />
               </button>
               <a href='/' className='text-white text-decoration-none'>
-                Ping
+                Stake
               </a>
             </div>
           ) : (
