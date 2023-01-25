@@ -1,6 +1,7 @@
 export const contractAddress =
-  'erd1qqqqqqqqqqqqqpgq72l6vl07fkn3alyfq753mcy4nakm0l72396qkcud5x';
+  'erd1qqqqqqqqqqqqqpgqp59fen4fn5szpl0az6fczyzmgm263ma5ch9s86thwk';
 
+export const defaultToken = 'STAKE-1c6362';
 export const dAppName = 'example Dapp';
 
 // Generate your own WalletConnect 2 ProjectId here: https://cloud.walletconnect.com/app
