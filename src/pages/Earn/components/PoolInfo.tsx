@@ -38,6 +38,12 @@ export const PoolInfo = ({
   }
   const rest = Number(share) / Number(100);
 
+  const speed =
+    (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
+    BigInt(24) /
+    BigInt(60) /
+    BigInt(60);
+
   return (
     <div className='text-white' data-testid='poolInfo'>
       <h3>POOL INFORMATIONS</h3>
@@ -72,6 +78,9 @@ export const PoolInfo = ({
             data-testid='balance'
           />
         </h4>
+      </div>{' '}
+      <div>
+        <h4>(i) Speed : {speed.toString()} days</h4>
       </div>
       <div>
         <h4>(i) APR : {apr.toString()} %</h4>
