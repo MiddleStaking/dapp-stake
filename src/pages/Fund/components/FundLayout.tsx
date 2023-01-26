@@ -4,7 +4,6 @@ import styles from './../fund.module.scss';
 import { TopInfo } from './TopInfo';
 import { PoolInfo } from './PoolInfo';
 import { defaultToken } from 'config';
-import { useGetRewardedTokens } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
@@ -12,7 +11,6 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import axios from 'axios';
 
 export const FundLayout = ({ children }: React.PropsWithChildren) => {
-  const rewardedTokens = useGetRewardedTokens();
   const userEsdtBalance = useGetUserESDT();
   const [stoken, setStoken] = React.useState(defaultToken);
   const [rtoken, setRtoken] = React.useState(defaultToken);
@@ -27,7 +25,6 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
   }, [tokenProps]);
 
   function setFSToken(e: React.ChangeEvent<any>) {
-    console.log(e.target.value);
     const index = userEsdtBalance
       .filter(({ identifier }) => identifier === identifier)
       .findIndex((tokens) => tokens.identifier === e.target.value);
@@ -35,7 +32,6 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
   }
 
   function setFRtoken(e: React.ChangeEvent<any>) {
-    console.log(e.target.value);
     const index = userEsdtBalance
       .filter(({ identifier }) => identifier === identifier)
       .findIndex((tokens) => tokens.identifier === e.target.value);
@@ -46,13 +42,7 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
   }
 
   function handleSubmit() {
-    const formdata = {
-      stoken: stoken
-    };
-    axios.post('https://api.r3d4.fr/faucet/list', { formdata }).then((res) => {
-      console.log(res);
-      console.log(res.data);
-    });
+    console.log('submited');
   }
 
   return (
@@ -73,12 +63,12 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
                         as='select'
                         onChange={setFSToken}
                         value={stoken}
-                        disabled={true}
+                        disabled={false}
                       >
                         {userEsdtBalance &&
                           userEsdtBalance.map((item) => (
                             <option
-                              disabled={true}
+                              disabled={false}
                               className='text-center not-allowed disabled'
                               key={item.identifier}
                               value={item.identifier}
