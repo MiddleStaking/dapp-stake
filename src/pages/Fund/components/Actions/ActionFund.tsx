@@ -5,12 +5,7 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
 
-export const ActionUnstake = ({
-  stakedToken,
-  rewardedToken,
-  user_stake,
-  user_unstake
-}: any) => {
+export const ActionFund = ({ stakedToken, rewardedToken, user_fund }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   function bigToHexDec(d: bigint) {
@@ -26,16 +21,18 @@ export const ActionUnstake = ({
       string | null
     >(null);
 
-  const sendUnstakeTransaction = async () => {
-    const unstakeTransaction = {
+  const sendFundTransaction = async () => {
+    const fundTransaction = {
       value: 0,
       data:
-        'unstake@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
-        '@' +
+        'ESDTTransfer@' +
         Buffer.from(rewardedToken, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(user_unstake)),
+        bigToHexDec(BigInt(user_fund)) +
+        '@' +
+        Buffer.from('fund', 'utf8').toString('hex') +
+        '@' +
+        Buffer.from(stakedToken, 'utf8').toString('hex'),
 
       receiver: contractAddress,
       gasLimit: '5000000'
@@ -43,11 +40,11 @@ export const ActionUnstake = ({
     await refreshAccount();
 
     const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: unstakeTransaction,
+      transactions: fundTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Unstake transaction',
-        errorMessage: 'An error has occured Unstake',
-        successMessage: 'Unstake transaction successful'
+        processingMessage: 'Processing Fund transaction',
+        errorMessage: 'An error has occured Fund',
+        successMessage: 'Fund transaction successful'
       },
       redirectAfterSign: false
     });
@@ -57,16 +54,16 @@ export const ActionUnstake = ({
   };
 
   const unstakeAllowed =
-    user_stake != '0' && user_stake > 0 && !hasPendingTransactions;
+    user_fund != '0' && user_fund > 0 && !hasPendingTransactions;
   const notAllowedClass = unstakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <div>
-      {user_stake !== undefined && (
+      {user_fund !== undefined && (
         <>
           {!hasPendingTransactions ? (
-            <div onClick={sendUnstakeTransaction}>
-              <button>Unstake</button>
+            <div onClick={sendFundTransaction}>
+              <button>SEND</button>
             </div>
           ) : (
             <div className={notAllowedClass}>

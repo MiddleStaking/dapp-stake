@@ -1,10 +1,9 @@
-import { maxDecimals } from '@multiversx/sdk-dapp/utils';
 import React from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
-import { ActionFund } from './Actions';
-const FundModal = (props: any) => {
+import { ActionUnstake } from './Actions';
+const UnstakeModal = (props: any) => {
   //Token Amont = Valeur formulaire
   const [tokenAmount, setTokenAmount] = React.useState(0);
   //BigAmount = Valeur VRAI
@@ -16,6 +15,13 @@ const FundModal = (props: any) => {
   let fees = '10';
   if (props.fees) {
     fees = props.fees;
+  }
+
+  function setToMax() {
+    setTokenAmount(
+      Number(BigInt(props.balance)) / Number(BigInt(10 ** props.decimals))
+    );
+    setBigAmount(props.balance);
   }
 
   function handleTokenAmountChange(e: React.ChangeEvent<any>) {
@@ -86,29 +92,34 @@ const FundModal = (props: any) => {
       <div className='modal-content' onClick={(e) => e.stopPropagation()}>
         <div className='modal-header'>
           <h4 className='modal-title'>
-            Add {props.rewardedToken}] to The pool {props.decimals.toString()}{' '}
-            {props.balance.toString()}
+            Remove [{props.stakedToken}] from to The pool
           </h4>
         </div>
         <div className='modal-body'>
-          <h3>/!\ Deposit is final /!\</h3>
-          <u>(1)[{props.rewardedToken}]</u> will be sent to the pool and locked
-          with no withdrawal option.
+          <u>(1)[{props.stakedToken}]</u> will moved out of the pool and sent
+          back to your wallet.
           <br />
           <br />
-          Users will be able to stake <u>(2)[{props.stakedToken}]</u> and share
-          a part of the pool based on their stake participation and time spent
-          in pool.
-          <br />
-          <br /> Default pool speed is set at 5 526 000 Blocks. (1 Year)
+          If some rewards are Available, (2)[{props.rewardedToken}] will be
+          claimed and sent to your wallet.
           <br />
           <br />
-          {fees}% of (1)[{props.rewardedToken}] deposited in pool will go to the
-          Fee&apos;s Wallet.
+          Time spent in pool will be reseted
+          <br />
           <br />
           <br />
           Owner of the contract (we) can adjust speed of the pool but do not
-          have access to staked or rewarded dTokens.
+          have access to staked or rewarded Tokens.
+          <br />
+          <br />
+          You have{' '}
+          <FormatAmount
+            decimals={Number(props.decimals.toString())}
+            value={props.balance.toString()}
+            egldLabel={props.stakedToken}
+            data-testid='staked'
+          />{' '}
+          in this pool.
         </div>
         <Form.Group
           as={Col}
@@ -117,13 +128,9 @@ const FundModal = (props: any) => {
           onChange={handleTokenAmountChange}
         >
           <Form.Label>
-            Amount {'@' + bigToHexDec(bigAmount)} ({tokenAmount}) Balance :{' '}
-            <FormatAmount
-              decimals={Number(props.decimals.toString())}
-              value={props.balance.toString()}
-              egldLabel={' '}
-              data-testid='staked'
-            />
+            <span onClick={setToMax}>
+              <u>Unstake ALL</u>
+            </span>
           </Form.Label>
           <Form.Control
             required
@@ -134,16 +141,11 @@ const FundModal = (props: any) => {
           />
         </Form.Group>
 
-        <ActionFund
+        <ActionUnstake
           stakedToken={props.stakedToken}
           rewardedToken={props.rewardedToken}
           user_fund={bigAmount}
         />
-        <div>
-          {props.rewardedToken}
-          {bigAmount.toString()}
-          {props.stakedToken}
-        </div>
 
         <div className='modal-footer'>
           <button onClick={props.onClose} className='button'>
@@ -155,4 +157,4 @@ const FundModal = (props: any) => {
   );
 };
 
-export default FundModal;
+export default UnstakeModal;

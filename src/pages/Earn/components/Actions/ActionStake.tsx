@@ -5,11 +5,7 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
 
-export const ActionStake = ({
-  stakedToken,
-  rewardedToken,
-  user_stake
-}: any) => {
+export const ActionStake = ({ stakedToken, rewardedToken, user_fund }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   function bigToHexDec(d: bigint) {
@@ -32,7 +28,7 @@ export const ActionStake = ({
         'ESDTTransfer@' +
         Buffer.from(stakedToken, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(user_stake)) +
+        bigToHexDec(BigInt(user_fund)) +
         '@' +
         Buffer.from('stake', 'utf8').toString('hex') +
         '@' +
@@ -57,16 +53,16 @@ export const ActionStake = ({
     }
   };
 
-  const stakeAllowed = user_stake != '0' && !hasPendingTransactions;
+  const stakeAllowed = user_fund != '0' && !hasPendingTransactions;
   const notAllowedClass = stakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <div>
-      {user_stake !== undefined && (
+      {user_fund !== undefined && (
         <>
           {!hasPendingTransactions ? (
             <div onClick={sendStakeTransaction}>
-              <button>Stake</button>
+              <button>STAKE</button>
             </div>
           ) : (
             <div className={notAllowedClass}>

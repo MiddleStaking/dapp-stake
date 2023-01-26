@@ -1,10 +1,9 @@
-import { maxDecimals } from '@multiversx/sdk-dapp/utils';
 import React from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
-import { ActionFund } from './Actions';
-const FundModal = (props: any) => {
+import { ActionStake } from './Actions';
+const StakeModal = (props: any) => {
   //Token Amont = Valeur formulaire
   const [tokenAmount, setTokenAmount] = React.useState(0);
   //BigAmount = Valeur VRAI
@@ -17,7 +16,12 @@ const FundModal = (props: any) => {
   if (props.fees) {
     fees = props.fees;
   }
-
+  function setToMax() {
+    setTokenAmount(
+      Number(BigInt(props.balance)) / Number(BigInt(10 ** props.decimals))
+    );
+    setBigAmount(props.balance);
+  }
   function handleTokenAmountChange(e: React.ChangeEvent<any>) {
     const amount = BigInt(e.target.value * 10 ** props.decimals);
     const balance = BigInt(props.balance);
@@ -86,29 +90,24 @@ const FundModal = (props: any) => {
       <div className='modal-content' onClick={(e) => e.stopPropagation()}>
         <div className='modal-header'>
           <h4 className='modal-title'>
-            Add {props.rewardedToken}] to The pool {props.decimals.toString()}{' '}
-            {props.balance.toString()}
+            Stake [{props.stakedToken}] to The pool and earn [
+            {props.rewardedToken}]
           </h4>
         </div>
         <div className='modal-body'>
-          <h3>/!\ Deposit is final /!\</h3>
-          <u>(1)[{props.rewardedToken}]</u> will be sent to the pool and locked
-          with no withdrawal option.
+          <u>(1)[{props.stakedToken}]</u> will be staked.
           <br />
           <br />
-          Users will be able to stake <u>(2)[{props.stakedToken}]</u> and share
-          a part of the pool based on their stake participation and time spent
-          in pool.
-          <br />
-          <br /> Default pool speed is set at 5 526 000 Blocks. (1 Year)
+          You will be able to unstake your deposit at any time with no lock
+          duration.
           <br />
           <br />
-          {fees}% of (1)[{props.rewardedToken}] deposited in pool will go to the
-          Fee&apos;s Wallet.
+          <br />
+          (2)[{props.rewardedToken}] will be claimaible over time
           <br />
           <br />
           Owner of the contract (we) can adjust speed of the pool but do not
-          have access to staked or rewarded dTokens.
+          have access to staked Tokens.
         </div>
         <Form.Group
           as={Col}
@@ -117,7 +116,9 @@ const FundModal = (props: any) => {
           onChange={handleTokenAmountChange}
         >
           <Form.Label>
-            Amount {'@' + bigToHexDec(bigAmount)} ({tokenAmount}) Balance :{' '}
+            <span onClick={setToMax}>
+              <u>Stake ALL</u>
+            </span>{' '}
             <FormatAmount
               decimals={Number(props.decimals.toString())}
               value={props.balance.toString()}
@@ -134,17 +135,11 @@ const FundModal = (props: any) => {
           />
         </Form.Group>
 
-        <ActionFund
+        <ActionStake
           stakedToken={props.stakedToken}
           rewardedToken={props.rewardedToken}
           user_fund={bigAmount}
         />
-        <div>
-          {props.rewardedToken}
-          {bigAmount.toString()}
-          {props.stakedToken}
-        </div>
-
         <div className='modal-footer'>
           <button onClick={props.onClose} className='button'>
             Close
@@ -155,4 +150,4 @@ const FundModal = (props: any) => {
   );
 };
 
-export default FundModal;
+export default StakeModal;

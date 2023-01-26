@@ -7,11 +7,10 @@ import {
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
 import { smartContract } from './smartContract';
-import { defaultToken } from 'config';
 
 const resultsParser = new ResultsParser();
 
-export const useGetRewardedTokens = () => {
+export const useGetRewardedTokens = (stakedToken: string) => {
   const { network } = useGetNetworkConfig();
   const [rewardedTokens, setRewardedTokens] = useState([]);
 
@@ -19,7 +18,7 @@ export const useGetRewardedTokens = () => {
     try {
       const query = smartContract.createQuery({
         func: new ContractFunction('getRewardedTokens'),
-        args: [new TokenIdentifierValue(defaultToken)]
+        args: [new TokenIdentifierValue(stakedToken)]
       });
       const proxy = new ProxyNetworkProvider(network.apiAddress);
       const queryResponse = await proxy.queryContract(query);
@@ -37,7 +36,7 @@ export const useGetRewardedTokens = () => {
 
   useEffect(() => {
     getRewardedTokens();
-  }, []);
+  }, [stakedToken]);
 
   return rewardedTokens;
 };
