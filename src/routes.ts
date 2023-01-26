@@ -2,14 +2,15 @@ import { RouteType } from '@multiversx/sdk-dapp/types';
 import { dAppName } from 'config';
 import { withPageTitle } from './components/PageTitle';
 
-import { Dashboard, Home, Statistics, Earn } from './pages';
+import { Dashboard, Home, Statistics, Earn, Fund } from './pages';
 
 export const routeNames = {
   home: '/',
   dashboard: '/dashboard',
   statistics: '/statistics',
   unlock: '/unlock',
-  earn: '/earn'
+  earn: '/earn',
+  fund: '/fund'
 };
 
 interface RouteWithTitleType extends RouteType {
@@ -39,6 +40,12 @@ export const routes: RouteWithTitleType[] = [
     title: 'Earn',
     component: Earn,
     authenticatedRoute: false
+  },
+  {
+    path: routeNames.fund,
+    title: 'Fund',
+    component: Fund,
+    authenticatedRoute: true
   }
 ];
 

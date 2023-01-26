@@ -13,14 +13,14 @@ const resultsParser = new ResultsParser();
 export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
   const { network } = useGetNetworkConfig();
   const [tokenPosition, setTokenPosition] = useState({
-    balance: BigInt(1),
-    total_stake: BigInt(1),
-    total_rewards: BigInt(1),
-    fee_percentage: BigInt(1),
-    burn_percentage: BigInt(1),
-    last_fund_block: BigInt(1),
+    balance: BigInt(0),
+    total_stake: BigInt(0),
+    total_rewards: BigInt(0),
+    fee_percentage: BigInt(0),
+    burn_percentage: BigInt(0),
+    last_fund_block: BigInt(0),
     paused: 0,
-    blocks_to_max: BigInt(1)
+    blocks_to_max: BigInt(0)
   });
 
   const getTokenPosition = async () => {
@@ -54,15 +54,26 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
           paused: tab[6].toFixed(),
           blocks_to_max: tab[7].toFixed()
         });
+      } else {
+        setTokenPosition({
+          balance: BigInt(0),
+          total_stake: BigInt(0),
+          total_rewards: BigInt(0),
+          fee_percentage: BigInt(0),
+          burn_percentage: BigInt(0),
+          last_fund_block: BigInt(0),
+          paused: 0,
+          blocks_to_max: BigInt(0)
+        });
       }
     } catch (err) {
-      console.error('Unable to call getTokenPosition', err);
+      console.log('Unable to call getTokenPosition', err);
     }
   };
 
   useEffect(() => {
     getTokenPosition();
-  }, []);
+  }, [rewardedToken, stakedToken]);
 
   return tokenPosition;
 };
