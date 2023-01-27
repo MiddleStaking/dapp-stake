@@ -19,8 +19,10 @@ export const PoolInfo = ({
   stakedToken,
   rewardedToken,
   balance,
-  decimals
+  sdecimals,
+  rdecimals
 }: any) => {
+  console.log(rdecimals);
   const { address, account } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
@@ -52,11 +54,12 @@ export const PoolInfo = ({
 
   return (
     <>
+      {' '}
       <StakeModal
         rewardedToken={rewardedToken}
         stakedToken={stakedToken}
         balance={balance}
-        decimals={decimals}
+        decimals={sdecimals}
         onClose={() => setShowStake(false)}
         show={showStake}
       />
@@ -64,7 +67,7 @@ export const PoolInfo = ({
         rewardedToken={rewardedToken}
         stakedToken={stakedToken}
         balance={stakingPosition}
-        decimals={decimals}
+        decimals={sdecimals}
         onClose={() => setShowUnstake(false)}
         show={showUnstake}
       />
@@ -76,6 +79,7 @@ export const PoolInfo = ({
             (i) staked :{' '}
             <FormatAmount
               value={tokenPosition.total_stake.toString()}
+              decimals={Number(sdecimals)}
               egldLabel={' '}
               data-testid='staked'
             />
@@ -87,6 +91,7 @@ export const PoolInfo = ({
             (i) left :{' '}
             <FormatAmount
               value={tokenPosition.balance.toString()}
+              decimals={Number(rdecimals)}
               egldLabel={' '}
               data-testid='balance'
             />
@@ -97,6 +102,7 @@ export const PoolInfo = ({
             (i) Rewarded :{' '}
             <FormatAmount
               value={tokenPosition.total_rewards.toString()}
+              decimals={Number(rdecimals)}
               egldLabel={' '}
               data-testid='balance'
             />
@@ -107,7 +113,7 @@ export const PoolInfo = ({
         </div>
         <div>
           <h4>(i) APR : {apr.toString()} %</h4>
-        </div>
+        </div>{' '}
         {!address ? (
           <Link
             to={routeNames.unlock}
@@ -137,6 +143,7 @@ export const PoolInfo = ({
                     (i) My stake :{' '}
                     <FormatAmount
                       value={stakingPosition.toString()}
+                      decimals={Number(sdecimals)}
                       egldLabel={' '}
                       data-testid='balance'
                     />
@@ -147,6 +154,7 @@ export const PoolInfo = ({
                     (i) Available rewards :{' '}
                     <FormatAmount
                       value={stakingPositionRewards.toString()}
+                      decimals={Number(rdecimals)}
                       egldLabel={' '}
                       data-testid='balance'
                     />
@@ -155,14 +163,24 @@ export const PoolInfo = ({
                 <div>
                   <button onClick={() => setShowStake(true)}>STAKE</button>
                 </div>
-                <div>
-                  <button onClick={() => setShowUnstake(true)}>UNSTAKE</button>
-                </div>
-                <ActionClaimRewards
-                  stakedToken={stakedToken}
-                  rewardedToken={rewardedToken}
-                  rewardsAmount={stakingPositionRewards}
-                />
+                {stakingPosition > 0 ? (
+                  <div>
+                    <button onClick={() => setShowUnstake(true)}>
+                      UNSTAKE
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
+                {stakingPositionRewards > 0 ? (
+                  <ActionClaimRewards
+                    stakedToken={stakedToken}
+                    rewardedToken={rewardedToken}
+                    rewardsAmount={stakingPositionRewards}
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
             )}
           </div>

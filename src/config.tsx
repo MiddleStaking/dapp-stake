@@ -1,5 +1,5 @@
 export const contractAddress =
-  'erd1qqqqqqqqqqqqqpgqp59fen4fn5szpl0az6fczyzmgm263ma5ch9s86thwk';
+  'erd1qqqqqqqqqqqqqpgqhcj6ez8y3zvctjtm78flxvqkedn7peh4ch9shlfnmr';
 
 export const defaultToken = 'STAKE-1c6362';
 export const dAppName = 'example Dapp';

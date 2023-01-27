@@ -86,8 +86,7 @@ const FundModal = (props: any) => {
       <div className='modal-content' onClick={(e) => e.stopPropagation()}>
         <div className='modal-header'>
           <h4 className='modal-title'>
-            Add {props.rewardedToken}] to The pool {props.decimals.toString()}{' '}
-            {props.balance.toString()}
+            Add [{props.rewardedToken}] to The pool
           </h4>
         </div>
         <div className='modal-body'>
@@ -117,11 +116,11 @@ const FundModal = (props: any) => {
           onChange={handleTokenAmountChange}
         >
           <Form.Label>
-            Amount {'@' + bigToHexDec(bigAmount)} ({tokenAmount}) Balance :{' '}
+            You have{' '}
             <FormatAmount
               decimals={Number(props.decimals.toString())}
               value={props.balance.toString()}
-              egldLabel={' '}
+              egldLabel={props.rewardedToken}
               data-testid='staked'
             />
           </Form.Label>
@@ -139,12 +138,6 @@ const FundModal = (props: any) => {
           rewardedToken={props.rewardedToken}
           user_fund={bigAmount}
         />
-        <div>
-          {props.rewardedToken}
-          {bigAmount.toString()}
-          {props.stakedToken}
-        </div>
-
         <div className='modal-footer'>
           <button onClick={props.onClose} className='button'>
             Close
