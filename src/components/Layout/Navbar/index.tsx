@@ -21,12 +21,35 @@ export const Navbar = () => {
       <div className='container-fluid'>
         <Link
           className='d-flex align-items-center navbar-brand mr-0'
-          to={isLoggedIn ? routeNames.dashboard : routeNames.home}
+          to={isLoggedIn ? routeNames.earn : routeNames.home}
         >
           <MultiversXLogo className='multiversx-logo' />
           <span className='dapp-name text-muted'>{dAppName}</span>
         </Link>
 
+        <Nav className='ml-auto'>
+          {' '}
+          <NavItem className='ml-auto'>
+            {' '}
+            <Link
+              className='d-flex align-items-center navbar-brand mr-10'
+              to={routeNames.earn}
+            >
+              <span>Earn (stake) </span>
+            </Link>
+          </NavItem>
+          <NavItem> </NavItem>
+          {isLoggedIn && (
+            <NavItem className='ml-auto'>
+              <Link
+                className='d-flex align-items-center navbar-brand mr-10'
+                to={routeNames.fund}
+              >
+                <span> Fund (lock)</span>
+              </Link>
+            </NavItem>
+          )}
+        </Nav>
         <Nav className='ml-auto'>
           {isLoggedIn && (
             <>
@@ -38,6 +61,7 @@ export const Navbar = () => {
                   />
                 </Link>
               </NavItem>
+
               <NavItem>
                 <button className='btn btn-link' onClick={handleLogout}>
                   Close

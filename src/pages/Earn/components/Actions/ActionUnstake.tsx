@@ -8,8 +8,7 @@ import { contractAddress } from 'config';
 export const ActionUnstake = ({
   stakedToken,
   rewardedToken,
-  user_stake,
-  user_unstake
+  user_fund
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -35,7 +34,7 @@ export const ActionUnstake = ({
         '@' +
         Buffer.from(rewardedToken, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(user_unstake)),
+        bigToHexDec(BigInt(user_fund)),
 
       receiver: contractAddress,
       gasLimit: '5000000'
@@ -57,12 +56,12 @@ export const ActionUnstake = ({
   };
 
   const unstakeAllowed =
-    user_stake != '0' && user_stake > 0 && !hasPendingTransactions;
+    user_fund != '0' && user_fund > 0 && !hasPendingTransactions;
   const notAllowedClass = unstakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <div>
-      {user_stake !== undefined && (
+      {user_fund !== undefined && (
         <>
           {!hasPendingTransactions ? (
             <div onClick={sendUnstakeTransaction}>

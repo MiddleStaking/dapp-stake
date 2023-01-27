@@ -41,10 +41,6 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
     if (tokenProps?.balance) setBalance(tokenProps.balance);
   }
 
-  function handleSubmit() {
-    console.log('submited');
-  }
-
   return (
     <div className='container py-4'>
       <div className='row'>
@@ -115,15 +111,7 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
                   </Row>
 
                   <Row className='mb-3'>
-                    <Form.Group as={Col}>
-                      <Button
-                        variant='primary'
-                        type='button'
-                        onClick={handleSubmit}
-                      >
-                        Submit
-                      </Button>
-                    </Form.Group>
+                    <Form.Group as={Col}></Form.Group>
                   </Row>
                 </Form>
 

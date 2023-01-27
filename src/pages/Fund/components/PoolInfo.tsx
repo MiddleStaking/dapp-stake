@@ -58,6 +58,7 @@ export const PoolInfo = ({
                   (i) staked :{' '}
                   <FormatAmount
                     value={tokenPosition.total_stake.toString()}
+                    decimals={Number(decimals)}
                     egldLabel={' '}
                     data-testid='staked'
                   />
@@ -71,6 +72,7 @@ export const PoolInfo = ({
                   (i) left :{' '}
                   <FormatAmount
                     value={tokenPosition.balance.toString()}
+                    decimals={Number(decimals)}
                     egldLabel={' '}
                     data-testid='balance'
                   />
@@ -81,6 +83,7 @@ export const PoolInfo = ({
                   (i) Rewarded :{' '}
                   <FormatAmount
                     value={tokenPosition.total_rewards.toString()}
+                    decimals={Number(decimals)}
                     egldLabel={' '}
                     data-testid='balance'
                   />
