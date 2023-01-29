@@ -5,7 +5,12 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
 
-export const ActionStake = ({ stakedToken, rewardedToken, user_fund }: any) => {
+export const ActionStake = ({
+  stakedToken,
+  rewardedToken,
+  user_fund,
+  name
+}: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   function bigToHexDec(d: bigint) {
@@ -62,7 +67,7 @@ export const ActionStake = ({ stakedToken, rewardedToken, user_fund }: any) => {
         <>
           {!hasPendingTransactions ? (
             <div onClick={sendStakeTransaction}>
-              <button>STAKE</button>
+              <button>{name}</button>
             </div>
           ) : (
             <div className={notAllowedClass}>

@@ -10,7 +10,7 @@ import { useGetStakedTokens } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { cpuUsage } from 'process';
-
+import './PoolCol.scss';
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const stakedTokens = useGetStakedTokens();
   const userEsdtBalance = useGetUserESDT();
@@ -128,7 +128,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       .filter(({ identifier }) => identifier === identifier)
       .findIndex((tokens) => tokens === e.target.value);
     setStoken(e.target.value);
-    console.log(e.target.value);
   }
 
   return (
@@ -138,75 +137,74 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
           <div className='card shadow-sm border-0'>
             <div className='card-body p-1'>
               <div className='card border-0 bg-primary'>
-                <div className='card-body text-center p-4'>
+                <div className='card-body text-center p-4 text-white'>
                   <TopInfo />
                   Balance :{' '}
                   <FormatAmount
                     value={balance.toString()}
                     egldLabel={stoken}
                     data-testid='balance'
+                    digits={2}
                   />
+                  <Form>
+                    <Row className='mb-3'>
+                      <Form.Group as={Col} md='6' controlId='network'>
+                        <Form.Label>Staked Token</Form.Label>
+                        <Form.Control
+                          as='select'
+                          onChange={setFSToken}
+                          value={stoken}
+                          disabled={false}
+                        >
+                          {stakedTokens &&
+                            stakedTokens.map((item) => (
+                              <option
+                                disabled={false}
+                                className='text-center not-allowed disabled'
+                                key={item}
+                                value={item}
+                              >
+                                {item}
+                              </option>
+                            ))}
+                        </Form.Control>
+                      </Form.Group>
+                    </Row>
+                  </Form>
                 </div>
-
-                <Form>
-                  <Row className='mb-3'>
-                    <Form.Group as={Col} md='6' controlId='network'>
-                      <Form.Label>Staked Token</Form.Label>
-                      <Form.Control
-                        as='select'
-                        onChange={setFSToken}
-                        value={stoken}
-                        disabled={false}
-                      >
-                        {stakedTokens &&
-                          stakedTokens.map((item) => (
-                            <option
-                              disabled={false}
-                              className='text-center not-allowed disabled'
-                              key={item}
-                              value={item}
-                            >
-                              {item}
-                            </option>
-                          ))}
-                      </Form.Control>
-                    </Form.Group>
-
-                    <Form.Group as={Col} md='6' controlId='asset'>
-                      <Form.Label>Asset</Form.Label>
-                    </Form.Group>
-                  </Row>
-
-                  <Row className='mb-3'>
-                    <Form.Group as={Col}></Form.Group>
-                  </Row>
-                </Form>
-
-                {rewardedTokens[0] != '' ? (
-                  rewardedTokens.map((rtoken) => (
-                    <div key={rtoken}>
-                      {' '}
-                      <PoolInfo
-                        stakedToken={stoken}
-                        rewardedToken={rtoken}
-                        balance={balance}
-                        sdecimals={decimals}
-                        rdecimals={tokens_decimals
-                          .filter((token) => {
-                            return token.identifier === stoken;
-                          })
-                          .map((token) =>
-                            token.decimals ? token.decimals : 0
-                          )}
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <>No pool to load</>
-                )}
               </div>
             </div>
           </div>
+          <div className='row p-4'>
+            {rewardedTokens[0] != '' ? (
+              rewardedTokens.map((rtoken) => (
+                <div
+                  className='mx-auto col-12 col-sm-12 col-md-12 PoolCol mb-3 col-lg-6 col-xl-6'
+                  key={rtoken}
+                >
+                  {' '}
+                  <PoolInfo
+                    stakedToken={stoken}
+                    rewardedToken={rtoken}
+                    balance={balance}
+                    sdecimals={tokens_decimals
+                      .filter((token) => {
+                        return token.identifier === stoken;
+                      })
+                      .map((token) => (token.decimals ? token.decimals : 0))}
+                    rdecimals={tokens_decimals
+                      .filter((token) => {
+                        return token.identifier === rtoken;
+                      })
+                      .map((token) => (token.decimals ? token.decimals : 0))}
+                  />
+                </div>
+              ))
+            ) : (
+              <>No pool to load</>
+            )}
+          </div>
+
           <div className={styles.transactions}>{children}</div>
         </div>
       </div>

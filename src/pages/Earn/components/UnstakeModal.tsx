@@ -118,6 +118,7 @@ const UnstakeModal = (props: any) => {
             value={props.balance.toString()}
             egldLabel={props.stakedToken}
             data-testid='staked'
+            digits={2}
           />{' '}
           in this pool.
         </div>
