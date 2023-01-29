@@ -115,17 +115,10 @@ const StakeModal = (props: any) => {
           controlId='TokenAmount'
           onChange={handleTokenAmountChange}
         >
-          <Form.Label>
-            <span onClick={setToMax}>
-              <u>Stake ALL</u>
-            </span>{' '}
-            <FormatAmount
-              decimals={Number(props.decimals.toString())}
-              value={props.balance.toString()}
-              egldLabel={' '}
-              data-testid='staked'
-            />
-          </Form.Label>
+          {' '}
+          <a onClick={setToMax}>
+            <u>MAX</u>
+          </a>
           <Form.Control
             required
             type='number'
@@ -133,13 +126,31 @@ const StakeModal = (props: any) => {
             defaultValue='0'
             value={tokenAmount}
           />
+          <Form.Label>
+            <FormatAmount
+              decimals={Number(props.decimals.toString())}
+              value={props.balance.toString()}
+              egldLabel={props.stakedToken}
+              data-testid='staked'
+              digits={2}
+            />
+          </Form.Label>
+        </Form.Group>
+        <Form.Group>
+          <ActionStake
+            stakedToken={props.stakedToken}
+            rewardedToken={props.rewardedToken}
+            user_fund={bigAmount}
+            name='STAKE'
+          />{' '}
+          <ActionStake
+            stakedToken={props.stakedToken}
+            rewardedToken={props.rewardedToken}
+            user_fund={props.balance}
+            name='STAKE ALL'
+          />{' '}
         </Form.Group>
 
-        <ActionStake
-          stakedToken={props.stakedToken}
-          rewardedToken={props.rewardedToken}
-          user_fund={bigAmount}
-        />
         <div className='modal-footer'>
           <button onClick={props.onClose} className='button'>
             Close

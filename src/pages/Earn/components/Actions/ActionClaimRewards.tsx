@@ -52,11 +52,11 @@ export const ActionClaimRewards = ({
         <>
           {!hasPendingTransactions ? (
             <div onClick={sendClaimTransaction}>
-              <button>Claim Rewards</button>
+              <button className='butLineBig'>Claim Rewards</button>
             </div>
           ) : (
             <div className={notAllowedClass}>
-              <button className='btn'>Processing</button>
+              <button className='butLineBig'>Processing</button>
             </div>
           )}
         </>
