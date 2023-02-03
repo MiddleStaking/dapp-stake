@@ -36,6 +36,12 @@ export const routes: RouteWithTitleType[] = [
     authenticatedRoute: true
   },
   {
+    path: routeNames.earn + '/:param',
+    title: 'Earn',
+    component: Earn,
+    authenticatedRoute: false
+  },
+  {
     path: routeNames.earn,
     title: 'Earn',
     component: Earn,

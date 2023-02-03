@@ -66,8 +66,8 @@ export const ActionStake = ({
       {user_fund !== undefined && (
         <>
           {!hasPendingTransactions ? (
-            <div onClick={sendStakeTransaction}>
-              <button>{name}</button>
+            <div>
+              <button onClick={sendStakeTransaction}>{name}</button>
             </div>
           ) : (
             <div className={notAllowedClass}>

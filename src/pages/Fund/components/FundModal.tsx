@@ -1,30 +1,28 @@
-import { maxDecimals } from '@multiversx/sdk-dapp/utils';
-import React from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import React, { useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { Col, Form } from 'react-bootstrap';
 import './../../../assets/Modal.css';
 import { ActionFund } from './Actions';
+import PayFeesModal from './PayFeesModal';
+
 const FundModal = (props: any) => {
   //Token Amont = Valeur formulaire
   const [tokenAmount, setTokenAmount] = React.useState(0);
   //BigAmount = Valeur VRAI
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
+  const [agreement, setAgreement] = useState(false);
+  const [showFees, setShowFees] = useState(false);
 
   if (!props.show) {
     return null;
   }
-  let fees = '10';
-  if (props.fees) {
-    fees = props.fees;
-  }
+
+  const handleChange = () => {
+    setAgreement(!agreement);
+  };
 
   function handleTokenAmountChange(e: React.ChangeEvent<any>) {
     const amount = BigInt(e.target.value * 10 ** props.decimals);
-    const balance = BigInt(props.balance);
-
-    const max = (
-      Number(BigInt(props.balance)) / Number(10 ** props.decimals)
-    ).toFixed(18);
 
     if (amount < BigInt(0)) {
       setTokenAmount(0);
@@ -72,22 +70,20 @@ const FundModal = (props: any) => {
     return output;
   }
 
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
-
   return (
     <div className='modal' onClick={props.onClose}>
+      <PayFeesModal
+        rewardedToken={props.rewardedToken}
+        stakedToken={props.stakedToken}
+        onClose={() => setShowFees(false)}
+        showFees={showFees}
+      />
       <div className='modal-content' onClick={(e) => e.stopPropagation()}>
         <div className='modal-header'>
           <h4 className='modal-title'>
             Add [{props.rewardedToken}] to The pool
           </h4>
+          <br />
         </div>
         <div className='modal-body'>
           <h3>/!\ Deposit is final /!\</h3>
@@ -102,12 +98,6 @@ const FundModal = (props: any) => {
           <br /> Default pool speed is set at 5 526 000 Blocks. (1 Year)
           <br />
           <br />
-          {fees}% of (1)[{props.rewardedToken}] deposited in pool will go to the
-          Fee&apos;s Wallet.
-          <br />
-          <br />
-          Owner of the contract (we) can adjust speed of the pool but do not
-          have access to staked or rewarded dTokens.
         </div>
         <Form.Group
           as={Col}
@@ -132,13 +122,33 @@ const FundModal = (props: any) => {
             value={tokenAmount}
           />
         </Form.Group>
-
         <ActionFund
           stakedToken={props.stakedToken}
           rewardedToken={props.rewardedToken}
           user_fund={bigAmount}
-        />
+          agreement={agreement}
+        />{' '}
+        <label>
+          <input checked={agreement} onChange={handleChange} type='checkbox' />{' '}
+          I understand that deposit is final and i want to fund pool [
+          {props.stakedToken}][{props.rewardedToken}]
+        </label>
         <div className='modal-footer'>
+          {' '}
+          {props.fees > 0 ? (
+            <>
+              (i) {props.fees.toString()}% of (1)[{props.rewardedToken}]
+              deposited in pool will go to the Fee&apos;s Wallet. <br />{' '}
+              <button onClick={() => setShowFees(true)}>
+                PAY TO REMOVE FEES
+              </button>
+            </>
+          ) : (
+            <>
+              (i) Deposit Fees have been paid
+              <br />
+            </>
+          )}
           <button onClick={props.onClose} className='button'>
             Close
           </button>

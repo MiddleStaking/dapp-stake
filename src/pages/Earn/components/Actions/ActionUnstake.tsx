@@ -64,8 +64,8 @@ export const ActionUnstake = ({
       {user_fund !== undefined && (
         <>
           {!hasPendingTransactions ? (
-            <div onClick={sendUnstakeTransaction}>
-              <button>Unstake</button>
+            <div>
+              <button onClick={sendUnstakeTransaction}>Unstake</button>
             </div>
           ) : (
             <div className={notAllowedClass}>

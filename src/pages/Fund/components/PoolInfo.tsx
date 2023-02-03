@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { routeNames } from 'routes';
-
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { useGetTokenPosition } from './Actions/helpers';
-import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useState } from 'react';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { Col, Row } from 'react-bootstrap';
+import { useGetTokenPosition } from './Actions/helpers';
 import FundModal from './FundModal';
+import PayFeesModal from './PayFeesModal';
 
 export const PoolInfo = ({
   stakedToken,
@@ -15,15 +12,23 @@ export const PoolInfo = ({
   balance,
   decimals
 }: any) => {
-  const { address } = useGetAccountInfo();
   const [show, setShow] = useState(false);
-
+  const [showFees, setShowFees] = useState(false);
   const tokenPosition = useGetTokenPosition(stakedToken, rewardedToken);
 
   let apr = BigInt(100);
   if (tokenPosition.total_stake > BigInt(0)) {
     apr =
       (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
+  }
+
+  let fees = BigInt(10);
+  console.log('fees');
+  console.log(tokenPosition);
+  if (tokenPosition.fee_percentage) {
+    fees = BigInt(tokenPosition.fee_percentage) / BigInt(100);
+    console.log('feesdiv');
+    console.log(fees.toString());
   }
 
   const speed =
@@ -41,6 +46,13 @@ export const PoolInfo = ({
         decimals={decimals}
         onClose={() => setShow(false)}
         show={show}
+        fees={fees}
+      />
+      <PayFeesModal
+        rewardedToken={rewardedToken}
+        stakedToken={stakedToken}
+        onClose={() => setShowFees(false)}
+        showFees={showFees}
       />
       {tokenPosition.blocks_to_max ? (
         <div className='text-white text-center' data-testid='poolInfo'>
@@ -95,9 +107,27 @@ export const PoolInfo = ({
               <div>
                 <h4>(i) APR : {apr.toString()} %</h4>
               </div>{' '}
+              <div>
+                <h4>(i) Deposit Fees : {fees.toString()} %</h4>
+              </div>{' '}
             </Col>
           </Row>{' '}
           <Row>
+            <Col>
+              {fees > 0 ? (
+                <>
+                  {' '}
+                  <button onClick={() => setShowFees(true)}>
+                    PAY TO REMOVE FEES
+                  </button>
+                </>
+              ) : (
+                <>
+                  {' '}
+                  <button disabled={true}>FEES PAID</button>
+                </>
+              )}
+            </Col>
             <Col>
               <button onClick={() => setShow(true)}>
                 ADD LOCKED TOKEN TO EXISTING POOL
@@ -128,6 +158,21 @@ export const PoolInfo = ({
               </Col>
             </Row>
             <Row>
+              <Col>
+                {fees > 0 ? (
+                  <>
+                    {' '}
+                    <button onClick={() => setShowFees(true)}>
+                      PAY TO REMOVE FEES BEFORE FIRST DEPOSIT
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {' '}
+                    <button disabled={true}>FEES PAID</button>
+                  </>
+                )}
+              </Col>{' '}
               <Col>
                 <button onClick={() => setShow(true)}>
                   LOCK TOKEN TO NEW POOL

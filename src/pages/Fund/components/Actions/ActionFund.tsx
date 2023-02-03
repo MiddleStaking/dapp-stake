@@ -5,7 +5,12 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
 
-export const ActionFund = ({ stakedToken, rewardedToken, user_fund }: any) => {
+export const ActionFund = ({
+  stakedToken,
+  rewardedToken,
+  user_fund,
+  agreement
+}: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   function bigToHexDec(d: bigint) {
@@ -22,6 +27,9 @@ export const ActionFund = ({ stakedToken, rewardedToken, user_fund }: any) => {
     >(null);
 
   const sendFundTransaction = async () => {
+    if (!agreement) {
+      return;
+    }
     const fundTransaction = {
       value: 0,
       data:
@@ -35,7 +43,7 @@ export const ActionFund = ({ stakedToken, rewardedToken, user_fund }: any) => {
         Buffer.from(stakedToken, 'utf8').toString('hex'),
 
       receiver: contractAddress,
-      gasLimit: '5000000'
+      gasLimit: '6000000'
     };
     await refreshAccount();
 
@@ -62,8 +70,10 @@ export const ActionFund = ({ stakedToken, rewardedToken, user_fund }: any) => {
       {user_fund !== undefined && (
         <>
           {!hasPendingTransactions ? (
-            <div onClick={sendFundTransaction}>
-              <button>SEND</button>
+            <div>
+              <button onClick={sendFundTransaction} disabled={!agreement}>
+                SEND
+              </button>
             </div>
           ) : (
             <div className={notAllowedClass}>

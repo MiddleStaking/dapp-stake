@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react';
-import styles from './../fund.module.scss';
-
-import { TopInfo } from './TopInfo';
-import { PoolInfo } from './PoolInfo';
-import { defaultToken } from 'config';
-import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
-import { Button, Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-
-import axios from 'axios';
+import { Col, Form, Row } from 'react-bootstrap';
+import { defaultToken } from 'config';
+import styles from './../fund.module.scss';
+import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
+import { PoolInfo } from './PoolInfo';
+import { TopInfo } from './TopInfo';
 
 export const FundLayout = ({ children }: React.PropsWithChildren) => {
   const userEsdtBalance = useGetUserESDT();
