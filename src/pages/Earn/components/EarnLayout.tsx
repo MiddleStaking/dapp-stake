@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './../earn.module.scss';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 
 import { TopInfo } from './TopInfo';
 import { PoolInfo } from './PoolInfo';
@@ -9,14 +9,27 @@ import { useGetRewardedTokens } from './Actions/helpers';
 import { useGetStakedTokens } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { cpuUsage } from 'process';
 import './PoolCol.scss';
+import { useParams, useNavigate } from 'react-router-dom';
+
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
-  const stakedTokens = useGetStakedTokens();
+  const navigate = useNavigate();
+
+  const stakedTokens: string[] = useGetStakedTokens();
+  const { param } = useParams();
+  const [url, setUrl] = useState(param ? param.toString() : defaultToken);
+  const [test, setTest] = useState(
+    stakedTokens.includes(url) ? url : defaultToken + ':' + url + ':'
+  );
+
   const userEsdtBalance = useGetUserESDT();
-  const [stoken, setStoken] = React.useState(defaultToken);
+  const [stoken, setStoken] = React.useState(url);
   const rewardedTokens = useGetRewardedTokens(stoken);
 
+  console.log('---');
+  console.log(url);
+  console.log(test);
+  console.log(stoken);
   //TODO Remplacer ce tableau par un storage/api
   const tokens_decimals = [
     {
@@ -124,9 +137,12 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     .map((token) => token.decimals);
 
   function setFSToken(e: React.ChangeEvent<any>) {
-    const index = stakedTokens
-      .filter(({ identifier }) => identifier === identifier)
-      .findIndex((tokens) => tokens === e.target.value);
+    //setParam(e.target.value);
+    navigate(`/earn/${e.target.value}`);
+
+    // const index = stakedTokens
+    //   .filter(({ identifier }) => identifier === identifier)
+    //   .findIndex((tokens) => tokens === e.target.value);
     setStoken(e.target.value);
   }
 
@@ -179,7 +195,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
             {rewardedTokens[0] != '' ? (
               rewardedTokens.map((rtoken) => (
                 <div
-                  className='mx-auto col-12 col-sm-12 col-md-12 PoolCol mb-3 col-lg-6 col-xl-6'
+                  className='col-12 col-sm-12 col-md-12 PoolCol mb-3 col-lg-6 col-xl-6'
                   key={rtoken}
                 >
                   {' '}

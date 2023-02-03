@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import { useState } from 'react';
-
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import {
@@ -33,7 +32,8 @@ export const PoolInfo = ({
   const stakingPosition = useGetStakingPosition(stakedToken, rewardedToken);
   const stakingPositionRewards = useGetStakingPositionRewards(
     stakedToken,
-    rewardedToken
+    rewardedToken,
+    stakingPosition.stake_amount
   );
 
   const stakedPopover = (
@@ -114,6 +114,16 @@ export const PoolInfo = ({
     </Popover>
   );
 
+  const pausedPopover = (
+    <Popover id='popover-basic'>
+      <Popover.Header as='h3'>Pool is paused</Popover.Header>
+      <Popover.Body>
+        When a pool is paused, users can only claim rewards or unstake their
+        deposit.
+      </Popover.Body>
+    </Popover>
+  );
+
   // console.log('PoolInfo');
   // console.log(stakedToken + ' ' + rewardedToken);
   // console.log(sdecimals + ' ' + rdecimals);
@@ -134,7 +144,8 @@ export const PoolInfo = ({
   let share = BigInt(10000);
   if (tokenPosition.total_stake > BigInt(0)) {
     share =
-      (BigInt(stakingPosition) * share) / BigInt(tokenPosition.total_stake);
+      (BigInt(stakingPosition.stake_amount) * share) /
+      BigInt(tokenPosition.total_stake);
   }
   const rest = Number(share) / Number(100);
 
@@ -143,6 +154,16 @@ export const PoolInfo = ({
     BigInt(24) /
     BigInt(60) /
     BigInt(60);
+
+  // Pas bon j'ai besoin de connaitre le block courant pour connaitre la prgression
+  // let rewardsLoading = BigInt(0);
+  // if (stakingPosition.last_action_block > BigInt(0)) {
+  //   rewardsLoading = BigInt(
+  //     (BigInt(stakingPosition.last_action_block) /
+  //       BigInt(tokenPosition.blocks_to_max)) *
+  //       BigInt(100)
+  //   );
+  // }
 
   return (
     <>
@@ -158,7 +179,7 @@ export const PoolInfo = ({
       <UnstakeModal
         rewardedToken={rewardedToken}
         stakedToken={stakedToken}
-        balance={stakingPosition}
+        balance={stakingPosition.stake_amount}
         decimals={sdecimals}
         onClose={() => setShowUnstake(false)}
         show={showUnstake}
@@ -251,16 +272,37 @@ export const PoolInfo = ({
             </Link>
           ) : (
             <div className='text-black' data-testid='myPosition'>
-              {stakingPosition < 1 ? (
+              {stakingPosition.stake_amount < 1 ? (
                 <div>
                   <h3>NO STAKE</h3>
                   <div>
-                    <button
-                      className='butLine'
-                      onClick={() => setShowStake(true)}
-                    >
-                      STAKE
-                    </button>{' '}
+                    {tokenPosition.paused > 0 ? (
+                      <>
+                        <button className='butLine'>
+                          <OverlayTrigger
+                            placement='right'
+                            overlay={pausedPopover}
+                          >
+                            <a>
+                              <FontAwesomeIcon
+                                icon={faCircleInfo}
+                                className='text-muted'
+                              />
+                            </a>
+                          </OverlayTrigger>{' '}
+                          PAUSED
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className='butLine'
+                          onClick={() => setShowStake(true)}
+                        >
+                          STAKE
+                        </button>{' '}
+                      </>
+                    )}
                   </div>
                 </div>
               ) : (
@@ -282,7 +324,7 @@ export const PoolInfo = ({
                       </OverlayTrigger>{' '}
                       Staked :{' '}
                       <FormatAmount
-                        value={stakingPosition.toString()}
+                        value={stakingPosition.stake_amount.toString()}
                         decimals={Number(sdecimals)}
                         egldLabel={' '}
                         data-testid='balance'
@@ -302,32 +344,73 @@ export const PoolInfo = ({
                           />
                         </a>
                       </OverlayTrigger>{' '}
-                      Share of the pool : {rest} %
+                      Share : {rest} %
                     </h4>
                   </div>
-                  {stakingPosition < 1 ? (
+                  {stakingPosition.stake_amount < 1 ? (
                     <>
                       <div>
-                        <button
-                          className='butLine'
-                          onClick={() => setShowStake(true)}
-                        >
-                          STAKE
-                        </button>
+                        {tokenPosition.paused > 0 ? (
+                          <>
+                            <button className='butLine'>
+                              <OverlayTrigger
+                                placement='right'
+                                overlay={pausedPopover}
+                              >
+                                <a>
+                                  <FontAwesomeIcon
+                                    icon={faCircleInfo}
+                                    className='text-muted'
+                                  />
+                                </a>
+                              </OverlayTrigger>{' '}
+                              PAUSED
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className='butLine'
+                              onClick={() => setShowStake(true)}
+                            >
+                              STAKE
+                            </button>{' '}
+                          </>
+                        )}
                       </div>
                     </>
                   ) : (
                     <></>
                   )}
-                  {stakingPosition > 0 ? (
+                  {stakingPosition.stake_amount > 0 ? (
                     <div className='col'>
-                      <button
-                        className='row butLine'
-                        onClick={() => setShowStake(true)}
-                      >
-                        STAKE
-                      </button>
-
+                      {tokenPosition.paused > 0 ? (
+                        <>
+                          <button className='butLine'>
+                            <OverlayTrigger
+                              placement='right'
+                              overlay={pausedPopover}
+                            >
+                              <a>
+                                <FontAwesomeIcon
+                                  icon={faCircleInfo}
+                                  className='text-muted'
+                                />
+                              </a>
+                            </OverlayTrigger>{' '}
+                            PAUSED
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            className='butLine'
+                            onClick={() => setShowStake(true)}
+                          >
+                            STAKE
+                          </button>{' '}
+                        </>
+                      )}
                       <button
                         className='row butLine'
                         onClick={() => setShowUnstake(true)}

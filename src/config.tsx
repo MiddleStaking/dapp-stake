@@ -1,5 +1,6 @@
 export const contractAddress =
-  'erd1qqqqqqqqqqqqqpgqhcj6ez8y3zvctjtm78flxvqkedn7peh4ch9shlfnmr';
+  'erd1qqqqqqqqqqqqqpgq0jmmq90wqrp2qrvmnqsfplwkrx02w6lvch9semu4hn';
+//  'erd1qqqqqqqqqqqqqpgqhcj6ez8y3zvctjtm78flxvqkedn7peh4ch9shlfnmr';
 
 export const defaultToken = 'STAKE-1c6362';
 export const dAppName = 'example Dapp';

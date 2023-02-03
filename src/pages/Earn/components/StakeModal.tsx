@@ -109,48 +109,45 @@ const StakeModal = (props: any) => {
           Owner of the contract (we) can adjust speed of the pool but do not
           have access to staked Tokens.
         </div>
-        <Form.Group
-          as={Col}
-          md='6'
-          controlId='TokenAmount'
-          onChange={handleTokenAmountChange}
-        >
-          {' '}
-          <a onClick={setToMax}>
-            <u>MAX</u>
-          </a>
-          <Form.Control
-            required
-            type='number'
-            placeholder=''
-            defaultValue='0'
-            value={tokenAmount}
-          />
-          <Form.Label>
-            <FormatAmount
-              decimals={Number(props.decimals.toString())}
-              value={props.balance.toString()}
-              egldLabel={props.stakedToken}
-              data-testid='staked'
-              digits={2}
-            />
-          </Form.Label>
+        <Form.Group as={Row} md='12'>
+          <Form.Group
+            as={Col}
+            md='6'
+            controlId='TokenAmount'
+            onChange={handleTokenAmountChange}
+          >
+            {' '}
+            <div className='maxInput'>
+              <a onClick={setToMax}>
+                <u>MAX</u>
+              </a>
+            </div>
+            <Form.Control
+              required
+              type='number'
+              placeholder=''
+              defaultValue='0'
+              value={tokenAmount}
+            />{' '}
+            <Form.Label className='float-right'>
+              <FormatAmount
+                decimals={Number(props.decimals.toString())}
+                value={props.balance.toString()}
+                egldLabel={props.stakedToken}
+                data-testid='staked'
+                digits={2}
+              />
+            </Form.Label>
+          </Form.Group>
+          <Form.Group className='m-auto'>
+            <ActionStake
+              stakedToken={props.stakedToken}
+              rewardedToken={props.rewardedToken}
+              user_fund={bigAmount}
+              name='STAKE'
+            />{' '}
+          </Form.Group>
         </Form.Group>
-        <Form.Group>
-          <ActionStake
-            stakedToken={props.stakedToken}
-            rewardedToken={props.rewardedToken}
-            user_fund={bigAmount}
-            name='STAKE'
-          />{' '}
-          <ActionStake
-            stakedToken={props.stakedToken}
-            rewardedToken={props.rewardedToken}
-            user_fund={props.balance}
-            name='STAKE ALL'
-          />{' '}
-        </Form.Group>
-
         <div className='modal-footer'>
           <button onClick={props.onClose} className='button'>
             Close

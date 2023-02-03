@@ -51,8 +51,10 @@ export const ActionClaimRewards = ({
       {rewardsAmount !== undefined && rewardsAmount > 0 && (
         <>
           {!hasPendingTransactions ? (
-            <div onClick={sendClaimTransaction}>
-              <button className='butLineBig'>Claim Rewards</button>
+            <div>
+              <button onClick={sendClaimTransaction} className='butLineBig'>
+                Claim Rewards
+              </button>
             </div>
           ) : (
             <div className={notAllowedClass}>

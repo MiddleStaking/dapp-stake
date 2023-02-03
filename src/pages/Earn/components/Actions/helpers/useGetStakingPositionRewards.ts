@@ -1,7 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import {
   Address,
   AddressValue,
@@ -9,20 +6,28 @@ import {
   ResultsParser,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
+import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+
 import { smartContract } from './smartContract';
-import { defaultToken } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetStakingPositionRewards = (
   stakedToken: any,
-  rewardedToken: any
+  rewardedToken: any,
+  stake_amount: bigint
 ) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const [rewardsAmount, setRewardsAmount] = useState<bigint>(BigInt(1));
 
   const getStakingPositionRewards = async () => {
+    //Dont call if no stake
+    if (stake_amount == BigInt(0)) {
+      return;
+    }
     try {
       const query = smartContract.createQuery({
         func: new ContractFunction('calculateRewardsForUser'),
@@ -54,7 +59,7 @@ export const useGetStakingPositionRewards = (
 
   useEffect(() => {
     getStakingPositionRewards();
-  }, []);
+  }, [stake_amount]);
 
   return rewardsAmount;
 };

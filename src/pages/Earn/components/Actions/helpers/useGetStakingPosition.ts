@@ -16,7 +16,10 @@ const resultsParser = new ResultsParser();
 export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
-  const [stakedAmount, setStakedAmount] = useState<bigint>(BigInt(1));
+  const [stakingPosition, setStakingPosition] = useState({
+    stake_amount: BigInt(0),
+    last_action_block: BigInt(0)
+  });
 
   const getStakingPosition = async () => {
     try {
@@ -33,15 +36,18 @@ export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition =
         smartContract.getEndpoint('getStakingPosition');
-      const { firstValue: amount } = resultsParser.parseQueryResponse(
+      const { firstValue: position } = resultsParser.parseQueryResponse(
         queryResponse,
         endpointDefinition
       );
-      const position: bigint =
-        amount?.valueOf()?.toFixed() === undefined
-          ? '0'
-          : amount?.valueOf().toFixed();
-      setStakedAmount(position);
+      const tab = position?.valueOf();
+
+      if (tab) {
+        setStakingPosition({
+          stake_amount: tab[0].toFixed(),
+          last_action_block: tab[1].toFixed()
+        });
+      }
     } catch (err) {
       console.error('Unable to call getStakingPosition', err);
     }
@@ -51,5 +57,5 @@ export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
     getStakingPosition();
   }, []);
 
-  return stakedAmount;
+  return stakingPosition;
 };
