@@ -16,13 +16,17 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { Col, Row } from 'react-bootstrap';
+import image from './../../../assets/img/background2.png';
 
 export const PoolInfo = ({
   stakedToken,
   rewardedToken,
   balance,
   sdecimals,
-  rdecimals
+  rdecimals,
+  image1,
+  image2
 }: any) => {
   const { address, account } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
@@ -47,7 +51,7 @@ export const PoolInfo = ({
 
   const leftPopover = (
     <Popover id='popover-basic'>
-      <Popover.Header as='h3'>Left in pool</Popover.Header>
+      <Popover.Header as='h3'>Tokens left in pool</Popover.Header>
       <Popover.Body>
         This is the amount of tokens left in pool to be claimed by users.
       </Popover.Body>
@@ -166,7 +170,7 @@ export const PoolInfo = ({
   // }
 
   return (
-    <>
+    <div className='card'>
       {' '}
       <StakeModal
         rewardedToken={rewardedToken}
@@ -184,88 +188,115 @@ export const PoolInfo = ({
         onClose={() => setShowUnstake(false)}
         show={showUnstake}
       />
-      <div className='text-black PoolCard' data-testid='poolInfo'>
+      <div
+        className='text-black PoolCard'
+        data-testid='poolInfo'
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          opacity: 1
+        }}
+      >
         <div className='poolTop'>
-          <div>
-            <h4>Stake : {stakedToken}</h4>
-            <h4>Earn : {rewardedToken}</h4>{' '}
-          </div>
-        </div>
-        <div className='row'>
-          <h4 className='col'>
-            <OverlayTrigger placement='right' overlay={stakedPopover}>
-              <a>
-                <FontAwesomeIcon icon={faCircleInfo} className='text-muted' />
-              </a>
-            </OverlayTrigger>{' '}
-            staked :{' '}
-            <FormatAmount
-              value={tokenPosition.total_stake.toString()}
-              decimals={Number(sdecimals)}
-              egldLabel={' '}
-              data-testid='staked'
-              digits={2}
-            />
-          </h4>{' '}
-          <h4 className='col'>
-            <OverlayTrigger placement='right' overlay={leftPopover}>
-              <a>
-                <FontAwesomeIcon icon={faCircleInfo} className='text-muted' />
-              </a>
-            </OverlayTrigger>{' '}
-            left :{' '}
-            <FormatAmount
-              value={tokenPosition.balance.toString()}
-              decimals={Number(rdecimals)}
-              egldLabel={' '}
-              data-testid='balance'
-              digits={2}
-            />
-          </h4>
-        </div>
-        <div className='row'>
-          <h4 className='col'>
-            {' '}
-            <OverlayTrigger placement='right' overlay={speedPopover}>
-              <a>
-                <FontAwesomeIcon icon={faCircleInfo} className='text-muted' />
-              </a>
-            </OverlayTrigger>{' '}
-            speed : {speed.toString()} days
-          </h4>
+          <Row className='topLogo'>
+            <Col className='col-4 '>
+              <img className='firstPoolLogo' src={image1} />
+              <img className='secondPoolLogo' src={image2} />
+            </Col>
+            <Col className='col-8 topName'>
+              <h4>Earn : {rewardedToken}</h4>
+            </Col>
 
-          <h4 className='col'>
-            {' '}
-            <OverlayTrigger placement='right' overlay={aprPopover}>
-              <a>
-                <FontAwesomeIcon icon={faCircleInfo} className='text-muted' />
-              </a>
-            </OverlayTrigger>{' '}
-            apr : {apr.toString()} %
-          </h4>
-        </div>{' '}
-        <div>
-          <h4>
-            <OverlayTrigger placement='right' overlay={allTimeRewardsPopover}>
-              <a>
-                <FontAwesomeIcon icon={faCircleInfo} className='text-muted' />
-              </a>
-            </OverlayTrigger>{' '}
-            All time rewarded :{' '}
-            <FormatAmount
-              value={tokenPosition.total_rewards.toString()}
-              decimals={Number(rdecimals)}
-              egldLabel={' '}
-              data-testid='balance'
-              digits={2}
-            />
-          </h4>
+            <Col className='col-12'>
+              {' '}
+              <div className='blueButton leftInPoolInfo'>
+                <OverlayTrigger placement='right' overlay={leftPopover}>
+                  <a>
+                    <FontAwesomeIcon
+                      icon={faCircleInfo}
+                      className='text-muted'
+                    />
+                  </a>
+                </OverlayTrigger>{' '}
+                Rewards :{' '}
+                <FormatAmount
+                  value={tokenPosition.balance.toString()}
+                  decimals={Number(rdecimals)}
+                  egldLabel={' '}
+                  data-testid='balance'
+                  digits={2}
+                />{' '}
+                <br />
+                <OverlayTrigger
+                  placement='right'
+                  overlay={allTimeRewardsPopover}
+                >
+                  <a>
+                    <FontAwesomeIcon
+                      icon={faCircleInfo}
+                      className='text-muted'
+                    />
+                  </a>
+                </OverlayTrigger>{' '}
+                All time rewarded :{' '}
+                <FormatAmount
+                  value={tokenPosition.total_rewards.toString()}
+                  decimals={Number(rdecimals)}
+                  egldLabel={' '}
+                  data-testid='balance'
+                  digits={2}
+                />
+              </div>{' '}
+            </Col>
+            <Col className='col-6 sub2'>
+              {' '}
+              <OverlayTrigger placement='right' overlay={speedPopover}>
+                <a>
+                  <FontAwesomeIcon icon={faCircleInfo} className='text-muted' />
+                </a>
+              </OverlayTrigger>{' '}
+              speed : {speed.toString()} days
+            </Col>
+            <Col className='col-6 sub2'>
+              {' '}
+              <OverlayTrigger placement='right' overlay={aprPopover}>
+                <a>
+                  <FontAwesomeIcon icon={faCircleInfo} className='text-muted' />
+                </a>
+              </OverlayTrigger>{' '}
+              apr : {apr.toString()} %
+            </Col>
+            <Col>
+              {' '}
+              <div className='blueButton leftInPoolInfo'>
+                <OverlayTrigger placement='right' overlay={stakedPopover}>
+                  <a>
+                    <FontAwesomeIcon
+                      icon={faCircleInfo}
+                      className='text-muted'
+                    />
+                  </a>
+                </OverlayTrigger>{' '}
+                Total Staked :{' '}
+                <FormatAmount
+                  value={tokenPosition.total_stake.toString()}
+                  decimals={Number(sdecimals)}
+                  egldLabel={' '}
+                  data-testid='staked'
+                  digits={2}
+                />{' '}
+                <br />
+              </div>{' '}
+            </Col>
+          </Row>
         </div>
+
         <div className='poolPosition'>
           {!address ? (
             <Link
               to={routeNames.unlock}
-              className='btn btn-primary mt-3 text-white'
+              className='butLine goldButton'
               data-testid='loginBtn'
             >
               Login
@@ -296,7 +327,7 @@ export const PoolInfo = ({
                     ) : (
                       <>
                         <button
-                          className='butLine'
+                          className='butLine goldButton'
                           onClick={() => setShowStake(true)}
                         >
                           STAKE
@@ -309,29 +340,33 @@ export const PoolInfo = ({
                 <div>
                   {' '}
                   <h3>MY STAKE</h3>
-                  <div className='row'>
-                    <h4 className='col'>
-                      <OverlayTrigger
-                        placement='right'
-                        overlay={myStakePopover}
-                      >
-                        <a>
-                          <FontAwesomeIcon
-                            icon={faCircleInfo}
-                            className='text-muted'
-                          />
-                        </a>
-                      </OverlayTrigger>{' '}
-                      Staked :{' '}
-                      <FormatAmount
-                        value={stakingPosition.stake_amount.toString()}
-                        decimals={Number(sdecimals)}
-                        egldLabel={' '}
-                        data-testid='balance'
-                        digits={2}
-                      />
-                    </h4>{' '}
-                    <h4 className='col'>
+                  <Row>
+                    <Col className='col-12'>
+                      {' '}
+                      <div className='blueButton leftInPoolInfo'>
+                        <OverlayTrigger
+                          placement='right'
+                          overlay={myStakePopover}
+                        >
+                          <a>
+                            <FontAwesomeIcon
+                              icon={faCircleInfo}
+                              className='text-muted'
+                            />
+                          </a>
+                        </OverlayTrigger>{' '}
+                        Staked :{' '}
+                        <FormatAmount
+                          value={stakingPosition.stake_amount.toString()}
+                          decimals={Number(sdecimals)}
+                          egldLabel={' '}
+                          data-testid='staked'
+                          digits={2}
+                        />{' '}
+                        <br />
+                      </div>{' '}
+                    </Col>
+                    <Col>
                       {' '}
                       <OverlayTrigger
                         placement='right'
@@ -345,10 +380,10 @@ export const PoolInfo = ({
                         </a>
                       </OverlayTrigger>{' '}
                       Share : {rest} %
-                    </h4>
-                  </div>
+                    </Col>
+                  </Row>
                   {stakingPosition.stake_amount < 1 ? (
-                    <>
+                    <Row>
                       <div>
                         {tokenPosition.paused > 0 ? (
                           <>
@@ -370,7 +405,7 @@ export const PoolInfo = ({
                         ) : (
                           <>
                             <button
-                              className='butLine'
+                              className='butLine goldButton'
                               onClick={() => setShowStake(true)}
                             >
                               STAKE
@@ -378,7 +413,7 @@ export const PoolInfo = ({
                           </>
                         )}
                       </div>
-                    </>
+                    </Row>
                   ) : (
                     <></>
                   )}
@@ -404,7 +439,7 @@ export const PoolInfo = ({
                       ) : (
                         <>
                           <button
-                            className='butLine'
+                            className='butLine goldButton'
                             onClick={() => setShowStake(true)}
                           >
                             STAKE
@@ -412,7 +447,7 @@ export const PoolInfo = ({
                         </>
                       )}
                       <button
-                        className='row butLine'
+                        className='row butLine silverButton'
                         onClick={() => setShowUnstake(true)}
                       >
                         UNSTAKE
@@ -459,6 +494,6 @@ export const PoolInfo = ({
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };

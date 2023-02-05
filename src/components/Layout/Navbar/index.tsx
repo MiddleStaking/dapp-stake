@@ -24,7 +24,7 @@ export const Navbar = () => {
           to={isLoggedIn ? routeNames.earn : routeNames.home}
         >
           <MultiversXLogo className='multiversx-logo' />
-          <span className='dapp-name text-muted'>{dAppName}</span>
+          <span className='dapp-name text-muted'></span>
         </Link>
 
         <Nav className='ml-auto'>
@@ -38,7 +38,6 @@ export const Navbar = () => {
               <span>Earn (stake) </span>
             </Link>
           </NavItem>
-          <NavItem> </NavItem>
           {isLoggedIn && (
             <NavItem className='ml-auto'>
               <Link
@@ -50,6 +49,7 @@ export const Navbar = () => {
             </NavItem>
           )}
         </Nav>
+
         <Nav className='ml-auto'>
           {isLoggedIn && (
             <>

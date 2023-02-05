@@ -11,6 +11,8 @@ import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './PoolCol.scss';
 import { useParams, useNavigate } from 'react-router-dom';
+import image from './../../../assets/img/background2.png';
+import notFound from './../../../assets/img/notfound.svg';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const navigate = useNavigate();
@@ -26,12 +28,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const [stoken, setStoken] = React.useState(url);
   const rewardedTokens = useGetRewardedTokens(stoken);
 
-  console.log('---');
-  console.log(url);
-  console.log(test);
-  console.log(stoken);
   //TODO Remplacer ce tableau par un storage/api
-  const tokens_decimals = [
+  const tokens_informations = [
     {
       type: 'FungibleESDT',
       identifier: '777DEV-0ddfcf',
@@ -40,7 +38,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     {
       type: 'FungibleESDT',
       identifier: 'ASH-4ce444',
-      decimals: 18
+      decimals: 18,
+      image: 'https://media.elrond.com/tokens/asset/ASH-a642d1/logo.svg'
     },
     {
       type: 'FungibleESDT',
@@ -80,17 +79,21 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     {
       type: 'FungibleESDT',
       identifier: 'STAKE-1c6362',
-      decimals: 18
+      decimals: 18,
+      image:
+        'https://raw.githubusercontent.com/ElrondNetwork/assets/master/tokens/MID-ecb7bf/logo.svg'
     },
     {
       type: 'FungibleESDT',
       identifier: 'USDC-79d9a4',
-      decimals: 18
+      decimals: 18,
+      image: 'https://media.elrond.com/tokens/asset/USDC-c76f1f/logo.svg'
     },
     {
       type: 'FungibleESDT',
       identifier: 'USDC-d5181d',
-      decimals: 6
+      decimals: 6,
+      image: 'https://media.elrond.com/tokens/asset/USDC-c76f1f/logo.svg'
     },
     {
       type: 'FungibleESDT',
@@ -100,7 +103,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     {
       type: 'FungibleESDT',
       identifier: 'VITAL-058fd5',
-      decimals: 8
+      decimals: 8,
+      image: 'https://media.elrond.com/tokens/asset/VITAL-ab7917/logo.svg'
     },
     {
       type: 'FungibleESDT',
@@ -121,6 +125,11 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       type: 'FungibleESDT',
       identifier: 'WUSDC-c01108',
       decimals: 6
+    },
+    {
+      type: 'FungibleEsdt',
+      identifier: 'EGLDUSDC-842a92',
+      decimals: 18
     }
   ];
 
@@ -147,13 +156,21 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   }
 
   return (
-    <div className='container py-4'>
+    <div className='container-xxl py-4'>
       <div className='row'>
         <div className='col-12 col-md-10 mx-auto'>
-          <div className='card shadow-sm border-0'>
-            <div className='card-body p-1'>
+          <div className='card shadow-sm border-0 '>
+            <div className='card-body p-1 '>
               <div className='card border-0 bg-primary'>
-                <div className='card-body text-center p-4 text-white'>
+                <div
+                  className='card-body text-center p-4 text-white'
+                  style={{
+                    backgroundImage: `url(${image})`,
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    opacity: 1
+                  }}
+                >
                   <TopInfo />
                   Balance :{' '}
                   <FormatAmount
@@ -191,11 +208,11 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
               </div>
             </div>
           </div>
-          <div className='row p-4'>
+          <div className='row pt-4'>
             {rewardedTokens[0] != '' ? (
               rewardedTokens.map((rtoken) => (
                 <div
-                  className='col-12 col-sm-12 col-md-12 PoolCol mb-3 col-lg-6 col-xl-6'
+                  className='PoolCol col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4'
                   key={rtoken}
                 >
                   {' '}
@@ -203,16 +220,26 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                     stakedToken={stoken}
                     rewardedToken={rtoken}
                     balance={balance}
-                    sdecimals={tokens_decimals
+                    sdecimals={tokens_informations
                       .filter((token) => {
                         return token.identifier === stoken;
                       })
                       .map((token) => (token.decimals ? token.decimals : 0))}
-                    rdecimals={tokens_decimals
+                    rdecimals={tokens_informations
                       .filter((token) => {
                         return token.identifier === rtoken;
                       })
                       .map((token) => (token.decimals ? token.decimals : 0))}
+                    image1={tokens_informations
+                      .filter((token) => {
+                        return token.identifier === stoken;
+                      })
+                      .map((token) => (token.image ? token.image : notFound))}
+                    image2={tokens_informations
+                      .filter((token) => {
+                        return token.identifier === rtoken;
+                      })
+                      .map((token) => (token.image ? token.image : notFound))}
                   />
                 </div>
               ))

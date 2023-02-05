@@ -52,8 +52,11 @@ export const ActionClaimRewards = ({
         <>
           {!hasPendingTransactions ? (
             <div>
-              <button onClick={sendClaimTransaction} className='butLineBig'>
-                Claim Rewards
+              <button
+                onClick={sendClaimTransaction}
+                className='butLineBig goldButton'
+              >
+                CLAIM REWARDS{' '}
               </button>
             </div>
           ) : (
