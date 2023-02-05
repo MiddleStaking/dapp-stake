@@ -67,7 +67,13 @@ export const ActionStake = ({
         <>
           {!hasPendingTransactions ? (
             <div>
-              <button onClick={sendStakeTransaction}>{name}</button>
+              <button
+                className='goldButton butLineBig'
+                style={{ width: 'auto' }}
+                onClick={sendStakeTransaction}
+              >
+                {name}
+              </button>
             </div>
           ) : (
             <div className={notAllowedClass}>

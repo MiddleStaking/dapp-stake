@@ -22,6 +22,7 @@ export const useGetStakingPositionRewards = (
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const [rewardsAmount, setRewardsAmount] = useState<bigint>(BigInt(1));
+  const [time, setTime] = useState(new Date());
 
   const getStakingPositionRewards = async () => {
     //Dont call if no stake
@@ -58,8 +59,26 @@ export const useGetStakingPositionRewards = (
   };
 
   useEffect(() => {
-    getStakingPositionRewards();
-  }, [stake_amount]);
+    if (stake_amount > BigInt(0)) {
+      getStakingPositionRewards();
+    }
+
+    const interval = setInterval(() => {
+      setTime(new Date());
+      if (stake_amount > BigInt(0)) {
+        getStakingPositionRewards();
+        console.log('effect');
+        console.log(
+          rewardedToken + ' ' + stakedToken + ' ' + rewardsAmount.toString()
+        );
+        console.log(time);
+      } else {
+        stake_amount = BigInt(0);
+      }
+    }, 20000);
+
+    return () => clearInterval(interval);
+  }, [stake_amount, time]);
 
   return rewardsAmount;
 };

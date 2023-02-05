@@ -51,7 +51,9 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
                 <Form>
                   <Row className='mb-3'>
                     <Form.Group as={Col} md='6' controlId='network'>
-                      <Form.Label>Staked Token</Form.Label>
+                      <Form.Label className='text-white'>
+                        Staked Token
+                      </Form.Label>
                       <Form.Control
                         as='select'
                         onChange={setFSToken}
@@ -73,7 +75,9 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
                     </Form.Group>
 
                     <Form.Group as={Col} md='6' controlId='rtoken'>
-                      <Form.Label>Rewarded Token</Form.Label>
+                      <Form.Label className='text-white'>
+                        Rewarded Token
+                      </Form.Label>
                       <Form.Control
                         as='select'
                         onChange={setFRtoken}

@@ -76,22 +76,12 @@ const StakeModal = (props: any) => {
     return output;
   }
 
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
-
   return (
     <div className='modal' onClick={props.onClose}>
       <div className='modal-content' onClick={(e) => e.stopPropagation()}>
         <div className='modal-header'>
           <h4 className='modal-title'>
-            Stake [{props.stakedToken}] to The pool and earn [
-            {props.rewardedToken}]
+            Stake [{props.stakedToken}] and earn [{props.rewardedToken}]
           </h4>
         </div>
         <div className='modal-body'>
@@ -139,7 +129,7 @@ const StakeModal = (props: any) => {
               />
             </Form.Label>
           </Form.Group>
-          <Form.Group className='m-auto'>
+          <Form.Group className='m-auto' onClick={props.onClose}>
             <ActionStake
               stakedToken={props.stakedToken}
               rewardedToken={props.rewardedToken}

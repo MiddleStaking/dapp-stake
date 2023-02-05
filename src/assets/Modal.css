@@ -4,15 +4,18 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba((0), 0, 0, 0.5);
+    background-color: rgba(1, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .modal-content {
+    padding: 5px;
     width: 500px;
-    background-color: #fff;
+    color: #eee;
+        background-image: url('./../assets/img/background2.png');
+        background-position: center;
 }
 
 .modal-header,
@@ -30,6 +33,7 @@
     border-bottom: 1px, solid, #eee;
 }
 .maxInput {
+    color: black;
     margin-right: 8px;
     float: right;
     top: 27px;

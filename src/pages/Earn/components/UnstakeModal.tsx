@@ -78,15 +78,6 @@ const UnstakeModal = (props: any) => {
     return output;
   }
 
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
-
   return (
     <div className='modal' onClick={props.onClose}>
       <div className='modal-content' onClick={(e) => e.stopPropagation()}>
@@ -142,7 +133,7 @@ const UnstakeModal = (props: any) => {
               />
             </Form.Label>
           </Form.Group>
-          <Form.Group className='m-auto'>
+          <Form.Group className='m-auto' onClick={props.onClose}>
             <ActionUnstake
               stakedToken={props.stakedToken}
               rewardedToken={props.rewardedToken}
