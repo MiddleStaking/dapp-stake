@@ -125,7 +125,7 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
               </div>
             </div>
           </div>
-          <div className={styles.transactions}>{children}</div>
+          {/* <div className={styles.transactions}>{children}</div> */}
         </div>
       </div>
     </div>

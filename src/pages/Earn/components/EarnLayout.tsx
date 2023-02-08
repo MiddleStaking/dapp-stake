@@ -248,7 +248,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
             )}
           </div>
 
-          <div className={styles.transactions}>{children}</div>
+          {/* <div className={styles.transactions}>{children}</div> */}
         </div>
       </div>
     </div>

@@ -75,7 +75,7 @@ export const useGetStakingPositionRewards = (
       } else {
         stake_amount = BigInt(0);
       }
-    }, 20000);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [stake_amount, time]);
