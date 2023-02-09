@@ -1,24 +1,23 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { routeNames } from 'routes';
 import { useState } from 'react';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { Col, Row } from 'react-bootstrap';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import { Link } from 'react-router-dom';
+import { routeNames } from 'routes';
+import image from './../../../assets/img/background2.png';
+import { ActionClaimRewards } from './Actions';
 import {
   useGetTokenPosition,
   useGetStakingPosition,
   useGetStakingPositionRewards
 } from './Actions/helpers';
-import { ActionClaimRewards } from './Actions';
 import StakeModal from './StakeModal';
 import UnstakeModal from './UnstakeModal';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row } from 'react-bootstrap';
-import image from './../../../assets/img/background2.png';
-
 export const PoolInfo = ({
   stakedToken,
   rewardedToken,
@@ -28,7 +27,7 @@ export const PoolInfo = ({
   image1,
   image2
 }: any) => {
-  const { address, account } = useGetAccountInfo();
+  const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
 
@@ -127,14 +126,6 @@ export const PoolInfo = ({
       </Popover.Body>
     </Popover>
   );
-
-  // console.log('PoolInfo');
-  // console.log(stakedToken + ' ' + rewardedToken);
-  // console.log(sdecimals + ' ' + rdecimals);
-  // console.log('user balance : ' + balance);
-  // console.log(tokenPosition);
-  // console.log(stakingPosition);
-  // console.log(stakingPositionRewards);
 
   let apr = BigInt(100);
   if (
@@ -458,6 +449,11 @@ export const PoolInfo = ({
                   )}
                   {stakingPositionRewards > 0 ? (
                     <div>
+                      <ActionClaimRewards
+                        stakedToken={stakedToken}
+                        rewardedToken={rewardedToken}
+                        rewardsAmount={stakingPositionRewards}
+                      />{' '}
                       <h4>
                         <OverlayTrigger
                           placement='right'
@@ -479,11 +475,6 @@ export const PoolInfo = ({
                           digits={2}
                         />
                       </h4>
-                      <ActionClaimRewards
-                        stakedToken={stakedToken}
-                        rewardedToken={rewardedToken}
-                        rewardsAmount={stakingPositionRewards}
-                      />{' '}
                     </div>
                   ) : (
                     <></>

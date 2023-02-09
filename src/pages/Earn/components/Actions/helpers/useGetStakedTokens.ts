@@ -19,10 +19,8 @@ export const useGetStakedTokens = () => {
       const tokens = storage?.split(',');
 
       setStakedTokens(tokens ? tokens : []);
-      console.log('USING STORAGE!');
       return;
     }
-    console.log('refreshing storage');
 
     try {
       const query = smartContract.createQuery({
@@ -51,7 +49,6 @@ export const useGetStakedTokens = () => {
 
   useEffect(() => {
     getStakedTokens();
-    console.log(stakedTokens);
   }, []);
 
   return stakedTokens;

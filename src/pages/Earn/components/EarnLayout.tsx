@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './../earn.module.scss';
 import { Col, Form, Row } from 'react-bootstrap';
-
 import { TopInfo } from './TopInfo';
 import { PoolInfo } from './PoolInfo';
 import { defaultToken } from 'config';
@@ -13,9 +12,16 @@ import './PoolCol.scss';
 import { useParams, useNavigate } from 'react-router-dom';
 import image from './../../../assets/img/background2.png';
 import notFound from './../../../assets/img/notfound.svg';
+import eCompass from './../../../assets/img/ecompass.svg';
+import jexchange from './../../../assets/img/jexchange.svg';
+import twitter from './../../../assets/img/twitter.svg';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import { faEarth, faChartSimple } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const navigate = useNavigate();
+  const isLoggedIn = useGetIsLoggedIn();
 
   const stakedTokens: string[] = useGetStakedTokens();
   const { param } = useParams();
@@ -30,6 +36,51 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   //TODO Remplacer ce tableau par un storage/api
   const tokens_informations = [
+    {
+      type: 'FungibleESDT',
+      identifier: 'STAKE-1c6362',
+      name: 'MiddleStaking',
+      ticker: 'MID',
+      owner: 'erd1c3nfhvj5jgulw62yndr6fgh0fcmut34fful733tl998zpt9s2k5qrxumhs',
+      minted: '0',
+      burnt: '243400000000000000000000000',
+      initialMinted: '250000000000000000000000000',
+      decimals: 18,
+      isPaused: false,
+      assets: {
+        website: 'https://middlestaking.fr',
+        description:
+          'The $MID is a service Token allowing users to get involved into staking without a full EGLD.',
+        status: 'active',
+        pngUrl: 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.png',
+        svgUrl: 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg',
+        social: {
+          email: 'esdt@middlestaking.fr',
+          twitter: 'https://twitter.com/MiddleStaking',
+          whitepaper: 'https://files.middlestaking.fr/mid-whitepaper.pdf'
+        }
+      },
+      transactions: 4210,
+      accounts: 5989,
+      canUpgrade: true,
+      canMint: true,
+      canBurn: true,
+      canChangeOwner: true,
+      canPause: true,
+      canFreeze: true,
+      canWipe: true,
+      supply: '6600000',
+      circulatingSupply: '6600000',
+      roles: [
+        {
+          canLocalMint: true,
+          canLocalBurn: true,
+          roles: ['ESDTRoleLocalBurn', 'ESDTRoleLocalMint'],
+          address:
+            'erd1c3nfhvj5jgulw62yndr6fgh0fcmut34fful733tl998zpt9s2k5qrxumhs'
+        }
+      ]
+    },
     {
       type: 'FungibleESDT',
       identifier: '777DEV-0ddfcf',
@@ -75,13 +126,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       type: 'FungibleESDT',
       identifier: 'RENBTC-0b6973',
       decimals: 8
-    },
-    {
-      type: 'FungibleESDT',
-      identifier: 'STAKE-1c6362',
-      decimals: 18,
-      image:
-        'https://raw.githubusercontent.com/ElrondNetwork/assets/master/tokens/MID-ecb7bf/logo.svg'
     },
     {
       type: 'FungibleESDT',
@@ -133,6 +177,15 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     }
   ];
 
+  const tokens_extra_informations = [
+    {
+      identifier: 'STAKE-1c6362',
+      charts: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
+      market:
+        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79'
+    }
+  ];
+
   const balance = userEsdtBalance
     .filter((token) => {
       return token.identifier === stoken;
@@ -172,36 +225,226 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                   }}
                 >
                   <TopInfo />
-                  Balance :{' '}
-                  <FormatAmount
-                    value={balance.toString()}
-                    egldLabel={stoken}
-                    data-testid='balance'
-                    digits={2}
-                  />
-                  <Form>
-                    <Row className='mb-3'>
-                      <Form.Group as={Col} md='6' controlId='network'>
-                        <Form.Label>Staked Token</Form.Label>
-                        <Form.Control
-                          as='select'
-                          onChange={setFSToken}
-                          value={stoken}
-                          disabled={false}
-                        >
-                          {stakedTokens &&
-                            stakedTokens.map((item) => (
-                              <option
-                                disabled={false}
-                                className='text-center not-allowed disabled'
-                                key={item}
-                                value={item}
-                              >
-                                {item}
-                              </option>
-                            ))}
-                        </Form.Control>
-                      </Form.Group>
+                  <Form style={{ verticalAlign: 'middle' }}>
+                    <Row className='mx-auto'>
+                      <Col className='col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 m-auto'>
+                        <Row>
+                          <Form.Group as={Col} md='12' controlId='network'>
+                            <Form.Label>Staked Token</Form.Label>
+                            <Form.Control
+                              as='select'
+                              onChange={setFSToken}
+                              value={stoken}
+                              disabled={false}
+                            >
+                              {stakedTokens &&
+                                stakedTokens.map((item) => (
+                                  <option
+                                    disabled={false}
+                                    className='text-center not-allowed disabled'
+                                    key={item}
+                                    value={item}
+                                  >
+                                    {item}
+                                  </option>
+                                ))}
+                            </Form.Control>
+                          </Form.Group>
+                        </Row>
+                        <Row className='mx-auto'>
+                          {' '}
+                          {isLoggedIn && (
+                            <>
+                              Balance :{' '}
+                              <FormatAmount
+                                value={balance.toString()}
+                                egldLabel={stoken}
+                                data-testid='balance'
+                                digits={2}
+                              />{' '}
+                            </>
+                          )}
+                        </Row>
+                      </Col>{' '}
+                      <Col className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 m-auto'>
+                        {' '}
+                        <img
+                          className='mediumInfoLogo'
+                          src={tokens_informations
+                            .filter((token) => {
+                              return token.identifier === stoken;
+                            })
+                            .map((token) =>
+                              token?.assets?.svgUrl
+                                ? token?.assets?.svgUrl
+                                : notFound
+                            )
+                            .toString()}
+                        />
+                      </Col>
+                      <Col className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 m-auto token-card text-center'>
+                        {tokens_informations
+                          .filter((token) => {
+                            return token.identifier === stoken;
+                          })
+                          .map((token) =>
+                            token.identifier ? (
+                              <div className='col-12 float-left'>
+                                <a
+                                  href={
+                                    'https://explorer.multiversx.com/tokens/' +
+                                    token.identifier
+                                  }
+                                  target={'_blank'}
+                                  rel={'noreferrer'}
+                                >
+                                  <img
+                                    className='smallInfoLogo'
+                                    src={tokens_informations
+                                      .filter((token) => {
+                                        return token.identifier === stoken;
+                                      })
+                                      .map((token) =>
+                                        token?.assets?.svgUrl
+                                          ? token?.assets?.svgUrl
+                                          : notFound
+                                      )
+                                      .toString()}
+                                  />{' '}
+                                  Explorer
+                                </a>
+                              </div>
+                            ) : (
+                              ''
+                            )
+                          )}
+
+                        {tokens_informations
+                          .filter((token) => {
+                            return token.identifier === stoken;
+                          })
+                          .map((token) =>
+                            token?.assets?.website ? (
+                              <div className='col-6 float-left'>
+                                <a
+                                  href={token.assets.website}
+                                  target={'_blank'}
+                                  rel={'noreferrer'}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faEarth}
+                                    className='text-muted'
+                                  />{' '}
+                                  Website
+                                </a>
+                              </div>
+                            ) : (
+                              ''
+                            )
+                          )}
+
+                        {tokens_informations
+                          .filter((token) => {
+                            return token.identifier === stoken;
+                          })
+                          .map((token) =>
+                            token?.assets?.social?.twitter ? (
+                              <div className='col-6 float-left'>
+                                <a
+                                  href={token?.assets?.social?.twitter}
+                                  target={'_blank'}
+                                  rel={'noreferrer'}
+                                >
+                                  <img
+                                    className='smallInfoLogo'
+                                    src={twitter}
+                                  />{' '}
+                                  Twitter
+                                </a>
+                              </div>
+                            ) : (
+                              ''
+                            )
+                          )}
+
+                        {tokens_extra_informations
+                          .filter((token) => {
+                            return token.identifier === stoken;
+                          })
+                          .map((token) =>
+                            token.charts ? (
+                              <div className='col-6 float-left'>
+                                <a
+                                  href={token.charts}
+                                  target={'_blank'}
+                                  rel={'noreferrer'}
+                                >
+                                  <img
+                                    className='smallInfoLogo'
+                                    src={eCompass}
+                                  />{' '}
+                                  E-Compass
+                                </a>
+                              </div>
+                            ) : (
+                              ''
+                            )
+                          )}
+                        {tokens_extra_informations
+                          .filter((token) => {
+                            return token.identifier === stoken;
+                          })
+                          .map((token) =>
+                            token.market ? (
+                              <div className='col-6 float-left'>
+                                <a
+                                  href={token.market}
+                                  target={'_blank'}
+                                  rel={'noreferrer'}
+                                >
+                                  <img
+                                    className='smallInfoLogo'
+                                    src={jexchange}
+                                  />{' '}
+                                  Jexchange
+                                </a>
+                              </div>
+                            ) : (
+                              ''
+                            )
+                          )}
+
+                        {tokens_informations
+                          .filter((token) => {
+                            return token.identifier === stoken;
+                          })
+                          .map((token) =>
+                            token.accounts ? (
+                              <div className='col-6 float-left'>
+                                <FontAwesomeIcon icon={faChartSimple} />{' '}
+                                Accounts :{' '}
+                                {Number(token.accounts).toLocaleString()}
+                              </div>
+                            ) : (
+                              ''
+                            )
+                          )}
+
+                        {tokens_informations
+                          .filter((token) => {
+                            return token.identifier === stoken;
+                          })
+                          .map((token) =>
+                            token.supply ? (
+                              <div className='col-6 float-left'>
+                                <FontAwesomeIcon icon={faChartSimple} /> Supply
+                                : {Number(token.supply).toLocaleString()}
+                              </div>
+                            ) : (
+                              ''
+                            )
+                          )}
+                      </Col>
                     </Row>
                   </Form>
                 </div>
@@ -234,12 +477,16 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                       .filter((token) => {
                         return token.identifier === stoken;
                       })
-                      .map((token) => (token.image ? token.image : notFound))}
+                      .map((token) =>
+                        token?.assets?.svgUrl ? token?.assets?.svgUrl : notFound
+                      )}
                     image2={tokens_informations
                       .filter((token) => {
                         return token.identifier === rtoken;
                       })
-                      .map((token) => (token.image ? token.image : notFound))}
+                      .map((token) =>
+                        token?.assets?.svgUrl ? token?.assets?.svgUrl : notFound
+                      )}
                   />
                 </div>
               ))

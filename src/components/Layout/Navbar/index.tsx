@@ -3,74 +3,199 @@ import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { logout } from '@multiversx/sdk-dapp/utils';
 import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
+//*import { Navbar as BsNavbar, NavItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { dAppName } from 'config';
 import { routeNames } from 'routes';
-import { ReactComponent as MultiversXLogo } from '../../../assets/img/multiversx.svg';
+import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
-export const Navbar = () => {
+export const MyNavbar = () => {
   const isLoggedIn = useGetIsLoggedIn();
 
   const handleLogout = () => {
     logout(`${window.location.origin}/unlock`);
   };
-
+  //https://react-bootstrap.github.io/components/navbar/
+  //good examples
   return (
-    <BsNavbar className='bg-white border-bottom px-4 py-3'>
-      <div className='container-fluid'>
+    //   <BsNavbar className='bg-white border-bottom px-4 py-3'>
+    //     <div className='container-fluid'>
+    //       <Link
+    //         className='d-flex align-items-center navbar-brand mr-0'
+    //         to={isLoggedIn ? routeNames.earn : routeNames.home}
+    //       >
+    //         <MultiversXLogo className='multiversx-logo' />
+    //         <span className='dapp-name text-muted'></span>
+    //       </Link>
+
+    //       <Nav className='ml-auto'>
+    //         {' '}
+    //         {/* STAKE */}
+    //         <NavItem className='ml-auto'>
+    //           {' '}
+    //           <Link
+    //             className='d-flex align-items-center navbar-brand mr-10'
+    //             to={routeNames.earn}
+    //           >
+    //             <span>Earn (stake) </span>
+    //           </Link>
+    //         </NavItem>
+    //         {/* DASHBOARD */}
+    //         <NavItem className='ml-auto'>
+    //           {' '}
+    //           <Link
+    //             className='d-flex align-items-center navbar-brand mr-10'
+    //             to={routeNames.earn}
+    //           >
+    //             <span>Dasjboard (stake) </span>
+    //           </Link>
+    //         </NavItem>{' '}
+    //         {/* REWARDS */}
+    //         <NavItem className='ml-auto'>
+    //           {' '}
+    //           <Link
+    //             className='d-flex align-items-center navbar-brand mr-10'
+    //             to={routeNames.earn}
+    //           >
+    //             <span>REWARDS (stake) </span>
+    //           </Link>
+    //         </NavItem>
+    //         {/* FUND */}
+    //         {isLoggedIn && (
+    //           <NavItem className='ml-auto'>
+    //             <Link
+    //               className='d-flex align-items-center navbar-brand mr-10'
+    //               to={routeNames.fund}
+    //             >
+    //               <span> Fund (lock)</span>
+    //             </Link>
+    //           </NavItem>
+    //         )}
+    //       </Nav>
+
+    //       <Nav className='ml-auto'>
+    //         {isLoggedIn && (
+    //           <>
+    //             <NavItem>
+    //               <Link to={routeNames.statistics} className='nav-link'>
+    //                 <FontAwesomeIcon
+    //                   icon={faChartSimple}
+    //                   className='text-muted'
+    //                 />
+    //               </Link>
+    //             </NavItem>
+
+    //             <NavItem>
+    //               <button className='btn btn-link' onClick={handleLogout}>
+    //                 Close
+    //               </button>
+    //             </NavItem>
+    //           </>
+    //         )}
+    //       </Nav>
+    //     </div>
+    //   </BsNavbar>
+    <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+      <Container>
+        {/* <Navbar.Brand href='#home'>React-Bootstrap</Navbar.Brand> */}
         <Link
           className='d-flex align-items-center navbar-brand mr-0'
-          to={isLoggedIn ? routeNames.earn : routeNames.home}
+          to={isLoggedIn ? routeNames.earn : routeNames.earn}
         >
-          <MultiversXLogo className='multiversx-logo' />
-          <span className='dapp-name text-muted'></span>
+          <MiddleLogo className='multiversx-logo' />
+          <span className='text-muted' style={{ marginRight: '15px' }}>
+            Midde Staking{' '}
+          </span>
         </Link>
-
-        <Nav className='ml-auto'>
-          {' '}
-          <NavItem className='ml-auto'>
-            {' '}
+        <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+        <Navbar.Collapse id='responsive-navbar-nav'>
+          <Nav className='me-auto'>
+            {/* STAKE */}
             <Link
               className='d-flex align-items-center navbar-brand mr-10'
               to={routeNames.earn}
             >
-              <span>Earn (stake) </span>
+              <span>ESDT Staking</span>
             </Link>
-          </NavItem>
-          {isLoggedIn && (
-            <NavItem className='ml-auto'>
+
+            <Link
+              className='d-flex align-items-center navbar-brand mr-10'
+              to={routeNames.earn}
+            >
+              <span>
+                <s>DashBoard</s>
+              </span>
+            </Link>
+
+            <Link
+              className='d-flex align-items-center navbar-brand mr-10'
+              to={routeNames.earn}
+            >
+              <span>
+                <s>Rewards</s>
+              </span>
+            </Link>
+
+            <Link
+              className='d-flex align-items-center navbar-brand mr-10'
+              to={routeNames.earn}
+            >
+              <span>
+                <s>Tokenomics</s>
+              </span>
+            </Link>
+
+            {isLoggedIn && (
               <Link
                 className='d-flex align-items-center navbar-brand mr-10'
                 to={routeNames.fund}
               >
-                <span> Fund (lock)</span>
+                <span>Deposit</span>
               </Link>
-            </NavItem>
-          )}
-        </Nav>
-
-        <Nav className='ml-auto'>
-          {isLoggedIn && (
-            <>
-              <NavItem>
-                <Link to={routeNames.statistics} className='nav-link'>
-                  <FontAwesomeIcon
-                    icon={faChartSimple}
-                    className='text-muted'
-                  />
+            )}
+            {/* <Nav.Link href='#pricing'>Pricing</Nav.Link>
+            <NavDropdown title='Dropdown' id='collasible-nav-dropdown'>
+              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.2'>
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href='#action/3.4'>
+                Separated link
+              </NavDropdown.Item>
+            </NavDropdown> */}
+          </Nav>
+          <Nav className='ml-auto'>
+            {isLoggedIn && (
+              <>
+                <Link
+                  to={routeNames.statistics}
+                  className='nav-link text-white'
+                >
+                  <FontAwesomeIcon icon={faChartSimple} className='' />
                 </Link>
-              </NavItem>
-
-              <NavItem>
-                <button className='btn btn-link' onClick={handleLogout}>
-                  Close
+                <button
+                  className='btn btn-link text-white'
+                  onClick={handleLogout}
+                >
+                  Disconnect
                 </button>
-              </NavItem>
-            </>
-          )}
-        </Nav>
-      </div>
-    </BsNavbar>
+              </>
+            )}
+          </Nav>
+          {/* <Nav>
+            <Nav.Link href='#deets'>More deets</Nav.Link>
+            <Nav.Link eventKey={2} href='#memes'>
+              Dank memes
+            </Nav.Link>
+          </Nav> */}
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };

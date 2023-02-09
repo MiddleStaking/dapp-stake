@@ -36,15 +36,12 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
       const load: any = localStorage.getItem(
         'token_position_' + stakedToken + '_' + rewardedToken
       );
-      console.log(JSON.parse(load));
       const storage = JSON.parse(load);
       if (storage) {
         setTokenPosition(storage);
       }
-      console.log('USING STORAGE!');
       return;
     }
-    console.log('refreshing storage');
 
     try {
       const query = smartContract.createQuery({
