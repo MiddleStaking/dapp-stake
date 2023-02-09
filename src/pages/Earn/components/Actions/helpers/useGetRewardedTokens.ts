@@ -26,10 +26,8 @@ export const useGetRewardedTokens = (stakedToken: string) => {
       const tokens = storage?.split(',');
 
       setRewardedTokens(tokens ? tokens : []);
-      console.log('USING STORAGE!');
       return;
     }
-    console.log('refreshing storage');
 
     try {
       const query = smartContract.createQuery({

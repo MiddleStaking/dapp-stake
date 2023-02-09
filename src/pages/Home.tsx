@@ -3,12 +3,22 @@ import { Link } from 'react-router-dom';
 import { AuthRedirectWrapper } from 'components';
 import { dAppName } from 'config';
 import { routeNames } from 'routes';
+import { ReactComponent as MiddleLogo } from './../assets/img/middlestaking.svg';
 
 const HomePage = () => {
   return (
     <div className='d-flex flex-fill align-items-center container'>
-      <div className='row w-100'>
-        <div className='col-12 col-md-8 col-lg-5 mx-auto'>
+      <div className='row w-100' style={{ marginBottom: '200px' }}>
+        <div className='col-12 col-md-8 col-lg-5 mx-auto '>
+          <MiddleLogo
+            className='multiversx-logo'
+            style={{
+              width: '100%',
+              height: '150px',
+              margin: '0px',
+              padding: '0px'
+            }}
+          />
           <div className='card shadow-sm rounded p-4 border-0'>
             <div className='card-body text-center'>
               <h2 className='mb-3' data-testid='title'>
@@ -16,8 +26,8 @@ const HomePage = () => {
               </h2>
 
               <p className='mb-3'>
-                This is an MultiversX dapp sample.
-                <br /> Login using your MultiversX wallet.
+                This is an MultiversX dapp.
+                <br /> Login using your wallet.
               </p>
 
               <Link

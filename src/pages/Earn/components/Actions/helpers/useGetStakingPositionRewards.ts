@@ -67,11 +67,6 @@ export const useGetStakingPositionRewards = (
       setTime(new Date());
       if (stake_amount > BigInt(0)) {
         getStakingPositionRewards();
-        console.log('effect');
-        console.log(
-          rewardedToken + ' ' + stakedToken + ' ' + rewardsAmount.toString()
-        );
-        console.log(time);
       } else {
         stake_amount = BigInt(0);
       }

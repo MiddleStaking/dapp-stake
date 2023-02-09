@@ -23,12 +23,8 @@ export const PoolInfo = ({
   }
 
   let fees = BigInt(10);
-  console.log('fees');
-  console.log(tokenPosition);
   if (tokenPosition.fee_percentage) {
     fees = BigInt(tokenPosition.fee_percentage) / BigInt(100);
-    console.log('feesdiv');
-    console.log(fees.toString());
   }
 
   const speed =

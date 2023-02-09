@@ -92,7 +92,7 @@
     
     .blueButton {
         border-color: #7c7c7c;
-        background-color: rgb(137 171 238);
+        background-color: rgb(233 244 247);
         //background: -webkit-gradient(linear, left top, left bottom, from(rgb(137 171 238)), to(rgb(184 218 255)));
     }
     
@@ -117,4 +117,15 @@
 
 .sub2 {
     padding: 0px;
+}
+.token-card a {
+    color: white;
+}
+
+.smallInfoLogo {
+    width: 15px;
+}
+
+.mediumInfoLogo {
+    width: 150px;
 }
