@@ -10,7 +10,9 @@ import Popover from 'react-bootstrap/Popover';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import image from './../../../assets/img/background2.png';
+import notFound from './../../../assets/img/notfound.svg';
 import { ActionClaimRewards } from './Actions';
+import { useGetESDTInformations } from './Actions/helpers';
 import {
   useGetTokenPosition,
   useGetStakingPosition,
@@ -18,19 +20,25 @@ import {
 } from './Actions/helpers';
 import StakeModal from './StakeModal';
 import UnstakeModal from './UnstakeModal';
-export const PoolInfo = ({
-  stakedToken,
-  rewardedToken,
-  balance,
-  sdecimals,
-  rdecimals,
-  image1,
-  image2
-}: any) => {
+
+export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
 
+  const staked_esdt_info = useGetESDTInformations(stakedToken);
+  const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
+  const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
+  const rdecimals = rewarded_esdt_info?.decimals
+    ? rewarded_esdt_info?.decimals
+    : 0;
+
+  const image1 = staked_esdt_info?.assets?.svgUrl
+    ? staked_esdt_info?.assets?.svgUrl
+    : notFound;
+  const image2 = rewarded_esdt_info?.assets?.svgUrl
+    ? rewarded_esdt_info?.assets?.svgUrl
+    : notFound;
   const tokenPosition = useGetTokenPosition(stakedToken, rewardedToken);
   const stakingPosition = useGetStakingPosition(stakedToken, rewardedToken);
   const stakingPositionRewards = useGetStakingPositionRewards(

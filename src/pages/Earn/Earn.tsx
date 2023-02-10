@@ -16,7 +16,7 @@ import { AxiosError } from 'axios';
 import { apiTimeout, contractAddress, transactionSize } from 'config';
 import { EarnLayout } from './components';
 
-const EarnPage = () => {
+const EarnPage = ({ children }: React.PropsWithChildren) => {
   const {
     network: { apiAddress }
   } = useGetNetworkConfig();
