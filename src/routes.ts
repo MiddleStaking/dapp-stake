@@ -1,8 +1,10 @@
 import { RouteType } from '@multiversx/sdk-dapp/types';
 import { dAppName } from 'config';
 import { withPageTitle } from './components/PageTitle';
-
 import { Dashboard, Home, Statistics, Earn, Fund } from './pages';
+import Faucet from 'pages/Faucet';
+import Rewards from 'pages/Rewards';
+import Tokenomics from 'pages/Tokenomics';
 
 export const routeNames = {
   home: '/',
@@ -10,7 +12,10 @@ export const routeNames = {
   statistics: '/statistics',
   unlock: '/unlock',
   earn: '/earn',
-  fund: '/fund'
+  fund: '/fund',
+  faucet: '/faucet',
+  rewards: '/rewards',
+  tokenomics: '/tokenomics'
 };
 
 interface RouteWithTitleType extends RouteType {
@@ -52,6 +57,24 @@ export const routes: RouteWithTitleType[] = [
     title: 'Fund',
     component: Fund,
     authenticatedRoute: true
+  },
+  {
+    path: routeNames.faucet,
+    title: 'Faucet',
+    component: Faucet,
+    authenticatedRoute: true
+  },
+  {
+    path: routeNames.rewards,
+    title: 'Rewards',
+    component: Rewards,
+    authenticatedRoute: true
+  },
+  {
+    path: routeNames.tokenomics,
+    title: 'Tokenomics',
+    component: Tokenomics,
+    authenticatedRoute: false
   }
 ];
 

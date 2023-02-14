@@ -1,0 +1,24 @@
+.cardscolor {
+  background: rgba(36, 37, 38, 0.5);
+  border: 1px solid #49494d;
+  border-radius: 12px;
+  margin: 3px;
+}
+
+.colorborder {
+  background: transparent !important;
+  border: none !important;
+}
+
+.cardback {
+  padding: 5px;
+  margin: 10px;
+  color: #eee;
+  background-image: url('./../../assets/img/background2.png');
+  background-position: center;
+
+  padding: 10px;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  border-radius: 25px;
+}

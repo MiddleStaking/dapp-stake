@@ -109,21 +109,7 @@ export const PoolInfo = ({
             </Col>
           </Row>{' '}
           <Row>
-            <Col>
-              {fees > 0 ? (
-                <>
-                  {' '}
-                  <button onClick={() => setShowFees(true)}>
-                    PAY TO REMOVE FEES
-                  </button>
-                </>
-              ) : (
-                <>
-                  {' '}
-                  <button disabled={true}>FEES PAID</button>
-                </>
-              )}
-            </Col>
+            <Col></Col>
             <Col>
               <button onClick={() => setShow(true)}>
                 ADD LOCKED TOKEN TO EXISTING POOL
@@ -154,8 +140,13 @@ export const PoolInfo = ({
               </Col>
             </Row>
             <Row>
+              <Col></Col>
               <Col>
-                {fees > 0 ? (
+                <button onClick={() => setShow(true)}>
+                  LOCK TOKEN TO NEW POOL
+                </button>
+
+                {/* {fees > 0 ? (
                   <>
                     {' '}
                     <button onClick={() => setShowFees(true)}>
@@ -167,12 +158,7 @@ export const PoolInfo = ({
                     {' '}
                     <button disabled={true}>FEES PAID</button>
                   </>
-                )}
-              </Col>{' '}
-              <Col>
-                <button onClick={() => setShow(true)}>
-                  LOCK TOKEN TO NEW POOL
-                </button>
+                )} */}
               </Col>
             </Row>{' '}
           </div>
