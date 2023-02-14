@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCircleInfo,
+  faDollar,
+  faEarth,
+  faChartSimple
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
@@ -10,7 +15,7 @@ import Popover from 'react-bootstrap/Popover';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import image from './../../../assets/img/background2.png';
-import notFound from './../../../assets/img/notfound.svg';
+import notFound from './../../../assets/img/notfoundc.svg';
 import { ActionClaimRewards } from './Actions';
 import { useGetESDTInformations } from './Actions/helpers';
 import {
@@ -20,8 +25,13 @@ import {
 } from './Actions/helpers';
 import StakeModal from './StakeModal';
 import UnstakeModal from './UnstakeModal';
-
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import eCompass from './../../../assets/img/ecompass.svg';
+import jexchange from './../../../assets/img/jexchange.svg';
+import twitter from './../../../assets/img/twitter.svg';
+import styles from './../earn.module.scss';
 export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
+  const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
@@ -39,6 +49,7 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
   const image2 = rewarded_esdt_info?.assets?.svgUrl
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
+
   const tokenPosition = useGetTokenPosition(stakedToken, rewardedToken);
   const stakingPosition = useGetStakingPosition(stakedToken, rewardedToken);
   const stakingPositionRewards = useGetStakingPositionRewards(
@@ -46,6 +57,26 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
     rewardedToken,
     stakingPosition.stake_amount
   );
+
+  const staked_value = staked_esdt_info?.price
+    ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
+      staked_esdt_info?.price
+    : 0;
+
+  const my_staked_value = staked_esdt_info?.price
+    ? Number(BigInt(stakingPosition.stake_amount) / BigInt(10 ** sdecimals)) *
+      staked_esdt_info?.price
+    : 0;
+
+  const my_rewards_value = staked_esdt_info?.price
+    ? Number(BigInt(stakingPositionRewards) / BigInt(10 ** sdecimals)) *
+      staked_esdt_info?.price
+    : 0;
+
+  const rewarded_value = rewarded_esdt_info?.price
+    ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
+      rewarded_esdt_info?.price
+    : 0;
 
   const stakedPopover = (
     <Popover id='popover-basic'>
@@ -205,6 +236,74 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
             </Col>
             <Col className='col-8 topName'>
               <h4>Earn : {rewardedToken}</h4>
+              <div className='rewardedInfo'>
+                <div className='col-6 float-left '>
+                  <a
+                    className='text-white'
+                    href={
+                      network.explorerAddress +
+                      '/tokens/' +
+                      rewarded_esdt_info?.identifier
+                    }
+                    target={'_blank'}
+                    rel={'noreferrer'}
+                  >
+                    <img
+                      className='smallInfoLogo'
+                      src={
+                        rewarded_esdt_info?.assets?.svgUrl
+                          ? rewarded_esdt_info?.assets?.svgUrl
+                          : notFound
+                      }
+                    />{' '}
+                    <br />
+                    Explorer
+                  </a>
+                </div>
+
+                {rewarded_esdt_info?.price ? (
+                  <div className='col-6 float-left'>
+                    <FontAwesomeIcon icon={faDollar} /> <br />
+                    {Number(rewarded_esdt_info?.price).toLocaleString()}
+                  </div>
+                ) : (
+                  ''
+                )}
+
+                {rewarded_esdt_info?.assets?.website ? (
+                  <div className='col-6 float-left'>
+                    <a
+                      className='text-white'
+                      href={rewarded_esdt_info?.assets?.website}
+                      target={'_blank'}
+                      rel={'noreferrer'}
+                    >
+                      <FontAwesomeIcon icon={faEarth} className='text-muted' />{' '}
+                      <br /> Website
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+
+                {rewarded_esdt_info?.assets?.social?.twitter ? (
+                  <div className='col-6 float-left'>
+                    <img className='smallInfoLogo' src={twitter} />
+                    <br />
+                    <a
+                      className='text-white'
+                      href={rewarded_esdt_info?.assets?.social?.twitter}
+                      target={'_blank'}
+                      rel={'noreferrer'}
+                    >
+                      {' '}
+                      Twitter
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
             </Col>
 
             <Col className='col-12'>
@@ -226,6 +325,14 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                   data-testid='balance'
                   digits={2}
                 />{' '}
+                {rewarded_esdt_info?.price && (
+                  <>
+                    {' '}
+                    <br />
+                    {rewarded_value.toLocaleString()}{' '}
+                    <FontAwesomeIcon icon={faDollar} />
+                  </>
+                )}
                 <br />
                 <OverlayTrigger
                   placement='right'
@@ -285,7 +392,13 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                   data-testid='staked'
                   digits={2}
                 />{' '}
-                <br />
+                {staked_esdt_info?.price && (
+                  <>
+                    <br />
+                    {staked_value.toLocaleString()}{' '}
+                    <FontAwesomeIcon icon={faDollar} />
+                  </>
+                )}
               </div>{' '}
             </Col>
           </Row>
@@ -362,6 +475,12 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                           data-testid='staked'
                           digits={2}
                         />{' '}
+                        {staked_esdt_info?.price && (
+                          <>
+                            {my_staked_value.toLocaleString()}{' '}
+                            <FontAwesomeIcon icon={faDollar} />{' '}
+                          </>
+                        )}
                         <br />
                       </div>{' '}
                     </Col>
@@ -482,7 +601,13 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                           data-testid='balance'
                           digits={2}
                         />
-                      </h4>
+                      </h4>{' '}
+                      {rewarded_esdt_info?.price && (
+                        <>
+                          {my_rewards_value.toLocaleString()}{' '}
+                          <FontAwesomeIcon icon={faDollar} />
+                        </>
+                      )}
                     </div>
                   ) : (
                     <></>

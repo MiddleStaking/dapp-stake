@@ -1,7 +1,18 @@
 import React from 'react';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { logout } from '@multiversx/sdk-dapp/utils';
-import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBoltLightning,
+  faChartSimple,
+  faFaucet,
+  faLock,
+  faRotate,
+  faClockRotateLeft,
+  faVault,
+  faScrewdriverWrench,
+  faChartColumn,
+  faPiggyBank
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //*import { Navbar as BsNavbar, NavItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -12,10 +23,11 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 
 export const MyNavbar = () => {
   const isLoggedIn = useGetIsLoggedIn();
-
+  const { network } = useGetNetworkConfig();
   const handleLogout = () => {
     logout(`${window.location.origin}/unlock`);
   };
@@ -119,7 +131,9 @@ export const MyNavbar = () => {
               className='d-flex align-items-center navbar-brand mr-10'
               to={routeNames.earn}
             >
-              <span>ESDT Staking</span>
+              {' '}
+              <FontAwesomeIcon icon={faBoltLightning} className='mr-1' />
+              <span> ESDT Staking</span>
             </Link>
 
             <Link
@@ -127,26 +141,30 @@ export const MyNavbar = () => {
               to={routeNames.earn}
             >
               <span>
+                {' '}
+                <FontAwesomeIcon icon={faPiggyBank} className='mr-1' />
                 <s>DashBoard</s>
               </span>
             </Link>
 
-            <Link
-              className='d-flex align-items-center navbar-brand mr-10'
-              to={routeNames.earn}
-            >
-              <span>
-                <s>Rewards</s>
-              </span>
-            </Link>
+            {isLoggedIn && (
+              <Link
+                className='d-flex align-items-center navbar-brand mr-10'
+                to={routeNames.rewards}
+              >
+                {' '}
+                <FontAwesomeIcon icon={faClockRotateLeft} className='mr-1' />
+                <span>Rewards</span>
+              </Link>
+            )}
 
             <Link
               className='d-flex align-items-center navbar-brand mr-10'
-              to={routeNames.earn}
+              to={routeNames.tokenomics}
             >
-              <span>
-                <s>Tokenomics</s>
-              </span>
+              {' '}
+              <FontAwesomeIcon icon={faChartColumn} className='mr-1' />
+              <span>Tokenomics</span>
             </Link>
 
             {isLoggedIn && (
@@ -154,6 +172,8 @@ export const MyNavbar = () => {
                 className='d-flex align-items-center navbar-brand mr-10'
                 to={routeNames.fund}
               >
+                {' '}
+                <FontAwesomeIcon icon={faLock} className='mr-1' />
                 <span>Deposit</span>
               </Link>
             )}
@@ -171,6 +191,25 @@ export const MyNavbar = () => {
             </NavDropdown> */}
           </Nav>
           <Nav className='ml-auto'>
+            {isLoggedIn && network.chainId != '1' && (
+              <>
+                <Link to={routeNames.faucet} className='nav-link text-white'>
+                  <FontAwesomeIcon icon={faFaucet} className='' /> Faucet
+                </Link>
+              </>
+            )}
+            {network.chainId == '1' && (
+              <>
+                <a
+                  href='https://devnet-app.middlestaking.fr'
+                  className='nav-link text-white'
+                >
+                  <FontAwesomeIcon icon={faScrewdriverWrench} className='' />{' '}
+                  Devnet
+                </a>
+              </>
+            )}
+
             {isLoggedIn && (
               <>
                 <Link

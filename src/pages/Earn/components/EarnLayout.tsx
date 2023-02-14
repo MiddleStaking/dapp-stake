@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import './PoolCol.scss';
 import styles from './../earn.module.scss';
-import { faEarth, faChartSimple } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEarth,
+  faChartSimple,
+  faDollar
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
@@ -12,7 +16,7 @@ import { defaultToken } from 'config';
 import image from './../../../assets/img/background2.png';
 import eCompass from './../../../assets/img/ecompass.svg';
 import jexchange from './../../../assets/img/jexchange.svg';
-import notFound from './../../../assets/img/notfound.svg';
+import notFound from './../../../assets/img/notfoundc.svg';
 import twitter from './../../../assets/img/twitter.svg';
 import { useGetRewardedTokens } from './Actions/helpers';
 import { useGetStakedTokens } from './Actions/helpers';
@@ -179,6 +183,15 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faChartSimple} /> Supply :{' '}
                             {Number(esdt_info?.supply).toLocaleString()}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+
+                        {esdt_info?.price ? (
+                          <div className='col-6 float-left'>
+                            <FontAwesomeIcon icon={faDollar} />{' '}
+                            {Number(esdt_info?.price).toLocaleString()}
                           </div>
                         ) : (
                           ''
