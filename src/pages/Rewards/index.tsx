@@ -51,7 +51,7 @@ const Rewards = () => {
   React.useEffect(() => {
     const fetchRewardsList = async () => {
       const { data } = await axios(
-        'https://app.middlestaking.fr/rewards.php?var1=accounts&var2=' + address
+        'https://api.middlestaking.fr/rewards.php?var1=accounts&var2=' + address
       );
       setPoints({
         points: data.points

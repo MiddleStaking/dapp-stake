@@ -122,12 +122,14 @@ const FundModal = (props: any) => {
             value={tokenAmount}
           />
         </Form.Group>
-        <ActionFund
-          stakedToken={props.stakedToken}
-          rewardedToken={props.rewardedToken}
-          user_fund={bigAmount}
-          agreement={agreement}
-        />{' '}
+        <Form.Group className='m-auto' onClick={props.onClose}>
+          <ActionFund
+            stakedToken={props.stakedToken}
+            rewardedToken={props.rewardedToken}
+            user_fund={bigAmount}
+            agreement={agreement}
+          />{' '}
+        </Form.Group>
         <label>
           <input checked={agreement} onChange={handleChange} type='checkbox' />{' '}
           I understand that deposit is final and i want to fund pool [
@@ -135,20 +137,6 @@ const FundModal = (props: any) => {
         </label>
         <div className='modal-footer'>
           {' '}
-          {props.fees > 0 ? (
-            <>
-              (i) {props.fees.toString()}% of (1)[{props.rewardedToken}]
-              deposited in pool will go to the Fee&apos;s Wallet. <br />{' '}
-              <button onClick={() => setShowFees(true)}>
-                PAY TO REMOVE FEES
-              </button>
-            </>
-          ) : (
-            <>
-              (i) Deposit Fees have been paid
-              <br />
-            </>
-          )}
           <button onClick={props.onClose} className='button'>
             Close
           </button>

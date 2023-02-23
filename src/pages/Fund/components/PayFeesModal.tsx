@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Col, Form } from 'react-bootstrap';
 import './../../../assets/Modal.css';
 import { ActionRemovePoolFees } from './Actions/ActionRemovePoolFees';
 const PayFeesModal = (props: any) => {
@@ -33,11 +34,13 @@ const PayFeesModal = (props: any) => {
           <br />
           Owner of the contract (we) can adjust speed of the pool.
         </div>
-        <ActionRemovePoolFees
-          stakedToken={props.stakedToken}
-          rewardedToken={props.rewardedToken}
-          agreement={agreement}
-        />{' '}
+        <Form.Group className='m-auto' onClick={props.onClose}>
+          <ActionRemovePoolFees
+            stakedToken={props.stakedToken}
+            rewardedToken={props.rewardedToken}
+            agreement={agreement}
+          />{' '}
+        </Form.Group>
         <label>
           <input checked={agreement} onChange={handleChange} type='checkbox' />{' '}
           I understand that payment is final and i want to set 0% fee deposit

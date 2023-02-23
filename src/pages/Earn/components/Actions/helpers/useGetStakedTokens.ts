@@ -36,7 +36,8 @@ export const useGetStakedTokens = () => {
       setStakedTokens(tokens?.valueOf()?.toString(10).split(','));
 
       //storage of 15 minutes
-      const expire = time.getTime() + 1000 * 60 * 15;
+      const expire = time.getTime() + 1000 * 10;
+      //const expire = time.getTime() + 1000 * 60 * 15;
       localStorage.setItem(
         'staked_tokens',
         tokens?.valueOf()?.toString(10).split(',')
