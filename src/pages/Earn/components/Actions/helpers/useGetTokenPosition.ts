@@ -75,7 +75,8 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
         });
 
         //storage of 5 minutes
-        const expire = time.getTime() + 1000 * 60 * 5;
+        //const expire = time.getTime() + 1000 * 60 * 5;
+        const expire = time.getTime() + 1000 * 10;
         localStorage.setItem(
           'token_position_' + stakedToken + '_' + rewardedToken,
           JSON.stringify({

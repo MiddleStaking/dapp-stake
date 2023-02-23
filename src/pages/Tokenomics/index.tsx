@@ -53,7 +53,9 @@ const Tokenomics = () => {
 
   React.useEffect(() => {
     const fetchTokenList = async () => {
-      const { data } = await axios('https://api.middlestaking.fr/staking');
+      const { data } = await axios(
+        'https://internal-api.middlestaking.fr/staking'
+      );
 
       setContracts({
         contracts: data.contracts ? data.contracts : [],

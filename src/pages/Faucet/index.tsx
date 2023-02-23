@@ -38,8 +38,8 @@ const Faucet = () => {
         tx_result: ''
       }
     ],
-    network: 'T',
-    token_id: '1'
+    network: 'D',
+    token_id: '2'
   });
   //Tableau des tokens du faucet
   const [tokens, setTokens] = React.useState({
@@ -84,7 +84,7 @@ const Faucet = () => {
 
   //Token selectionné
   const [ctoken, setToken] = React.useState({
-    token_id: '1',
+    token_id: '2',
     token_index: 0
   });
 
