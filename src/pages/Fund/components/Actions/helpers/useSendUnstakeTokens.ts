@@ -10,7 +10,6 @@ import {
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
 import { smartContract } from './smartContract';
-import { defaultToken } from 'config';
 
 const resultsParser = new ResultsParser();
 

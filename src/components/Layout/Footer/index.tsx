@@ -10,7 +10,7 @@ export const Footer = () => {
             target: '_blank'
           }}
           className='d-flex align-items-center'
-          href='https://multiversx.com/'
+          href='https://middlestaking.fr/'
         >
           Made with <HeartIcon className='mx-1' /> by Middle Staking.
         </a>

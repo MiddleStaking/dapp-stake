@@ -1,12 +1,9 @@
 import * as React from 'react';
-import * as DappUI from '@multiversx/sdk-dapp/UI';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
-
-import { Col, Container, Row } from 'react-bootstrap';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import axios from 'axios';
+import { Col, Container, Row } from 'react-bootstrap';
 import styles from './tokenomics.module.scss';
 
 const Tokenomics = () => {

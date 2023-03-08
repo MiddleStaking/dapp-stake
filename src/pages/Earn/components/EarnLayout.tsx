@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './PoolCol.scss';
-import styles from './../earn.module.scss';
 import {
   faEarth,
   faChartSimple,
@@ -236,7 +235,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                           })
                           .map((token) =>
                             token.charts ? (
-                              <div className='col-6 float-left'>
+                              <div key={stoken} className='col-6 float-left'>
                                 <a
                                   href={token.charts}
                                   target={'_blank'}
@@ -259,7 +258,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                           })
                           .map((token) =>
                             token.market ? (
-                              <div className='col-6 float-left'>
+                              <div key={stoken} className='col-6 float-left'>
                                 <a
                                   href={token.market}
                                   target={'_blank'}
@@ -283,12 +282,13 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
               </div>
             </div>
           </div>
+
           <div className='row pt-4'>
             {rewardedTokens[0] != '' ? (
               rewardedTokens.map((rtoken) => (
                 <div
                   className='PoolCol col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4'
-                  key={rtoken}
+                  key={stoken + rtoken}
                 >
                   {' '}
                   <PoolInfo

@@ -1,11 +1,8 @@
 import * as React from 'react';
-import { contractAddress } from 'config';
-import { useGetStakedTokens } from './Actions/helpers';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { contractAddress } from 'config';
 export const TopInfo = () => {
-  const stakedTokens = useGetStakedTokens();
-
   return (
     <div className='text-white' data-testid='topInfo'>
       <div className='mb-4'>

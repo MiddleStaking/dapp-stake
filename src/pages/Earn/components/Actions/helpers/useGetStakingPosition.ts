@@ -14,7 +14,11 @@ import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 
-export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
+export const useGetStakingPosition = (
+  stakedToken: any,
+  rewardedToken: any,
+  hasPendingTransactions: boolean
+) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const [stakingPosition, setStakingPosition] = useState({
@@ -23,6 +27,9 @@ export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
   });
 
   const getStakingPosition = async () => {
+    if (hasPendingTransactions == true) {
+      return;
+    }
     try {
       const query = smartContract.createQuery({
         func: new ContractFunction('getStakingPosition'),
@@ -48,6 +55,11 @@ export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
           stake_amount: tab[0].toFixed(),
           last_action_block: tab[1].toFixed()
         });
+      } else {
+        setStakingPosition({
+          stake_amount: BigInt(0),
+          last_action_block: BigInt(0)
+        });
       }
     } catch (err) {
       console.error('Unable to call getStakingPosition', err);
@@ -56,7 +68,7 @@ export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
 
   useEffect(() => {
     getStakingPosition();
-  }, []);
+  }, [hasPendingTransactions]);
 
   return stakingPosition;
 };

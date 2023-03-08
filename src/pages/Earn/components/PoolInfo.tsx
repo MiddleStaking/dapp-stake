@@ -30,12 +30,16 @@ import eCompass from './../../../assets/img/ecompass.svg';
 import jexchange from './../../../assets/img/jexchange.svg';
 import twitter from './../../../assets/img/twitter.svg';
 import styles from './../earn.module.scss';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
+
 export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
+  const { hasPendingTransactions } = useGetPendingTransactions();
 
+  console.log(hasPendingTransactions);
   const staked_esdt_info = useGetESDTInformations(stakedToken);
   const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
   const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
@@ -51,7 +55,11 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
     : notFound;
 
   const tokenPosition = useGetTokenPosition(stakedToken, rewardedToken);
-  const stakingPosition = useGetStakingPosition(stakedToken, rewardedToken);
+  const stakingPosition = useGetStakingPosition(
+    stakedToken,
+    rewardedToken,
+    hasPendingTransactions
+  );
   const stakingPositionRewards = useGetStakingPositionRewards(
     stakedToken,
     rewardedToken,
