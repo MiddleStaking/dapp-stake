@@ -28,7 +28,7 @@ export const ActionRemovePoolFees = ({
     })
     .map((token) => token.decimals);
 
-  const price = BigInt('10000000000000000000000');
+  const price = BigInt('5000000000000000000000');
 
   function bigToHexDec(d: bigint) {
     let result = '';

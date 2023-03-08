@@ -1,8 +1,8 @@
 export const contractAddress =
-  'erd1qqqqqqqqqqqqqpgq0jmmq90wqrp2qrvmnqsfplwkrx02w6lvch9semu4hn';
+  'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
 //  'erd1qqqqqqqqqqqqqpgqhcj6ez8y3zvctjtm78flxvqkedn7peh4ch9shlfnmr';
 
-export const defaultToken = 'STAKE-1c6362';
+export const defaultToken = 'MID-7f1d59';
 export const dAppName = 'Middle Staking';
 
 // Generate your own WalletConnect 2 ProjectId here: https://cloud.walletconnect.com/app

@@ -87,8 +87,4 @@ const EarnPage = ({ children }: React.PropsWithChildren) => {
   return <TransactionsTable transactions={transactions} />;
 };
 
-export const Earn = () => (
-  <EarnLayout>
-    <EarnPage />
-  </EarnLayout>
-);
+export const Earn = () => <EarnLayout>{/* <EarnPage /> */}</EarnLayout>;

@@ -1,10 +1,10 @@
 import { RouteType } from '@multiversx/sdk-dapp/types';
 import { dAppName } from 'config';
-import { withPageTitle } from './components/PageTitle';
-import { Dashboard, Home, Statistics, Earn, Fund } from './pages';
 import Faucet from 'pages/Faucet';
 import Rewards from 'pages/Rewards';
 import Tokenomics from 'pages/Tokenomics';
+import { withPageTitle } from './components/PageTitle';
+import { Dashboard, Home, Statistics, Earn, Fund } from './pages';
 
 export const routeNames = {
   home: '/',
