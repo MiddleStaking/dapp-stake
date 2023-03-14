@@ -7,15 +7,15 @@ export const useGetUserESDT = () => {
   const { network } = useGetNetworkConfig();
   const [esdtBalance, setEsdtBalance] = useState([
     {
-      type: 'FungibleESDT',
-      identifier: '777DEV-0ddfcf',
-      name: 'DJOY',
-      ticker: '777DEV-0ddfcf',
-      owner: 'erd1lkyhxmrfpfx3fftfxdt43l6fes06md9jqd0k9hfq0jyl8h36lrqswg3uch',
+      type: '',
+      identifier: '',
+      name: '',
+      ticker: '',
+      owner: '',
       decimals: 18,
       isPaused: false,
-      transactions: 144,
-      accounts: 85,
+      transactions: 0,
+      accounts: 0,
       canUpgrade: true,
       canMint: true,
       canBurn: true,
@@ -27,17 +27,20 @@ export const useGetUserESDT = () => {
     }
   ]);
   const address = useGetAccountInfo().address;
+
   const url = '/accounts/' + address + '/tokens';
   const getUserESDT = async () => {
-    try {
-      const { data } = await axios.get<[]>(url, {
-        baseURL: network.apiAddress,
-        params: {}
-      });
-      setEsdtBalance(data);
-    } catch (err) {
-      console.error('Unable to fetch Tokens');
-      setEsdtBalance([]);
+    if (address != '') {
+      try {
+        const { data } = await axios.get<[]>(url, {
+          baseURL: network.apiAddress,
+          params: {}
+        });
+        setEsdtBalance(data);
+      } catch (err) {
+        console.error('Unable to fetch Tokens');
+        setEsdtBalance([]);
+      }
     }
   };
 

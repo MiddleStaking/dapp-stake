@@ -69,6 +69,7 @@ export const ActionUnstake = ({
                 style={{ width: 'auto' }}
                 className='silverButton butLineBig'
                 onClick={sendUnstakeTransaction}
+                disabled={!user_fund}
               >
                 Unstake
               </button>

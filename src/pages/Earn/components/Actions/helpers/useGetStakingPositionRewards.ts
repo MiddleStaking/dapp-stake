@@ -17,7 +17,8 @@ const resultsParser = new ResultsParser();
 export const useGetStakingPositionRewards = (
   stakedToken: any,
   rewardedToken: any,
-  stake_amount: bigint
+  stake_amount: bigint,
+  hasPendingTransactions: boolean
 ) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
@@ -26,7 +27,10 @@ export const useGetStakingPositionRewards = (
 
   const getStakingPositionRewards = async () => {
     //Dont call if no stake
-    if (stake_amount == BigInt(0)) {
+    if (stake_amount == BigInt(0) || address == '') {
+      return;
+    }
+    if (hasPendingTransactions == true) {
       return;
     }
     try {
@@ -73,7 +77,7 @@ export const useGetStakingPositionRewards = (
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [stake_amount, time]);
+  }, [stake_amount, hasPendingTransactions, time]);
 
   return rewardsAmount;
 };

@@ -71,6 +71,7 @@ export const ActionStake = ({
                 className='goldButton butLineBig'
                 style={{ width: 'auto' }}
                 onClick={sendStakeTransaction}
+                disabled={!user_fund}
               >
                 {name}
               </button>
