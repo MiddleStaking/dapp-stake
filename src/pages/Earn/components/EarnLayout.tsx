@@ -44,7 +44,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   const tokens_extra_informations = [
     {
-      identifier: 'STAKE-1c6362',
+      identifier: 'MID-7f1d59',
       charts: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
       market:
         'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79'

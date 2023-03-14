@@ -32,8 +32,7 @@ export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
 
       const proxy = new ProxyNetworkProvider(network.apiAddress);
       const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition =
-        smartContract.getEndpoint('getStakingPosition');
+      const endpointDefinition = smartContract.getEndpoint('unstake');
       const { firstValue: amount } = resultsParser.parseQueryResponse(
         queryResponse,
         endpointDefinition

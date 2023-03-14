@@ -34,26 +34,28 @@ export const useGetRewardedTokens = (stakedToken: string) => {
         func: new ContractFunction('getRewardedTokens'),
         args: [new TokenIdentifierValue(stakedToken)]
       });
-      const proxy = new ProxyNetworkProvider(network.apiAddress);
+      //const proxy = new ProxyNetworkProvider(network.apiAddress);
+      const proxy = new ProxyNetworkProvider('https://api.middlestaking.fr');
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getRewardedTokens');
       const { firstValue: tokens } = resultsParser.parseQueryResponse(
         queryResponse,
         endpointDefinition
       );
-      setRewardedTokens(tokens?.valueOf()?.toString(10).split(','));
-
-      //storage of 15 minutes
-      const expire = time.getTime() + 1000 * 10;
-      //const expire = time.getTime() + 1000 * 60 * 15;
-      localStorage.setItem(
-        'rewarded_tokens_' + stakedToken,
-        tokens?.valueOf()?.toString(10).split(',')
-      );
-      localStorage.setItem(
-        'rewarded_tokens_' + stakedToken + '_expire',
-        expire.toString()
-      );
+      if (queryResponse.returnCode == 'ok') {
+        setRewardedTokens(tokens?.valueOf()?.toString(10).split(','));
+        //storage of 15 minutes
+        const expire = time.getTime() + 1000 * 60 * 15;
+        //const expire = time.getTime() + 1000 * 60 * 15;
+        localStorage.setItem(
+          'rewarded_tokens_' + stakedToken,
+          tokens?.valueOf()?.toString(10).split(',')
+        );
+        localStorage.setItem(
+          'rewarded_tokens_' + stakedToken + '_expire',
+          expire.toString()
+        );
+      }
     } catch (err) {
       console.error('Unable to call getRewardedTokens', err);
     }

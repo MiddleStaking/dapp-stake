@@ -14,7 +14,6 @@ import { faBan, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { AxiosError } from 'axios';
 
 import { apiTimeout, contractAddress, transactionSize } from 'config';
-import { DashboardLayout } from './components';
 
 const DashboardPage = () => {
   const {
@@ -87,8 +86,4 @@ const DashboardPage = () => {
   return <TransactionsTable transactions={transactions} />;
 };
 
-export const Dashboard = () => (
-  <DashboardLayout>
-    <DashboardPage />
-  </DashboardLayout>
-);
+export const Dashboard = () => <></>;

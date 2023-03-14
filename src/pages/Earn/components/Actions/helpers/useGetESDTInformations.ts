@@ -75,8 +75,8 @@ export const useGetESDTInformations = (identifier: string) => {
         params: {}
       });
       setEsdtInfo(data);
-      //storage of 60 minutes
-      const expire = time.getTime() + 1000 * 60 * 60;
+      //storage of 10 minutes
+      const expire = time.getTime() + 1000 * 60 * 10;
       localStorage.setItem('esdt_' + identifier, JSON.stringify(data));
       localStorage.setItem('esdt_' + identifier + '_expire', expire.toString());
     } catch (err) {

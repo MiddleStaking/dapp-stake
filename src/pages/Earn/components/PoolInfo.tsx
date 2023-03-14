@@ -39,7 +39,6 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
   const [showUnstake, setShowUnstake] = useState(false);
   const { hasPendingTransactions } = useGetPendingTransactions();
 
-  console.log(hasPendingTransactions);
   const staked_esdt_info = useGetESDTInformations(stakedToken);
   const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
   const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
@@ -63,7 +62,8 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
   const stakingPositionRewards = useGetStakingPositionRewards(
     stakedToken,
     rewardedToken,
-    stakingPosition.stake_amount
+    stakingPosition.stake_amount,
+    hasPendingTransactions
   );
 
   const staked_value = staked_esdt_info?.price

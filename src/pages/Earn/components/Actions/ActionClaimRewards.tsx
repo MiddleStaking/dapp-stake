@@ -33,7 +33,7 @@ export const ActionClaimRewards = ({
       transactions: claimTransaction,
       transactionsDisplayInfo: {
         processingMessage: 'Processing Claim transaction',
-        errorMessage: 'An error has occured Claim Ping',
+        errorMessage: 'An error has occured Claim transaction',
         successMessage: 'Claim transaction successful'
       },
       redirectAfterSign: false

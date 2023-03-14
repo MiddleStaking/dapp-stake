@@ -107,7 +107,7 @@ const StakeModal = (props: any) => {
             onChange={handleTokenAmountChange}
           >
             {' '}
-            <div className='maxInput'>
+            <div className='maxInput' role='button'>
               <a onClick={setToMax}>
                 <u>MAX</u>
               </a>
