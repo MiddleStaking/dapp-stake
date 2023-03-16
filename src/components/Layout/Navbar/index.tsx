@@ -29,7 +29,7 @@ export const MyNavbar = () => {
   const isLoggedIn = useGetIsLoggedIn();
   const { network } = useGetNetworkConfig();
   const handleLogout = () => {
-    logout(`${window.location.origin}/unlock`);
+    logout(`${window.location.origin}/unlocks`);
   };
   //https://react-bootstrap.github.io/components/navbar/
   //good examples
@@ -138,12 +138,13 @@ export const MyNavbar = () => {
 
             <Link
               className='d-flex align-items-center navbar-brand mr-10'
-              to={routeNames.earn}
+              to={routeNames.dashboard}
             >
               <span>
                 {' '}
                 <FontAwesomeIcon icon={faPiggyBank} className='mr-1' />
-                <s>DashBoard</s>
+                <span>DashBoard</span>
+                {/* <s>DashBoard</s> */}
               </span>
             </Link>
 

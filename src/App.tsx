@@ -17,9 +17,10 @@ import {
   walletConnectV2ProjectId,
   sampleAuthenticatedDomains
 } from 'config';
-import { PageNotFound, Unlock } from 'pages';
+import { PageNotFound } from 'pages';
 import { routeNames } from 'routes';
 import { routes } from 'routes';
+import Unlock from 'pages/Unlocks';
 
 export const App = () => {
   return (
@@ -29,7 +30,7 @@ export const App = () => {
       >
         <Router>
           <DappProvider
-            environment={EnvironmentsEnum.devnet}
+            environment={EnvironmentsEnum.mainnet}
             customNetworkConfig={{
               name: 'customConfig',
               apiTimeout,
@@ -42,7 +43,16 @@ export const App = () => {
               <NotificationModal />
               <SignTransactionsModals className='custom-class-for-modals' />
               <Routes>
+                <Route
+                  path={routeNames.unlock + '/:route' + '/:param'}
+                  element={<Unlock />}
+                />
+                <Route
+                  path={routeNames.unlock + '/:route'}
+                  element={<Unlock />}
+                />
                 <Route path={routeNames.unlock} element={<Unlock />} />
+
                 {routes.map((route, index) => (
                   <Route
                     path={route.path}
