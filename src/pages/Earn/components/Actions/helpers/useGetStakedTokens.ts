@@ -27,7 +27,9 @@ export const useGetStakedTokens = () => {
         func: new ContractFunction('getStakedTokens')
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider('https://api.middlestaking.fr');
+      const proxy = new ProxyNetworkProvider(
+        'https://api.middlestaking.fr/' + network.id
+      );
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getStakedTokens');
       const { firstValue: tokens } = resultsParser.parseQueryResponse(
