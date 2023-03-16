@@ -48,6 +48,12 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       charts: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
       market:
         'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79'
+    },
+    {
+      identifier: 'MID-ecb7bf',
+      charts: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
+      market:
+        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79'
     }
   ];
 
