@@ -1,89 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
-import { getTransactions } from '@multiversx/sdk-dapp/apiCalls';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
 
-import {
-  useGetAccount,
-  useGetActiveTransactionsStatus,
-  useGetNetworkConfig
-} from '@multiversx/sdk-dapp/hooks';
+import styles from './styles.module.scss';
+import Cards from './components/Cards';
+import Heading from './components/Heading';
+import Stake from './components/Stake';
+import Withdrawals from './components/Withdrawals';
 
-import { ServerTransactionType } from '@multiversx/sdk-dapp/types';
-import { TransactionsTable, Loader, PageState } from '@multiversx/sdk-dapp/UI';
-import { faBan, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
-import { AxiosError } from 'axios';
+export const Dashboard = () => {
+  const { address } = useGetAccountInfo();
+  const [loading, setLoading] = useState<boolean>(true);
 
-import { apiTimeout, contractAddress, transactionSize } from 'config';
+  const navigate = useNavigate();
+  const handleRedirect = () =>
+    Boolean(address) ? setLoading(false) : navigate('/unlock');
 
-const DashboardPage = () => {
-  const {
-    network: { apiAddress }
-  } = useGetNetworkConfig();
-  const { address } = useGetAccount();
-  const { success, fail } = useGetActiveTransactionsStatus();
+  useEffect(handleRedirect, [address]);
+  // useGlobalData();
 
-  const [transactions, setTransactions] = useState<ServerTransactionType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string>();
-
-  const fetchTransactions = async () => {
-    try {
-      setIsLoading(true);
-      const { data } = await getTransactions({
-        apiAddress,
-        sender: address,
-        receiver: contractAddress,
-        condition: 'must',
-        transactionSize,
-        apiTimeout
-      });
-      setTransactions(data);
-    } catch (err) {
-      const { message } = err as AxiosError;
-      setError(message);
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    if (success || fail) {
-      fetchTransactions();
-    }
-  }, [success, fail]);
-
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (error) {
+  if (loading) {
     return (
-      <div className='my-5'>
-        <PageState
-          icon={faBan}
-          className='text-muted'
-          title='Error fetching transactions.'
+      <div
+        style={{ fontSize: '30px' }}
+        className='d-flex align-items-center justify-content-center text-white flex-fill'
+      >
+        <FontAwesomeIcon
+          icon={faSpinner}
+          size='2x'
+          spin={true}
+          className='mr-3'
         />
+        Loading...
       </div>
     );
   }
 
-  if (transactions.length === 0) {
-    return (
-      <div className='my-5'>
-        <PageState
-          icon={faExchangeAlt}
-          className='text-muted'
-          title='No Transactions'
-        />
-      </div>
-    );
-  }
+  return (
+    <div className={styles.dashboard}>
+      <Heading />
 
-  return <TransactionsTable transactions={transactions} />;
+      <Cards />
+
+      <Stake />
+
+      <Withdrawals />
+    </div>
+  );
 };
-
-export const Dashboard = () => <></>;
