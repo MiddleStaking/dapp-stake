@@ -7,6 +7,7 @@ import { network, denomination } from 'config';
 import { nominate, parseAmount } from '@multiversx/sdk-dapp/utils';
 import { denominated } from 'pages/Dashboard/helper/denominate';
 
+// ne pas utiliser const { network } = useGetNetworkConfig(); provoque une erreur bundle et usecontext
 const undelegateValidator = (input: string) =>
   string()
     .required('Required')

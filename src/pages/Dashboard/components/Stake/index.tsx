@@ -4,11 +4,11 @@ import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from 'assets/Logo';
-import { network } from 'config';
 
 import Delegate from './components/Delegate';
 import Undelegate from './components/Undelegate';
 import imagePartalConnexion from '../../../../assets/multiversxPortal.png';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 
 import styles from './styles.module.scss';
 import {
@@ -37,6 +37,7 @@ interface PanelType {
 }
 
 const Stake: FC = () => {
+  const { network } = useGetNetworkConfig();
   const UserActiveStake = GetUserActiveStake();
   const UserRewaards = GetUserClaimsReward();
 

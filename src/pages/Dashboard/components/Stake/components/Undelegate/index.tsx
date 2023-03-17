@@ -2,19 +2,20 @@ import React, { FC, ChangeEvent, MouseEvent, useState } from 'react';
 
 import { Formik } from 'formik';
 import { object } from 'yup';
-import Action, { Submit } from 'components/Action';
 
 import styles from './styles.module.scss';
 import { undelegateValidator } from '../../helpers/delegationValidators';
 import { onUnDelegate } from 'pages/Dashboard/helper/requestAbi';
-import { network } from 'config';
 import { denominated } from 'pages/Dashboard/helper/denominate';
 import modifiable from 'pages/Dashboard/helper/modifiable';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
+import Action, { Submit } from 'pages/Dashboard/Action';
 
 const Undelegate: FC<any> = (props: any) => {
   // const { userActiveStake } = useGlobalContext();
   // const { onUndelegate } = useStakeData();
   const [maxed, setMaxed] = useState<boolean>(false);
+  const { network } = useGetNetworkConfig();
 
   return (
     <div className={`${styles.wrapper} undelegate-wrapper`}>
@@ -25,9 +26,9 @@ const Undelegate: FC<any> = (props: any) => {
         render={
           <div className={styles.undelegate}>
             <Formik
-              validationSchema={object().shape({
-                amount: undelegateValidator(props.UserActiveStake || '')
-              })}
+              // validationSchema={object().shape({
+              //   amount: undelegateValidator(props.UserActiveStake || '')
+              // })}
               onSubmit={onUnDelegate}
               initialValues={{
                 amount: '0'
@@ -42,10 +43,18 @@ const Undelegate: FC<any> = (props: any) => {
                 handleSubmit,
                 setFieldValue
               }) => {
-                const amount = denominated(props.UserActiveStake || '', {
+                const amount = denominated(props.UserActiveStake, {
                   addCommas: true,
                   showLastNonZeroDecimal: true
                 });
+
+                const valueWithoutComma = amount.replace(/,/g, '');
+                const valueWithoutComma2 = valueWithoutComma.replace(
+                  /\./g,
+                  ','
+                );
+
+                // console.log(valueWithoutComma2);
 
                 const onChange = (
                   event: ChangeEvent<HTMLInputElement>
@@ -56,8 +65,8 @@ const Undelegate: FC<any> = (props: any) => {
 
                 const onMax = (event: MouseEvent): void => {
                   event.preventDefault();
-                  setMaxed(true);
-                  setFieldValue('amount', amount);
+                  setMaxed(false);
+                  setFieldValue('amount', valueWithoutComma);
                 };
 
                 return (

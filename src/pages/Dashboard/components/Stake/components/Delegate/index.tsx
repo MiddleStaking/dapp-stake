@@ -1,12 +1,11 @@
 import React, { FC, MouseEvent } from 'react';
 
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import {
+  useGetAccountInfo,
+  useGetNetworkConfig
+} from '@multiversx/sdk-dapp/hooks';
 import { Formik } from 'formik';
 import { object } from 'yup';
-
-import Action, { Submit } from 'components/Action';
-
-import { network } from 'config';
 
 import styles from './styles.module.scss';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
@@ -16,6 +15,7 @@ import { delegateValidator } from '../../helpers/delegationValidators';
 import { onDelegate } from 'pages/Dashboard/helper/requestAbi';
 import { denominated } from 'pages/Dashboard/helper/denominate';
 import modifiable from 'pages/Dashboard/helper/modifiable';
+import Action, { Submit } from 'pages/Dashboard/Action';
 
 const Delegate: FC<any> = (props: any) => {
   const { account } = useGetAccountInfo();
@@ -26,6 +26,7 @@ const Delegate: FC<any> = (props: any) => {
   // react.useEffect(() => {
 
   // }
+  const { network } = useGetNetworkConfig();
 
   return (
     <div className={`${styles.wrapper} delegate-wrapper`}>

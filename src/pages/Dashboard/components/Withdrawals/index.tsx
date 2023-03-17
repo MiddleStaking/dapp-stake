@@ -15,13 +15,14 @@ import React, { FC, useEffect } from 'react';
 //   decodeBigNumber
 // } from '@elrondnetwork/erdjs';
 import moment from 'moment';
-import { network, decimals, denomination } from 'config';
+import { decimals, denomination } from 'config';
 
 import Withdrawal from './components/Withdrawal';
 import styles from './styles.module.scss';
 import {
   useGetAccountInfo,
-  useGetActiveTransactionsStatus
+  useGetActiveTransactionsStatus,
+  useGetNetworkConfig
 } from '@multiversx/sdk-dapp/hooks';
 import {
   ApiNetworkProvider,
@@ -44,7 +45,7 @@ import { UndelegateStakeListType } from 'pages/Dashboard/context/state';
 
 const Withdrawals: FC = () => {
   // const dispatch = useDispatch();
-
+  const { network } = useGetNetworkConfig();
   const { account, address } = useGetAccountInfo();
   // const { undelegatedStakeList } = useGlobalContext();
   const { success } = useGetActiveTransactionsStatus();
