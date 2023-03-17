@@ -206,7 +206,7 @@ export const MyNavbar = () => {
                   className='nav-link text-white'
                 >
                   <FontAwesomeIcon icon={faScrewdriverWrench} className='' />{' '}
-                  Devnet
+                  test on Devnet
                 </a>
               </>
             )}
