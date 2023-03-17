@@ -10,7 +10,7 @@ export const routeNames = {
   home: '/',
   dashboard: '/dashboard',
   statistics: '/statistics',
-  unlock: '/unlocks',
+  unlock: '/unlock',
   stake: '/stake',
   fund: '/fund',
   faucet: '/faucet',

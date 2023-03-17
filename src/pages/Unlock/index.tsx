@@ -3,8 +3,9 @@ import React, { FC, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { walletConnectV2ProjectId } from 'config';
-import imageWalletDefi from '../../assets/téléchargement.png';
+import logoMS from '../../assets/img/ms.svg';
 
+import imageWalletDefi from '../../assets/téléchargement.png';
 import imagePartalConnexion from '../../assets/multiversxPortal.png';
 import legerImage from '../../assets/legerImage.png';
 
@@ -113,20 +114,18 @@ const Unlock: FC = (props: any) => {
           <div className={styles.logo2}>
             <span>
               <img
-                className={styles.imgRewards}
-                src={imagePartalConnexion}
+                className={styles.logoMs}
+                src={logoMS}
                 alt='Grapefruit slice atop a pile of other slices'
               ></img>
             </span>
           </div>
         </div>
 
-        <strong className={styles.heading}>
-          MultiversX Delegation Manager
-        </strong>
+        <strong className={styles.heading}>Middle Staking Dashboard</strong>
 
         <div className={styles.description}>
-          {`Delegate MultiversX (${network.egldLabel}) and earn up to 25% APY!`}
+          {'Login with your favorite wallet'}
         </div>
 
         <div className={styles.connects}>

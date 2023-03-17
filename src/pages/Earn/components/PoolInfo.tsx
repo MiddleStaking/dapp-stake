@@ -415,7 +415,7 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
         <div className='poolPosition'>
           {!address ? (
             <Link
-              to={routeNames.unlock + `/earn/${rewardedToken}`}
+              to={routeNames.unlock + `/stake/${rewardedToken}`}
               className='butLine goldButton'
               data-testid='loginBtn'
             >
