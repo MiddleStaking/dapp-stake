@@ -26,9 +26,9 @@ const Undelegate: FC<any> = (props: any) => {
         render={
           <div className={styles.undelegate}>
             <Formik
-              // validationSchema={object().shape({
-              //   amount: undelegateValidator(props.UserActiveStake || '')
-              // })}
+              validationSchema={object().shape({
+                amount: undelegateValidator(props.UserActiveStake || '')
+              })}
               onSubmit={onUnDelegate}
               initialValues={{
                 amount: '0'
