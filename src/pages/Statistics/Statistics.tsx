@@ -46,7 +46,7 @@ export const Statistics = () => {
         iconBgClass='bg-warning'
         iconSize='3x'
         title='Unable to load statistics'
-        action={<Link to={routeNames.earn}>Back to Dashboard</Link>}
+        action={<Link to={routeNames.stake}>Back to Dashboard</Link>}
       />
     );
   }

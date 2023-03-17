@@ -116,7 +116,7 @@ export const MyNavbar = () => {
         {/* <Navbar.Brand href='#home'>React-Bootstrap</Navbar.Brand> */}
         <Link
           className='d-flex align-items-center navbar-brand mr-0'
-          to={isLoggedIn ? routeNames.earn : routeNames.earn}
+          to={isLoggedIn ? routeNames.stake : routeNames.stake}
         >
           <MiddleLogo className='multiversx-logo' />
           <span className='text-muted' style={{ marginRight: '15px' }}>
@@ -129,7 +129,7 @@ export const MyNavbar = () => {
             {/* STAKE */}
             <Link
               className='d-flex align-items-center navbar-brand mr-10'
-              to={routeNames.earn}
+              to={routeNames.stake}
             >
               {' '}
               <FontAwesomeIcon icon={faBoltLightning} className='mr-1' />
