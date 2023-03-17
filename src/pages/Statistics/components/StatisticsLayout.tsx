@@ -15,7 +15,7 @@ export const StatisticsLayout = ({ children }: PropsWithChildren) => {
                 <div className='card-body text-center p-4'>
                   <div className='row'>
                     <div className='col-12 text-left'>
-                      <Link to={routeNames.earn} className='text-white'>
+                      <Link to={routeNames.stake} className='text-white'>
                         <FontAwesomeIcon icon={faArrowLeft} /> Back to Earn
                       </Link>
                     </div>
