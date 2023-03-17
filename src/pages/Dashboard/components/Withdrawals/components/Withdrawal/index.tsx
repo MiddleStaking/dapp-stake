@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import moment from 'moment';
 import Logo from 'assets/Logo';
-import { contractAddress, network } from 'config';
+import { contractAddress, contractAddressDelegation } from 'config';
 
 import styles from './styles.module.scss';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
@@ -17,6 +17,7 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { UndelegateStakeListType } from 'pages/Dashboard/context/state';
 import useTransaction from 'pages/Dashboard/helper/useTransaction';
 import modifiable from 'pages/Dashboard/helper/modifiable';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
 
 interface FormattersType {
   [key: string]: any;
@@ -27,6 +28,7 @@ interface FormattersType {
 }
 
 const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
+  const { network } = useGetNetworkConfig();
   const [counter, setCounter] = useState<number>(timeLeft - moment().unix());
   const [fiat, setFiat] = useState<string>('');
   const { sendTransaction } = useTransaction();
@@ -68,7 +70,7 @@ const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
       const reDelegateRewardsTransaction = {
         value: '0',
         data: 'withdraw',
-        receiver: contractAddress,
+        receiver: contractAddressDelegation,
         gasLimit: '12000000'
       };
 

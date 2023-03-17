@@ -11,7 +11,7 @@ import {
   ApiNetworkProvider,
   ProxyNetworkProvider
 } from '@multiversx/sdk-network-providers/out';
-import { minDust, contractAddress, network } from 'config';
+import { minDust, network, contractAddressDelegation } from 'config';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { smartContract } from './smartContract';
 import {
@@ -397,7 +397,7 @@ const transactionStake = () => {
       const reDelegateRewardsTransaction = {
         value: GetUserClaimsReward(),
         data: 'reDelegateRewards',
-        receiver: contractAddress,
+        receiver: contractAddressDelegation,
         gasLimit: '60000000'
       };
       await refreshAccount();
@@ -432,7 +432,7 @@ const sendReDelegateRewards = async (): Promise<void> => {
     const reDelegateRewardsTransaction = {
       value: '0',
       data: 'reDelegateRewards',
-      receiver: contractAddress,
+      receiver: contractAddressDelegation,
       gasLimit: '60000000'
     };
     await refreshAccount();
@@ -462,7 +462,7 @@ const sendClaimRewards = async (): Promise<void> => {
     const reDelegateRewardsTransaction = {
       value: '0',
       data: 'claimRewards',
-      receiver: contractAddress,
+      receiver: contractAddressDelegation,
       gasLimit: '60000000'
     };
     await refreshAccount();
@@ -496,7 +496,7 @@ const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
     const reDelegateRewardsTransaction = {
       value: TokenPayment.egldFromAmount(data.amount),
       data: 'delegate',
-      receiver: contractAddress,
+      receiver: contractAddressDelegation,
       gasLimit: '60000000'
     };
 
@@ -530,7 +530,7 @@ const onUnDelegate = async (data: DelegationPayloadType): Promise<void> => {
     const reDelegateRewardsTransaction = {
       value: '0',
       data: 'unDelegate@' + test2,
-      receiver: contractAddress,
+      receiver: contractAddressDelegation,
       gasLimit: '60000000'
     };
 

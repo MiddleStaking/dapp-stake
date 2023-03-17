@@ -2,14 +2,17 @@ import React, { FC, useEffect } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { network, walletConnectV2ProjectId } from 'config';
+import { walletConnectV2ProjectId } from 'config';
 import imageWalletDefi from '../../assets/téléchargement.png';
 
 import imagePartalConnexion from '../../assets/multiversxPortal.png';
 import legerImage from '../../assets/legerImage.png';
 
 import styles from './styles.module.scss';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import {
+  useGetAccountInfo,
+  useGetNetworkConfig
+} from '@multiversx/sdk-dapp/hooks';
 import {
   ExtensionLoginButton,
   LedgerLoginButton,
@@ -31,7 +34,7 @@ interface ConnectionType {
 
 const Unlock: FC = (props: any) => {
   const { address } = useGetAccountInfo();
-
+  const { network } = useGetNetworkConfig();
   const route = useParams();
 
   const navigate = useNavigate();

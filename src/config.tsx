@@ -1,7 +1,7 @@
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
 export const contractAddressDelegation =
-  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
+  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 //  'erd1qqqqqqqqqqqqqpgqhcj6ez8y3zvctjtm78flxvqkedn7peh4ch9shlfnmr';
 
 //export const defaultToken = 'MID-7f1d59';
@@ -53,15 +53,15 @@ interface NetworkType {
   delegationContract: string;
 }
 export const network: NetworkType = {
-  id: 'mainnet',
-  name: 'Mainnet',
-  egldLabel: 'EGLD',
-  walletAddress: 'https://wallet.multiversx.com/dapp/init',
-  apiAddress: 'https://api.multiversx.com',
-  gatewayAddress: 'https://gateway.multiversx.com',
-  explorerAddress: 'https://explorer.multiversx.com',
+  id: 'devnet',
+  name: 'Devnet',
+  egldLabel: 'xEGLD',
+  walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
+  apiAddress: 'https://devnet-api.multiversx.com',
+  gatewayAddress: 'https://devnet-gateway.multiversx.com',
+  explorerAddress: 'http://devnet-explorer.multiversx.com',
   delegationContract:
-    'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2'
+    'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqx8llllsxavffq'
 };
 export const auctionContract =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqplllst77y4l';
