@@ -89,7 +89,7 @@ const Unlock: FC = (props: any) => {
 
   const redirectConditionally = () => {
     if (Boolean(address)) {
-      navigate('/earn');
+      navigate('/stake');
     }
   };
 
@@ -103,7 +103,7 @@ const Unlock: FC = (props: any) => {
         ? '/' + route?.route + '/' + route?.param
         : '/' + route?.route !== undefined
         ? route?.route
-        : 'earn'
+        : 'stake'
     // nativeAuth: true // optional
   };
 

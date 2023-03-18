@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import image from './../../../assets/img/background2.png';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { ActionClaimRewards } from './Actions';
+import { ActionClaimRewards, ActionStakeRewards } from './Actions';
 import { useGetESDTInformations } from './Actions/helpers';
 import {
   useGetTokenPosition,
@@ -217,6 +217,8 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
         decimals={sdecimals}
         onClose={() => setShowStake(false)}
         show={showStake}
+        image1={image1}
+        image2={image2}
       />
       <UnstakeModal
         rewardedToken={rewardedToken}
@@ -589,6 +591,15 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                         rewardedToken={rewardedToken}
                         rewardsAmount={stakingPositionRewards}
                       />{' '}
+                      {stakedToken == rewardedToken ? (
+                        <ActionStakeRewards
+                          stakedToken={stakedToken}
+                          rewardedToken={rewardedToken}
+                          rewardsAmount={stakingPositionRewards}
+                        />
+                      ) : (
+                        <></>
+                      )}
                       <h4>
                         <OverlayTrigger
                           placement='right'
