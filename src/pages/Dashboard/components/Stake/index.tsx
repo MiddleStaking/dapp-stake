@@ -107,7 +107,13 @@ const Stake: FC = () => {
           </strong>
 
           <div className={styles.logo}>
-            <Logo />
+            <span>
+              <img
+                className={styles.img}
+                src={imagePartalConnexion}
+                alt='Grapefruit slice atop a pile of other slices'
+              ></img>
+            </span>
 
             <div style={{ background: '#2044F5' }} className={styles.subicon}>
               <FontAwesomeIcon icon={faLock} />
@@ -128,7 +134,15 @@ const Stake: FC = () => {
         panels.map((panel, index) => (
           <div key={panel.title} className={styles.panel}>
             <div
-              className={modifiable('icon', [index > 0 && 'inversed'], styles)}
+              className={
+                UserRewaards === '0'
+                  ? modifiable(
+                      'icon',
+                      [index > 0 && 'inversedNoRewards'],
+                      styles
+                    )
+                  : modifiable('icon', [index > 0 && 'inversed'], styles)
+              }
             >
               {/* <Logo /> */}
               <span>
