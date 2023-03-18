@@ -71,7 +71,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   function setFSToken(e: React.ChangeEvent<any>) {
     //setParam(e.target.value);
-    navigate(`/earn/${e.target.value}`);
+    navigate(`/stake/${e.target.value}`);
 
     // const index = stakedTokens
     //   .filter(({ identifier }) => identifier === identifier)
