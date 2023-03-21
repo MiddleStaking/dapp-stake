@@ -95,8 +95,6 @@ const Unlock: FC = (props: any) => {
 
   useEffect(redirectConditionally, [address]);
 
-  console.log(route?.route);
-
   const commonProps = {
     callbackRoute:
       route?.param !== undefined

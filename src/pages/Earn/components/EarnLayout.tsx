@@ -14,6 +14,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { defaultToken } from 'config';
 import image from './../../../assets/img/background2.png';
 import eCompass from './../../../assets/img/ecompass.svg';
+import jungle from './../../../assets/img/jungle.svg';
 import jexchange from './../../../assets/img/jexchange.svg';
 import notFound from './../../../assets/img/notfoundc.svg';
 import twitter from './../../../assets/img/twitter.svg';
@@ -45,15 +46,17 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const tokens_extra_informations = [
     {
       identifier: 'MID-7f1d59',
-      charts: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
-      market:
-        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79'
+      ecompass: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
+      jexchange:
+        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
+      jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
     },
     {
       identifier: 'MID-ecb7bf',
-      charts: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
-      market:
-        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79'
+      ecompass: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
+      jexchange:
+        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
+      jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
     }
   ];
 
@@ -174,7 +177,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
-
                         {esdt_info?.accounts ? (
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faChartSimple} /> Accounts :{' '}
@@ -183,7 +185,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
-
                         {esdt_info?.supply ? (
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faChartSimple} /> Supply :{' '}
@@ -192,7 +193,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
-
                         {esdt_info?.price ? (
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faDollar} />{' '}
@@ -201,7 +201,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
-
                         {esdt_info?.assets?.website ? (
                           <div className='col-6 float-left'>
                             <a
@@ -219,7 +218,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
-
                         {esdt_info?.assets?.social?.twitter ? (
                           <div className='col-6 float-left'>
                             <a
@@ -234,16 +232,15 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
-
                         {tokens_extra_informations
                           .filter((token) => {
                             return token.identifier === stoken;
                           })
                           .map((token) =>
-                            token.charts ? (
+                            token.ecompass ? (
                               <div key={stoken} className='col-6 float-left'>
                                 <a
-                                  href={token.charts}
+                                  href={token.ecompass}
                                   target={'_blank'}
                                   rel={'noreferrer'}
                                 >
@@ -263,10 +260,10 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                             return token.identifier === stoken;
                           })
                           .map((token) =>
-                            token.market ? (
+                            token.jexchange ? (
                               <div key={stoken} className='col-6 float-left'>
                                 <a
-                                  href={token.market}
+                                  href={token.jexchange}
                                   target={'_blank'}
                                   rel={'noreferrer'}
                                 >
@@ -275,6 +272,26 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                                     src={jexchange}
                                   />{' '}
                                   Jexchange
+                                </a>
+                              </div>
+                            ) : (
+                              ''
+                            )
+                          )}{' '}
+                        {tokens_extra_informations
+                          .filter((token) => {
+                            return token.identifier === stoken;
+                          })
+                          .map((token) =>
+                            token.jungle ? (
+                              <div key={stoken} className='col-6 float-left'>
+                                <a
+                                  href={token.jungle}
+                                  target={'_blank'}
+                                  rel={'noreferrer'}
+                                >
+                                  <img className='smallInfoLogo' src={jungle} />{' '}
+                                  Jungle
                                 </a>
                               </div>
                             ) : (
