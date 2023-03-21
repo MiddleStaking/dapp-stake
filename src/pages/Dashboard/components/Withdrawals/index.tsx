@@ -158,7 +158,6 @@ const Withdrawals: FC = () => {
       // });
     }
   };
-  // console.log(getUndelegatedStakeList());
 
   const fetchUndelegatedStakeList = () => {
     if (tab) {

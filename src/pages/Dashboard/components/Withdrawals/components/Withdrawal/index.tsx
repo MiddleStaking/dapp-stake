@@ -86,7 +86,6 @@ const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
       await refreshAccount();
       if (sessionId != null) {
         return;
-        //  console.log(sessionId);
       } else {
         return console.log('ok');
       }

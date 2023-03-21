@@ -417,7 +417,7 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
         <div className='poolPosition'>
           {!address ? (
             <Link
-              to={routeNames.unlock + `/stake/${rewardedToken}`}
+              to={routeNames.unlock + `/stake/${stakedToken}`}
               className='butLine goldButton'
               data-testid='loginBtn'
             >
@@ -483,7 +483,7 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                           decimals={Number(sdecimals)}
                           egldLabel={' '}
                           data-testid='staked'
-                          digits={2}
+                          digits={6}
                         />{' '}
                         {staked_esdt_info?.price && (
                           <>
@@ -618,7 +618,7 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                           decimals={Number(rdecimals)}
                           egldLabel={' '}
                           data-testid='balance'
-                          digits={2}
+                          digits={6}
                         />
                       </h4>{' '}
                       {rewarded_esdt_info?.price && (
