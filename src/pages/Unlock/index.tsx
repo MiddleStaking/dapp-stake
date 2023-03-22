@@ -95,14 +95,19 @@ const Unlock: FC = (props: any) => {
 
   useEffect(redirectConditionally, [address]);
 
+  // const commonProps = {
+  //   callbackRoute:
+  //     route?.param !== undefined
+  //       ? '/' + route?.route + '/' + route?.param
+  //       : '/' + route?.route !== undefined
+  //       ? route?.route
+  //       : 'stake'
+  //   // nativeAuth: true // optional
+  // };
+
   const commonProps = {
-    callbackRoute:
-      route?.param !== undefined
-        ? '/' + route?.route + '/' + route?.param
-        : '/' + route?.route !== undefined
-        ? route?.route
-        : 'stake'
-    // nativeAuth: true // optional
+    callbackRoute: routeNames.dashboard,
+    nativeAuth: true // optional
   };
 
   return (

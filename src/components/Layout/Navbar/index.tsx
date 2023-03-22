@@ -125,7 +125,7 @@ export const MyNavbar = () => {
         >
           <MiddleLogo className='multiversx-logo' />
           <span className='text-muted' style={{ marginRight: '15px' }}>
-            Midde Staking{' '}
+            Middle Staking{' '}
           </span>
         </Link>
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
