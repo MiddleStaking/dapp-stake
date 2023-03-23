@@ -185,10 +185,13 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
-                        {esdt_info?.supply ? (
+                        {esdt_info?.circulatingSupply ? (
                           <div className='col-6 float-left'>
-                            <FontAwesomeIcon icon={faChartSimple} /> Supply :{' '}
-                            {Number(esdt_info?.supply).toLocaleString()}
+                            <FontAwesomeIcon icon={faChartSimple} /> Circulating
+                            :{' '}
+                            {Number(
+                              esdt_info?.circulatingSupply
+                            ).toLocaleString()}
                           </div>
                         ) : (
                           ''
@@ -197,6 +200,14 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faDollar} />{' '}
                             {Number(esdt_info?.price).toLocaleString()}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                        {esdt_info?.marketCap ? (
+                          <div className='col-6 float-left'>
+                            <FontAwesomeIcon icon={faDollar} /> Market Cap :{' '}
+                            {Number(esdt_info?.marketCap).toLocaleString()}
                           </div>
                         ) : (
                           ''
