@@ -66,8 +66,7 @@ export const network: NetworkType = {
   apiAddress: 'https://devnet-api.multiversx.com',
   gatewayAddress: 'https://devnet-gateway.multiversx.com',
   explorerAddress: 'http://devnet-explorer.multiversx.com',
-  delegationContract:
-    'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqx8llllsxavffq'
+  delegationContract: contractAddressDelegation
 };
 export const auctionContract =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqplllst77y4l';
