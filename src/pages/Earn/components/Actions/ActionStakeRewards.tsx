@@ -48,7 +48,7 @@ export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
                 onClick={sendStakeRewardsTransaction}
                 className='butLineBig goldButton'
               >
-                STAKE REWARDS{' '}
+                REINVEST REWARDS{' '}
               </button>
             </div>
           ) : (

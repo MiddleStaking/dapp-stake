@@ -32,7 +32,12 @@ import twitter from './../../../assets/img/twitter.svg';
 import styles from './../earn.module.scss';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 
-export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
+export const PoolInfo = ({
+  stakedToken,
+  rewardedToken,
+  balance,
+  canBeStaked
+}: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
@@ -412,6 +417,22 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
               </div>{' '}
             </Col>
           </Row>
+          {canBeStaked && (
+            <>
+              {' '}
+              <Row>
+                <Col>
+                  <Link
+                    to={routeNames.stake + `/${rewardedToken}`}
+                    className='butLine bouton-visiter'
+                    data-testid='loginBtn'
+                  >
+                    Stake {rewardedToken}
+                  </Link>
+                </Col>
+              </Row>
+            </>
+          )}
         </div>
 
         <div className='poolPosition'>
