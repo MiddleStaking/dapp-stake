@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PoolCol.scss';
 import {
   faEarth,
@@ -34,6 +34,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const stakedTokens: string[] = useGetStakedTokens();
   const { param } = useParams();
   const [url] = useState(param ? param.toString() : defaultToken);
+
   // const [test, setTest] = useState(
   //   stakedTokens.includes(url) ? url : defaultToken + ':' + url + ':'
   // );
@@ -42,6 +43,12 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const [stoken, setStoken] = React.useState(url);
   const rewardedTokens = useGetRewardedTokens(stoken);
   const esdt_info = useGetESDTInformations(stoken);
+
+  useEffect(() => {
+    setStoken(param ? param.toString() : defaultToken);
+    console.log(url);
+    console.log(param);
+  }, [param]);
 
   const tokens_extra_informations = [
     {
@@ -329,6 +336,9 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                     stakedToken={stoken}
                     rewardedToken={rtoken}
                     balance={balance}
+                    canBeStaked={
+                      stakedTokens.includes(rtoken) && stoken != rtoken
+                    }
                   />
                 </div>
               ))

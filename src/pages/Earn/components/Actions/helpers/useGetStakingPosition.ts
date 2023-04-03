@@ -40,7 +40,11 @@ export const useGetStakingPosition = (
         ]
       });
 
-      const proxy = new ProxyNetworkProvider(network.apiAddress);
+      //const proxy = new ProxyNetworkProvider(network.apiAddress);
+      const proxy = new ProxyNetworkProvider(
+        'https://devnet-gateway.multiversx.com'
+      );
+
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition =
         smartContract.getEndpoint('getStakingPosition');

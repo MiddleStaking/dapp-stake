@@ -27,7 +27,7 @@ export const useGetUserESDT = () => {
     }
   ]);
   const address = useGetAccountInfo().address;
-  const url = '/accounts/' + address + '/tokens';
+  const url = '/accounts/' + address + '/tokens?size=1000';
   const getUserESDT = async () => {
     try {
       const { data } = await axios.get<[]>(url, {
