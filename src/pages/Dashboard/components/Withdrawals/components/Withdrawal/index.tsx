@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import moment from 'moment';
 import Logo from 'assets/Logo';
-import { contractAddress, contractAddressDelegation } from 'config';
+import { contractAddressDelegation } from 'config';
 
 import styles from './styles.module.scss';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
@@ -86,7 +86,6 @@ const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
       await refreshAccount();
       if (sessionId != null) {
         return;
-        //  console.log(sessionId);
       } else {
         return console.log('ok');
       }

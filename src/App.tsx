@@ -20,7 +20,7 @@ import {
 import { PageNotFound } from 'pages';
 import { routeNames } from 'routes';
 import { routes } from 'routes';
-import Unlock from 'pages/Unlocks';
+import Unlock from 'pages/Unlock';
 
 export const App = () => {
   return (

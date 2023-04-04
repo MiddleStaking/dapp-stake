@@ -89,7 +89,7 @@ export const ActionRemovePoolFees = ({
       {balance !== undefined && (
         <>
           {' '}
-          You have{' '}
+          Balance :{' '}
           <FormatAmount
             decimals={Number(decimals.toString())}
             value={balance.toString()}
@@ -99,15 +99,43 @@ export const ActionRemovePoolFees = ({
           {!hasPendingTransactions ? (
             <>
               <div>
-                <button onClick={sendFundTransaction} disabled={!agreement}>
-                  REMOVE FEES FOR{' '}
-                  <FormatAmount
-                    decimals={Number(decimals.toString())}
-                    value={price.toString()}
-                    egldLabel={' '}
-                    digits={2}
-                  />
-                </button>
+                {balance >= price ? (
+                  <>
+                    {' '}
+                    <button
+                      className='bouton-visiter'
+                      onClick={sendFundTransaction}
+                      disabled={!agreement}
+                    >
+                      REMOVE FEES FOR{' '}
+                      <FormatAmount
+                        decimals={Number(decimals.toString())}
+                        value={price.toString()}
+                        egldLabel={' '}
+                        digits={2}
+                      />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {' '}
+                    <button className='bouton-disabled' disabled={true}>
+                      <FormatAmount
+                        decimals={Number(decimals.toString())}
+                        value={balance.toString()}
+                        egldLabel={' '}
+                        digits={2}
+                      />{' '}
+                      /{' '}
+                      <FormatAmount
+                        decimals={Number(decimals.toString())}
+                        value={price.toString()}
+                        egldLabel={' '}
+                        digits={2}
+                      />
+                    </button>
+                  </>
+                )}
               </div>
             </>
           ) : (

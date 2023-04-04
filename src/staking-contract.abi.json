@@ -24,12 +24,16 @@
                 "type": "TokenIdentifier"
             },
             {
+                "name": "fee_wallet",
+                "type": "Address"
+            },
+            {
                 "name": "burn_wallet",
                 "type": "Address"
             },
             {
-                "name": "fee_wallet",
-                "type": "Address"
+                "name": "remove_fees_price",
+                "type": "BigUint"
             }
         ],
         "outputs": []
@@ -43,9 +47,8 @@
             ],
             "inputs": [
                 {
-                    "name": "opt_staked_token",
-                    "type": "optional<TokenIdentifier>",
-                    "multi_arg": true
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
                 }
             ],
             "outputs": []
@@ -58,9 +61,8 @@
             ],
             "inputs": [
                 {
-                    "name": "opt_rewarded_token",
-                    "type": "optional<TokenIdentifier>",
-                    "multi_arg": true
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
                 }
             ],
             "outputs": []
@@ -70,19 +72,61 @@
             "mutability": "mutable",
             "inputs": [
                 {
-                    "name": "opt_staked_token",
-                    "type": "optional<TokenIdentifier>",
-                    "multi_arg": true
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
                 },
                 {
-                    "name": "opt_rewarded_token",
-                    "type": "optional<TokenIdentifier>",
-                    "multi_arg": true
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
                 },
                 {
                     "name": "opt_unstake_amount",
                     "type": "optional<BigUint>",
                     "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "claimRewards",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "stakeRewards",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "removePoolFees",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
                 }
             ],
             "outputs": []
@@ -117,18 +161,6 @@
             "outputs": []
         },
         {
-            "name": "setBlocksInYear",
-            "onlyOwner": true,
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "blocks_in_year",
-                    "type": "u64"
-                }
-            ],
-            "outputs": []
-        },
-        {
             "name": "setConfig",
             "onlyOwner": true,
             "mutability": "mutable",
@@ -138,12 +170,16 @@
                     "type": "TokenIdentifier"
                 },
                 {
+                    "name": "fee_wallet",
+                    "type": "Address"
+                },
+                {
                     "name": "burn_wallet",
                     "type": "Address"
                 },
                 {
-                    "name": "fee_wallet",
-                    "type": "Address"
+                    "name": "remove_fees_price",
+                    "type": "BigUint"
                 }
             ],
             "outputs": []
@@ -199,23 +235,6 @@
                     "type": "u64"
                 }
             ]
-        },
-        {
-            "name": "claimRewards",
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "opt_staked_token",
-                    "type": "optional<TokenIdentifier>",
-                    "multi_arg": true
-                },
-                {
-                    "name": "opt_rewarded_token",
-                    "type": "optional<TokenIdentifier>",
-                    "multi_arg": true
-                }
-            ],
-            "outputs": []
         },
         {
             "name": "getTokenPosition",
@@ -307,16 +326,6 @@
             "outputs": []
         },
         {
-            "name": "getBlocksInYear",
-            "mutability": "readonly",
-            "inputs": [],
-            "outputs": [
-                {
-                    "type": "u64"
-                }
-            ]
-        },
-        {
             "name": "getDefTokenIdentifier",
             "mutability": "readonly",
             "inputs": [],
@@ -343,6 +352,16 @@
             "outputs": [
                 {
                     "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "getRemoveFeesPrice",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
                 }
             ]
         },

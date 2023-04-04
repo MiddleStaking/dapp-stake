@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import image from './../../../assets/img/background2.png';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { ActionClaimRewards } from './Actions';
+import { ActionClaimRewards, ActionStakeRewards } from './Actions';
 import { useGetESDTInformations } from './Actions/helpers';
 import {
   useGetTokenPosition,
@@ -32,7 +32,12 @@ import twitter from './../../../assets/img/twitter.svg';
 import styles from './../earn.module.scss';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 
-export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
+export const PoolInfo = ({
+  stakedToken,
+  rewardedToken,
+  balance,
+  canBeStaked
+}: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
@@ -217,6 +222,8 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
         decimals={sdecimals}
         onClose={() => setShowStake(false)}
         show={showStake}
+        image1={image1}
+        image2={image2}
       />
       <UnstakeModal
         rewardedToken={rewardedToken}
@@ -410,12 +417,28 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
               </div>{' '}
             </Col>
           </Row>
+          {canBeStaked && (
+            <>
+              {' '}
+              <Row>
+                <Col>
+                  <Link
+                    to={routeNames.stake + `/${rewardedToken}`}
+                    className='butLine bouton-visiter'
+                    data-testid='loginBtn'
+                  >
+                    Stake {rewardedToken}
+                  </Link>
+                </Col>
+              </Row>
+            </>
+          )}
         </div>
 
         <div className='poolPosition'>
           {!address ? (
             <Link
-              to={routeNames.unlock + `/earn/${rewardedToken}`}
+              to={routeNames.unlock + `/stake/${stakedToken}`}
               className='butLine goldButton'
               data-testid='loginBtn'
             >
@@ -481,7 +504,7 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                           decimals={Number(sdecimals)}
                           egldLabel={' '}
                           data-testid='staked'
-                          digits={2}
+                          digits={6}
                         />{' '}
                         {staked_esdt_info?.price && (
                           <>
@@ -589,6 +612,15 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                         rewardedToken={rewardedToken}
                         rewardsAmount={stakingPositionRewards}
                       />{' '}
+                      {stakedToken == rewardedToken ? (
+                        <ActionStakeRewards
+                          stakedToken={stakedToken}
+                          rewardedToken={rewardedToken}
+                          rewardsAmount={stakingPositionRewards}
+                        />
+                      ) : (
+                        <></>
+                      )}
                       <h4>
                         <OverlayTrigger
                           placement='right'
@@ -607,7 +639,7 @@ export const PoolInfo = ({ stakedToken, rewardedToken, balance }: any) => {
                           decimals={Number(rdecimals)}
                           egldLabel={' '}
                           data-testid='balance'
-                          digits={2}
+                          digits={6}
                         />
                       </h4>{' '}
                       {rewarded_esdt_info?.price && (
