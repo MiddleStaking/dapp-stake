@@ -52,11 +52,7 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
         ]
       });
 
-      //      const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(
-        'https://devnet-gateway.multiversx.com'
-      );
-
+      const proxy = new ProxyNetworkProvider(network.apiAddress);
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getTokenPosition');
       const { firstValue: position } = resultsParser.parseQueryResponse(

@@ -24,13 +24,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import { defaultToken } from 'config';
 
 export const MyNavbar = () => {
   const isLoggedIn = useGetIsLoggedIn();
   const { network } = useGetNetworkConfig();
   const handleLogout = () => {
-    logout(`${window.location.origin}/unlock`);
+    logout(`${window.location.origin}/unlocks`);
   };
   //https://react-bootstrap.github.io/components/navbar/
   //good examples
@@ -117,15 +116,11 @@ export const MyNavbar = () => {
         {/* <Navbar.Brand href='#home'>React-Bootstrap</Navbar.Brand> */}
         <Link
           className='d-flex align-items-center navbar-brand mr-0'
-          to={
-            isLoggedIn
-              ? routeNames.stake + '/' + defaultToken
-              : routeNames.stake + '/' + defaultToken
-          }
+          to={isLoggedIn ? routeNames.earn : routeNames.earn}
         >
           <MiddleLogo className='multiversx-logo' />
           <span className='text-muted' style={{ marginRight: '15px' }}>
-            Middle Staking{' '}
+            Midde Staking{' '}
           </span>
         </Link>
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
@@ -134,7 +129,7 @@ export const MyNavbar = () => {
             {/* STAKE */}
             <Link
               className='d-flex align-items-center navbar-brand mr-10'
-              to={routeNames.stake + '/' + defaultToken}
+              to={routeNames.earn}
             >
               {' '}
               <FontAwesomeIcon icon={faBoltLightning} className='mr-1' />
@@ -211,7 +206,7 @@ export const MyNavbar = () => {
                   className='nav-link text-white'
                 >
                   <FontAwesomeIcon icon={faScrewdriverWrench} className='' />{' '}
-                  test on Devnet
+                  Devnet
                 </a>
               </>
             )}

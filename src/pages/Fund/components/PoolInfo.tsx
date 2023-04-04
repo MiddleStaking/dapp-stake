@@ -118,11 +118,42 @@ export const PoolInfo = ({
     </Popover>
   );
 
-  const depositFeesPopover = (
+  const myStakePopover = (
     <Popover id='popover-basic'>
-      <Popover.Header as='h3'>Deposit fees</Popover.Header>
+      <Popover.Header as='h3'>Your staked tokens in pool</Popover.Header>
       <Popover.Body>
-        The fees are sent to a wallet owned by Middle Staking.
+        This is the number of token you have staked in pool.
+      </Popover.Body>
+    </Popover>
+  );
+
+  const mySharePopover = (
+    <Popover id='popover-basic'>
+      <Popover.Header as='h3'>Your share of the pool</Popover.Header>
+      <Popover.Body>
+        This is the percentage of token you have in this pool.
+      </Popover.Body>
+    </Popover>
+  );
+
+  const myRewardsPopover = (
+    <Popover id='popover-basic'>
+      <Popover.Header as='h3'>Your rewards</Popover.Header>
+      <Popover.Body>
+        This is an estimation of the rewards you can claim NOW based on the
+        rewards left in pool, your staked tokens and the time spent in pool.
+        <br />
+        Time spent in pool is reseted after claim or stake.
+      </Popover.Body>
+    </Popover>
+  );
+
+  const pausedPopover = (
+    <Popover id='popover-basic'>
+      <Popover.Header as='h3'>Pool is paused</Popover.Header>
+      <Popover.Body>
+        When a pool is paused, users can only claim rewards or unstake their
+        deposit.
       </Popover.Body>
     </Popover>
   );
@@ -145,12 +176,16 @@ export const PoolInfo = ({
       />
       <div className='text-white text-center' data-testid='poolInfo'>
         <Row>
-          <Row className='mx-auto'>
-            <Col className='col-6'>
+          <Col>
+            <h3>Pool Informations</h3>
+          </Col>
+        </Row>
+        <Row className='topLogo'>
+          <Row>
+            <Col className='col-6 '>
               <h4>STAKE : {stakedToken}</h4>
 
               <img className='thirdPoolLogo' src={image1} />
-
               <div className='rewardedInfo'>
                 <div className='col-6 float-left '>
                   <a
@@ -219,8 +254,8 @@ export const PoolInfo = ({
                   ''
                 )}
               </div>
-            </Col>
-            <Col className='col-6'>
+            </Col>{' '}
+            <Col className='col-6 '>
               {' '}
               <h4>Earn : {rewardedToken}</h4>
               <img className='thirdPoolLogo' src={image2} />
@@ -339,7 +374,7 @@ export const PoolInfo = ({
                       />
                     </a>
                   </OverlayTrigger>{' '}
-                  depositFeesPopover All time rewarded :{' '}
+                  All time rewarded :{' '}
                   <FormatAmount
                     value={tokenPosition.total_rewards.toString()}
                     decimals={Number(rdecimals)}
@@ -407,21 +442,7 @@ export const PoolInfo = ({
             <Col>
               <div>
                 {' '}
-                <h4>
-                  {' '}
-                  <OverlayTrigger
-                    placement='right'
-                    overlay={depositFeesPopover}
-                  >
-                    <a>
-                      <FontAwesomeIcon
-                        icon={faCircleInfo}
-                        className='text-muted'
-                      />
-                    </a>
-                  </OverlayTrigger>{' '}
-                  Deposit Fees : {fees.toString()} %
-                </h4>
+                <h4>(i) Deposit Fees : {fees.toString()} %</h4>
               </div>{' '}
             </Col>
           </Row>{' '}

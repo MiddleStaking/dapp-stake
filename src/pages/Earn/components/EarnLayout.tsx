@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './PoolCol.scss';
 import {
   faEarth,
@@ -14,7 +14,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { defaultToken } from 'config';
 import image from './../../../assets/img/background2.png';
 import eCompass from './../../../assets/img/ecompass.svg';
-import jungle from './../../../assets/img/jungle.svg';
 import jexchange from './../../../assets/img/jexchange.svg';
 import notFound from './../../../assets/img/notfoundc.svg';
 import twitter from './../../../assets/img/twitter.svg';
@@ -34,7 +33,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const stakedTokens: string[] = useGetStakedTokens();
   const { param } = useParams();
   const [url] = useState(param ? param.toString() : defaultToken);
-
   // const [test, setTest] = useState(
   //   stakedTokens.includes(url) ? url : defaultToken + ':' + url + ':'
   // );
@@ -44,26 +42,18 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const rewardedTokens = useGetRewardedTokens(stoken);
   const esdt_info = useGetESDTInformations(stoken);
 
-  useEffect(() => {
-    setStoken(param ? param.toString() : defaultToken);
-    console.log(url);
-    console.log(param);
-  }, [param]);
-
   const tokens_extra_informations = [
     {
       identifier: 'MID-7f1d59',
-      ecompass: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
-      jexchange:
-        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
-      jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
+      charts: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
+      market:
+        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79'
     },
     {
       identifier: 'MID-ecb7bf',
-      ecompass: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
-      jexchange:
-        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
-      jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
+      charts: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
+      market:
+        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79'
     }
   ];
 
@@ -81,7 +71,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   function setFSToken(e: React.ChangeEvent<any>) {
     //setParam(e.target.value);
-    navigate(`/stake/${e.target.value}`);
+    navigate(`/earn/${e.target.value}`);
 
     // const index = stakedTokens
     //   .filter(({ identifier }) => identifier === identifier)
@@ -184,6 +174,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
+
                         {esdt_info?.accounts ? (
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faChartSimple} /> Accounts :{' '}
@@ -192,17 +183,16 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
-                        {esdt_info?.circulatingSupply ? (
+
+                        {esdt_info?.supply ? (
                           <div className='col-6 float-left'>
-                            <FontAwesomeIcon icon={faChartSimple} /> Circulating
-                            :{' '}
-                            {Number(
-                              esdt_info?.circulatingSupply
-                            ).toLocaleString()}
+                            <FontAwesomeIcon icon={faChartSimple} /> Supply :{' '}
+                            {Number(esdt_info?.supply).toLocaleString()}
                           </div>
                         ) : (
                           ''
                         )}
+
                         {esdt_info?.price ? (
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faDollar} />{' '}
@@ -211,14 +201,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
-                        {esdt_info?.marketCap ? (
-                          <div className='col-6 float-left'>
-                            <FontAwesomeIcon icon={faDollar} /> Market Cap :{' '}
-                            {Number(esdt_info?.marketCap).toLocaleString()}
-                          </div>
-                        ) : (
-                          ''
-                        )}
+
                         {esdt_info?.assets?.website ? (
                           <div className='col-6 float-left'>
                             <a
@@ -236,6 +219,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
+
                         {esdt_info?.assets?.social?.twitter ? (
                           <div className='col-6 float-left'>
                             <a
@@ -250,15 +234,16 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         ) : (
                           ''
                         )}
+
                         {tokens_extra_informations
                           .filter((token) => {
                             return token.identifier === stoken;
                           })
                           .map((token) =>
-                            token.ecompass ? (
+                            token.charts ? (
                               <div key={stoken} className='col-6 float-left'>
                                 <a
-                                  href={token.ecompass}
+                                  href={token.charts}
                                   target={'_blank'}
                                   rel={'noreferrer'}
                                 >
@@ -278,10 +263,10 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                             return token.identifier === stoken;
                           })
                           .map((token) =>
-                            token.jexchange ? (
+                            token.market ? (
                               <div key={stoken} className='col-6 float-left'>
                                 <a
-                                  href={token.jexchange}
+                                  href={token.market}
                                   target={'_blank'}
                                   rel={'noreferrer'}
                                 >
@@ -290,26 +275,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                                     src={jexchange}
                                   />{' '}
                                   Jexchange
-                                </a>
-                              </div>
-                            ) : (
-                              ''
-                            )
-                          )}{' '}
-                        {tokens_extra_informations
-                          .filter((token) => {
-                            return token.identifier === stoken;
-                          })
-                          .map((token) =>
-                            token.jungle ? (
-                              <div key={stoken} className='col-6 float-left'>
-                                <a
-                                  href={token.jungle}
-                                  target={'_blank'}
-                                  rel={'noreferrer'}
-                                >
-                                  <img className='smallInfoLogo' src={jungle} />{' '}
-                                  Jungle
                                 </a>
                               </div>
                             ) : (
@@ -336,9 +301,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                     stakedToken={stoken}
                     rewardedToken={rtoken}
                     balance={balance}
-                    canBeStaked={
-                      stakedTokens.includes(rtoken) && stoken != rtoken
-                    }
                   />
                 </div>
               ))

@@ -36,7 +36,7 @@ export const useGetRewardedTokens = (stakedToken: string) => {
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
       const proxy = new ProxyNetworkProvider(
-        'https://api.middlestaking.fr/' + network.id
+        'https://api.middlestaking.fr' + network.id
       );
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getRewardedTokens');

@@ -28,7 +28,7 @@ export const useGetUserESDT = () => {
   ]);
   const address = useGetAccountInfo().address;
 
-  const url = '/accounts/' + address + '/tokens?size=1000';
+  const url = '/accounts/' + address + '/tokens';
   const getUserESDT = async () => {
     if (address != '') {
       try {

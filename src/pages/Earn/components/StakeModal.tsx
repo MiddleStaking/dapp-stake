@@ -80,28 +80,24 @@ const StakeModal = (props: any) => {
     <div className='modal' onClick={props.onClose}>
       <div className='modal-content' onClick={(e) => e.stopPropagation()}>
         <div className='modal-header'>
-          <img className='smallPoolLogo' src={props.image1} />
-          <h4 className='modal-title mx-auto'>Stake ESDT</h4>
-          <img className='smallPoolLogo' src={props.image2} />
+          <h4 className='modal-title'>
+            Stake [{props.stakedToken}] and earn [{props.rewardedToken}]
+          </h4>
         </div>
         <div className='modal-body'>
-          <br />
-          You will stake{' '}
-          <u>
-            {' '}
-            <img className='smallPoolLogo' src={props.image1} />[
-            {props.stakedToken}]
-          </u>{' '}
-          and earn <img className='smallPoolLogo' src={props.image2} />[
-          {props.rewardedToken}] that will be claimable over time.
+          <u>(1)[{props.stakedToken}]</u> will be staked.
           <br />
           <br />
-          <ul>
-            <li>Staked tokens will stay in contract</li>
-            <li>You can unstake at any time</li>
-            <li>Calculated rewards vary based on total staked</li>
-            <li>Rewards must be claimed to be finalized</li>
-          </ul>
+          You will be able to unstake your deposit at any time with no lock
+          duration.
+          <br />
+          <br />
+          <br />
+          (2)[{props.rewardedToken}] will be claimaible over time
+          <br />
+          <br />
+          Owner of the contract (we) can adjust speed of the pool but do not
+          have access to staked Tokens.
         </div>
         <Form.Group as={Row} md='12'>
           <Form.Group
