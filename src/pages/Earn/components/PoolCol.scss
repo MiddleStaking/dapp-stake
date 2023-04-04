@@ -122,8 +122,7 @@
         margin-right: auto;
 }
 .thirdPoolLogo {
-    width: 40%;
-
+    width: 50%;
 }
 
 .sub2 {
@@ -157,4 +156,33 @@
 
 .bouton-visiter:hover {
     background-color: #005fa3;
+}
+.bouton-visiter:disabled {
+    background-color: #969696;
+}
+
+.bouton-disabled {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #0077cc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    pointer-events: none;
+}
+
+.bouton-disabled:hover {
+    background-color: #005fa3;
+    pointer-events: none;
+}
+
+.bouton-disabled:disabled {
+    background-color: #969696;
+    pointer-events: none;
 }
