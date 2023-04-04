@@ -7,7 +7,7 @@ export const AuthRedirectWrapper = ({ children }: PropsWithChildren) => {
   const isLoggedIn = useGetIsLoggedIn();
 
   if (isLoggedIn) {
-    return <Navigate to={routeNames.stake} />;
+    return <Navigate to={routeNames.earn} />;
   }
 
   return <>{children}</>;

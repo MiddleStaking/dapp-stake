@@ -6,8 +6,6 @@ import styles from './../fund.module.scss';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { PoolInfo } from './PoolInfo';
 import { TopInfo } from './TopInfo';
-import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const FundLayout = ({ children }: React.PropsWithChildren) => {
   const userEsdtBalance = useGetUserESDT();
@@ -15,12 +13,8 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
   const [rtoken, setRtoken] = React.useState(defaultToken);
   const [decimals, setDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
-  const [warning, setWarning] = React.useState(true);
 
   const tokenProps = userEsdtBalance.find((item) => item.identifier === rtoken);
-  const handleChange = () => {
-    setWarning(!warning);
-  };
 
   useEffect(() => {
     if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
@@ -54,120 +48,80 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
                 <div className='card-body text-center p-4'>
                   <TopInfo />
                 </div>
-
-                {warning && (
-                  <>
-                    <div className='alert alert-danger mx-auto text-center'>
-                      {' '}
-                      <div className='text-center'>
-                        <FontAwesomeIcon
-                          icon={faTriangleExclamation}
-                          size='2x'
-                        />{' '}
-                      </div>
-                      <br />
-                      This page is here to handle deposit of the{' '}
-                      <u>Rewarded token</u> into a staking pool. <br />
-                      <br /> Once deposited, the tokens{' '}
-                      <u>
-                        <b>cannot be withdrawn</b>
-                      </u>
-                      .<br />
-                      <br /> Users will be then able to stake the{' '}
-                      <u>Staked token</u> and gain the <u>Rewarded token</u>{' '}
-                      over time.
-                      <br /> <br />
-                      <label>
-                        <input
-                          checked={!warning}
-                          onChange={handleChange}
-                          type='checkbox'
-                        />{' '}
-                        I&apos;m here to distribute esdt. Show me the interface{' '}
-                      </label>
-                    </div>
-                  </>
-                )}
-
-                {!warning && (
-                  <div className=''>
-                    {' '}
-                    <Form>
-                      <Row className='mb-3'>
-                        <Col>
-                          <Form.Group as={Col} controlId='network'>
-                            <Form.Label className='text-white'>
-                              Users will stake :
-                            </Form.Label>
-                            <Form.Control
-                              as='select'
-                              onChange={setFSToken}
-                              value={stoken}
+                <Form>
+                  <Row className='mb-3'>
+                    <Form.Group as={Col} md='6' controlId='network'>
+                      <Form.Label className='text-white'>
+                        Staked Token
+                      </Form.Label>
+                      <Form.Control
+                        as='select'
+                        onChange={setFSToken}
+                        value={stoken}
+                        disabled={false}
+                      >
+                        {userEsdtBalance &&
+                          userEsdtBalance.map((item) => (
+                            <option
                               disabled={false}
+                              className='text-center not-allowed disabled'
+                              key={item.identifier}
+                              value={item.identifier}
                             >
-                              {userEsdtBalance &&
-                                userEsdtBalance.map((item) => (
-                                  <option
-                                    disabled={false}
-                                    className='text-center not-allowed disabled'
-                                    key={item.identifier}
-                                    value={item.identifier}
-                                  >
-                                    {item.identifier}
-                                  </option>
-                                ))}
-                            </Form.Control>
-                          </Form.Group>
-                        </Col>
+                              {item.identifier}
+                            </option>
+                          ))}
+                      </Form.Control>
+                    </Form.Group>
 
-                        <Col>
-                          {' '}
-                          <Form.Group as={Col} controlId='rtoken'>
-                            <Form.Label className='text-white'>
-                              Users will be rewarded with :
-                            </Form.Label>
-                            <Form.Control
-                              as='select'
-                              onChange={setFRtoken}
-                              value={rtoken}
+                    <Form.Group as={Col} md='6' controlId='rtoken'>
+                      <Form.Label className='text-white'>
+                        Rewarded Token
+                      </Form.Label>
+                      <Form.Control
+                        as='select'
+                        onChange={setFRtoken}
+                        value={rtoken}
+                      >
+                        {userEsdtBalance &&
+                          userEsdtBalance.map((item) => (
+                            <option
+                              className='text-center'
+                              key={item.identifier}
+                              value={item.identifier}
                             >
-                              {userEsdtBalance &&
-                                userEsdtBalance.map((item) => (
-                                  <option
-                                    className='text-center'
-                                    key={item.identifier}
-                                    value={item.identifier}
-                                  >
-                                    <FormatAmount
-                                      decimals={item.decimals}
-                                      value={item.balance.toString()}
-                                      egldLabel={
-                                        item.identifier +
-                                        ' (' +
-                                        item.decimals +
-                                        ' dec)'
-                                      }
-                                      data-testid='staked'
-                                    />
-                                  </option>
-                                ))}
-                            </Form.Control>
-                          </Form.Group>
-                        </Col>
-                      </Row>
+                              <FormatAmount
+                                decimals={item.decimals}
+                                value={item.balance.toString()}
+                                egldLabel={
+                                  item.identifier +
+                                  ' (' +
+                                  item.decimals +
+                                  ' dec)'
+                                }
+                                data-testid='staked'
+                              />
+                            </option>
+                          ))}
+                      </Form.Control>
+                    </Form.Group>
 
-                      <Row className='mb-3'>
-                        <Form.Group as={Col}></Form.Group>
-                      </Row>
-                    </Form>
-                    <PoolInfo
-                      stakedToken={stoken}
-                      rewardedToken={rtoken}
-                      balance={balance}
-                      decimals={decimals}
-                    />
-                  </div>
-                )}
+                    <Form.Group as={Col} md='6' controlId='asset'>
+                      <Form.Label>Asset</Form.Label>
+                    </Form.Group>
+                  </Row>
+
+                  <Row className='mb-3'>
+                    <Form.Group as={Col}></Form.Group>
+                  </Row>
+                </Form>
+
+                <PoolInfo
+                  stakedToken={stoken}
+                  rewardedToken={rtoken}
+                  balance={balance}
+                  decimals={decimals}
+                />
               </div>
             </div>
           </div>

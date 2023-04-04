@@ -56,7 +56,6 @@
     }
   }
 
-  .icon,
   .logo {
     background: #22f7dd;
     border: 1px solid #49494d;
@@ -72,6 +71,33 @@
     &--inversed {
       background-color: #d7d7d7;
 
+      svg path {
+        fill: #303234;
+      }
+    }
+  }
+
+  .icon,
+  .logoStacked {
+    background-image: linear-gradient(to right bottom, #22f7dd, #00d8f8, #00b3ff, #0086ff, #2044f5);
+    border: 1px solid #49494d;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+    border-radius: 50%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    position: relative;
+
+    &--inversed {
+      background-image: linear-gradient(to right bottom, #d7d7d7, #b9cee6, #74cce7, #00cac5, #28c180);      
+      svg path {
+        fill: #303234;
+      }
+    }
+    &--inversedNoRewards {
+      background-image: linear-gradient(to right bottom, #d7d7d7, #d7d7d7, #d7d7d7, #d7d7d7, #d7d7d7);      
       svg path {
         fill: #303234;
       }

@@ -32,6 +32,7 @@ const PayFeesModal = (props: any) => {
           <u>(2)[{props.rewardedToken}]</u> deposit fees will be set to zero
           <br />
           <br />
+          Owner of the contract (we) can adjust speed of the pool.
         </div>
         <Form.Group className='m-auto' onClick={props.onClose}>
           <ActionRemovePoolFees

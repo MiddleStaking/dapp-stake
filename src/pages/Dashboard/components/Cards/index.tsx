@@ -124,6 +124,7 @@ const Cards: FC = () => {
   //   () => {
   //   const users: string =
   //     getTotalUser() !== undefined ? getTotalUser() : 'loading';
+  //   // console.log(users);
 
   //   // return 'users';
   //   return users;
@@ -180,12 +181,22 @@ const Cards: FC = () => {
   // };
   const getContractStakeData = useCallback(
     () => {
+      // console.log(!totalNetworkStake.data);
+      // console.log(totalActiveStake);
+      // console.log(networkstatus);
+
+      // console.log(getNetworkStatus());
+
       // let networkProvider = new ApiNetworkProvider("https://mainet-api.multiversx.com");
       // networkStake.TotalStaked;
 
       const TotalStakeOnContract = GetTotalActiveStake();
 
       const TotalStake = GetTotalNetworkStake();
+
+      // console.log(networkStake.TotalStaked.toString());
+
+      // console.log(totalNetworkStake);
 
       // if (!totalNetworkStake.data || !totalActiveStake.data) {
       //   const loading =
@@ -205,6 +216,8 @@ const Cards: FC = () => {
           TotalStakeOnContract !== undefined ? TotalStakeOnContract : '0'
         )
       };
+
+      // console.log(TotalStake);
 
       return {
         value: `${formatted.nodes} ${network.egldLabel}`,
@@ -249,12 +262,14 @@ const Cards: FC = () => {
 
   const getDelegationCap = useCallback(() => {
     const TotalgetDelegationCapr: any = GetContractConfig();
+    // console.log(TotalgetDelegationCapr);
 
     return TotalgetDelegationCapr.MaxDelegationCap;
   }, []);
 
   const getServiceFee = useCallback(() => {
     const TotalgetDelegationCapr: any = GetContractConfig();
+    // console.log(TotalgetDelegationCapr);
 
     return TotalgetDelegationCapr.serviceFee;
   }, []);
@@ -416,6 +431,7 @@ const Cards: FC = () => {
             ) : (
               ''
             )}
+            {/* {console.log(card.data)} */}
             {card.data.percentage && <span>{card.data.percentage}</span>}
           </div>
         );

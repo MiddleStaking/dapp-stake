@@ -54,6 +54,8 @@ const Undelegate: FC<any> = (props: any) => {
                   ','
                 );
 
+                // console.log(valueWithoutComma2);
+
                 const onChange = (
                   event: ChangeEvent<HTMLInputElement>
                 ): void => {

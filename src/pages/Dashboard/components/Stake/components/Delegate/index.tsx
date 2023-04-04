@@ -44,6 +44,7 @@ const Delegate: FC<any> = (props: any) => {
                 )
               })}
               onSubmit={onDelegate}
+              // onSubmit={() => console.log()}
               initialValues={{
                 amount: '1'
               }}

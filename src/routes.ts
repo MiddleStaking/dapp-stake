@@ -10,8 +10,8 @@ export const routeNames = {
   home: '/',
   dashboard: '/dashboard',
   statistics: '/statistics',
-  unlock: '/unlock',
-  stake: '/stake',
+  unlock: '/unlocks',
+  earn: '/earn',
   fund: '/fund',
   faucet: '/faucet',
   rewards: '/rewards',
@@ -41,14 +41,14 @@ export const routes: RouteWithTitleType[] = [
     authenticatedRoute: true
   },
   {
-    path: routeNames.stake + '/:param',
-    title: 'Stake',
+    path: routeNames.earn + '/:param',
+    title: 'Earn',
     component: Earn,
     authenticatedRoute: false
   },
   {
-    path: routeNames.stake,
-    title: 'Stake',
+    path: routeNames.earn,
+    title: 'Earn',
     component: Earn,
     authenticatedRoute: false
   },
