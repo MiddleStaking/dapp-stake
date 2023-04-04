@@ -91,7 +91,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   return (
     <div className='container-xxl py-4'>
-      <div className='row'>
+      <div>
         <div className='col-12 col-md-10 mx-auto'>
           <div className='card shadow-sm border-0 '>
             <div className='card-body p-1 '>
