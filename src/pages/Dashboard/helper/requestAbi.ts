@@ -8,7 +8,7 @@ import {
 } from '@multiversx/sdk-core/out';
 import { useGetNetworkConfig as multiversxGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import {
-  ApiNetworkProvider,
+  // ApiNetworkProvider,
   ProxyNetworkProvider
 } from '@multiversx/sdk-network-providers/out';
 import { minDust, network, contractAddressDelegation } from 'config';
@@ -29,7 +29,7 @@ import axios from 'axios';
 const resultsParser = new ResultsParser();
 
 const GetTotalActiveStake = () => {
-  const { network } = multiversxGetNetworkConfig();
+  // const { network } = multiversxGetNetworkConfig();
   const [getTotalActiveStake, setGetTotalActiveStake] =
     React.useState<string>('loading');
 
@@ -61,7 +61,7 @@ const GetTotalActiveStake = () => {
           : 'loading'
       );
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      console.error('Unable to call getTotalActiveStakeAbi', err);
     }
   };
 
@@ -98,7 +98,7 @@ const GetTotalUser = () => {
         amount !== null ? amount?.valueOf().toString(10) : 'loading'
       );
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      console.error('Unable to call GetTotalUser', err);
     }
   };
 
@@ -134,7 +134,7 @@ const GetTotalNode = () => {
         amount !== null ? amount?.valueOf().toString(10) : 'loading'
       );
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      console.error('Unable to call GetTotalNode', err);
     }
   };
 
@@ -160,7 +160,7 @@ const GetTotalNetworkStake = () => {
       setGetTotalNode(queryResponse);
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      console.error('Unable to call GetTotalNetworkStake', err);
     }
   };
 
@@ -189,7 +189,7 @@ const GetNetworkStatus = () => {
 
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      console.error('Unable to call GetNetworkStatus', err);
     }
   };
 
@@ -268,7 +268,7 @@ const GetUserActiveStake = () => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const { network } = multiversxGetNetworkConfig();
-  const [pingAmount, setPingAmount] = useState<string>('0');
+  const [pingAmount, setPingAmount] = useState<string>('x');
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
   const proxy = new ProxyNetworkProvider(
@@ -294,13 +294,10 @@ const GetUserActiveStake = () => {
         endpointDefinition
       );
 
-      if (amount === null) {
-        setPingAmount('0');
-        return;
-      }
       setPingAmount(amount?.valueOf()?.toString(10));
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      setPingAmount('null');
+      console.error('Unable to call GetUserActiveStake', err);
     }
   };
   useEffect(() => {
@@ -397,7 +394,7 @@ const GetUserClaimsReward = () => {
       }
       setRewards(amount?.valueOf()?.toString(10));
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      console.error('Unable to call getRewards', err);
     }
   };
 
@@ -635,7 +632,7 @@ const ConfigNetwork = () => {
 
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      console.error('Unable to call ConfigNetwork', err);
     }
   };
 
@@ -667,7 +664,7 @@ const GetEpochNumber = () => {
 
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      console.error('Unable to call GetEpochNumber', err);
     }
   };
 
@@ -689,7 +686,7 @@ const NetworkEconomics = () => {
 
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call getPingAmount', err);
+      console.error('Unable to call NetworkEconomics', err);
     }
   };
 

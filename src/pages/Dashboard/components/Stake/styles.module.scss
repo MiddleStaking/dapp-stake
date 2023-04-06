@@ -78,6 +78,74 @@
     }
   }
 
+  .icons{
+    background-image: linear-gradient(to right bottom, #22f7dd, #00d8f8, #00b3ff, #0086ff, #2044f5);    border: 1px solid #49494d;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+    border-radius: 50%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    position: relative;
+
+    &--inversed {
+      background-image: linear-gradient(to right bottom, #d7d7d7, #d7d7d7, #d7d7d7, #d7d7d7, #d7d7d7);    border: 1px solid #49494d;
+
+      svg path {
+        fill: #303234;
+      }
+    }
+    &--inversed-Egld {
+      background-image: linear-gradient(to right bottom, #d7d7d7, #cadaf1, #9ee3ff, #58efff, #22f7dd);
+      svg path {
+        fill: #303234;
+      }
+    }
+    margin: -50px 0 20px;
+
+    .plus {
+      line-height: 1;
+      color: #23d389;
+      position: absolute;
+      font-size: 18px;
+
+      &--1 {
+        right: calc(100% + 2px);
+        top: 5px;
+        height: 11px;
+        display: flex;
+        align-items: center;
+      }
+
+      &--2 {
+        font-size: 32px;
+        top: 0;
+        left: calc(100% + 15px);
+        display: flex;
+        height: 18px;
+        align-items: center;
+      }
+
+      &--3 {
+        left: calc(100% + 2px);
+        display: flex;
+        align-items: center;
+        height: 11px;
+        bottom: 0;
+      }
+
+      &--4 {
+        font-size: 24px;
+        top: calc(100% - 8px);
+        right: calc(100% + 20px);
+        height: 15px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
   .icon {
     margin: -50px 0 20px;
 
