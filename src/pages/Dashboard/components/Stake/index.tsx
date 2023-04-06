@@ -3,14 +3,10 @@ import React, { FC, ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Logo from 'assets/Logo';
-
-import Delegate from './components/Delegate';
-import Undelegate from './components/Undelegate';
-import imagePartalConnexion from '../../../../assets/multiversxPortal.png';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-
-import styles from './styles.module.scss';
+import { denominated } from 'pages/Dashboard/helper/denominate';
+import modifiable from 'pages/Dashboard/helper/modifiable';
+import imagePartalConnexion from '../../../../assets/multiversxPortal.png';
 import {
   getStakingLimits,
   GetUserActiveStake,
@@ -18,8 +14,10 @@ import {
   sendClaimRewards,
   sendReDelegateRewards
 } from '../../helper/requestAbi';
-import { denominated } from 'pages/Dashboard/helper/denominate';
-import modifiable from 'pages/Dashboard/helper/modifiable';
+import Delegate from './components/Delegate';
+import Undelegate from './components/Undelegate';
+
+import styles from './styles.module.scss';
 
 interface ActionType {
   label: string;
@@ -41,14 +39,12 @@ const Stake: FC = () => {
   const UserActiveStake = GetUserActiveStake();
   const UserRewaards = GetUserClaimsReward();
 
-  const { isLoading, isEmpty } = {
+  const { isLoading, isEmpty, isError } = {
     isEmpty: UserActiveStake === '0',
     //  && userClaimableRewards.data === '0',
-    isLoading: UserActiveStake === '0'
+    isLoading: UserActiveStake === 'x',
     // || userClaimableRewards.status === 'loading',
-    // isError:
-    //   userActiveStake.status === 'error' ||
-    //   userClaimableRewards.status === 'error'
+    isError: UserActiveStake === 'null'
   };
 
   const StakingLimits = getStakingLimits();
@@ -100,14 +96,19 @@ const Stake: FC = () => {
         styles
       )} stake`}
     >
-      {isLoading || isEmpty ? (
+      {isLoading || isEmpty || isError ? (
         <div className={styles.wrapper}>
           <strong className={styles.heading}>
             Welcome to Delegation Dashboard!
           </strong>
 
           <div className={styles.logo}>
-            <Logo />
+            {/* <Logo /> */}
+            <img
+              className={styles.img}
+              src={imagePartalConnexion}
+              alt='Grapefruit slice atop a pile of other slices'
+            ></img>
 
             <div style={{ background: '#2044F5' }} className={styles.subicon}>
               <FontAwesomeIcon icon={faLock} />
@@ -117,7 +118,7 @@ const Stake: FC = () => {
           <div className={styles.message}>
             {isLoading
               ? 'Retrieving staking data...'
-              : 'isError'
+              : isError
               ? 'There was an error trying to retrieve staking data.'
               : `Currently you don't have any ${network.egldLabel} staked.`}
           </div>
@@ -128,7 +129,11 @@ const Stake: FC = () => {
         panels.map((panel, index) => (
           <div key={panel.title} className={styles.panel}>
             <div
-              className={modifiable('icon', [index > 0 && 'inversed'], styles)}
+              className={
+                UserRewaards == '0'
+                  ? modifiable('icons', [index > 0 && 'inversed'], styles)
+                  : modifiable('icons', [index > 0 && 'inversed-Egld'], styles)
+              }
             >
               {/* <Logo /> */}
               <span>
