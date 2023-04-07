@@ -149,7 +149,20 @@ const TokenomicsV2 = () => {
                           <div className={`${styles.heading}`}>
                             <div className={styles.meta}>
                               <div className='d-flex align-items-center'>
-                                <span className={styles.contract}>
+                                <span
+                                  className={styles.contract}
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: '15px',
+                                    lineHeight: 1,
+                                    color: 'white',
+                                    marginRight: '10px',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow:
+                                      indoContractSelect.wallet_address_32
+                                  }}
+                                >
                                   {indoContractSelect.wallet_address_32}
                                 </span>
                                 <a
