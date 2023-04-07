@@ -293,6 +293,10 @@ const GetUserActiveStake = () => {
         endpointDefinition
       );
 
+      if (amount === null) {
+        setPingAmount('0');
+        return;
+      }
       setPingAmount(amount?.valueOf()?.toString(10));
     } catch (err) {
       setPingAmount('null');
