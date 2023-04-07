@@ -73,153 +73,148 @@ const Rewards = () => {
       <div className={'col-12 col-md-10 mx-auto' + ' ' + styles.colorborder}>
         <div className={'card shadow-sm' + ' ' + styles.colorborder}>
           <div className={'card-body p-1 '}>
-            <div
-              className={
-                'card rounded border-0 card-content bg-primary' +
-                ' ' +
-                styles.colorborder
-              }
-            >
-              <div className='card-body card-content text-center p-4'>
-                <Container className={'text-white ' + styles.cardback}>
-                  <Row className={'sm-12 '}>
-                    <Col>
-                      MID tokens are distributed annually to users participating
-                      in EGLD staking on our contract in proportion to the
-                      amount of rewards they generate. <br />
-                      Read our{' '}
-                      <a
-                        href='https://www.middlestaking.fr/en/lite-paper'
-                        target={'_blank'}
-                        rel={'noreferrer'}
-                        className={'text-white'}
-                      >
-                        <u>lite paper</u>
-                      </a>{' '}
-                      for more details.
-                    </Col>
-                  </Row>{' '}
-                  <Row className={styles.cardback}>
-                    <Col>
-                      <div className={'sm-12 '}>
-                        Rewards from staking (All time) :{' '}
-                        <FormatAmount
-                          value={yRewards.sum}
-                          egldLabel={'egld'}
-                          data-testid='balance'
-                          digits={2}
-                        />
-                      </div>
-                    </Col>{' '}
-                  </Row>
-                  {yRewards.yrewards ? (
-                    yRewards.yrewards.map((item: string, index: string) => (
-                      <Row key={index}>
-                        <Col>
-                          <div className={'sm-12'}>
-                            Rewards from staking (
-                            {yRewards.yrewards[index].year}) :{' '}
-                            <FormatAmount
-                              value={yRewards.yrewards[index].rewards}
-                              egldLabel={'egld'}
-                              data-testid='balance'
-                              digits={2}
-                            />
-                            {network.egldLabel}
-                          </div>
-                        </Col>{' '}
-                        <Col>
-                          <div className={''}>
-                            {yRewards.yrewards[index].txHash ? (
-                              <a
-                                className='text-white'
-                                href={
-                                  'https://explorer.multiversx.com/transactions/' +
-                                  yRewards.yrewards[index].txHash
-                                }
-                                target={'_blank'}
-                                rel='noreferrer'
-                              >
-                                <>
-                                  Mid received (
-                                  {parseInt(yRewards.yrewards[index].year) + 1})
-                                  :{' '}
-                                  <FormatAmount
-                                    value={yRewards.yrewards[index].mid_rewards}
-                                    egldLabel={defaultToken}
-                                    data-testid='balance'
-                                    digits={2}
-                                  />{' '}
-                                  <FontAwesomeIcon icon={faSearch} />
-                                </>
-                              </a>
-                            ) : (
+            <div className='card-body card-content text-center p-4'>
+              <Container
+                style={{ marginLeft: 0 }}
+                className={'text-white ' + styles.cardback}
+              >
+                <Row className={'sm-12 '}>
+                  <Col>
+                    MID tokens are distributed annually to users participating
+                    in EGLD staking on our contract in proportion to the amount
+                    of rewards they generate. <br />
+                    Read our{' '}
+                    <a
+                      href='https://www.middlestaking.fr/en/lite-paper'
+                      target={'_blank'}
+                      rel={'noreferrer'}
+                      className={'text-white'}
+                    >
+                      <u>lite paper</u>
+                    </a>{' '}
+                    for more details.
+                  </Col>
+                </Row>{' '}
+                <Row className={styles.cardback}>
+                  <Col>
+                    <div className={'sm-12 '}>
+                      Rewards from staking (All time) :{' '}
+                      <FormatAmount
+                        value={yRewards.sum}
+                        egldLabel={'egld'}
+                        data-testid='balance'
+                        digits={2}
+                      />
+                    </div>
+                  </Col>{' '}
+                </Row>
+                {yRewards.yrewards ? (
+                  yRewards.yrewards.map((item: string, index: string) => (
+                    <Row key={index}>
+                      <Col>
+                        <div className={'sm-12'}>
+                          Rewards from staking ({yRewards.yrewards[index].year})
+                          :{' '}
+                          <FormatAmount
+                            value={yRewards.yrewards[index].rewards}
+                            egldLabel={'egld'}
+                            data-testid='balance'
+                            digits={2}
+                          />
+                          {network.egldLabel}
+                        </div>
+                      </Col>{' '}
+                      <Col>
+                        <div className={''}>
+                          {yRewards.yrewards[index].txHash ? (
+                            <a
+                              className='text-white'
+                              href={
+                                'https://explorer.multiversx.com/transactions/' +
+                                yRewards.yrewards[index].txHash
+                              }
+                              target={'_blank'}
+                              rel='noreferrer'
+                            >
                               <>
-                                Mid to receive (
+                                Mid received (
                                 {parseInt(yRewards.yrewards[index].year) + 1}) :{' '}
                                 <FormatAmount
                                   value={yRewards.yrewards[index].mid_rewards}
                                   egldLabel={defaultToken}
                                   data-testid='balance'
                                   digits={2}
-                                />
+                                />{' '}
+                                <FontAwesomeIcon icon={faSearch} />
                               </>
-                            )}
-                          </div>
-                        </Col>
-                      </Row>
-                    ))
-                  ) : (
-                    <></>
-                  )}
-                  {points.points ? (
-                    points.points.map((Ditem, Dindex) => (
-                      <Row key={Dindex} className={styles.cardback}>
-                        <Col className='sm-12'>
-                          <Row>
-                            <Col className='lead'>{Ditem}</Col>
-                          </Row>
-                          <Row className='lead'>
-                            <Col>Action</Col>
-                            {/* <Col>Value</Col> */}
-                            <Col>Earn</Col>
-                          </Row>{' '}
-                          <hr
-                            style={{
-                              height: '1px',
-                              color: 'white',
-                              backgroundColor: 'white',
-                              marginTop: 0
-                            }}
-                          />
-                          {rewards.tx[Ditem] &&
-                            rewards.tx[Ditem].map(
-                              (item: string, index: number) => (
-                                <Row
-                                  className='text-center'
-                                  key={Ditem + 'L' + index}
-                                >
-                                  <Col className=''>
-                                    <a
-                                      className='text-white'
-                                      target='_BLANK'
-                                      rel='noreferrer'
-                                      href={
-                                        'https://explorer.multiversx.com/transactions/' +
-                                        rewards.tx[Ditem][index].txHash
-                                      }
-                                    >
-                                      {rewards.tx[Ditem][
-                                        index
-                                      ].function.includes('unDelegate') ? (
-                                        <>unDelegate</>
-                                      ) : (
-                                        rewards.tx[Ditem][index].function
-                                      )}{' '}
-                                      <FontAwesomeIcon icon={faSearch} />
-                                    </a>
-                                  </Col>
-                                  {/* <Col>
+                            </a>
+                          ) : (
+                            <>
+                              Mid to receive (
+                              {parseInt(yRewards.yrewards[index].year) + 1}) :{' '}
+                              <FormatAmount
+                                value={yRewards.yrewards[index].mid_rewards}
+                                egldLabel={defaultToken}
+                                data-testid='balance'
+                                digits={2}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </Col>
+                    </Row>
+                  ))
+                ) : (
+                  <></>
+                )}
+                {points.points ? (
+                  points.points.map((Ditem, Dindex) => (
+                    <Row key={Dindex} className={styles.cardback}>
+                      <Col className='sm-12'>
+                        <Row>
+                          <Col className='lead'>{Ditem}</Col>
+                        </Row>
+                        <Row className='lead'>
+                          <Col>Action</Col>
+                          {/* <Col>Value</Col> */}
+                          <Col>Earn</Col>
+                        </Row>{' '}
+                        <hr
+                          style={{
+                            height: '1px',
+                            color: 'white',
+                            backgroundColor: 'white',
+                            marginTop: 0
+                          }}
+                        />
+                        {rewards.tx[Ditem] &&
+                          rewards.tx[Ditem].map(
+                            (item: string, index: number) => (
+                              <Row
+                                className='text-center'
+                                key={Ditem + 'L' + index}
+                              >
+                                <Col className=''>
+                                  <a
+                                    className='text-white'
+                                    target='_BLANK'
+                                    rel='noreferrer'
+                                    href={
+                                      'https://explorer.multiversx.com/transactions/' +
+                                      rewards.tx[Ditem][index].txHash
+                                    }
+                                  >
+                                    {rewards.tx[Ditem][index].function.includes(
+                                      'unDelegate'
+                                    ) ? (
+                                      <>unDelegate</>
+                                    ) : (
+                                      rewards.tx[Ditem][index].function
+                                    )}{' '}
+                                    <FontAwesomeIcon icon={faSearch} />
+                                  </a>
+                                </Col>
+                                {/* <Col>
                                     <FormatAmount
                                       value={rewards.tx[Ditem][index].value}
                                       egldLabel={'Egld'}
@@ -227,31 +222,30 @@ const Rewards = () => {
                                       digits={2}
                                     />
                                   </Col> */}
-                                  <Col>
-                                    {' '}
-                                    <FormatAmount
-                                      value={rewards.tx[Ditem][index].earn}
-                                      egldLabel={'Egld'}
-                                      data-testid='balance'
-                                      digits={2}
-                                    />
-                                  </Col>
-                                </Row>
-                              )
-                            )}
-                        </Col>
-                      </Row>
-                    ))
-                  ) : (
-                    <></>
-                  )}
-                  {yRewards.sum == '0' && (
-                    <Row className={''}>
-                      <Col> We found no rewards for {address}</Col>
+                                <Col>
+                                  {' '}
+                                  <FormatAmount
+                                    value={rewards.tx[Ditem][index].earn}
+                                    egldLabel={'Egld'}
+                                    data-testid='balance'
+                                    digits={2}
+                                  />
+                                </Col>
+                              </Row>
+                            )
+                          )}
+                      </Col>
                     </Row>
-                  )}
-                </Container>
-              </div>
+                  ))
+                ) : (
+                  <></>
+                )}
+                {yRewards.sum == '0' && (
+                  <Row className={''}>
+                    <Col> We found no rewards for {address}</Col>
+                  </Row>
+                )}
+              </Container>
             </div>
           </div>
         </div>
