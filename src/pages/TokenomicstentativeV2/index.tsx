@@ -6,6 +6,8 @@ import axios from 'axios';
 import { Alert, Col, Container, Row } from 'react-bootstrap';
 import { network } from 'config';
 import styles from './tokenomics.module.scss';
+import { useEffect, useRef, useState } from 'react';
+import Truncate from './component/truncate';
 
 const TokenomicsV2 = () => {
   //   [{"id":"1","wallet_address_32":"erd1c3nfhvj5jgulw62yndr6fgh0fcmut34fful733tl998zpt9s2k5qrxumhs","contract_address_32":"erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2","staked":"120000000000000000000","serviceFee":"1500","rewards":"1056319668794646154"}]
@@ -84,9 +86,31 @@ const TokenomicsV2 = () => {
     // }, 60000);
     // return () => clearInterval(interval);
   }, [setContracts]);
+  const [showIci, setShowIci] = useState(false);
+  const contractRef = useRef<HTMLSpanElement>(null);
 
-  console.log(indoContractSelect);
-  console.log(contracts.contracts[0]);
+  const checkOverflow = () => {
+    if (contractRef.current) {
+      const isOverflowing =
+        contractRef.current.offsetWidth < contractRef.current.scrollWidth;
+      setShowIci(isOverflowing);
+    }
+  };
+
+  useEffect(() => {
+    checkOverflow();
+
+    // Ajouter un event listener pour gérer le redimensionnement de la fenêtre
+    const handleResize = () => {
+      checkOverflow();
+    };
+    window.addEventListener('resize', handleResize);
+
+    // Supprimer l'event listener lors du nettoyage de l'effet
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [indoContractSelect.wallet_address_32]);
 
   return (
     <div>
@@ -125,57 +149,16 @@ const TokenomicsV2 = () => {
                     <Col md={7}>
                       <Row>
                         <Col className={`${styles.headingcenter}`}>
-                          <div className={`${styles.heading}`}>
-                            <div className={styles.meta}>
-                              <div className='d-flex align-items-center'>
-                                <span className={styles.contract}>
-                                  {indoContractSelect.contract_address_32}
-                                </span>
-                                <a
-                                  href={`${network.explorerAddress}/accounts/${indoContractSelect.contract_address_32}`}
-                                  className={styles.icon}
-                                  rel='noreferrer'
-                                  target='_blank'
-                                >
-                                  <FontAwesomeIcon icon={faExternalLinkAlt} />
-                                </a>
-                              </div>
-                            </div>
-                          </div>
+                          <Truncate
+                            address={indoContractSelect.contract_address_32}
+                          />
                         </Col>
                       </Row>
                       <Row>
                         <Col className={`${styles.headingcenter}`}>
-                          <div className={`${styles.heading}`}>
-                            <div className={styles.meta}>
-                              <div className='d-flex align-items-center'>
-                                <span
-                                  className={styles.contract}
-                                  style={{
-                                    fontWeight: 'bold',
-                                    fontSize: '15px',
-                                    lineHeight: 1,
-                                    color: 'white',
-                                    marginRight: '10px',
-                                    whiteSpace: 'nowrap',
-                                    overflow: 'hidden',
-                                    textOverflow:
-                                      indoContractSelect.wallet_address_32
-                                  }}
-                                >
-                                  {indoContractSelect.wallet_address_32}
-                                </span>
-                                <a
-                                  href={`${network.explorerAddress}/accounts/${indoContractSelect.wallet_address_32}`}
-                                  className={styles.icon}
-                                  rel='noreferrer'
-                                  target='_blank'
-                                >
-                                  <FontAwesomeIcon icon={faExternalLinkAlt} />
-                                </a>
-                              </div>
-                            </div>
-                          </div>
+                          <Truncate
+                            address={indoContractSelect.wallet_address_32}
+                          />
                         </Col>
                       </Row>
                       <Row className='lead'>
