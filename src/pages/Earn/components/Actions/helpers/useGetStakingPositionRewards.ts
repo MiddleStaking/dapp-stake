@@ -11,6 +11,7 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
 import { smartContract } from './smartContract';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
@@ -20,7 +21,7 @@ export const useGetStakingPositionRewards = (
   stake_amount: bigint,
   hasPendingTransactions: boolean
 ) => {
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const [rewardsAmount, setRewardsAmount] = useState<bigint>(BigInt(1));
   const [time, setTime] = useState(new Date());
@@ -44,9 +45,7 @@ export const useGetStakingPositionRewards = (
       });
 
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(
-        'https://devnet-gateway.multiversx.com'
-      );
+      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint(
         'calculateRewardsForUser'

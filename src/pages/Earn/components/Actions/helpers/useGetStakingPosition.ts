@@ -11,6 +11,7 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
 import { smartContract } from './smartContract';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
@@ -19,7 +20,7 @@ export const useGetStakingPosition = (
   rewardedToken: any,
   hasPendingTransactions: boolean
 ) => {
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const [stakingPosition, setStakingPosition] = useState({
     stake_amount: BigInt(0),
@@ -41,9 +42,7 @@ export const useGetStakingPosition = (
       });
 
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(
-        'https://devnet-gateway.multiversx.com'
-      );
+      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
 
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition =

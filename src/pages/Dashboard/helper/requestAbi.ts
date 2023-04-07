@@ -6,8 +6,9 @@ import {
   ResultsParser,
   TokenPayment
 } from '@multiversx/sdk-core/out';
-import { useGetNetworkConfig as multiversxGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+// import { useGetNetworkConfig as multiversxGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import {
+  ApiNetworkProvider,
   // ApiNetworkProvider,
   ProxyNetworkProvider
 } from '@multiversx/sdk-network-providers/out';
@@ -35,7 +36,8 @@ const GetTotalActiveStake = () => {
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
   const proxy = new ProxyNetworkProvider(
-    'https://devnet-gateway.multiversx.com'
+    network.gatewayAddress
+    // 'https://devnet-gateway.multiversx.com'
   );
   const getTotalActiveStakeAbi = async () => {
     try {
@@ -73,13 +75,11 @@ const GetTotalActiveStake = () => {
 };
 
 const GetTotalUser = () => {
-  const { network } = multiversxGetNetworkConfig();
+  // const { network } = multiversxGetNetworkConfig();
   const [getTotalUsers, setGetTotalUsers] = useState<string>();
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(
-    'https://devnet-gateway.multiversx.com'
-  );
+  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
   const getTotalUserAbi = async () => {
     try {
       const query = smartContract.createQuery({
@@ -110,13 +110,11 @@ const GetTotalUser = () => {
 };
 
 const GetTotalNode = () => {
-  const { network } = multiversxGetNetworkConfig();
+  // const { network } = multiversxGetNetworkConfig();
   const [getTotalNode, setGetTotalNode] = useState<string>();
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(
-    'https://devnet-gateway.multiversx.com'
-  );
+  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
   const getTotalNodeAbi = async () => {
     try {
       const query = smartContract.createQuery({
@@ -146,17 +144,21 @@ const GetTotalNode = () => {
 };
 
 const GetTotalNetworkStake = () => {
-  const { network } = multiversxGetNetworkConfig();
+  // const { network } = multiversxGetNetworkConfig();
   const [getTotalNode, setGetTotalNode] = useState<any>();
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(
-    'https://devnet-gateway.multiversx.com'
-  );
+  // const proxy = new ProxyNetworkProvider(network.gatewayAddress);
+
+  const query = new ApiNetworkProvider(network.apiAddress, {
+    timeout: 4000
+  });
+
+  // const data = await query.getNetworkStakeStatistics();
   const getNetworkStake = async () => {
     try {
-      const queryResponse = await proxy.getNetworkStakeStatistics();
-
+      // console.log(await query.getNetworkStakeStatistics());
+      const queryResponse = await query.getNetworkStakeStatistics();
       setGetTotalNode(queryResponse);
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
@@ -174,16 +176,17 @@ const GetTotalNetworkStake = () => {
 };
 
 const GetNetworkStatus = () => {
-  const { network } = multiversxGetNetworkConfig();
+  // const { network } = multiversxGetNetworkConfig();
   const [getTotalNode, setGetTotalNode] = useState<any>();
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(
-    'https://devnet-gateway.multiversx.com'
-  );
+  // const proxy = new ProxyNetworkProvider(network.gatewayAddress);
+  const query = new ApiNetworkProvider(network.apiAddress, {
+    timeout: 4000
+  });
   const getNetworkStatus = async () => {
     try {
-      const queryResponse = await proxy.getNetworkStakeStatistics();
+      const queryResponse = await query.getNetworkStakeStatistics();
 
       setGetTotalNode(queryResponse);
 
@@ -201,7 +204,7 @@ const GetNetworkStatus = () => {
 };
 
 const GetContractConfig = () => {
-  const { network } = multiversxGetNetworkConfig();
+  // const { network } = multiversxGetNetworkConfig();
   const [getContractCongig, setGetContractCongig] = useState({
     owner_address: 'undefined',
     serviceFee: 0,
@@ -215,9 +218,7 @@ const GetContractConfig = () => {
   });
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(
-    'https://devnet-gateway.multiversx.com'
-  );
+  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
   const ContractConfig = async () => {
     try {
       const query = smartContract.createQuery({
@@ -267,13 +268,11 @@ const GetUserActiveStake = () => {
   const { success } = useGetActiveTransactionsStatus();
   const { hasPendingTransactions } = useGetPendingTransactions();
 
-  const { network } = multiversxGetNetworkConfig();
+  // const { network } = multiversxGetNetworkConfig();
   const [pingAmount, setPingAmount] = useState<string>('x');
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(
-    'https://devnet-gateway.multiversx.com'
-  );
+  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
   const getPingAmount = async () => {
     if (hasPendingTransactions) {
       return;
@@ -362,13 +361,11 @@ const GetUserClaimsReward = () => {
   const { address, account } = multiversxGetAccountInfo();
   const { hasPendingTransactions } = useGetPendingTransactions();
 
-  const { network } = multiversxGetNetworkConfig();
+  // const { network } = multiversxGetNetworkConfig();
   const [rewards, setRewards] = useState<string>('0');
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(
-    'https://devnet-gateway.multiversx.com'
-  );
+  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
   const getRewards = async () => {
     try {
       const query = smartContract.createQuery({
