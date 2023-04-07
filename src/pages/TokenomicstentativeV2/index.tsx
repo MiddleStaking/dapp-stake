@@ -3,11 +3,11 @@ import { faExternalLinkAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import axios from 'axios';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Alert, Col, Container, Row } from 'react-bootstrap';
 import { network } from 'config';
 import styles from './tokenomics.module.scss';
 
-const Tokenomics = () => {
+const TokenomicsV2 = () => {
   //   [{"id":"1","wallet_address_32":"erd1c3nfhvj5jgulw62yndr6fgh0fcmut34fful733tl998zpt9s2k5qrxumhs","contract_address_32":"erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2","staked":"120000000000000000000","serviceFee":"1500","rewards":"1056319668794646154"}]
   const [contracts, setContracts] = React.useState({
     contracts: [
@@ -49,6 +49,15 @@ const Tokenomics = () => {
     }
   });
 
+  const [indoContractSelect, setIndoContractSelect] = React.useState({
+    wallet_address_32:
+      'erd1c3nfhvj5jgulw62yndr6fgh0fcmut34fful733tl998zpt9s2k5qrxumhs',
+    contract_address_32:
+      'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2',
+    staked: '0',
+    serviceFee: '0',
+    rewards: '0'
+  });
   React.useEffect(() => {
     const fetchTokenList = async () => {
       const { data } = await axios(
@@ -64,14 +73,20 @@ const Tokenomics = () => {
         circulating: data.circulating ? data.circulating : '0',
         liquidity: data.liquidity ? data.liquidity : ''
       });
+
+      setIndoContractSelect(data.contracts ? data.contracts[0] : []);
     };
     fetchTokenList();
+
     // //refresh 60 sec
     // const interval = setInterval(() => {
     //   fetchTokenList();
     // }, 60000);
     // return () => clearInterval(interval);
   }, [setContracts]);
+
+  console.log(indoContractSelect);
+  console.log(contracts.contracts[0]);
 
   return (
     <div>
@@ -106,117 +121,110 @@ const Tokenomics = () => {
                       burn them.
                     </Col>
                   </Row>{' '}
-                  {contracts.contracts ? (
-                    contracts.contracts.map((item, index) => (
-                      <Row
-                        key={index}
-                        className={
-                          'msbulle' +
-                          '  ' +
-                          styles.cardscolor +
-                          ' ' +
-                          styles.cardback
-                        }
-                      >
-                        <Col className='sm-12'>
-                          <Row>
-                            <Col className='lead'>
-                              Staking position {'#' + (index + 1)}
-                            </Col>
-                          </Row>
-                          <hr
-                            style={{
-                              height: '1px',
-                              color: 'white',
-                              backgroundColor: 'white',
-                              marginTop: 0
-                            }}
-                          />
-                          <Row>
-                            <Col className='lead'>
-                              <div className={`${styles.heading}`}>
-                                <div className={styles.meta}>
-                                  <div className='d-flex align-items-center'>
-                                    <span className={styles.contract}>
-                                      {item.contract_address_32}
-                                    </span>
-                                    <a
-                                      href={`${network.explorerAddress}/accounts/${item.contract_address_32}`}
-                                      className={styles.icon}
-                                      rel='noreferrer'
-                                      target='_blank'
-                                    >
-                                      <FontAwesomeIcon
-                                        icon={faExternalLinkAlt}
-                                      />
-                                    </a>
-                                  </div>
-                                </div>
+                  <Row style={{ marginTop: '8%', marginBottom: '8%' }}>
+                    <Col md={7}>
+                      <Row>
+                        <Col className={`${styles.headingcenter}`}>
+                          <div className={`${styles.heading}`}>
+                            <div className={styles.meta}>
+                              <div className='d-flex align-items-center'>
+                                <span className={styles.contract}>
+                                  {indoContractSelect.contract_address_32}
+                                </span>
+                                <a
+                                  href={`${network.explorerAddress}/accounts/${indoContractSelect.contract_address_32}`}
+                                  className={styles.icon}
+                                  rel='noreferrer'
+                                  target='_blank'
+                                >
+                                  <FontAwesomeIcon icon={faExternalLinkAlt} />
+                                </a>
                               </div>
-                            </Col>
-                          </Row>{' '}
-                          <Row>
-                            <Col className='lead'>
-                              <div className={`${styles.heading}`}>
-                                <div className={styles.meta}>
-                                  <div className='d-flex align-items-center'>
-                                    <span className={styles.contract}>
-                                      {item.wallet_address_32}
-                                    </span>
-                                    <a
-                                      href={`${network.explorerAddress}/accounts/${item.wallet_address_32}`}
-                                      className={styles.icon}
-                                      rel='noreferrer'
-                                      target='_blank'
-                                    >
-                                      <FontAwesomeIcon
-                                        icon={faExternalLinkAlt}
-                                      />
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                          <hr
-                            style={{
-                              height: '1px',
-                              color: 'white',
-                              backgroundColor: 'white',
-                              marginTop: 0
-                            }}
-                          />
-                          <Row className='lead'>
-                            <Col>Staked</Col>
-                            <Col>Rewards</Col>
-                            <Col>Service Fees</Col>
-                          </Row>
-                          <Row className='lead'>
-                            <Col>
-                              <FormatAmount
-                                value={item.staked}
-                                egldLabel={'Egld'}
-                                data-testid='balance'
-                                digits={2}
-                              />
-                            </Col>
-                            <Col>
-                              {' '}
-                              <FormatAmount
-                                value={item.rewards}
-                                egldLabel={'Egld'}
-                                data-testid='balance'
-                                digits={2}
-                              />
-                            </Col>
-                            <Col>{Number(item.serviceFee) / 100} %</Col>
-                          </Row>
+                            </div>
+                          </div>
                         </Col>
                       </Row>
-                    ))
-                  ) : (
-                    <></>
-                  )}{' '}
+                      <Row>
+                        <Col className={`${styles.headingcenter}`}>
+                          <div className={`${styles.heading}`}>
+                            <div className={styles.meta}>
+                              <div className='d-flex align-items-center'>
+                                <span className={styles.contract}>
+                                  {indoContractSelect.wallet_address_32}
+                                </span>
+                                <a
+                                  href={`${network.explorerAddress}/accounts/${indoContractSelect.wallet_address_32}`}
+                                  className={styles.icon}
+                                  rel='noreferrer'
+                                  target='_blank'
+                                >
+                                  <FontAwesomeIcon icon={faExternalLinkAlt} />
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                      <Row className='lead'>
+                        <Col>Staked</Col>
+                        <Col>Rewards</Col>
+                        <Col>Service Fees</Col>
+                      </Row>
+                      <Row className='lead'>
+                        <Col>
+                          <FormatAmount
+                            value={indoContractSelect.staked}
+                            egldLabel={'Egld'}
+                            data-testid='balance'
+                            digits={2}
+                          />
+                        </Col>
+                        <Col>
+                          {' '}
+                          <FormatAmount
+                            value={indoContractSelect.rewards}
+                            egldLabel={'Egld'}
+                            data-testid='balance'
+                            digits={2}
+                          />
+                        </Col>
+                        <Col>
+                          {Number(indoContractSelect.serviceFee) / 100} %
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col md={5}>
+                      {contracts.contracts ? (
+                        contracts.contracts.map((item, index) => (
+                          <Row
+                            style={{
+                              height: '40px',
+                              borderLeft: '3px solid',
+                              borderColor:
+                                '#' +
+                                ((Math.random() * 0xffffff) << 0).toString(16)
+                            }}
+                            onClick={() => {
+                              setIndoContractSelect(item);
+                            }}
+                            key={index}
+                            className={'msbulle' + '  ' + styles.languette}
+                          >
+                            {/* cardbackBackground */}
+
+                            <Col
+                              style={{ fontSize: '100%', padding: 0 }}
+                              className='lead'
+                            >
+                              <p>Staking position {'#' + (index + 1)}</p>
+                            </Col>
+                          </Row>
+                        ))
+                      ) : (
+                        <></>
+                      )}{' '}
+                    </Col>
+                  </Row>
                   {/* <Row className={'msbulle' + '  ' + styles.cardscolor}>
                     <Col className='sm-12'>
                       <Row>
@@ -438,4 +446,4 @@ const Tokenomics = () => {
   );
 };
 
-export default Tokenomics;
+export default TokenomicsV2;
