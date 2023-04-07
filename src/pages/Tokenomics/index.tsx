@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
 import { network } from 'config';
 import styles from './tokenomics.module.scss';
+import Truncate from './component/truncate';
 
 const Tokenomics = () => {
   //   [{"id":"1","wallet_address_32":"erd1c3nfhvj5jgulw62yndr6fgh0fcmut34fful733tl998zpt9s2k5qrxumhs","contract_address_32":"erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2","staked":"120000000000000000000","serviceFee":"1500","rewards":"1056319668794646154"}]
@@ -133,49 +134,13 @@ const Tokenomics = () => {
                             }}
                           />
                           <Row>
-                            <Col className='lead'>
-                              <div className={`${styles.heading}`}>
-                                <div className={styles.meta}>
-                                  <div className='d-flex align-items-center'>
-                                    <span className={styles.contract}>
-                                      {item.contract_address_32}
-                                    </span>
-                                    <a
-                                      href={`${network.explorerAddress}/accounts/${item.contract_address_32}`}
-                                      className={styles.icon}
-                                      rel='noreferrer'
-                                      target='_blank'
-                                    >
-                                      <FontAwesomeIcon
-                                        icon={faExternalLinkAlt}
-                                      />
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
+                            <Col className={`${styles.headingcenter}`}>
+                              <Truncate address={item.contract_address_32} />
                             </Col>
-                          </Row>{' '}
+                          </Row>
                           <Row>
-                            <Col className='lead'>
-                              <div className={`${styles.heading}`}>
-                                <div className={styles.meta}>
-                                  <div className='d-flex align-items-center'>
-                                    <span className={styles.contract}>
-                                      {item.wallet_address_32}
-                                    </span>
-                                    <a
-                                      href={`${network.explorerAddress}/accounts/${item.wallet_address_32}`}
-                                      className={styles.icon}
-                                      rel='noreferrer'
-                                      target='_blank'
-                                    >
-                                      <FontAwesomeIcon
-                                        icon={faExternalLinkAlt}
-                                      />
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
+                            <Col className={`${styles.headingcenter}`}>
+                              <Truncate address={item.wallet_address_32} />
                             </Col>
                           </Row>
                           <hr
