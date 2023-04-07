@@ -4,18 +4,16 @@ import {
   useGetAccountInfo,
   useGetNetworkConfig
 } from '@multiversx/sdk-dapp/hooks';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { Formik } from 'formik';
 import { object } from 'yup';
 
-import styles from './styles.module.scss';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-
-import react from 'react';
-import { delegateValidator } from '../../helpers/delegationValidators';
-import { onDelegate } from 'pages/Dashboard/helper/requestAbi';
+import Action, { Submit } from 'pages/Dashboard/Action';
 import { denominated } from 'pages/Dashboard/helper/denominate';
 import modifiable from 'pages/Dashboard/helper/modifiable';
-import Action, { Submit } from 'pages/Dashboard/Action';
+import { onDelegate } from 'pages/Dashboard/helper/requestAbi';
+import { delegateValidator } from '../../helpers/delegationValidators';
+import styles from './styles.module.scss';
 
 const Delegate: FC<any> = (props: any) => {
   const { account } = useGetAccountInfo();
