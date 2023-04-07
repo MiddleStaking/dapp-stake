@@ -1,0 +1,84 @@
+.cardscolor {
+  background: rgba(36, 37, 38, 0.5);
+  border: 1px solid #49494d;
+  border-radius: 12px;
+  margin: 3px;
+}
+
+.colorborder {
+  background: transparent !important;
+  border: none !important;
+}
+
+.cardback {
+  padding: 5px;
+  margin: 10px;
+  color: #eee;
+  background: rgba(36, 37, 38, 0.5);
+  background-position: center;
+
+  padding: 10px;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  border-radius: 25px;
+}
+
+
+.languette{
+  cursor: pointer;
+  margin: 0px 5px 20px 5px;
+
+  color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(36, 37, 38, 0.5);
+  border-radius: 8px 10px 10px 8px;
+  transition: .2s all;
+}
+.languette:hover {
+  color: #ffffff;
+  font-size: 1.6em;
+}
+
+
+
+.headingcenter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.heading {
+  margin: 8px;
+  width: 100%;
+  @media (min-width: 992px) {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .meta {
+    margin-bottom: 30px;
+    width: 100%;
+
+    .icon {
+      svg path {
+        fill: #808ea3;
+      }
+    }
+  }
+  .contract {
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 1;
+    color: white;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (min-width: 768px) {
+      margin-right: 15px;
+    }
+  }
+}
