@@ -6,10 +6,9 @@ import {
   ResultsParser,
   TokenPayment
 } from '@multiversx/sdk-core/out';
-// import { useGetNetworkConfig as multiversxGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { useGetNetworkConfig as multiversxGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import {
   ApiNetworkProvider,
-  // ApiNetworkProvider,
   ProxyNetworkProvider
 } from '@multiversx/sdk-network-providers/out';
 import { minDust, network, contractAddressDelegation } from 'config';
@@ -30,14 +29,13 @@ import axios from 'axios';
 const resultsParser = new ResultsParser();
 
 const GetTotalActiveStake = () => {
-  // const { network } = multiversxGetNetworkConfig();
+  const { network } = multiversxGetNetworkConfig();
   const [getTotalActiveStake, setGetTotalActiveStake] =
     React.useState<string>('loading');
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
   const proxy = new ProxyNetworkProvider(
-    network.gatewayAddress
-    // 'https://devnet-gateway.multiversx.com'
+    'https://devnet-gateway.multiversx.com'
   );
   const getTotalActiveStakeAbi = async () => {
     try {
@@ -63,7 +61,7 @@ const GetTotalActiveStake = () => {
           : 'loading'
       );
     } catch (err) {
-      console.error('Unable to call getTotalActiveStakeAbi', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
 
@@ -75,11 +73,13 @@ const GetTotalActiveStake = () => {
 };
 
 const GetTotalUser = () => {
-  // const { network } = multiversxGetNetworkConfig();
+  const { network } = multiversxGetNetworkConfig();
   const [getTotalUsers, setGetTotalUsers] = useState<string>();
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
+  const proxy = new ProxyNetworkProvider(
+    'https://devnet-gateway.multiversx.com'
+  );
   const getTotalUserAbi = async () => {
     try {
       const query = smartContract.createQuery({
@@ -98,7 +98,7 @@ const GetTotalUser = () => {
         amount !== null ? amount?.valueOf().toString(10) : 'loading'
       );
     } catch (err) {
-      console.error('Unable to call GetTotalUser', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
 
@@ -110,11 +110,13 @@ const GetTotalUser = () => {
 };
 
 const GetTotalNode = () => {
-  // const { network } = multiversxGetNetworkConfig();
+  const { network } = multiversxGetNetworkConfig();
   const [getTotalNode, setGetTotalNode] = useState<string>();
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
+  const proxy = new ProxyNetworkProvider(
+    'https://devnet-gateway.multiversx.com'
+  );
   const getTotalNodeAbi = async () => {
     try {
       const query = smartContract.createQuery({
@@ -132,7 +134,7 @@ const GetTotalNode = () => {
         amount !== null ? amount?.valueOf().toString(10) : 'loading'
       );
     } catch (err) {
-      console.error('Unable to call GetTotalNode', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
 
@@ -144,25 +146,21 @@ const GetTotalNode = () => {
 };
 
 const GetTotalNetworkStake = () => {
-  // const { network } = multiversxGetNetworkConfig();
+  const { network } = multiversxGetNetworkConfig();
   const [getTotalNode, setGetTotalNode] = useState<any>();
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  // const proxy = new ProxyNetworkProvider(network.gatewayAddress);
-
-  const query = new ApiNetworkProvider(network.apiAddress, {
-    timeout: 4000
-  });
-
-  // const data = await query.getNetworkStakeStatistics();
+  const proxy = new ProxyNetworkProvider(
+    'https://devnet-gateway.multiversx.com'
+  );
   const getNetworkStake = async () => {
     try {
-      // console.log(await query.getNetworkStakeStatistics());
-      const queryResponse = await query.getNetworkStakeStatistics();
+      const queryResponse = await proxy.getNetworkStakeStatistics();
+
       setGetTotalNode(queryResponse);
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call GetTotalNetworkStake', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
 
@@ -176,23 +174,22 @@ const GetTotalNetworkStake = () => {
 };
 
 const GetNetworkStatus = () => {
-  // const { network } = multiversxGetNetworkConfig();
+  const { network } = multiversxGetNetworkConfig();
   const [getTotalNode, setGetTotalNode] = useState<any>();
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  // const proxy = new ProxyNetworkProvider(network.gatewayAddress);
-  const query = new ApiNetworkProvider(network.apiAddress, {
-    timeout: 4000
-  });
+  const proxy = new ProxyNetworkProvider(
+    'https://devnet-gateway.multiversx.com'
+  );
   const getNetworkStatus = async () => {
     try {
-      const queryResponse = await query.getNetworkStakeStatistics();
+      const queryResponse = await proxy.getNetworkStakeStatistics();
 
       setGetTotalNode(queryResponse);
 
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call GetNetworkStatus', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
 
@@ -204,7 +201,7 @@ const GetNetworkStatus = () => {
 };
 
 const GetContractConfig = () => {
-  // const { network } = multiversxGetNetworkConfig();
+  const { network } = multiversxGetNetworkConfig();
   const [getContractCongig, setGetContractCongig] = useState({
     owner_address: 'undefined',
     serviceFee: 0,
@@ -218,7 +215,9 @@ const GetContractConfig = () => {
   });
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
+  const proxy = new ProxyNetworkProvider(
+    'https://devnet-gateway.multiversx.com'
+  );
   const ContractConfig = async () => {
     try {
       const query = smartContract.createQuery({
@@ -268,11 +267,13 @@ const GetUserActiveStake = () => {
   const { success } = useGetActiveTransactionsStatus();
   const { hasPendingTransactions } = useGetPendingTransactions();
 
-  // const { network } = multiversxGetNetworkConfig();
-  const [pingAmount, setPingAmount] = useState<string>('x');
+  const { network } = multiversxGetNetworkConfig();
+  const [pingAmount, setPingAmount] = useState<string>('0');
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
+  const proxy = new ProxyNetworkProvider(
+    'https://devnet-gateway.multiversx.com'
+  );
   const getPingAmount = async () => {
     if (hasPendingTransactions) {
       return;
@@ -293,10 +294,13 @@ const GetUserActiveStake = () => {
         endpointDefinition
       );
 
+      if (amount === null) {
+        setPingAmount('0');
+        return;
+      }
       setPingAmount(amount?.valueOf()?.toString(10));
     } catch (err) {
-      setPingAmount('null');
-      console.error('Unable to call GetUserActiveStake', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
   useEffect(() => {
@@ -361,11 +365,13 @@ const GetUserClaimsReward = () => {
   const { address, account } = multiversxGetAccountInfo();
   const { hasPendingTransactions } = useGetPendingTransactions();
 
-  // const { network } = multiversxGetNetworkConfig();
+  const { network } = multiversxGetNetworkConfig();
   const [rewards, setRewards] = useState<string>('0');
 
   //const proxy = new ProxyNetworkProvider(network.apiAddress);
-  const proxy = new ProxyNetworkProvider(network.gatewayAddress);
+  const proxy = new ProxyNetworkProvider(
+    'https://devnet-gateway.multiversx.com'
+  );
   const getRewards = async () => {
     try {
       const query = smartContract.createQuery({
@@ -391,7 +397,7 @@ const GetUserClaimsReward = () => {
       }
       setRewards(amount?.valueOf()?.toString(10));
     } catch (err) {
-      console.error('Unable to call getRewards', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
 
@@ -629,7 +635,7 @@ const ConfigNetwork = () => {
 
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call ConfigNetwork', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
 
@@ -661,7 +667,7 @@ const GetEpochNumber = () => {
 
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call GetEpochNumber', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
 
@@ -683,7 +689,7 @@ const NetworkEconomics = () => {
 
       // setGetTotalNode(amount !== null ? amount?.valueOf().toString() : 'loading');
     } catch (err) {
-      console.error('Unable to call NetworkEconomics', err);
+      console.error('Unable to call getPingAmount', err);
     }
   };
 

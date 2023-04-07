@@ -5,34 +5,12 @@ export const contractAddress =
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 
-export const network: NetworkType = {
-  id: 'devnet',
-  name: 'Devnet',
-  egldLabel: 'xEGLD',
-  walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
-  apiAddress: 'https://devnet-api.multiversx.com',
-  gatewayAddress: 'https://devnet-gateway.multiversx.com',
-  explorerAddress: 'http://devnet-explorer.multiversx.com',
-  delegationContract: contractAddressDelegation
-};
-
 //MAINNET :
-// export const defaultToken = 'MID-ecb7bf';
+//export const defaultToken = 'MID-ecb7bf';
 // export const contractAddress =
 //   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
 // export const contractAddressDelegation =
 //   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
-
-// export const network: NetworkType = {
-//   id: 'devnet',
-//   name: 'Devnet',
-//   egldLabel: 'xEGLD',
-//   walletAddress: 'https://wallet.multiversx.com/dapp/init',
-//   apiAddress: 'https://api.multiversx.com',
-//   gatewayAddress: 'https://gateway.multiversx.com',
-//   explorerAddress: 'http://explorer.multiversx.com',
-//   delegationContract: contractAddressDelegation
-// };
 
 //GLOBAL :
 export const dAppName = 'Middle Staking';
@@ -80,6 +58,16 @@ interface NetworkType {
   explorerAddress: string;
   delegationContract: string;
 }
+export const network: NetworkType = {
+  id: 'devnet',
+  name: 'Devnet',
+  egldLabel: 'xEGLD',
+  walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
+  apiAddress: 'https://devnet-api.multiversx.com',
+  gatewayAddress: 'https://devnet-gateway.multiversx.com',
+  explorerAddress: 'http://devnet-explorer.multiversx.com',
+  delegationContract: contractAddressDelegation
+};
 export const auctionContract =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqplllst77y4l';
 

@@ -3,8 +3,6 @@ import { dAppName } from 'config';
 import Faucet from 'pages/Faucet';
 import Rewards from 'pages/Rewards';
 import Tokenomics from 'pages/Tokenomics';
-import TokenomicsV2 from 'pages/TokenomicstentativeV2';
-
 import { withPageTitle } from './components/PageTitle';
 import { Dashboard, Home, Statistics, Earn, Fund } from './pages';
 
@@ -17,8 +15,7 @@ export const routeNames = {
   fund: '/fund',
   faucet: '/faucet',
   rewards: '/rewards',
-  tokenomics: '/tokenomics',
-  tokenomics2: '/tokenomics2'
+  tokenomics: '/tokenomics'
 };
 
 interface RouteWithTitleType extends RouteType {
@@ -77,12 +74,6 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.tokenomics,
     title: 'Tokenomics',
     component: Tokenomics,
-    authenticatedRoute: false
-  },
-  {
-    path: routeNames.tokenomics2,
-    title: 'TokenomicsV2',
-    component: TokenomicsV2,
     authenticatedRoute: false
   }
 ];
