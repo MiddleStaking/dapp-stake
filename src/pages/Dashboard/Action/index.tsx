@@ -38,7 +38,7 @@ const Action = ({ render, title, description, trigger }: any) => {
 export const Submit = ({ close, submit }: any) => {
   const { setShowModal } = useAction();
 
-  const testa = () => {
+  const closeModalSubmit = () => {
     setTimeout(() => {
       setShowModal(false);
     }, 300);
@@ -57,7 +57,7 @@ export const Submit = ({ close, submit }: any) => {
       <button
         type='submit'
         onClick={() => {
-          testa();
+          closeModalSubmit();
         }}
         className={modifiable('button', ['blue'], styles)}
       >
