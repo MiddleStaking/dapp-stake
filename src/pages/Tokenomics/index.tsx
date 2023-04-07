@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { faExternalLinkAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
-import { network } from 'config';
 import styles from './tokenomics.module.scss';
 
 const Tokenomics = () => {
@@ -76,8 +75,8 @@ const Tokenomics = () => {
   return (
     <div>
       {/* <div className='row'> */}
-      <div className={'col-12 col-md-10 col-sm-10 mx-auto'}>
-        <div className={styles.colorborder}>
+      <div className={'col-12 col-md-10 mx-auto' + ' '}>
+        <div className={'card shadow-sm' + ' ' + styles.colorborder}>
           <div className={'card-body p-1 mx-auto'}>
             <div
               className={
@@ -87,10 +86,7 @@ const Tokenomics = () => {
               }
             >
               <div className={'card-body text-center p-4 '}>
-                <Container
-                  style={{ marginLeft: 0 }}
-                  className={'text-white ' + styles.cardback}
-                >
+                <Container className={'text-white ' + styles.cardback}>
                   <Row
                     className={
                       'sm-12 msbulle' +
@@ -134,49 +130,11 @@ const Tokenomics = () => {
                           />
                           <Row>
                             <Col className='lead'>
-                              <div className={`${styles.heading}`}>
-                                <div className={styles.meta}>
-                                  <div className='d-flex align-items-center'>
-                                    <span className={styles.contract}>
-                                      {item.contract_address_32}
-                                    </span>
-                                    <a
-                                      href={`${network.explorerAddress}/accounts/${item.contract_address_32}`}
-                                      className={styles.icon}
-                                      rel='noreferrer'
-                                      target='_blank'
-                                    >
-                                      <FontAwesomeIcon
-                                        icon={faExternalLinkAlt}
-                                      />
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
+                              {item.contract_address_32}
                             </Col>
                           </Row>{' '}
                           <Row>
-                            <Col className='lead'>
-                              <div className={`${styles.heading}`}>
-                                <div className={styles.meta}>
-                                  <div className='d-flex align-items-center'>
-                                    <span className={styles.contract}>
-                                      {item.wallet_address_32}
-                                    </span>
-                                    <a
-                                      href={`${network.explorerAddress}/accounts/${item.wallet_address_32}`}
-                                      className={styles.icon}
-                                      rel='noreferrer'
-                                      target='_blank'
-                                    >
-                                      <FontAwesomeIcon
-                                        icon={faExternalLinkAlt}
-                                      />
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                            </Col>
+                            <Col className='lead'>{item.wallet_address_32}</Col>
                           </Row>
                           <hr
                             style={{

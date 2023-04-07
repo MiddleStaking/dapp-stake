@@ -3,10 +3,14 @@ import React, { FC, ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import { denominated } from 'pages/Dashboard/helper/denominate';
-import modifiable from 'pages/Dashboard/helper/modifiable';
+import Logo from 'assets/Logo';
+
+import Delegate from './components/Delegate';
+import Undelegate from './components/Undelegate';
 import imagePartalConnexion from '../../../../assets/multiversxPortal.png';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+
+import styles from './styles.module.scss';
 import {
   getStakingLimits,
   GetUserActiveStake,
@@ -14,10 +18,8 @@ import {
   sendClaimRewards,
   sendReDelegateRewards
 } from '../../helper/requestAbi';
-import Delegate from './components/Delegate';
-import Undelegate from './components/Undelegate';
-
-import styles from './styles.module.scss';
+import { denominated } from 'pages/Dashboard/helper/denominate';
+import modifiable from 'pages/Dashboard/helper/modifiable';
 
 interface ActionType {
   label: string;
@@ -39,12 +41,14 @@ const Stake: FC = () => {
   const UserActiveStake = GetUserActiveStake();
   const UserRewaards = GetUserClaimsReward();
 
-  const { isLoading, isEmpty, isError } = {
+  const { isLoading, isEmpty } = {
     isEmpty: UserActiveStake === '0',
     //  && userClaimableRewards.data === '0',
-    isLoading: UserActiveStake === 'x',
+    isLoading: UserActiveStake === '0'
     // || userClaimableRewards.status === 'loading',
-    isError: UserActiveStake === 'null'
+    // isError:
+    //   userActiveStake.status === 'error' ||
+    //   userClaimableRewards.status === 'error'
   };
 
   const StakingLimits = getStakingLimits();
@@ -96,19 +100,14 @@ const Stake: FC = () => {
         styles
       )} stake`}
     >
-      {isLoading || isEmpty || isError ? (
+      {isLoading || isEmpty ? (
         <div className={styles.wrapper}>
           <strong className={styles.heading}>
             Welcome to Delegation Dashboard!
           </strong>
 
           <div className={styles.logo}>
-            {/* <Logo /> */}
-            <img
-              className={styles.img}
-              src={imagePartalConnexion}
-              alt='Grapefruit slice atop a pile of other slices'
-            ></img>
+            <Logo />
 
             <div style={{ background: '#2044F5' }} className={styles.subicon}>
               <FontAwesomeIcon icon={faLock} />
@@ -118,7 +117,7 @@ const Stake: FC = () => {
           <div className={styles.message}>
             {isLoading
               ? 'Retrieving staking data...'
-              : isError
+              : 'isError'
               ? 'There was an error trying to retrieve staking data.'
               : `Currently you don't have any ${network.egldLabel} staked.`}
           </div>
@@ -129,11 +128,7 @@ const Stake: FC = () => {
         panels.map((panel, index) => (
           <div key={panel.title} className={styles.panel}>
             <div
-              className={
-                UserRewaards == '0'
-                  ? modifiable('icons', [index > 0 && 'inversed'], styles)
-                  : modifiable('icons', [index > 0 && 'inversed-Egld'], styles)
-              }
+              className={modifiable('icon', [index > 0 && 'inversed'], styles)}
             >
               {/* <Logo /> */}
               <span>
