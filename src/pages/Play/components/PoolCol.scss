@@ -1,0 +1,188 @@
+.smallPoolLogo {
+    width: 5%;
+    position: relative;
+    opacity: 1;
+    margin: 1px;
+}
+.topInfo {
+    background-color: beige;
+}
+.PoolCol {
+    padding: 15px;
+}
+
+.PoolCard {
+    margin: 5px;
+    text-align: center;
+    border: 1px;
+    color: white;
+        border-style: solid;
+        border-color: rgb(71, 17, 152);
+        border-radius: 25px;
+        background: rgba(0, 6, 13, .2);
+        background: linear-gradient(40deg, rgba(0, 6, 13, .8) 22%, rgba(0, 6, 13, .8) 93%);
+}
+
+
+.poolTop {
+    border-bottom: black;
+        border-bottom-color: black;
+        border-bottom-style: solid;
+}
+
+.poolBody {
+    margin: 5px;
+}
+
+.topName {
+    margin: auto;
+}
+
+.topLogo {
+    padding: 25px;
+}
+.poolPosition {
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.butLine {
+    display: inline-block;
+    width: 40%;
+    margin: 5px;
+    padding: 5px;
+        font-weight: 400;
+        border-radius: 10px;
+}
+
+.butLineBig {
+    display: inline-block;
+    width: 78%;
+    margin: 10px;
+    padding: 10px;
+        border-radius: 10px;
+        font-weight: 400;
+    }
+    
+    .leftInPoolInfo {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 10px;
+        font-weight: 400;
+        color: black;
+    
+    }
+    
+    .bodyPoolInfo {
+        display: inline-flex;
+        width: 90%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 10px;
+        font-weight: 400;
+        color: black;
+    }
+    
+    .goldButton {
+        border-color: #7c7c7c;
+        background-color: #d8af35;
+        //background: -webkit-gradient(linear, left top, left bottom, from(rgb(172, 134, 19)), to(rgba(238, 212, 156, 1)));
+    }
+    
+    .silverButton {
+        border-color: #7c7c7c;
+        background-color: rgb(142 138 138);
+        //background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 232, 232, 0.366)), to(#e6e6e6));
+    }
+    
+    .blueButton {
+        border-color: #7c7c7c;
+        background-color: rgb(233 244 247);
+        //background: -webkit-gradient(linear, left top, left bottom, from(rgb(137 171 238)), to(rgb(184 218 255)));
+    }
+
+    
+    .firstPoolLogo {
+        width: 100%;
+        display: block;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        opacity: 0.7;
+    }
+    
+    .secondPoolLogo {
+        width: 70%;
+        display: block;
+        position: absolute;
+        top: 0%;
+        left: 45%;
+        margin-left: auto;
+        margin-right: auto;
+}
+.thirdPoolLogo {
+    width: 50%;
+}
+
+.sub2 {
+    padding: 0px;
+}
+.token-card a {
+    color: white;
+}
+
+.smallInfoLogo {
+    width: 15px;
+}
+
+.mediumInfoLogo {
+    width: 150px;
+}
+.bouton-visiter {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #0077cc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+}
+
+.bouton-visiter:hover {
+    background-color: #005fa3;
+}
+.bouton-visiter:disabled {
+    background-color: #969696;
+}
+
+.bouton-disabled {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #0077cc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    pointer-events: none;
+}
+
+.bouton-disabled:hover {
+    background-color: #005fa3;
+    pointer-events: none;
+}
+
+.bouton-disabled:disabled {
+    background-color: #969696;
+    pointer-events: none;
+}
