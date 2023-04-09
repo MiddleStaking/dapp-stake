@@ -28,7 +28,6 @@ export const useGetWinner = () => {
         endpointDefinition
       );
       setLastUser(position?.valueOf());
-      console.log(position?.valueOf());
     } catch (err) {
       console.error('Unable to call getLastUser', err);
     }
