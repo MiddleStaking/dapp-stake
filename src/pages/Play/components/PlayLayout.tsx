@@ -1,39 +1,43 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PoolCol.scss';
-import {
-  faEarth,
-  faChartSimple,
-  faDollar
-} from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import image from './../../../assets/img/background2.png';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 
-import { useGetWinner, useGetBlocksLeft } from './Actions/helpers';
+import {
+  useGetWinner,
+  useGetBlocksLeft,
+  useGetHasPlayed,
+  useGetIdentifier,
+  useGetNonce
+} from './Actions/helpers';
 import { TopInfo } from './TopInfo';
 import { ActionMine } from './Actions';
 
 export const PlayLayout = ({ children }: React.PropsWithChildren) => {
   const { network } = useGetNetworkConfig();
+  const address = useGetAccountInfo().address;
 
   const last_user = useGetWinner();
+  const has_played = useGetHasPlayed();
   const blocks_left = Number(useGetBlocksLeft() * 6);
+  const identifier = useGetIdentifier();
+  const nonce = useGetNonce();
   const [time, setTime] = useState(new Date());
   const [time_out, setTimeOut] = useState(0);
 
   const isLoggedIn = useGetIsLoggedIn();
   useEffect(() => {
     setTimeOut(blocks_left);
-    console.log(blocks_left.toString());
   }, [blocks_left]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (time_out < 0 || time_out + 15 < blocks_left) {
-        const time_left = blocks_left - 1;
+      if (time_out <= 0 || time_out + 15 < blocks_left) {
+        const time_left = blocks_left;
         setTime(new Date());
         setTimeOut(time_left);
       } else {
@@ -45,7 +49,23 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
 
     return () => clearInterval(interval);
   }, [time, blocks_left]);
-
+  function bigToHexDec(d: bigint) {
+    let result = '';
+    result = d.toString(16);
+    if (Math.abs(result.length % 2) == 1) {
+      result = '0' + result;
+    }
+    return result;
+  }
+  console.log(isLoggedIn);
+  console.log(has_played);
+  console.log(time_out);
+  console.log(last_user.toString());
+  console.log(address);
+  console.log(identifier);
+  console.log(nonce.toString());
+  const nft_identifier = identifier + '-' + bigToHexDec(nonce);
+  console.log(nft_identifier);
   return (
     <div className='container-xxl py-4'>
       <div>
@@ -108,9 +128,21 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                 >
                   Last user (and winner ?) : {last_user.toString()} <br />
                   Time left : {time_out}
-                  {isLoggedIn ? (
+                  <br />
+                  {isLoggedIn && !has_played && time_out > 0 && identifier && (
                     <ActionMine />
-                  ) : (
+                  )}
+                  {isLoggedIn &&
+                    has_played &&
+                    time_out == 0 &&
+                    last_user.toString() == address &&
+                    identifier && <ActionMine />}{' '}
+                  {isLoggedIn &&
+                    has_played &&
+                    last_user.toString() != address && (
+                      <>You were not the last user</>
+                    )}
+                  {!isLoggedIn && identifier && (
                     <>
                       {' '}
                       <Link
@@ -122,6 +154,10 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                         Login to play
                       </Link>
                     </>
+                  )}
+                  {!identifier && <>Game ended</>}
+                  {isLoggedIn && identifier && !has_played && (
+                    <>This game has ended and you did not played.</>
                   )}
                 </div>
               </div>

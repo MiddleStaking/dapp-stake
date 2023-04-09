@@ -2,10 +2,10 @@
     "buildInfo": {
         "rustc": {
             "version": "1.68.0-nightly",
-            "commitHash": "52372f9c71d8ade4cb815524f179119656f0aa2e",
-            "commitDate": "2023-01-21",
+            "commitHash": "4781233a77e879e49cb5ce3c98d2abba6a6ade7a",
+            "commitDate": "2023-01-16",
             "channel": "Nightly",
-            "short": "rustc 1.68.0-nightly (52372f9c7 2023-01-21)"
+            "short": "rustc 1.68.0-nightly (4781233a7 2023-01-16)"
         },
         "contractCrate": {
             "name": "lockdown",
@@ -38,6 +38,13 @@
                     "type": "u64"
                 }
             ],
+            "outputs": []
+        },
+        {
+            "name": "clear",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
             "outputs": []
         },
         {
@@ -128,6 +135,21 @@
             "outputs": [
                 {
                     "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getHasPlayed",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bool"
                 }
             ]
         }
