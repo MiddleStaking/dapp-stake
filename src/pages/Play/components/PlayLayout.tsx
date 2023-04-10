@@ -6,21 +6,21 @@ import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import image from './../../../assets/img/background2.png';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import notFound from './../../../assets/img/notfoundnft.png';
 
 import {
   useGetWinner,
   useGetBlocksLeft,
   useGetHasPlayed,
   useGetIdentifier,
-  useGetNonce
+  useGetNonce,
+  useGetESDTInformations
 } from './Actions/helpers';
 import { TopInfo } from './TopInfo';
 import { ActionMine } from './Actions';
 
 export const PlayLayout = ({ children }: React.PropsWithChildren) => {
-  const { network } = useGetNetworkConfig();
   const address = useGetAccountInfo().address;
-
   const last_user = useGetWinner();
   const has_played = useGetHasPlayed();
   const blocks_left = Number(useGetBlocksLeft() * 6);
@@ -57,15 +57,15 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
     }
     return result;
   }
-  console.log(isLoggedIn);
-  console.log(has_played);
-  console.log(time_out);
-  console.log(last_user.toString());
-  console.log(address);
-  console.log(identifier);
-  console.log(nonce.toString());
-  const nft_identifier = identifier + '-' + bigToHexDec(nonce);
-  console.log(nft_identifier);
+
+  const esdt_informations = useGetESDTInformations(
+    identifier,
+    bigToHexDec(nonce)
+  );
+  const image1 = esdt_informations?.media?.[0]?.url
+    ? esdt_informations?.media?.[0]?.url
+    : notFound;
+
   return (
     <div className='container-xxl py-4'>
       <div>
@@ -99,48 +99,73 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                     opacity: 1
                   }}
                 >
-                  The rules are simple: The last user to validate a transaction
-                  before the end of the timer wins the NFT
-                  <ul>
-                    <li>
-                      Each time a user validates a transaction the timer is
-                      reset
-                    </li>
-                    <li>
-                      Each time the timer is reset, it accelerates by 6 seconds
-                      (1 block)
-                    </li>
-                    <li>An address can only validate one transaction.</li>
-                  </ul>{' '}
-                  - Devnet: the contest takes place on the devnet but the
-                  winner&apos;s address will receive this magnificent NFT on the
-                  mainnet.{' '}
-                </div>
-
-                <div
-                  className='card-body text-center p-4 text-white'
-                  style={{
-                    backgroundImage: `url(${image})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    opacity: 1
-                  }}
-                >
-                  Last user (and winner ?) : {last_user.toString()} <br />
-                  Time left : {time_out}
-                  <br />
+                  <h1>Count down claim Game</h1>
+                  <p>
+                    The last user to validate a transaction before the end of
+                    the timer wins the NFT
+                  </p>
+                  <p>
+                    Each time a user validates a transaction, the timer is reset
+                  </p>
+                  <p>
+                    Each time the timer is reset, it accelerates by 6 seconds (1
+                    block)
+                  </p>
+                  <p>An address can only validate one transaction.</p>
+                  <h2>Timer:</h2>
+                  <div className='timer' id='timerDisplay'>
+                    ~ {time_out} seconds
+                  </div>
+                  <h2>Last user:</h2>
+                  <div id='winnerDisplay'>{last_user.toString()}</div>
+                  <h2>NFT PREVIEW</h2>
+                  <div className='card-body text-center p-4 text-white'>
+                    {identifier && (
+                      <img className='thirdPoolLogo' src={image1} />
+                    )}
+                  </div>
+                  <p>
+                    The winner may have to do a second transaction to finalize
+                    the transfert.
+                  </p>
                   {isLoggedIn && !has_played && time_out > 0 && identifier && (
-                    <ActionMine />
+                    <>
+                      <p>
+                        Looks like you haven&apos;t played! Trying your luck ?
+                      </p>
+                      <ActionMine />
+                    </>
                   )}
+                  {has_played &&
+                    identifier &&
+                    time_out > 0 &&
+                    last_user.toString() == address && (
+                      <p>
+                        You are the last user but the game is still running.
+                        Will you stay the last and win the NFT ?
+                      </p>
+                    )}
                   {isLoggedIn &&
                     has_played &&
                     time_out == 0 &&
                     last_user.toString() == address &&
-                    identifier && <ActionMine />}{' '}
+                    identifier && (
+                      <>
+                        <p>
+                          It seems that the game ended. If you are the lucky
+                          winner please claim one last transaction to remove NFT
+                          from contract.
+                        </p>
+                        <ActionMine />
+                      </>
+                    )}{' '}
                   {isLoggedIn &&
                     has_played &&
                     last_user.toString() != address && (
-                      <>You were not the last user</>
+                      <p>
+                        Too bad :( You were not the last user. May be next time
+                        ? Thank you for playing.
+                      </p>
                     )}
                   {!isLoggedIn && identifier && (
                     <>
@@ -156,7 +181,7 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                     </>
                   )}
                   {!identifier && <>Game ended</>}
-                  {isLoggedIn && identifier && !has_played && (
+                  {isLoggedIn && identifier && time_out == 0 && !has_played && (
                     <>This game has ended and you did not played.</>
                   )}
                 </div>

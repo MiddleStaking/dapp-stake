@@ -2,66 +2,59 @@ import { useEffect, useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import axios from 'axios';
 
-export const useGetESDTInformations = (identifier: string) => {
+export const useGetESDTInformations = (identifier: string, nonce: string) => {
   const { network } = useGetNetworkConfig();
   const time = new Date();
   const [esdtInfo, setEsdtInfo] = useState<any>({});
+
   // {
-  //   type: 'FungibleESDT',
-  //   identifier: 'STAKE-1c6362',
-  //   name: 'MiddleStaking',
-  //   ticker: 'MID',
-  //   owner: 'erd1c3nfhvj5jgulw62yndr6fgh0fcmut34fful733tl998zpt9s2k5qrxumhs',
-  //   minted: '0',
-  //   burnt: '243400000000000000000000000',
-  //   initialMinted: '250000000000000000000000000',
-  //   decimals: 18,
-  //   isPaused: false,
-  //   assets: {
-  //     website: 'https://middlestaking.fr',
-  //     description:
-  //       'The $MID is a service Token allowing users to get involved into staking without a full EGLD.',
-  //     status: 'active',
-  //     pngUrl: 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.png',
-  //     svgUrl: 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg',
-  //     social: {
-  //       email: 'esdt@middlestaking.fr',
-  //       twitter: 'https://twitter.com/MiddleStaking',
-  //       whitepaper: 'https://files.middlestaking.fr/mid-whitepaper.pdf'
+  //   "identifier": "WORLD-dbf560-01",
+  //   "collection": "WORLD-dbf560",
+  //   "timestamp": 1680906336,
+  //   "attributes": "dGFnczpibHVyZWQgZmlzaDttZXRhZGF0YTpRbVJjUDk0a1hyNXpaalJHdmk3bUo2dW43THB4VWhZVlI0UjRScGljeHpnWWt0",
+  //   "nonce": 1,
+  //   "type": "NonFungibleESDT",
+  //   "name": "BLURED",
+  //   "creator": "erd12stex47hwg0hvx8cfvukj3y3ugs7dm0686k3wasycffexva6ch9s7tvj29",
+  //   "royalties": 25,
+  //   "uris": [
+  //     "aHR0cHM6Ly9pcGZzLmlvL2lwZnMvUW1TbjRXZnBjaldkdlM0NERoM1U4Z1RjU2ZkUEZZMmNnWk5qeHlYUG0xM3NYaA=="
+  //   ],
+  //   "url": "https://devnet-media.elrond.com/nfts/asset/QmSn4WfpcjWdvS44Dh3U8gTcSfdPFY2cgZNjxyXPm13sXh",
+  //   "media": [
+  //     {
+  //       "url": "https://devnet-media.elrond.com/nfts/asset/QmSn4WfpcjWdvS44Dh3U8gTcSfdPFY2cgZNjxyXPm13sXh",
+  //       "originalUrl": "https://ipfs.io/ipfs/QmSn4WfpcjWdvS44Dh3U8gTcSfdPFY2cgZNjxyXPm13sXh",
+  //       "thumbnailUrl": "https://devnet-media.elrond.com/nfts/thumbnail/WORLD-dbf560-a5aad70c",
+  //       "fileType": "image/png",
+  //       "fileSize": 831291
+  //     }
+  //   ],
+  //   "isWhitelistedStorage": true,
+  //   "tags": [
+  //     "blured fish"
+  //   ],
+  //   "metadata": {
+  //     "error": {
+  //       "code": "empty_metadata",
+  //       "message": "Metadata value is empty",
+  //       "timestamp": 1681069952
   //     }
   //   },
-  //   transactions: 4210,
-  //   accounts: 5989,
-  //   canUpgrade: true,
-  //   canMint: true,
-  //   canBurn: true,
-  //   canChangeOwner: true,
-  //   canPause: true,
-  //   canFreeze: true,
-  //   canWipe: true,
-  //   supply: '6600000',
-  //   circulatingSupply: '6600000',
-  //   roles: [
-  //     {
-  //       canLocalMint: true,
-  //       canLocalBurn: true,
-  //       roles: ['ESDTRoleLocalBurn', 'ESDTRoleLocalMint'],
-  //       address:
-  //         'erd1c3nfhvj5jgulw62yndr6fgh0fcmut34fful733tl998zpt9s2k5qrxumhs'
-  //     }
-  //   ]
+  //   "owner": "erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt",
+  //   "ticker": "WORLD-dbf560",
+  //   "rarities": {}
   // }
 
-  const url = '/tokens/' + identifier;
   const getEsdtInfo = async () => {
     //using storage to reduce calls
     const expire_test = Number(
-      localStorage.getItem('esdt_' + identifier + '_expire')
+      localStorage.getItem('esdt_' + identifier + '-' + nonce + '_expire')
     );
     if (time.getTime() < expire_test) {
       //const storage = localStorage.getItem('esdt_' + identifier);
       const storage = JSON.parse(
-        localStorage.getItem('esdt_' + identifier) as string
+        localStorage.getItem('esdt_' + identifier + '-' + nonce) as string
       );
 
       //const esdt = JSON.parse(storage);
@@ -69,16 +62,27 @@ export const useGetESDTInformations = (identifier: string) => {
       return;
     }
 
+    if (identifier == '' || nonce == '') {
+      return;
+    }
+    const url = '/nfts/' + identifier + '-' + nonce;
+
     try {
       const { data } = await axios.get<[]>(url, {
         baseURL: network.apiAddress,
         params: {}
       });
       setEsdtInfo(data);
-      //storage of 10 minutes
-      const expire = time.getTime() + 1000 * 60 * 10;
-      localStorage.setItem('esdt_' + identifier, JSON.stringify(data));
-      localStorage.setItem('esdt_' + identifier + '_expire', expire.toString());
+      //storage of 1000 minutes
+      const expire = time.getTime() + 1000 * 60 * 1000;
+      localStorage.setItem(
+        'esdt_' + identifier + '-' + nonce,
+        JSON.stringify(data)
+      );
+      localStorage.setItem(
+        'esdt_' + identifier + '-' + nonce + '_expire',
+        expire.toString()
+      );
     } catch (err) {
       console.error('Unable to fetch Tokens');
       setEsdtInfo([]);
@@ -87,7 +91,7 @@ export const useGetESDTInformations = (identifier: string) => {
 
   useEffect(() => {
     getEsdtInfo();
-  }, [identifier]);
+  }, [identifier, nonce]);
 
   return esdtInfo;
 };
