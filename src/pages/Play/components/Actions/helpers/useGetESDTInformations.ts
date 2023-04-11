@@ -61,8 +61,14 @@ export const useGetESDTInformations = (identifier: string, nonce: string) => {
       setEsdtInfo(storage);
       return;
     }
+    console.log(nonce);
 
-    if (identifier == '' || nonce == '') {
+    if (
+      identifier == '' ||
+      identifier == undefined ||
+      nonce == '' ||
+      nonce.length % 2 == 1
+    ) {
       return;
     }
     const url = '/nfts/' + identifier + '-' + nonce;

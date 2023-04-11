@@ -11,7 +11,10 @@ import {
   faVault,
   faScrewdriverWrench,
   faChartColumn,
-  faPiggyBank
+  faPiggyBank,
+  faClover,
+  faUserPlus,
+  faUpDown
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //*import { Navbar as BsNavbar, NavItem } from 'react-bootstrap';
@@ -32,6 +35,7 @@ export const MyNavbar = () => {
   const handleLogout = () => {
     logout(`${window.location.origin}/unlock`);
   };
+  const pathname = window.location.pathname;
   //https://react-bootstrap.github.io/components/navbar/
   //good examples
   return (
@@ -153,48 +157,14 @@ export const MyNavbar = () => {
               </span>
             </Link>
 
-            {isLoggedIn && (
-              <Link
-                className='d-flex align-items-center navbar-brand mr-10'
-                to={routeNames.rewards}
-              >
-                {' '}
-                <FontAwesomeIcon icon={faClockRotateLeft} className='mr-1' />
-                <span>Rewards</span>
-              </Link>
-            )}
-
             <Link
               className='d-flex align-items-center navbar-brand mr-10'
-              to={routeNames.tokenomics}
+              to={routeNames.play}
             >
               {' '}
-              <FontAwesomeIcon icon={faChartColumn} className='mr-1' />
-              <span>Tokenomics</span>
+              <FontAwesomeIcon icon={faClover} className='mr-1' />
+              <span>Play</span>
             </Link>
-
-            {isLoggedIn && (
-              <Link
-                className='d-flex align-items-center navbar-brand mr-10'
-                to={routeNames.fund}
-              >
-                {' '}
-                <FontAwesomeIcon icon={faLock} className='mr-1' />
-                <span>Deposit</span>
-              </Link>
-            )}
-            {/* <Nav.Link href='#pricing'>Pricing</Nav.Link>
-            <NavDropdown title='Dropdown' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown> */}
           </Nav>
           <Nav className='ml-auto'>
             {isLoggedIn && network.chainId != '1' && (
@@ -204,35 +174,94 @@ export const MyNavbar = () => {
                 </Link>
               </>
             )}
-            {network.chainId == '1' && (
-              <>
-                <a
-                  href='https://devnet-app.middlestaking.fr'
+
+            {isLoggedIn ? (
+              <NavDropdown
+                title={
+                  <>
+                    {' '}
+                    <FontAwesomeIcon icon={faUpDown} className='mr-1' />
+                    <span className='text-white'>More</span>
+                  </>
+                }
+                id='basic-nav-dropdown'
+                className='nav-dropdown'
+              >
+                <NavDropdown.Item>
+                  {' '}
+                  <Link
+                    className='d-flex align-items-center navbar-brand mr-10'
+                    to={routeNames.rewards}
+                  >
+                    {' '}
+                    <FontAwesomeIcon
+                      icon={faClockRotateLeft}
+                      className='mr-1'
+                    />
+                    <span>Rewards</span>
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link
+                    className='d-flex align-items-center navbar-brand mr-10'
+                    to={routeNames.tokenomics}
+                  >
+                    {' '}
+                    <FontAwesomeIcon icon={faChartColumn} className='mr-1' />
+                    <span>Tokenomics</span>
+                  </Link>{' '}
+                </NavDropdown.Item>
+                {isLoggedIn && (
+                  <NavDropdown.Item>
+                    <Link
+                      className='d-flex align-items-center navbar-brand mr-10'
+                      to={routeNames.fund}
+                    >
+                      {' '}
+                      <FontAwesomeIcon icon={faLock} className='mr-1' />
+                      <span>Deposit</span>
+                    </Link>{' '}
+                  </NavDropdown.Item>
+                )}
+                {network.chainId == '1' && (
+                  <>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item
+                      href='https://devnet-app.middlestaking.fr'
+                      className='text-white'
+                    >
+                      <FontAwesomeIcon
+                        icon={faScrewdriverWrench}
+                        className=''
+                      />{' '}
+                      test on Devnet
+                    </NavDropdown.Item>
+                  </>
+                )}{' '}
+                <NavDropdown.Divider />
+                <NavDropdown.Item>
+                  <button
+                    className='btn btn-link text-white'
+                    onClick={handleLogout}
+                  >
+                    Disconnect
+                  </button>{' '}
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <Nav className='ml-auto'>
+                <Link
+                  to={routeNames.unlock + pathname}
                   className='nav-link text-white'
                 >
-                  <FontAwesomeIcon icon={faScrewdriverWrench} className='' />{' '}
-                  test on Devnet
-                </a>
-              </>
+                  <FontAwesomeIcon icon={faUserPlus} className='' /> Login
+                </Link>
+              </Nav>
             )}
 
-            {isLoggedIn && (
-              <>
-                <Link
-                  to={routeNames.statistics}
-                  className='nav-link text-white'
-                >
-                  <FontAwesomeIcon icon={faChartSimple} className='' />
-                </Link>
-                <button
-                  className='btn btn-link text-white'
-                  onClick={handleLogout}
-                >
-                  Disconnect
-                </button>
-              </>
-            )}
+            {isLoggedIn && <></>}
           </Nav>
+
           {/* <Nav>
             <Nav.Link href='#deets'>More deets</Nav.Link>
             <Nav.Link eventKey={2} href='#memes'>

@@ -21,8 +21,10 @@ export const network: NetworkType = {
 //MAINNET :
 // export const defaultToken = 'MID-ecb7bf';
 // export const contractAddress =
-//   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
+//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 // export const contractAddressDelegation =
+//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
+// export const contractPlay =
 //   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 
 // export const network: NetworkType = {

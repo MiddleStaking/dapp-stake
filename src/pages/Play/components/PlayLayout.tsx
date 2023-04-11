@@ -49,23 +49,11 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
 
     return () => clearInterval(interval);
   }, [time, blocks_left]);
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
 
-  const esdt_informations = useGetESDTInformations(
-    identifier,
-    bigToHexDec(nonce)
-  );
+  const esdt_informations = useGetESDTInformations(identifier, nonce);
   const image1 = esdt_informations?.media?.[0]?.url
     ? esdt_informations?.media?.[0]?.url
     : notFound;
-
   return (
     <div className='container-xxl py-4'>
       <div>
@@ -112,77 +100,87 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                     block)
                   </p>
                   <p>An address can only validate one transaction.</p>
-                  <h2>Timer:</h2>
-                  <div className='timer' id='timerDisplay'>
-                    ~ {time_out} seconds
-                  </div>
-                  <h2>Last user:</h2>
-                  <div id='winnerDisplay'>{last_user.toString()}</div>
-                  <h2>NFT PREVIEW</h2>
-                  <div className='card-body text-center p-4 text-white'>
-                    {identifier && (
-                      <img className='thirdPoolLogo' src={image1} />
-                    )}
-                  </div>
-                  <p>
-                    The winner may have to do a second transaction to finalize
-                    the transfert.
-                  </p>
-                  {isLoggedIn && !has_played && time_out > 0 && identifier && (
+
+                  {last_user ? (
                     <>
+                      <h2>Timer:</h2>
+                      <div className='timer' id='timerDisplay'>
+                        ~{' '}
+                        {new Date(time_out * 1000).toISOString().slice(11, 19)}
+                      </div>
+                      <h2>Last user:</h2>
+                      <div id='winnerDisplay'>{last_user.toString()}</div>
+                      <h2>NFT PREVIEW</h2>
+                      <div className='card-body text-center p-4 text-white'>
+                        <img className='thirdPoolLogo' src={image1} />
+                      </div>
                       <p>
-                        Looks like you haven&apos;t played! Trying your luck ?
+                        The winner may have to do a second transaction to
+                        finalize the transfert.
                       </p>
-                      <ActionMine />
+                      {isLoggedIn && !has_played && time_out > 0 && identifier && (
+                        <>
+                          <p>
+                            Looks like you haven&apos;t played! Trying your luck
+                            ?
+                          </p>
+                          <ActionMine />
+                        </>
+                      )}
+                      {has_played &&
+                        identifier &&
+                        time_out > 0 &&
+                        last_user.toString() == address && (
+                          <p>
+                            You are the last user but the game is still running.
+                            Will you stay the last and win the NFT ?
+                          </p>
+                        )}
+                      {isLoggedIn &&
+                        has_played &&
+                        time_out == 0 &&
+                        last_user.toString() == address &&
+                        identifier && (
+                          <>
+                            <p>
+                              It seems that the game ended. If you are the lucky
+                              winner please claim one last transaction to remove
+                              NFT from contract.
+                            </p>
+                            <ActionMine />
+                          </>
+                        )}{' '}
+                      {isLoggedIn &&
+                        has_played &&
+                        last_user.toString() != address && (
+                          <p>
+                            Too bad :( You were not the last user. May be next
+                            time ? Thank you for playing.
+                          </p>
+                        )}
+                      {!isLoggedIn && identifier && (
+                        <>
+                          {' '}
+                          <Link
+                            style={{ width: 'auto' }}
+                            to={routeNames.unlock + '/play'}
+                            className='butLineBig goldButton'
+                            data-testid='loginBtn'
+                          >
+                            Login to play
+                          </Link>
+                        </>
+                      )}
+                      {!identifier && <>Game ended</>}
+                      {isLoggedIn &&
+                        identifier &&
+                        time_out == 0 &&
+                        !has_played && (
+                          <>This game has ended and you did not played.</>
+                        )}
                     </>
-                  )}
-                  {has_played &&
-                    identifier &&
-                    time_out > 0 &&
-                    last_user.toString() == address && (
-                      <p>
-                        You are the last user but the game is still running.
-                        Will you stay the last and win the NFT ?
-                      </p>
-                    )}
-                  {isLoggedIn &&
-                    has_played &&
-                    time_out == 0 &&
-                    last_user.toString() == address &&
-                    identifier && (
-                      <>
-                        <p>
-                          It seems that the game ended. If you are the lucky
-                          winner please claim one last transaction to remove NFT
-                          from contract.
-                        </p>
-                        <ActionMine />
-                      </>
-                    )}{' '}
-                  {isLoggedIn &&
-                    has_played &&
-                    last_user.toString() != address && (
-                      <p>
-                        Too bad :( You were not the last user. May be next time
-                        ? Thank you for playing.
-                      </p>
-                    )}
-                  {!isLoggedIn && identifier && (
-                    <>
-                      {' '}
-                      <Link
-                        style={{ width: 'auto' }}
-                        to={routeNames.unlock + '/play'}
-                        className='butLineBig goldButton'
-                        data-testid='loginBtn'
-                      >
-                        Login to play
-                      </Link>
-                    </>
-                  )}
-                  {!identifier && <>Game ended</>}
-                  {isLoggedIn && identifier && time_out == 0 && !has_played && (
-                    <>This game has ended and you did not played.</>
+                  ) : (
+                    <>Loading</>
                   )}
                 </div>
               </div>

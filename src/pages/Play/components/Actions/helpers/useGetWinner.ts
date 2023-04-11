@@ -9,7 +9,7 @@ const resultsParser = new ResultsParser();
 
 export const useGetWinner = () => {
   // const { network } = useGetNetworkConfig();
-  const [lastUser, setLastUser] = useState<any>('');
+  const [lastUser, setLastUser] = useState<string>('');
   const [time, setTime] = useState(new Date());
 
   const getWinner = async () => {
@@ -27,6 +27,10 @@ export const useGetWinner = () => {
         queryResponse,
         endpointDefinition
       );
+      if (position == null) {
+        setLastUser('');
+        return;
+      }
       setLastUser(position?.valueOf());
     } catch (err) {
       console.error('Unable to call getLastUser', err);
