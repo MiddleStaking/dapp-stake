@@ -9,7 +9,7 @@ const resultsParser = new ResultsParser();
 
 export const useGetNonce = () => {
   // const { network } = useGetNetworkConfig();
-  const [lastUser, setLastUser] = useState<any>('');
+  const [lastUser, setLastUser] = useState<string>('');
   const [time, setTime] = useState(new Date());
 
   const getNonce = async () => {
@@ -27,7 +27,15 @@ export const useGetNonce = () => {
         queryResponse,
         endpointDefinition
       );
-      setLastUser(position?.valueOf());
+      if (position == null) {
+        setLastUser('');
+        return;
+      }
+      let hex = position?.valueOf().toString(16);
+      if (hex.length % 2 == 1) {
+        hex = '0' + hex;
+      }
+      setLastUser(hex.toString());
     } catch (err) {
       console.error('Unable to call getToken', err);
     }

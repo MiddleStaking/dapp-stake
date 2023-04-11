@@ -231,3 +231,15 @@ footer {
     }
   }
 }
+
+.dropdown-menu {
+  background-color: currentcolor;
+}
+
+.dropdown-item:focus {
+  background-color: #2d3238;
+}
+
+.dropdown-item:hover {
+  background-color: #2d3238;
+}
