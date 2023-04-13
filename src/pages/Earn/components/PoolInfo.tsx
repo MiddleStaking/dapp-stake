@@ -36,7 +36,8 @@ export const PoolInfo = ({
   stakedToken,
   rewardedToken,
   balance,
-  canBeStaked
+  canBeStaked,
+  isPaused
 }: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
@@ -450,7 +451,7 @@ export const PoolInfo = ({
                 <div>
                   <h3>NO STAKE</h3>
                   <div>
-                    {tokenPosition.paused > 0 ? (
+                    {tokenPosition.paused > 0 || isPaused == 'true' ? (
                       <>
                         <button className='butLine'>
                           <OverlayTrigger
@@ -534,7 +535,7 @@ export const PoolInfo = ({
                   {stakingPosition.stake_amount < 1 ? (
                     <Row>
                       <div>
-                        {tokenPosition.paused > 0 ? (
+                        {tokenPosition.paused > 0 || isPaused == 'true' ? (
                           <>
                             <button className='butLine'>
                               <OverlayTrigger
@@ -568,7 +569,7 @@ export const PoolInfo = ({
                   )}
                   {stakingPosition.stake_amount > 0 ? (
                     <div className='col'>
-                      {tokenPosition.paused > 0 ? (
+                      {tokenPosition.paused > 0 || isPaused == 'true' ? (
                         <>
                           <button className='butLine'>
                             <OverlayTrigger
