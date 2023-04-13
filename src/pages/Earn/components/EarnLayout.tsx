@@ -19,6 +19,7 @@ import jexchange from './../../../assets/img/jexchange.svg';
 import notFound from './../../../assets/img/notfoundc.svg';
 import twitter from './../../../assets/img/twitter.svg';
 import { useGetRewardedTokens } from './Actions/helpers';
+import { useGetIsPaused } from './Actions/helpers';
 import { useGetStakedTokens } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
@@ -30,7 +31,9 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   const navigate = useNavigate();
   const isLoggedIn = useGetIsLoggedIn();
+  const isPaused = useGetIsPaused();
 
+  console.log(isPaused);
   const stakedTokens: string[] = useGetStakedTokens();
   const { param } = useParams();
   const [url] = useState(param ? param.toString() : defaultToken);
@@ -339,6 +342,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                     canBeStaked={
                       stakedTokens.includes(rtoken) && stoken != rtoken
                     }
+                    isPaused={isPaused}
                   />
                 </div>
               ))
