@@ -7,6 +7,8 @@ import TokenomicsV2 from 'pages/TokenomicstentativeV2';
 
 import { withPageTitle } from './components/PageTitle';
 import { Dashboard, Home, Statistics, Earn, Fund, Play } from './pages';
+import Rewards2 from 'pages/RewardsV2';
+import { Admin } from 'pages/Admin';
 
 export const routeNames = {
   home: '/',
@@ -19,7 +21,9 @@ export const routeNames = {
   rewards: '/rewards',
   tokenomics: '/tokenomics',
   tokenomics2: '/tokenomics2',
-  play: '/play'
+  rewards2: '/rewards2',
+  play: '/play',
+  admin: '/admin'
 };
 
 interface RouteWithTitleType extends RouteType {
@@ -31,6 +35,11 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.home,
     title: 'Home',
     component: Home
+  },
+  {
+    path: routeNames.admin,
+    title: 'Admin',
+    component: Admin
   },
   {
     path: routeNames.statistics,
@@ -72,6 +81,12 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.rewards,
     title: 'Rewards',
     component: Rewards,
+    authenticatedRoute: true
+  },
+  {
+    path: routeNames.rewards2,
+    title: 'Rewards2',
+    component: Rewards2,
     authenticatedRoute: true
   },
   {
