@@ -4,7 +4,8 @@ import {
   faCircleInfo,
   faDollar,
   faEarth,
-  faChartSimple
+  faChartSimple,
+  faTriangleExclamation
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
@@ -20,6 +21,8 @@ import eCompass from './../../../assets/img/ecompass.svg';
 import jexchange from './../../../assets/img/jexchange.svg';
 import twitter from './../../../assets/img/twitter.svg';
 import notFound from './../../../assets/img/notfoundc.svg';
+import { defaultToken } from 'config';
+import { TopInfo } from './TopInfo';
 
 export const PoolInfo = ({
   stakedToken,
@@ -428,7 +431,9 @@ export const PoolInfo = ({
           <Row className='m-3'>
             <Col>
               <button onClick={() => setShow(true)}>ADD TOKEN TO POOL</button>{' '}
-              {fees > 0 ? (
+              {fees > 0 &&
+              stakedToken != rewardedToken &&
+              stakedToken != defaultToken ? (
                 <>
                   {' '}
                   <button onClick={() => setShowFees(true)}>
@@ -451,23 +456,31 @@ export const PoolInfo = ({
             </Row>
             <Row>
               <Col>
+                {' '}
+                <div className='alert alert-danger mx-auto text-center'>
+                  <FontAwesomeIcon icon={faTriangleExclamation} size='2x' /> New
+                  pools have a default 10% fees deposit
+                  {fees > 0 ? (
+                    <>
+                      {' '}
+                      <button onClick={() => setShowFees(true)}>
+                        PAY TO REMOVE FEES BEFORE FIRST DEPOSIT
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {' '}
+                      <button disabled={true}>FEES PAID</button>
+                    </>
+                  )}
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
                 <button onClick={() => setShow(true)}>
                   LOCK TOKEN TO NEW POOL
                 </button>
-
-                {fees > 0 ? (
-                  <>
-                    {' '}
-                    <button onClick={() => setShowFees(true)}>
-                      PAY TO REMOVE FEES BEFORE FIRST DEPOSIT
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    {' '}
-                    <button disabled={true}>FEES PAID</button>
-                  </>
-                )}
               </Col>
             </Row>{' '}
           </div>
