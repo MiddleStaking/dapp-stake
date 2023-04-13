@@ -55,14 +55,14 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       identifier: 'MID-7f1d59',
       ecompass: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
       jexchange:
-        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
+        'https://app.jexchange.io/trade?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
       jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
     },
     {
       identifier: 'MID-ecb7bf',
       ecompass: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
       jexchange:
-        'https://app.jexchange.io/pairTrading?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
+        'https://app.jexchange.io/trade?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
       jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
     }
   ];
