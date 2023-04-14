@@ -14,7 +14,8 @@ import {
   faPiggyBank,
   faClover,
   faUserPlus,
-  faUpDown
+  faUpDown,
+  faBook
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //*import { Navbar as BsNavbar, NavItem } from 'react-bootstrap';
@@ -223,6 +224,12 @@ export const MyNavbar = () => {
                     </Link>{' '}
                   </NavDropdown.Item>
                 )}
+                <NavDropdown.Item
+                  href='https://docs.middlestaking.fr'
+                  className='text-white'
+                >
+                  <FontAwesomeIcon icon={faBook} className='' /> Docs
+                </NavDropdown.Item>
                 {network.chainId == '1' && (
                   <>
                     <NavDropdown.Divider />

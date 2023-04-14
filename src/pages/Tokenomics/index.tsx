@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { faExternalLinkAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
-import { network } from 'config';
-import styles from './tokenomics.module.scss';
 import Truncate from './component/truncate';
+import styles from './tokenomics.module.scss';
 
 const Tokenomics = () => {
   //   [{"id":"1","wallet_address_32":"erd1c3nfhvj5jgulw62yndr6fgh0fcmut34fful733tl998zpt9s2k5qrxumhs","contract_address_32":"erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2","staked":"120000000000000000000","serviceFee":"1500","rewards":"1056319668794646154"}]

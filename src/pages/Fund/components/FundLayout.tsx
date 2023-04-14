@@ -141,12 +141,7 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
                                     <FormatAmount
                                       decimals={item.decimals}
                                       value={item.balance.toString()}
-                                      egldLabel={
-                                        item.identifier +
-                                        ' (' +
-                                        item.decimals +
-                                        ' dec)'
-                                      }
+                                      egldLabel={item.identifier}
                                       data-testid='staked'
                                     />
                                   </option>
