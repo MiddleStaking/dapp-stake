@@ -1,19 +1,5 @@
 import React, { FC, useEffect } from 'react';
-
-import { useNavigate, useParams } from 'react-router-dom';
-
-import { walletConnectV2ProjectId } from 'config';
-import logoMS from '../../assets/img/ms.svg';
-
-import imageWalletDefi from '../../assets/téléchargement.png';
-import imagePartalConnexion from '../../assets/multiversxPortal.png';
-import legerImage from '../../assets/legerImage.png';
-
-import styles from './styles.module.scss';
-import {
-  useGetAccountInfo,
-  useGetNetworkConfig
-} from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import {
   ExtensionLoginButton,
   LedgerLoginButton,
@@ -21,7 +7,14 @@ import {
   WalletConnectLoginButton,
   WebWalletLoginButton
 } from '@multiversx/sdk-dapp/UI';
+import { useNavigate, useParams } from 'react-router-dom';
+import { walletConnectV2ProjectId } from 'config';
 import { routeNames } from 'routes';
+import logoMS from '../../assets/img/ms.svg';
+import legerImage from '../../assets/legerImage.png';
+import imagePartalConnexion from '../../assets/multiversxPortal.png';
+import imageWalletDefi from '../../assets/téléchargement.png';
+import styles from './styles.module.scss';
 
 // multiversxPortal
 
@@ -33,9 +26,8 @@ interface ConnectionType {
   component: any;
 }
 
-const Unlock: FC = (props: any) => {
+const Unlock: FC = () => {
   const { address } = useGetAccountInfo();
-  const { network } = useGetNetworkConfig();
   const route = useParams();
 
   const navigate = useNavigate();

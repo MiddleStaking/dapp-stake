@@ -31,7 +31,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   const navigate = useNavigate();
   const isLoggedIn = useGetIsLoggedIn();
-  const isPaused = useGetIsPaused();
+  //  const isPaused = useGetIsPaused();
+  const isPaused = 0;
 
   console.log(isPaused);
   const stakedTokens: string[] = useGetStakedTokens();

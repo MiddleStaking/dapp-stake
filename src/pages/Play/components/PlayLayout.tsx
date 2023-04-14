@@ -3,7 +3,6 @@ import './PoolCol.scss';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import image from './../../../assets/img/background2.png';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import notFound from './../../../assets/img/notfoundnft.png';
