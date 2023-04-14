@@ -1,6 +1,11 @@
 import React, { FC } from 'react';
 
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCog,
+  faEdit,
+  faExternalLinkAlt,
+  faThLarge
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,9 +14,13 @@ import { network } from 'config';
 // import Identity from './components/Identity';
 
 import styles from './styles.module.scss';
+import { GetContractDetails } from 'pages/Dashboard/helper/requestAbi';
+import Action from 'components/Action';
+import { Identity } from './components/Identity';
 
 const Heading: FC = () => {
   // const { contractDetails } = useGlobalContext();
+  const contractDetails: any = GetContractDetails();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,7 +44,7 @@ const Heading: FC = () => {
         </div>
       </div>
 
-      {/* {contractDetails.data && contractDetails.data.owner && (
+      {contractDetails && contractDetails.owner && (
         <div className='d-flex align-items-center'>
           <button
             type='button'
@@ -65,7 +74,7 @@ const Heading: FC = () => {
             />
           )}
         </div>
-      )} */}
+      )}
     </div>
   );
 };

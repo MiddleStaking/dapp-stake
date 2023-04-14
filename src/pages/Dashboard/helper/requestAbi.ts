@@ -848,6 +848,48 @@ const GetNodesNumber = () => {
   return nodestatus;
 };
 
+const GetAgencyMetaData = () => {
+  const [nodestatus, setNodestatus] = useState<any>({
+    status: 'loading',
+    name: '',
+    website: '',
+    keybase: ''
+  });
+  const getNetworkeconomics = async () => {
+    try {
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
+      const query = new Query({
+        address: new Address(network.delegationContract),
+        func: new ContractFunction('getMetaData')
+      });
+
+      const data = await provider.queryContract(query);
+      const [name, website, keybase] = data
+        .getReturnDataParts()
+        .map(decodeString);
+
+      setNodestatus({
+        status: 'success',
+        name: name,
+        website: website,
+        keybase: keybase
+      });
+    } catch (error) {
+      setNodestatus({
+        status: 'failed',
+        name: '',
+        website: '',
+        keybase: ''
+      });
+    }
+  };
+
+  useEffect(() => {
+    getNetworkeconomics();
+  }, []);
+  return nodestatus;
+};
+
 export {
   sendReDelegateRewards,
   transactionStake,
@@ -868,5 +910,6 @@ export {
   NetworkEconomics,
   GetContractDetails,
   GetNodesStatus,
-  GetNodesNumber
+  GetNodesNumber,
+  GetAgencyMetaData
 };
