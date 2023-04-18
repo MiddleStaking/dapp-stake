@@ -9,8 +9,6 @@ interface Adress {
 }
 
 const Truncate = (address: Adress) => {
-  console.log(address.address);
-
   const [showIci, setShowIci] = useState(false);
   const contractRef = useRef<HTMLSpanElement>(null);
 

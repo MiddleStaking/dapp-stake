@@ -4,9 +4,25 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractPlay } from 'config';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { useGetUserESDT } from './../Actions/helpers/useGetUserESDT';
 
-export const ActionMine = () => {
+export const ActionMine = ({ payment, price }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
+  const userEsdtBalance = useGetUserESDT();
+  const balance = BigInt(
+    userEsdtBalance
+      .filter((token) => {
+        return token.identifier === payment;
+      })
+      .map((token) => token.balance)
+      .toString()
+  );
+  const decimals = userEsdtBalance
+    .filter((token) => {
+      return token.identifier === payment;
+    })
+    .map((token) => token.decimals);
 
   function bigToHexDec(d: bigint) {
     let result = '';
@@ -17,6 +33,7 @@ export const ActionMine = () => {
     return result;
   }
 
+  console.log(balance);
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
@@ -24,7 +41,14 @@ export const ActionMine = () => {
   const sendUnstakeTransaction = async () => {
     const unstakeTransaction = {
       value: 0,
-      data: 'mine',
+      data:
+        'ESDTTransfer@' +
+        Buffer.from(payment, 'utf8').toString('hex') +
+        '@' +
+        bigToHexDec(BigInt(price)) +
+        '@' +
+        Buffer.from('mine', 'utf8').toString('hex'),
+
       receiver: contractPlay,
       gasLimit: '5000000'
     };
@@ -48,14 +72,49 @@ export const ActionMine = () => {
     <div>
       {!hasPendingTransactions ? (
         <div>
-          <button
-            style={{ width: 'auto' }}
-            className='goldButton butLineBig'
-            onClick={sendUnstakeTransaction}
-            disabled={false}
-          >
-            MINE !
-          </button>
+          {balance >= price ? (
+            <>
+              {' '}
+              <button
+                style={{ width: 'auto' }}
+                className='goldButton butLineBig'
+                onClick={sendUnstakeTransaction}
+                disabled={false}
+              >
+                Pay{' '}
+                <FormatAmount
+                  value={price ? price.toString() : 0}
+                  decimals={Number(18)}
+                  egldLabel={payment}
+                  data-testid='balance'
+                  digits={2}
+                />
+                <br />
+                and play MINE !
+              </button>
+            </>
+          ) : (
+            <>
+              <button className='bouton-disabled' disabled={true}>
+                <FormatAmount
+                  value={balance.toString()}
+                  decimals={Number(18)}
+                  egldLabel={' '}
+                  data-testid='balance'
+                  digits={2}
+                />
+                /{' '}
+                <FormatAmount
+                  value={price ? price.toString() : 0}
+                  decimals={Number(18)}
+                  egldLabel={payment}
+                  data-testid='balance'
+                  digits={2}
+                />
+                <br />
+              </button>
+            </>
+          )}
         </div>
       ) : (
         <div>

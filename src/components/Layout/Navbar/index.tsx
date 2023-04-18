@@ -36,7 +36,10 @@ export const MyNavbar = () => {
   const handleLogout = () => {
     logout(`${window.location.origin}/unlock`);
   };
-  const pathname = window.location.pathname;
+  const pathname =
+    window.location.pathname.startsWith('/unlock') == true
+      ? ''
+      : window.location.pathname;
   //https://react-bootstrap.github.io/components/navbar/
   //good examples
   return (

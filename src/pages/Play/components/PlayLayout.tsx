@@ -13,14 +13,18 @@ import {
   useGetHasPlayed,
   useGetIdentifier,
   useGetNonce,
-  useGetESDTInformations
+  useGetESDTInformations,
+  useGetPayment,
+  useGetPrice
 } from './Actions/helpers';
 import { TopInfo } from './TopInfo';
-import { ActionMine } from './Actions';
+import { ActionMine, ActionEnd } from './Actions';
 
 export const PlayLayout = ({ children }: React.PropsWithChildren) => {
   const address = useGetAccountInfo().address;
   const last_user = useGetWinner();
+  const payment = useGetPayment();
+  const price = useGetPrice();
   const has_played = useGetHasPlayed();
   const blocks_left = Number(useGetBlocksLeft() * 6);
   const identifier = useGetIdentifier();
@@ -123,7 +127,7 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                             Looks like you haven&apos;t played! Trying your luck
                             ?
                           </p>
-                          <ActionMine />
+                          <ActionMine payment={payment} price={price} />
                         </>
                       )}
                       {has_played &&
@@ -146,7 +150,7 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                               winner please claim one last transaction to remove
                               NFT from contract.
                             </p>
-                            <ActionMine />
+                            <ActionEnd />
                           </>
                         )}{' '}
                       {isLoggedIn &&

@@ -280,7 +280,9 @@ export const PoolInfo = ({
                 {rewarded_esdt_info?.price ? (
                   <div className='col-6 float-left'>
                     <FontAwesomeIcon icon={faDollar} /> <br />
-                    {Number(rewarded_esdt_info?.price).toLocaleString()}
+                    {Number(rewarded_esdt_info?.price).toLocaleString('en-US', {
+                      maximumFractionDigits: 2
+                    })}
                   </div>
                 ) : (
                   ''
@@ -345,7 +347,9 @@ export const PoolInfo = ({
                   <>
                     {' '}
                     <br />
-                    {rewarded_value.toLocaleString()}{' '}
+                    {rewarded_value.toLocaleString('en-US', {
+                      maximumFractionDigits: 2
+                    })}{' '}
                     <FontAwesomeIcon icon={faDollar} />
                   </>
                 )}
@@ -411,7 +415,9 @@ export const PoolInfo = ({
                 {staked_esdt_info?.price && (
                   <>
                     <br />
-                    {staked_value.toLocaleString()}{' '}
+                    {staked_value.toLocaleString('en-US', {
+                      maximumFractionDigits: 2
+                    })}{' '}
                     <FontAwesomeIcon icon={faDollar} />
                   </>
                 )}
@@ -509,7 +515,9 @@ export const PoolInfo = ({
                         />{' '}
                         {staked_esdt_info?.price && (
                           <>
-                            {my_staked_value.toLocaleString()}{' '}
+                            {my_staked_value.toLocaleString('en-US', {
+                              maximumFractionDigits: 2
+                            })}{' '}
                             <FontAwesomeIcon icon={faDollar} />{' '}
                           </>
                         )}
@@ -645,7 +653,9 @@ export const PoolInfo = ({
                       </h4>{' '}
                       {rewarded_esdt_info?.price && (
                         <>
-                          {my_rewards_value.toLocaleString()}{' '}
+                          {my_rewards_value.toLocaleString('en-US', {
+                            maximumFractionDigits: 2
+                          })}{' '}
                           <FontAwesomeIcon icon={faDollar} />
                         </>
                       )}

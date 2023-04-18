@@ -31,10 +31,9 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   const navigate = useNavigate();
   const isLoggedIn = useGetIsLoggedIn();
-  //  const isPaused = useGetIsPaused();
-  const isPaused = 0;
+  const isPaused = useGetIsPaused();
+  //const isPaused = 0;
 
-  console.log(isPaused);
   const stakedTokens: string[] = useGetStakedTokens();
   const { param } = useParams();
   const [url] = useState(param ? param.toString() : defaultToken);
@@ -50,8 +49,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   useEffect(() => {
     setStoken(param ? param.toString() : defaultToken);
-    console.log(url);
-    console.log(param);
   }, [param]);
 
   const tokens_extra_informations = [
@@ -191,7 +188,12 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         {esdt_info?.accounts ? (
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faChartSimple} /> Accounts :{' '}
-                            {Number(esdt_info?.accounts).toLocaleString()}
+                            {Number(esdt_info?.accounts).toLocaleString(
+                              'en-US',
+                              {
+                                maximumFractionDigits: 2
+                              }
+                            )}
                           </div>
                         ) : (
                           ''
@@ -202,7 +204,9 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                             :{' '}
                             {Number(
                               esdt_info?.circulatingSupply
-                            ).toLocaleString()}
+                            ).toLocaleString('en-US', {
+                              maximumFractionDigits: 2
+                            })}
                           </div>
                         ) : (
                           ''
@@ -210,7 +214,9 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         {esdt_info?.price ? (
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faDollar} />{' '}
-                            {Number(esdt_info?.price).toLocaleString()}
+                            {Number(esdt_info?.price).toLocaleString('en-US', {
+                              maximumFractionDigits: 2
+                            })}
                           </div>
                         ) : (
                           ''
@@ -218,7 +224,12 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         {esdt_info?.marketCap ? (
                           <div className='col-6 float-left'>
                             <FontAwesomeIcon icon={faDollar} /> Market Cap :{' '}
-                            {Number(esdt_info?.marketCap).toLocaleString()}
+                            {Number(esdt_info?.marketCap).toLocaleString(
+                              'en-US',
+                              {
+                                maximumFractionDigits: 2
+                              }
+                            )}
                           </div>
                         ) : (
                           ''
