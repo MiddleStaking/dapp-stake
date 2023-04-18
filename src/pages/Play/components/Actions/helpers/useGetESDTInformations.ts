@@ -61,7 +61,6 @@ export const useGetESDTInformations = (identifier: string, nonce: string) => {
       setEsdtInfo(storage);
       return;
     }
-    console.log(nonce);
 
     if (
       identifier == '' ||

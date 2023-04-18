@@ -537,7 +537,6 @@ const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
 };
 
 const onUnDelegate = async (data: DelegationPayloadType): Promise<void> => {
-  console.log(data.amount);
   try {
     const test = TokenPayment.egldFromAmount(data.amount);
     const test2 = nominateValToHex(data.amount.toString());

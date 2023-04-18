@@ -2,10 +2,10 @@
     "buildInfo": {
         "rustc": {
             "version": "1.68.0-nightly",
-            "commitHash": "4781233a77e879e49cb5ce3c98d2abba6a6ade7a",
-            "commitDate": "2023-01-16",
+            "commitHash": "52372f9c71d8ade4cb815524f179119656f0aa2e",
+            "commitDate": "2023-01-21",
             "channel": "Nightly",
-            "short": "rustc 1.68.0-nightly (4781233a7 2023-01-16)"
+            "short": "rustc 1.68.0-nightly (52372f9c7 2023-01-21)"
         },
         "contractCrate": {
             "name": "lockdown",
@@ -36,6 +36,14 @@
                 {
                     "name": "count_down",
                     "type": "u64"
+                },
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "play_price",
+                    "type": "BigUint"
                 }
             ],
             "outputs": []
@@ -50,6 +58,9 @@
         {
             "name": "mine",
             "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
             "inputs": [],
             "outputs": []
         },
@@ -150,6 +161,26 @@
             "outputs": [
                 {
                     "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "getTokenIdentifier",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "getPlayPrice",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
                 }
             ]
         }
