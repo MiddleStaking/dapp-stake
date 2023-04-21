@@ -6,7 +6,9 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress, defaultToken } from 'config';
 import { useGetUserESDT } from './../Actions/helpers/useGetUserESDT';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-
+import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDollar } from '@fortawesome/free-solid-svg-icons';
 export const ActionRemovePoolFees = ({
   stakedToken,
   rewardedToken,
@@ -14,6 +16,16 @@ export const ActionRemovePoolFees = ({
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
   const userEsdtBalance = useGetUserESDT();
+  const default_esdt_info = useGetESDTInformations(defaultToken);
+  const price = BigInt('5000000000000000000000');
+
+  console.log(default_esdt_info);
+
+  const dollar_value = default_esdt_info?.price
+    ? Number(BigInt(price) / BigInt(10 ** default_esdt_info.decimals)) *
+      default_esdt_info?.price
+    : 0;
+
   const balance = BigInt(
     userEsdtBalance
       .filter((token) => {
@@ -27,8 +39,6 @@ export const ActionRemovePoolFees = ({
       return token.identifier === defaultToken;
     })
     .map((token) => token.decimals);
-
-  const price = BigInt('5000000000000000000000');
 
   function bigToHexDec(d: bigint) {
     let result = '';
@@ -114,6 +124,15 @@ export const ActionRemovePoolFees = ({
                         egldLabel={' '}
                         digits={2}
                       />
+                      {default_esdt_info?.price && (
+                        <>
+                          <br /> ~
+                          {dollar_value.toLocaleString('en-US', {
+                            maximumFractionDigits: 2
+                          })}{' '}
+                          <FontAwesomeIcon icon={faDollar} />
+                        </>
+                      )}
                     </button>
                   </>
                 ) : (
@@ -132,7 +151,17 @@ export const ActionRemovePoolFees = ({
                         value={price.toString()}
                         egldLabel={' '}
                         digits={2}
-                      />
+                      />{' '}
+                      {default_esdt_info?.price && (
+                        <>
+                          {' '}
+                          <br /> ~
+                          {dollar_value.toLocaleString('en-US', {
+                            maximumFractionDigits: 2
+                          })}{' '}
+                          <FontAwesomeIcon icon={faDollar} />
+                        </>
+                      )}
                     </button>
                   </>
                 )}

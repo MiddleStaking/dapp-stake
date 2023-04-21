@@ -2,10 +2,10 @@
     "buildInfo": {
         "rustc": {
             "version": "1.68.0-nightly",
-            "commitHash": "3020239de947ec52677e9b4e853a6a9fc073d1f9",
-            "commitDate": "2023-01-09",
+            "commitHash": "52372f9c71d8ade4cb815524f179119656f0aa2e",
+            "commitDate": "2023-01-21",
             "channel": "Nightly",
-            "short": "rustc 1.68.0-nightly (3020239de 2023-01-09)"
+            "short": "rustc 1.68.0-nightly (52372f9c7 2023-01-21)"
         },
         "contractCrate": {
             "name": "staking-contract",
@@ -13,7 +13,7 @@
         },
         "framework": {
             "name": "multiversx-sc",
-            "version": "0.39.0"
+            "version": "0.39.8"
         }
     },
     "name": "StakingContract",
