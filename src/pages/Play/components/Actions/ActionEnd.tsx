@@ -16,7 +16,7 @@ export const ActionEnd = () => {
   const sendUnstakeTransaction = async () => {
     const unstakeTransaction = {
       value: 0,
-      data: 'mine',
+      data: 'claim',
       receiver: contractPlay,
       gasLimit: '5000000'
     };

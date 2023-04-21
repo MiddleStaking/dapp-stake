@@ -77,6 +77,9 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
                       <u>Staked token</u> and gain the <u>Rewarded token</u>{' '}
                       over time.
                       <br /> <br />
+                      <br /> After deposit, you may have to wait up to 15 min
+                      cache refresh to see the new listed pools.
+                      <br /> <br />
                       <label>
                         <input
                           checked={!warning}

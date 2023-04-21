@@ -3,8 +3,7 @@ import { useState } from 'react';
 import {
   faCircleInfo,
   faDollar,
-  faEarth,
-  faChartSimple
+  faEarth
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
@@ -27,6 +26,7 @@ import StakeModal from './StakeModal';
 import UnstakeModal from './UnstakeModal';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import eCompass from './../../../assets/img/ecompass.svg';
+import jungle from './../../../assets/img/jungle.svg';
 import jexchange from './../../../assets/img/jexchange.svg';
 import twitter from './../../../assets/img/twitter.svg';
 import styles from './../earn.module.scss';
@@ -37,7 +37,8 @@ export const PoolInfo = ({
   rewardedToken,
   balance,
   canBeStaked,
-  isPaused
+  isPaused,
+  tokens_extra_informations
 }: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
@@ -126,11 +127,20 @@ export const PoolInfo = ({
       <Popover.Body>
         This is an estimation of the APR based on the Total staked an token left
         in the reward pool. <br />
-        It does not take in count the value of each token (yet)
+        It does not take in count the value of each token (if one is not priced)
       </Popover.Body>
     </Popover>
   );
-
+  const pricedAprPopover = (
+    <Popover id='popover-basic'>
+      <Popover.Header as='h3'>APR (calulated)</Popover.Header>
+      <Popover.Body>
+        This is an estimation of the APR based on the Total staked an token left
+        in the reward pool. <br />
+        Using the price of both tokens
+      </Popover.Body>
+    </Popover>
+  );
   const allTimeRewardsPopover = (
     <Popover id='popover-basic'>
       <Popover.Header as='h3'>All time rewarded</Popover.Header>
@@ -189,6 +199,24 @@ export const PoolInfo = ({
       (BigInt(tokenPosition.balance) * BigInt(10 ** sdecimals) * apr) /
       (BigInt(tokenPosition.total_stake) * BigInt(10 ** rdecimals));
   }
+
+  let priced_apr = BigInt(100);
+  if (
+    staked_esdt_info?.price &&
+    rewarded_esdt_info?.price &&
+    tokenPosition.total_stake > BigInt(0) &&
+    tokenPosition.balance > BigInt(0)
+  ) {
+    priced_apr =
+      (BigInt(tokenPosition.balance) *
+        BigInt(10 ** sdecimals) *
+        priced_apr *
+        BigInt((staked_esdt_info?.price * 10000).toFixed())) /
+      (BigInt(tokenPosition.total_stake) *
+        BigInt(10 ** rdecimals) *
+        BigInt((rewarded_esdt_info?.price * 10000).toFixed()));
+  }
+
   let share = BigInt(10000);
   if (tokenPosition.total_stake > BigInt(0)) {
     share =
@@ -276,7 +304,6 @@ export const PoolInfo = ({
                     Explorer
                   </a>
                 </div>
-
                 {rewarded_esdt_info?.price ? (
                   <div className='col-6 float-left'>
                     <FontAwesomeIcon icon={faDollar} /> <br />
@@ -287,7 +314,6 @@ export const PoolInfo = ({
                 ) : (
                   ''
                 )}
-
                 {rewarded_esdt_info?.assets?.website ? (
                   <div className='col-6 float-left'>
                     <a
@@ -303,11 +329,8 @@ export const PoolInfo = ({
                 ) : (
                   ''
                 )}
-
                 {rewarded_esdt_info?.assets?.social?.twitter ? (
                   <div className='col-6 float-left'>
-                    <img className='smallInfoLogo' src={twitter} />
-                    <br />
                     <a
                       className='text-white'
                       href={rewarded_esdt_info?.assets?.social?.twitter}
@@ -315,13 +338,67 @@ export const PoolInfo = ({
                       rel={'noreferrer'}
                     >
                       {' '}
-                      Twitter
+                      <img className='smallInfoLogo' src={twitter} />
+                      <br /> Twitter
                     </a>
                   </div>
                 ) : (
                   ''
                 )}
               </div>
+            </Col>
+
+            <Col className='col-12'>
+              {tokens_extra_informations?.[0]?.ecompass && (
+                <>
+                  {' '}
+                  <div className='col-4 float-left'>
+                    <a
+                      className='text-white'
+                      href={tokens_extra_informations?.[0]?.ecompass}
+                      target={'_blank'}
+                      rel={'noreferrer'}
+                    >
+                      <img className='smallInfoLogo' src={eCompass} /> <br />
+                      E-Compass
+                    </a>
+                  </div>
+                </>
+              )}
+
+              {tokens_extra_informations?.[0]?.jexchange && (
+                <>
+                  {' '}
+                  <div className='col-4 float-left'>
+                    <a
+                      className='text-white'
+                      href={tokens_extra_informations?.[0]?.jexchange}
+                      target={'_blank'}
+                      rel={'noreferrer'}
+                    >
+                      <img className='smallInfoLogo' src={jexchange} /> <br />
+                      Jexchange
+                    </a>
+                  </div>
+                </>
+              )}
+
+              {tokens_extra_informations?.[0]?.jungle && (
+                <>
+                  {' '}
+                  <div className='col-4 float-left'>
+                    <a
+                      className='text-white'
+                      href={tokens_extra_informations?.[0]?.jungle}
+                      target={'_blank'}
+                      rel={'noreferrer'}
+                    >
+                      <img className='smallInfoLogo' src={jungle} />
+                      <br /> Jungle
+                    </a>
+                  </div>
+                </>
+              )}
             </Col>
 
             <Col className='col-12'>
@@ -386,12 +463,32 @@ export const PoolInfo = ({
             </Col>
             <Col className='col-6 sub2'>
               {' '}
-              <OverlayTrigger placement='right' overlay={aprPopover}>
-                <a>
-                  <FontAwesomeIcon icon={faCircleInfo} className='text-muted' />
-                </a>
-              </OverlayTrigger>{' '}
-              apr : {apr.toString()} %
+              {rewarded_esdt_info.price && staked_esdt_info.price ? (
+                <>
+                  {' '}
+                  <OverlayTrigger placement='right' overlay={pricedAprPopover}>
+                    <a>
+                      <FontAwesomeIcon
+                        icon={faCircleInfo}
+                        className='text-muted'
+                      />
+                    </a>
+                  </OverlayTrigger>{' '}
+                  priced apr : {priced_apr.toString()} %
+                </>
+              ) : (
+                <>
+                  <OverlayTrigger placement='right' overlay={aprPopover}>
+                    <a>
+                      <FontAwesomeIcon
+                        icon={faCircleInfo}
+                        className='text-muted'
+                      />
+                    </a>
+                  </OverlayTrigger>{' '}
+                  unpriced apr : {apr.toString()} %{' '}
+                </>
+              )}
             </Col>
             <Col>
               {' '}
@@ -412,15 +509,25 @@ export const PoolInfo = ({
                   data-testid='staked'
                   digits={2}
                 />{' '}
+                <br />
                 {staked_esdt_info?.price && (
                   <>
-                    <br />
                     {staked_value.toLocaleString('en-US', {
                       maximumFractionDigits: 2
                     })}{' '}
                     <FontAwesomeIcon icon={faDollar} />
                   </>
-                )}
+                )}{' '}
+                Users:{' '}
+                <FormatAmount
+                  value={
+                    tokenPosition.users ? tokenPosition.users.toString() : '0'
+                  }
+                  decimals={Number(0)}
+                  egldLabel={' '}
+                  data-testid='staked'
+                  digits={0}
+                />{' '}
               </div>{' '}
             </Col>
           </Row>

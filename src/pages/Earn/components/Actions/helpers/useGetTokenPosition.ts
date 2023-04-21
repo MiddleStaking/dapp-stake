@@ -22,7 +22,8 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
     burn_percentage: BigInt(1),
     last_fund_block: BigInt(1),
     paused: 0,
-    blocks_to_max: BigInt(1)
+    blocks_to_max: BigInt(1),
+    users: BigInt(0)
   });
   const time = new Date();
 
@@ -77,7 +78,8 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
           burn_percentage: tab[4].toFixed(),
           last_fund_block: tab[5].toFixed(),
           paused: tab[6].toFixed(),
-          blocks_to_max: tab[7].toFixed()
+          blocks_to_max: tab[7].toFixed(),
+          users: tab[8].toFixed()
         });
 
         //storage of 1 minutes
@@ -93,7 +95,8 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
             burn_percentage: tab[4].toFixed(),
             last_fund_block: tab[5].toFixed(),
             paused: tab[6].toFixed(),
-            blocks_to_max: tab[7].toFixed()
+            blocks_to_max: tab[7].toFixed(),
+            users: tab[8].toFixed()
           })
         );
         localStorage.setItem(

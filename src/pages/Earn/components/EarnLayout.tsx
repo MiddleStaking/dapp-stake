@@ -54,16 +54,16 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const tokens_extra_informations = [
     {
       identifier: 'MID-7f1d59',
-      ecompass: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
+      ecompass: 'https://e-compass.io/maiars/chartJungle/mid/usdc',
       jexchange:
-        'https://app.jexchange.io/trade?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
+        'https://app.jexchange.io/?paymentToken=EGLD&buyToken=MID-ecb7bf',
       jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
     },
     {
       identifier: 'MID-ecb7bf',
-      ecompass: 'https://e-compass.io/maiars/chart-jex/mid/wegld',
+      ecompass: 'https://e-compass.io/maiars/chartJungle/mid/usdc',
       jexchange:
-        'https://app.jexchange.io/trade?token_a=MID-ecb7bf&token_b=WEGLD-bd4d79',
+        'https://app.jexchange.io/?paymentToken=EGLD&buyToken=MID-ecb7bf',
       jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
     }
   ];
@@ -355,6 +355,11 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                       stakedTokens.includes(rtoken) && stoken != rtoken
                     }
                     isPaused={isPaused}
+                    tokens_extra_informations={tokens_extra_informations
+                      .filter((token) => {
+                        return token.identifier === rtoken;
+                      })
+                      .map((token) => (token.identifier ? token : ''))}
                   />
                 </div>
               ))
@@ -364,6 +369,29 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
           </div>
 
           {/* <div className={styles.transactions}>{children}</div> */}
+        </div>{' '}
+      </div>{' '}
+      <div className='col-12 col-md-10 mx-auto'>
+        <div className='card shadow-sm border-0 '>
+          <div className='card-body p-1 '>
+            <div className='card border-0 bg-primary'>
+              <div
+                className='card-body text-center p-4 text-white'
+                style={{
+                  backgroundImage: `url(${image})`,
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                  opacity: 1
+                }}
+              >
+                <div className='text-white text-center'>
+                  The staking pool listing is permissionless. Anyone can add
+                  tokens as a reward. Be sure to do your research before
+                  investing in a token.{' '}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
