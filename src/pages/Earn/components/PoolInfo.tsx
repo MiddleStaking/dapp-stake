@@ -73,6 +73,11 @@ export const PoolInfo = ({
     hasPendingTransactions
   );
 
+  const speed =
+    (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
+    BigInt(24) /
+    BigInt(60) /
+    BigInt(60);
   const staked_value = staked_esdt_info?.price
     ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
       staked_esdt_info?.price
@@ -196,13 +201,17 @@ export const PoolInfo = ({
   );
 
   let apr = BigInt(100);
+
   if (
     tokenPosition.total_stake > BigInt(0) &&
     tokenPosition.balance > BigInt(0)
   ) {
+    const fixed_speed = speed > 0 ? speed : BigInt(1);
     apr =
-      (BigInt(tokenPosition.balance) * BigInt(10 ** sdecimals) * apr) /
-      (BigInt(tokenPosition.total_stake) * BigInt(10 ** rdecimals));
+      (((BigInt(tokenPosition.balance) * BigInt(10 ** sdecimals) * apr) /
+        (BigInt(tokenPosition.total_stake) * BigInt(10 ** rdecimals))) *
+        BigInt(365)) /
+      fixed_speed;
   }
 
   // (valeur finale - valeur initial) / valeur initiale * 100
@@ -236,17 +245,13 @@ export const PoolInfo = ({
     );
 
     const final_value = BigInt(initial_value + reward_value);
-    console.log('------');
-    console.log(rewardedToken);
-    console.log(initial_value);
-    console.log(reward_value);
-    console.log(final_value);
-    console.log('------');
     priced_apr = BigInt(
       (
-        ((Number(final_value) - Number(initial_value)) /
+        (((Number(final_value) - Number(initial_value)) /
           Number(initial_value)) *
-        100
+          100 *
+          365) /
+        Number(speed)
       ).toFixed()
     );
   }
@@ -258,12 +263,6 @@ export const PoolInfo = ({
       BigInt(tokenPosition.total_stake);
   }
   const rest = Number(share) / Number(100);
-
-  const speed =
-    (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
-    BigInt(24) /
-    BigInt(60) /
-    BigInt(60);
 
   // Pas bon j'ai besoin de connaitre le block courant pour connaitre la prgression
   // let rewardsLoading = BigInt(0);
