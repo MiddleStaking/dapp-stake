@@ -83,11 +83,16 @@ export const PoolInfo = ({
       staked_esdt_info?.price
     : 0;
 
-  const my_rewards_value = staked_esdt_info?.price
-    ? Number(BigInt(stakingPositionRewards) / BigInt(10 ** sdecimals)) *
-      staked_esdt_info?.price
+  //Montant user
+  const my_rewards_value = rewarded_esdt_info?.price
+    ? Number(
+        (BigInt(stakingPositionRewards) *
+          BigInt((rewarded_esdt_info.price * 10000000).toFixed())) /
+          BigInt(10 ** rdecimals)
+      ) / 10000000
     : 0;
 
+  //montant global
   const rewarded_value = rewarded_esdt_info?.price
     ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
       rewarded_esdt_info?.price
@@ -125,9 +130,9 @@ export const PoolInfo = ({
     <Popover id='popover-basic'>
       <Popover.Header as='h3'>APR (calulated)</Popover.Header>
       <Popover.Body>
-        This is an estimation of the APR based on the Total staked an token left
-        in the reward pool. <br />
-        It does not take in count the value of each token (if one is not priced)
+        This is an estimation of the APR based on the Total staked and token
+        left in the reward pool. <br />
+        It does not take in count the value of each token (one is not priced)
       </Popover.Body>
     </Popover>
   );
@@ -135,8 +140,8 @@ export const PoolInfo = ({
     <Popover id='popover-basic'>
       <Popover.Header as='h3'>APR (calulated)</Popover.Header>
       <Popover.Body>
-        This is an estimation of the APR based on the Total staked an token left
-        in the reward pool. <br />
+        This is an estimation of the APR based on the Total staked and token
+        left in the reward pool. <br />
         Using the price of both tokens
       </Popover.Body>
     </Popover>
@@ -200,21 +205,50 @@ export const PoolInfo = ({
       (BigInt(tokenPosition.total_stake) * BigInt(10 ** rdecimals));
   }
 
+  // (valeur finale - valeur initial) / valeur initiale * 100
   let priced_apr = BigInt(100);
   if (
-    staked_esdt_info?.price &&
-    rewarded_esdt_info?.price &&
-    tokenPosition.total_stake > BigInt(0) &&
+    staked_esdt_info.price > 0 &&
+    rewarded_esdt_info.price > 0 &&
+    tokenPosition.total_stake > BigInt(1) &&
     tokenPosition.balance > BigInt(0)
   ) {
-    priced_apr =
-      (BigInt(tokenPosition.balance) *
-        BigInt(10 ** sdecimals) *
-        priced_apr *
-        BigInt((staked_esdt_info?.price * 10000).toFixed())) /
-      (BigInt(tokenPosition.total_stake) *
-        BigInt(10 ** rdecimals) *
-        BigInt((rewarded_esdt_info?.price * 10000).toFixed()));
+    const price_fixed1 = BigInt(
+      staked_esdt_info.price * 100000000000 > 0
+        ? (staked_esdt_info.price * 100000000000).toFixed()
+        : 1
+    );
+    const price_fixed2 = BigInt(
+      rewarded_esdt_info.price * 100000000000 > 0
+        ? (rewarded_esdt_info.price * 100000000000).toFixed()
+        : 1
+    );
+
+    const initial_value = BigInt(
+      price_fixed1 > 0 && BigInt(tokenPosition.total_stake)
+        ? price_fixed1 * BigInt(tokenPosition.total_stake)
+        : 1
+    );
+    const reward_value = BigInt(
+      price_fixed2 > 0 && BigInt(tokenPosition.balance)
+        ? price_fixed2 * BigInt(tokenPosition.balance)
+        : 1
+    );
+
+    const final_value = BigInt(initial_value + reward_value);
+    console.log('------');
+    console.log(rewardedToken);
+    console.log(initial_value);
+    console.log(reward_value);
+    console.log(final_value);
+    console.log('------');
+    priced_apr = BigInt(
+      (
+        ((Number(final_value) - Number(initial_value)) /
+          Number(initial_value)) *
+        100
+      ).toFixed()
+    );
   }
 
   let share = BigInt(10000);
@@ -749,7 +783,7 @@ export const PoolInfo = ({
                             />
                           </a>
                         </OverlayTrigger>{' '}
-                        Available rewards :{' '}
+                        Available rewards : ~
                         <FormatAmount
                           value={stakingPositionRewards.toString()}
                           decimals={Number(rdecimals)}
@@ -760,8 +794,9 @@ export const PoolInfo = ({
                       </h4>{' '}
                       {rewarded_esdt_info?.price && (
                         <>
+                          ~
                           {my_rewards_value.toLocaleString('en-US', {
-                            maximumFractionDigits: 2
+                            maximumFractionDigits: 6
                           })}{' '}
                           <FontAwesomeIcon icon={faDollar} />
                         </>

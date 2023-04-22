@@ -65,6 +65,12 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       jexchange:
         'https://app.jexchange.io/?paymentToken=EGLD&buyToken=MID-ecb7bf',
       jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
+    },
+    {
+      identifier: 'MEX-455c57',
+      ecompass: 'https://e-compass.io/maiars/chart/mex/usdc',
+      jexchange:
+        'https://app.jexchange.io/?paymentToken=EGLD&buyToken=MEX-455c57'
     }
   ];
 
