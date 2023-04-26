@@ -43,7 +43,7 @@ export const useGetPrice = () => {
       if (queryResponse.returnCode == 'ok') {
         setRewardedTokens(tokens?.valueOf()?.toString(10));
         //storage of 15 minutes
-        const expire = time.getTime() + 1000 * 60 * 15;
+        const expire = time.getTime() + 1000 * 60 * 5;
         //const expire = time.getTime() + 1000 * 60 * 15;
         localStorage.setItem('play_price', tokens?.valueOf()?.toString(10));
         localStorage.setItem('play_price_expire', expire.toString());

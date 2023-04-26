@@ -71,6 +71,12 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       ecompass: 'https://e-compass.io/maiars/chart/mex/usdc',
       jexchange:
         'https://app.jexchange.io/?paymentToken=EGLD&buyToken=MEX-455c57'
+    },
+    {
+      identifier: 'VITAL-ab7917',
+      ecompass: 'https://e-compass.io/exrond/chart/vital/usdc',
+      jexchange:
+        'https://app.jexchange.io/?paymentToken=EGLD&buyToken=VITAL-ab7917'
     }
   ];
 
