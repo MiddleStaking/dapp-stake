@@ -342,7 +342,7 @@ export const PoolInfo = ({
                       />
                     </a>
                   </OverlayTrigger>{' '}
-                  depositFeesPopover All time rewarded :{' '}
+                  All time rewarded :{' '}
                   <FormatAmount
                     value={tokenPosition.total_rewards.toString()}
                     decimals={Number(rdecimals)}
