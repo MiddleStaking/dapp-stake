@@ -5,7 +5,7 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractPlay } from 'config';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { useGetUserESDT } from './../Actions/helpers/useGetUserESDT';
+import { useGetUserESDT } from './../../../../pages/Earn/components/Actions/helpers/useGetUserESDT';
 
 export const ActionEnd = () => {
   const { hasPendingTransactions } = useGetPendingTransactions();

@@ -33,14 +33,14 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
         'token_position_' + stakedToken + '_' + rewardedToken + '_expire'
       )
     );
+    const load: any = localStorage.getItem(
+      'token_position_' + stakedToken + '_' + rewardedToken
+    );
+    const storage = JSON.parse(load);
+    if (storage) {
+      setTokenPosition(storage);
+    }
     if (time.getTime() < expire_test) {
-      const load: any = localStorage.getItem(
-        'token_position_' + stakedToken + '_' + rewardedToken
-      );
-      const storage = JSON.parse(load);
-      if (storage) {
-        setTokenPosition(storage);
-      }
       return;
     }
 

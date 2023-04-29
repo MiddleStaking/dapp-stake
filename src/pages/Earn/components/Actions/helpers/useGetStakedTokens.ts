@@ -14,11 +14,10 @@ export const useGetStakedTokens = () => {
   const getStakedTokens = async () => {
     //using storage to reduce calls
     const expire_test = Number(localStorage.getItem('staked_tokens_expire'));
+    const storage = localStorage.getItem('staked_tokens');
+    const tokens = storage?.split(',');
+    setStakedTokens(tokens ? tokens : []);
     if (time.getTime() < expire_test) {
-      const storage = localStorage.getItem('staked_tokens');
-      const tokens = storage?.split(',');
-
-      setStakedTokens(tokens ? tokens : []);
       return;
     }
 
