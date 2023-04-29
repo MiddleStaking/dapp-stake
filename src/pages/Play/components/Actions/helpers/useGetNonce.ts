@@ -7,9 +7,9 @@ import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
-export const useGetNonce = () => {
+export const useGetNonce = (lastUser: string) => {
   // const { network } = useGetNetworkConfig();
-  const [lastUser, setLastUser] = useState<string>('');
+  const [nonce, setNonce] = useState<string>('');
   const [time, setTime] = useState(new Date());
 
   const getNonce = async () => {
@@ -27,15 +27,13 @@ export const useGetNonce = () => {
         queryResponse,
         endpointDefinition
       );
-      if (position == null) {
-        setLastUser('');
-        return;
+      if (queryResponse.returnCode == 'ok') {
+        let hex = position?.valueOf().toString(16);
+        if (hex.length % 2 == 1) {
+          hex = '0' + hex;
+        }
+        setNonce(hex.toString());
       }
-      let hex = position?.valueOf().toString(16);
-      if (hex.length % 2 == 1) {
-        hex = '0' + hex;
-      }
-      setLastUser(hex.toString());
     } catch (err) {
       console.error('Unable to call getToken', err);
     }
@@ -43,13 +41,6 @@ export const useGetNonce = () => {
 
   useEffect(() => {
     getNonce();
-
-    const interval = setInterval(() => {
-      setTime(new Date());
-      getNonce();
-    }, 15000);
-
-    return () => clearInterval(interval);
-  }, [time]);
-  return lastUser;
+  }, [lastUser]);
+  return nonce;
 };

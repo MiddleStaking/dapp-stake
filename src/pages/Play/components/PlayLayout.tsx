@@ -5,15 +5,16 @@ import { routeNames } from 'routes';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import image from './../../../assets/img/background2.png';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import notFound from './../../../assets/img/notfoundnft.png';
+import nft_preview_not_found from './../../../assets/img/notfoundnft.png';
+import { useGetESDTInformations } from './../../../pages/Earn/components/Actions/helpers';
+import notFound from './../../../assets/img/notfoundc.svg';
 
 import {
   useGetWinner,
   useGetBlocksLeft,
-  useGetHasPlayed,
   useGetIdentifier,
   useGetNonce,
-  useGetESDTInformations,
+  useGetNftInformations,
   useGetPayment,
   useGetPrice
 } from './Actions/helpers';
@@ -23,14 +24,19 @@ import { ActionMine, ActionEnd } from './Actions';
 export const PlayLayout = ({ children }: React.PropsWithChildren) => {
   const address = useGetAccountInfo().address;
   const last_user = useGetWinner();
-  const payment = useGetPayment();
-  const price = useGetPrice();
-  const has_played = useGetHasPlayed();
+  const payment = useGetPayment(last_user);
+  const price = useGetPrice(payment);
+
+  const payment_esdt_info = useGetESDTInformations(payment);
   const blocks_left = Number(useGetBlocksLeft() * 6);
-  const identifier = useGetIdentifier();
-  const nonce = useGetNonce();
+  const identifier = useGetIdentifier(last_user);
+  const nonce = useGetNonce(last_user);
   const [time, setTime] = useState(new Date());
   const [time_out, setTimeOut] = useState(0);
+
+  const image_esdt = payment_esdt_info?.assets?.svgUrl
+    ? payment_esdt_info?.assets?.svgUrl
+    : notFound;
 
   const isLoggedIn = useGetIsLoggedIn();
   useEffect(() => {
@@ -53,10 +59,10 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
     return () => clearInterval(interval);
   }, [time, blocks_left]);
 
-  const esdt_informations = useGetESDTInformations(identifier, nonce);
-  const image1 = esdt_informations?.media?.[0]?.url
+  const esdt_informations = useGetNftInformations(identifier, nonce);
+  const nft_preview = esdt_informations?.media?.[0]?.url
     ? esdt_informations?.media?.[0]?.url
-    : notFound;
+    : nft_preview_not_found;
   return (
     <div className='container-xxl py-4'>
       <div>
@@ -101,9 +107,11 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                   <p>
                     Each time the timer is reset, it accelerates by 6 seconds (1
                     block)
+                  </p>{' '}
+                  <p>
+                    NEW : Each time the timer is reset payment token can change
                   </p>
-                  <p>An address can only validate one transaction.</p>
-
+                  <p>NEW : No more limit by account</p>
                   {last_user ? (
                     <>
                       <h2>Timer:</h2>
@@ -115,23 +123,38 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                       <div id='winnerDisplay'>{last_user.toString()}</div>
                       <h2>NFT PREVIEW</h2>
                       <div className='card-body text-center p-4 text-white'>
-                        <img className='thirdPoolLogo' src={image1} />
+                        <img className='thirdPoolLogo' src={nft_preview} />
                       </div>
-                      <p>
-                        The winner may have to do a second transaction to
-                        finalize the transfert.
-                      </p>
-                      {isLoggedIn && !has_played && time_out > 0 && identifier && (
+                      {isLoggedIn &&
+                        time_out > 0 &&
+                        identifier &&
+                        last_user.toString() != address && (
+                          <>
+                            <p>You are not the last user! Trying your luck ?</p>
+                            <ActionMine
+                              payment_esdt_info={payment_esdt_info}
+                              price={price}
+                            />
+                            {payment_esdt_info?.assets?.description && (
+                              <div className='PoolCard butLineBig'>
+                                <img
+                                  className='smallInfoLogo'
+                                  src={image_esdt}
+                                />{' '}
+                                {payment_esdt_info?.assets?.description}
+                              </div>
+                            )}
+                          </>
+                        )}
+                      {isLoggedIn && time_out > 0 && identifier && (
                         <>
                           <p>
-                            Looks like you haven&apos;t played! Trying your luck
-                            ?
+                            The winner may have to do a second transaction to
+                            finalize the transfert.
                           </p>
-                          <ActionMine payment={payment} price={price} />
                         </>
                       )}
-                      {has_played &&
-                        identifier &&
+                      {identifier &&
                         time_out > 0 &&
                         last_user.toString() == address && (
                           <p>
@@ -140,7 +163,6 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                           </p>
                         )}
                       {isLoggedIn &&
-                        has_played &&
                         time_out == 0 &&
                         last_user.toString() == address &&
                         identifier && (
@@ -153,14 +175,6 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                             <ActionEnd />
                           </>
                         )}{' '}
-                      {isLoggedIn &&
-                        has_played &&
-                        last_user.toString() != address && (
-                          <p>
-                            Too bad :( You were not the last user. May be next
-                            time ? Thank you for playing.
-                          </p>
-                        )}
                       {!isLoggedIn && identifier && (
                         <>
                           {' '}
@@ -174,12 +188,12 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                           </Link>
                         </>
                       )}
-                      {!identifier && <>Game ended</>}
+                      {!identifier && time_out == 0 && <>Game ended</>}
                       {isLoggedIn &&
                         identifier &&
                         time_out == 0 &&
-                        !has_played && (
-                          <>This game has ended and you did not played.</>
+                        last_user.toString() != address && (
+                          <>This game has ended.</>
                         )}
                     </>
                   ) : (

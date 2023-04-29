@@ -5,22 +5,32 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractPlay } from 'config';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { useGetUserESDT } from './../Actions/helpers/useGetUserESDT';
+import { useGetUserESDT } from './../../../../pages/Earn/components/Actions/helpers/useGetUserESDT';
+import {
+  faCircleInfo,
+  faDollar,
+  faEarth
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const ActionMine = ({ payment, price }: any) => {
+export const ActionMine = ({ payment_esdt_info, price }: any) => {
+  const pdecimals = payment_esdt_info?.decimals
+    ? payment_esdt_info?.decimals
+    : 0;
+
   const { hasPendingTransactions } = useGetPendingTransactions();
   const userEsdtBalance = useGetUserESDT();
   const balance = BigInt(
     userEsdtBalance
       .filter((token) => {
-        return token.identifier === payment;
+        return token.identifier === payment_esdt_info?.identifier;
       })
       .map((token) => token.balance)
       .toString()
   );
   const decimals = userEsdtBalance
     .filter((token) => {
-      return token.identifier === payment;
+      return token.identifier === payment_esdt_info?.identifier;
     })
     .map((token) => token.decimals);
 
@@ -33,7 +43,15 @@ export const ActionMine = ({ payment, price }: any) => {
     return result;
   }
 
-  console.log(balance);
+  const dollar_price_fixed = BigInt(
+    payment_esdt_info?.price
+      ? (payment_esdt_info?.price * 100000000).toFixed()
+      : 0
+  );
+  const dollar_value = BigInt(
+    (dollar_price_fixed * BigInt(price)) / BigInt(100000000)
+  );
+  console.log(price);
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
@@ -43,7 +61,7 @@ export const ActionMine = ({ payment, price }: any) => {
       value: 0,
       data:
         'ESDTTransfer@' +
-        Buffer.from(payment, 'utf8').toString('hex') +
+        Buffer.from(payment_esdt_info?.identifier, 'utf8').toString('hex') +
         '@' +
         bigToHexDec(BigInt(price)) +
         '@' +
@@ -72,7 +90,7 @@ export const ActionMine = ({ payment, price }: any) => {
     <div>
       {!hasPendingTransactions ? (
         <div>
-          {balance >= price ? (
+          {balance >= price && price > 0 ? (
             <>
               {' '}
               <button
@@ -81,16 +99,28 @@ export const ActionMine = ({ payment, price }: any) => {
                 onClick={sendUnstakeTransaction}
                 disabled={false}
               >
-                Pay{' '}
+                Play for
+                <br />
                 <FormatAmount
                   value={price ? price.toString() : 0}
-                  decimals={Number(18)}
-                  egldLabel={payment}
+                  decimals={Number(pdecimals)}
+                  egldLabel={payment_esdt_info?.identifier}
                   data-testid='balance'
                   digits={2}
-                />
-                <br />
-                and play MINE !
+                />{' '}
+                {payment_esdt_info?.price && (
+                  <div className='col-12 '>
+                    ~{' '}
+                    <FormatAmount
+                      value={dollar_value.toString()}
+                      decimals={Number(pdecimals)}
+                      egldLabel={' '}
+                      data-testid='balance'
+                      digits={2}
+                    />
+                    <FontAwesomeIcon icon={faDollar} />
+                  </div>
+                )}
               </button>
             </>
           ) : (
@@ -98,7 +128,7 @@ export const ActionMine = ({ payment, price }: any) => {
               <button className='bouton-disabled' disabled={true}>
                 <FormatAmount
                   value={balance.toString()}
-                  decimals={Number(18)}
+                  decimals={Number(pdecimals)}
                   egldLabel={' '}
                   data-testid='balance'
                   digits={2}
@@ -106,12 +136,24 @@ export const ActionMine = ({ payment, price }: any) => {
                 /{' '}
                 <FormatAmount
                   value={price ? price.toString() : 0}
-                  decimals={Number(18)}
-                  egldLabel={payment}
+                  decimals={Number(pdecimals)}
+                  egldLabel={payment_esdt_info?.identifier}
                   data-testid='balance'
                   digits={2}
                 />
-                <br />
+                {payment_esdt_info?.price && (
+                  <div className='col-12 '>
+                    ~{' '}
+                    <FormatAmount
+                      value={dollar_value.toString()}
+                      decimals={Number(pdecimals)}
+                      egldLabel={' '}
+                      data-testid='balance'
+                      digits={2}
+                    />
+                    <FontAwesomeIcon icon={faDollar} />
+                  </div>
+                )}
               </button>
             </>
           )}

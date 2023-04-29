@@ -36,10 +36,8 @@ export const useGetBlocksLeft = () => {
 
   useEffect(() => {
     getBlocksLeft();
-
     const interval = setInterval(() => {
       setTime(new Date());
-      getBlocksLeft();
     }, 15000);
 
     return () => clearInterval(interval);

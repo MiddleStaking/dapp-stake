@@ -36,23 +36,27 @@
                 {
                     "name": "count_down",
                     "type": "u64"
-                },
-                {
-                    "name": "token_identifier",
-                    "type": "TokenIdentifier"
-                },
-                {
-                    "name": "play_price",
-                    "type": "BigUint"
                 }
             ],
             "outputs": []
         },
         {
-            "name": "clear",
+            "name": "addToken",
             "onlyOwner": true,
             "mutability": "mutable",
-            "inputs": [],
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "price",
+                    "type": "BigUint"
+                }
+            ],
             "outputs": []
         },
         {
@@ -61,6 +65,18 @@
             "payableInTokens": [
                 "*"
             ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "claim",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "withdraw",
+            "mutability": "mutable",
             "inputs": [],
             "outputs": []
         },
@@ -95,17 +111,6 @@
             "outputs": [
                 {
                     "type": "u64"
-                }
-            ]
-        },
-        {
-            "name": "getAddresses",
-            "mutability": "readonly",
-            "inputs": [],
-            "outputs": [
-                {
-                    "type": "variadic<Address>",
-                    "multi_result": true
                 }
             ]
         },
@@ -150,22 +155,18 @@
             ]
         },
         {
-            "name": "getHasPlayed",
+            "name": "getTokenList",
             "mutability": "readonly",
-            "inputs": [
-                {
-                    "name": "addr",
-                    "type": "Address"
-                }
-            ],
+            "inputs": [],
             "outputs": [
                 {
-                    "type": "bool"
+                    "type": "variadic<TokenIdentifier>",
+                    "multi_result": true
                 }
             ]
         },
         {
-            "name": "getTokenIdentifier",
+            "name": "getTokenPay",
             "mutability": "readonly",
             "inputs": [],
             "outputs": [
@@ -175,9 +176,14 @@
             ]
         },
         {
-            "name": "getPlayPrice",
+            "name": "getTokenPrice",
             "mutability": "readonly",
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                }
+            ],
             "outputs": [
                 {
                     "type": "BigUint"

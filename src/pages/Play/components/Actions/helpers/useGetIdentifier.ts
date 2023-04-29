@@ -7,9 +7,9 @@ import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
-export const useGetIdentifier = () => {
+export const useGetIdentifier = (lastUser: string) => {
   // const { network } = useGetNetworkConfig();
-  const [lastUser, setLastUser] = useState<any>('');
+  const [identifier, setIdentifier] = useState<any>('');
   const [time, setTime] = useState(new Date());
 
   const getIdentifier = async () => {
@@ -27,7 +27,9 @@ export const useGetIdentifier = () => {
         queryResponse,
         endpointDefinition
       );
-      setLastUser(position?.valueOf());
+      if (queryResponse.returnCode == 'ok') {
+        setIdentifier(position?.valueOf());
+      }
     } catch (err) {
       console.error('Unable to call getToken', err);
     }
@@ -35,13 +37,6 @@ export const useGetIdentifier = () => {
 
   useEffect(() => {
     getIdentifier();
-
-    const interval = setInterval(() => {
-      setTime(new Date());
-      getIdentifier();
-    }, 15000);
-
-    return () => clearInterval(interval);
-  }, [time]);
-  return lastUser;
+  }, [lastUser]);
+  return identifier;
 };
