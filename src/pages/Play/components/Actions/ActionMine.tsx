@@ -51,7 +51,6 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
   const dollar_value = BigInt(
     (dollar_price_fixed * BigInt(price)) / BigInt(100000000)
   );
-  console.log(price);
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);

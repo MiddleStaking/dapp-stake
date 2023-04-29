@@ -19,8 +19,6 @@ export const ActionRemovePoolFees = ({
   const default_esdt_info = useGetESDTInformations(defaultToken);
   const price = BigInt('5000000000000000000000');
 
-  console.log(default_esdt_info);
-
   const dollar_value = default_esdt_info?.price
     ? Number(BigInt(price) / BigInt(10 ** default_esdt_info.decimals)) *
       default_esdt_info?.price

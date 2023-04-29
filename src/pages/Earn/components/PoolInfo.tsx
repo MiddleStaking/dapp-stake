@@ -217,10 +217,10 @@ export const PoolInfo = ({
   // (valeur finale - valeur initial) / valeur initiale * 100
   let priced_apr = BigInt(100);
   if (
-    staked_esdt_info.price > 0 &&
-    rewarded_esdt_info.price > 0 &&
-    tokenPosition.total_stake > BigInt(1) &&
-    tokenPosition.balance > BigInt(0)
+    staked_esdt_info?.price > 0 &&
+    rewarded_esdt_info?.price > 0 &&
+    tokenPosition?.total_stake > BigInt(1) &&
+    tokenPosition?.balance > BigInt(0)
   ) {
     const price_fixed1 = BigInt(
       staked_esdt_info.price * 100000000000 > 0
@@ -496,7 +496,7 @@ export const PoolInfo = ({
             </Col>
             <Col className='col-6 sub2'>
               {' '}
-              {rewarded_esdt_info.price && staked_esdt_info.price ? (
+              {rewarded_esdt_info?.price && staked_esdt_info?.price ? (
                 <>
                   {' '}
                   <OverlayTrigger placement='right' overlay={pricedAprPopover}>

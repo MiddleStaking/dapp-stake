@@ -61,14 +61,11 @@ export const useGetESDTInformations = (identifier: string) => {
     const expire_test = Number(
       localStorage.getItem('esdt_' + identifier + '_expire')
     );
+    const storage = JSON.parse(
+      localStorage.getItem('esdt_' + identifier) as string
+    );
+    setEsdtInfo(storage);
     if (time.getTime() < expire_test) {
-      //const storage = localStorage.getItem('esdt_' + identifier);
-      const storage = JSON.parse(
-        localStorage.getItem('esdt_' + identifier) as string
-      );
-
-      //const esdt = JSON.parse(storage);
-      setEsdtInfo(storage);
       return;
     }
 

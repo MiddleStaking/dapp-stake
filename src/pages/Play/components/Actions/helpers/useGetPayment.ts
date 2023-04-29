@@ -42,7 +42,6 @@ export const useGetPayment = (lastUser: string) => {
   };
 
   useEffect(() => {
-    console.log(lastUser);
     getRewardedTokens();
   }, [lastUser]);
 

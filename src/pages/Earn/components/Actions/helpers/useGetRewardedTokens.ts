@@ -21,11 +21,10 @@ export const useGetRewardedTokens = (stakedToken: string) => {
     const expire_test = Number(
       localStorage.getItem('rewarded_tokens_' + stakedToken + '_expire')
     );
+    const storage = localStorage.getItem('rewarded_tokens_' + stakedToken);
+    const tokens = storage?.split(',');
+    setRewardedTokens(tokens ? tokens : []);
     if (time.getTime() < expire_test) {
-      const storage = localStorage.getItem('rewarded_tokens_' + stakedToken);
-      const tokens = storage?.split(',');
-
-      setRewardedTokens(tokens ? tokens : []);
       return;
     }
 
