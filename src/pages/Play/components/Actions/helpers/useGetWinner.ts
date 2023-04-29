@@ -27,11 +27,14 @@ export const useGetWinner = () => {
         queryResponse,
         endpointDefinition
       );
-      if (position == null) {
-        setLastUser('');
+      if (
+        queryResponse.returnCode == 'ok' &&
+        position?.valueOf().toString() != lastUser.toString()
+      ) {
+        setLastUser(position?.valueOf());
+      } else {
         return;
       }
-      setLastUser(position?.valueOf());
     } catch (err) {
       console.error('Unable to call getLastUser', err);
     }
@@ -41,7 +44,6 @@ export const useGetWinner = () => {
     getWinner();
     const interval = setInterval(() => {
       setTime(new Date());
-      getWinner();
     }, 15000);
     return () => clearInterval(interval);
   }, [time]);

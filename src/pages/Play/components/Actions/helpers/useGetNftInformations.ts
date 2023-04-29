@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import axios from 'axios';
 
-export const useGetESDTInformations = (identifier: string, nonce: string) => {
+export const useGetNftInformations = (identifier: string, nonce: string) => {
   const { network } = useGetNetworkConfig();
   const time = new Date();
   const [esdtInfo, setEsdtInfo] = useState<any>({});
