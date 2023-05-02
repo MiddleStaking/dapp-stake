@@ -33,6 +33,7 @@ import styles from './../earn.module.scss';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 
 export const PoolInfo = ({
+  myPools,
   stakedToken,
   rewardedToken,
   balance,
@@ -273,10 +274,14 @@ export const PoolInfo = ({
   //       BigInt(100)
   //   );
   // }
+  let opacity = 'card';
+
+  if (myPools && stakingPosition.stake_amount == BigInt(0)) {
+    opacity = 'hidePools';
+  }
 
   return (
-    <div className='card'>
-      {' '}
+    <>
       <StakeModal
         rewardedToken={rewardedToken}
         stakedToken={stakedToken}
@@ -287,436 +292,331 @@ export const PoolInfo = ({
         image1={image1}
         image2={image2}
       />
-      <UnstakeModal
-        rewardedToken={rewardedToken}
-        stakedToken={stakedToken}
-        balance={stakingPosition.stake_amount}
-        decimals={sdecimals}
-        onClose={() => setShowUnstake(false)}
-        show={showUnstake}
-      />
-      <div
-        className='text-black PoolCard'
-        data-testid='poolInfo'
-        style={{
-          backgroundImage: `url(${image})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          opacity: 1
-        }}
-      >
-        <div className='poolTop'>
-          <Row className='topLogo'>
-            <Col className='col-4 '>
-              <img className='firstPoolLogo' src={image1} />
-              <img className='secondPoolLogo' src={image2} />
-            </Col>
-            <Col className='col-8 topName'>
-              <h4>Earn : {rewardedToken}</h4>
-              <div className='rewardedInfo'>
-                <div className='col-6 float-left '>
-                  <a
-                    className='text-white'
-                    href={
-                      network.explorerAddress +
-                      '/tokens/' +
-                      rewarded_esdt_info?.identifier
-                    }
-                    target={'_blank'}
-                    rel={'noreferrer'}
-                  >
-                    <img
-                      className='smallInfoLogo'
-                      src={
-                        rewarded_esdt_info?.assets?.svgUrl
-                          ? rewarded_esdt_info?.assets?.svgUrl
-                          : notFound
+
+      <div className={opacity}>
+        {' '}
+        <UnstakeModal
+          rewardedToken={rewardedToken}
+          stakedToken={stakedToken}
+          balance={stakingPosition.stake_amount}
+          decimals={sdecimals}
+          onClose={() => setShowUnstake(false)}
+          show={showUnstake}
+        />
+        <div
+          className='text-black PoolCard'
+          data-testid='poolInfo'
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            opacity: 1
+          }}
+        >
+          <div className='poolTop'>
+            <Row className='topLogo'>
+              <Col className='col-4 '>
+                <img className='firstPoolLogo' src={image1} />
+                <img className='secondPoolLogo' src={image2} />
+              </Col>
+              <Col className='col-8 topName'>
+                <h4>Earn : {rewardedToken}</h4>
+                <div className='rewardedInfo'>
+                  <div className='col-6 float-left '>
+                    <a
+                      className='text-white'
+                      href={
+                        network.explorerAddress +
+                        '/tokens/' +
+                        rewarded_esdt_info?.identifier
                       }
-                    />{' '}
-                    <br />
-                    Explorer
-                  </a>
+                      target={'_blank'}
+                      rel={'noreferrer'}
+                    >
+                      <img
+                        className='smallInfoLogo'
+                        src={
+                          rewarded_esdt_info?.assets?.svgUrl
+                            ? rewarded_esdt_info?.assets?.svgUrl
+                            : notFound
+                        }
+                      />{' '}
+                      <br />
+                      Explorer
+                    </a>
+                  </div>
+                  {rewarded_esdt_info?.price ? (
+                    <div className='col-6 float-left'>
+                      <FontAwesomeIcon icon={faDollar} /> <br />
+                      {Number(rewarded_esdt_info?.price).toLocaleString(
+                        'en-US',
+                        {
+                          maximumFractionDigits: 2
+                        }
+                      )}
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                  {rewarded_esdt_info?.assets?.website ? (
+                    <div className='col-6 float-left'>
+                      <a
+                        className='text-white'
+                        href={rewarded_esdt_info?.assets?.website}
+                        target={'_blank'}
+                        rel={'noreferrer'}
+                      >
+                        <FontAwesomeIcon
+                          icon={faEarth}
+                          className='text-muted'
+                        />{' '}
+                        <br /> Website
+                      </a>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                  {rewarded_esdt_info?.assets?.social?.twitter ? (
+                    <div className='col-6 float-left'>
+                      <a
+                        className='text-white'
+                        href={rewarded_esdt_info?.assets?.social?.twitter}
+                        target={'_blank'}
+                        rel={'noreferrer'}
+                      >
+                        {' '}
+                        <img className='smallInfoLogo' src={twitter} />
+                        <br /> Twitter
+                      </a>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                 </div>
-                {rewarded_esdt_info?.price ? (
-                  <div className='col-6 float-left'>
-                    <FontAwesomeIcon icon={faDollar} /> <br />
-                    {Number(rewarded_esdt_info?.price).toLocaleString('en-US', {
-                      maximumFractionDigits: 2
-                    })}
-                  </div>
-                ) : (
-                  ''
-                )}
-                {rewarded_esdt_info?.assets?.website ? (
-                  <div className='col-6 float-left'>
-                    <a
-                      className='text-white'
-                      href={rewarded_esdt_info?.assets?.website}
-                      target={'_blank'}
-                      rel={'noreferrer'}
-                    >
-                      <FontAwesomeIcon icon={faEarth} className='text-muted' />{' '}
-                      <br /> Website
-                    </a>
-                  </div>
-                ) : (
-                  ''
-                )}
-                {rewarded_esdt_info?.assets?.social?.twitter ? (
-                  <div className='col-6 float-left'>
-                    <a
-                      className='text-white'
-                      href={rewarded_esdt_info?.assets?.social?.twitter}
-                      target={'_blank'}
-                      rel={'noreferrer'}
-                    >
-                      {' '}
-                      <img className='smallInfoLogo' src={twitter} />
-                      <br /> Twitter
-                    </a>
-                  </div>
-                ) : (
-                  ''
-                )}
-              </div>
-            </Col>
+              </Col>
 
-            <Col className='col-12'>
-              {tokens_extra_informations?.[0]?.ecompass && (
-                <>
-                  {' '}
-                  <div className='col-4 float-left'>
-                    <a
-                      className='text-white'
-                      href={tokens_extra_informations?.[0]?.ecompass}
-                      target={'_blank'}
-                      rel={'noreferrer'}
-                    >
-                      <img className='smallInfoLogo' src={eCompass} /> <br />
-                      E-Compass
-                    </a>
-                  </div>
-                </>
-              )}
-
-              {tokens_extra_informations?.[0]?.jexchange && (
-                <>
-                  {' '}
-                  <div className='col-4 float-left'>
-                    <a
-                      className='text-white'
-                      href={tokens_extra_informations?.[0]?.jexchange}
-                      target={'_blank'}
-                      rel={'noreferrer'}
-                    >
-                      <img className='smallInfoLogo' src={jexchange} /> <br />
-                      Jexchange
-                    </a>
-                  </div>
-                </>
-              )}
-
-              {tokens_extra_informations?.[0]?.jungle && (
-                <>
-                  {' '}
-                  <div className='col-4 float-left'>
-                    <a
-                      className='text-white'
-                      href={tokens_extra_informations?.[0]?.jungle}
-                      target={'_blank'}
-                      rel={'noreferrer'}
-                    >
-                      <img className='smallInfoLogo' src={jungle} />
-                      <br /> Jungle
-                    </a>
-                  </div>
-                </>
-              )}
-            </Col>
-
-            <Col className='col-12'>
-              {' '}
-              <div className='blueButton leftInPoolInfo'>
-                <OverlayTrigger placement='right' overlay={leftPopover}>
-                  <a>
-                    <FontAwesomeIcon
-                      icon={faCircleInfo}
-                      className='text-muted'
-                    />
-                  </a>
-                </OverlayTrigger>{' '}
-                Rewards :{' '}
-                <FormatAmount
-                  value={tokenPosition.balance.toString()}
-                  decimals={Number(rdecimals)}
-                  egldLabel={' '}
-                  data-testid='balance'
-                  digits={2}
-                />{' '}
-                {rewarded_esdt_info?.price && (
+              <Col className='col-12'>
+                {tokens_extra_informations?.[0]?.ecompass && (
                   <>
                     {' '}
-                    <br />
-                    {rewarded_value.toLocaleString('en-US', {
-                      maximumFractionDigits: 2
-                    })}{' '}
-                    <FontAwesomeIcon icon={faDollar} />
+                    <div className='col-4 float-left'>
+                      <a
+                        className='text-white'
+                        href={tokens_extra_informations?.[0]?.ecompass}
+                        target={'_blank'}
+                        rel={'noreferrer'}
+                      >
+                        <img className='smallInfoLogo' src={eCompass} /> <br />
+                        E-Compass
+                      </a>
+                    </div>
                   </>
                 )}
-                <br />
-                <OverlayTrigger
-                  placement='right'
-                  overlay={allTimeRewardsPopover}
-                >
-                  <a>
-                    <FontAwesomeIcon
-                      icon={faCircleInfo}
-                      className='text-muted'
-                    />
-                  </a>
-                </OverlayTrigger>{' '}
-                All time rewarded :{' '}
-                <FormatAmount
-                  value={tokenPosition.total_rewards.toString()}
-                  decimals={Number(rdecimals)}
-                  egldLabel={' '}
-                  data-testid='balance'
-                  digits={2}
-                />
-              </div>{' '}
-            </Col>
-            <Col className='col-6 sub2'>
-              {' '}
-              <OverlayTrigger placement='right' overlay={speedPopover}>
-                <a>
-                  <FontAwesomeIcon icon={faCircleInfo} className='text-muted' />
-                </a>
-              </OverlayTrigger>{' '}
-              speed : {speed.toString()} days
-            </Col>
-            <Col className='col-6 sub2'>
-              {' '}
-              {rewarded_esdt_info?.price && staked_esdt_info?.price ? (
-                <>
-                  {' '}
-                  <OverlayTrigger placement='right' overlay={pricedAprPopover}>
-                    <a>
-                      <FontAwesomeIcon
-                        icon={faCircleInfo}
-                        className='text-muted'
-                      />
-                    </a>
-                  </OverlayTrigger>{' '}
-                  priced apr : {priced_apr.toString()} %
-                </>
-              ) : (
-                <>
-                  <OverlayTrigger placement='right' overlay={aprPopover}>
-                    <a>
-                      <FontAwesomeIcon
-                        icon={faCircleInfo}
-                        className='text-muted'
-                      />
-                    </a>
-                  </OverlayTrigger>{' '}
-                  unpriced apr : {apr.toString()} %{' '}
-                </>
-              )}
-            </Col>
-            <Col>
-              {' '}
-              <div className='blueButton leftInPoolInfo'>
-                <OverlayTrigger placement='right' overlay={stakedPopover}>
-                  <a>
-                    <FontAwesomeIcon
-                      icon={faCircleInfo}
-                      className='text-muted'
-                    />
-                  </a>
-                </OverlayTrigger>{' '}
-                Total Staked :{' '}
-                <FormatAmount
-                  value={tokenPosition.total_stake.toString()}
-                  decimals={Number(sdecimals)}
-                  egldLabel={' '}
-                  data-testid='staked'
-                  digits={2}
-                />{' '}
-                <br />
-                {staked_esdt_info?.price && (
-                  <>
-                    {staked_value.toLocaleString('en-US', {
-                      maximumFractionDigits: 2
-                    })}{' '}
-                    <FontAwesomeIcon icon={faDollar} />
-                  </>
-                )}{' '}
-                Users:{' '}
-                <FormatAmount
-                  value={
-                    tokenPosition.users ? tokenPosition.users.toString() : '0'
-                  }
-                  decimals={Number(0)}
-                  egldLabel={' '}
-                  data-testid='staked'
-                  digits={0}
-                />{' '}
-              </div>{' '}
-            </Col>
-          </Row>
-          {canBeStaked && (
-            <>
-              {' '}
-              <Row>
-                <Col>
-                  <Link
-                    to={routeNames.stake + `/${rewardedToken}`}
-                    className='butLine bouton-visiter'
-                    data-testid='loginBtn'
-                  >
-                    Stake {rewardedToken}
-                  </Link>
-                </Col>
-              </Row>
-            </>
-          )}
-        </div>
 
-        <div className='poolPosition'>
-          {!address ? (
-            <Link
-              to={routeNames.unlock + `/stake/${stakedToken}`}
-              className='butLine goldButton'
-              data-testid='loginBtn'
-            >
-              Login
-            </Link>
-          ) : (
-            <div className='text-black' data-testid='myPosition'>
-              {stakingPosition.stake_amount < 1 ? (
-                <div>
-                  <h3>NO STAKE</h3>
-                  <div>
-                    {tokenPosition.paused > 0 || isPaused == 'true' ? (
-                      <>
-                        <button className='butLine'>
-                          <OverlayTrigger
-                            placement='right'
-                            overlay={pausedPopover}
-                          >
-                            <a>
-                              <FontAwesomeIcon
-                                icon={faCircleInfo}
-                                className='text-muted'
-                              />
-                            </a>
-                          </OverlayTrigger>{' '}
-                          PAUSED
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          className='butLine goldButton'
-                          onClick={() => setShowStake(true)}
-                        >
-                          STAKE
-                        </button>{' '}
-                      </>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  {' '}
-                  <h3>MY STAKE</h3>
-                  <Row>
-                    <Col className='col-12'>
-                      {' '}
-                      <div className='blueButton leftInPoolInfo'>
-                        <OverlayTrigger
-                          placement='right'
-                          overlay={myStakePopover}
-                        >
-                          <a>
-                            <FontAwesomeIcon
-                              icon={faCircleInfo}
-                              className='text-muted'
-                            />
-                          </a>
-                        </OverlayTrigger>{' '}
-                        Staked :{' '}
-                        <FormatAmount
-                          value={stakingPosition.stake_amount.toString()}
-                          decimals={Number(sdecimals)}
-                          egldLabel={' '}
-                          data-testid='staked'
-                          digits={6}
-                        />{' '}
-                        {staked_esdt_info?.price && (
-                          <>
-                            {my_staked_value.toLocaleString('en-US', {
-                              maximumFractionDigits: 2
-                            })}{' '}
-                            <FontAwesomeIcon icon={faDollar} />{' '}
-                          </>
-                        )}
-                        <br />
-                      </div>{' '}
-                    </Col>
-                    <Col>
-                      {' '}
-                      <OverlayTrigger
-                        placement='right'
-                        overlay={mySharePopover}
+                {tokens_extra_informations?.[0]?.jexchange && (
+                  <>
+                    {' '}
+                    <div className='col-4 float-left'>
+                      <a
+                        className='text-white'
+                        href={tokens_extra_informations?.[0]?.jexchange}
+                        target={'_blank'}
+                        rel={'noreferrer'}
                       >
-                        <a>
-                          <FontAwesomeIcon
-                            icon={faCircleInfo}
-                            className='text-muted'
-                          />
-                        </a>
-                      </OverlayTrigger>{' '}
-                      Share : {rest} %
-                    </Col>
-                  </Row>
-                  {stakingPosition.stake_amount < 1 ? (
-                    <Row>
-                      <div>
-                        {tokenPosition.paused > 0 || isPaused == 'true' ? (
-                          <>
-                            <button className='butLine'>
-                              <OverlayTrigger
-                                placement='right'
-                                overlay={pausedPopover}
-                              >
-                                <a>
-                                  <FontAwesomeIcon
-                                    icon={faCircleInfo}
-                                    className='text-muted'
-                                  />
-                                </a>
-                              </OverlayTrigger>{' '}
-                              PAUSED
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              className='butLine goldButton'
-                              onClick={() => setShowStake(true)}
-                            >
-                              STAKE
-                            </button>{' '}
-                          </>
-                        )}
-                      </div>
-                    </Row>
-                  ) : (
-                    <></>
+                        <img className='smallInfoLogo' src={jexchange} /> <br />
+                        Jexchange
+                      </a>
+                    </div>
+                  </>
+                )}
+
+                {tokens_extra_informations?.[0]?.jungle && (
+                  <>
+                    {' '}
+                    <div className='col-4 float-left'>
+                      <a
+                        className='text-white'
+                        href={tokens_extra_informations?.[0]?.jungle}
+                        target={'_blank'}
+                        rel={'noreferrer'}
+                      >
+                        <img className='smallInfoLogo' src={jungle} />
+                        <br /> Jungle
+                      </a>
+                    </div>
+                  </>
+                )}
+              </Col>
+
+              <Col className='col-12'>
+                {' '}
+                <div className='blueButton leftInPoolInfo'>
+                  <OverlayTrigger placement='right' overlay={leftPopover}>
+                    <a>
+                      <FontAwesomeIcon
+                        icon={faCircleInfo}
+                        className='text-muted'
+                      />
+                    </a>
+                  </OverlayTrigger>{' '}
+                  Rewards :{' '}
+                  <FormatAmount
+                    value={tokenPosition.balance.toString()}
+                    decimals={Number(rdecimals)}
+                    egldLabel={' '}
+                    data-testid='balance'
+                    digits={2}
+                  />{' '}
+                  {rewarded_esdt_info?.price && (
+                    <>
+                      {' '}
+                      <br />
+                      {rewarded_value.toLocaleString('en-US', {
+                        maximumFractionDigits: 2
+                      })}{' '}
+                      <FontAwesomeIcon icon={faDollar} />
+                    </>
                   )}
-                  {stakingPosition.stake_amount > 0 ? (
-                    <div className='col'>
+                  <br />
+                  <OverlayTrigger
+                    placement='right'
+                    overlay={allTimeRewardsPopover}
+                  >
+                    <a>
+                      <FontAwesomeIcon
+                        icon={faCircleInfo}
+                        className='text-muted'
+                      />
+                    </a>
+                  </OverlayTrigger>{' '}
+                  All time rewarded :{' '}
+                  <FormatAmount
+                    value={tokenPosition.total_rewards.toString()}
+                    decimals={Number(rdecimals)}
+                    egldLabel={' '}
+                    data-testid='balance'
+                    digits={2}
+                  />
+                </div>{' '}
+              </Col>
+              <Col className='col-6 sub2'>
+                {' '}
+                <OverlayTrigger placement='right' overlay={speedPopover}>
+                  <a>
+                    <FontAwesomeIcon
+                      icon={faCircleInfo}
+                      className='text-muted'
+                    />
+                  </a>
+                </OverlayTrigger>{' '}
+                speed : {speed.toString()} days
+              </Col>
+              <Col className='col-6 sub2'>
+                {' '}
+                {rewarded_esdt_info?.price && staked_esdt_info?.price ? (
+                  <>
+                    {' '}
+                    <OverlayTrigger
+                      placement='right'
+                      overlay={pricedAprPopover}
+                    >
+                      <a>
+                        <FontAwesomeIcon
+                          icon={faCircleInfo}
+                          className='text-muted'
+                        />
+                      </a>
+                    </OverlayTrigger>{' '}
+                    priced apr : {priced_apr.toString()} %
+                  </>
+                ) : (
+                  <>
+                    <OverlayTrigger placement='right' overlay={aprPopover}>
+                      <a>
+                        <FontAwesomeIcon
+                          icon={faCircleInfo}
+                          className='text-muted'
+                        />
+                      </a>
+                    </OverlayTrigger>{' '}
+                    unpriced apr : {apr.toString()} %{' '}
+                  </>
+                )}
+              </Col>
+              <Col>
+                {' '}
+                <div className='blueButton leftInPoolInfo'>
+                  <OverlayTrigger placement='right' overlay={stakedPopover}>
+                    <a>
+                      <FontAwesomeIcon
+                        icon={faCircleInfo}
+                        className='text-muted'
+                      />
+                    </a>
+                  </OverlayTrigger>{' '}
+                  Total Staked :{' '}
+                  <FormatAmount
+                    value={tokenPosition.total_stake.toString()}
+                    decimals={Number(sdecimals)}
+                    egldLabel={' '}
+                    data-testid='staked'
+                    digits={2}
+                  />{' '}
+                  <br />
+                  {staked_esdt_info?.price && (
+                    <>
+                      {staked_value.toLocaleString('en-US', {
+                        maximumFractionDigits: 2
+                      })}{' '}
+                      <FontAwesomeIcon icon={faDollar} />
+                    </>
+                  )}{' '}
+                  Users:{' '}
+                  <FormatAmount
+                    value={
+                      tokenPosition.users ? tokenPosition.users.toString() : '0'
+                    }
+                    decimals={Number(0)}
+                    egldLabel={' '}
+                    data-testid='staked'
+                    digits={0}
+                  />{' '}
+                </div>{' '}
+              </Col>
+            </Row>
+            {canBeStaked && (
+              <>
+                {' '}
+                <Row>
+                  <Col>
+                    <Link
+                      to={routeNames.stake + `/${rewardedToken}`}
+                      className='butLine bouton-visiter'
+                      data-testid='loginBtn'
+                    >
+                      Stake {rewardedToken}
+                    </Link>
+                  </Col>
+                </Row>
+              </>
+            )}
+          </div>
+
+          <div className='poolPosition'>
+            {!address ? (
+              <Link
+                to={routeNames.unlock + `/stake/${stakedToken}`}
+                className='butLine goldButton'
+                data-testid='loginBtn'
+              >
+                Login
+              </Link>
+            ) : (
+              <div className='text-black' data-testid='myPosition'>
+                {stakingPosition.stake_amount < 1 ? (
+                  <div>
+                    <h3>NO STAKE</h3>
+                    <div>
                       {tokenPosition.paused > 0 || isPaused == 'true' ? (
                         <>
                           <button className='butLine'>
@@ -744,36 +644,51 @@ export const PoolInfo = ({
                           </button>{' '}
                         </>
                       )}
-                      <button
-                        className='row butLine silverButton'
-                        onClick={() => setShowUnstake(true)}
-                      >
-                        UNSTAKE
-                      </button>
                     </div>
-                  ) : (
-                    <></>
-                  )}
-                  {stakingPositionRewards > 0 ? (
-                    <div>
-                      <ActionClaimRewards
-                        stakedToken={stakedToken}
-                        rewardedToken={rewardedToken}
-                        rewardsAmount={stakingPositionRewards}
-                      />{' '}
-                      {stakedToken == rewardedToken ? (
-                        <ActionStakeRewards
-                          stakedToken={stakedToken}
-                          rewardedToken={rewardedToken}
-                          rewardsAmount={stakingPositionRewards}
-                        />
-                      ) : (
-                        <></>
-                      )}
-                      <h4>
+                  </div>
+                ) : (
+                  <div>
+                    {' '}
+                    <h3>MY STAKE</h3>
+                    <Row>
+                      <Col className='col-12'>
+                        {' '}
+                        <div className='blueButton leftInPoolInfo'>
+                          <OverlayTrigger
+                            placement='right'
+                            overlay={myStakePopover}
+                          >
+                            <a>
+                              <FontAwesomeIcon
+                                icon={faCircleInfo}
+                                className='text-muted'
+                              />
+                            </a>
+                          </OverlayTrigger>{' '}
+                          Staked :{' '}
+                          <FormatAmount
+                            value={stakingPosition.stake_amount.toString()}
+                            decimals={Number(sdecimals)}
+                            egldLabel={' '}
+                            data-testid='staked'
+                            digits={6}
+                          />{' '}
+                          {staked_esdt_info?.price && (
+                            <>
+                              {my_staked_value.toLocaleString('en-US', {
+                                maximumFractionDigits: 2
+                              })}{' '}
+                              <FontAwesomeIcon icon={faDollar} />{' '}
+                            </>
+                          )}
+                          <br />
+                        </div>{' '}
+                      </Col>
+                      <Col>
+                        {' '}
                         <OverlayTrigger
                           placement='right'
-                          overlay={myRewardsPopover}
+                          overlay={mySharePopover}
                         >
                           <a>
                             <FontAwesomeIcon
@@ -782,34 +697,140 @@ export const PoolInfo = ({
                             />
                           </a>
                         </OverlayTrigger>{' '}
-                        Available rewards : ~
-                        <FormatAmount
-                          value={stakingPositionRewards.toString()}
-                          decimals={Number(rdecimals)}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={6}
-                        />
-                      </h4>{' '}
-                      {rewarded_esdt_info?.price && (
-                        <>
-                          ~
-                          {my_rewards_value.toLocaleString('en-US', {
-                            maximumFractionDigits: 6
-                          })}{' '}
-                          <FontAwesomeIcon icon={faDollar} />
-                        </>
-                      )}
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
+                        Share : {rest} %
+                      </Col>
+                    </Row>
+                    {stakingPosition.stake_amount < 1 ? (
+                      <Row>
+                        <div>
+                          {tokenPosition.paused > 0 || isPaused == 'true' ? (
+                            <>
+                              <button className='butLine'>
+                                <OverlayTrigger
+                                  placement='right'
+                                  overlay={pausedPopover}
+                                >
+                                  <a>
+                                    <FontAwesomeIcon
+                                      icon={faCircleInfo}
+                                      className='text-muted'
+                                    />
+                                  </a>
+                                </OverlayTrigger>{' '}
+                                PAUSED
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className='butLine goldButton'
+                                onClick={() => setShowStake(true)}
+                              >
+                                STAKE
+                              </button>{' '}
+                            </>
+                          )}
+                        </div>
+                      </Row>
+                    ) : (
+                      <></>
+                    )}
+                    {stakingPosition.stake_amount > 0 ? (
+                      <div className='col'>
+                        {tokenPosition.paused > 0 || isPaused == 'true' ? (
+                          <>
+                            <button className='butLine'>
+                              <OverlayTrigger
+                                placement='right'
+                                overlay={pausedPopover}
+                              >
+                                <a>
+                                  <FontAwesomeIcon
+                                    icon={faCircleInfo}
+                                    className='text-muted'
+                                  />
+                                </a>
+                              </OverlayTrigger>{' '}
+                              PAUSED
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className='butLine goldButton'
+                              onClick={() => setShowStake(true)}
+                            >
+                              STAKE
+                            </button>{' '}
+                          </>
+                        )}
+                        <button
+                          className='row butLine silverButton'
+                          onClick={() => setShowUnstake(true)}
+                        >
+                          UNSTAKE
+                        </button>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                    {stakingPositionRewards > 0 ? (
+                      <div>
+                        <ActionClaimRewards
+                          stakedToken={stakedToken}
+                          rewardedToken={rewardedToken}
+                          rewardsAmount={stakingPositionRewards}
+                        />{' '}
+                        {stakedToken == rewardedToken ? (
+                          <ActionStakeRewards
+                            stakedToken={stakedToken}
+                            rewardedToken={rewardedToken}
+                            rewardsAmount={stakingPositionRewards}
+                          />
+                        ) : (
+                          <></>
+                        )}
+                        <h4>
+                          <OverlayTrigger
+                            placement='right'
+                            overlay={myRewardsPopover}
+                          >
+                            <a>
+                              <FontAwesomeIcon
+                                icon={faCircleInfo}
+                                className='text-muted'
+                              />
+                            </a>
+                          </OverlayTrigger>{' '}
+                          Available rewards : ~
+                          <FormatAmount
+                            value={stakingPositionRewards.toString()}
+                            decimals={Number(rdecimals)}
+                            egldLabel={' '}
+                            data-testid='balance'
+                            digits={6}
+                          />
+                        </h4>{' '}
+                        {rewarded_esdt_info?.price && (
+                          <>
+                            ~
+                            {my_rewards_value.toLocaleString('en-US', {
+                              maximumFractionDigits: 6
+                            })}{' '}
+                            <FontAwesomeIcon icon={faDollar} />
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

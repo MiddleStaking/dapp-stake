@@ -105,8 +105,9 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                     Each time a user validates a transaction, the timer is reset
                   </p>
                   <p>
-                    Each time the timer is reset, it accelerates by 6 seconds (1
-                    block)
+                    NEW : Each time the timer is reset, it accelerates by 1 to X
+                    blocks <br />
+                    (where X = number of payment token in list)
                   </p>{' '}
                   <p>
                     NEW : Each time the timer is reset payment token can change
@@ -124,6 +125,22 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                       <h2>NFT PREVIEW</h2>
                       <div className='card-body text-center p-4 text-white'>
                         <img className='thirdPoolLogo' src={nft_preview} />
+                        {/* <video width='320' height='240' controls>
+                          <source src={nft_preview} type='video/mp4' />
+                          Unable to show preview
+                        </video>
+                  */}
+                        <br />
+                        <a
+                          className='text-white'
+                          href={
+                            'https://www.frameit.gg/marketplace/' +
+                            identifier +
+                            '/items'
+                          }
+                        >
+                          <u>{identifier}</u>
+                        </a>
                       </div>
                       {isLoggedIn &&
                         time_out > 0 &&
