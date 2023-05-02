@@ -28,7 +28,10 @@ import { TopInfo } from './TopInfo';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const { network } = useGetNetworkConfig();
-
+  const [myPools, setMyPools] = React.useState(false);
+  const handleChange = () => {
+    setMyPools(!myPools);
+  };
   const navigate = useNavigate();
   const isLoggedIn = useGetIsLoggedIn();
   const isPaused = useGetIsPaused();
@@ -45,7 +48,27 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const userEsdtBalance = useGetUserESDT();
   const [stoken, setStoken] = React.useState(url);
   const rewardedTokens = useGetRewardedTokens(stoken);
+  const orderedTokens = [];
+
   const esdt_info = useGetESDTInformations(stoken);
+
+  console.log(rewardedTokens);
+
+  for (const tok of rewardedTokens) {
+    console.log(tok);
+    const load: any = localStorage.getItem(
+      'token_position_' + stoken + '_' + tok
+    );
+    const storage = JSON.parse(load);
+    orderedTokens.push({
+      identifier: tok,
+      staked: storage?.total_stake ? storage?.total_stake : 0
+    });
+    console.log(storage?.total_stake);
+    console.log(orderedTokens);
+  }
+  orderedTokens.sort((a, b) => b.staked - a.staked);
+  console.log(orderedTokens);
 
   useEffect(() => {
     setStoken(param ? param.toString() : defaultToken);
@@ -158,6 +181,17 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                               />{' '}
                             </>
                           )}
+                        </Row>
+                        <Row className='mx-auto'>
+                          {' '}
+                          <label>
+                            <input
+                              checked={myPools}
+                              onChange={handleChange}
+                              type='checkbox'
+                            />{' '}
+                            Highlight my positions
+                          </label>
                         </Row>
                       </Col>{' '}
                       <Col className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 m-auto'>
@@ -353,23 +387,25 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
           <div className='row pt-4'>
             {rewardedTokens[0] != '' ? (
-              rewardedTokens.map((rtoken) => (
+              orderedTokens.map((rtoken) => (
                 <div
                   className='PoolCol col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4'
-                  key={stoken + rtoken}
+                  key={stoken + rtoken.identifier}
                 >
                   {' '}
                   <PoolInfo
+                    myPools={myPools}
                     stakedToken={stoken}
-                    rewardedToken={rtoken}
+                    rewardedToken={rtoken.identifier}
                     balance={balance}
                     canBeStaked={
-                      stakedTokens.includes(rtoken) && stoken != rtoken
+                      stakedTokens.includes(rtoken.identifier) &&
+                      stoken != rtoken.identifier
                     }
                     isPaused={isPaused}
                     tokens_extra_informations={tokens_extra_informations
                       .filter((token) => {
-                        return token.identifier === rtoken;
+                        return token.identifier === rtoken.identifier;
                       })
                       .map((token) => (token.identifier ? token : ''))}
                   />

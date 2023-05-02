@@ -5,7 +5,7 @@
 // export const contractAddressDelegation =
 //   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 // export const contractPlay =
-//   'erd1qqqqqqqqqqqqqpgqv7l63zhl9aw34k4du6uh2w6c7xypapcqtxfqp63lpj';
+//   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
 
 // export const network: NetworkType = {
 //   id: 'devnet',
