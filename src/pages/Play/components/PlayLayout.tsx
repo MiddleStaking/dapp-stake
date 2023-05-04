@@ -8,6 +8,7 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import nft_preview_not_found from './../../../assets/img/notfoundnft.png';
 import { useGetESDTInformations } from './../../../pages/Earn/components/Actions/helpers';
 import notFound from './../../../assets/img/notfoundc.svg';
+import ReactPlayer from 'react-player';
 
 import {
   useGetWinner,
@@ -124,22 +125,31 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                       <div id='winnerDisplay'>{last_user.toString()}</div>
                       <h2>NFT PREVIEW</h2>
                       <div className='card-body text-center p-4 text-white'>
-                        <img className='thirdPoolLogo' src={nft_preview} />
-                        {/* <video width='320' height='240' controls>
-                          <source src={nft_preview} type='video/mp4' />
-                          Unable to show preview
-                        </video>
-                  */}
+                        {nft_preview.endsWith('.mp4') ? (
+                          <ReactPlayer
+                            width='auto'
+                            height='400px'
+                            playing={true}
+                            loop={true}
+                            volume={0}
+                            muted={true}
+                            url={nft_preview}
+                          />
+                        ) : (
+                          <img className='thirdPoolLogo' src={nft_preview} />
+                        )}
                         <br />
                         <a
+                          target='_BLANK'
+                          rel='noreferrer'
                           className='text-white'
                           href={
-                            'https://www.frameit.gg/marketplace/' +
-                            identifier +
-                            '/items'
+                            'https://www.frameit.gg/marketplace/nft/' +
+                            esdt_informations?.identifier +
+                            '/'
                           }
                         >
-                          <u>{identifier}</u>
+                          <u>{esdt_informations?.identifier}</u>
                         </a>
                       </div>
                       {isLoggedIn &&

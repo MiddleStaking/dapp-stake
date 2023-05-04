@@ -51,11 +51,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const orderedTokens = [];
 
   const esdt_info = useGetESDTInformations(stoken);
-
-  console.log(rewardedTokens);
-
   for (const tok of rewardedTokens) {
-    console.log(tok);
     const load: any = localStorage.getItem(
       'token_position_' + stoken + '_' + tok
     );
@@ -64,11 +60,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       identifier: tok,
       staked: storage?.total_stake ? storage?.total_stake : 0
     });
-    console.log(storage?.total_stake);
-    console.log(orderedTokens);
   }
   orderedTokens.sort((a, b) => b.staked - a.staked);
-  console.log(orderedTokens);
 
   useEffect(() => {
     setStoken(param ? param.toString() : defaultToken);
