@@ -15,13 +15,14 @@
     "@multiversx/sdk-wallet": "^4.0.0",
     "axios": "1.3.4",
     "bootstrap": "4.6.2",
+    "formik": "^2.2.9",
     "moment": "^2.29.4",
     "react": "18.2.0",
     "react-bootstrap": "2.1.2",
     "react-dom": "18.2.0",
+    "react-player": "^2.12.0",
     "react-router-dom": "6.4.2",
     "web-vitals": "1.0.1",
-    "formik": "^2.2.9",
     "yup": "^0.32.11"
   },
   "scripts": {
