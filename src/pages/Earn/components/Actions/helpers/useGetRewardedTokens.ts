@@ -24,6 +24,10 @@ export const useGetRewardedTokens = (stakedToken: string) => {
     const storage = localStorage.getItem('rewarded_tokens_' + stakedToken);
     const tokens = storage?.split(',');
     setRewardedTokens(tokens ? tokens : []);
+    const pairs =
+      localStorage.getItem('pairs_') != null
+        ? JSON.parse(localStorage.getItem('pairs_') as string)
+        : [];
     if (time.getTime() < expire_test) {
       return;
     }
@@ -56,6 +60,16 @@ export const useGetRewardedTokens = (stakedToken: string) => {
           'rewarded_tokens_' + stakedToken + '_expire',
           expire.toString()
         );
+
+        for (const token of tokens?.valueOf()?.toString(10).split(',')) {
+          const p: any = { s: stakedToken, r: token };
+          pairs.findIndex((e: any) => e?.s === p.s && e?.r === p.r) === -1
+            ? pairs.push(p)
+            : console.log('User already exists}');
+
+          console.log(pairs);
+        }
+        localStorage.setItem('pairs_', JSON.stringify(pairs));
       }
     } catch (err) {
       console.error('Unable to call getRewardedTokens', err);
