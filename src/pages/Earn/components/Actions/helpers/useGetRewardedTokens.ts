@@ -27,7 +27,13 @@ export const useGetRewardedTokens = (stakedToken: string) => {
     const pairs =
       localStorage.getItem('pairs_') != null
         ? JSON.parse(localStorage.getItem('pairs_') as string)
-        : [];
+        : [
+            { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
+            { s: 'MID-ecb7bf', r: 'MEX-455c57' },
+            { s: 'MID-ecb7bf', r: 'VITAL-ab7917' },
+            { s: 'MEX-455c57', r: 'MID-ecb7bf' },
+            { s: 'VITAL-ab7917', r: 'MID-ecb7bf' }
+          ];
     if (time.getTime() < expire_test) {
       return;
     }
@@ -65,9 +71,7 @@ export const useGetRewardedTokens = (stakedToken: string) => {
           const p: any = { s: stakedToken, r: token };
           pairs.findIndex((e: any) => e?.s === p.s && e?.r === p.r) === -1
             ? pairs.push(p)
-            : console.log('User already exists}');
-
-          console.log(pairs);
+            : '';
         }
         localStorage.setItem('pairs_', JSON.stringify(pairs));
       }

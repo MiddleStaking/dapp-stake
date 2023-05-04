@@ -59,20 +59,41 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const [stoken, setStoken] = React.useState(url);
   const rewardedTokens = useGetRewardedTokens(stoken);
   const orderedTokens = [];
+  const orderedPairs = [];
 
   const esdt_info = useGetESDTInformations(stoken);
   for (const tok of rewardedTokens) {
     const load: any = localStorage.getItem(
       'token_position_' + stoken + '_' + tok
     );
+    const info = JSON.parse(localStorage.getItem('esdt_' + tok) as string);
     const storage = JSON.parse(load);
     orderedTokens.push({
       identifier: tok,
-      staked: storage?.total_stake ? storage?.total_stake : 0
+      staked: storage?.total_stake ? storage?.total_stake : 1,
+      price: info?.price ? info?.price : 0
     });
   }
-  orderedTokens.sort((a, b) => b.staked - a.staked);
+  orderedTokens.sort((a, b) => b.staked * b.price - a.staked * a.price);
 
+  for (const par of pairs) {
+    const load: any = localStorage.getItem(
+      'token_position_' + par.s + '_' + par.r
+    );
+    const info = JSON.parse(localStorage.getItem('esdt_' + par.s) as string);
+    const storage = JSON.parse(load);
+    orderedPairs.push({
+      s: par.s,
+      r: par.r,
+      value: Number(
+        ((BigInt(storage?.total_stake ? storage?.total_stake : 1) *
+          BigInt(10000000)) /
+          BigInt(10 ** info?.decimals ? info?.decimals : 1)) *
+          BigInt((info?.price ? info?.price * 10000000 : 1).toFixed())
+      )
+    });
+  }
+  orderedPairs.sort((a, b) => b.value - a.value);
   useEffect(() => {
     setStoken(param ? param.toString() : defaultToken);
   }, [param]);
@@ -127,9 +148,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     //   .findIndex((tokens) => tokens === e.target.value);
     setStoken(e.target.value);
   }
-
-  console.log(pairs);
-  console.log(mySearch);
   return (
     <div className='container-xxl py-4'>
       <div>
@@ -147,7 +165,12 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                   }}
                 >
                   <TopInfo />
-                  <Form style={{ verticalAlign: 'middle' }}>
+                  <Form
+                    style={{ verticalAlign: 'middle' }}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
                     <Row className='mx-auto'>
                       <Col className='col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 m-auto'>
                         <Row>
@@ -401,10 +424,10 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
               </div>
             </div>
           </div>
-          {mySearch != '' && pairs ? (
+          {mySearch != '' && orderedPairs ? (
             <div className='row pt-4'>
               {rewardedTokens[0] != '' ? (
-                pairs
+                orderedPairs
                   .filter(
                     (p: any) =>
                       p.s.toLowerCase().includes(mySearch.toLowerCase()) ||
