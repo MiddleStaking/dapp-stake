@@ -29,9 +29,19 @@ import { TopInfo } from './TopInfo';
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const { network } = useGetNetworkConfig();
   const [myPools, setMyPools] = React.useState(false);
+  const [mySearch, setMySearch] = React.useState('');
+  const pairs =
+    localStorage.getItem('pairs_') != null
+      ? JSON.parse(localStorage.getItem('pairs_') as string)
+      : [{ s: '', r: '' }];
   const handleChange = () => {
     setMyPools(!myPools);
   };
+
+  const handleMySearch = (e: any) => {
+    setMySearch(e.target.value);
+  };
+
   const navigate = useNavigate();
   const isLoggedIn = useGetIsLoggedIn();
   const isPaused = useGetIsPaused();
@@ -118,6 +128,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     setStoken(e.target.value);
   }
 
+  console.log(pairs);
+  console.log(mySearch);
   return (
     <div className='container-xxl py-4'>
       <div>
@@ -184,6 +196,18 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                               type='checkbox'
                             />{' '}
                             Highlight my positions
+                          </label>
+                        </Row>{' '}
+                        <Row className='mx-auto'>
+                          {' '}
+                          <label>
+                            {' '}
+                            Search pools{' '}
+                            <input
+                              checked={myPools}
+                              onChange={handleMySearch}
+                              type='input'
+                            />{' '}
                           </label>
                         </Row>
                       </Col>{' '}
@@ -377,38 +401,72 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
               </div>
             </div>
           </div>
-
-          <div className='row pt-4'>
-            {rewardedTokens[0] != '' ? (
-              orderedTokens.map((rtoken) => (
-                <div
-                  className='PoolCol col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4'
-                  key={stoken + rtoken.identifier}
-                >
-                  {' '}
-                  <PoolInfo
-                    myPools={myPools}
-                    stakedToken={stoken}
-                    rewardedToken={rtoken.identifier}
-                    balance={balance}
-                    canBeStaked={
-                      stakedTokens.includes(rtoken.identifier) &&
-                      stoken != rtoken.identifier
-                    }
-                    isPaused={isPaused}
-                    tokens_extra_informations={tokens_extra_informations
-                      .filter((token) => {
-                        return token.identifier === rtoken.identifier;
-                      })
-                      .map((token) => (token.identifier ? token : ''))}
-                  />
-                </div>
-              ))
-            ) : (
-              <>No pool to load</>
-            )}
-          </div>
-
+          {mySearch != '' && pairs ? (
+            <div className='row pt-4'>
+              {rewardedTokens[0] != '' ? (
+                pairs
+                  .filter(
+                    (p: any) =>
+                      p.s.toLowerCase().includes(mySearch.toLowerCase()) ||
+                      p.r.toLowerCase().includes(mySearch.toLowerCase())
+                  )
+                  .map((p: any) => (
+                    <div
+                      className='PoolCol col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4'
+                      key={p.s + p.r}
+                    >
+                      {' '}
+                      <PoolInfo
+                        myPools={myPools}
+                        stakedToken={p.s}
+                        rewardedToken={p.r}
+                        balance={balance}
+                        canBeStaked={false}
+                        isPaused={isPaused}
+                        tokens_extra_informations={tokens_extra_informations
+                          .filter((token) => {
+                            return token.identifier === p.r;
+                          })
+                          .map((token) => (token.identifier ? token : ''))}
+                      />
+                    </div>
+                  ))
+              ) : (
+                <>No pool to load</>
+              )}
+            </div>
+          ) : (
+            <div className='row pt-4'>
+              {rewardedTokens[0] != '' ? (
+                orderedTokens.map((rtoken) => (
+                  <div
+                    className='PoolCol col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4'
+                    key={stoken + rtoken.identifier}
+                  >
+                    {' '}
+                    <PoolInfo
+                      myPools={myPools}
+                      stakedToken={stoken}
+                      rewardedToken={rtoken.identifier}
+                      balance={balance}
+                      canBeStaked={
+                        stakedTokens.includes(rtoken.identifier) &&
+                        stoken != rtoken.identifier
+                      }
+                      isPaused={isPaused}
+                      tokens_extra_informations={tokens_extra_informations
+                        .filter((token) => {
+                          return token.identifier === rtoken.identifier;
+                        })
+                        .map((token) => (token.identifier ? token : ''))}
+                    />
+                  </div>
+                ))
+              ) : (
+                <>No pool to load</>
+              )}
+            </div>
+          )}
           {/* <div className={styles.transactions}>{children}</div> */}
         </div>{' '}
       </div>{' '}
