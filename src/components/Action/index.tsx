@@ -1,9 +1,11 @@
 import * as React from 'react';
 
 import { Modal } from 'react-bootstrap';
+
 import { useAction, withAction } from './context';
 
 import styles from './styles.module.scss';
+import modifiable from 'pages/Dashboard/helper/modifiable';
 
 const Action = ({ render, title, description, trigger }: any) => {
   const { showModal, setShowModal } = useAction();
@@ -18,7 +20,7 @@ const Action = ({ render, title, description, trigger }: any) => {
         show={showModal}
         animation={false}
         centered={true}
-        className='modal-container'
+        // className='modal-container'
         onHide={() => setShowModal(false)}
       >
         <div className={styles.modal}>
@@ -36,6 +38,12 @@ const Action = ({ render, title, description, trigger }: any) => {
 export const Submit = ({ close, submit }: any) => {
   const { setShowModal } = useAction();
 
+  const closeModalSubmit = () => {
+    setTimeout(() => {
+      setShowModal(false);
+    }, 300);
+  };
+
   return (
     <div className={styles.buttons}>
       <button
@@ -44,6 +52,16 @@ export const Submit = ({ close, submit }: any) => {
         onClick={() => setShowModal(false)}
       >
         {close || 'Close'}
+      </button>
+
+      <button
+        type='submit'
+        onClick={() => {
+          closeModalSubmit();
+        }}
+        className={modifiable('button', ['blue'], styles)}
+      >
+        {submit || 'Submit'}
       </button>
     </div>
   );

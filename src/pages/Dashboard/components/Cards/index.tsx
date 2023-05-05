@@ -23,9 +23,6 @@ import Logo from 'assets/Logo';
 import Action from 'components/Action';
 // import { useGlobalContext, useDispatch } from 'context';
 
-import ChangeDelegationCap from './components/ChangeDelegationCap';
-import ChangeServiceFee from './components/ChangeServiceFee';
-
 import calculateAnnualPercentage from './helpers/calculateAnnualPercentage';
 
 import styles from './styles.module.scss';
@@ -51,6 +48,8 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
 import { denominated } from 'pages/Dashboard/helper/denominate';
 import getPercentage from 'pages/Dashboard/helper/getPercentage';
 import modifiable from 'pages/Dashboard/helper/modifiable';
+import { ChangeServiceFee } from './components/ChangeServiceFee';
+import { ChangeDelegationCap } from './components/ChangeDelegationCap';
 
 interface CardType {
   label: string;

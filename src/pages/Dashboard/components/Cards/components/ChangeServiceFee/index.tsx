@@ -1,98 +1,96 @@
-import React, { FC } from 'react';
+import React from 'react';
 
-// import { Formik } from 'formik';
-// import { Submit } from 'components/Action';
+import classNames from 'classnames';
+import { Formik } from 'formik';
+import { Submit } from 'components/Action';
 
 // import { useGlobalContext } from 'context';
-// import modifiable from 'helpers/modifiable';
 // import { nominateVal } from 'helpers/nominate';
 // import useTransaction from 'helpers/useTransaction';
 
 import styles from './styles.module.scss';
+import useTransaction from 'pages/Dashboard/helper/useTransaction';
+import { nominateVal } from 'pages/Dashboard/helper/nominate';
+import { GetContractDetails } from 'pages/Dashboard/helper/requestAbi';
 
 interface ActionDataType {
   amount: string;
 }
 
-const ChangeServiceFee: FC = () => {
-  // const { sendTransaction } = useTransaction();
-  // const { contractDetails } = useGlobalContext();
+export const ChangeServiceFee = () => {
+  const breakpoints = [0, 25, 50, 75, 100];
 
-  // const onSubmit = async (data: ActionDataType): Promise<void> => {
-  //   try {
-  //     await sendTransaction({
-  //       args: nominateVal(data.amount),
-  //       type: 'changeServiceFee',
-  //       value: '0'
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const { sendTransactionAdmin } = useTransaction();
+  const contractDetails = GetContractDetails();
 
-  return <></>;
-  // (
-  // <Formik
-  //   onSubmit={onSubmit}
-  //   initialValues={{
-  //     amount: contractDetails.data
-  //       ? contractDetails.data.serviceFee.replace('%', '')
-  //       : '0'
-  //   }}
-  // >
-  //   {({ values, handleChange, handleBlur, handleSubmit }) => {
-  //     const breakpoints = [0, 25, 50, 75, 100];
+  const onSubmit = async (data: ActionDataType): Promise<void> => {
+    try {
+      await sendTransactionAdmin({
+        args: nominateVal(data.amount),
+        type: 'changeServiceFee',
+        value: '0'
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  //     return (
-  //       <form
-  //         onSubmit={handleSubmit}
-  //         className={`${styles.serviceFee} serviceFee`}
-  //       >
-  //         <div className={styles.range}>
-  //           <input
-  //             className={styles.input}
-  //             name='amount'
-  //             type='range'
-  //             onBlur={handleBlur}
-  //             onChange={handleChange}
-  //             min={0}
-  //             max={100}
-  //             value={values.amount}
-  //           />
+  console.log(contractDetails.serviceFee.replace('%', ''));
 
-  //           <span
-  //             className={styles.thumb}
-  //             style={{ left: `${values.amount}%` }}
-  //           >
-  //             <strong>{values.amount}%</strong>
-  //           </span>
+  return contractDetails.serviceFee === '' ? (
+    <p>chargement</p>
+  ) : (
+    <Formik
+      onSubmit={onSubmit}
+      initialValues={{
+        amount: contractDetails.serviceFee.replace('%', '')
+      }}
+    >
+      {({ values, handleChange, handleBlur, handleSubmit }) => (
+        <form
+          onSubmit={handleSubmit}
+          className={`${styles.serviceFee} serviceFee`}
+        >
+          <div className={styles.range}>
+            <input
+              className={styles.input}
+              name='amount'
+              type='range'
+              onBlur={handleBlur}
+              onChange={handleChange}
+              min={0}
+              max={100}
+              value={values.amount}
+            />
 
-  //           <div
-  //             className={styles.completion}
-  //             style={{ width: `${values.amount}%` }}
-  //           ></div>
+            <span
+              className={styles.thumb}
+              style={{ left: `${values.amount}%` }}
+            >
+              <strong>{values.amount}%</strong>
+            </span>
 
-  //           {breakpoints.map((breakpoint) => (
-  //             <div
-  //               key={`breakpoint-${breakpoint}`}
-  //               className={modifiable(
-  //                 'breakpoint',
-  //                 [breakpoint <= parseInt(values.amount) && 'completed'],
-  //                 styles
-  //               )}
-  //               style={{ left: `${breakpoint}%` }}
-  //             >
-  //               <span>{breakpoint}%</span>
-  //             </div>
-  //           ))}
-  //         </div>
+            <div
+              className={styles.completion}
+              style={{ width: `${values.amount}%` }}
+            />
 
-  //         <Submit close='Cancel' submit='Save' />
-  //       </form>
-  //     );
-  //   }}
-  // </Formik>
-  // );
+            {breakpoints.map((breakpoint) => (
+              <div
+                style={{ left: `${breakpoint}%` }}
+                key={`breakpoint-${breakpoint}`}
+                className={classNames(styles.breakpoint, {
+                  [styles.completed]: breakpoint <= parseInt(values.amount)
+                })}
+              >
+                <span>{breakpoint}%</span>
+              </div>
+            ))}
+          </div>
+
+          <Submit close='Cancel' submit='Save' />
+        </form>
+      )}
+    </Formik>
+  );
 };
-
-export default ChangeServiceFee;

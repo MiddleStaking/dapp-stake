@@ -3,8 +3,12 @@ import {
   Address,
   AddressValue,
   ContractFunction,
+  Query,
   ResultsParser,
-  TokenPayment
+  TokenPayment,
+  decodeBigNumber,
+  decodeString,
+  decodeUnsignedNumber
 } from '@multiversx/sdk-core/out';
 // import { useGetNetworkConfig as multiversxGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import {
@@ -12,7 +16,12 @@ import {
   // ApiNetworkProvider,
   ProxyNetworkProvider
 } from '@multiversx/sdk-network-providers/out';
-import { minDust, network, contractAddressDelegation } from 'config';
+import {
+  minDust,
+  network,
+  contractAddressDelegation,
+  auctionContract
+} from 'config';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { smartContract } from './smartContract';
 import {
@@ -537,6 +546,7 @@ const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
 };
 
 const onUnDelegate = async (data: DelegationPayloadType): Promise<void> => {
+  console.log(data.amount);
   try {
     const test = TokenPayment.egldFromAmount(data.amount);
     const test2 = nominateValToHex(data.amount.toString());
@@ -697,6 +707,189 @@ const NetworkEconomics = () => {
   return economics;
 };
 
+const GetContractDetails = () => {
+  const { address } = multiversxGetAccountInfo();
+  const [ContractDetails, setContractDetails] = useState({
+    key: [''] || 0,
+    status: 'loaded',
+    withDelegationCap: '',
+    owner: false,
+    delegationCap: '',
+    redelegationCap: '',
+    serviceFee: '',
+    automaticActivation: ''
+  });
+
+  const getNetworkeconomics = async () => {
+    try {
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
+      const query = new Query({
+        address: new Address(network.delegationContract),
+        func: new ContractFunction('getContractConfig')
+      });
+
+      const data = await provider.queryContract(query);
+      const response = data.getReturnDataParts();
+
+      const ownerAddressIndex = 0;
+      const serviceFeeIndex = 1;
+      const delegationCapIndex = 2;
+      const automaticActivationIndex = 4;
+      const withDelegationCapIndex = 5;
+      const redelegationCapIndex = 7;
+
+      const ownerAddress = response[ownerAddressIndex];
+      const serviceFee = response[serviceFeeIndex];
+      const delegationCap = response[delegationCapIndex];
+      const activationStatus = response[automaticActivationIndex];
+      const withDelegationCap = response[withDelegationCapIndex];
+      const redelegationCap = response[redelegationCapIndex];
+
+      setContractDetails({
+        key: [''],
+        status: 'success',
+        withDelegationCap: String(withDelegationCap),
+        owner: new Address(address).hex() === ownerAddress.toString('hex'),
+        delegationCap: decodeBigNumber(delegationCap).toFixed(),
+        redelegationCap:
+          decodeString(redelegationCap) === 'true' ? 'ON' : 'OFF',
+        serviceFee: (decodeUnsignedNumber(serviceFee) / 100).toString() + '%',
+        automaticActivation:
+          decodeString(activationStatus) === 'true' ? 'ON' : 'OFF'
+      });
+    } catch (error) {
+      console.log(error);
+      setContractDetails({
+        key: [''],
+        status: 'failed',
+        withDelegationCap: '',
+        owner: false,
+        delegationCap: '',
+        redelegationCap: '',
+        serviceFee: '',
+        automaticActivation: ''
+      });
+    }
+  };
+  useEffect(() => {
+    getNetworkeconomics();
+  }, []);
+  return ContractDetails;
+};
+
+const GetNodesStatus = () => {
+  const provider = new ProxyNetworkProvider(network.gatewayAddress);
+  const [nodestatus, setNodestatus] = useState<any>({
+    status: 'loading',
+    data: []
+  });
+  const getNetworkeconomics = async () => {
+    try {
+      const query = new Query({
+        address: new Address(network.delegationContract),
+        func: new ContractFunction('getAllNodeStates')
+      });
+
+      const data = await provider.queryContract(query);
+      const response = data.getReturnDataParts();
+
+      setNodestatus({
+        status: 'success',
+        data: response
+      });
+    } catch (error) {
+      setNodestatus({
+        status: 'failed',
+        data: []
+      });
+      return Promise.reject(error);
+    }
+  };
+
+  useEffect(() => {
+    getNetworkeconomics();
+  }, []);
+  return nodestatus;
+};
+
+const GetNodesNumber = () => {
+  const provider = new ProxyNetworkProvider(network.gatewayAddress);
+  const [nodestatus, setNodestatus] = useState<any>({
+    status: 'loading',
+    data: []
+  });
+  const getNetworkeconomics = async () => {
+    try {
+      const query = new Query({
+        address: new Address(auctionContract),
+        func: new ContractFunction('getBlsKeysStatus'),
+        args: [new AddressValue(new Address(network.delegationContract))]
+      });
+
+      const data = await provider.queryContract(query);
+      const response = data.getReturnDataParts();
+
+      setNodestatus({
+        status: 'success',
+        data: response
+      });
+    } catch (error) {
+      setNodestatus({
+        status: 'failed',
+        data: []
+      });
+      return Promise.reject(error);
+    }
+  };
+
+  useEffect(() => {
+    getNetworkeconomics();
+  }, []);
+  return nodestatus;
+};
+
+const GetAgencyMetaData = () => {
+  const [nodestatus, setNodestatus] = useState<any>({
+    status: 'loading',
+    name: '',
+    website: '',
+    keybase: ''
+  });
+  const getNetworkeconomics = async () => {
+    try {
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
+      const query = new Query({
+        address: new Address(network.delegationContract),
+        func: new ContractFunction('getMetaData')
+      });
+
+      const data = await provider.queryContract(query);
+      const [name, website, keybase] = data
+        .getReturnDataParts()
+        .map(decodeString);
+
+      setNodestatus({
+        status: 'success',
+        name: name,
+        website: website,
+        keybase: keybase
+      });
+    } catch (error) {
+      setNodestatus({
+        status: 'failed',
+        name: '',
+        website: '',
+        keybase: ''
+      });
+    }
+  };
+
+  useEffect(() => {
+    getNetworkeconomics();
+  }, []);
+  return nodestatus;
+};
+
 export {
   sendReDelegateRewards,
   transactionStake,
@@ -714,5 +907,9 @@ export {
   onDelegate,
   ConfigNetwork,
   GetEpochNumber,
-  NetworkEconomics
+  NetworkEconomics,
+  GetContractDetails,
+  GetNodesStatus,
+  GetNodesNumber,
+  GetAgencyMetaData
 };
