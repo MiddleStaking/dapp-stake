@@ -75,7 +75,7 @@ export const PoolStakeInfo = ({
               <div className='buttons4'>
                 <div
                   className='button6 cursor-pointer'
-                  onClick={() => setShowUnstake(true)}
+                  onClick={() => setShowStake(true)}
                 >
                   <div className='stake6'>Stake {stakedToken}</div>
                 </div>
