@@ -41,7 +41,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <main
         className='d-flex flex-column flex-grow-1'
         style={{
-          backgroundImage: `url(${image})`,
+          backgroundColor: 'black',
           backgroundSize: 'cover',
           backgroundRepeat: 'round'
         }}
