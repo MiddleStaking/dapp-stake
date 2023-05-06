@@ -52,12 +52,14 @@ export const ActionClaimRewards = ({
         <>
           {!hasPendingTransactions ? (
             <div>
-              <button
+              <div
+                className='buttons3 cursor-pointer'
                 onClick={sendClaimTransaction}
-                className='butLineBig goldButton'
               >
-                CLAIM REWARDS{' '}
-              </button>
+                <div className='button5'>
+                  <div className='stake5'>Claim my rewards</div>
+                </div>
+              </div>
             </div>
           ) : (
             <div className={notAllowedClass}>

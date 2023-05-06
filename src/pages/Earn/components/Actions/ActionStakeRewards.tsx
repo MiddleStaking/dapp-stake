@@ -44,12 +44,14 @@ export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
         <>
           {!hasPendingTransactions ? (
             <div>
-              <button
+              <div
+                className='buttons3 cursor-pointer'
                 onClick={sendStakeRewardsTransaction}
-                className='butLineBig goldButton'
               >
-                REINVEST REWARDS{' '}
-              </button>
+                <div className='button5'>
+                  <div className='stake5'>Reinvest my rewards</div>
+                </div>
+              </div>
             </div>
           ) : (
             <div className={notAllowedClass}>
