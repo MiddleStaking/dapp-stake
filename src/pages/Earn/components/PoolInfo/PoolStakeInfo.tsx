@@ -21,7 +21,8 @@ export const PoolStakeInfo = ({
   sdecimals,
   rdecimals,
   stakingPositionRewards,
-  my_rewards_value
+  my_rewards_value,
+  canBeStaked
 }: any) => {
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
@@ -473,6 +474,18 @@ export const PoolStakeInfo = ({
             />
           )}
         </div>
+      )}
+      {canBeStaked && (
+        <>
+          {' '}
+          <Link
+            to={routeNames.stake + `/${rewardedToken}`}
+            className='butLine bouton-visiter'
+            data-testid='loginBtn'
+          >
+            Stake {rewardedToken}
+          </Link>
+        </>
       )}
     </>
   );

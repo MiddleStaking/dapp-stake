@@ -278,12 +278,12 @@ export const PoolInfo = ({
   let opacity = '';
 
   if (myPools && stakingPosition.stake_amount == BigInt(0)) {
-    opacity = 'card';
+    opacity = 'card hide';
   }
 
   return (
     <>
-      <div className={'card-type-3 ' + opacity}>
+      <div className={'card-type center' + opacity}>
         <PoolTopInfo
           rewardedToken={rewardedToken}
           stakedToken={stakedToken}
@@ -314,31 +314,15 @@ export const PoolInfo = ({
           rdecimals={rdecimals}
           stakingPositionRewards={stakingPositionRewards}
           my_rewards_value={my_rewards_value}
+          canBeStaked={canBeStaked}
         />
       </div>
-
+      {/* 
       <div className={opacity}>
         <div className='text-black PoolCard' data-testid='poolInfo'>
-          <div className='poolTop'>
-            {canBeStaked && (
-              <>
-                {' '}
-                <Row>
-                  <Col>
-                    <Link
-                      to={routeNames.stake + `/${rewardedToken}`}
-                      className='butLine bouton-visiter'
-                      data-testid='loginBtn'
-                    >
-                      Stake {rewardedToken}
-                    </Link>
-                  </Col>
-                </Row>
-              </>
-            )}
-          </div>
+          <div className='poolTop'></div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
