@@ -14,6 +14,8 @@ const resultsParser = new ResultsParser();
 export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
   const { network } = useGetNetworkConfig();
   const [tokenPosition, setTokenPosition] = useState({
+    stakedToken: '',
+    rewardedToken: '',
     balance: BigInt(1),
     total_stake: BigInt(1),
     total_rewards: BigInt(1),
@@ -72,6 +74,8 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
 
       if (tab) {
         setTokenPosition({
+          stakedToken: stakedToken,
+          rewardedToken: rewardedToken,
           balance: tab[0].toFixed(),
           total_stake: tab[1].toFixed(),
           total_rewards: tab[2].toFixed(),
@@ -89,6 +93,8 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
         localStorage.setItem(
           'token_position_' + stakedToken + '_' + rewardedToken,
           JSON.stringify({
+            stakedToken: stakedToken,
+            rewardedToken: rewardedToken,
             balance: tab[0].toFixed(),
             total_stake: tab[1].toFixed(),
             total_rewards: tab[2].toFixed(),
@@ -112,7 +118,7 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
 
   useEffect(() => {
     getTokenPosition();
-  }, []);
+  }, [stakedToken, rewardedToken]);
 
   return tokenPosition;
 };

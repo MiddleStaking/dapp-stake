@@ -24,11 +24,15 @@ import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { PoolInfo } from './PoolInfo';
 import { TopInfo } from './TopInfo';
+import FundModal from './FundModal';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const { network } = useGetNetworkConfig();
+  const [showFund, setShowFund] = useState(false);
   const [myPools, setMyPools] = React.useState(false);
   const [mySearch, setMySearch] = React.useState('');
+  const [orderBy, setOrderBy] = React.useState('value');
+
   const pairs =
     localStorage.getItem('pairs_') != null
       ? JSON.parse(localStorage.getItem('pairs_') as string)
@@ -69,11 +73,16 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     const storage = JSON.parse(load);
     orderedTokens.push({
       identifier: tok,
+      users: storage?.users ? storage?.users : 0,
       staked: storage?.total_stake ? storage?.total_stake : 1,
       price: info?.price ? info?.price : 0
     });
   }
-  orderedTokens.sort((a, b) => b.staked * b.price - a.staked * a.price);
+  if (orderBy == 'users') {
+    orderedTokens.sort((a, b) => b.users - a.users);
+  } else {
+    orderedTokens.sort((a, b) => b.users - a.users);
+  }
 
   for (const par of pairs) {
     const load: any = localStorage.getItem(
@@ -84,6 +93,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     orderedPairs.push({
       s: par.s,
       r: par.r,
+      users: storage?.users ? storage?.users : 0,
       value: Number(
         ((BigInt(storage?.total_stake ? storage?.total_stake : 1) *
           BigInt(10000000)) /
@@ -93,6 +103,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     });
   }
   orderedPairs.sort((a, b) => b.value - a.value);
+
   useEffect(() => {
     setStoken(param ? param.toString() : defaultToken);
   }, [param]);
@@ -148,10 +159,23 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     setStoken(e.target.value);
     setMySearch('');
   }
+  function setFOrderBy(e: React.ChangeEvent<any>) {
+    setOrderBy(e.target.value);
+  }
+
   return (
     <div className='center'>
-      <div className='subnav'>
-        <div className='left'>
+      <FundModal show={showFund} onClose={() => setShowFund(false)} />
+      <Row className='pb-4'>
+        <Col
+          className='subnav center'
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          xxl={4}
+        >
           <div className='staked-token'>
             <div className='token'>
               <div className='logo'>
@@ -225,7 +249,16 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
               </div>
             </div>
           </div>
-
+        </Col>
+        <Col
+          className='subnav  center'
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          xxl={4}
+        >
           <div className='input2'>
             <div className='label3'>
               <div className='label4'>Sort by</div>
@@ -234,13 +267,16 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
             <div className='input-default2'>
               <Form.Control
                 as='select'
-                onChange={setFSToken}
-                value={stoken}
+                onChange={setFOrderBy}
+                value={orderBy}
                 disabled={false}
                 className='search-select'
               >
-                <option className='' disabled={false}>
+                <option className='' value={'value'} disabled={false}>
                   Staked value
+                </option>
+                <option className='' value={'users'} disabled={false}>
+                  Users
                 </option>
               </Form.Control>
               <svg
@@ -260,19 +296,24 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
               </svg>
             </div>
           </div>
-
+          <label className='switch'>
+            <input type='checkbox' checked={myPools} onChange={handleChange} />
+            <span className='slider round'></span>
+          </label>
           <div className='toggle'>
-            <div className='swith'>
-              <div className='rectangle-6'></div>
-
-              <div className='ellipse-1'></div>
-            </div>
-
             <div className='staken-only'>Staked only</div>
           </div>
-        </div>
+        </Col>
 
-        <div className='right'>
+        <Col
+          className='subnav center'
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          xxl={4}
+        >
           <div className='search-bar'>
             <svg
               className='search'
@@ -289,36 +330,38 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
             </svg>
             <input
               className='search-input'
-              checked={myPools}
               value={mySearch}
               onChange={handleMySearch}
               type='input'
               placeholder='Search pool'
             />
           </div>
-
-          <div className='button-icon'>
-            <svg
-              className='plus'
-              width='32'
-              height='32'
-              viewBox='0 0 32 32'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                fillRule='evenodd'
-                clipRule='evenodd'
-                d='M17.3334 6.66683C17.3334 5.93045 16.7364 5.3335 16 5.3335C15.2637 5.3335 14.6667 5.93045 14.6667 6.66683V14.6668H6.66671C5.93033 14.6668 5.33337 15.2638 5.33337 16.0002C5.33337 16.7365 5.93033 17.3335 6.66671 17.3335H14.6667V25.3335C14.6667 26.0699 15.2637 26.6668 16 26.6668C16.7364 26.6668 17.3334 26.0699 17.3334 25.3335V17.3335H25.3334C26.0698 17.3335 26.6667 16.7365 26.6667 16.0002C26.6667 15.2638 26.0698 14.6668 25.3334 14.6668H17.3334V6.66683Z'
-                fill='white'
-              />
-            </svg>
+          <div
+            className='button-icon-border  cursor-pointer'
+            onClick={() => setShowFund(true)}
+          >
+            <div className='button-icon'>
+              <svg
+                className='plus'
+                width='20'
+                height='20'
+                viewBox='0 0 32 32'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fillRule='evenodd'
+                  clipRule='evenodd'
+                  d='M17.3334 6.66683C17.3334 5.93045 16.7364 5.3335 16 5.3335C15.2637 5.3335 14.6667 5.93045 14.6667 6.66683V14.6668H6.66671C5.93033 14.6668 5.33337 15.2638 5.33337 16.0002C5.33337 16.7365 5.93033 17.3335 6.66671 17.3335H14.6667V25.3335C14.6667 26.0699 15.2637 26.6668 16 26.6668C16.7364 26.6668 17.3334 26.0699 17.3334 25.3335V17.3335H25.3334C26.0698 17.3335 26.6667 16.7365 26.6667 16.0002C26.6667 15.2638 26.0698 14.6668 25.3334 14.6668H17.3334V6.66683Z'
+                  fill='white'
+                />
+              </svg>
+            </div>
           </div>
-        </div>
-      </div>
-      <div>
-        <div className='col-12 col-md-10 mx-auto'>
-          {/* <div className='card shadow-sm border-0 '>
+        </Col>
+      </Row>
+      <div className='col-12'>
+        {/* <div className='card shadow-sm border-0 '>
             <div className='card-body p-1 '>
 
               <div className='card border-0 bg-primary'>
@@ -591,96 +634,102 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
               </div>
             </div>
           </div> */}
-          {mySearch != '' && orderedPairs ? (
-            <div className='row pt-4'>
-              {rewardedTokens[0] != '' ? (
-                orderedPairs
-                  .filter(
-                    (p: any) =>
-                      p.s.toLowerCase().includes(mySearch.toLowerCase()) ||
-                      p.r.toLowerCase().includes(mySearch.toLowerCase())
-                  )
-                  .map((p: any) => (
-                    <div
-                      className='PoolCol col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4'
-                      key={p.s + p.r}
-                    >
-                      {' '}
-                      <PoolInfo
-                        myPools={myPools}
-                        stakedToken={p.s}
-                        rewardedToken={p.r}
-                        balance={balance}
-                        canBeStaked={false}
-                        isPaused={isPaused}
-                        tokens_extra_informations={tokens_extra_informations
-                          .filter((token) => {
-                            return token.identifier === p.r;
-                          })
-                          .map((token) => (token.identifier ? token : ''))}
-                      />
-                    </div>
-                  ))
-              ) : (
-                <>No pool to load</>
-              )}
-            </div>
-          ) : (
-            <div className='row pt-4'>
-              {rewardedTokens[0] != '' ? (
-                orderedTokens.map((rtoken) => (
-                  <div
-                    className='PoolCol col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4'
-                    key={stoken + rtoken.identifier}
+        {mySearch != '' && orderedPairs ? (
+          <Row className='pt-4 pb-4'>
+            {rewardedTokens[0] != '' &&
+              orderedPairs
+                .filter(
+                  (p: any) =>
+                    p.s.toLowerCase().includes(mySearch.toLowerCase()) ||
+                    p.r.toLowerCase().includes(mySearch.toLowerCase())
+                )
+                .map((p: any) => (
+                  <Col
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    lg={4}
+                    xl={3}
+                    xxl={3}
+                    key={p.s + p.r}
+                    className='pb-4'
                   >
                     {' '}
                     <PoolInfo
                       myPools={myPools}
-                      stakedToken={stoken}
-                      rewardedToken={rtoken.identifier}
+                      stakedToken={p.s}
+                      rewardedToken={p.r}
                       balance={balance}
-                      canBeStaked={
-                        stakedTokens.includes(rtoken.identifier) &&
-                        stoken != rtoken.identifier
-                      }
+                      canBeStaked={false}
                       isPaused={isPaused}
                       tokens_extra_informations={tokens_extra_informations
                         .filter((token) => {
-                          return token.identifier === rtoken.identifier;
+                          return token.identifier === p.r;
                         })
                         .map((token) => (token.identifier ? token : ''))}
                     />
-                  </div>
-                ))
-              ) : (
-                <>No pool to load</>
-              )}
-            </div>
-          )}
-          {/* <div className={styles.transactions}>{children}</div> */}
-        </div>{' '}
+                  </Col>
+                ))}{' '}
+            <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
+              <div className='card-type'></div>
+            </Col>
+            <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
+              <div className='card-type'></div>
+            </Col>{' '}
+            <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
+              <div className='card-type'></div>
+            </Col>
+          </Row>
+        ) : (
+          <Row className='pt-4'>
+            {rewardedTokens[0] != '' &&
+              orderedTokens.map((rtoken) => (
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  lg={4}
+                  xl={3}
+                  xxl={3}
+                  key={stoken + rtoken.identifier}
+                  className='pb-4'
+                >
+                  {' '}
+                  <PoolInfo
+                    myPools={myPools}
+                    stakedToken={stoken}
+                    rewardedToken={rtoken.identifier}
+                    balance={balance}
+                    canBeStaked={
+                      stakedTokens.includes(rtoken.identifier) &&
+                      stoken != rtoken.identifier
+                    }
+                    isPaused={isPaused}
+                    tokens_extra_informations={tokens_extra_informations
+                      .filter((token) => {
+                        return token.identifier === rtoken.identifier;
+                      })
+                      .map((token) => (token.identifier ? token : ''))}
+                  />
+                </Col>
+              ))}
+            <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
+              <div className='card-type'></div>
+            </Col>
+            <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
+              <div className='card-type'></div>
+            </Col>{' '}
+            <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
+              <div className='card-type'></div>
+            </Col>
+          </Row>
+        )}
+        {/* <div className={styles.transactions}>{children}</div> */}
       </div>{' '}
-      <div className='col-12 col-md-10 mx-auto'>
-        <div className='card shadow-sm border-0 '>
-          <div className='card-body p-1 '>
-            <div className='card border-0 bg-primary'>
-              <div
-                className='card-body text-center p-4 text-white'
-                style={{
-                  backgroundImage: `url(${image})`,
-                  backgroundSize: 'cover',
-                  backgroundRepeat: 'no-repeat',
-                  opacity: 1
-                }}
-              >
-                <div className='text-white text-center'>
-                  The staking pool listing is permissionless. Anyone can add
-                  tokens as a reward. Be sure to do your research before
-                  investing in a token.{' '}
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className='col-12'>
+        <div className='text-white text-center'>
+          The staking pool listing is permissionless. Anyone can add tokens as a
+          reward. Be sure to do your research before investing in a token.{' '}
         </div>
       </div>
     </div>
