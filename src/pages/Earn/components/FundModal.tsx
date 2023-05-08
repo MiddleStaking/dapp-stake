@@ -17,13 +17,25 @@ const StakeModal = (props: any) => {
   const [rtoken, setRtoken] = React.useState(defaultToken);
   const [decimals, setDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
+
   const [payFees, setPayFees] = React.useState(false);
   const tokenPosition = useGetTokenPosition(stoken, rtoken);
   const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
+  const default_esdt_info = useGetESDTInformations(defaultToken);
+  const price = BigInt('5000000000000000000000');
+  const price_float = '5000.00';
+  const dollar_value = default_esdt_info?.price
+    ? Number(BigInt(price) / BigInt(10 ** default_esdt_info.decimals)) *
+      default_esdt_info?.price
+    : 0;
+
   const tokenProps = userEsdtBalance.find((item) => item.identifier === rtoken);
+  const defaultProps = userEsdtBalance.find(
+    (item) => item.identifier === defaultToken
+  );
   const handleChange = () => {
     setPayFees(!payFees);
   };
@@ -38,6 +50,7 @@ const StakeModal = (props: any) => {
       .filter(({ identifier }) => identifier === identifier)
       .findIndex((tokens) => tokens.identifier === e.target.value);
     setStoken(e.target.value);
+    setPayFees(false);
   }
 
   function setFRtoken(e: React.ChangeEvent<any>) {
@@ -50,6 +63,7 @@ const StakeModal = (props: any) => {
     if (tokenProps?.balance) setBalance(tokenProps.balance);
     setBigAmount(BigInt(0));
     setTokenAmount(0);
+    setPayFees(false);
   }
 
   const staked_esdt_info = useGetESDTInformations(stoken);
@@ -85,6 +99,9 @@ const StakeModal = (props: any) => {
     fees = BigInt(tokenPosition.fee_percentage) / BigInt(100);
   }
 
+  if (stoken == defaultToken && rtoken == defaultToken) {
+    fees = BigInt(0);
+  }
   const speed =
     (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
     BigInt(24) /
@@ -389,77 +406,141 @@ const StakeModal = (props: any) => {
                 )}
 
               <div className='staked-rewarded-tokens'>
-                {tokenPosition.stakedToken == stoken &&
-                tokenPosition.rewardedToken == rtoken ? (
+                {fees > BigInt(0) ? (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    Do you want to add rewards to the staking pool ?
+                    <input
+                      className='styled-checkbox'
+                      id='styled-checkbox-1'
+                      type='checkbox'
+                      checked={payFees}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor='styled-checkbox-1'>
+                      Pay to remove the 10% deposit fees.
+                    </label>
                   </div>
                 ) : (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    Do you want to add rewarded tokens ?
+                    <input
+                      className='styled-checkbox'
+                      id='styled-checkbox-1'
+                      type='checkbox'
+                      checked={true}
+                    />
+                    <label htmlFor='styled-checkbox-1'>Fees payed</label>
                   </div>
                 )}
 
-                <div className='form'>
-                  <div className='frame-57'>
-                    <div className='input3'>
-                      <div className='label5'>
-                        <div className='label6'>Rewarded token amount</div>
+                {!payFees ? (
+                  <>
+                    {tokenPosition.stakedToken == stoken &&
+                    tokenPosition.rewardedToken == rtoken ? (
+                      <div className='do-you-want-to-add-it-rewarded-tokens'>
+                        Add rewards to the staking pool ?
                       </div>
+                    ) : (
+                      <div className='do-you-want-to-add-it-rewarded-tokens'>
+                        Deposit rewards for new staking pool ?
+                      </div>
+                    )}
 
-                      <Form.Group
-                        className='amount-bar'
-                        as={Col}
-                        controlId='TokenAmount'
-                        onChange={handleTokenAmountChange}
-                      >
-                        <Form.Control
-                          className='amount-input'
-                          required
-                          type='number'
-                          placeholder=''
-                          defaultValue='0'
-                          value={tokenAmount.toLocaleString('en-US', {
-                            maximumFractionDigits: 2
-                          })}
-                        />{' '}
-                        <div className='max cursor-pointer' onClick={setToMax}>
-                          MAX
+                    <div className='form'>
+                      <div className='frame-57'>
+                        <div className='input3'>
+                          <div className='label5'>
+                            <div className='label6'>Rewarded token amount</div>
+                          </div>
+
+                          <Form.Group
+                            className='amount-bar'
+                            as={Col}
+                            controlId='TokenAmount'
+                            onChange={handleTokenAmountChange}
+                          >
+                            <Form.Control
+                              className='amount-input'
+                              required
+                              type='number'
+                              placeholder=''
+                              defaultValue='0'
+                              value={tokenAmount}
+                            />{' '}
+                            <div
+                              className='max cursor-pointer'
+                              onClick={setToMax}
+                            >
+                              MAX
+                            </div>
+                          </Form.Group>
                         </div>
-                      </Form.Group>
-                    </div>
 
-                    <div className='font-uniformisation'>
-                      <div className='_7-56-mex-ecb-7-bf'>
-                        <FormatAmount
-                          decimals={Number(decimals.toString())}
-                          value={balance.toString()}
-                          egldLabel={rtoken}
-                          data-testid='staked'
-                        />
+                        <div className='font-uniformisation'>
+                          <div className='_7-56-mex-ecb-7-bf'>
+                            <FormatAmount
+                              decimals={Number(decimals.toString())}
+                              value={balance.toString()}
+                              egldLabel={rtoken}
+                              data-testid='staked'
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </>
+                ) : (
+                  <>
+                    <div className='form'>
+                      <div className='frame-57'>
+                        <div className='input3'>
+                          <div className='label5'>
+                            <div className='label6'>
+                              PAY FOR FEES ~
+                              {dollar_value.toLocaleString('en-US', {
+                                maximumFractionDigits: 2
+                              })}{' '}
+                              $
+                            </div>
+                          </div>
 
-                  <div className='frame-41'>
-                    <div className='frame-412'>
-                      <input
-                        type='checkbox'
-                        checked={payFees}
-                        onChange={handleChange}
-                      />
+                          <Form.Group
+                            className='amount-bar'
+                            as={Col}
+                            controlId='TokenAmount'
+                          >
+                            <Form.Control
+                              className='amount-input'
+                              required
+                              type='number'
+                              placeholder=''
+                              defaultValue='0'
+                              value={price_float}
+                            />
+                            <div className='max cursor-pointer'></div>
+                          </Form.Group>
+                        </div>
 
-                      <div className='label7'>
-                        This pair has transaction fees. Add xx,xx MID to not pay
-                        10% extra fee.
+                        <div className='font-uniformisation'>
+                          <div className='_7-56-mex-ecb-7-bf'>
+                            <FormatAmount
+                              decimals={Number(decimals.toString())}
+                              value={
+                                defaultProps?.balance
+                                  ? defaultProps?.balance.toString()
+                                  : '0'
+                              }
+                              egldLabel={defaultToken}
+                              data-testid='staked'
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
             </div>
 
-            <div className='bottom'>
+            <div className='bottom' onClick={props.onClose}>
               <div className='button2 cursor-pointer' onClick={props.onClose}>
                 <div className='button'>
                   <div className='cancel '>Cancel</div>

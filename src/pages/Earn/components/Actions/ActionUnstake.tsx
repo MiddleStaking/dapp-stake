@@ -60,20 +60,19 @@ export const ActionUnstake = ({
   const notAllowedClass = unstakeAllowed ? '' : 'not-allowed disabled';
 
   return (
-    <div>
+    <>
       {user_fund !== undefined && (
         <>
           {!hasPendingTransactions ? (
-            <div>
+            <>
               <button
-                style={{ width: 'auto' }}
-                className='silverButton butLineBig'
+                className='button2 cursor-pointer'
                 onClick={sendUnstakeTransaction}
                 disabled={!user_fund}
               >
-                Unstake
+                <div className='stake2 '>Unstake tokens</div>
               </button>
-            </div>
+            </>
           ) : (
             <div className={notAllowedClass}>
               <button className='btn'>Processing</button>
@@ -81,6 +80,6 @@ export const ActionUnstake = ({
           )}
         </>
       )}
-    </div>
+    </>
   );
 };

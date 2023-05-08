@@ -1,7 +1,7 @@
 body {
 margin: 0;
 padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -24,16 +24,16 @@ box-sizing: border-box;
 }
 
 .row {
-  margin: 0px !important;
+margin: 0px !important;
 }
 
 .col {
-  margin: 0px !important;
+margin: 0px !important;
 }
 .home {
 background: var(--neutral-black, #000000);
 border-radius: 12px;
-  width: 1440px;
+width: 1440px;
   height: 1024px;
   position: relative;
   overflow: hidden;
@@ -41,18 +41,18 @@ border-radius: 12px;
 
 .center {
 margin: 0 auto 0;
-  justify-content: center !important;
+justify-content: center !important;
 }
 .background {
 opacity: 0.699999988079071;
 position: absolute;
-  inset: 0;
+inset: 0;
 }
 
 .neon {
 opacity: 0.6399999856948853;
 position: absolute;
-  left: 230px;
+left: 230px;
   top: 396px;
   overflow: visible;
 }
@@ -60,7 +60,7 @@ position: absolute;
 .neon2 {
 position: absolute;
 left: 693.46px;
-  top: 363.24px;
+top: 363.24px;
   transform: translate(-693.46px, -363.24px);
   overflow: visible;
 }
@@ -69,7 +69,7 @@ left: 693.46px;
 display: flex;
 flex-direction: row;
 gap: 10px;
-  align-items: flex-end;
+align-items: flex-end;
   justify-content: flex-start;
 height: 100px;
 }
@@ -77,7 +77,7 @@ height: 100px;
 .subnav .left {
 display: flex;
 flex-direction: row;
-  gap: 32px;
+gap: 32px;
   align-items: flex-end;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -87,7 +87,7 @@ flex-direction: row;
 .staked-token {
 display: flex;
 flex-direction: row;
-  gap: 16px;
+gap: 16px;
   align-items: flex-end;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -97,7 +97,7 @@ flex-direction: row;
 .token {
 display: flex;
 flex-direction: column;
-  gap: 0px;
+gap: 0px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -109,7 +109,7 @@ flex-direction: column;
 .logo {
 background: var(--neutral-black, #000000);
 border-radius: 100px;
-  border-style: solid;
+border-style: solid;
   border-color: radial-gradient(closest-side, rgba(255, 255, 255, 1.00) 0%, rgba(255, 255, 255, 0.00) 100%);
   border-width: 0.83px;
   padding: 12px 12px 12px 12px;
@@ -126,14 +126,14 @@ border-radius: 100px;
 .logos {
 flex-shrink: 0;
 width: 70px;
-  height: 70px;
+height: 70px;
   position: relative;
 }
 
 .image-3 {
 width: 70px;
 height: 70px;
-  position: absolute;
+position: absolute;
   left: 0px;
   top: 0px;
 }
@@ -141,7 +141,7 @@ height: 70px;
 .info {
 flex-shrink: 0;
 position: absolute;
-  left: 41px;
+left: 41px;
   top: 41px;
   overflow: visible;
 }
@@ -149,7 +149,7 @@ position: absolute;
 .input {
 display: flex;
 flex-direction: column;
-  gap: 12px;
+gap: 12px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -159,7 +159,7 @@ flex-direction: column;
 .label {
 padding: 0px 0px 0px 14px;
 display: flex;
-  flex-direction: row;
+flex-direction: row;
   gap: 10px;
   align-items: flex-start;
   justify-content: flex-start;
@@ -170,7 +170,7 @@ display: flex;
 .label2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: 300 10px 'Plus Jakarta Sans', sans-serif;
+font: 300 10px 'Plus Jakarta Sans', sans-serif;
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -181,7 +181,7 @@ text-align: left;
 .input-default {
 background: var(--neutral-black, #000000);
 border-radius: 54px;
-  border-style: solid;
+border-style: solid;
   border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 12px 16px 12px 16px;
@@ -198,13 +198,13 @@ border-radius: 54px;
 .chevron-down {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .input2 {
 display: flex;
 flex-direction: column;
-  gap: 12px;
+gap: 12px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -214,7 +214,7 @@ flex-direction: column;
 .label3 {
 padding: 0px 0px 0px 14px;
 display: flex;
-  flex-direction: row;
+flex-direction: row;
   gap: 10px;
   align-items: flex-start;
   justify-content: flex-start;
@@ -225,7 +225,7 @@ display: flex;
 .label4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: 300 10px 'Plus Jakarta Sans', sans-serif;
+font: 300 10px 'Plus Jakarta Sans', sans-serif;
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -236,7 +236,7 @@ text-align: left;
 .input-default2 {
 background: var(--neutral-black, #000000);
 border-radius: 54px;
-  border-style: solid;
+border-style: solid;
   border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 12px 16px 12px 16px;
@@ -252,7 +252,7 @@ border-radius: 54px;
 .value {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -262,13 +262,13 @@ text-align: center;
 .chevron-down2 {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .toggle {
 padding: 14px 0px 14px 0px;
 display: flex;
-  flex-direction: row;
+flex-direction: row;
   gap: 12px;
   align-items: center;
   justify-content: flex-start;
@@ -280,7 +280,7 @@ display: flex;
 .swith {
 flex-shrink: 0;
 width: 48px;
-  height: 24px;
+height: 24px;
   position: relative;
   box-shadow: 0px 0px 24px 0px rgba(182, 57, 237, 0.64);
 }
@@ -288,10 +288,10 @@ width: 48px;
 .rectangle-6 {
 background: linear-gradient(to left, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20));
 border-radius: 20px;
-  border-width: 1px;
+border-width: 1px;
   border-style: solid;
 border-image-slice: 1;
-  width: 48px;
+width: 48px;
   height: 24px;
   position: absolute;
   left: 0px;
@@ -301,7 +301,7 @@ border-image-slice: 1;
 .ellipse-1 {
 background: linear-gradient(109.74deg, rgba(255, 255, 255, 1.00) 0%, rgba(183, 194, 216, 1.00) 100%);
 border-radius: 50%;
-  width: 16px;
+width: 16px;
   height: 16px;
   position: absolute;
   left: 5px;
@@ -311,7 +311,7 @@ border-radius: 50%;
 .staken-only {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: 600 12px 'Plus Jakarta Sans', sans-serif;
+font: 600 12px 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -321,7 +321,7 @@ text-align: left;
 .subnav .right {
 display: flex;
 flex-direction: row;
-  gap: 16px;
+gap: 16px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -331,7 +331,7 @@ flex-direction: row;
 .search-bar {
 background: var(--neutral-black, #000000);
 border-radius: 100px;
-  border-style: solid;
+border-style: solid;
   border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 16px 16px 16px 16px;
@@ -347,7 +347,7 @@ height: 40px;
 }
 
 .amount-bar {
-  background: var(--neutral-black, #000000);
+background: var(--neutral-black, #000000);
   border-radius: 100px;
   border-style: solid;
   border-color: var(--neutral-light, #695885);
@@ -365,7 +365,7 @@ height: 40px;
 }
 
 .amount-input {
-  color: white;
+color: white;
   outline: none;
   background: var(--neutral-black, #000000);
   border-width: 0px;
@@ -382,7 +382,7 @@ height: 40px;
 
 .search-input {
 color: white;
-  outline: none;
+outline: none;
   background: var(--neutral-black, #000000);
   border-width: 0px;
   display: flex;
@@ -397,7 +397,7 @@ color: white;
 
 .search-select {
 color: white;
-  outline: none;
+outline: none;
   background: var(--neutral-black, #000000);
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -411,7 +411,7 @@ color: white;
 
 .form-control {
 color: white !important;
-  background: var(--neutral-black, #000000) !important;
+background: var(--neutral-black, #000000) !important;
   ;
   padding: 0 !important;
   margin: 0 !important;
@@ -425,13 +425,13 @@ color: white !important;
 .search {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .label-input {
 display: flex;
 flex-direction: column;
-  gap: 0px;
+gap: 0px;
   align-items: flex-start;
   justify-content: center;
   flex-shrink: 0;
@@ -441,7 +441,7 @@ flex-direction: column;
 .search-pool {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: 400 14px 'Plus Jakarta Sans', sans-serif;
+font: 400 14px 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -449,17 +449,17 @@ text-align: center;
 }
 
 .button-icon-border {
-  background: var(--linear-primary, linear-gradient(90deg, rgba(189, 55, 236, 1.00) 0%, rgba(31, 103, 255, 1.00) 100%));
+background: var(--linear-primary, linear-gradient(90deg, rgba(189, 55, 236, 1.00) 0%, rgba(31, 103, 255, 1.00) 100%));
   border-radius: 30px;
   padding: 1px;
 }
 .button-icon {
 background: var(--neutral-black, #000000);
 border-radius: 40px;
-  border-width: 2px;
+border-width: 2px;
   border-style: solid;
 border-image-slice: 1;
-  padding: 9px 9px 9px 9px;
+padding: 9px 9px 9px 9px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -473,13 +473,13 @@ border-image-slice: 1;
 .plus {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .list {
 display: flex;
 flex-direction: row;
-  gap: 32px;
+gap: 32px;
   align-items: flex-start;
   justify-content: flex-start;
   width: 1248px;
@@ -489,7 +489,7 @@ flex-direction: row;
 }
 
 .card-type {
-  width: 300px;
+width: 300px;
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -502,7 +502,7 @@ flex-direction: row;
 .top {
 display: flex;
 flex-direction: column;
-  gap: 1px;
+gap: 1px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -513,7 +513,7 @@ flex-direction: column;
 .type-section {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 8px 8px 0px 0px;
-  border-width: 1px;
+border-width: 1px;
   border-style: solid;
   border-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.00) 100%);
   border-image-slice: 1;
@@ -532,7 +532,7 @@ border-radius: 8px 8px 0px 0px;
 .top2 {
 display: flex;
 flex-direction: row;
-  align-items: flex-start;
+align-items: flex-start;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -542,7 +542,7 @@ flex-direction: row;
 .left2 {
 display: flex;
 flex-direction: column;
-  gap: 16px;
+gap: 16px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -552,7 +552,7 @@ flex-direction: column;
 .title {
 display: flex;
 flex-direction: column;
-  gap: 2px;
+gap: 2px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -562,7 +562,7 @@ flex-direction: column;
 .earn-mex {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
+font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -572,7 +572,7 @@ text-align: left;
 .stake-mex {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -582,7 +582,7 @@ text-align: left;
 .apr {
 display: flex;
 flex-direction: row;
-  gap: 8px;
+gap: 8px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -592,7 +592,7 @@ flex-direction: row;
 .apr2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -602,7 +602,7 @@ text-align: left;
 .rate {
 background: linear-gradient(-90deg, rgba(92, 76, 241, 1.00) 0%, rgba(150, 64, 203, 1.00) 100%);
 border-radius: 30px;
-  padding: 4px 8px 4px 8px;
+padding: 4px 8px 4px 8px;
   display: flex;
   flex-direction: row;
   gap: 2px;
@@ -615,7 +615,7 @@ border-radius: 30px;
 ._14 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -625,7 +625,7 @@ text-align: center;
 .right2 {
 display: flex;
 flex-direction: row;
-  gap: 0px;
+gap: 0px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -635,7 +635,7 @@ flex-direction: row;
 .image {
 background: var(--neutral-black, #000000);
 border-radius: 132.6px;
-  display: flex;
+display: flex;
   flex-direction: row;
   gap: 13.26px;
   align-items: center;
@@ -649,7 +649,7 @@ border-radius: 132.6px;
 .logo2 {
 background: var(--neutral-black, #000000);
 border-radius: 44.2px;
-  border-style: solid;
+border-style: solid;
   border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 8.84px 8.84px 8.84px 8.84px;
@@ -669,14 +669,14 @@ border-radius: 44.2px;
 .logos2 {
 flex-shrink: 0;
 width: 30px;
-  height: 30px;
+height: 30px;
   position: relative;
 }
 
 .image-32 {
 width: 30px;
 height: 30px;
-  position: absolute;
+position: absolute;
   left: 0px;
   top: 0px;
 }
@@ -684,7 +684,7 @@ height: 30px;
 .details {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -694,7 +694,7 @@ flex-direction: row;
 .show-details {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: 300 8px 'Plus Jakarta Sans', sans-serif;
+font: 300 8px 'Plus Jakarta Sans', sans-serif;
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -705,13 +705,13 @@ text-align: center;
 .chevron-down3 {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .my-stake-section {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 0px 0px 8px 8px;
-  padding: 24px 24px 24px 24px;
+padding: 24px 24px 24px 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -726,7 +726,7 @@ border-radius: 0px 0px 8px 8px;
 .my-stake {
 display: flex;
 flex-direction: column;
-  gap: 12px;
+gap: 12px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -737,7 +737,7 @@ flex-direction: column;
 .my-stake2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   align-self: stretch;
   display: flex;
@@ -748,7 +748,7 @@ text-align: left;
 .data {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -758,7 +758,7 @@ flex-direction: row;
 .left3 {
 display: flex;
 flex-direction: row;
-  gap: 12px;
+gap: 12px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -768,7 +768,7 @@ flex-direction: row;
 ._18-853-74 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--title-18-px-bold, 600 18px 'Plus Jakarta Sans', sans-serif);
+font: var(--title-18-px-bold, 600 18px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -778,7 +778,7 @@ text-align: left;
 .dollars {
 border-radius: 33px;
 border-style: solid;
-  border-color: var(--neutral-light, #695885);
+border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 3px 8px 3px 8px;
   display: flex;
@@ -793,7 +793,7 @@ border-style: solid;
 ._98-75 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: 600 12px 'Plus Jakarta Sans', sans-serif;
+font: 600 12px 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -803,7 +803,7 @@ text-align: left;
 ._1-42 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -813,7 +813,7 @@ text-align: left;
 .buttons {
 display: flex;
 flex-direction: row;
-  gap: 8px;
+gap: 8px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -824,7 +824,7 @@ flex-direction: row;
 .button {
 background: var(--neutral-black, #000000);
 border-radius: 40px;
-  padding: 8px 19px 8px 19px;
+padding: 8px 19px 8px 19px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -837,7 +837,7 @@ border-radius: 40px;
 .stake {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -847,7 +847,7 @@ text-align: center;
 .button2 {
 background: var(--neutral-black, #000000);
 border-radius: 40px;
-  padding: 8px 19px 8px 19px;
+padding: 8px 19px 8px 19px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -860,7 +860,7 @@ border-radius: 40px;
 .stake2 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -872,7 +872,7 @@ text-align: center;
 .top3 {
 display: flex;
 flex-direction: column;
-  gap: 1px;
+gap: 1px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -883,7 +883,7 @@ flex-direction: column;
 .type-section2 {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 8px 8px 0px 0px;
-  border-width: 1px;
+border-width: 1px;
   border-style: solid;
   border-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.00) 100%);
   border-image-slice: 1;
@@ -902,7 +902,7 @@ border-radius: 8px 8px 0px 0px;
 .top4 {
 display: flex;
 flex-direction: row;
-  align-items: flex-start;
+align-items: flex-start;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -912,7 +912,7 @@ flex-direction: row;
 .left4 {
 display: flex;
 flex-direction: column;
-  gap: 16px;
+gap: 16px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -922,7 +922,7 @@ flex-direction: column;
 .title2 {
 display: flex;
 flex-direction: column;
-  gap: 2px;
+gap: 2px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -932,7 +932,7 @@ flex-direction: column;
 .earn-mex2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
+font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -942,7 +942,7 @@ text-align: left;
 .stake-mex2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -952,7 +952,7 @@ text-align: left;
 .apr3 {
 display: flex;
 flex-direction: row;
-  gap: 8px;
+gap: 8px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -962,7 +962,7 @@ flex-direction: row;
 .apr4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -972,7 +972,7 @@ text-align: left;
 .rate2 {
 background: linear-gradient(-90deg, rgba(92, 76, 241, 1.00) 0%, rgba(150, 64, 203, 1.00) 100%);
 border-radius: 30px;
-  padding: 4px 8px 4px 8px;
+padding: 4px 8px 4px 8px;
   display: flex;
   flex-direction: row;
   gap: 2px;
@@ -985,7 +985,7 @@ border-radius: 30px;
 ._142 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -995,7 +995,7 @@ text-align: center;
 .right3 {
 display: flex;
 flex-direction: row;
-  gap: 0px;
+gap: 0px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -1005,7 +1005,7 @@ flex-direction: row;
 .image2 {
 background: #08010a;
 border-radius: 132.6px;
-  display: flex;
+display: flex;
   flex-direction: row;
   gap: 13.26px;
   align-items: center;
@@ -1019,7 +1019,7 @@ border-radius: 132.6px;
 .image-1 {
 width: 24px;
 height: 24px;
-  position: absolute;
+position: absolute;
   left: 8px;
   top: 8px;
 }
@@ -1027,7 +1027,7 @@ height: 24px;
 .logo3 {
 background: #08010a;
 border-radius: 44.2px;
-  border-style: solid;
+border-style: solid;
   border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 8.84px 8.84px 8.84px 8.84px;
@@ -1047,14 +1047,14 @@ border-radius: 44.2px;
 .logos3 {
 flex-shrink: 0;
 width: 24px;
-  height: 24px;
+height: 24px;
   position: relative;
 }
 
 .image-33 {
 width: 24px;
 height: 24px;
-  position: absolute;
+position: absolute;
   left: 0px;
   top: 0px;
 }
@@ -1062,17 +1062,17 @@ height: 24px;
 .details2 {
 flex-shrink: 0;
 width: 240px;
-  height: 180px;
+height: 180px;
   position: relative;
 }
 
 .details3 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
 width: 260px;
-  position: absolute;
+position: absolute;
   left: 0px;
   top: 0px;
 }
@@ -1080,7 +1080,7 @@ width: 260px;
 .hide-details {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: 300 8px 'Plus Jakarta Sans', sans-serif;
+font: 300 8px 'Plus Jakarta Sans', sans-serif;
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -1091,17 +1091,17 @@ text-align: center;
 .chevron-up {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .specs {
 display: flex;
 flex-direction: column;
-  gap: 6px;
+gap: 6px;
   align-items: flex-start;
   justify-content: flex-start;
 width: 260px;
-  position: absolute;
+position: absolute;
   left: 0px;
   top: 42px;
 }
@@ -1109,7 +1109,7 @@ width: 260px;
 .frame-4 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1119,7 +1119,7 @@ flex-direction: row;
 .rewards {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1129,7 +1129,7 @@ text-align: left;
 ._18-853-742 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1139,7 +1139,7 @@ text-align: right;
 .frame-6 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1149,7 +1149,7 @@ flex-direction: row;
 .value2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1159,7 +1159,7 @@ text-align: left;
 ._723-37 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1169,7 +1169,7 @@ text-align: right;
 .frame-7 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1179,7 +1179,7 @@ flex-direction: row;
 .all-time-rewarded {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1189,7 +1189,7 @@ text-align: left;
 ._98-752 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1199,7 +1199,7 @@ text-align: right;
 .frame-8 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1209,7 +1209,7 @@ flex-direction: row;
 .speed {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1219,7 +1219,7 @@ text-align: left;
 ._365-days {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1229,7 +1229,7 @@ text-align: right;
 .frame-9 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1239,7 +1239,7 @@ flex-direction: row;
 .total-staked {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1249,7 +1249,7 @@ text-align: left;
 ._135-492-65 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1259,7 +1259,7 @@ text-align: right;
 .frame-10 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1269,7 +1269,7 @@ flex-direction: row;
 .total-value {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1279,7 +1279,7 @@ text-align: left;
 ._5-198-9 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1289,7 +1289,7 @@ text-align: right;
 .frame-11 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1299,7 +1299,7 @@ flex-direction: row;
 .users {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1309,7 +1309,7 @@ text-align: left;
 ._6 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1319,7 +1319,7 @@ text-align: right;
 .icons {
 display: flex;
 flex-direction: row;
-  gap: 16px;
+gap: 16px;
   align-items: center;
   justify-content: center;
   align-self: stretch;
@@ -1330,7 +1330,7 @@ flex-direction: row;
 .frame-53 {
 border-radius: 40px;
 border-style: solid;
-  border-color: var(--neutral-light, #695885);
+border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 6px 6px 6px 6px;
   display: flex;
@@ -1345,13 +1345,13 @@ border-style: solid;
 .twitter {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .frame-54 {
 border-radius: 40px;
 border-style: solid;
-  border-color: var(--neutral-light, #695885);
+border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 6px 6px 6px 6px;
   display: flex;
@@ -1366,13 +1366,13 @@ border-style: solid;
 .flash {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .frame-55 {
 border-radius: 40px;
 border-style: solid;
-  border-color: var(--neutral-light, #695885);
+border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 6px 6px 6px 6px;
   display: flex;
@@ -1387,13 +1387,13 @@ border-style: solid;
 .globe-2 {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .my-stake-section2 {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 0px 0px 8px 8px;
-  padding: 24px 24px 24px 24px;
+padding: 24px 24px 24px 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -1408,7 +1408,7 @@ border-radius: 0px 0px 8px 8px;
 .my-stake3 {
 display: flex;
 flex-direction: column;
-  gap: 12px;
+gap: 12px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -1419,7 +1419,7 @@ flex-direction: column;
 .my-stake4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   align-self: stretch;
   display: flex;
@@ -1430,7 +1430,7 @@ text-align: left;
 .data2 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1440,7 +1440,7 @@ flex-direction: row;
 .left5 {
 display: flex;
 flex-direction: row;
-  gap: 12px;
+gap: 12px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -1450,7 +1450,7 @@ flex-direction: row;
 ._18-853-743 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: 600 18px 'Plus Jakarta Sans', sans-serif;
+font: 600 18px 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -1460,7 +1460,7 @@ text-align: left;
 .dollars2 {
 border-radius: 33px;
 border-style: solid;
-  border-color: var(--neutral-light, #695885);
+border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 3px 8px 3px 8px;
   display: flex;
@@ -1475,7 +1475,7 @@ border-style: solid;
 ._98-753 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: 600 12px 'Plus Jakarta Sans', sans-serif;
+font: 600 12px 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -1485,7 +1485,7 @@ text-align: left;
 ._1-422 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1495,7 +1495,7 @@ text-align: left;
 .buttons2 {
 display: flex;
 flex-direction: row;
-  gap: 8px;
+gap: 8px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -1506,7 +1506,7 @@ flex-direction: row;
 .button3 {
 background: var(--neutral-black, #000000);
 border-radius: 40px;
-  padding: 8px 19px 8px 19px;
+padding: 8px 19px 8px 19px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -1519,7 +1519,7 @@ border-radius: 40px;
 .stake3 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1529,7 +1529,7 @@ text-align: center;
 .button4 {
 background: var(--neutral-black, #000000);
 border-radius: 40px;
-  padding: 8px 19px 8px 19px;
+padding: 8px 19px 8px 19px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -1542,7 +1542,7 @@ border-radius: 40px;
 .stake4 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1552,7 +1552,7 @@ text-align: center;
 .rewards-section {
 background: var(--linear-primary-light, linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 0%, rgba(31, 103, 255, 0.00) 100%), linear-gradient(to left, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)));
 border-radius: 8px;
-  border-width: 1px;
+border-width: 1px;
   border-style: solid;
   border-image: transparent;
   border-image-slice: 1;
@@ -1570,7 +1570,7 @@ border-radius: 8px;
 .top5 {
 display: flex;
 flex-direction: column;
-  gap: 12px;
+gap: 12px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -1581,7 +1581,7 @@ flex-direction: column;
 .availabled-rewards {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1591,7 +1591,7 @@ text-align: left;
 .left6 {
 display: flex;
 flex-direction: row;
-  gap: 12px;
+gap: 12px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -1601,7 +1601,7 @@ flex-direction: row;
 ._18-853-744 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--title-18-px-bold, 600 18px 'Plus Jakarta Sans', sans-serif);
+font: var(--title-18-px-bold, 600 18px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1611,7 +1611,7 @@ text-align: left;
 .dollars3 {
 border-radius: 33px;
 border-style: solid;
-  border-color: var(--neutral-light, #695885);
+border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 3px 8px 3px 8px;
   display: flex;
@@ -1626,7 +1626,7 @@ border-style: solid;
 ._98-754 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: 600 12px 'Plus Jakarta Sans', sans-serif;
+font: 600 12px 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -1636,7 +1636,7 @@ text-align: left;
 .illustration {
 flex-shrink: 0;
 width: 123px;
-  height: 105px;
+height: 105px;
   position: absolute;
   left: 177px;
   top: -12px;
@@ -1646,7 +1646,7 @@ width: 123px;
 .line-8 {
 border-width: 1.28px 0 0 0;
 border-style: solid;
-  border-image: linear-gradient(269.99deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.30) 47.69420325756073%, rgba(255, 255, 255, 0.00) 100%);
+border-image: linear-gradient(269.99deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.30) 47.69420325756073%, rgba(255, 255, 255, 0.00) 100%);
   border-image-slice: 1;
   width: 64.63px;
   height: 0px;
@@ -1660,7 +1660,7 @@ border-style: solid;
 .line-6 {
 border-width: 1.28px 0 0 0;
 border-style: solid;
-  border-image: linear-gradient(269.99deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.30) 47.69420325756073%, rgba(255, 255, 255, 0.00) 100%);
+border-image: linear-gradient(269.99deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.30) 47.69420325756073%, rgba(255, 255, 255, 0.00) 100%);
   border-image-slice: 1;
   width: 43.55px;
   height: 0px;
@@ -1674,7 +1674,7 @@ border-style: solid;
 .line-7 {
 border-width: 1.28px 0 0 0;
 border-style: solid;
-  border-image: linear-gradient(269.99deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.70) 47.69420325756073%, rgba(255, 255, 255, 0.00) 100%);
+border-image: linear-gradient(269.99deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.70) 47.69420325756073%, rgba(255, 255, 255, 0.00) 100%);
   border-image-slice: 1;
   width: 76.39px;
   height: 0px;
@@ -1688,28 +1688,28 @@ border-style: solid;
 .coin {
 position: absolute;
 left: 76.07px;
-  top: 43.95px;
+top: 43.95px;
   overflow: visible;
 }
 
 .coin2 {
 position: absolute;
 left: 15.02px;
-  top: 44.24px;
+top: 44.24px;
   overflow: visible;
 }
 
 .coin3 {
 position: absolute;
 left: 50.98px;
-  top: 27.67px;
+top: 27.67px;
   overflow: visible;
 }
 
 .buttons3 {
 display: flex;
 flex-direction: column;
-  gap: 12px;
+gap: 12px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -1720,7 +1720,7 @@ flex-direction: column;
 .button5 {
 background: var(--linear-primary, linear-gradient(90deg, rgba(189, 55, 236, 1.00) 0%, rgba(31, 103, 255, 1.00) 100%));
 border-radius: 40px;
-  padding: 12px 19px 12px 19px;
+padding: 12px 19px 12px 19px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -1735,7 +1735,7 @@ border-radius: 40px;
 .stake5 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1747,7 +1747,7 @@ text-align: center;
 .top6 {
 display: flex;
 flex-direction: column;
-  gap: 1px;
+gap: 1px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -1758,7 +1758,7 @@ flex-direction: column;
 .type-section3 {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 8px 8px 0px 0px;
-  border-width: 1px;
+border-width: 1px;
   border-style: solid;
   border-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.00) 100%);
   border-image-slice: 1;
@@ -1777,7 +1777,7 @@ border-radius: 8px 8px 0px 0px;
 .top7 {
 display: flex;
 flex-direction: row;
-  align-items: flex-start;
+align-items: flex-start;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1787,7 +1787,7 @@ flex-direction: row;
 .left7 {
 display: flex;
 flex-direction: column;
-  gap: 16px;
+gap: 16px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -1797,7 +1797,7 @@ flex-direction: column;
 .title3 {
 display: flex;
 flex-direction: column;
-  gap: 2px;
+gap: 2px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -1807,7 +1807,7 @@ flex-direction: column;
 .earn-mex3 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
+font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1817,7 +1817,7 @@ text-align: left;
 .stake-mex3 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1827,7 +1827,7 @@ text-align: left;
 .apr5 {
 display: flex;
 flex-direction: row;
-  gap: 8px;
+gap: 8px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -1837,7 +1837,7 @@ flex-direction: row;
 .apr6 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1847,7 +1847,7 @@ text-align: left;
 .rate3 {
 background: linear-gradient(-90deg, rgba(92, 76, 241, 1.00) 0%, rgba(150, 64, 203, 1.00) 100%);
 border-radius: 30px;
-  padding: 4px 8px 4px 8px;
+padding: 4px 8px 4px 8px;
   display: flex;
   flex-direction: row;
   gap: 2px;
@@ -1860,7 +1860,7 @@ border-radius: 30px;
 ._143 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -1870,7 +1870,7 @@ text-align: center;
 .right4 {
 display: flex;
 flex-direction: row;
-  gap: 0px;
+gap: 0px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -1880,7 +1880,7 @@ flex-direction: row;
 .image3 {
 background: #08010a;
 border-radius: 132.6px;
-  display: flex;
+display: flex;
   flex-direction: row;
   gap: 13.26px;
   align-items: center;
@@ -1894,7 +1894,7 @@ border-radius: 132.6px;
 .logo4 {
 background: #08010a;
 border-radius: 44.2px;
-  border-style: solid;
+border-style: solid;
   border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 8.84px 8.84px 8.84px 8.84px;
@@ -1914,14 +1914,14 @@ border-radius: 44.2px;
 .logos4 {
 flex-shrink: 0;
 width: 24px;
-  height: 24px;
+height: 24px;
   position: relative;
 }
 
 .image-34 {
 width: 24px;
 height: 24px;
-  position: absolute;
+position: absolute;
   left: 0px;
   top: 0px;
 }
@@ -1929,7 +1929,7 @@ height: 24px;
 .details4 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -1939,7 +1939,7 @@ flex-direction: row;
 .show-details2 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: 300 8px 'Plus Jakarta Sans', sans-serif;
+font: 300 8px 'Plus Jakarta Sans', sans-serif;
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -1950,13 +1950,13 @@ text-align: center;
 .chevron-down4 {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .my-stake-section3 {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 0px 0px 8px 8px;
-  padding: 24px 24px 24px 24px;
+padding: 24px 24px 24px 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -1971,7 +1971,7 @@ border-radius: 0px 0px 8px 8px;
 .my-stake5 {
 display: flex;
 flex-direction: column;
-  gap: 12px;
+gap: 12px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -1982,7 +1982,7 @@ flex-direction: column;
 .my-stake6 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   align-self: stretch;
   display: flex;
@@ -1993,7 +1993,7 @@ text-align: left;
 .content {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 8px;
-  padding: 12px 12px 12px 12px;
+padding: 12px 12px 12px 12px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -2007,7 +2007,7 @@ border-radius: 8px;
 .you-have-no-mex-earned-for-the-moment {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -2017,7 +2017,7 @@ text-align: left;
 .buttons4 {
 display: flex;
 flex-direction: row;
-  gap: 8px;
+gap: 8px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -2028,7 +2028,7 @@ flex-direction: row;
 .button6 {
 background: var(--neutral-black, #000000);
 border-radius: 40px;
-  padding: 8px 19px 8px 19px;
+padding: 8px 19px 8px 19px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -2041,7 +2041,7 @@ border-radius: 40px;
 .stake6 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -2051,7 +2051,7 @@ text-align: center;
 .top8 {
 display: flex;
 flex-direction: column;
-  gap: 1px;
+gap: 1px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -2062,7 +2062,7 @@ flex-direction: column;
 .type-section4 {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 8px 8px 0px 0px;
-  border-width: 1px;
+border-width: 1px;
   border-style: solid;
   border-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.00) 100%);
   border-image-slice: 1;
@@ -2081,7 +2081,7 @@ border-radius: 8px 8px 0px 0px;
 .top9 {
 display: flex;
 flex-direction: row;
-  align-items: flex-start;
+align-items: flex-start;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -2091,7 +2091,7 @@ flex-direction: row;
 .left8 {
 display: flex;
 flex-direction: column;
-  gap: 16px;
+gap: 16px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -2101,7 +2101,7 @@ flex-direction: column;
 .title4 {
 display: flex;
 flex-direction: column;
-  gap: 2px;
+gap: 2px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -2111,7 +2111,7 @@ flex-direction: column;
 .earn-mex4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
+font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -2121,7 +2121,7 @@ text-align: left;
 .stake-mex4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -2131,7 +2131,7 @@ text-align: left;
 .apr7 {
 display: flex;
 flex-direction: row;
-  gap: 8px;
+gap: 8px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -2141,7 +2141,7 @@ flex-direction: row;
 .apr8 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -2151,7 +2151,7 @@ text-align: left;
 .rate4 {
 background: linear-gradient(-90deg, rgba(92, 76, 241, 1.00) 0%, rgba(150, 64, 203, 1.00) 100%);
 border-radius: 30px;
-  padding: 4px 8px 4px 8px;
+padding: 4px 8px 4px 8px;
   display: flex;
   flex-direction: row;
   gap: 2px;
@@ -2164,7 +2164,7 @@ border-radius: 30px;
 ._144 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -2174,7 +2174,7 @@ text-align: center;
 .right5 {
 display: flex;
 flex-direction: row;
-  gap: 0px;
+gap: 0px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -2184,7 +2184,7 @@ flex-direction: row;
 .image4 {
 background: #08010a;
 border-radius: 132.6px;
-  display: flex;
+display: flex;
   flex-direction: row;
   gap: 13.26px;
   align-items: center;
@@ -2198,7 +2198,7 @@ border-radius: 132.6px;
 .logo5 {
 background: #08010a;
 border-radius: 44.2px;
-  border-style: solid;
+border-style: solid;
   border-color: var(--neutral-light, #695885);
   border-width: 1px;
   padding: 8.84px 8.84px 8.84px 8.84px;
@@ -2218,14 +2218,14 @@ border-radius: 44.2px;
 .logos5 {
 flex-shrink: 0;
 width: 24px;
-  height: 24px;
+height: 24px;
   position: relative;
 }
 
 .image-35 {
 width: 24px;
 height: 24px;
-  position: absolute;
+position: absolute;
   left: 0px;
   top: 0px;
 }
@@ -2233,7 +2233,7 @@ height: 24px;
 .details5 {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
@@ -2243,7 +2243,7 @@ flex-direction: row;
 .show-details3 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: 300 8px 'Plus Jakarta Sans', sans-serif;
+font: 300 8px 'Plus Jakarta Sans', sans-serif;
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -2254,13 +2254,13 @@ text-align: center;
 .chevron-down5 {
 flex-shrink: 0;
 position: relative;
-  overflow: visible;
+overflow: visible;
 }
 
 .my-stake-section4 {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 0px 0px 8px 8px;
-  padding: 24px 24px 24px 24px;
+padding: 24px 24px 24px 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -2275,7 +2275,7 @@ border-radius: 0px 0px 8px 8px;
 .my-stake7 {
 display: flex;
 flex-direction: column;
-  gap: 12px;
+gap: 12px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -2286,7 +2286,7 @@ flex-direction: column;
 .my-stake8 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   align-self: stretch;
   display: flex;
@@ -2297,7 +2297,7 @@ text-align: left;
 .content2 {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
 border-radius: 8px;
-  padding: 12px 12px 12px 12px;
+padding: 12px 12px 12px 12px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -2311,7 +2311,7 @@ border-radius: 8px;
 .you-have-no-mex-earned-for-the-moment2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-  font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -2321,7 +2321,7 @@ text-align: left;
 .buttons5 {
 display: flex;
 flex-direction: row;
-  gap: 8px;
+gap: 8px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -2332,7 +2332,7 @@ flex-direction: row;
 .button7 {
 background: var(--neutral-black, #000000);
 border-radius: 40px;
-  padding: 8px 19px 8px 19px;
+padding: 8px 19px 8px 19px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -2345,7 +2345,7 @@ border-radius: 40px;
 .stake7 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
   position: relative;
   display: flex;
   align-items: center;
@@ -2355,7 +2355,7 @@ text-align: center;
 .frame-45 {
 width: 1248px;
 height: 111px;
-  position: absolute;
+position: absolute;
   left: 96px;
   top: 0px;
 }
@@ -2363,14 +2363,14 @@ height: 111px;
 .top10 {
 position: absolute;
 left: 139px;
-  top: 0px;
+top: 0px;
   overflow: visible;
 }
 
 .header {
 display: flex;
 flex-direction: row;
-  align-items: center;
+align-items: center;
   justify-content: space-between;
   width: 1209px;
   height: 48px;
@@ -2382,7 +2382,7 @@ flex-direction: row;
 .logo6 {
 display: flex;
 flex-direction: row;
-  gap: 15px;
+gap: 15px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -2392,74 +2392,74 @@ flex-direction: row;
 .logo7 {
 flex-shrink: 0;
 width: 21.26px;
-  height: 39px;
+height: 39px;
   position: static;
 }
 
 .clip-path-group {
 width: 21.26px;
 height: 14.75px;
-  position: static;
+position: static;
 }
 
 .clippath-1 {
 position: absolute;
 left: 0px;
-  top: 13.93px;
+top: 13.93px;
   overflow: visible;
 }
 
 .vector16 {
 position: absolute;
 left: 0px;
-  top: 13.49px;
+top: 13.49px;
   overflow: visible;
 }
 
 .clip-path-group2 {
 width: 21.17px;
 height: 19.5px;
-  position: static;
+position: static;
 }
 
 .clippath-2 {
 position: absolute;
 left: 0px;
-  top: 0px;
+top: 0px;
   overflow: visible;
 }
 
 .vector18 {
 position: absolute;
 left: 0px;
-  top: 0px;
+top: 0px;
   overflow: visible;
 }
 
 .clip-path-group3 {
 width: 21.17px;
 height: 19.5px;
-  position: static;
+position: static;
 }
 
 .clippath-3 {
 position: absolute;
 left: 0.09px;
-  top: 19.5px;
+top: 19.5px;
   overflow: visible;
 }
 
 .vector20 {
 position: absolute;
 left: 0.09px;
-  top: 19.5px;
+top: 19.5px;
   overflow: visible;
 }
 
 .middle-staking {
 color: #ffffff;
 text-align: left;
-  font: 700 19px/100% 'Plus Jakarta Sans', sans-serif;
+font: 700 19px/100% 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -2469,7 +2469,7 @@ text-align: left;
 .menu {
 display: flex;
 flex-direction: row;
-  gap: 64px;
+gap: 64px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -2479,7 +2479,7 @@ flex-direction: row;
 .items {
 display: flex;
 flex-direction: row;
-  gap: 51px;
+gap: 51px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -2489,7 +2489,7 @@ flex-direction: row;
 .staking {
 color: #ffffff;
 text-align: left;
-  font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
+font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -2499,7 +2499,7 @@ text-align: left;
 .dashboard {
 color: #ffffff;
 text-align: left;
-  font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
+font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -2509,7 +2509,7 @@ text-align: left;
 .play {
 color: #ffffff;
 text-align: left;
-  font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
+font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -2519,7 +2519,7 @@ text-align: left;
 .button8 {
 background: var(--neutral-black, #000000);
 border-radius: 40px;
-  border-width: 2px;
+border-width: 2px;
   border-style: solid;
   border-image: linear-gradient(90deg, rgba(189, 55, 236, 1.00) 0%, rgba(31, 103, 255, 1.00) 100%);
   border-image-slice: 1;
@@ -2537,7 +2537,7 @@ border-radius: 40px;
 .account {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-  font: 700 16px 'Plus Jakarta Sans', sans-serif;
+font: 700 16px 'Plus Jakarta Sans', sans-serif;
   position: relative;
   display: flex;
   align-items: center;
@@ -2545,7 +2545,7 @@ text-align: center;
 }
 /* The switch - the box around the slider */
 .switch {
-  position: relative;
+position: relative;
   display: inline-block;
   width: 48px;
   height: 24px;
@@ -2553,14 +2553,14 @@ text-align: center;
 
 /* Hide default HTML checkbox */
 .switch input {
-  opacity: 0;
+opacity: 0;
   width: 0;
   height: 0;
 }
 
 /* The slider */
 .slider {
-  position: absolute;
+position: absolute;
   cursor: pointer;
   top: 0;
   left: 0;
@@ -2572,7 +2572,7 @@ text-align: center;
 }
 
 .slider:before {
-  position: absolute;
+position: absolute;
   content: "";
   height: 16px;
   width: 16px;
@@ -2584,35 +2584,100 @@ text-align: center;
 }
 
 input:checked+.slider {
-  background: var(--linear-primary, linear-gradient(90deg, rgba(189, 55, 236, 1.00) 0%, rgba(31, 103, 255, 1.00) 100%));
+background: var(--linear-primary, linear-gradient(90deg, rgba(189, 55, 236, 1.00) 0%, rgba(31, 103, 255, 1.00) 100%));
 }
 
 input:focus+.slider {
-  box-shadow: 0 0 100px #2196F3;
+box-shadow: 0 0 100px #2196F3;
 }
 
 input+.slider {
-  box-shadow: 0 0 10px rgba(189, 55, 236, 1.00);
+box-shadow: 0 0 10px rgba(189, 55, 236, 1.00);
 }
 
 
 input:checked+.slider:before {
-  -webkit-transform: translateX(26px);
+-webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 
 /* Rounded sliders */
 .slider.round {
-  border-radius: 34px;
+border-radius: 34px;
   width: 48px;
   display: inline-block;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+border-radius: 50%;
 }
 
 .hide {
-  display: none;
+display: none;
+}
+.styled-checkbox {
+  position: absolute;
+  opacity: 0;
+
+  &+label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    color: white;
+  }
+
+  &+label:before {
+    content: '';
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 12.97%, rgba(31, 103, 255, 0) 71.91%), rgba(99, 74, 203, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.64);
+    border-radius: 3px;
+  }
+
+  &:hover+label:before {
+    background: linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 12.97%, rgba(31, 103, 255, 0) 71.91%), rgba(99, 74, 203, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.64);
+  }
+
+  &:focus+label:before {
+    box-shadow: 0 0 0 1px rgb(255, 247, 247);
+  }
+
+  &:checked+label:before {
+    background: linear-gradient(90deg, #BD37EC 0%, #1F67FF 100%);
+    border: 1px solid rgba(255, 255, 255, 0.64);
+  }
+
+  &:disabled+label {
+    color: #b8b8b8;
+    cursor: auto;
+  }
+
+  &:disabled+label:before {
+    box-shadow: none;
+    background: #ddd;
+  }
+
+  &:checked+label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 11px;
+    background: white;
+    width: 2px;
+    height: 2px;
+    box-shadow:
+      2px 0 0 white,
+      4px 0 0 white,
+      4px -2px 0 white,
+      4px -4px 0 white,
+      4px -6px 0 white,
+      4px -8px 0 white;
+    transform: rotate(45deg);
+  }
 }

@@ -89,76 +89,24 @@ export const ActionRemovePoolFees = ({ stakedToken, rewardedToken }: any) => {
     <div>
       {balance !== undefined && (
         <>
-          {' '}
-          Balance :{' '}
-          <FormatAmount
-            decimals={Number(decimals.toString())}
-            value={balance.toString()}
-            egldLabel={defaultToken}
-            digits={2}
-          />
           {!hasPendingTransactions ? (
             <>
-              <div>
-                {balance <= price ? (
-                  <>
-                    {' '}
-                    <button
-                      onClick={sendFundTransaction}
-                      className='button2 cursor-pointer text-white'
-                    >
-                      <div className='stake2 '>Remove fees for</div>
-                      <FormatAmount
-                        decimals={Number(decimals.toString())}
-                        value={price.toString()}
-                        egldLabel={' '}
-                        digits={2}
-                      />
-                      {default_esdt_info?.price && (
-                        <>
-                          ~
-                          {dollar_value.toLocaleString('en-US', {
-                            maximumFractionDigits: 2
-                          })}{' '}
-                          <FontAwesomeIcon icon={faDollar} />
-                        </>
-                      )}
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    {' '}
-                    <button className='button cursor-pointer' disabled={true}>
-                      <div className='stake2 '>
-                        <FormatAmount
-                          decimals={Number(decimals.toString())}
-                          value={balance.toString()}
-                          egldLabel={' '}
-                          digits={2}
-                        />
-                        {'  /  '}
-
-                        <FormatAmount
-                          decimals={Number(decimals.toString())}
-                          value={price.toString()}
-                          egldLabel={' '}
-                          digits={2}
-                        />
-                        {/* {default_esdt_info?.price && (
-                          <div>
-                            {' '}
-                            <br /> ~
-                            {dollar_value.toLocaleString('en-US', {
-                              maximumFractionDigits: 2
-                            })}{' '}
-                            <FontAwesomeIcon icon={faDollar} />
-                          </div>
-                        )} */}
-                      </div>
-                    </button>
-                  </>
-                )}
-              </div>
+              {balance <= price ? (
+                <>
+                  <button
+                    onClick={sendFundTransaction}
+                    className='button2 cursor-pointer text-white'
+                  >
+                    <div className='stake2 '>Remove fees</div>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button className='button cursor-pointer' disabled={true}>
+                    <div className='stake2 '>Insufisant balance</div>
+                  </button>
+                </>
+              )}
             </>
           ) : (
             <div className={notAllowedClass}>

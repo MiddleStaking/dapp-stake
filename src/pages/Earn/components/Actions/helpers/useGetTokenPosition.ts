@@ -30,6 +30,21 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
 
   const getTokenPosition = async () => {
     //using storage to reduce calls
+
+    setTokenPosition({
+      stakedToken: '',
+      rewardedToken: '',
+      balance: BigInt(0),
+      total_stake: BigInt(0),
+      total_rewards: BigInt(0),
+      fee_percentage: BigInt(1000),
+      burn_percentage: BigInt(0),
+      last_fund_block: BigInt(0),
+      paused: 0,
+      blocks_to_max: BigInt(0),
+      users: BigInt(0)
+    });
+
     const expire_test = Number(
       localStorage.getItem(
         'token_position_' + stakedToken + '_' + rewardedToken + '_expire'
