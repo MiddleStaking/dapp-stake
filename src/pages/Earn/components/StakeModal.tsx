@@ -1,49 +1,78 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
-import { ActionStake } from './Actions';
+import { ActionRemovePoolFees, ActionStake } from './Actions';
+import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
+import { useGetTokenPosition } from './Actions/helpers';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import notFound from './../../../assets/img/notfoundc.svg';
+import { useGetESDTInformations } from './Actions/helpers';
+import { ActionFund } from './Actions';
+
 const StakeModal = (props: any) => {
-  //Token Amont = Valeur formulaire
+  const userEsdtBalance = useGetUserESDT();
+  const [stoken, setStoken] = React.useState(props.stakedToken);
+  const [rtoken, setRtoken] = React.useState(props.rewardedToken);
+  const [balance, setBalance] = React.useState(BigInt(0));
+  const tokenPosition = useGetTokenPosition(stoken, rtoken);
   const [tokenAmount, setTokenAmount] = React.useState(0);
-  //BigAmount = Valeur VRAI
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
-  if (!props.show) {
-    return null;
+  const stakedProps = userEsdtBalance.find(
+    (item) => item.identifier === stoken
+  );
+
+  useEffect(() => {
+    console.log(stakedProps?.balance);
+    setBalance(stakedProps?.balance ? stakedProps?.balance : BigInt(0));
+  }, [stakedProps]);
+
+  const staked_esdt_info = useGetESDTInformations(stoken);
+  const rewarded_esdt_info = useGetESDTInformations(rtoken);
+  const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
+  const rdecimals = rewarded_esdt_info?.decimals
+    ? rewarded_esdt_info?.decimals
+    : 0;
+
+  const image1 = staked_esdt_info?.assets?.svgUrl
+    ? staked_esdt_info?.assets?.svgUrl
+    : notFound;
+  const image2 = rewarded_esdt_info?.assets?.svgUrl
+    ? rewarded_esdt_info?.assets?.svgUrl
+    : notFound;
+  const staked_value = staked_esdt_info?.price
+    ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
+      staked_esdt_info?.price
+    : 0;
+  const rewarded_value = rewarded_esdt_info?.price
+    ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
+      rewarded_esdt_info?.price
+    : 0;
+
+  let apr = BigInt(100);
+  if (tokenPosition.total_stake > BigInt(0)) {
+    apr =
+      (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
   }
-  let fees = '10';
-  if (props.fees) {
-    fees = props.fees;
-  }
-  function setToMax() {
-    setTokenAmount(
-      Number(BigInt(props.balance)) / Number(BigInt(10 ** props.decimals))
-    );
-    setBigAmount(props.balance);
-  }
+
+  const speed =
+    (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
+    BigInt(24) /
+    BigInt(60) /
+    BigInt(60);
+
   function handleTokenAmountChange(e: React.ChangeEvent<any>) {
-    const amount = BigInt(e.target.value * 10 ** props.decimals);
-    const balance = BigInt(props.balance);
-
-    const max = (
-      Number(BigInt(props.balance)) / Number(10 ** props.decimals)
-    ).toFixed(18);
-
+    const amount = BigInt(e.target.value * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
-    } else if (amount > props.balance) {
-      setTokenAmount(
-        Number(BigInt(props.balance)) / Number(BigInt(10 ** props.decimals))
-      );
-      setBigAmount(props.balance);
+    } else if (amount > balance) {
+      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
+      setBigAmount(balance);
     } else {
       setTokenAmount(e.target.value);
-      const output = toBigAmount(
-        Number(e.target.value),
-        Number(props.decimals)
-      );
+      const output = toBigAmount(Number(e.target.value), Number(sdecimals));
       setBigAmount(BigInt(output));
     }
   }
@@ -76,35 +105,43 @@ const StakeModal = (props: any) => {
     return output;
   }
 
+  function setToMax() {
+    console.log(balance);
+    console.log(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
+    setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
+    setBigAmount(balance);
+  }
+
+  if (!props.show) {
+    return null;
+  }
   return (
     <>
       <div className='new-pool-already-exist-default'>
         <div className='background'>
           <div className='modal'>
             <div className='content'>
-              <div className='create-new-pool'>Create new pool</div>
+              <div className='create-new-pool'>Stake tokens</div>
 
               <div className='logos'>
                 <div className='image'>
                   <div className='logos2'>
-                    <img className='image-3' src={props.image2} />
+                    <img className='image-3' src={image2} />
                   </div>
                 </div>
 
                 <div className='logo'>
-                  <img className='image-1' src={props.image1} />
+                  <img className='image-1' src={image1} />
                 </div>
               </div>
 
               <div className='frame-56'>
                 <div className='input'>
                   <div className='label'>
-                    <div className='label2'>Staked token</div>
+                    <div className='label2'>Stake</div>
                   </div>
 
                   <div className='input-default'>
-                    <div className='value'>{props.stakedToken}</div>
-
                     <svg
                       className='chevron-down'
                       width='16'
@@ -120,17 +157,30 @@ const StakeModal = (props: any) => {
                         fill='white'
                       />
                     </svg>
+                    <div className='value'>
+                      <Form.Control
+                        as='select'
+                        value={stoken}
+                        disabled={false}
+                        className='search-select'
+                      >
+                        <option
+                          disabled={true}
+                          className='text-center not-allowed disabled'
+                        >
+                          {stoken}
+                        </option>
+                      </Form.Control>
+                    </div>
                   </div>
                 </div>
 
                 <div className='input2'>
                   <div className='label3'>
-                    <div className='label4'>Earned token</div>
+                    <div className='label4'>Earn</div>
                   </div>
 
                   <div className='input-default2'>
-                    <div className='value'>{props.rewardedToken}</div>
-
                     <svg
                       className='chevron-down2'
                       width='16'
@@ -146,128 +196,214 @@ const StakeModal = (props: any) => {
                         fill='white'
                       />
                     </svg>
+                    <div className='value'>
+                      <Form.Control
+                        as='select'
+                        value={rtoken}
+                        disabled={false}
+                        className='search-select'
+                      >
+                        <option
+                          disabled={true}
+                          className='text-center not-allowed disabled'
+                        >
+                          {rtoken}
+                        </option>
+                      </Form.Control>
+                    </div>
                   </div>
                 </div>
               </div>
+              {tokenPosition.stakedToken == stoken &&
+                tokenPosition.rewardedToken == rtoken && (
+                  <div className='pool-details'>
+                    <div className='this-pool-already-exists'>
+                      Staking pool informations
+                    </div>
 
-              <div className='pool-details'>
-                <div className='this-pool-already-exists'>
-                  This pool already exists
-                </div>
+                    <div className='token-position'>
+                      <div className='logos3'>
+                        <div className='image2'>
+                          <div className='logos4'>
+                            <img className='image-32' src={image2} />
+                          </div>
+                        </div>
 
-                <div className='token-position'>
-                  <div className='logos3'>
-                    <div className='image2'>
-                      <div className='logos4'>
-                        <img className='image-32' src={props.image2} />
+                        <div className='logo2'>
+                          <img className='image-12' src={image1} />
+                        </div>
+                      </div>
+
+                      <div className='group-4'>
+                        <div className='frame-4'>
+                          <div className='rewards'>Rewards</div>
+
+                          <div className='_18-853-74'>
+                            {' '}
+                            <FormatAmount
+                              value={tokenPosition.balance.toString()}
+                              decimals={Number(rdecimals)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />
+                          </div>
+                        </div>
+
+                        <div className='frame-6'>
+                          <div className='value2'>Value</div>
+
+                          <div className='_723-37'>
+                            {rewarded_value.toLocaleString('en-US', {
+                              maximumFractionDigits: 2
+                            })}{' '}
+                            $
+                          </div>
+                        </div>
+
+                        <div className='frame-7'>
+                          <div className='all-time-rewarded'>
+                            All time rewarded
+                          </div>
+
+                          <div className='_98-75'>
+                            {' '}
+                            <FormatAmount
+                              value={tokenPosition.total_rewards.toString()}
+                              decimals={Number(rdecimals)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />
+                          </div>
+                        </div>
+
+                        <div className='frame-8'>
+                          <div className='speed'>Speed</div>
+
+                          <div className='_365-days'>
+                            {speed.toString()} days
+                          </div>
+                        </div>
+
+                        <div className='frame-9'>
+                          <div className='total-staked'>Staked</div>
+
+                          <div className='_135-492-65'>
+                            {' '}
+                            <FormatAmount
+                              value={tokenPosition.total_stake.toString()}
+                              decimals={Number(sdecimals)}
+                              egldLabel={' '}
+                              data-testid='staked'
+                              digits={2}
+                            />
+                          </div>
+                        </div>
+
+                        <div className='frame-10'>
+                          <div className='total-value'>Staked value</div>
+
+                          <div className='_5-198-9'>
+                            {staked_value.toLocaleString('en-US', {
+                              maximumFractionDigits: 2
+                            })}{' '}
+                            $
+                          </div>
+                        </div>
+
+                        <div className='frame-11'>
+                          <div className='users'>Users</div>
+
+                          <div className='_6'>
+                            {' '}
+                            <FormatAmount
+                              value={
+                                tokenPosition.users
+                                  ? tokenPosition.users.toString()
+                                  : '0'
+                              }
+                              decimals={Number(0)}
+                              egldLabel={' '}
+                              data-testid='staked'
+                              digits={0}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                    <div className='logo2'>
-                      <img className='image-12' src={props.image1} />
-                    </div>
                   </div>
-
-                  <div className='group-4'>
-                    <div className='frame-4'>
-                      <div className='rewards'>Rewards</div>
-
-                      <div className='_18-853-74'>18 853,74</div>
-                    </div>
-
-                    <div className='frame-6'>
-                      <div className='value2'>Value</div>
-
-                      <div className='_723-37'>723.37 $</div>
-                    </div>
-
-                    <div className='frame-7'>
-                      <div className='all-time-rewarded'>All time rewarded</div>
-
-                      <div className='_98-75'>98,75</div>
-                    </div>
-
-                    <div className='frame-8'>
-                      <div className='speed'>Speed</div>
-
-                      <div className='_365-days'>365 days</div>
-                    </div>
-
-                    <div className='frame-9'>
-                      <div className='total-staked'>Total staked</div>
-
-                      <div className='_135-492-65'>135 492,65</div>
-                    </div>
-
-                    <div className='frame-10'>
-                      <div className='total-value'>Total value</div>
-
-                      <div className='_5-198-9'>5 198,9 $</div>
-                    </div>
-
-                    <div className='frame-11'>
-                      <div className='users'>Users</div>
-
-                      <div className='_6'>6</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                )}
 
               <div className='staked-rewarded-tokens'>
-                <div className='do-you-want-to-add-it-rewarded-tokens'>
-                  Do you want to add it rewarded tokens ?
-                </div>
-
-                <div className='form'>
-                  <div className='frame-57'>
-                    <div className='input3'>
-                      <div className='label5'>
-                        <div className='label6'>Staked rewarded tokens</div>
-                      </div>
-
-                      <div className='input-default3'>
-                        <div className='value3'>Enter number</div>
-
-                        <div className='max'>MAX</div>
-                      </div>
-                    </div>
-
-                    <div className='font-uniformisation'>
-                      <div className='_7-56-mex-ecb-7-bf'>7,56 MEX-ecb7Bf</div>
-                    </div>
+                <>
+                  <div className='do-you-want-to-add-it-rewarded-tokens'>
+                    Set the amount you want to stake
                   </div>
 
-                  <div className='frame-41'>
-                    <div className='frame-412'>
-                      <div className='rectangle-8'>
-                        <div className='rectangle-7'></div>
+                  <div className='form'>
+                    <div className='frame-57'>
+                      <div className='input3'>
+                        <div className='label5'>
+                          <div className='label6'>amount</div>
+                        </div>
+
+                        <Form.Group
+                          className='amount-bar'
+                          as={Col}
+                          controlId='TokenAmount'
+                          onChange={handleTokenAmountChange}
+                        >
+                          <Form.Control
+                            className='amount-input'
+                            required
+                            type='number'
+                            placeholder=''
+                            defaultValue='0'
+                            value={tokenAmount}
+                          />{' '}
+                          <div
+                            className='max cursor-pointer'
+                            onClick={setToMax}
+                          >
+                            MAX
+                          </div>
+                        </Form.Group>
                       </div>
 
-                      <div className='label7'>
-                        This pair has transaction fees. Add xx,xx MID to not pay
-                        10% extra fee.
+                      <div className='font-uniformisation'>
+                        <div className='_7-56-mex-ecb-7-bf'>
+                          <FormatAmount
+                            decimals={Number(sdecimals.toString())}
+                            value={balance.toString()}
+                            egldLabel={stoken}
+                            data-testid='staked'
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               </div>
             </div>
 
-            <div className='bottom'>
-              <div className='button2'>
+            <div className='bottom' onClick={props.onClose}>
+              <div className='button2 cursor-pointer' onClick={props.onClose}>
                 <div className='button'>
                   <div className='cancel '>Cancel</div>
                 </div>{' '}
               </div>
 
-              <div className='button2'>
-                <div className='stake2'>Stake tokens</div>
-              </div>
+              <ActionStake
+                stakedToken={stoken}
+                rewardedToken={rtoken}
+                user_fund={bigAmount}
+              />
             </div>
 
             <svg
               className='close'
+              onClick={props.onClose}
               width='24'
               height='24'
               viewBox='0 0 24 24'
@@ -284,78 +420,6 @@ const StakeModal = (props: any) => {
           </div>
         </div>
       </div>
-      {/* <div className='modal' onClick={props.onClose}>
-      <div className='modal-content' onClick={(e) => e.stopPropagation()}>
-        <div className='modal-header'>
-          <img className='smallPoolLogo' src={props.image1} />
-          <h4 className='modal-title mx-auto'>Stake ESDT</h4>
-          <img className='smallPoolLogo' src={props.image2} />
-        </div>
-        <div className='modal-body'>
-          <br />
-          You will stake{' '}
-          <u>
-            {' '}
-            <img className='smallPoolLogo' src={props.image1} />[
-            {props.stakedToken}]
-          </u>{' '}
-          and earn <img className='smallPoolLogo' src={props.image2} />[
-          {props.rewardedToken}] that will be claimable over time.
-          <br />
-          <br />
-          <ul>
-            <li>Staked tokens will stay in contract</li>
-            <li>You can unstake at any time</li>
-            <li>Calculated rewards vary based on total staked</li>
-            <li>Rewards must be claimed to be finalized</li>
-          </ul>
-        </div>
-        <Form.Group as={Row} md='12'>
-          <Form.Group
-            as={Col}
-            md='6'
-            controlId='TokenAmount'
-            onChange={handleTokenAmountChange}
-          >
-            {' '}
-            <div className='maxInput' role='button'>
-              <a onClick={setToMax}>
-                <u>MAX</u>
-              </a>
-            </div>
-            <Form.Control
-              required
-              type='number'
-              placeholder=''
-              defaultValue='0'
-              value={tokenAmount}
-            />{' '}
-            <Form.Label className='float-right'>
-              <FormatAmount
-                decimals={Number(props.decimals.toString())}
-                value={props.balance.toString()}
-                egldLabel={props.stakedToken}
-                data-testid='staked'
-                digits={2}
-              />
-            </Form.Label>
-          </Form.Group>
-          <Form.Group className='m-auto' onClick={props.onClose}>
-            <ActionStake
-              stakedToken={props.stakedToken}
-              rewardedToken={props.rewardedToken}
-              user_fund={bigAmount}
-              name='STAKE'
-            />{' '}
-          </Form.Group>
-        </Form.Group>
-        <div className='modal-footer'>
-          <button onClick={props.onClose} className='button'>
-            Close
-          </button>
-        </div>
-      </div>
-    </div> */}{' '}
     </>
   );
 };
