@@ -13,6 +13,7 @@ export const PoolStakeInfo = ({
   rewardedToken,
   stakingPosition,
   staked_esdt_info,
+  rewarded_esdt_info,
   my_staked_value,
   rest,
   balance,
@@ -103,18 +104,18 @@ export const PoolStakeInfo = ({
                       />
                     </div>
 
-                    <div className='dollars'>
-                      <div className='_98-75'>
-                        ${' '}
-                        {staked_esdt_info?.price && (
+                    {staked_esdt_info?.price && (
+                      <div className='dollars'>
+                        <div className='_98-75'>
+                          ${' '}
                           <>
                             {my_staked_value.toLocaleString('en-US', {
                               maximumFractionDigits: 2
                             })}{' '}
                           </>
-                        )}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
 
                   <div className='_1-42'>{rest} %</div>
@@ -155,15 +156,16 @@ export const PoolStakeInfo = ({
                   digits={2}
                 />
               </div>
-
-              <div className='dollars3'>
-                <div className='_98-754'>
-                  ${' '}
-                  {my_rewards_value.toLocaleString('en-US', {
-                    maximumFractionDigits: 2
-                  })}
+              {rewarded_esdt_info?.price && (
+                <div className='dollars3'>
+                  <div className='_98-754'>
+                    ${' '}
+                    {my_rewards_value.toLocaleString('en-US', {
+                      maximumFractionDigits: 2
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <div className='illustration'>

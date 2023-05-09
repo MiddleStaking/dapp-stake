@@ -102,18 +102,19 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                     The last user to validate a transaction before the end of
                     the timer wins the NFT
                   </p>
+                  <p>NEW : Each time a user validate he gain 1 power</p>
                   <p>
                     Each time a user validates a transaction, the timer is reset
                   </p>
                   <p>
-                    NEW : Each time the timer is reset, it accelerates by 1 to X
-                    blocks <br />
-                    (where X = number of payment token in list)
-                  </p>{' '}
-                  <p>
-                    NEW : Each time the timer is reset payment token can change
+                    Each time the timer is reset, it accelerates randomly from 0
+                    to X blocks <br />
+                    where X = power of player. UP to 50 block
                   </p>
-                  <p>NEW : No more limit by account</p>
+                  <p>Each time the timer is reset payment token can change</p>
+                  <p>No limit by account</p>
+                  <p>Winner will receive the nft and loose his power. </p>
+
                   {last_user ? (
                     <>
                       <h2>Timer:</h2>
@@ -150,6 +151,14 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                           }
                         >
                           <u>{esdt_informations?.identifier}</u>
+                        </a>{' '}
+                        <a
+                          target='_BLANK'
+                          rel='noreferrer'
+                          className='text-white'
+                          href={'https://twitter.com/MiddleStaking'}
+                        >
+                          <u>Learn more about the NFT on twitter</u>
                         </a>
                       </div>
                       {isLoggedIn &&
@@ -165,6 +174,7 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                             {payment_esdt_info?.assets?.description && (
                               <div className='PoolCard butLineBig'>
                                 <img
+                                  width={16}
                                   className='smallInfoLogo'
                                   src={image_esdt}
                                 />{' '}
