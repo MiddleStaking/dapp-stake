@@ -306,6 +306,7 @@ export const PoolInfo = ({
           rewardedToken={rewardedToken}
           stakingPosition={stakingPosition}
           staked_esdt_info={staked_esdt_info}
+          rewarded_esdt_info={rewarded_esdt_info}
           my_staked_value={my_staked_value}
           rest={rest}
           balance={balance}
