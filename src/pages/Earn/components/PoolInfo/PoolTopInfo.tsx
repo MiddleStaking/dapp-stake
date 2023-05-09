@@ -27,9 +27,9 @@ export const PoolTopInfo = ({
       <div className='top2'>
         <div className='left2'>
           <div className='title'>
-            <div className='earn-mex'>Earn {rewardedToken}</div>
+            <div className='earn-mex'>Earn {rewardedToken.split('-')[0]}</div>
 
-            <div className='stake-mex'>Stake {stakedToken}</div>
+            <div className='stake-mex'>Stake {stakedToken.split('-')[0]}</div>
           </div>
 
           <div className='apr'>

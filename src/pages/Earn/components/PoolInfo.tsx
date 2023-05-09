@@ -202,22 +202,8 @@ export const PoolInfo = ({
     </Popover>
   );
 
-  let apr = BigInt(100);
-
-  if (
-    tokenPosition.total_stake > BigInt(0) &&
-    tokenPosition.balance > BigInt(0)
-  ) {
-    const fixed_speed = speed > 0 ? speed : BigInt(1);
-    apr =
-      (((BigInt(tokenPosition.balance) * BigInt(10 ** sdecimals) * apr) /
-        (BigInt(tokenPosition.total_stake) * BigInt(10 ** rdecimals))) *
-        BigInt(365)) /
-      fixed_speed;
-  }
-
   // (valeur finale - valeur initial) / valeur initiale * 100
-  let priced_apr = BigInt(100);
+  let priced_apr = BigInt(0);
   if (
     staked_esdt_info?.price > 0 &&
     rewarded_esdt_info?.price > 0 &&
@@ -256,7 +242,22 @@ export const PoolInfo = ({
         Number(speed)
       ).toFixed()
     );
+  } else if (stakedToken == rewardedToken) {
+    const fixed_speed = speed > 0 ? speed : BigInt(1);
+    priced_apr =
+      (((BigInt(tokenPosition.balance > 0 ? tokenPosition.balance : 1) *
+        BigInt(10 ** sdecimals) *
+        BigInt(100)) /
+        (BigInt(tokenPosition.total_stake > 0 ? tokenPosition.total_stake : 1) *
+          BigInt(10 ** rdecimals))) *
+        BigInt(365)) /
+      fixed_speed;
   }
+
+  localStorage.setItem(
+    'apr_' + stakedToken + '_' + rewardedToken,
+    priced_apr.toString()
+  );
 
   let share = BigInt(10000);
   if (tokenPosition.total_stake > BigInt(0)) {
@@ -287,7 +288,7 @@ export const PoolInfo = ({
         <PoolTopInfo
           rewardedToken={rewardedToken}
           stakedToken={stakedToken}
-          pool_apr={priced_apr ? priced_apr : apr}
+          pool_apr={priced_apr}
           rewarded_esdt_info={rewarded_esdt_info}
           staked_esdt_info={staked_esdt_info}
           image1={image1}

@@ -71,40 +71,78 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     const load: any = localStorage.getItem(
       'token_position_' + stoken + '_' + tok
     );
-    const info = JSON.parse(localStorage.getItem('esdt_' + tok) as string);
+    const rinfo = JSON.parse(localStorage.getItem('esdt_' + tok) as string);
+    const sinfo = JSON.parse(localStorage.getItem('esdt_' + stoken) as string);
     const storage = JSON.parse(load);
+
+    const load_apr: any = localStorage.getItem('apr_' + stoken + '_' + tok);
+    const apr = JSON.parse(load_apr);
+
+    const reward_value =
+      rinfo?.price > 0
+        ? Number(
+            ((BigInt(storage?.balance ? storage?.balance : 1) *
+              BigInt(10000000)) /
+              BigInt(10 ** rinfo?.decimals ? rinfo?.decimals : 1)) *
+              BigInt((rinfo?.price ? rinfo?.price * 10000000 : 1).toFixed())
+          )
+        : 0;
     orderedTokens.push({
       identifier: tok,
       users: storage?.users ? storage?.users : 0,
       staked: storage?.total_stake ? storage?.total_stake : 1,
-      price: info?.price ? info?.price : 0
+      reward: reward_value,
+      apr: apr
     });
   }
-  if (orderBy == 'users') {
-    orderedTokens.sort((a, b) => b.users - a.users);
-  } else {
-    orderedTokens.sort((a, b) => b.users - a.users);
-  }
-
   for (const par of pairs) {
     const load: any = localStorage.getItem(
       'token_position_' + par.s + '_' + par.r
     );
-    const info = JSON.parse(localStorage.getItem('esdt_' + par.s) as string);
+    const sinfo = JSON.parse(localStorage.getItem('esdt_' + par.s) as string);
+    const rinfo = JSON.parse(localStorage.getItem('esdt_' + par.r) as string);
     const storage = JSON.parse(load);
+
+    const load_apr: any = localStorage.getItem('apr_' + par.s + '_' + par.r);
+    const apr = JSON.parse(load_apr);
+
+    const reward_value =
+      rinfo?.price > 0
+        ? Number(
+            ((BigInt(storage?.balance ? storage?.balance : 1) *
+              BigInt(10000000)) /
+              BigInt(10 ** rinfo?.decimals ? rinfo?.decimals : 1)) *
+              BigInt((rinfo?.price ? rinfo?.price * 10000000 : 1).toFixed())
+          )
+        : 0;
+
     orderedPairs.push({
       s: par.s,
       r: par.r,
       users: storage?.users ? storage?.users : 0,
-      value: Number(
+      staked: Number(
         ((BigInt(storage?.total_stake ? storage?.total_stake : 1) *
           BigInt(10000000)) /
-          BigInt(10 ** info?.decimals ? info?.decimals : 1)) *
-          BigInt((info?.price ? info?.price * 10000000 : 1).toFixed())
-      )
+          BigInt(10 ** sinfo?.decimals ? sinfo?.decimals : 1)) *
+          BigInt((sinfo?.price ? sinfo?.price * 10000000 : 1).toFixed())
+      ),
+      reward: reward_value,
+      apr: apr
     });
   }
-  orderedPairs.sort((a, b) => b.value - a.value);
+  if (orderBy == 'users') {
+    orderedTokens.sort((a, b) => b.users - a.users);
+    orderedPairs.sort((a, b) => b.users - a.users);
+  } else if (orderBy == 'yields') {
+    orderedTokens.sort((a, b) => b.apr - a.apr);
+    orderedPairs.sort((a, b) => b.apr - a.apr);
+  } else if (orderBy == 'rvalue') {
+    orderedTokens.sort((a, b) => b.reward - a.reward);
+    orderedPairs.sort((a, b) => b.reward - a.reward);
+  } else {
+    orderedTokens.sort((a, b) => b.staked - a.staked);
+    orderedPairs.sort((a, b) => b.staked - a.staked);
+  }
 
   useEffect(() => {
     setStoken(param ? param.toString() : defaultToken);
@@ -274,11 +312,17 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                 disabled={false}
                 className='search-select'
               >
-                <option className='' value={'value'} disabled={false}>
+                <option className='' value={'svalue'} disabled={false}>
                   Staked value
+                </option>{' '}
+                <option className='' value={'rvalue'} disabled={false}>
+                  Reward value
                 </option>
                 <option className='' value={'users'} disabled={false}>
                   Users
+                </option>
+                <option className='' value={'yields'} disabled={false}>
+                  Yields
                 </option>
               </Form.Control>
               <svg
@@ -365,279 +409,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
         </Col>
       </Row>
       <div className='col-12'>
-        {/* <div className='card shadow-sm border-0 '>
-            <div className='card-body p-1 '>
-
-              <div className='card border-0 bg-primary'>
-                <div
-                  className='card-body text-center p-4 text-white'
-                  style={{
-                    backgroundImage: `url(${image})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    opacity: 1
-                  }}
-                >
-                  <TopInfo />
-                  <Form
-                    style={{ verticalAlign: 'middle' }}
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Row className='mx-auto'>
-                      <Col className='col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 m-auto'>
-                        <Row>
-                          <Form.Group as={Col} md='12' controlId='network'>
-                            <Form.Label>Staked Token</Form.Label>
-                            <Form.Control
-                              as='select'
-                              onChange={setFSToken}
-                              value={stoken}
-                              disabled={false}
-                            >
-                              {stakedTokens &&
-                                stakedTokens.map((item) => (
-                                  <option
-                                    disabled={false}
-                                    className='text-center not-allowed disabled'
-                                    key={item}
-                                    value={item}
-                                  >
-                                    {item}
-                                  </option>
-                                ))}
-                            </Form.Control>
-                          </Form.Group>
-                        </Row>
-                        <Row className='mx-auto'>
-                          {' '}
-                          {isLoggedIn && (
-                            <>
-                              Balance :{' '}
-                              <FormatAmount
-                                value={balance.toString()}
-                                egldLabel={stoken}
-                                data-testid='balance'
-                                digits={2}
-                              />{' '}
-                            </>
-                          )}
-                        </Row>
-                        <Row className='mx-auto'>
-                          {' '}
-                          <label>
-                            <input
-                              checked={myPools}
-                              onChange={handleChange}
-                              type='checkbox'
-                            />{' '}
-                            Highlight my positions
-                          </label>
-                        </Row>{' '}
-                        <Row className='mx-auto'>
-                          {' '}
-                          <label>
-                            {' '}
-                            Search pools{' '}
-                            <input
-                              checked={myPools}
-                              onChange={handleMySearch}
-                              type='input'
-                            />{' '}
-                          </label>
-                        </Row>
-                      </Col>{' '}
-                      <Col className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 m-auto'>
-                        {' '}
-                        <img
-                          className='mediumInfoLogo'
-                          src={
-                            esdt_info?.assets?.svgUrl
-                              ? esdt_info?.assets?.svgUrl
-                              : notFound
-                          }
-                        />
-                      </Col>
-                      <Col className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 m-auto token-card text-center'>
-                        {esdt_info?.identifier ? (
-                          <div className='col-12 float-left'>
-                            <a
-                              href={
-                                network.explorerAddress +
-                                '/tokens/' +
-                                esdt_info?.identifier
-                              }
-                              target={'_blank'}
-                              rel={'noreferrer'}
-                            >
-                              <img
-                                className='smallInfoLogo'
-                                src={
-                                  esdt_info?.assets?.svgUrl
-                                    ? esdt_info?.assets?.svgUrl
-                                    : notFound
-                                }
-                              />{' '}
-                              Explorer
-                            </a>
-                          </div>
-                        ) : (
-                          ''
-                        )}
-                        {esdt_info?.accounts ? (
-                          <div className='col-6 float-left'>
-                            <FontAwesomeIcon icon={faChartSimple} /> Accounts :{' '}
-                            {Number(esdt_info?.accounts).toLocaleString(
-                              'en-US',
-                              {
-                                maximumFractionDigits: 2
-                              }
-                            )}
-                          </div>
-                        ) : (
-                          ''
-                        )}
-                        {esdt_info?.circulatingSupply ? (
-                          <div className='col-6 float-left'>
-                            <FontAwesomeIcon icon={faChartSimple} /> Circulating
-                            :{' '}
-                            {Number(
-                              esdt_info?.circulatingSupply
-                            ).toLocaleString('en-US', {
-                              maximumFractionDigits: 2
-                            })}
-                          </div>
-                        ) : (
-                          ''
-                        )}
-                        {esdt_info?.price ? (
-                          <div className='col-6 float-left'>
-                            <FontAwesomeIcon icon={faDollar} />{' '}
-                            {Number(esdt_info?.price).toLocaleString('en-US', {
-                              maximumFractionDigits: 2
-                            })}
-                          </div>
-                        ) : (
-                          ''
-                        )}
-                        {esdt_info?.marketCap ? (
-                          <div className='col-6 float-left'>
-                            <FontAwesomeIcon icon={faDollar} /> Market Cap :{' '}
-                            {Number(esdt_info?.marketCap).toLocaleString(
-                              'en-US',
-                              {
-                                maximumFractionDigits: 2
-                              }
-                            )}
-                          </div>
-                        ) : (
-                          ''
-                        )}
-                        {esdt_info?.assets?.website ? (
-                          <div className='col-6 float-left'>
-                            <a
-                              href={esdt_info?.assets?.website}
-                              target={'_blank'}
-                              rel={'noreferrer'}
-                            >
-                              <FontAwesomeIcon
-                                icon={faEarth}
-                                className='text-muted'
-                              />{' '}
-                              Website
-                            </a>
-                          </div>
-                        ) : (
-                          ''
-                        )}
-                        {esdt_info?.assets?.social?.twitter ? (
-                          <div className='col-6 float-left'>
-                            <a
-                              href={esdt_info?.assets?.social?.twitter}
-                              target={'_blank'}
-                              rel={'noreferrer'}
-                            >
-                              <img className='smallInfoLogo' src={twitter} />{' '}
-                              Twitter
-                            </a>
-                          </div>
-                        ) : (
-                          ''
-                        )}
-                        {tokens_extra_informations
-                          .filter((token) => {
-                            return token.identifier === stoken;
-                          })
-                          .map((token) =>
-                            token.ecompass ? (
-                              <div key={stoken} className='col-6 float-left'>
-                                <a
-                                  href={token.ecompass}
-                                  target={'_blank'}
-                                  rel={'noreferrer'}
-                                >
-                                  <img
-                                    className='smallInfoLogo'
-                                    src={eCompass}
-                                  />{' '}
-                                  E-Compass
-                                </a>
-                              </div>
-                            ) : (
-                              ''
-                            )
-                          )}
-                        {tokens_extra_informations
-                          .filter((token) => {
-                            return token.identifier === stoken;
-                          })
-                          .map((token) =>
-                            token.jexchange ? (
-                              <div key={stoken} className='col-6 float-left'>
-                                <a
-                                  href={token.jexchange}
-                                  target={'_blank'}
-                                  rel={'noreferrer'}
-                                >
-                                  <img
-                                    className='smallInfoLogo'
-                                    src={jexchange}
-                                  />{' '}
-                                  Jexchange
-                                </a>
-                              </div>
-                            ) : (
-                              ''
-                            )
-                          )}{' '}
-                        {tokens_extra_informations
-                          .filter((token) => {
-                            return token.identifier === stoken;
-                          })
-                          .map((token) =>
-                            token.jungle ? (
-                              <div key={stoken} className='col-6 float-left'>
-                                <a
-                                  href={token.jungle}
-                                  target={'_blank'}
-                                  rel={'noreferrer'}
-                                >
-                                  <img className='smallInfoLogo' src={jungle} />{' '}
-                                  Jungle
-                                </a>
-                              </div>
-                            ) : (
-                              ''
-                            )
-                          )}
-                      </Col>
-                    </Row>
-                  </Form>
-                </div>
-              </div>
-            </div>
-          </div> */}
         {mySearch != '' && orderedPairs ? (
           <Row className='pt-4 pb-4'>
             {rewardedTokens[0] != '' &&
