@@ -2,6 +2,8 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import * as React from 'react';
 import eCompass from './../../../../assets/img/ecompass.svg';
 import jexchange from './../../../../assets/img/jexchange.svg';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import notFound from './../../../../assets/img/notfoundc.svg';
 
 export const PoolTopInfo = ({
   stakedToken,
@@ -21,6 +23,7 @@ export const PoolTopInfo = ({
   const handleChange = () => {
     setShowDetails(!showDetails);
   };
+  const { network } = useGetNetworkConfig();
 
   return (
     <div className='type-section'>
@@ -196,6 +199,57 @@ export const PoolTopInfo = ({
             </div>
           </div>
           <div className='icons'>
+            <div className='frame-53'>
+              <a
+                className='text-white'
+                href={
+                  network.explorerAddress +
+                  '/tokens/' +
+                  rewarded_esdt_info?.identifier
+                }
+                target={'_blank'}
+                rel={'noreferrer'}
+              >
+                <img
+                  width={16}
+                  className='smallInfoLogo'
+                  src={
+                    rewarded_esdt_info?.assets?.svgUrl
+                      ? rewarded_esdt_info?.assets?.svgUrl
+                      : notFound
+                  }
+                />
+              </a>
+            </div>
+            {tokens_extra_informations?.[0]?.ecompass && (
+              <>
+                {' '}
+                <div className='frame-53'>
+                  <a
+                    href={tokens_extra_informations?.[0]?.ecompass}
+                    target={'_blank'}
+                    rel={'noreferrer'}
+                  >
+                    <img width='16' className='smallInfoLogo' src={eCompass} />
+                  </a>
+                </div>
+              </>
+            )}
+
+            {tokens_extra_informations?.[0]?.jexchange && (
+              <>
+                {' '}
+                <div className='frame-53'>
+                  <a
+                    href={tokens_extra_informations?.[0]?.jexchange}
+                    target={'_blank'}
+                    rel={'noreferrer'}
+                  >
+                    <img width='16' className='smallInfoLogo' src={jexchange} />
+                  </a>
+                </div>
+              </>
+            )}
             {rewarded_esdt_info?.assets?.social?.twitter && (
               <div className='frame-53'>
                 <a
@@ -241,36 +295,6 @@ export const PoolTopInfo = ({
                   </svg>
                 </a>
               </div>
-            )}
-
-            {tokens_extra_informations?.[0]?.ecompass && (
-              <>
-                {' '}
-                <div className='frame-53'>
-                  <a
-                    href={tokens_extra_informations?.[0]?.ecompass}
-                    target={'_blank'}
-                    rel={'noreferrer'}
-                  >
-                    <img width='16' className='smallInfoLogo' src={eCompass} />
-                  </a>
-                </div>
-              </>
-            )}
-
-            {tokens_extra_informations?.[0]?.jexchange && (
-              <>
-                {' '}
-                <div className='frame-53'>
-                  <a
-                    href={tokens_extra_informations?.[0]?.jexchange}
-                    target={'_blank'}
-                    rel={'noreferrer'}
-                  >
-                    <img width='16' className='smallInfoLogo' src={jexchange} />
-                  </a>
-                </div>
-              </>
             )}
           </div>
         </>
