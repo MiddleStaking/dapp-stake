@@ -55,6 +55,7 @@ export const network: NetworkType = {
 //   { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
 //   { s: 'MID-ecb7bf', r: 'MEX-455c57' },
 //   { s: 'MID-ecb7bf', r: 'VITAL-ab7917' },
+//   { s: 'MIDUSDC-3d93f4, r: 'MID-ecb7bf' },
 //   { s: 'MEX-455c57', r: 'MID-ecb7bf' },
 //   { s: 'VITAL-ab7917', r: 'MID-ecb7bf' }
 // ];
