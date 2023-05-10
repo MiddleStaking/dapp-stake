@@ -1,0 +1,30 @@
+.legendContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legendItem {
+  // padding: 4px 8px;
+  // margin: 4px;
+  margin-right: 4px;
+}
+
+.customTooltip {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+
+  .label {
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .item {
+    color: #fff;
+    margin: 4px 0;
+  }
+}

@@ -197,6 +197,7 @@ const Cards: FC = () => {
       // }
 
       formatAmount;
+      console.log('TotalStake');
 
       const formatted = {
         stake: denominated(TotalStake !== undefined ? TotalStake : '0'),
@@ -204,7 +205,7 @@ const Cards: FC = () => {
           TotalStakeOnContract !== undefined ? TotalStakeOnContract : '0'
         )
       };
-
+      console.log(TotalStakeOnContract);
       return {
         value: `${formatted.nodes} ${network.egldLabel}`,
         percentage: `${getPercentage(
@@ -341,7 +342,7 @@ const Cards: FC = () => {
     },
     {
       label: 'Delegation Cap',
-      modal: <ChangeDelegationCap />,
+      modal: <ChangeDelegationCap delegationGap={getDelegationCap()} />,
       description: `The delegation cap is the maximum amount of ${network.egldLabel} your agency can stake from delegators.`,
       title: 'Delegation Cap',
       icon: <FontAwesomeIcon icon={faArrowUp} />,

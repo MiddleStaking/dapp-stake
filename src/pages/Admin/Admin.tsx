@@ -30,10 +30,12 @@ export const Admin = () => {
     }
 
     if (contractDetails.status !== 'failed') {
+      console.log(contractDetails);
+
       if (contractDetails && contractDetails.owner) {
         setLoading(false);
       } else {
-        navigate('/dashboard');
+        // navigate('/dashboard');
       }
     }
   };

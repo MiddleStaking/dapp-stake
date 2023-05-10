@@ -713,7 +713,7 @@ const GetContractDetails = () => {
     key: [''] || 0,
     status: 'loaded',
     withDelegationCap: '',
-    owner: false,
+    owner: true,
     delegationCap: '',
     redelegationCap: '',
     serviceFee: '',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { Formik } from 'formik';
@@ -20,21 +20,28 @@ interface ActionDataType {
   amount: string;
 }
 
-export const ChangeDelegationCap = () => {
+export const ChangeDelegationCap = (props: any) => {
   const { sendTransactionAdmin } = useTransaction();
+  const [total, setTotal] = useState('');
+  const [minimum, setMinimum] = useState('');
   const totalActiveStake = GetTotalActiveStake();
   const contractDetails = GetContractDetails();
 
-  const minimum = denominated(totalActiveStake || '', {
-    addCommas: false
-  });
+  // const minimum = denominated(totalActiveStake || '', {
+  //   addCommas: false
+  // });
 
-  const total = denominated(
-    contractDetails ? contractDetails.delegationCap : '',
-    {
-      addCommas: false
-    }
-  );
+  const minimumf = () => {
+    return setMinimum(
+      denominated(contractDetails ? contractDetails.delegationCap : '', {
+        addCommas: false
+      })
+    );
+  };
+
+  console.log(props.delegationGap);
+
+  useEffect(minimumf, [contractDetails]);
 
   const validationSchema = object().shape({
     amount: string()
@@ -59,13 +66,17 @@ export const ChangeDelegationCap = () => {
     }
   };
 
+  function removeCommas(str: string) {
+    return str.replace(/,/g, '');
+  }
+
   return (
     <div className={`${styles.cap} cap`}>
       <Formik
         validationSchema={validationSchema}
         onSubmit={onSubmit}
         initialValues={{
-          amount: total
+          amount: removeCommas(denominated(props.delegationGap))
         }}
       >
         {({

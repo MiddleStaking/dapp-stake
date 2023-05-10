@@ -3,40 +3,40 @@ export const defaultToken = 'MID-7f1d59';
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
 export const contractAddressDelegation =
-  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
+  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 export const contractPlay =
-  'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
-
-export const network: NetworkType = {
-  id: 'devnet',
-  name: 'Devnet',
-  egldLabel: 'xEGLD',
-  walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
-  apiAddress: 'https://devnet-api.multiversx.com',
-  gatewayAddress: 'https://devnet-gateway.multiversx.com',
-  explorerAddress: 'http://devnet-explorer.multiversx.com',
-  delegationContract: contractAddressDelegation
-};
-
-//MAINNET :
-// export const defaultToken = 'MID-ecb7bf';
-// export const contractAddress =
-//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
-// export const contractAddressDelegation =
-//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
-// export const contractPlay =
-//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
+  'erd1qqqqqqqqqqqqqpgqv7l63zhl9aw34k4du6uh2w6c7xypapcqtxfqp63lpj';
 
 // export const network: NetworkType = {
 //   id: 'devnet',
 //   name: 'Devnet',
 //   egldLabel: 'xEGLD',
-//   walletAddress: 'https://wallet.multiversx.com/dapp/init',
-//   apiAddress: 'https://api.multiversx.com',
-//   gatewayAddress: 'https://gateway.multiversx.com',
-//   explorerAddress: 'http://explorer.multiversx.com',
+//   walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
+//   apiAddress: 'https://devnet-api.multiversx.com',
+//   gatewayAddress: 'https://devnet-gateway.multiversx.com',
+//   explorerAddress: 'http://devnet-explorer.multiversx.com',
 //   delegationContract: contractAddressDelegation
 // };
+
+//MAINNET :
+// export const defaultToken = 'MID-ecb7bf';
+// export const contractAddress =
+//   'erd1qqqqqqqqqqqqqpgqgdf6vk43c2jxk4a6nw2adv8vmnpqagegtxfqmf8et2';
+// export const contractAddressDelegation =
+//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
+// export const contractPlay =
+//   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
+
+export const network: NetworkType = {
+  id: 'devnet',
+  name: 'Devnet',
+  egldLabel: 'xEGLD',
+  walletAddress: 'https://wallet.multiversx.com/dapp/init',
+  apiAddress: 'https://api.multiversx.com',
+  gatewayAddress: 'https://gateway.multiversx.com',
+  explorerAddress: 'http://explorer.multiversx.com',
+  delegationContract: contractAddressDelegation
+};
 
 //GLOBAL :
 export const dAppName = 'Middle Staking';
