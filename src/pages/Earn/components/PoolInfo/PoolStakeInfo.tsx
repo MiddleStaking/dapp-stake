@@ -104,7 +104,7 @@ export const PoolStakeInfo = ({
                       />
                     </div>
 
-                    {staked_esdt_info?.price && (
+                    {my_staked_value > 0 && (
                       <div className='dollars'>
                         <div className='_98-75'>
                           ${' '}

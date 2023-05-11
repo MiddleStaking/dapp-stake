@@ -410,7 +410,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       </Row>
       <div className='col-12'>
         {mySearch != '' && orderedPairs ? (
-          <Row className='pt-4 pb-4'>
+          <Row className=''>
             {rewardedTokens[0] != '' &&
               orderedPairs
                 .filter(
