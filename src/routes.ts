@@ -9,6 +9,7 @@ import { withPageTitle } from './components/PageTitle';
 import { Dashboard, Home, Statistics, Earn, Fund, Play } from './pages';
 import Rewards2 from 'pages/RewardsV2';
 import { Admin } from 'pages/Admin';
+import Design from 'pages/design';
 
 export const routeNames = {
   home: '/',
@@ -23,7 +24,8 @@ export const routeNames = {
   tokenomics2: '/tokenomics2',
   rewards2: '/rewards2',
   play: '/play',
-  admin: '/admin'
+  admin: '/admin',
+  design: '/design'
 };
 
 interface RouteWithTitleType extends RouteType {
@@ -31,6 +33,11 @@ interface RouteWithTitleType extends RouteType {
 }
 
 export const routes: RouteWithTitleType[] = [
+  {
+    path: routeNames.design,
+    title: 'Design',
+    component: Design
+  },
   {
     path: routeNames.home,
     title: 'Home',
