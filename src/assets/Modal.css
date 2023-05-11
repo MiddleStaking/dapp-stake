@@ -9,6 +9,7 @@ z-index: 100;
     left: calc(50% - 309px);
     top: calc(50% - 451px);
 }
+
 .modal {
 z-index: 101;
 background: linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 12.97%, rgba(31, 103, 255, 0) 71.91%), rgba(99, 74, 203, 0.32);
@@ -903,4 +904,29 @@ input[type=number] {
     left: 0px;
     top: 0px;
     overflow: visible;
+}
+@media (max-width: 480px) {
+    .background {
+        width: 600px;
+    }
+
+    .modal {
+        width: 600px;
+        height: 800px;
+    }
+
+    .modal .content {
+        background: none;
+        padding: 0px 0px 0px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 460px;
+        margin: auto;
+        position: relative;
+        overflow: hidden;
+    }
 }

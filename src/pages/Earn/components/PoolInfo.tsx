@@ -16,7 +16,7 @@ import { routeNames } from 'routes';
 import image from './../../../assets/img/background2.png';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { ActionClaimRewards, ActionStakeRewards } from './Actions';
-import { useGetESDTInformations } from './Actions/helpers';
+import { useGetESDTInformations, useGetESDTCompute } from './Actions/helpers';
 import {
   useGetTokenPosition,
   useGetStakingPosition,
@@ -49,7 +49,10 @@ export const PoolInfo = ({
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const staked_esdt_info = useGetESDTInformations(stakedToken);
+  const stakedCompute = useGetESDTCompute(stakedToken);
+
   const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
+
   const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
   const rdecimals = rewarded_esdt_info?.decimals
     ? rewarded_esdt_info?.decimals
@@ -80,16 +83,28 @@ export const PoolInfo = ({
     BigInt(24) /
     BigInt(60) /
     BigInt(60);
-  const staked_value = staked_esdt_info?.price
-    ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
-      staked_esdt_info?.price
-    : 0;
+  const staked_value =
+    stakedCompute?.price > 0
+      ? Number(BigInt(tokenPosition.total_stake)) * stakedCompute?.price
+      : staked_esdt_info?.price > 0
+      ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
+        staked_esdt_info?.price
+      : 0;
 
-  const my_staked_value = staked_esdt_info?.price
-    ? Number(BigInt(stakingPosition.stake_amount) / BigInt(10 ** sdecimals)) *
-      staked_esdt_info?.price
-    : 0;
+  console.log('price');
+  console.log(stakedCompute?.price);
+  console.log('amount');
+  console.log(stakingPosition.stake_amount);
+  const my_staked_value =
+    stakedCompute?.price > 0
+      ? Number(BigInt(stakingPosition.stake_amount)) * stakedCompute?.price
+      : staked_esdt_info?.price > 0
+      ? Number(BigInt(stakingPosition.stake_amount) / BigInt(10 ** sdecimals)) *
+        staked_esdt_info?.price
+      : 0;
 
+  console.log('value');
+  console.log(my_staked_value);
   //Montant user
   const my_rewards_value = rewarded_esdt_info?.price
     ? Number(
@@ -205,19 +220,22 @@ export const PoolInfo = ({
   // (valeur finale - valeur initial) / valeur initiale * 100
   let priced_apr = BigInt(0);
   if (
-    staked_esdt_info?.price > 0 &&
+    (staked_esdt_info?.price > 0 || stakedCompute?.price > 0) &&
     rewarded_esdt_info?.price > 0 &&
     tokenPosition?.total_stake > BigInt(1) &&
     tokenPosition?.balance > BigInt(0)
   ) {
     const price_fixed1 = BigInt(
-      staked_esdt_info.price * 100000000000 > 0
-        ? (staked_esdt_info.price * 100000000000).toFixed()
+      stakedCompute?.price > 0
+        ? BigInt((stakedCompute?.price * 10 ** 18).toFixed()) *
+            BigInt(10 ** sdecimals)
+        : staked_esdt_info?.price > 0
+        ? (staked_esdt_info?.price * 10 ** 18).toFixed()
         : 1
     );
     const price_fixed2 = BigInt(
-      rewarded_esdt_info.price * 100000000000 > 0
-        ? (rewarded_esdt_info.price * 100000000000).toFixed()
+      rewarded_esdt_info.price > 0
+        ? (rewarded_esdt_info.price * 10 ** 18).toFixed()
         : 1
     );
 
