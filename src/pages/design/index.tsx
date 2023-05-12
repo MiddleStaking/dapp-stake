@@ -2,6 +2,10 @@ import React, { FC, CSSProperties } from 'react';
 import ButtonGroupe from './Component/Button/ButtonGroupe';
 import ToggleSwitchGroupe from './Component/ToggleSwitch/ToggleSwitchGroupe';
 import CheckedBoxGroupe from './Component/CheckBox/CheckedBoxGroupe';
+import LogosGroupe from './Component/Logos/LogosGroupe';
+import SearchBarGroupe from './Component/SearchBar/SearchBarGroupe';
+import OptionGroupe from './Component/Option/OptionGroupe';
+import InputGroupe from './Component/Input/OptionGroupe';
 
 const Design: FC = () => {
   const ButtonGroupeStyle: CSSProperties = {
@@ -20,6 +24,10 @@ const Design: FC = () => {
       <ButtonGroupe />
       <ToggleSwitchGroupe />
       <CheckedBoxGroupe />
+      <LogosGroupe />
+      <SearchBarGroupe />
+      <OptionGroupe />
+      <InputGroupe />
     </div>
   );
 };

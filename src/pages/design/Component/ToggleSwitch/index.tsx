@@ -43,7 +43,10 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
 
   const containerStyle: CSSProperties = {
     pointerEvents: disabled ? 'none' : 'auto', // Ajoutez cette ligne
-    filter: disabled ? 'grayscale(50%)' : 'none',
+    filter: disabled
+      ? 'grayscale(50%) drop-shadow(0px 0px 24px rgba(182, 57, 237, 0.64))'
+      : 'drop-shadow(0px 0px 24px rgba(182, 57, 237, 0.64))',
+
     padding: hasBorder ? borderWidth : 0,
     display: 'inline-block',
     width,

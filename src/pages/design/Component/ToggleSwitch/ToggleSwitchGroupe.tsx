@@ -1,22 +1,10 @@
 import React, { FC, CSSProperties, useState } from 'react';
 import ToggleSwitch from '.';
+import CardPresentation from '../CardPresentation';
 
 const ToggleSwitchGroupe: FC = () => {
   const [switch1State, setSwitch1State] = useState(false);
   const [switch2State, setSwitch2State] = useState(true);
-
-  const ButtonGroupeStyle: CSSProperties = {
-    boxSizing: 'border-box',
-    position: 'relative',
-    width: '173px',
-    background: '#151515',
-    border: '1px dashed #9747FF',
-    borderRadius: '5px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column'
-  };
 
   const switchMargin: CSSProperties = {
     display: 'flex',
@@ -44,7 +32,7 @@ const ToggleSwitchGroupe: FC = () => {
   };
 
   return (
-    <div style={ButtonGroupeStyle}>
+    <CardPresentation label='ToggleSwitch'>
       <div style={firstSwitchMargin}>
         <div>
           <ToggleSwitch
@@ -93,7 +81,7 @@ const ToggleSwitchGroupe: FC = () => {
           />
         </div>
       </div>
-    </div>
+    </CardPresentation>
   );
 };
 

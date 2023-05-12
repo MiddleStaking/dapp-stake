@@ -1,8 +1,8 @@
 import React, { FC, CSSProperties, MouseEventHandler } from 'react';
 
 interface ButtonProps {
-  text?: string;
-  fontSize?: number;
+  text?: React.ReactNode;
+  fontSize?: string;
   fontFamily?: string;
   textColor?: string;
   onClick?: MouseEventHandler;
@@ -27,8 +27,8 @@ const Button: FC<ButtonProps> = ({
   borderColor = 'black',
   borderWidth = '1px',
   borderRadius = 5,
-  fontSize = 14,
-  fontFamily = 'Arial',
+  fontSize = '14px',
+  fontFamily = 'Plus Jakarta Sans',
   textColor = 'white',
   hasBorder = false,
   grayscale = '50%',
@@ -59,9 +59,9 @@ const Button: FC<ButtonProps> = ({
     cursor: 'pointer',
     fontFamily,
     fontSize,
-    padding: hasBorder
-      ? '10px 20px'
-      : `calc(10px + ${borderWidth}) calc(20px + ${borderWidth})`,
+    // padding: hasBorder
+    //   ? '10px 20px'
+    //   : `calc(10px + ${borderWidth}) calc(20px + ${borderWidth})`,
     textAlign: 'center',
     textDecoration: 'none',
     userSelect: 'none'
@@ -77,7 +77,9 @@ const Button: FC<ButtonProps> = ({
     height: buttonHeight,
     background: hasBorder ? borderGradient : 'transparent',
     borderRadius,
-    display: 'inline-block',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: hasBorder ? borderWidth : 0
   };
 

@@ -1,5 +1,6 @@
 import React, { FC, CSSProperties, useState } from 'react';
 import CheckBox from '.';
+import CardPresentation from '../CardPresentation';
 
 const CheckedBoxGroupe: FC = () => {
   const [checkbox1, setCheckbox1] = useState(false);
@@ -34,7 +35,7 @@ const CheckedBoxGroupe: FC = () => {
   };
 
   return (
-    <div style={ButtonGroupeStyle}>
+    <CardPresentation label='CheckBox'>
       <div style={firstSwitchMargin}>
         <div>
           <CheckBox
@@ -66,7 +67,7 @@ const CheckedBoxGroupe: FC = () => {
           />
         </div>
       </div>
-    </div>
+    </CardPresentation>
   );
 };
 
