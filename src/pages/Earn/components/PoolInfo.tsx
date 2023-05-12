@@ -91,10 +91,6 @@ export const PoolInfo = ({
         staked_esdt_info?.price
       : 0;
 
-  console.log('price');
-  console.log(stakedCompute?.price);
-  console.log('amount');
-  console.log(stakingPosition.stake_amount);
   const my_staked_value =
     stakedCompute?.price > 0
       ? Number(BigInt(stakingPosition.stake_amount)) * stakedCompute?.price
@@ -103,8 +99,6 @@ export const PoolInfo = ({
         staked_esdt_info?.price
       : 0;
 
-  console.log('value');
-  console.log(my_staked_value);
   //Montant user
   const my_rewards_value = rewarded_esdt_info?.price
     ? Number(
