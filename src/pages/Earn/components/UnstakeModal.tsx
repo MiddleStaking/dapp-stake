@@ -101,8 +101,6 @@ const StakeModal = (props: any) => {
   }
 
   function setToMax() {
-    console.log(balance);
-    console.log(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
     setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
     setBigAmount(balance);
   }

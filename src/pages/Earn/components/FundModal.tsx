@@ -522,7 +522,9 @@ const StakeModal = (props: any) => {
                         <div className='font-uniformisation'>
                           <div className='_7-56-mex-ecb-7-bf'>
                             <FormatAmount
-                              decimals={Number(decimals.toString())}
+                              decimals={Number(
+                                default_esdt_info.decimals.toString()
+                              )}
                               value={
                                 defaultProps?.balance
                                   ? defaultProps?.balance.toString()
