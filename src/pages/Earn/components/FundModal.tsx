@@ -22,6 +22,7 @@ const StakeModal = (props: any) => {
   const tokenPosition = useGetTokenPosition(stoken, rtoken);
   const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
+  const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
   const default_esdt_info = useGetESDTInformations(defaultToken);
@@ -122,6 +123,24 @@ const StakeModal = (props: any) => {
       const output = toBigAmount(Number(e.target.value), Number(decimals));
       setBigAmount(BigInt(output));
     }
+    const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
+    setRangeValue(percentage);
+  }
+
+  function handleRangeValueChange(e: React.ChangeEvent<any>) {
+    if (balance > BigInt(0)) {
+      setRangeValue(e.target.value);
+      const percentage = Number(e.target.value).toFixed();
+      const big_amount = BigInt(
+        (BigInt(balance) * BigInt(percentage)) / BigInt(100)
+      );
+      setTokenAmount(
+        Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
+      );
+      setBigAmount(big_amount);
+    } else {
+      setRangeValue(0);
+    }
   }
 
   function toBigAmount(invalue: number, indec: number) {
@@ -155,6 +174,7 @@ const StakeModal = (props: any) => {
   function setToMax() {
     setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
     setBigAmount(balance);
+    setRangeValue(100);
   }
 
   if (!props.show) {
@@ -456,7 +476,17 @@ const StakeModal = (props: any) => {
                       <div className='frame-57'>
                         <div className='input3'>
                           <div className='label5'>
-                            <div className='label6'>Rewarded token amount</div>
+                            <div className='label6'>Rewards</div>
+                            <input
+                              type='range'
+                              id='slider'
+                              min='0'
+                              max='100'
+                              step='1'
+                              value={rangeValue}
+                              onChange={handleRangeValueChange}
+                            />{' '}
+                            <div className='label6'>{rangeValue}%</div>
                           </div>
 
                           <Form.Group
