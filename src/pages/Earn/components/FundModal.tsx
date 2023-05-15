@@ -417,7 +417,15 @@ const StakeModal = (props: any) => {
                     />
                     <label htmlFor='styled-checkbox-1'>
                       Pay to remove the 10% deposit fees.
-                    </label>
+                    </label>{' '}
+                    <a
+                      style={{ color: 'white' }}
+                      target='_blank'
+                      rel='noreferrer'
+                      href='https://docs.middlestaking.fr/welcome/deposit/deposit-fees'
+                    >
+                      <u>Read More</u>
+                    </a>
                   </div>
                 ) : (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
