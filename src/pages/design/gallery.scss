@@ -1,0 +1,36 @@
+/* Dans votre fichier CSS */
+
+.grid-container {
+  display: grid;
+  grid-gap: 20px;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+/* Pour les grands écrans, utilisez 4 colonnes */
+@media (min-width: 1200px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+/* Pour les écrans moyens, utilisez 3 colonnes */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* Pour les petits écrans, utilisez 2 colonnes */
+@media (min-width: 600px) and (max-width: 899px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Pour les très petits écrans, utilisez 1 colonne */
+@media (max-width: 599px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}

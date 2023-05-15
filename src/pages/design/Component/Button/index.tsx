@@ -17,6 +17,7 @@ interface ButtonProps {
   borderRadius?: number;
   disabled?: boolean;
   grayscale?: string;
+  boxShadow?: string;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -35,7 +36,8 @@ const Button: FC<ButtonProps> = ({
   onClick,
   text = 'Texte a difinir',
   gradientDirection = 'to right',
-  borederGradientDirection = 'to right'
+  borederGradientDirection = 'to right',
+  boxShadow = ''
 }) => {
   const isGradient = (
     value: string | [string, string]
@@ -44,6 +46,7 @@ const Button: FC<ButtonProps> = ({
   };
 
   const buttonStyle: CSSProperties = {
+    boxShadow: boxShadow,
     display: 'flex',
     justifyContent: 'center',
     filter: disabled ? `grayscale(${grayscale})` : 'none',
@@ -65,6 +68,7 @@ const Button: FC<ButtonProps> = ({
     textAlign: 'center',
     textDecoration: 'none',
     userSelect: 'none'
+    // Fill: 'Solid #FFFFFF'
   };
 
   const borderGradient = isGradient(borderColor)

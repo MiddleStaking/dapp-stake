@@ -4,16 +4,19 @@ interface CardPresentationProps {
   label: string;
   children: ReactNode;
   width?: string;
+  height?: string;
 }
 const CardPresentation: FC<CardPresentationProps> = ({
   label,
   children,
-  width = '173px'
+  width = '100%',
+  height = ' 10px'
 }) => {
   const CardPresentationStyle: CSSProperties = {
     boxSizing: 'border-box',
     position: 'relative',
     width: width,
+    minHeight: height,
     background: '#151515',
     border: '1px dashed #9747FF',
     borderRadius: '5px',

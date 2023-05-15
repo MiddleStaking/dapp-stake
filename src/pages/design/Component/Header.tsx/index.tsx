@@ -1,41 +1,137 @@
 import React, { FC, useEffect, useState } from 'react';
+import Button from '../Button';
+import { useWindowDimensions } from './DimensionScreen.tsx';
 
 // interface DropdownMenuProps {}
 
 const HeaderDekstop: FC<any> = ({}) => {
+  const { width, height } = useWindowDimensions();
+
   const Header: React.CSSProperties = {
-    width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     height: '111px',
-    background: '#151515'
+    background: '#151515',
+    width: '100%'
+  };
+  const HeaderMobile: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '64px',
+    width: '100%',
+    background:
+      'linear-gradient(180deg, rgba(133, 114, 207, 0.24) 0%, rgba(162, 150, 208, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))',
+    border: ' 1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '0px 0px 16px 16px'
   };
 
   const HeaderLogo: React.CSSProperties = {
-    width: '7.58',
     height: '100%',
+    width: '15%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
   };
-  const HeaderMenu: React.CSSProperties = {
-    width: '92.42%',
+
+  const HeaderMenu = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    background:
-      'linear-gradient(180deg, rgba(133, 114, 207, 0.24) 0%, rgba(162, 150, 208, 0) 100%)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
     height: '100%',
-    transform: 'matrix(1, 0, 0, -1, 0, 0)'
+    width: '80%',
+    overflow: 'hidden',
+    borderRadius: '0px 0px 10px 10px',
+    borderTop: '2px solid #3a3942',
+    borderRight: '2px solid #3a3942'
   };
-  return (
+
+  const styleGauche = {
+    background:
+      'linear-gradient(180deg, rgba(133, 114, 207, 0.24) 0%, rgba(162, 150, 208, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))',
+
+    // background:
+    //   'linear-gradient(180deg, rgba(133, 114, 207, 0.24) 0%, rgba(162, 150, 208, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))',
+    transform: 'skew(30deg)',
+    transformOrigin: 'top left',
+    height: '100%',
+    width: '100%',
+    borderRadius: '0px 0px 10px 10px',
+    borderLeft: '2px solid #3a3942',
+    borderBottom: '2px solid #3a3942'
+  };
+
+  const styleDroit = {
+    height: '100%',
+    paddingRight: '2%',
+    transform: 'skew(-30deg)',
+    transformOrigin: 'top left',
+    backgroundColor: 'transparent',
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'end'
+  };
+
+  return width > 550 ? (
     <div style={Header}>
       <div style={HeaderLogo}>
-        <LogoSvg />
+        <LogoSvg widthSvg='100%' />
       </div>
-      <div style={HeaderMenu}>azdojazpodopazm</div>
+      <div style={HeaderMenu}>
+        <div style={styleGauche}>
+          <div style={styleDroit}>
+            {/* <div style={{ marginRight: '39px' }}> */}
+            {/* <div>
+              <p>Largeur de la fenêtre: {width}px</p>
+              <p>Hauteur de la fenêtre: {height}px</p>
+            </div> */}
+            <Button
+              background={'transparent'}
+              text='Staking'
+              onClick={() => console.log('Staking')}
+              fontFamily={'Plus Jakarta Sans'}
+              buttonHeight='52px'
+              fontSize='16px'
+            />
+            <Button
+              background={'transparent'}
+              text='Dashboard'
+              onClick={() => console.log('Dashboard')}
+              fontFamily={'Plus Jakarta Sans'}
+              buttonHeight='52px'
+              fontSize='16px'
+            />
+            <Button
+              background={'transparent'}
+              text='Play'
+              onClick={() => console.log('Play')}
+              fontFamily={'Plus Jakarta Sans'}
+              buttonHeight='52px'
+              fontSize='16px'
+            />
+            <Button
+              boxShadow='0px 0px 44px 0px #8E44EB80 inset'
+              borderWidth={'2px'}
+              borderRadius={40}
+              background={'black'}
+              borderColor={['#BD37EC', '#1F67FF']}
+              text='Account'
+              hasBorder={true}
+              onClick={() => console.log('Account')}
+              fontFamily={'Plus Jakarta Sans'}
+              buttonHeight='52px'
+              fontSize='20px'
+            />
+            {/* </div> */}
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div style={HeaderMobile}>
+      <LogoSvg widthSvg='109px' />
     </div>
   );
 };
@@ -54,7 +150,12 @@ const LogoSvg: FC<DLogSvgProps> = ({
   colorSvg = 'white'
 }) => {
   return (
-    <svg xmlns='http://www.w3.org/2000/svg' width={108} height={42} fill='none'>
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width={widthSvg}
+      height={42}
+      fill='none'
+    >
       <mask
         id='a'
         width={22}

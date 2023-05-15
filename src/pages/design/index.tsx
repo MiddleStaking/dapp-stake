@@ -7,26 +7,17 @@ import SearchBarGroupe from './Component/SearchBar/SearchBarGroupe';
 import OptionGroupe from './Component/Option/OptionGroupe';
 import InputGroupe from './Component/Input/OptionGroupe';
 import HeaderDekstop from './Component/Header.tsx';
+import CardPresentation from './Component/CardPresentation';
+import './gallery.scss';
 
 const Design: FC = () => {
-  const ButtonGroupeStyle: CSSProperties = {
-    display: 'flex',
-    gap: '10px',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '80vh', // Utiliser 100% de la hauteur de la fenêtre
-    boxSizing: 'border-box', // Inclure le padding et la bordure dans le calcul de la hauteur totale
-    margin: 0, // Supprimer les marges par défaut du navigateur
-    padding: 0 // Supprimer les espaces de remplissage par défaut du navigateur
-  };
-
   return (
-    <>
-      <div>
+    <div>
+      <CardPresentation height='150px' width='1200' label='header'>
         <HeaderDekstop />
-      </div>
+      </CardPresentation>
 
-      <div style={ButtonGroupeStyle}>
+      <div className='grid-container'>
         <ButtonGroupe />
         <ToggleSwitchGroupe />
         <CheckedBoxGroupe />
@@ -35,7 +26,7 @@ const Design: FC = () => {
         <OptionGroupe />
         <InputGroupe />
       </div>
-    </>
+    </div>
   );
 };
 
