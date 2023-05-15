@@ -6,6 +6,7 @@ import LogosGroupe from './Component/Logos/LogosGroupe';
 import SearchBarGroupe from './Component/SearchBar/SearchBarGroupe';
 import OptionGroupe from './Component/Option/OptionGroupe';
 import InputGroupe from './Component/Input/OptionGroupe';
+import HeaderDekstop from './Component/Header.tsx';
 
 const Design: FC = () => {
   const ButtonGroupeStyle: CSSProperties = {
@@ -20,15 +21,21 @@ const Design: FC = () => {
   };
 
   return (
-    <div style={ButtonGroupeStyle}>
-      <ButtonGroupe />
-      <ToggleSwitchGroupe />
-      <CheckedBoxGroupe />
-      <LogosGroupe />
-      <SearchBarGroupe />
-      <OptionGroupe />
-      <InputGroupe />
-    </div>
+    <>
+      <div>
+        <HeaderDekstop />
+      </div>
+
+      <div style={ButtonGroupeStyle}>
+        <ButtonGroupe />
+        <ToggleSwitchGroupe />
+        <CheckedBoxGroupe />
+        <LogosGroupe />
+        <SearchBarGroupe />
+        <OptionGroupe />
+        <InputGroupe />
+      </div>
+    </>
   );
 };
 

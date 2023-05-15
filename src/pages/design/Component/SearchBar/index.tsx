@@ -116,7 +116,7 @@ const SearchBar: FC<SearchBarProps> = ({
     ...backgroundStyle,
     ...borderStyle,
 
-    filter: `grayscale(${grayscale})`,
+    // filter: `grayscale(${grayscale})`,
     cursor: disabled ? 'not-allowed' : 'pointer',
     boxShadow: BoxShadowActive && inputFocused ? BoxShadowActiveColor : 'none'
   };

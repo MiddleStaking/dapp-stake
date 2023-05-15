@@ -1,16 +1,18 @@
 import React, { FC, CSSProperties } from 'react';
 import CardPresentation from '../CardPresentation';
-import DropdownMenu from '.';
+import DropdownMenu from './DropdownMenu';
+import ToggleSwitch from '../ToggleSwitch';
 
 const InputGroupe: FC = () => {
   const firstSwitchMargin: CSSProperties = {
     display: 'flex',
-    marginBottom: '10px',
-    marginTop: '10px',
-    height: '100px',
+    marginBottom: '1px',
+    marginTop: '1pxx',
+    maxHeight: '50px',
     flexDirection: 'row',
     gap: '10px'
   };
+  const testDiv: CSSProperties = {};
 
   const handleSelect = (value: any) => {
     console.log('Selected option:', value);
@@ -48,20 +50,20 @@ const InputGroupe: FC = () => {
           hasBorder={true}
           borderColor={'#BD37EC'}
           textColorOption={'red'}
+          textColor={'#695885'}
           // textColor={'blue'}
         />
       </div>
+
       <div style={firstSwitchMargin}>
         <DropdownMenu
-          borderRadius={'25'}
+          // borderRadius={'1'}
           defaultValue={'option1'}
           hasBorder={true}
           borderColor={'#695885'}
           options={options}
           onSelect={handleSelect}
           disabled={true}
-          textColor={'#695885'}
-          colorSvg={'#695885'}
         />
       </div>
     </CardPresentation>

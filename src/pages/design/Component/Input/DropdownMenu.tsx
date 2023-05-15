@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import Options from '../Option/component/Options';
+import Options from './components/Options';
 
 interface DropdownMenuProps {
   options: {
@@ -51,18 +51,15 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   defaultValue,
   backgroundColorSelect = 'rgba(99, 74, 203, 0.32)',
   backgroundColor = '#220C3E',
-  textColor = '#FFFFFF',
   textColorSelect = '#2266FF',
 
   BoxShadowActive = true,
   BoxShadowActiveColor = 'inset 0px 0px 44px rgba(142, 68, 235, 0.5)',
 
-  borderRadius = '0',
   borderGradientDirection = 'to right',
-  borderColor = 'transparent',
   borderWidth = '1px',
 
-  grayscale = '0%',
+  // grayscale = '0%',
 
   animationDelay = 3,
   width = '150px',
@@ -74,7 +71,6 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   gradientDirection = 'to right',
   inputHeight = '50px',
   inputWidth = '100%',
-  hasBorder = true,
   BorderActiveColor = '#2266FF',
   borderRadiusOptions = '4',
   hasBorderActive = true,
@@ -82,9 +78,14 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   textColorOption = '#FFFFFF',
   widthSvg = '16px',
   heightSvg = '16px',
-  colorSvg = '#fff',
 
-  disabled = false
+  disabled = false,
+
+  borderRadius = disabled ? '25' : '25',
+  hasBorder = disabled ? true : false,
+  borderColor = disabled ? '#695885' : 'transparent',
+  textColor = disabled ? '#695885' : '#FFFFFF',
+  colorSvg = disabled ? '#695885' : '#fff'
 }) => {
   const defaultOption = defaultValue
     ? options.find((option) => option.value === defaultValue)
@@ -129,8 +130,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   };
 
   const containerStyle: React.CSSProperties = {
-    position: 'relative',
-    zIndex: 1
+    // position: 'relative'
   };
 
   const backgroundStyle: React.CSSProperties = {
@@ -162,7 +162,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
     ...backgroundStyle,
     ...borderStyle,
 
-    filter: `grayscale(${grayscale})`,
+    // filter: `grayscale(${grayscale})`,
     cursor: disabled ? 'not-allowed' : 'pointer',
     boxShadow: BoxShadowActive && isOpen ? BoxShadowActiveColor : 'none'
   };
@@ -232,7 +232,6 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
       <div onClick={handleClick} style={dropDownBarStyle}>
         <div>
           {textColor && <style>{customPlaceholderStyles}</style>}
-
           <input
             type='text'
             className={dropDownMenuClassName}

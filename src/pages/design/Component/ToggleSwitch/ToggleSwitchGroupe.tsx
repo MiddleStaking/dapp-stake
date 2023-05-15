@@ -76,7 +76,7 @@ const ToggleSwitchGroupe: FC = () => {
             onChange={handleToggle2}
             checked={switch2State}
             trackColor={['#BD37EC', '#1F67FF']}
-            thumbColor='white'
+            // thumbColor='white'
             disabled={true}
           />
         </div>
