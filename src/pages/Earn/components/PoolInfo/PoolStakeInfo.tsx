@@ -144,7 +144,7 @@ export const PoolStakeInfo = ({
       {stakingPositionRewards > 0 && (
         <div className='rewards-section'>
           <div className='top5'>
-            <div className='availabled-rewards'>Availabled rewards</div>
+            <div className='availabled-rewards'>Available rewards</div>
 
             <div className='left6'>
               <div className='_18-853-744'>
