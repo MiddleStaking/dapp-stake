@@ -186,6 +186,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
 
   return (
     <div style={containerStyle}>
+      {placeholderColor && <style>{customPlaceholderStyles}</style>}
       <style>
         {`
     .option-item {

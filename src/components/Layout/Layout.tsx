@@ -7,12 +7,17 @@ import { MyNavbar } from './Navbar';
 import image from './../../assets/img/background4.png';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import HeaderDekstop from 'pages/design/Component/Header.tsx';
+import FooterDekstop from 'pages/design/Component/Footer';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();
   return (
-    <div className='bg-light d-flex flex-column flex-fill wrapper'>
-      <MyNavbar />
+    <div
+      style={{ background: '#151515' }}
+      className='d-flex flex-column flex-fill wrapper'
+    >
+      <HeaderDekstop />
       {/* <footer className='text-center mt-2 mb-3'>
         <div>
           Help us to improve the website with your{' '}
@@ -46,7 +51,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </AuthenticatedRoutesWrapper>
       </main>
-      <Footer />
+      <FooterDekstop />
     </div>
   );
 };

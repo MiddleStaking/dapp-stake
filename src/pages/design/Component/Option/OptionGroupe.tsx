@@ -1,6 +1,6 @@
-import React, { FC, CSSProperties, useState } from 'react';
-import CardPresentation from '../CardPresentation';
+import React, { FC, CSSProperties } from 'react';
 import DropdownMenu from '.';
+import CardPresentation from '../CardPresentation';
 
 const OptionGroupe: FC = () => {
   const firstSwitchMargin: CSSProperties = {

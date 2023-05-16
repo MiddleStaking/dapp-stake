@@ -59,11 +59,6 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
     position: 'relative'
   };
 
-  const dropdownMenuStyle: React.CSSProperties = {
-    position: 'absolute',
-    zIndex: 1000
-  };
-
   return (
     <div style={containerStyle}>
       <style>

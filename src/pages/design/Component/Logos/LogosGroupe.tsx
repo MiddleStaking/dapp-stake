@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, useState } from 'react';
+import React, { FC, CSSProperties } from 'react';
 import CardPresentation from '../CardPresentation';
 import MexLogos from './Mex';
 import VitalLogos from './Vital';

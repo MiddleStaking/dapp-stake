@@ -1,7 +1,6 @@
 import React, { FC, CSSProperties } from 'react';
 import CardPresentation from '../CardPresentation';
 import DropdownMenu from './DropdownMenu';
-import ToggleSwitch from '../ToggleSwitch';
 
 const InputGroupe: FC = () => {
   const firstSwitchMargin: CSSProperties = {
@@ -12,7 +11,6 @@ const InputGroupe: FC = () => {
     flexDirection: 'row',
     gap: '10px'
   };
-  const testDiv: CSSProperties = {};
 
   const handleSelect = (value: any) => {
     console.log('Selected option:', value);

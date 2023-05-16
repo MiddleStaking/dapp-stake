@@ -6,19 +6,6 @@ const CheckedBoxGroupe: FC = () => {
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(true);
 
-  const ButtonGroupeStyle: CSSProperties = {
-    boxSizing: 'border-box',
-    position: 'relative',
-    width: '173px',
-    background: '#151515',
-    border: '1px dashed #9747FF',
-    borderRadius: '5px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column'
-  };
-
   const switchMargin: CSSProperties = {
     display: 'flex',
     marginBottom: '10px',

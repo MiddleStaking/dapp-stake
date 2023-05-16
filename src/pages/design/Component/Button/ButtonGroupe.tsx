@@ -7,11 +7,6 @@ const ButtonGroupe: FC = () => {
     marginBottom: '10px'
   };
 
-  const buttonIcon: CSSProperties = {
-    marginBottom: '10px',
-    width: '25px'
-  };
-
   const firstebuttonMargin: CSSProperties = {
     marginBottom: '10px',
     marginTop: '10px'
@@ -102,13 +97,13 @@ const ButtonGroupe: FC = () => {
       </div>
       <div style={buttonMargin}>
         <Button
-          buttonWidth={'30px'}
-          buttonHeight={'30px'}
+          buttonWidth={'40px'}
+          buttonHeight={'40px'}
           borderWidth={'1px'}
           borderRadius={40}
           background={'black'}
           borderColor={['#BD37EC', '#1F67FF']}
-          text={<SearchBarSvg widthSvg='10px' heightSvg='10px' />}
+          text={<SearchBarSvg widthSvg='20px' heightSvg='20px' />}
           hasBorder={true}
           onClick={() => console.log('Bouton cliqué')}
         />

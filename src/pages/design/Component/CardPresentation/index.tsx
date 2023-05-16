@@ -5,25 +5,27 @@ interface CardPresentationProps {
   children: ReactNode;
   width?: string;
   height?: string;
+  background?: string;
 }
 const CardPresentation: FC<CardPresentationProps> = ({
   label,
   children,
   width = '100%',
-  height = ' 10px'
+  height = ' 10px',
+  background = 'transparent'
 }) => {
   const CardPresentationStyle: CSSProperties = {
     boxSizing: 'border-box',
-    position: 'relative',
     width: width,
     minHeight: height,
-    background: '#151515',
+    background: background,
     border: '1px dashed #9747FF',
     borderRadius: '5px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    maxWidth: '100vw'
   };
   const labelStyle: CSSProperties = {
     margin: '0',

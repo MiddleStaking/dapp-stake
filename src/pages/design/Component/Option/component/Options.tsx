@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, useState, useEffect } from 'react';
+import React, { FC, CSSProperties, useState } from 'react';
 
 interface OptionProps {
   text: string;
@@ -46,7 +46,7 @@ const Options: FC<OptionProps> = ({
     }
   };
 
-  const optionStyle: React.CSSProperties = {
+  const optionStyle: CSSProperties = {
     position: 'relative',
     zIndex: 1000,
     width: width,
@@ -60,7 +60,7 @@ const Options: FC<OptionProps> = ({
     fontSize: fontSize
   };
 
-  const HoverStyle: React.CSSProperties = {
+  const HoverStyle: CSSProperties = {
     width: width,
     height: height,
     background: isHovered ? hoverBackgroudColor : backgroudColor,
@@ -69,7 +69,8 @@ const Options: FC<OptionProps> = ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: borderRadius
+    borderRadius: borderRadius,
+    fontFamily: fontFamily
   };
   return (
     <div

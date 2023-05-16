@@ -1,12 +1,15 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { defaultToken } from 'config';
+import { routeNames } from 'routes';
 import Button from '../Button';
 import { useWindowDimensions } from './DimensionScreen.tsx';
 
 // interface DropdownMenuProps {}
 
 const HeaderDekstop: FC<any> = ({}) => {
-  const { width, height } = useWindowDimensions();
-
+  const { width } = useWindowDimensions();
+  const navigate = useNavigate();
   const Header: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
@@ -29,10 +32,11 @@ const HeaderDekstop: FC<any> = ({}) => {
 
   const HeaderLogo: React.CSSProperties = {
     height: '100%',
-    width: '15%',
+    width: '20%',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    cursor: 'pointer'
   };
 
   const HeaderMenu = {
@@ -40,7 +44,7 @@ const HeaderDekstop: FC<any> = ({}) => {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-    width: '80%',
+    width: '75%',
     overflow: 'hidden',
     borderRadius: '0px 0px 10px 10px',
     borderTop: '2px solid #3a3942',
@@ -65,6 +69,7 @@ const HeaderDekstop: FC<any> = ({}) => {
   const styleDroit = {
     height: '100%',
     paddingRight: '2%',
+    paddingLeft: '10%',
     transform: 'skew(-30deg)',
     transformOrigin: 'top left',
     backgroundColor: 'transparent',
@@ -74,9 +79,12 @@ const HeaderDekstop: FC<any> = ({}) => {
     justifyContent: 'end'
   };
 
-  return width > 550 ? (
+  return width > 450 ? (
     <div style={Header}>
-      <div style={HeaderLogo}>
+      <div
+        onClick={() => navigate(routeNames.stake + '/' + defaultToken)}
+        style={HeaderLogo}
+      >
         <LogoSvg widthSvg='100%' />
       </div>
       <div style={HeaderMenu}>
@@ -90,7 +98,7 @@ const HeaderDekstop: FC<any> = ({}) => {
             <Button
               background={'transparent'}
               text='Staking'
-              onClick={() => console.log('Staking')}
+              onClick={() => navigate(routeNames.stake + '/' + defaultToken)}
               fontFamily={'Plus Jakarta Sans'}
               buttonHeight='52px'
               fontSize='16px'
@@ -98,7 +106,7 @@ const HeaderDekstop: FC<any> = ({}) => {
             <Button
               background={'transparent'}
               text='Dashboard'
-              onClick={() => console.log('Dashboard')}
+              onClick={() => navigate(routeNames.dashboard)}
               fontFamily={'Plus Jakarta Sans'}
               buttonHeight='52px'
               fontSize='16px'
@@ -106,7 +114,7 @@ const HeaderDekstop: FC<any> = ({}) => {
             <Button
               background={'transparent'}
               text='Play'
-              onClick={() => console.log('Play')}
+              onClick={() => navigate(routeNames.play)}
               fontFamily={'Plus Jakarta Sans'}
               buttonHeight='52px'
               fontSize='16px'
@@ -119,7 +127,7 @@ const HeaderDekstop: FC<any> = ({}) => {
               borderColor={['#BD37EC', '#1F67FF']}
               text='Account'
               hasBorder={true}
-              onClick={() => console.log('Account')}
+              onClick={() => navigate(routeNames.design)}
               fontFamily={'Plus Jakarta Sans'}
               buttonHeight='52px'
               fontSize='20px'
@@ -144,11 +152,7 @@ interface DLogSvgProps {
   colorSvg?: string;
 }
 
-const LogoSvg: FC<DLogSvgProps> = ({
-  widthSvg = '16px',
-  heightSvg = '16px',
-  colorSvg = 'white'
-}) => {
+const LogoSvg: FC<DLogSvgProps> = ({ widthSvg = '16px' }) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'

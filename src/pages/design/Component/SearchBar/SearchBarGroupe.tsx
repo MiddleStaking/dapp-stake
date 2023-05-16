@@ -1,7 +1,6 @@
 import React, { FC, CSSProperties, useState } from 'react';
-import CheckBox from '.';
-import CardPresentation from '../CardPresentation';
 import SearchBar from '.';
+import CardPresentation from '../CardPresentation';
 
 const SearchBarGroupe: FC = () => {
   const [inputValue, setInputValue] = useState('');
@@ -21,7 +20,7 @@ const SearchBarGroupe: FC = () => {
   };
 
   return (
-    <CardPresentation label='SearchBar' width='300px'>
+    <CardPresentation label='SearchBar' width='100%'>
       <div style={firstSwitchMargin}>
         <SearchBar
           onInputChange={handleInputChange}
