@@ -1,6 +1,12 @@
-import React, { FC, CSSProperties, useState, useEffect } from 'react';
+import React, {
+  FC,
+  CSSProperties,
+  useState,
+  useEffect,
+  ReactNode
+} from 'react';
 
-interface SearchBarProps {
+interface InputProps {
   placeholder?: string;
   fontSize?: number;
   fontFamily?: string;
@@ -28,9 +34,32 @@ interface SearchBarProps {
   widthSvg?: string;
   heightSvg?: string;
   colorSvg?: string;
-
-  value: string | number | any;
+  LeftHtml?: ReactNode;
+  rightHtml?: ReactNode;
+  value: string | number;
   placeholderColor?: string;
+  type:
+    | 'button'
+    | 'color'
+    | 'date'
+    | 'datetime-local'
+    | 'email'
+    | 'file'
+    | 'hidden'
+    | 'image'
+    | 'month'
+    | 'number'
+    | 'password'
+    | 'radio'
+    | 'range'
+    | 'reset'
+    | 'search'
+    | 'submit'
+    | 'tel'
+    | 'text'
+    | 'time'
+    | 'url'
+    | 'week';
 
   onInputChange?: (value: string) => void;
 }
@@ -39,7 +68,8 @@ const generateUniqueId = () => {
   return `search-bar-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 };
 
-const SearchBar: FC<SearchBarProps> = ({
+const Input: FC<InputProps> = ({
+  type = 'text',
   placeholderColor = '#FFFFFF',
   placeholder = '',
   BoxShadowActive = true,
@@ -55,16 +85,14 @@ const SearchBar: FC<SearchBarProps> = ({
   borderWidth = '1px',
   borderRadius = 25,
   disabled = false,
-  // grayscale = '0%',
-  widthSvg = '16px',
-  heightSvg = '16px',
-  colorSvg = '#fff',
   fontSize = '14px',
   fontFamily = 'Plus Jakarta Sans',
   onInputChange,
   hasBorderActive = true,
   BorderActiveColor = '#2266FF',
-  value = ''
+  value = '',
+  LeftHtml = <div />,
+  rightHtml = <div />
 }) => {
   const [inputFocused, setInputFocused] = useState(false);
   const [uniqueId] = useState(generateUniqueId());
@@ -121,10 +149,17 @@ const SearchBar: FC<SearchBarProps> = ({
     boxShadow: BoxShadowActive && inputFocused ? BoxShadowActiveColor : 'none'
   };
 
-  const SearchBarSvgStyle: CSSProperties = {
+  const HtmlLeftSvgStyle: CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginRight: '5px'
+  };
+  const HtmlRightSvgStyle: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: '5px'
   };
   const customPlaceholderStyles = `
     .${searchBarClassName}::placeholder {
@@ -133,18 +168,11 @@ const SearchBar: FC<SearchBarProps> = ({
   `;
   return (
     <div style={searchBarStyle}>
-      <div style={SearchBarSvgStyle}>
-        <SearchBarSvg
-          widthSvg={widthSvg}
-          heightSvg={heightSvg}
-          colorSvg={colorSvg}
-        />
-      </div>
+      <div style={HtmlLeftSvgStyle}>{LeftHtml}</div>
       <div>
         {placeholderColor && <style>{customPlaceholderStyles}</style>}
-
         <input
-          type='text'
+          type={type}
           className={searchBarClassName}
           placeholder={placeholder}
           disabled={disabled}
@@ -155,45 +183,21 @@ const SearchBar: FC<SearchBarProps> = ({
             border: 'none',
             outline: 'none',
             background: 'transparent',
-            fontSize,
+            paddingTop: 0,
+            paddingBottom: 0,
             fontFamily,
             color: textColor,
-            cursor: disabled ? 'not-allowed' : 'auto'
+            cursor: disabled ? 'not-allowed' : 'auto',
+            fontSize: fontSize
           }}
           onFocus={() => setInputFocused(true)}
           onBlur={() => setInputFocused(false)}
           onChange={(e) => onInputChange && onInputChange(e.target.value)}
         />
       </div>
+      <div style={HtmlRightSvgStyle}>{rightHtml}</div>
     </div>
   );
 };
 
-export default SearchBar;
-
-interface SearchBarSvgProps {
-  widthSvg?: string;
-  heightSvg?: string;
-  colorSvg?: string;
-}
-
-const SearchBarSvg: FC<SearchBarSvgProps> = ({
-  widthSvg = '16px',
-  heightSvg = '16px',
-  colorSvg = 'white'
-}) => {
-  return (
-    <svg
-      width={widthSvg}
-      height={heightSvg}
-      viewBox='0 0 16 16'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <path
-        d='M14.2716 13.1684L11.3313 10.2281C12.0391 9.28574 12.4213 8.13865 12.42 6.96C12.42 3.94938 9.97063 1.5 6.96 1.5C3.94938 1.5 1.5 3.94938 1.5 6.96C1.5 9.97063 3.94938 12.42 6.96 12.42C8.13865 12.4213 9.28574 12.0391 10.2281 11.3313L13.1684 14.2716C13.3173 14.4046 13.5114 14.4756 13.711 14.47C13.9105 14.4645 14.1004 14.3827 14.2415 14.2415C14.3827 14.1004 14.4645 13.9105 14.47 13.711C14.4756 13.5114 14.4046 13.3173 14.2716 13.1684ZM3.06 6.96C3.06 6.18865 3.28873 5.43463 3.71727 4.79328C4.14581 4.15192 4.7549 3.65205 5.46754 3.35687C6.18017 3.06169 6.96433 2.98446 7.72085 3.13494C8.47738 3.28542 9.17229 3.65686 9.71772 4.20228C10.2631 4.74771 10.6346 5.44262 10.7851 6.19915C10.9355 6.95567 10.8583 7.73983 10.5631 8.45247C10.268 9.1651 9.76808 9.77419 9.12673 10.2027C8.48537 10.6313 7.73135 10.86 6.96 10.86C5.92604 10.8588 4.93478 10.4475 4.20365 9.71635C3.47253 8.98522 3.06124 7.99396 3.06 6.96Z'
-        fill={colorSvg}
-      />
-    </svg>
-  );
-};
+export default Input;

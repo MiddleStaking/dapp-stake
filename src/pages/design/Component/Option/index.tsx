@@ -104,11 +104,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
         }
       />
       {isOpen && (
-        <div
-          style={{
-            background: `${backgroundColor}`
-          }}
-        >
+        <div>
           {options
             .filter((option) => option.value !== selectedValue)
             .map((option, index) => (

@@ -39,21 +39,22 @@ const ToggleSwitchGroupe: FC = () => {
             id='switch-1'
             onChange={handleToggle1}
             checked={switch1State}
-            trackColor={'black'}
+            // trackColor={'black'}
             thumbColor='#fff'
             borderColor={['#BD37EC', '#1F67FF']}
-            hasBorder={true}
+            hasBorder={switch1State ? false : true}
+            trackColor={switch1State ? ['#BD37EC', '#1F67FF'] : 'black'}
           />
         </div>
         <div>
           <ToggleSwitch
-            id='switch-1'
+            id='switch-8'
             onChange={handleToggle1}
             checked={switch1State}
-            trackColor={'black'}
+            // trackColor={'black'}
             thumbColor='white'
-            borderColor={['#BD37EC', '#1F67FF']}
-            hasBorder={true}
+            trackColor={['#BD37EC', '#1F67FF']}
+            // borderColor={'red'}
             disabled={true}
           />
         </div>
@@ -80,6 +81,15 @@ const ToggleSwitchGroupe: FC = () => {
             disabled={true}
           />
         </div>
+      </div>
+      <div>
+        <ToggleSwitch
+          id='switch-10'
+          onChange={handleToggle2}
+          checked={switch2State}
+          // trackColor={['#BD37EC', '#1F67FF']}
+          // thumbColor='white'
+        />
       </div>
     </CardPresentation>
   );

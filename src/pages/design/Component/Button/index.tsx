@@ -4,6 +4,7 @@ interface ButtonProps {
   text?: React.ReactNode;
   fontSize?: string;
   fontFamily?: string;
+  fontWeight?: string;
   textColor?: string;
   onClick?: MouseEventHandler;
   background?: string | [string, string];
@@ -33,6 +34,7 @@ const Button: FC<ButtonProps> = ({
   textColor = 'white',
   hasBorder = false,
   grayscale = '50%',
+  fontWeight = '600',
   onClick,
   text = 'Texte a difinir',
   gradientDirection = 'to right',
@@ -67,7 +69,8 @@ const Button: FC<ButtonProps> = ({
     //   : `calc(10px + ${borderWidth}) calc(20px + ${borderWidth})`,
     textAlign: 'center',
     textDecoration: 'none',
-    userSelect: 'none'
+    userSelect: 'none',
+    fontWeight: fontWeight
     // Fill: 'Solid #FFFFFF'
   };
 

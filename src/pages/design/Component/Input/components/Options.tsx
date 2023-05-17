@@ -15,7 +15,7 @@ interface OptionProps {
   hoverBackgroudColor?: string;
   hoverTextColor?: string;
 
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Options: FC<OptionProps> = ({

@@ -24,7 +24,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
   checked = false,
   onChange,
   disabled = false,
-  trackColor = 'black',
+  trackColor = checked ? ['#BD37EC', '#1F67FF'] : 'black',
   thumbColor = 'white', // Change color when disabled
   gradientDirection = 'to right',
   thumbWidth = '18px',
@@ -33,7 +33,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
   height = 24,
   borderRadius = 12,
   borderColor = ['#BD37EC', '#1F67FF'],
-  hasBorder = false
+  hasBorder = checked ? false : true
 }) => {
   const isGradient = (
     value: string | [string, string]
@@ -43,6 +43,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
 
   const containerStyle: CSSProperties = {
     // filter: 'drop-shadow(0px 0px 24px rgba(182, 57, 237, 0.64))',
+    // zIndex: 0,
     pointerEvents: disabled ? 'none' : 'auto',
     padding: hasBorder ? borderWidth : 0,
     display: 'inline-block',
@@ -60,10 +61,11 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
   const trackStyle: CSSProperties = {
     display: 'flex', // Use flex layout
     alignItems: 'center', // Center items vertically
-    justifyContent: checked ? 'flex-end' : 'flex-start', // Position the thumb
-    background: isGradient(trackColor)
-      ? `linear-gradient(${gradientDirection}, ${trackColor[0]}, ${trackColor[1]})`
-      : trackColor,
+    background: checked
+      ? isGradient(trackColor)
+        ? `linear-gradient(${gradientDirection}, ${trackColor[0]}, ${trackColor[1]})`
+        : trackColor
+      : 'black',
     borderRadius,
     width: '100%',
     height: '100%',
@@ -80,7 +82,8 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
     borderRadius: '50%',
     width: thumbWidth,
     height: thumbheight,
-    transition: 'margin 0.2s'
+    transition: 'margin 0.4s', // Add transition
+    marginLeft: checked ? `calc(100% - ${thumbWidth})` : '0' // Add this line
   };
 
   const inputStyle: CSSProperties = {
@@ -89,18 +92,22 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
   };
 
   return (
-    <div style={containerStyle}>
-      <label htmlFor={id} style={trackStyle}>
-        <input
-          type='checkbox'
-          id={id}
-          checked={checked}
-          disabled={disabled}
-          onChange={onChange}
-          style={inputStyle}
-        />
-        <span style={thumbStyle}></span>
-      </label>
+    <div
+      style={{ filter: 'drop-shadow(0px 0px 24px rgba(182, 57, 237, 0.64))' }}
+    >
+      <div style={containerStyle}>
+        <label htmlFor={id} style={trackStyle}>
+          <input
+            type='checkbox'
+            id={id}
+            checked={checked}
+            disabled={disabled}
+            onChange={onChange}
+            style={inputStyle}
+          />
+          <span style={thumbStyle}></span>
+        </label>
+      </div>
     </div>
   );
 };

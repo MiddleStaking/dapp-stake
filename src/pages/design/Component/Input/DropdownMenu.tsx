@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import Options from './components/Options';
 
 interface DropdownMenuProps {
@@ -38,6 +38,7 @@ interface DropdownMenuProps {
   widthSvg?: string;
   heightSvg?: string;
   colorSvg?: string;
+  OptonsCrollHeight?: string;
 }
 
 const generateUniqueId = () => {
@@ -61,7 +62,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
 
   // grayscale = '0%',
 
-  animationDelay = 3,
+  // animationDelay = 3,
   width = '150px',
   height = '40px',
   fontSize = '14px',
@@ -85,19 +86,17 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   hasBorder = disabled ? true : false,
   borderColor = disabled ? '#695885' : 'transparent',
   textColor = disabled ? '#695885' : '#FFFFFF',
-  colorSvg = disabled ? '#695885' : '#fff'
+  colorSvg = disabled ? '#695885' : '#fff',
+  OptonsCrollHeight = '300px'
 }) => {
-  const defaultOption = defaultValue
-    ? options.find((option) => option.value === defaultValue)
-    : options[0];
-
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(
-    defaultOption ? defaultOption.value : null
-  );
+  // const [selectedValue, setSelectedValue] = useState(
+  //   defaultOption ? defaultOption.value : null
+  // );
+  const [searchValue, setSearchValue] = useState('');
 
   const [displayText, setDisplayText] = useState(
-    defaultOption ? defaultOption.text : 'Select an option'
+    defaultValue ? defaultValue : 'Select an option'
   );
 
   const [BorderType, setBorderType] = useState(
@@ -118,14 +117,22 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setSearchValue('');
+      inputRef.current.blur();
+    }
+  }, [isOpen]);
+
   const [uniqueId] = useState(generateUniqueId());
   const dropDownMenuClassName = `dropDownInput-${uniqueId}`;
 
   const handleOptionClick = (value: any) => {
     onSelect(value);
-    setSelectedValue(value);
+    // setSelectedValue(value);
     const foundOption = options.find((option) => option.value === value);
     setDisplayText(foundOption ? foundOption.text : 'Select an option');
+    setSearchValue('');
     setIsOpen(false);
   };
 
@@ -170,24 +177,27 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   const DropDownSvgStyle: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    zIndex: 100
   };
   const customPlaceholderStyles = `
     .${dropDownMenuClassName}::placeholder {
       color: ${textColor};
     }
   `;
+  const inputRef: any = useRef();
 
   const handleClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);
     }
+    inputRef.current.focus();
   };
 
   return (
     <div style={containerStyle}>
       {placeholderColor && <style>{customPlaceholderStyles}</style>}
-      <style>
+      {/* <style>
         {`
     .option-item {
       animation: fadeIn 0s linear;
@@ -214,7 +224,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
       )
       .join('\n')}
   `}
-      </style>
+      </style> */}
 
       {/* <Options
         fontSize={fontSize}
@@ -234,12 +244,15 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
         <div>
           {textColor && <style>{customPlaceholderStyles}</style>}
           <input
+            ref={inputRef}
             type='text'
             className={dropDownMenuClassName}
             placeholder={displayText}
-            disabled={true}
-            defaultValue={displayText}
-            value={displayText}
+            disabled={disabled}
+            // Supprimez cette ligne
+            // defaultValue={displayText}
+            onChange={(e) => setSearchValue(e.target.value)}
+            value={searchValue}
             style={{
               flexGrow: 1,
               width: '100%',
@@ -251,6 +264,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
               color: textColor,
               cursor: disabled ? 'not-allowed' : 'pointer'
             }}
+            // Supprimez cette ligne aussi, car l'input est désactivé
             // onChange={(e) => onInputChange && onInputChange(e.target.value)}
           />
         </div>
@@ -272,43 +286,77 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
       </div>
 
       {isOpen && (
-        <div style={{ marginTop: '10px' }}>
-          {options
-            .filter((option) => option.value !== selectedValue)
-            .map((option, index) => {
+        <div
+          style={{
+            marginTop: '10px',
+            zIndex: 1000,
+            position: 'relative',
+            overflow: 'auto',
+            maxHeight: OptonsCrollHeight,
+            borderRadius: `${borderRadius}px`
+          }}
+        >
+          {(() => {
+            const filteredOptions = options.filter((option) =>
+              option.text.toLowerCase().includes(searchValue.toLowerCase())
+            );
+
+            if (filteredOptions.length === 0) {
               return (
                 <div
-                  key={index}
                   style={{
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center'
                   }}
-                  className='option-item'
                 >
                   <Options
                     textColor={textColorOption}
                     width={width}
                     height={height}
-                    // textColor={textColor}
                     hoverActive={true}
                     hoverTextColor={textColorSelect}
                     hoverBackgroudColor={backgroundColorSelect}
                     backgroudColor={backgroundColor}
-                    key={index}
-                    text={option.text}
-                    onClick={() => handleOptionClick(option.value)}
-                    borderRadius={
-                      index === options.length - 2
-                        ? `0 0 ${borderRadiusOptions}px ${borderRadiusOptions}px`
-                        : index === 0
-                        ? `${borderRadiusOptions}px ${borderRadiusOptions}px 0 0`
-                        : 'none'
-                    }
+                    text={'no token found'}
+                    borderRadius={`${borderRadiusOptions}px`}
                   />
                 </div>
               );
-            })}
+            }
+
+            // Des éléments correspondants ont été trouvés, les retourner
+            return filteredOptions.map((option, index) => (
+              <div
+                key={index}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Options
+                  textColor={textColorOption}
+                  width={width}
+                  height={height}
+                  hoverActive={true}
+                  hoverTextColor={textColorSelect}
+                  hoverBackgroudColor={backgroundColorSelect}
+                  backgroudColor={backgroundColor}
+                  key={index}
+                  text={option.text}
+                  onClick={() => handleOptionClick(option.value)}
+                  borderRadius={
+                    index === filteredOptions.length - 1
+                      ? `0 0 ${borderRadiusOptions}px ${borderRadiusOptions}px`
+                      : index === 0
+                      ? `${borderRadiusOptions}px ${borderRadiusOptions}px 0 0`
+                      : 'none'
+                  }
+                />
+              </div>
+            ));
+          })()}
         </div>
       )}
     </div>

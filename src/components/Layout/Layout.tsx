@@ -9,41 +9,34 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HeaderDekstop from 'pages/design/Component/Header.tsx';
 import FooterDekstop from 'pages/design/Component/Footer';
+import { useWindowDimensions } from 'pages/design/Component/Header.tsx/DimensionScreen.tsx';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();
+  const { width } = useWindowDimensions();
+
+  // '79px',
   return (
     <div
-      style={{ background: '#151515' }}
-      className='d-flex flex-column flex-fill wrapper'
+      style={{
+        background: '#151515',
+        minHeight: '100vh',
+        width: '100%',
+
+        margin: 0,
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+      // className='d-flex flex-column flex-fill wrapper'
     >
       <HeaderDekstop />
-      {/* <footer className='text-center mt-2 mb-3'>
-        <div>
-          Help us to improve the website with your{' '}
-          <a
-            {...{
-              target: '_blank'
-            }}
-            className='align-items-center'
-            href='https://forms.gle/zpdty8Eik9jnow1c9'
-          >
-            <u>feedback</u>
-          </a>{' '}
-          or{' '}
-          <a
-            {...{
-              target: '_blank'
-            }}
-            className='align-items-center'
-            href='https://t.me/MiddleStaking'
-          >
-            <u>Join telegram</u>{' '}
-            <FontAwesomeIcon icon={faPaperPlane} size='1x' />
-          </a>
-        </div>
-      </footer> */}
-      <main className='d-flex flex-column flex-grow-1'>
+
+      <main
+        style={{
+          marginBottom: width > 450 ? 0 : '84px'
+        }}
+        className='d-flex flex-column flex-grow-1'
+      >
         <AuthenticatedRoutesWrapper
           routes={routes}
           unlockRoute={`${routeNames.unlock}${search}`}

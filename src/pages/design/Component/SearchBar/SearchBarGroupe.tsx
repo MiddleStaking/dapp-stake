@@ -3,9 +3,10 @@ import SearchBar from '.';
 import CardPresentation from '../CardPresentation';
 
 const SearchBarGroupe: FC = () => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState('ici');
 
   const handleInputChange = (value: string) => {
+    console.log(value);
     setInputValue(value);
   };
 
@@ -27,10 +28,11 @@ const SearchBarGroupe: FC = () => {
           hasBorder={false}
           BoxShadowActive={false}
           placeholder={'search pool'}
+          value={inputValue}
         />
       </div>
       <div style={firstSwitchMargin}>
-        <SearchBar placeholder={'search pool'} />
+        <SearchBar value={inputValue} placeholder={'search pool'} />
       </div>
       <div style={firstSwitchMargin}>
         <SearchBar
@@ -48,7 +50,11 @@ const SearchBarGroupe: FC = () => {
         />
       </div>
       <div style={firstSwitchMargin}>
-        <SearchBar placeholder={'search pool'} disabled={true} />
+        <SearchBar
+          value={inputValue}
+          placeholder={'search pool'}
+          disabled={true}
+        />
       </div>
     </CardPresentation>
   );

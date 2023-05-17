@@ -39,6 +39,11 @@ export const routes: RouteWithTitleType[] = [
     component: Design
   },
   {
+    path: routeNames.design + '/:param',
+    title: 'Design',
+    component: Design
+  },
+  {
     path: routeNames.home,
     title: 'Home',
     component: Home

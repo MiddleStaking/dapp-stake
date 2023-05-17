@@ -4,6 +4,7 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
+import Button from 'pages/design/Component/Button';
 
 export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
@@ -44,12 +45,25 @@ export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
         <>
           {!hasPendingTransactions ? (
             <div>
-              <button
+              <Button
+                buttonWidth='240px'
+                buttonHeight='39px'
+                borderRadius={40}
+                onClick={sendStakeRewardsTransaction}
+                text={'Reinvest my rewards'}
+                hasBorder={true}
+                borderColor={['#BD37EC', '#1F67FF']}
+                background={'#000000'}
+                fontFamily='Plus Jakarta Sans'
+                fontSize='13px'
+                fontWeight='600'
+              />
+              {/* <button
                 onClick={sendStakeRewardsTransaction}
                 className='butLineBig goldButton'
               >
                 REINVEST REWARDS{' '}
-              </button>
+              </button> */}
             </div>
           ) : (
             <div className={notAllowedClass}>

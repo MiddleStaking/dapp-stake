@@ -4,6 +4,7 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
+import Button from 'pages/design/Component/Button';
 
 export const ActionClaimRewards = ({
   stakedToken,
@@ -52,12 +53,23 @@ export const ActionClaimRewards = ({
         <>
           {!hasPendingTransactions ? (
             <div>
-              <button
+              <Button
+                buttonWidth='240px'
+                buttonHeight='39px'
+                borderRadius={40}
+                onClick={sendClaimTransaction}
+                text={'Claim my rewards'}
+                background={'linear-gradient(90deg, #BD37EC 0%, #1F67FF 100%)'}
+                fontFamily='Plus Jakarta Sans'
+                fontSize='13px'
+                fontWeight='600'
+              />
+              {/* <button
                 onClick={sendClaimTransaction}
                 className='butLineBig goldButton'
               >
                 CLAIM REWARDS{' '}
-              </button>
+              </button> */}
             </div>
           ) : (
             <div className={notAllowedClass}>

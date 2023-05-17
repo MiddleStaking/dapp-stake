@@ -106,6 +106,7 @@ const ButtonGroupe: FC = () => {
           text={<SearchBarSvg widthSvg='20px' heightSvg='20px' />}
           hasBorder={true}
           onClick={() => console.log('Bouton cliqué')}
+          boxShadow={'0px 0px 24px rgba(182, 57, 237, 0.64)'}
         />
       </div>
     </CardPresentation>
