@@ -54,7 +54,10 @@ export const useGetESDTCompute = (identifier: string) => {
   const baseURL = 'https://api.middlestaking.fr';
   const url = '/tokens.php?var1=' + identifier;
   const getEsdtInfo = async () => {
-    if (!identifier || identifier != 'MIDUSDC-3d93f4') {
+    if (
+      !identifier ||
+      (identifier != 'MIDUSDC-3d93f4' && identifier != 'TROUSDC-2a60c7')
+    ) {
       return;
     }
     //using storage to reduce calls
