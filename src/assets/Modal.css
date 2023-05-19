@@ -10,8 +10,8 @@ z-index: 100;
     top: calc(50% - 451px);
 }
 
-.modal {
-z-index: 101;
+.modal2 {
+    z-index: 1001;
 background: linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 12.97%, rgba(31, 103, 255, 0) 71.91%), rgba(99, 74, 203, 0.32);
 
 border-radius: 32px;
@@ -51,7 +51,7 @@ overflow: hidden;
 
 
 
-.modal .content {
+.modal2 .content {
 background: none;
     padding: 0px 88px 10px 88px;
     display: flex;
@@ -65,7 +65,7 @@ background: none;
     overflow: hidden;
 }
 
-.modal .create-new-pool {
+.modal2 .create-new-pool {
 color: var(--neutral-white, #ffffff);
     text-align: center;
     font: var(--title-28-px-bold, 700 28px 'Plus Jakarta Sans', sans-serif);
@@ -75,7 +75,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: center
 }
 
-.modal .logos {
+.modal2 .logos {
 display: flex;
     flex-direction: row;
     gap: 96px;
@@ -86,7 +86,7 @@ display: flex;
     position: relative;
 }
 
-.modal .image {
+.modal2 .image {
 background: var(--neutral-black, #000000);
     border-radius: 100px;
     display: flex;
@@ -99,14 +99,14 @@ background: var(--neutral-black, #000000);
     position: relative;
 }
 
-.modal .logos2 {
+.modal2 .logos2 {
 flex-shrink: 0;
     width: 100px;
     height: 100px;
     position: relative;
 }
 
-.modal .image-3 {
+.modal2 .image-3 {
 width: 100px;
     height: 100px;
     position: absolute;
@@ -114,7 +114,7 @@ width: 100px;
     top: 0px;
 }
 
-.modal .logo {
+.modal2 .logo {
 background: var(--neutral-black, #000000);
     border-radius: 100px;
     border-style: solid;
@@ -134,7 +134,7 @@ background: var(--neutral-black, #000000);
     top: 54.42px;
 }
 
-.modal .image-1 {
+.modal2 .image-1 {
 flex-shrink: 0;
     width: 40px;
     height: 40px;
@@ -143,7 +143,7 @@ flex-shrink: 0;
 position: relative;
 }
 
-.modal .frame-56 {
+.modal2 .frame-56 {
 display: flex;
     flex-direction: row;
     gap: 32px;
@@ -154,7 +154,7 @@ display: flex;
     position: relative;
 }
 
-.modal .input {
+.modal2 .input {
 display: flex;
     flex-direction: column;
     gap: 12px;
@@ -164,7 +164,7 @@ display: flex;
     position: relative;
 }
 
-.modal .label {
+.modal2 .label {
 padding: 0px 0px 0px 14px;
     display: flex;
     flex-direction: row;
@@ -175,7 +175,7 @@ padding: 0px 0px 0px 14px;
     position: relative;
 }
 
-.modal .label2 {
+.modal2 .label2 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: 300 10px 'Plus Jakarta Sans', sans-serif;
@@ -186,7 +186,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal .input-default {
+.modal2 .input-default {
 background: var(--neutral-black, #000000);
     border-radius: 54px;
     border-style: solid;
@@ -202,7 +202,7 @@ background: var(--neutral-black, #000000);
     position: relative;
 }
 
-.modal .value {
+.modal2 .value {
 color: var(--neutral-white, #ffffff);
     text-align: center;
     font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
@@ -212,13 +212,13 @@ color: var(--neutral-white, #ffffff);
     justify-content: center
 }
 
-.modal .chevron-down {
+.modal2 .chevron-down {
 flex-shrink: 0;
     position: relative;
     overflow: visible;
 }
 
-.modal .input2 {
+.modal2 .input2 {
 display: flex;
     flex-direction: column;
     gap: 12px;
@@ -228,7 +228,7 @@ display: flex;
     position: relative;
 }
 
-.modal .label3 {
+.modal2 .label3 {
 padding: 0px 0px 0px 14px;
     display: flex;
     flex-direction: row;
@@ -239,7 +239,7 @@ padding: 0px 0px 0px 14px;
     position: relative;
 }
 
-.modal .label4 {
+.modal2 .label4 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: 300 10px 'Plus Jakarta Sans', sans-serif;
@@ -250,7 +250,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal .input-default2 {
+.modal2 .input-default2 {
 background: var(--neutral-black, #000000);
     border-radius: 54px;
     border-style: solid;
@@ -266,13 +266,13 @@ background: var(--neutral-black, #000000);
     position: relative;
 }
 
-.modal .chevron-down2 {
+.modal2 .chevron-down2 {
 flex-shrink: 0;
     position: relative;
     overflow: visible;
 }
 
-.modal .pool-details {
+.modal2 .pool-details {
 display: flex;
     flex-direction: column;
     gap: 16px;
@@ -282,7 +282,7 @@ display: flex;
     position: relative;
 }
 
-.modal .this-pool-already-exists {
+.modal2 .this-pool-already-exists {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--title-16-px-bold, 700 16px 'Plus Jakarta Sans', sans-serif);
@@ -290,7 +290,7 @@ color: var(--neutral-white, #ffffff);
     align-self: stretch;
 }
 
-.modal .token-position {
+.modal2 .token-position {
 background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
     border-radius: 8px;
     padding: 24px 48px 24px 48px;
@@ -303,7 +303,7 @@ background: var(--bgtransparency, rgba(99, 74, 203, 0.32));
     position: relative;
 }
 
-.modal .logos3 {
+.modal2 .logos3 {
 display: flex;
     flex-direction: row;
     gap: 69.82px;
@@ -313,7 +313,7 @@ display: flex;
     position: relative;
 }
 
-.modal .image2 {
+.modal2 .image2 {
 background: var(--neutral-black, #000000);
     border-radius: 72.73px;
     display: flex;
@@ -326,14 +326,14 @@ background: var(--neutral-black, #000000);
     position: relative;
 }
 
-.modal .logos4 {
+.modal2 .logos4 {
 flex-shrink: 0;
     width: 64px;
     height: 64px;
     position: relative;
 }
 
-.modal .image-32 {
+.modal2 .image-32 {
 width: 64px;
     height: 64px;
     position: absolute;
@@ -341,7 +341,7 @@ width: 64px;
     top: 0px;
 }
 
-.modal .logo2 {
+.modal2 .logo2 {
 background: var(--neutral-black, #000000);
     border-radius: 72.73px;
     border-style: solid;
@@ -361,21 +361,21 @@ width: 29.09px;
     top: 39.58px;
 }
 
-.modal .image-12 {
+.modal2 .image-12 {
 flex-shrink: 0;
     width: 29.09px;
     height: 29.09px;
     position: relative;
 }
 
-.modal .group-4 {
+.modal2 .group-4 {
 flex-shrink: 0;
     width: 223px;
     height: 117px;
     position: static;
 }
 
-.modal .frame-4 {
+.modal2 .frame-4 {
 display: flex;
     flex-direction: row;
     align-items: center;
@@ -386,7 +386,7 @@ display: flex;
     top: 24px;
 }
 
-.modal .rewards {
+.modal2 .rewards {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
@@ -396,7 +396,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal ._18-853-74 {
+.modal2 ._18-853-74 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
     font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
@@ -406,7 +406,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-end
 }
 
-.modal .frame-6 {
+.modal2 .frame-6 {
 display: flex;
     flex-direction: row;
     align-items: center;
@@ -417,7 +417,7 @@ display: flex;
     top: 41px;
 }
 
-.modal .value2 {
+.modal2 .value2 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
@@ -427,7 +427,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal ._723-37 {
+.modal2 ._723-37 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
     font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
@@ -437,7 +437,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-end
 }
 
-.modal .frame-7 {
+.modal2 .frame-7 {
 display: flex;
     flex-direction: row;
     align-items: center;
@@ -448,7 +448,7 @@ display: flex;
     top: 58px;
 }
 
-.modal .all-time-rewarded {
+.modal2 .all-time-rewarded {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
@@ -458,7 +458,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal ._98-75 {
+.modal2 ._98-75 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
     font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
@@ -468,7 +468,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-end
 }
 
-.modal .frame-8 {
+.modal2 .frame-8 {
 display: flex;
     flex-direction: row;
     align-items: center;
@@ -479,7 +479,7 @@ display: flex;
     top: 75px;
 }
 
-.modal .speed {
+.modal2 .speed {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
@@ -489,7 +489,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal ._365-days {
+.modal2 ._365-days {
 color: var(--neutral-white, #ffffff);
     text-align: right;
     font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
@@ -499,7 +499,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-end
 }
 
-.modal .frame-9 {
+.modal2 .frame-9 {
 display: flex;
     flex-direction: row;
     align-items: center;
@@ -510,7 +510,7 @@ display: flex;
     top: 92px;
 }
 
-.modal .total-staked {
+.modal2 .total-staked {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
@@ -520,7 +520,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal ._135-492-65 {
+.modal2 ._135-492-65 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
     font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
@@ -530,7 +530,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-end
 }
 
-.modal .frame-10 {
+.modal2 .frame-10 {
 display: flex;
     flex-direction: row;
     align-items: center;
@@ -541,7 +541,7 @@ display: flex;
     top: 109px;
 }
 
-.modal .total-value {
+.modal2 .total-value {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
@@ -551,7 +551,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal ._5-198-9 {
+.modal2 ._5-198-9 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
     font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
@@ -561,7 +561,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-end
 }
 
-.modal .frame-11 {
+.modal2 .frame-11 {
 display: flex;
     flex-direction: row;
     align-items: center;
@@ -572,7 +572,7 @@ display: flex;
     top: 126px;
 }
 
-.modal .users {
+.modal2 .users {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
@@ -582,7 +582,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal ._6 {
+.modal2 ._6 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
     font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
@@ -592,7 +592,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-end
 }
 
-.modal .staked-rewarded-tokens {
+.modal2 .staked-rewarded-tokens {
 display: flex;
     flex-direction: column;
     gap: 32px;
@@ -602,7 +602,7 @@ display: flex;
     position: relative;
 }
 
-.modal .do-you-want-to-add-it-rewarded-tokens {
+.modal2 .do-you-want-to-add-it-rewarded-tokens {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--text-14-px-semibold, 600 14px 'Plus Jakarta Sans', sans-serif);
@@ -610,7 +610,7 @@ color: var(--neutral-white, #ffffff);
     width: 436px;
 }
 
-.modal .form {
+.modal2 .form {
 display: flex;
     flex-direction: column;
     gap: 24px;
@@ -620,7 +620,7 @@ display: flex;
     position: relative;
 }
 
-.modal .frame-57 {
+.modal2 .frame-57 {
 display: flex;
     flex-direction: row;
     gap: 32px;
@@ -631,7 +631,7 @@ display: flex;
     position: relative;
 }
 
-.modal .input3 {
+.modal2 .input3 {
 display: flex;
     flex-direction: column;
     gap: 12px;
@@ -642,7 +642,7 @@ display: flex;
     position: relative;
 }
 
-.modal .label5 {
+.modal2 .label5 {
 padding: 0px 0px 0px 14px;
     display: flex;
     flex-direction: row;
@@ -653,7 +653,7 @@ padding: 0px 0px 0px 14px;
     position: relative;
 }
 
-.modal .label6 {
+.modal2 .label6 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: 400 10px 'Plus Jakarta Sans', sans-serif;
@@ -664,7 +664,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal .input-default3 {
+.modal2 .input-default3 {
 background: var(--neutral-black, #000000);
     border-radius: 54px;
     border-style: solid;
@@ -680,7 +680,7 @@ background: var(--neutral-black, #000000);
     position: relative;
 }
 
-.modal .value3 {
+.modal2 .value3 {
 color: var(--neutral-light, #695885);
     text-align: center;
     font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
@@ -690,7 +690,7 @@ color: var(--neutral-light, #695885);
     justify-content: center
 }
 
-.modal .max {
+.modal2 .max {
 color: rgb(170, 169, 234);
     text-align: right;
     font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
@@ -701,7 +701,7 @@ justify-content: flex-end;
     right: 13px;
 }
 
-.modal .font-uniformisation {
+.modal2 .font-uniformisation {
 padding: 2px 0px 2px 0px;
     display: flex;
     flex-direction: row;
@@ -713,7 +713,7 @@ padding: 2px 0px 2px 0px;
     position: relative;
 }
 
-.modal ._7-56-mex-ecb-7-bf {
+.modal2 ._7-56-mex-ecb-7-bf {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: 300 italic 12px 'Plus Jakarta Sans', sans-serif;
@@ -723,7 +723,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: flex-start
 }
 
-.modal .frame-41 {
+.modal2 .frame-41 {
 display: flex;
     flex-direction: column;
     gap: 8px;
@@ -733,7 +733,7 @@ display: flex;
     position: relative;
 }
 
-.modal .frame-412 {
+.modal2 .frame-412 {
 display: flex;
     flex-direction: row;
     gap: 8px;
@@ -744,14 +744,14 @@ display: flex;
     position: relative;
 }
 
-.modal .rectangle-8 {
+.modal2 .rectangle-8 {
 flex-shrink: 0;
     width: 20px;
     height: 20px;
     position: relative;
 }
 
-.modal .rectangle-7-off {
+.modal2 .rectangle-7-off {
     background: var(--linear-primary-light, linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 0%, rgba(31, 103, 255, 0.00) 100%), linear-gradient(to left, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)));
     border-radius: 3px;
     border-style: solid;
@@ -764,7 +764,7 @@ flex-shrink: 0;
     top: 0px;
 }
 
-.modal .label7 {
+.modal2 .label7 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
@@ -775,7 +775,7 @@ justify-content: flex-start;
     margin-left: 25px;
 }
 
-.modal .bottom {
+.modal2 .bottom {
 padding: 18px 88px 18px 88px;
     display: flex;
     flex-direction: row;
@@ -787,7 +787,7 @@ padding: 18px 88px 18px 88px;
     position: relative;
 }
 
-.modal .button {
+.modal2 .button {
 background: var(--neutral-black, #000000);
     border-radius: 40px;
 
@@ -800,7 +800,7 @@ position: relative;
 
 }
 
-.modal .cancel {
+.modal2 .cancel {
 color: var(--neutral-white, #ffffff);
     text-align: center;
     font: var(--text-14-px-semibold, 600 14px 'Plus Jakarta Sans', sans-serif);
@@ -810,7 +810,7 @@ color: var(--neutral-white, #ffffff);
     justify-content: center;
 }
 
-.modal .button2 {
+.modal2 .button2 {
 background: var(--linear-primary, linear-gradient(90deg, rgba(189, 55, 236, 1.00) 0%, rgba(31, 103, 255, 1.00) 100%));
     border-radius: 40px;
     padding: 16px 19px 16px 19px;
@@ -823,7 +823,7 @@ background: var(--linear-primary, linear-gradient(90deg, rgba(189, 55, 236, 1.00
     height: 50px;
     position: relative;
 }
-.modal .stake2 {
+.modal2 .stake2 {
 color: var(--neutral-white, #ffffff);
     text-align: center;
     font: var(--text-14-px-semibold, 600 14px 'Plus Jakarta Sans', sans-serif);
@@ -833,7 +833,7 @@ align-items: center;
     justify-content: center
 }
 
-.modal .close {
+.modal2 .close {
 flex-shrink: 0;
     position: absolute;
     right: 32px;
@@ -841,7 +841,7 @@ flex-shrink: 0;
     overflow: visible;
 }
 
-.modal .neon-border {
+.modal2 .neon-border {
 z-index: -1;
 border-radius: 24px 24px 0px 0px;
     border-width: 2px 2px 0px 2px;
@@ -910,12 +910,12 @@ input[type=number] {
         width: 600px;
     }
 
-    .modal {
+        .modal2 {
         width: 600px;
         height: 800px;
     }
 
-    .modal .content {
+        .modal2 .content {
         background: none;
         padding: 0px 0px 0px 40px;
         display: flex;

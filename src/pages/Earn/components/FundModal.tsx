@@ -184,7 +184,7 @@ const StakeModal = (props: any) => {
     <>
       <div className='new-pool-already-exist-default'>
         <div className='background'>
-          <div className='modal'>
+          <div className='modal2'>
             <div className='content'>
               <div className='create-new-pool'>Create new pool</div>
 

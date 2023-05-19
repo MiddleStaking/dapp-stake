@@ -13,7 +13,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='bg-light d-flex flex-column flex-fill wrapper'>
       <MyNavbar />
-      <footer className='text-center mt-2 mb-3'>
+      {/* <footer className='text-center mt-2 mb-3'>
         <div>
           Help us to improve the website with your{' '}
           <a
@@ -37,7 +37,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             <FontAwesomeIcon icon={faPaperPlane} size='1x' />
           </a>
         </div>
-      </footer>
+      </footer> */}
       <main
         className='d-flex flex-column flex-grow-1'
         style={{
@@ -46,6 +46,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           backgroundRepeat: 'round'
         }}
       >
+        {/* <svg
+          width='100%'
+          height='100%'
+          preserveAspectRatio='none'
+          className='neon1'
+        >
+          {neon1}
+        </svg> */}
+
         <AuthenticatedRoutesWrapper
           routes={routes}
           unlockRoute={`${routeNames.unlock}${search}`}
