@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import { ActionRemovePoolFees, ActionStake } from './Actions';
@@ -9,6 +9,7 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
 import { ActionFund } from './Actions';
+import { Button } from './../../../components/Design';
 
 const StakeModal = (props: any) => {
   const userEsdtBalance = useGetUserESDT();
@@ -415,12 +416,15 @@ const StakeModal = (props: any) => {
             </div>
 
             <div className='bottom' onClick={props.onClose}>
-              <div className='button2 cursor-pointer' onClick={props.onClose}>
-                <div className='button'>
-                  <div className='cancel '>Cancel</div>
-                </div>{' '}
-              </div>
-
+              <Button
+                buttonWidth='100%'
+                hasBorder={true}
+                borderRadius={40}
+                background={'black'}
+                borderColor={['#BD37EC', '#1F67FF']}
+                text='Cancel'
+                onClick={props.onClose}
+              />{' '}
               <ActionStake
                 stakedToken={stoken}
                 rewardedToken={rtoken}

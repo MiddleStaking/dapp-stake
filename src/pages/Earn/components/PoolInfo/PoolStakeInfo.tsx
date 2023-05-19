@@ -6,6 +6,7 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import StakeModal from './../StakeModal';
 import UnstakeModal from './../UnstakeModal';
 import { ActionClaimRewards, ActionStakeRewards } from './../Actions';
+import { Button } from './../../../../components/Design';
 
 export const PoolStakeInfo = ({
   address,
@@ -49,15 +50,18 @@ export const PoolStakeInfo = ({
       />
 
       {!address ? (
-        <div className='my-stake-section3'>
+        <div className='my-stake-section3 '>
           <Link
-            className='buttons4'
+            className='center'
             to={routeNames.unlock + `/stake/${stakedToken}`}
             data-testid='loginBtn'
           >
-            <div className='button6'>
-              <div className='stake6'>Login</div>
-            </div>
+            <Button
+              borderRadius={40}
+              background={'#000000'}
+              borderColor={'black'}
+              text='Login'
+            />
           </Link>
         </div>
       ) : (
@@ -74,13 +78,16 @@ export const PoolStakeInfo = ({
                 </div>
               </div>
 
-              <div className='buttons4'>
-                <div
-                  className='button6 cursor-pointer'
+              <div className='buttons'>
+                <Button
+                  borderRadius={40}
+                  hasBorder={true}
+                  background={'black'}
+                  borderColor={['#BD37EC', '#1F67FF']}
+                  text={'Stake ' + stakedToken}
+                  buttonWidth={'100%'}
                   onClick={() => setShowStake(true)}
-                >
-                  <div className='stake6'>Stake {stakedToken}</div>
-                </div>
+                />
               </div>
             </div>
           ) : (
@@ -123,19 +130,20 @@ export const PoolStakeInfo = ({
               </div>
 
               <div className='buttons'>
-                <div
-                  className='button cursor-pointer'
+                <Button
+                  borderRadius={40}
+                  background={'#000000'}
+                  borderColor={'black'}
+                  text='Stake'
                   onClick={() => setShowStake(true)}
-                >
-                  <div className='stake'>Stake</div>
-                </div>
-
-                <div
-                  className='button2 cursor-pointer'
+                />
+                <Button
+                  borderRadius={40}
+                  background={'#000000'}
+                  borderColor={'black'}
+                  text='Unstake'
                   onClick={() => setShowUnstake(true)}
-                >
-                  <div className='stake2'>Unstake</div>
-                </div>
+                />
               </div>
             </div>
           )}

@@ -4,6 +4,7 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
+import { Button } from './../../../../components/Design';
 
 export const ActionUnstake = ({
   stakedToken,
@@ -65,18 +66,26 @@ export const ActionUnstake = ({
         <>
           {!hasPendingTransactions ? (
             <>
-              <button
-                className='button2 cursor-pointer'
+              <Button
+                buttonWidth='100%'
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                text='Unstake tokens'
                 onClick={sendUnstakeTransaction}
-                disabled={!user_fund}
-              >
-                <div className='stake2 '>Unstake tokens</div>
-              </button>
+                disabled={user_fund == 0}
+              />
             </>
           ) : (
-            <div className={notAllowedClass}>
-              <button className='btn'>Processing</button>
-            </div>
+            <>
+              <Button
+                buttonWidth='100%'
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                borderColor={'black'}
+                text='Processing'
+                disabled={true}
+              />
+            </>
           )}
         </>
       )}

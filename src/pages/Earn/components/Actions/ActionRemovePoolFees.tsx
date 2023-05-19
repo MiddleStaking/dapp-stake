@@ -9,6 +9,8 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollar } from '@fortawesome/free-solid-svg-icons';
+import { Button } from './../../../../components/Design';
+
 export const ActionRemovePoolFees = ({ stakedToken, rewardedToken }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
   const userEsdtBalance = useGetUserESDT();
@@ -86,35 +88,34 @@ export const ActionRemovePoolFees = ({ stakedToken, rewardedToken }: any) => {
   const notAllowedClass = unstakeAllowed ? '' : 'not-allowed disabled';
 
   return (
-    <div>
+    <>
       {balance !== undefined && (
         <>
           {!hasPendingTransactions ? (
             <>
-              {balance <= price ? (
-                <>
-                  <button
-                    onClick={sendFundTransaction}
-                    className='button2 cursor-pointer text-white'
-                  >
-                    <div className='stake2 '>Remove fees</div>
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button className='button cursor-pointer' disabled={true}>
-                    <div className='stake2 '>Insufisant balance</div>
-                  </button>
-                </>
-              )}
+              <Button
+                buttonWidth='100%'
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                text={balance >= price ? 'Remove fees' : 'Low balance'}
+                onClick={sendFundTransaction}
+                disabled={balance <= price}
+              />
             </>
           ) : (
-            <div className={notAllowedClass}>
-              <button className='btn'>Processing</button>
-            </div>
+            <>
+              <Button
+                buttonWidth='100%'
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                borderColor={'black'}
+                text='Processing'
+                disabled={true}
+              />
+            </>
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
