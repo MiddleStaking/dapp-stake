@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import { ActionRemovePoolFees, ActionStake } from './Actions';
@@ -10,7 +10,7 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
 import { ActionFund } from './Actions';
-import { CheckBox } from './../../../components/Design';
+import { CheckBox, Button } from './../../../components/Design';
 
 const StakeModal = (props: any) => {
   const userEsdtBalance = useGetUserESDT();
@@ -429,13 +429,6 @@ const StakeModal = (props: any) => {
               <div className='staked-rewarded-tokens'>
                 {fees > BigInt(0) ? (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    {/* <input
-                      className='styled-checkbox'
-                      id='styled-checkbox-1'
-                      type='checkbox'
-                      checked={payFees}
-                      onChange={handleChange}
-                    /> */}
                     <CheckBox
                       label='Pay to remove the 10% deposit fees.'
                       checked={payFees}
@@ -583,12 +576,20 @@ const StakeModal = (props: any) => {
               </div>
             </div>
 
-            <div className='bottom' onClick={props.onClose}>
-              <div className='button2 cursor-pointer' onClick={props.onClose}>
-                <div className='button'>
-                  <div className='cancel '>Cancel</div>
-                </div>{' '}
-              </div>
+            <div
+              className='bottom center'
+              style={{ width: '100%' }}
+              onClick={props.onClose}
+            >
+              <Button
+                buttonWidth='100%'
+                hasBorder={true}
+                borderRadius={40}
+                background={'black'}
+                borderColor={['#BD37EC', '#1F67FF']}
+                text='Cancel'
+                onClick={props.onClose}
+              />
               {payFees ? (
                 <ActionRemovePoolFees
                   stakedToken={stoken}
