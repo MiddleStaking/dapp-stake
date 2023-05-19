@@ -10,6 +10,7 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
 import { ActionFund } from './Actions';
+import { CheckBox } from './../../../components/Design';
 
 const StakeModal = (props: any) => {
   const userEsdtBalance = useGetUserESDT();
@@ -428,18 +429,22 @@ const StakeModal = (props: any) => {
               <div className='staked-rewarded-tokens'>
                 {fees > BigInt(0) ? (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    <input
+                    {/* <input
                       className='styled-checkbox'
                       id='styled-checkbox-1'
                       type='checkbox'
                       checked={payFees}
                       onChange={handleChange}
+                    /> */}
+                    <CheckBox
+                      label='Pay to remove the 10% deposit fees.'
+                      checked={payFees}
+                      onClick={() => {
+                        handleChange();
+                      }}
                     />
-                    <label htmlFor='styled-checkbox-1'>
-                      Pay to remove the 10% deposit fees.
-                    </label>{' '}
                     <a
-                      style={{ color: 'white' }}
+                      style={{ color: 'white', display: 'flex' }}
                       target='_blank'
                       rel='noreferrer'
                       href='https://docs.middlestaking.fr/welcome/deposit/deposit-fees'
@@ -449,13 +454,11 @@ const StakeModal = (props: any) => {
                   </div>
                 ) : (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    <input
-                      className='styled-checkbox'
-                      id='styled-checkbox-1'
-                      type='checkbox'
+                    <CheckBox
+                      label='Fees payed'
                       checked={true}
+                      disabled={true}
                     />
-                    <label htmlFor='styled-checkbox-1'>Fees payed</label>
                   </div>
                 )}
 
