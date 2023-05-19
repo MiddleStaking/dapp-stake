@@ -26,6 +26,7 @@ import { PoolInfo } from './PoolInfo';
 import { TopInfo } from './TopInfo';
 import FundModal from './FundModal';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { CheckBox, ToggleSwitch } from './../../../components/Design';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const { network } = useGetNetworkConfig();
@@ -342,10 +343,16 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
               </svg>
             </div>
           </div>
-          <label className='switch'>
-            <input type='checkbox' checked={myPools} onChange={handleChange} />
-            <span className='slider round'></span>
-          </label>
+
+          <ToggleSwitch
+            id='switch-1'
+            onChange={handleChange}
+            checked={myPools}
+            thumbColor='#fff'
+            borderColor={['#BD37EC', '#1F67FF']}
+            hasBorder={myPools ? false : true}
+            trackColor={myPools ? ['#BD37EC', '#1F67FF'] : 'black'}
+          />
           <div className='toggle'>
             <div className='staken-only'>Staked only</div>
           </div>
