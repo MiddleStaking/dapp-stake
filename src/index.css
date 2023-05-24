@@ -47,6 +47,10 @@ width: 1440px;
 margin: 0 auto 0;
 justify-content: center !important;
 }
+.left {
+  text-align: left;
+  justify-content: center !important;
+}
 .background {
 opacity: 0.699999988079071;
 position: absolute;

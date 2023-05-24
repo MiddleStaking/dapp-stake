@@ -12,6 +12,7 @@ import {
   faEarth
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from './../../../../components/Design';
 
 export const ActionMine = ({ payment_esdt_info, price }: any) => {
   const pdecimals = payment_esdt_info?.decimals
@@ -86,81 +87,97 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
   };
 
   return (
-    <div>
+    <div className='center' style={{ width: '300px' }}>
       {!hasPendingTransactions ? (
         <div>
           {balance >= price && price > 0 ? (
             <>
-              {' '}
-              <button
-                style={{ width: 'auto' }}
-                className='goldButton butLineBig'
-                onClick={sendUnstakeTransaction}
-                disabled={false}
-              >
-                Play for
-                <br />
-                <FormatAmount
-                  value={price ? price.toString() : 0}
-                  decimals={Number(pdecimals)}
-                  egldLabel={payment_esdt_info?.identifier}
-                  data-testid='balance'
-                  digits={2}
-                />{' '}
-                {payment_esdt_info?.price && (
-                  <div className='col-12 '>
-                    ~{' '}
-                    <FormatAmount
-                      value={dollar_value.toString()}
-                      decimals={Number(pdecimals)}
-                      egldLabel={' '}
-                      data-testid='balance'
-                      digits={2}
-                    />
-                    <FontAwesomeIcon icon={faDollar} />
-                  </div>
-                )}
-              </button>
+              Play for{' '}
+              <FormatAmount
+                value={price ? price.toString() : 0}
+                decimals={Number(pdecimals)}
+                egldLabel={payment_esdt_info?.identifier}
+                data-testid='balance'
+                digits={2}
+              />{' '}
+              {payment_esdt_info?.price && (
+                <>
+                  <br />~{' '}
+                  <FormatAmount
+                    value={dollar_value.toString()}
+                    decimals={Number(pdecimals)}
+                    egldLabel={' '}
+                    data-testid='balance'
+                    digits={2}
+                  />
+                  <FontAwesomeIcon icon={faDollar} />
+                </>
+              )}
+              <div style={{ left: '100px', position: 'relative' }}>
+                <Button
+                  buttonWidth='100px'
+                  hasBorder={true}
+                  borderRadius={40}
+                  background={['#BD37EC', '#1F67FF']}
+                  borderColor={['#BD37EC', '#1F67FF']}
+                  text={'Play'}
+                  onClick={sendUnstakeTransaction}
+                />
+              </div>
             </>
           ) : (
             <>
-              <button className='bouton-disabled' disabled={true}>
-                <FormatAmount
-                  value={balance.toString()}
-                  decimals={Number(pdecimals)}
-                  egldLabel={' '}
-                  data-testid='balance'
-                  digits={2}
-                />
-                /{' '}
-                <FormatAmount
-                  value={price ? price.toString() : 0}
-                  decimals={Number(pdecimals)}
-                  egldLabel={payment_esdt_info?.identifier}
-                  data-testid='balance'
-                  digits={2}
-                />
-                {payment_esdt_info?.price && (
-                  <div className='col-12 '>
-                    ~{' '}
-                    <FormatAmount
-                      value={dollar_value.toString()}
-                      decimals={Number(pdecimals)}
-                      egldLabel={' '}
-                      data-testid='balance'
-                      digits={2}
-                    />
-                    <FontAwesomeIcon icon={faDollar} />
-                  </div>
-                )}
-              </button>
+              <FormatAmount
+                value={balance.toString()}
+                decimals={Number(pdecimals)}
+                egldLabel={' '}
+                data-testid='balance'
+                digits={2}
+              />
+              /{' '}
+              <FormatAmount
+                value={price ? price.toString() : 0}
+                decimals={Number(pdecimals)}
+                egldLabel={payment_esdt_info?.identifier}
+                data-testid='balance'
+                digits={2}
+              />
+              {payment_esdt_info?.price && (
+                <>
+                  <br />~{' '}
+                  <FormatAmount
+                    value={dollar_value.toString()}
+                    decimals={Number(pdecimals)}
+                    egldLabel={' '}
+                    data-testid='balance'
+                    digits={2}
+                  />
+                  <FontAwesomeIcon icon={faDollar} />
+                </>
+              )}
+              <Button
+                buttonWidth=''
+                hasBorder={true}
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                borderColor={['#BD37EC', '#1F67FF']}
+                text={'Low balance'}
+                disabled={true}
+              />
             </>
           )}
         </div>
       ) : (
-        <div>
-          <button className='btn'>Processing</button>
-        </div>
+        <>
+          <Button
+            buttonWidth='100%'
+            borderRadius={40}
+            background={['#BD37EC', '#1F67FF']}
+            borderColor={'black'}
+            text='Processing'
+            disabled={true}
+          />
+        </>
       )}
     </div>
   );
