@@ -6,6 +6,7 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractPlay } from 'config';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { useGetUserESDT } from './../../../../pages/Earn/components/Actions/helpers/useGetUserESDT';
+import { Button } from './../../../../components/Design';
 
 export const ActionEnd = () => {
   const { hasPendingTransactions } = useGetPendingTransactions();
@@ -41,21 +42,28 @@ export const ActionEnd = () => {
       {!hasPendingTransactions ? (
         <div>
           <>
-            {' '}
-            <button
-              style={{ width: 'auto' }}
-              className='goldButton butLineBig'
+            <Button
+              buttonWidth='100px'
+              hasBorder={true}
+              borderRadius={40}
+              background={['#BD37EC', '#1F67FF']}
+              borderColor={['#BD37EC', '#1F67FF']}
+              text={'MINE !!!!'}
               onClick={sendUnstakeTransaction}
-              disabled={false}
-            >
-              MINE !!!!
-            </button>
+            />{' '}
           </>
         </div>
       ) : (
-        <div>
-          <button className='btn'>Processing</button>
-        </div>
+        <>
+          <Button
+            buttonWidth='100%'
+            borderRadius={40}
+            background={['#BD37EC', '#1F67FF']}
+            borderColor={'black'}
+            text='Processing'
+            disabled={true}
+          />
+        </>
       )}
     </div>
   );
