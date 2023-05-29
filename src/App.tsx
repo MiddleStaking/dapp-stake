@@ -49,7 +49,7 @@ export const App = () => {
         </svg>
         <Router>
           <DappProvider
-            environment={EnvironmentsEnum.mainnet}
+            environment={EnvironmentsEnum.devnet}
             customNetworkConfig={{
               name: 'customConfig',
               apiTimeout,

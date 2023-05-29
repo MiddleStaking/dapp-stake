@@ -24,8 +24,12 @@ import {
 import { TopInfo } from './TopInfo';
 import { ActionMine, ActionEnd } from './Actions';
 import { Button } from './../../../components/Design';
+import { contractPlay } from 'config';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 
 export const PlayLayout = ({ children }: React.PropsWithChildren) => {
+  const { network } = useGetNetworkConfig();
+
   const address = useGetAccountInfo().address;
   const last_user = useGetWinner();
   const payment = useGetPayment(last_user);
@@ -157,6 +161,19 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                           account.
                         </li>
                       </ol>
+                      Revenues from the game will be add as rewards to our
+                      staking pools
+                      <br />
+                      <a
+                        className='text-white'
+                        href={
+                          network.explorerAddress + '/accounts/' + contractPlay
+                        }
+                        target='_blank'
+                        rel='noreferrer'
+                      >
+                        <u>Explore transactions</u>
+                      </a>{' '}
                     </div>
                   </div>
                   {last_user ? (
@@ -185,7 +202,11 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                             url={nft_preview}
                           />
                         ) : (
-                          <img width='500px' className='' src={nft_preview} />
+                          <img
+                            style={{ width: '100%' }}
+                            className=''
+                            src={nft_preview}
+                          />
                         )}{' '}
                         <a
                           target='_BLANK'
