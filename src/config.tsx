@@ -15,7 +15,7 @@ export const defaultPairs = [
   { s: 'USDC-8d4068', r: 'VITAL-058fd5' }
 ];
 export const contractAddress =
-  'erd1qqqqqqqqqqqqqpgqrjd76ncjamnk6lmv5vmk98c6px02t3wwch9sagt9mk';
+  'erd1qqqqqqqqqqqqqpgqf63utxdnjxlklutavl5sqamjgsmf5565ch9sdxj750';
 // 'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';

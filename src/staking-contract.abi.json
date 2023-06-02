@@ -302,6 +302,130 @@
             ]
         },
         {
+            "name": "issueLpToken",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "first_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "second_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_display_name",
+                    "type": "bytes"
+                },
+                {
+                    "name": "token_ticker",
+                    "type": "bytes"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setLocalRoles",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "first_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "second_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "addLp",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "removeLp",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "first_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "second_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "swap",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "first_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "second_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getPoolPosition",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "first_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "second_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<BigUint>"
+                }
+            ]
+        },
+        {
+            "name": "getPoolLpIdentifier",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "first_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "second_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
             "name": "isPaused",
             "mutability": "readonly",
             "inputs": [],
@@ -414,6 +538,6 @@
         }
     ],
     "events": [],
-    "hasCallback": false,
+    "hasCallback": true,
     "types": {}
 }
