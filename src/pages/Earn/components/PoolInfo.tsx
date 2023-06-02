@@ -20,7 +20,8 @@ import { useGetESDTInformations, useGetESDTCompute } from './Actions/helpers';
 import {
   useGetTokenPosition,
   useGetStakingPosition,
-  useGetStakingPositionRewards
+  useGetStakingPositionRewards,
+  useGetPoolPosition
 } from './Actions/helpers';
 
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
@@ -66,6 +67,62 @@ export const PoolInfo = ({
     : notFound;
 
   const tokenPosition = useGetTokenPosition(stakedToken, rewardedToken);
+  const poolPosition = useGetPoolPosition(stakedToken, rewardedToken);
+
+  if (stakedToken != rewardedToken) {
+    console.log(stakedToken + ' ' + rewardedToken);
+    console.log(poolPosition);
+    const k_pool =
+      BigInt(poolPosition.first_token_amount) *
+      BigInt(poolPosition.second_token_amount);
+    //******* */
+    const in_mid = BigInt(1000000000000000000);
+    const in_mid_fees =
+      (in_mid * BigInt(poolPosition.first_fee)) / BigInt(10000);
+    const out_stake =
+      k_pool / (BigInt(poolPosition.first_token_amount) + in_mid);
+    const out_stake_fees =
+      (out_stake * BigInt(poolPosition.second_fee)) / BigInt(10000);
+    console.log(
+      'in_mid : ' +
+        in_mid +
+        ' in_fees : ' +
+        poolPosition.first_fee +
+        ' in_mid_fees : ' +
+        in_mid_fees +
+        ' out_fees : ' +
+        poolPosition.second_fee +
+        ' out_stake_fees : ' +
+        out_stake_fees +
+        ' out_stake : ' +
+        (BigInt(poolPosition.second_token_amount) - out_stake - out_stake_fees)
+    );
+
+    //******* */
+    const in_stake = BigInt(1000000000000000000);
+    const in_stake_fees =
+      (in_mid * BigInt(poolPosition.first_fee)) / BigInt(10000);
+    const out_mid =
+      k_pool / (BigInt(poolPosition.second_token_amount) + in_stake);
+    const out_mid_fees =
+      (out_mid * BigInt(poolPosition.second_fee)) / BigInt(10000);
+    console.log(
+      'in_stake : ' +
+        in_stake +
+        ' in_fees : ' +
+        poolPosition.first_fee +
+        ' in_stake_fees : ' +
+        in_stake_fees +
+        ' out_fees : ' +
+        poolPosition.second_fee +
+        ' out_mid_fees : ' +
+        out_mid_fees +
+        ' out_mid : ' +
+        (BigInt(poolPosition.first_token_amount) - out_mid - out_mid_fees)
+    );
+
+    //console.log('in_stake : ' + in_stake + ' out_mid : ' + out_mid);
+  }
   const stakingPosition = useGetStakingPosition(
     stakedToken,
     rewardedToken,
