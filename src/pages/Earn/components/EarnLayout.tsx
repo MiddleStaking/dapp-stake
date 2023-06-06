@@ -438,6 +438,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                   >
                     {' '}
                     <PoolInfo
+                      userEsdtBalance={userEsdtBalance}
                       myPools={myPools}
                       stakedToken={p.s}
                       rewardedToken={p.r}
@@ -478,6 +479,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                 >
                   {' '}
                   <PoolInfo
+                    userEsdtBalance={userEsdtBalance}
                     myPools={myPools}
                     stakedToken={stoken}
                     rewardedToken={rtoken.identifier}
