@@ -24,7 +24,8 @@ export const PoolStakeInfo = ({
   rdecimals,
   stakingPositionRewards,
   my_rewards_value,
-  canBeStaked
+  canBeStaked,
+  userEsdtBalance
 }: any) => {
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);

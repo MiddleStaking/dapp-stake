@@ -4,3 +4,4 @@ export * from './ActionStake';
 export * from './ActionUnstake';
 export * from './ActionFund';
 export * from './ActionRemovePoolFees';
+export * from './ActionSwap';

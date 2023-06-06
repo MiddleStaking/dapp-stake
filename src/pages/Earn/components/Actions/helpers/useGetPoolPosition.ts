@@ -11,7 +11,12 @@ import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 
-export const useGetPoolPosition = (stakedToken: any, rewardedToken: any) => {
+export const useGetPoolPosition = (
+  stakedToken: any,
+  rewardedToken: any,
+  showStake: boolean,
+  hasPendingTransactions: boolean
+) => {
   const { network } = useGetNetworkConfig();
   const [tokenPosition, setTokenPosition] = useState({
     has_roles: 0,
@@ -24,8 +29,8 @@ export const useGetPoolPosition = (stakedToken: any, rewardedToken: any) => {
   const time = new Date();
 
   const getTokenPosition = async () => {
-    //using storage to reduce calls
-    if (stakedToken == rewardedToken) {
+    //using storage to reduce calls do not load if pending tx
+    if (stakedToken == rewardedToken || hasPendingTransactions) {
       return;
     }
     setTokenPosition({
@@ -37,21 +42,24 @@ export const useGetPoolPosition = (stakedToken: any, rewardedToken: any) => {
       second_fee: BigInt(1)
     });
 
-    // const expire_test = Number(
-    //   localStorage.getItem(
-    //     'pool_position_' + stakedToken + '_' + rewardedToken + '_expire'
-    //   )
-    // );
-    // const load: any = localStorage.getItem(
-    //   'pool_position_' + stakedToken + '_' + rewardedToken
-    // );
-    // const storage = JSON.parse(load);
-    // if (storage) {
-    //   setTokenPosition(storage);
-    // }
-    // if (time.getTime() < expire_test) {
-    //   return;
-    // }
+    //Do not refresh if modal is closed
+    if (showStake == false) {
+      const expire_test = Number(
+        localStorage.getItem(
+          'pool_position_' + stakedToken + '_' + rewardedToken + '_expire'
+        )
+      );
+      const load: any = localStorage.getItem(
+        'pool_position_' + stakedToken + '_' + rewardedToken
+      );
+      const storage = JSON.parse(load);
+      if (storage) {
+        setTokenPosition(storage);
+      }
+      if (time.getTime() < expire_test) {
+        return;
+      }
+    }
 
     try {
       const query = smartContract.createQuery({
@@ -65,10 +73,14 @@ export const useGetPoolPosition = (stakedToken: any, rewardedToken: any) => {
       //      const proxy = new ProxyNetworkProvider(network.apiAddress);
       //const proxy = new ProxyNetworkProvider(network.gatewayAddress);
 
-      const proxy = new ProxyNetworkProvider(network.apiAddress);
-      // const proxy = new ProxyNetworkProvider(
-      //   'https://api.middlestaking.fr/' + network.id
-      // );
+      //No modal > using cache
+      const proxy = new ProxyNetworkProvider(
+        'https://api.middlestaking.fr/' + network.id
+      );
+      //if modal open we want fresh data from pool
+      if (showStake == true) {
+        const proxy = new ProxyNetworkProvider(network.apiAddress);
+      }
 
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getPoolPosition');
@@ -89,24 +101,23 @@ export const useGetPoolPosition = (stakedToken: any, rewardedToken: any) => {
           second_fee: tab[5].toFixed()
         });
 
-        //storage of 1 minutes
-        //const expire = time.getTime() + 1000 * 60 * 5;
-        // const expire = time.getTime() + 1000 * 60 * 1;
-        // localStorage.setItem(
-        //   'pool_position_' + stakedToken + '_' + rewardedToken,
-        //   JSON.stringify({
-        //     has_roles: tab[0].toFixed(),
-        //     first_token_amount: tab[1].toFixed(),
-        //     second_token_amount: tab[2].toFixed(),
-        //     lp_supply: tab[3].toFixed(),
-        //     first_fee: tab[4].toFixed(),
-        //     second_fee: tab[5].toFixed()
-        //   })
-        // );
-        // localStorage.setItem(
-        //   'pool_position_' + stakedToken + '_' + rewardedToken + '_expire',
-        //   expire.toString()
-        // );
+        //storage of 10 minutes
+        const expire = time.getTime() + 1000 * 60 * 10;
+        localStorage.setItem(
+          'pool_position_' + stakedToken + '_' + rewardedToken,
+          JSON.stringify({
+            has_roles: tab[0].toFixed(),
+            first_token_amount: tab[1].toFixed(),
+            second_token_amount: tab[2].toFixed(),
+            lp_supply: tab[3].toFixed(),
+            first_fee: tab[4].toFixed(),
+            second_fee: tab[5].toFixed()
+          })
+        );
+        localStorage.setItem(
+          'pool_position_' + stakedToken + '_' + rewardedToken + '_expire',
+          expire.toString()
+        );
       }
     } catch (err) {
       console.error('Unable to call getPoolPosition', err);
@@ -115,7 +126,7 @@ export const useGetPoolPosition = (stakedToken: any, rewardedToken: any) => {
 
   useEffect(() => {
     getTokenPosition();
-  }, [stakedToken, rewardedToken]);
+  }, [stakedToken, rewardedToken, showStake]);
 
   return tokenPosition;
 };
