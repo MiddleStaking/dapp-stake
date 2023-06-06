@@ -5,7 +5,12 @@ import { Button } from './../../../../components/Design';
 import { useGetPoolPosition } from '../Actions/helpers';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 
-export const PoolSwapInfo = ({ address, stakedToken, rewardedToken }: any) => {
+export const PoolSwapInfo = ({
+  address,
+  stakedToken,
+  rewardedToken,
+  userEsdtBalance
+}: any) => {
   const [showStake, setShowStake] = useState(false);
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -19,6 +24,7 @@ export const PoolSwapInfo = ({ address, stakedToken, rewardedToken }: any) => {
   return (
     <>
       <SwapModal
+        userEsdtBalance={userEsdtBalance}
         poolPosition={poolPosition}
         first_token={stakedToken}
         second_token={rewardedToken}

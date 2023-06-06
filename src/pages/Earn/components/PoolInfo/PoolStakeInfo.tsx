@@ -32,6 +32,7 @@ export const PoolStakeInfo = ({
   return (
     <>
       <StakeModal
+        userEsdtBalance={userEsdtBalance}
         rewardedToken={rewardedToken}
         stakedToken={stakedToken}
         balance={balance}
@@ -42,6 +43,7 @@ export const PoolStakeInfo = ({
         image2={image2}
       />
       <UnstakeModal
+        userEsdtBalance={userEsdtBalance}
         rewardedToken={rewardedToken}
         stakedToken={stakedToken}
         balance={stakingPosition.stake_amount}

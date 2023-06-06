@@ -339,6 +339,7 @@ export const PoolInfo = ({
           address={address}
           stakedToken={stakedToken}
           rewardedToken={rewardedToken}
+          userEsdtBalance={userEsdtBalance}
         />
       </div>
       {/* 

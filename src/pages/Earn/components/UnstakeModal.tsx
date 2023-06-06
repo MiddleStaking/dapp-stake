@@ -3,7 +3,6 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import { ActionUnstake } from './Actions';
-import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { useGetTokenPosition } from './Actions/helpers';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
@@ -12,7 +11,7 @@ import { ActionFund } from './Actions';
 import { Button } from './../../../components/Design';
 
 const StakeModal = (props: any) => {
-  const userEsdtBalance = useGetUserESDT();
+  const userEsdtBalance = props.userEsdtBalance;
   const [stoken, setStoken] = React.useState(props.stakedToken);
   const [rtoken, setRtoken] = React.useState(props.rewardedToken);
   const [balance, setBalance] = React.useState(BigInt(0));

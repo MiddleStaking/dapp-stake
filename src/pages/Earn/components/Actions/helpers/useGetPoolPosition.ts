@@ -74,12 +74,12 @@ export const useGetPoolPosition = (
       //const proxy = new ProxyNetworkProvider(network.gatewayAddress);
 
       //No modal > using cache
-      const proxy = new ProxyNetworkProvider(
+      let proxy = new ProxyNetworkProvider(
         'https://api.middlestaking.fr/' + network.id
       );
       //if modal open we want fresh data from pool
       if (showStake == true) {
-        const proxy = new ProxyNetworkProvider(network.apiAddress);
+        proxy = new ProxyNetworkProvider(network.apiAddress);
       }
 
       const queryResponse = await proxy.queryContract(query);
