@@ -206,7 +206,11 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   return (
     <div className='center'>
-      <FundModal show={showFund} onClose={() => setShowFund(false)} />
+      <FundModal
+        userEsdtBalance={userEsdtBalance}
+        show={showFund}
+        onClose={() => setShowFund(false)}
+      />
       <Row className='pb-4'>
         <Col
           className='subnav center'

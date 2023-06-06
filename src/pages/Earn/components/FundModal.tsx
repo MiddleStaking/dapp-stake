@@ -3,7 +3,6 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import { ActionRemovePoolFees, ActionStake } from './Actions';
-import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { defaultToken } from 'config';
 import { useGetTokenPosition } from './Actions/helpers';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
@@ -12,8 +11,8 @@ import { useGetESDTInformations } from './Actions/helpers';
 import { ActionFund } from './Actions';
 import { CheckBox, Button } from './../../../components/Design';
 
-const StakeModal = (props: any) => {
-  const userEsdtBalance = useGetUserESDT();
+const FundModal = (props: any) => {
+  const userEsdtBalance = props.userEsdtBalance;
   const [stoken, setStoken] = React.useState(defaultToken);
   const [rtoken, setRtoken] = React.useState(defaultToken);
   const [decimals, setDecimals] = React.useState(18);
@@ -34,9 +33,11 @@ const StakeModal = (props: any) => {
       default_esdt_info?.price
     : 0;
 
-  const tokenProps = userEsdtBalance.find((item) => item.identifier === rtoken);
+  const tokenProps = userEsdtBalance.find(
+    (item: any) => item.identifier === rtoken
+  );
   const defaultProps = userEsdtBalance.find(
-    (item) => item.identifier === defaultToken
+    (item: any) => item.identifier === defaultToken
   );
   const handleChange = () => {
     setPayFees(!payFees);
@@ -700,4 +701,4 @@ const StakeModal = (props: any) => {
   );
 };
 
-export default StakeModal;
+export default FundModal;

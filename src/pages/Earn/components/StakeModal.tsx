@@ -1,20 +1,17 @@
 import React, { useEffect } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
-import { ActionRemovePoolFees, ActionStake } from './Actions';
-import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
+import { ActionStake } from './Actions';
 import { useGetTokenPosition } from './Actions/helpers';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
-import { ActionFund } from './Actions';
 import { Button } from './../../../components/Design';
 
 const StakeModal = (props: any) => {
-  const userEsdtBalance = useGetUserESDT();
   const [stoken, setStoken] = React.useState(props.stakedToken);
   const [rtoken, setRtoken] = React.useState(props.rewardedToken);
+  const userEsdtBalance = props.userEsdtBalance;
   const [balance, setBalance] = React.useState(BigInt(0));
   const tokenPosition = useGetTokenPosition(stoken, rtoken);
   const [tokenAmount, setTokenAmount] = React.useState(0);
@@ -22,7 +19,7 @@ const StakeModal = (props: any) => {
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
   const stakedProps = userEsdtBalance.find(
-    (item) => item.identifier === stoken
+    (item: any) => item.identifier === stoken
   );
 
   useEffect(() => {

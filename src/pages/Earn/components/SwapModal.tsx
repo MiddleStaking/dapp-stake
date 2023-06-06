@@ -3,7 +3,6 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import { ActionRemovePoolFees, ActionStake } from './Actions';
-import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { useGetTokenPosition } from './Actions/helpers';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
@@ -12,7 +11,7 @@ import { ActionSwap } from './Actions';
 import { Button } from './../../../components/Design';
 
 const SwapModal = (props: any) => {
-  const userEsdtBalance = useGetUserESDT();
+  const userEsdtBalance = props.userEsdtBalance;
   const [first_token, setFirsttoken] = React.useState(props.first_token);
   const [second_token, setSecondtoken] = React.useState(props.second_token);
   const [in_token, setInToken] = React.useState(props.in_token);
@@ -29,10 +28,10 @@ const SwapModal = (props: any) => {
   let price_impact = 0;
 
   const in_balance = userEsdtBalance.find(
-    (item) => item.identifier === in_token
+    (item: any) => item.identifier === in_token
   );
   const out_balance = userEsdtBalance.find(
-    (item) => item.identifier === out_token
+    (item: any) => item.identifier === out_token
   );
   useEffect(() => {
     setInBalance(in_balance?.balance ? in_balance?.balance : BigInt(0));
