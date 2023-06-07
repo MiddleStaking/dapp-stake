@@ -1,21 +1,21 @@
 import React, { FC, useState } from 'react';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useLocation } from 'react-router-dom';
+import { ReactComponent as IconFlash } from '../../assets/img/Flash.svg';
+import { ReactComponent as IconGlobe } from '../../assets/img/Globe-2.svg';
+import notFound from '../../assets/img/notfoundc.svg';
+import { ReactComponent as IconTwitter } from '../../assets/img/twitter.svg';
 import ButtonGroupe from './Component/Button/ButtonGroupe';
+import CardPresentation from './Component/CardPresentation';
 import CheckedBoxGroupe from './Component/CheckBox/CheckedBoxGroupe';
 import CradPool from './Component/CradPool';
+import { useWindowDimensions } from './Component/Header.tsx/DimensionScreen.tsx';
 import InputGroupe from './Component/Input/InputGroupe';
 import LogosGroupe from './Component/Logos/LogosGroupe';
 import OptionGroupe from './Component/Option/OptionGroupe';
 import SearchBarGroupe from './Component/SearchBar/SearchBarGroupe';
 import ToggleSwitchGroupe from './Component/ToggleSwitch/ToggleSwitchGroupe';
 import './gallery.scss';
-import { useWindowDimensions } from './Component/Header.tsx/DimensionScreen.tsx';
-import notFound from '../../assets/img/notfoundc.svg';
-import { ReactComponent as IconFlash } from '../../assets/img/Flash.svg';
-import { ReactComponent as IconGlobe } from '../../assets/img/Globe-2.svg';
-import { ReactComponent as IconTwitter } from '../../assets/img/twitter.svg';
-import { useLocation } from 'react-router-dom';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import CardPresentation from './Component/CardPresentation';
 
 const Design: FC = () => {
   const [showStake, setShowStake] = useState(false);

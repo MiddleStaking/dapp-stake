@@ -2,11 +2,9 @@ import React from 'react';
 import { AuthenticatedRoutesWrapper } from '@multiversx/sdk-dapp/wrappers';
 import { useLocation } from 'react-router-dom';
 import { routes, routeNames } from 'routes';
-import { Footer } from './Footer';
-import { MyNavbar } from './Navbar';
-import image from './../../assets/img/background4.png';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import BackgroundMobile from './../../assets/img/MobileBackground.svg';
+import BackgroundDekstopTopLeft from './../../assets/img/DekstopTopLeft.svg';
+import BackgroundDekstopBottomRigh from './../../assets/img/DekstopBottomRigh.svg';
 import HeaderDekstop from 'pages/design/Component/Header.tsx';
 import FooterDekstop from 'pages/design/Component/Footer';
 import { useWindowDimensions } from 'pages/design/Component/Header.tsx/DimensionScreen.tsx';
@@ -15,14 +13,18 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();
   const { width } = useWindowDimensions();
 
+  const backgroundMobileStyle = `url(${BackgroundMobile}),#000000`;
+  const backgroundDekstopStyle = `url(${BackgroundDekstopTopLeft}) top left,url(${BackgroundDekstopBottomRigh}) bottom right, #000000`;
   // '79px',
   return (
     <div
       style={{
-        background: '#151515',
+        background:
+          width > 450 ? backgroundDekstopStyle : backgroundMobileStyle,
+        backgroundSize: width > 450 ? '' : 'cover',
+        backgroundRepeat: width > 450 ? 'no-repeat' : 'repeat',
         minHeight: '100vh',
         width: '100%',
-
         margin: 0,
         display: 'flex',
         flexDirection: 'column'

@@ -5,8 +5,8 @@ import React, {
   ReactElement
 } from 'react';
 import MyStakeSection from './component/MyStakeSection';
-import TypeSection from './component/TypeSection';
 import RewardsSection from './component/RewardsSection';
+import TypeSection from './component/TypeSection';
 
 interface CardPoolrops {
   height: string;

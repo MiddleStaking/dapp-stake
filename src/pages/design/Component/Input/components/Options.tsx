@@ -14,7 +14,7 @@ interface OptionProps {
   hoverActive?: boolean;
   hoverBackgroudColor?: string;
   hoverTextColor?: string;
-
+  disable?: boolean;
   onClick?: () => void;
 }
 
@@ -30,19 +30,26 @@ const Options: FC<OptionProps> = ({
   fontFamily = 'Plus Jakarta Sans',
   hoverActive = true,
   hoverBackgroudColor = 'rgba(99, 74, 203, 0.32)',
-  hoverTextColor = '#2266FF'
+  hoverTextColor = '#2266FF',
+  disable = false
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    if (hoverActive) {
+    if (!disable && hoverActive) {
       setIsHovered(true);
     }
   };
 
   const handleMouseLeave = () => {
-    if (hoverActive) {
+    if (!disable && hoverActive) {
       setIsHovered(false);
+    }
+  };
+
+  const handleOnClick = () => {
+    if (!disable && onClick) {
+      onClick();
     }
   };
 
@@ -51,11 +58,11 @@ const Options: FC<OptionProps> = ({
     zIndex: 1000,
     width: width,
     height: height,
-    cursor: 'pointer',
+    cursor: disable ? 'not-allowed' : 'pointer',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    background: backgroudColor,
+    background: disable ? 'grey' : backgroudColor,
     borderRadius: borderRadius,
     fontSize: fontSize
   };
@@ -63,19 +70,24 @@ const Options: FC<OptionProps> = ({
   const HoverStyle: CSSProperties = {
     width: width,
     height: height,
-    background: isHovered ? hoverBackgroudColor : backgroudColor,
-    color: isHovered ? hoverTextColor : textColor,
-    cursor: 'pointer',
+    background: disable
+      ? 'grey'
+      : isHovered
+      ? hoverBackgroudColor
+      : backgroudColor,
+    color: disable ? '#aaa' : isHovered ? hoverTextColor : textColor,
+    cursor: disable ? 'not-allowed' : 'pointer',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: borderRadius,
     fontFamily: fontFamily
   };
+
   return (
     <div
       style={optionStyle}
-      onClick={onClick}
+      onClick={handleOnClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

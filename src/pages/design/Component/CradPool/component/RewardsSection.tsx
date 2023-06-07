@@ -1,16 +1,12 @@
+import React, { CSSProperties, FC } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { defaultToken } from 'config';
-import React, { CSSProperties, FC, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { routeNames } from 'routes';
-import Button from '../../Button';
-import illustrationSvg from '../../../../../assets/img/Illustration.svg';
-import { useWindowDimensions } from '../../Header.tsx/DimensionScreen.tsx';
 import {
   ActionClaimRewards,
   ActionStakeRewards
 } from 'pages/Earn/components/Actions';
+import illustrationSvg from '../../../../../assets/img/Illustration.svg';
+import { useWindowDimensions } from '../../Header.tsx/DimensionScreen.tsx';
+
 interface RewardsSectionProps {
   rdecimals: any;
   stakingPositionRewards: any;

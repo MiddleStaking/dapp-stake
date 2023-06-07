@@ -1,8 +1,7 @@
+import React, { CSSProperties, FC } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useNavigate } from 'react-router-dom';
 import { defaultToken } from 'config';
-import React, { CSSProperties, FC, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { routeNames } from 'routes';
 import Button from '../../Button';
 
@@ -15,7 +14,6 @@ interface MyStakeSectionProps {
   rest: any;
   setShowStake: (show: boolean) => void;
   setShowUnstake: (show: boolean) => void;
-
 }
 const MyStakeSection: FC<MyStakeSectionProps> = ({
   address,

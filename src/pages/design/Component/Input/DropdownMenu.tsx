@@ -39,6 +39,7 @@ interface DropdownMenuProps {
   heightSvg?: string;
   colorSvg?: string;
   OptonsCrollHeight?: string;
+  disableOption?: boolean;
 }
 
 const generateUniqueId = () => {
@@ -87,7 +88,9 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   borderColor = disabled ? '#695885' : 'transparent',
   textColor = disabled ? '#695885' : '#FFFFFF',
   colorSvg = disabled ? '#695885' : '#fff',
-  OptonsCrollHeight = '300px'
+  OptonsCrollHeight = '300px',
+
+  disableOption = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   // const [selectedValue, setSelectedValue] = useState(
@@ -197,49 +200,6 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   return (
     <div style={containerStyle}>
       {placeholderColor && <style>{customPlaceholderStyles}</style>}
-      {/* <style>
-        {`
-    .option-item {
-      animation: fadeIn 0s linear;
-      opacity: 0;
-      animation-fill-mode: forwards; // Ajoutez cette ligne
-    }
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-    ${options
-      .filter((option) => option.value !== selectedValue)
-      .map(
-        (_, index) =>
-          `.option-item:nth-child(${index + 1}) { animation-delay: ${
-            index /
-            (options.filter((option) => option.value !== selectedValue).length *
-              animationDelay)
-          }s; }`
-      )
-      .join('\n')}
-  `}
-      </style> */}
-
-      {/* <Options
-        fontSize={fontSize}
-        fontFamily={fontFamily}
-        width={width}
-        height={height}
-        backgroudColor={isOpen ? backgroundColorSelect : 'transparent'}
-        text={displayText}
-        onClick={() => setIsOpen(!isOpen)}
-        textColor={isOpen ? textColorSelect : textColor}
-        borderRadius={
-          isOpen ? `${borderRadius}px ${borderRadius}px  0 0` : borderRadius
-        }
-      /> */}
-
       <div onClick={handleClick} style={dropDownBarStyle}>
         <div>
           {textColor && <style>{customPlaceholderStyles}</style>}
@@ -311,6 +271,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
                   }}
                 >
                   <Options
+                    disable={disableOption}
                     textColor={textColorOption}
                     width={width}
                     height={height}
@@ -336,6 +297,9 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
                 }}
               >
                 <Options
+                  disable={
+                    index === 2 || index === 4 || index === 6 || index === 8
+                  }
                   textColor={textColorOption}
                   width={width}
                   height={height}

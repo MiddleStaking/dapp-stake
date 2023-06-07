@@ -7,18 +7,16 @@ import { useWindowDimensions } from './DimensionScreen.tsx';
 
 // interface DropdownMenuProps {}
 
-const HeaderDekstop: FC<any> = ({}) => {
-  const { width } = useWindowDimensions();
-  const navigate = useNavigate();
-  const Header: React.CSSProperties = {
+const styles = {
+  header: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     height: '111px',
-    background: '#151515',
+    background: 'transparent',
     width: '100%'
-  };
-  const HeaderMobile: React.CSSProperties = {
+  },
+  headerMobile: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -28,18 +26,16 @@ const HeaderDekstop: FC<any> = ({}) => {
       'linear-gradient(180deg, rgba(133, 114, 207, 0.24) 0%, rgba(162, 150, 208, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))',
     border: ' 1px solid rgba(255, 255, 255, 0.1)',
     borderRadius: '0px 0px 16px 16px'
-  };
-
-  const HeaderLogo: React.CSSProperties = {
+  },
+  headerLogo: {
     height: '100%',
     width: '20%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer'
-  };
-
-  const HeaderMenu = {
+  },
+  headerMenu: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -47,11 +43,10 @@ const HeaderDekstop: FC<any> = ({}) => {
     width: '75%',
     overflow: 'hidden',
     borderRadius: '0px 0px 10px 10px',
-    borderTop: '2px solid #3a3942',
-    borderRight: '2px solid #3a3942'
-  };
-
-  const styleGauche = {
+    borderTop: '1px solid #FFFFFF1A',
+    borderRight: '1px solid rgb(73 68 89)'
+  },
+  styleGauche: {
     background:
       'linear-gradient(180deg, rgba(133, 114, 207, 0.24) 0%, rgba(162, 150, 208, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))',
 
@@ -62,11 +57,10 @@ const HeaderDekstop: FC<any> = ({}) => {
     height: '100%',
     width: '100%',
     borderRadius: '0px 0px 10px 10px',
-    borderLeft: '2px solid #3a3942',
-    borderBottom: '2px solid #3a3942'
-  };
-
-  const styleDroit = {
+    borderLeft: '1px solid #FFFFFF1A',
+    borderBottom: '1px solid #FFFFFF1A'
+  },
+  styleDroit: {
     height: '100%',
     paddingRight: '2%',
     paddingLeft: '10%',
@@ -77,74 +71,76 @@ const HeaderDekstop: FC<any> = ({}) => {
     alignItems: 'center',
     width: '100%',
     justifyContent: 'end'
+  }
+};
+
+const defaultButtonProps = {
+  background: 'transparent',
+  fontFamily: 'Plus Jakarta Sans',
+  buttonHeight: '52px',
+  fontSize: '16px'
+};
+const HeaderDesktop = () => {
+  const { width } = useWindowDimensions();
+  const navigate = useNavigate();
+
+  const handleNavigate = (path: any) => {
+    navigate(path);
   };
 
   return width > 450 ? (
-    <div style={Header}>
+    <div style={styles.header}>
       <div
-        onClick={() => navigate(routeNames.stake + '/' + defaultToken)}
-        style={HeaderLogo}
+        onClick={() => handleNavigate(routeNames.stake + '/' + defaultToken)}
+        style={styles.headerLogo}
       >
         <LogoSvg widthSvg='100%' />
       </div>
-      <div style={HeaderMenu}>
-        <div style={styleGauche}>
-          <div style={styleDroit}>
-            {/* <div style={{ marginRight: '39px' }}> */}
-            {/* <div>
-              <p>Largeur de la fenêtre: {width}px</p>
-              <p>Hauteur de la fenêtre: {height}px</p>
-            </div> */}
+      <div style={styles.headerMenu}>
+        <div style={styles.styleGauche}>
+          <div style={styles.styleDroit}>
             <Button
-              background={'transparent'}
+              {...defaultButtonProps}
               text='Staking'
-              onClick={() => navigate(routeNames.stake + '/' + defaultToken)}
-              fontFamily={'Plus Jakarta Sans'}
-              buttonHeight='52px'
-              fontSize='16px'
+              onClick={() =>
+                handleNavigate(routeNames.stake + '/' + defaultToken)
+              }
             />
             <Button
-              background={'transparent'}
+              {...defaultButtonProps}
               text='Dashboard'
-              onClick={() => navigate(routeNames.dashboard)}
-              fontFamily={'Plus Jakarta Sans'}
-              buttonHeight='52px'
-              fontSize='16px'
+              onClick={() => handleNavigate(routeNames.dashboard)}
             />
             <Button
-              background={'transparent'}
+              {...defaultButtonProps}
               text='Play'
-              onClick={() => navigate(routeNames.play)}
-              fontFamily={'Plus Jakarta Sans'}
-              buttonHeight='52px'
-              fontSize='16px'
+              onClick={() => handleNavigate(routeNames.play)}
             />
             <Button
               boxShadow='0px 0px 44px 0px #8E44EB80 inset'
-              borderWidth={'2px'}
+              borderWidth='2px'
               borderRadius={40}
-              background={'black'}
+              background='black'
               borderColor={['#BD37EC', '#1F67FF']}
               text='Account'
               hasBorder={true}
-              onClick={() => navigate(routeNames.design)}
-              fontFamily={'Plus Jakarta Sans'}
+              onClick={() => handleNavigate(routeNames.design)}
+              fontFamily='Plus Jakarta Sans'
               buttonHeight='52px'
               fontSize='20px'
             />
-            {/* </div> */}
           </div>
         </div>
       </div>
     </div>
   ) : (
-    <div style={HeaderMobile}>
+    <div style={styles.headerMobile}>
       <LogoSvg widthSvg='109px' />
     </div>
   );
 };
 
-export default HeaderDekstop;
+export default HeaderDesktop;
 
 interface DLogSvgProps {
   widthSvg?: string;
