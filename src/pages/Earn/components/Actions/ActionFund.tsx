@@ -6,11 +6,11 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
 import { Button } from './../../../../components/Design';
 
-export const ActionStake = ({
+export const ActionFund = ({
   stakedToken,
   rewardedToken,
   user_fund,
-  name
+  agreement
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -27,30 +27,30 @@ export const ActionStake = ({
       string | null
     >(null);
 
-  const sendStakeTransaction = async () => {
-    const stakeTransaction = {
+  const sendFundTransaction = async () => {
+    const fundTransaction = {
       value: 0,
       data:
         'ESDTTransfer@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
+        Buffer.from(rewardedToken, 'utf8').toString('hex') +
         '@' +
         bigToHexDec(BigInt(user_fund)) +
         '@' +
-        Buffer.from('stake', 'utf8').toString('hex') +
+        Buffer.from('fund', 'utf8').toString('hex') +
         '@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex'),
+        Buffer.from(stakedToken, 'utf8').toString('hex'),
 
       receiver: contractAddress,
-      gasLimit: '5100000'
+      gasLimit: '6000000'
     };
     await refreshAccount();
 
     const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: stakeTransaction,
+      transactions: fundTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Stake transaction',
-        errorMessage: 'An error has occured Stake',
-        successMessage: 'Stake transaction successful'
+        processingMessage: 'Processing Fund transaction',
+        errorMessage: 'An error has occured Fund',
+        successMessage: 'Fund transaction successful'
       },
       redirectAfterSign: false
     });
@@ -59,8 +59,9 @@ export const ActionStake = ({
     }
   };
 
-  const stakeAllowed = user_fund != '0' && !hasPendingTransactions;
-  const notAllowedClass = stakeAllowed ? '' : 'not-allowed disabled';
+  const unstakeAllowed =
+    user_fund != '0' && user_fund > 0 && !hasPendingTransactions;
+  const notAllowedClass = unstakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <>
@@ -72,8 +73,8 @@ export const ActionStake = ({
                 buttonWidth='100%'
                 borderRadius={40}
                 background={['#BD37EC', '#1F67FF']}
-                text='Stake tokens'
-                onClick={sendStakeTransaction}
+                text='Lock tokens'
+                onClick={sendFundTransaction}
                 disabled={user_fund == 0}
               />
             </>

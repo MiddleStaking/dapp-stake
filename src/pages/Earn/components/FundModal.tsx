@@ -1,30 +1,73 @@
 import React, { useEffect } from 'react';
-import { Col, Form } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
-import { ActionStake } from './Actions';
+import { ActionRemovePoolFees, ActionStake } from './Actions';
+import { defaultToken } from 'config';
 import { useGetTokenPosition } from './Actions/helpers';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
-import { Button } from './../../../components/Design';
+import { ActionFund } from './Actions';
+import { CheckBox, Button } from './../../../components/Design';
 
-const StakeModal = (props: any) => {
-  const [stoken, setStoken] = React.useState(props.stakedToken);
-  const [rtoken, setRtoken] = React.useState(props.rewardedToken);
+const FundModal = (props: any) => {
   const userEsdtBalance = props.userEsdtBalance;
+  const [stoken, setStoken] = React.useState(defaultToken);
+  const [rtoken, setRtoken] = React.useState(defaultToken);
+  const [decimals, setDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
+
+  const [payFees, setPayFees] = React.useState(false);
   const tokenPosition = useGetTokenPosition(stoken, rtoken);
+  const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
-  const stakedProps = userEsdtBalance.find(
-    (item: any) => item.identifier === stoken
+  const default_esdt_info = useGetESDTInformations(defaultToken);
+  const price = BigInt('5000000000000000000000');
+  const price_float = '5000.00';
+  const dollar_value = default_esdt_info?.price
+    ? Number(BigInt(price) / BigInt(10 ** default_esdt_info.decimals)) *
+      default_esdt_info?.price
+    : 0;
+
+  const tokenProps = userEsdtBalance.find(
+    (item: any) => item.identifier === rtoken
   );
+  const defaultProps = userEsdtBalance.find(
+    (item: any) => item.identifier === defaultToken
+  );
+  const handleChange = () => {
+    setPayFees(!payFees);
+  };
 
   useEffect(() => {
-    setBalance(stakedProps?.balance ? stakedProps?.balance : BigInt(0));
-  }, [stakedProps]);
+    if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
+    if (tokenProps?.balance) setBalance(tokenProps.balance);
+  }, [tokenProps]);
+
+  function setFSToken(e: React.ChangeEvent<any>) {
+    const index = userEsdtBalance
+      .filter(({ identifier }) => identifier === identifier)
+      .findIndex((tokens) => tokens.identifier === e.target.value);
+    setStoken(e.target.value);
+    setPayFees(false);
+  }
+
+  function setFRtoken(e: React.ChangeEvent<any>) {
+    const index = userEsdtBalance
+      .filter(({ identifier }) => identifier === identifier)
+      .findIndex((tokens) => tokens.identifier === e.target.value);
+    setRtoken(e.target.value);
+
+    if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
+    if (tokenProps?.balance) setBalance(tokenProps.balance);
+    setBigAmount(BigInt(0));
+    setTokenAmount(0);
+    setPayFees(false);
+  }
 
   const staked_esdt_info = useGetESDTInformations(stoken);
   const rewarded_esdt_info = useGetESDTInformations(rtoken);
@@ -54,6 +97,14 @@ const StakeModal = (props: any) => {
       (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
   }
 
+  let fees = BigInt(10);
+  if (tokenPosition.fee_percentage) {
+    fees = BigInt(tokenPosition.fee_percentage) / BigInt(100);
+  }
+
+  if (stoken == defaultToken && rtoken == defaultToken) {
+    fees = BigInt(0);
+  }
   const speed =
     (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
     BigInt(24) /
@@ -61,16 +112,17 @@ const StakeModal = (props: any) => {
     BigInt(60);
 
   function handleTokenAmountChange(e: React.ChangeEvent<any>) {
-    const amount = BigInt(e.target.value * 10 ** sdecimals);
+    const amount = BigInt(e.target.value * 10 ** decimals);
+
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
     } else if (amount > balance) {
-      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
+      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
       setBigAmount(balance);
     } else {
       setTokenAmount(e.target.value);
-      const output = toBigAmount(Number(e.target.value), Number(sdecimals));
+      const output = toBigAmount(Number(e.target.value), Number(decimals));
       setBigAmount(BigInt(output));
     }
     const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
@@ -122,7 +174,7 @@ const StakeModal = (props: any) => {
   }
 
   function setToMax() {
-    setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
+    setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
     setBigAmount(balance);
     setRangeValue(100);
   }
@@ -136,7 +188,7 @@ const StakeModal = (props: any) => {
         <div className='background'>
           <div className='modal2'>
             <div className='content'>
-              <div className='create-new-pool'>Stake tokens</div>
+              <div className='create-new-pool'>Create new pool</div>
 
               <div className='logos'>
                 <div className='image'>
@@ -153,7 +205,7 @@ const StakeModal = (props: any) => {
               <div className='frame-56'>
                 <div className='input'>
                   <div className='label'>
-                    <div className='label2'>Stake</div>
+                    <div className='label2'>Staked token</div>
                   </div>
 
                   <div className='input-default'>
@@ -175,16 +227,22 @@ const StakeModal = (props: any) => {
                     <div className='value'>
                       <Form.Control
                         as='select'
+                        onChange={setFSToken}
                         value={stoken}
                         disabled={false}
                         className='search-select'
                       >
-                        <option
-                          disabled={true}
-                          className='text-center not-allowed disabled'
-                        >
-                          {stoken}
-                        </option>
+                        {userEsdtBalance &&
+                          userEsdtBalance.map((item) => (
+                            <option
+                              disabled={false}
+                              className='text-center not-allowed disabled'
+                              key={item.identifier}
+                              value={item.identifier}
+                            >
+                              {item.identifier}
+                            </option>
+                          ))}
                       </Form.Control>
                     </div>
                   </div>
@@ -192,7 +250,7 @@ const StakeModal = (props: any) => {
 
                 <div className='input2'>
                   <div className='label3'>
-                    <div className='label4'>Earn</div>
+                    <div className='label4'>Earned token</div>
                   </div>
 
                   <div className='input-default2'>
@@ -214,16 +272,22 @@ const StakeModal = (props: any) => {
                     <div className='value'>
                       <Form.Control
                         as='select'
+                        onChange={setFRtoken}
                         value={rtoken}
                         disabled={false}
                         className='search-select'
                       >
-                        <option
-                          disabled={true}
-                          className='text-center not-allowed disabled'
-                        >
-                          {rtoken}
-                        </option>
+                        {userEsdtBalance &&
+                          userEsdtBalance.map((item) => (
+                            <option
+                              disabled={false}
+                              className='text-center not-allowed disabled'
+                              key={item.identifier}
+                              value={item.identifier}
+                            >
+                              {item.identifier}
+                            </option>
+                          ))}
                       </Form.Control>
                     </div>
                   </div>
@@ -233,7 +297,7 @@ const StakeModal = (props: any) => {
                 tokenPosition.rewardedToken == rtoken && (
                   <div className='pool-details'>
                     <div className='this-pool-already-exists'>
-                      Staking pool informations
+                      This pool already exists
                     </div>
 
                     <div className='token-position'>
@@ -257,7 +321,11 @@ const StakeModal = (props: any) => {
                             {' '}
                             <FormatAmount
                               value={tokenPosition.balance.toString()}
-                              decimals={Number(rdecimals)}
+                              decimals={Number(
+                                rewarded_esdt_info?.decimals
+                                  ? rewarded_esdt_info?.decimals
+                                  : 0
+                              )}
                               egldLabel={' '}
                               data-testid='balance'
                               digits={2}
@@ -269,6 +337,7 @@ const StakeModal = (props: any) => {
                           <div className='value2'>Value</div>
 
                           <div className='_723-37'>
+                            {' '}
                             {rewarded_value.toLocaleString('en-US', {
                               maximumFractionDigits: 2
                             })}{' '}
@@ -285,7 +354,11 @@ const StakeModal = (props: any) => {
                             {' '}
                             <FormatAmount
                               value={tokenPosition.total_rewards.toString()}
-                              decimals={Number(rdecimals)}
+                              decimals={Number(
+                                rewarded_esdt_info?.decimals
+                                  ? rewarded_esdt_info?.decimals
+                                  : 0
+                              )}
                               egldLabel={' '}
                               data-testid='balance'
                               digits={2}
@@ -308,7 +381,11 @@ const StakeModal = (props: any) => {
                             {' '}
                             <FormatAmount
                               value={tokenPosition.total_stake.toString()}
-                              decimals={Number(sdecimals)}
+                              decimals={Number(
+                                staked_esdt_info?.decimals
+                                  ? staked_esdt_info?.decimals
+                                  : 0
+                              )}
                               egldLabel={' '}
                               data-testid='staked'
                               digits={2}
@@ -351,68 +428,160 @@ const StakeModal = (props: any) => {
                 )}
 
               <div className='staked-rewarded-tokens'>
-                <>
+                {fees > BigInt(0) ? (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    Set the amount you want to stake
+                    <CheckBox
+                      label='Pay to remove the 10% deposit fees.'
+                      checked={payFees}
+                      onClick={() => {
+                        handleChange();
+                      }}
+                    />
+                    <a
+                      style={{ color: 'white', display: 'flex' }}
+                      target='_blank'
+                      rel='noreferrer'
+                      href='https://docs.middlestaking.fr/welcome/deposit/deposit-fees'
+                    >
+                      <u>Read More</u>
+                    </a>
                   </div>
+                ) : (
+                  <div className='do-you-want-to-add-it-rewarded-tokens'>
+                    <CheckBox
+                      label='Fees payed'
+                      checked={true}
+                      disabled={true}
+                    />
+                  </div>
+                )}
 
-                  <div className='form'>
-                    <div className='frame-57'>
-                      <div className='input3'>
-                        <div className='label5'>
-                          <div className='label6'>amount</div>
-                          <input
-                            type='range'
-                            id='slider'
-                            min='0'
-                            max='100'
-                            step='1'
-                            value={rangeValue}
-                            onChange={handleRangeValueChange}
-                          />{' '}
-                          <div className='label6'>{rangeValue}%</div>
+                {!payFees ? (
+                  <>
+                    {tokenPosition.stakedToken == stoken &&
+                    tokenPosition.rewardedToken == rtoken ? (
+                      <div className='do-you-want-to-add-it-rewarded-tokens'>
+                        Add rewards to the staking pool ?
+                      </div>
+                    ) : (
+                      <div className='do-you-want-to-add-it-rewarded-tokens'>
+                        Deposit rewards for new staking pool ?
+                      </div>
+                    )}
+
+                    <div className='form'>
+                      <div className='frame-57'>
+                        <div className='input3'>
+                          <div className='label5'>
+                            <div className='label6'>Rewards</div>
+                            <input
+                              type='range'
+                              id='slider'
+                              min='0'
+                              max='100'
+                              step='1'
+                              value={rangeValue}
+                              onChange={handleRangeValueChange}
+                            />{' '}
+                            <div className='label6'>{rangeValue}%</div>
+                          </div>
+
+                          <Form.Group
+                            className='amount-bar'
+                            as={Col}
+                            controlId='TokenAmount'
+                            onChange={handleTokenAmountChange}
+                          >
+                            <Form.Control
+                              className='amount-input'
+                              required
+                              type='number'
+                              placeholder=''
+                              defaultValue='0'
+                              value={tokenAmount}
+                            />{' '}
+                            <div
+                              className='max cursor-pointer'
+                              onClick={setToMax}
+                            >
+                              MAX
+                            </div>
+                          </Form.Group>
                         </div>
 
-                        <Form.Group
-                          className='amount-bar'
-                          as={Col}
-                          controlId='TokenAmount'
-                          onChange={handleTokenAmountChange}
-                        >
-                          <Form.Control
-                            className='amount-input'
-                            required
-                            type='number'
-                            placeholder=''
-                            defaultValue='0'
-                            value={tokenAmount}
-                          />{' '}
-                          <div
-                            className='max cursor-pointer'
-                            onClick={setToMax}
-                          >
-                            MAX
+                        <div className='font-uniformisation'>
+                          <div className='_7-56-mex-ecb-7-bf'>
+                            <FormatAmount
+                              decimals={Number(decimals.toString())}
+                              value={balance.toString()}
+                              egldLabel={rtoken}
+                              data-testid='staked'
+                            />
                           </div>
-                        </Form.Group>
-                      </div>
-
-                      <div className='font-uniformisation'>
-                        <div className='_7-56-mex-ecb-7-bf'>
-                          <FormatAmount
-                            decimals={Number(sdecimals.toString())}
-                            value={balance.toString()}
-                            egldLabel={stoken}
-                            data-testid='staked'
-                          />
                         </div>
                       </div>
                     </div>
-                  </div>
-                </>
+                  </>
+                ) : (
+                  <>
+                    <div className='form'>
+                      <div className='frame-57'>
+                        <div className='input3'>
+                          <div className='label5'>
+                            <div className='label6'>
+                              PAY FOR FEES ~
+                              {dollar_value.toLocaleString('en-US', {
+                                maximumFractionDigits: 2
+                              })}{' '}
+                              $
+                            </div>
+                          </div>
+
+                          <Form.Group
+                            className='amount-bar'
+                            as={Col}
+                            controlId='TokenAmount'
+                          >
+                            <Form.Control
+                              className='amount-input'
+                              required
+                              type='number'
+                              placeholder=''
+                              defaultValue='0'
+                              value={price_float}
+                            />
+                            <div className='max cursor-pointer'></div>
+                          </Form.Group>
+                        </div>
+
+                        <div className='font-uniformisation'>
+                          <div className='_7-56-mex-ecb-7-bf'>
+                            <FormatAmount
+                              decimals={Number(
+                                default_esdt_info.decimals.toString()
+                              )}
+                              value={
+                                defaultProps?.balance
+                                  ? defaultProps?.balance.toString()
+                                  : '0'
+                              }
+                              egldLabel={defaultToken}
+                              data-testid='staked'
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
-            <div className='bottom' onClick={props.onClose}>
+            <div
+              className='bottom center'
+              style={{ width: '100%' }}
+              onClick={props.onClose}
+            >
               <Button
                 buttonWidth='100%'
                 hasBorder={true}
@@ -421,12 +590,20 @@ const StakeModal = (props: any) => {
                 borderColor={['#BD37EC', '#1F67FF']}
                 text='Cancel'
                 onClick={props.onClose}
-              />{' '}
-              <ActionStake
-                stakedToken={stoken}
-                rewardedToken={rtoken}
-                user_fund={bigAmount}
               />
+              {payFees ? (
+                <ActionRemovePoolFees
+                  stakedToken={stoken}
+                  rewardedToken={rtoken}
+                  user_fund={bigAmount}
+                />
+              ) : (
+                <ActionFund
+                  stakedToken={stoken}
+                  rewardedToken={rtoken}
+                  user_fund={bigAmount}
+                />
+              )}
             </div>
 
             <svg
@@ -448,8 +625,80 @@ const StakeModal = (props: any) => {
           </div>
         </div>
       </div>
+      {/* <div className='modal' onClick={props.onClose}>
+      <div className='modal-content' onClick={(e) => e.stopPropagation()}>
+        <div className='modal-header'>
+          <img className='smallPoolLogo' src={props.image1} />
+          <h4 className='modal-title mx-auto'>Stake ESDT</h4>
+          <img className='smallPoolLogo' src={props.image2} />
+        </div>
+        <div className='modal-body'>
+          <br />
+          You will stake{' '}
+          <u>
+            {' '}
+            <img className='smallPoolLogo' src={props.image1} />[
+            {props.stakedToken}]
+          </u>{' '}
+          and earn <img className='smallPoolLogo' src={props.image2} />[
+          {props.rewardedToken}] that will be claimable over time.
+          <br />
+          <br />
+          <ul>
+            <li>Staked tokens will stay in contract</li>
+            <li>You can unstake at any time</li>
+            <li>Calculated rewards vary based on total staked</li>
+            <li>Rewards must be claimed to be finalized</li>
+          </ul>
+        </div>
+        <Form.Group as={Row} md='12'>
+          <Form.Group
+            as={Col}
+            md='6'
+            controlId='TokenAmount'
+            onChange={handleTokenAmountChange}
+          >
+            {' '}
+            <div className='maxInput' role='button'>
+              <a onClick={setToMax}>
+                <u>MAX</u>
+              </a>
+            </div>
+            <Form.Control
+              required
+              type='number'
+              placeholder=''
+              defaultValue='0'
+              value={tokenAmount}
+            />{' '}
+            <Form.Label className='float-right'>
+              <FormatAmount
+                decimals={Number(props.decimals.toString())}
+                value={props.balance.toString()}
+                egldLabel={props.stakedToken}
+                data-testid='staked'
+                digits={2}
+              />
+            </Form.Label>
+          </Form.Group>
+          <Form.Group className='m-auto' onClick={props.onClose}>
+            <ActionStake
+              stakedToken={props.stakedToken}
+              rewardedToken={props.rewardedToken}
+              user_fund={bigAmount}
+              name='STAKE'
+            />{' '}
+          </Form.Group>
+        </Form.Group>
+        <div className='modal-footer'>
+          <button onClick={props.onClose} className='button'>
+            Close
+          </button>
+        </div>
+      </div>
+    </div> */}{' '}
     </>
   );
 };
 
-export default StakeModal;
+export default FundModal;

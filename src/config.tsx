@@ -1,7 +1,22 @@
 //DEVNET :
 export const defaultToken = 'MID-7f1d59';
+export const defaultPairs = [
+  { s: 'MID-7f1d59', r: 'MID-7f1d59' },
+  { s: 'MID-7f1d59', r: 'ATS-e57f90' },
+  { s: 'MID-7f1d59', r: 'MEX-dc289c' },
+  { s: 'MID-7f1d59', r: 'WEGLD-d7c6bb' },
+  { s: 'MEX-dc289c', r: 'MID-7f1d59' },
+  { s: 'MEX-dc289c', r: 'MEX-dc289c' },
+  { s: 'SNS-ffcb8c', r: 'TIKA-c375d8' },
+  { s: 'SNS-ffcb8c', r: 'MID-7f1d59' },
+  { s: 'SNS-ffcb8c', r: 'RENBTC-0b6973' },
+  { s: 'SNS-ffcb8c', r: 'WEGLD-d7c6bb' },
+  { s: 'VITAL-058fd5', r: 'VITAL-058fd5' },
+  { s: 'USDC-8d4068', r: 'VITAL-058fd5' }
+];
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
+//'erd1qqqqqqqqqqqqqpgqf63utxdnjxlklutavl5sqamjgsmf5565ch9sdxj750';
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 export const contractPlay =
@@ -37,6 +52,14 @@ export const network: NetworkType = {
 //   explorerAddress: 'http://explorer.multiversx.com',
 //   delegationContract: contractAddressDelegation
 // };
+// export const defaultPairs = [
+//   { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
+//   { s: 'MID-ecb7bf', r: 'MEX-455c57' },
+//   { s: 'MID-ecb7bf', r: 'VITAL-ab7917' },
+//   { s: 'MIDUSDC-3d93f4', r: 'MID-ecb7bf' },
+//   { s: 'MEX-455c57', r: 'MID-ecb7bf' },
+//   { s: 'VITAL-ab7917', r: 'MID-ecb7bf' }
+// ];
 
 //GLOBAL :
 export const dAppName = 'Middle Staking';

@@ -34,9 +34,6 @@ export const ChangeServiceFee = () => {
       console.error(error);
     }
   };
-
-  console.log(contractDetails.serviceFee.replace('%', ''));
-
   return contractDetails.serviceFee === '' ? (
     <p>chargement</p>
   ) : (

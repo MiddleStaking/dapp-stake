@@ -4,6 +4,7 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
+import { Button } from './../../../../components/Design';
 
 export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
@@ -39,22 +40,32 @@ export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
   const notAllowedClass = stakeRewardsAllowed ? '' : 'not-allowed disabled';
 
   return (
-    <div>
+    <div className='center' style={{ width: '100%' }}>
       {rewardsAmount !== undefined && rewardsAmount > 0 && (
         <>
           {!hasPendingTransactions ? (
-            <div>
-              <button
+            <>
+              <Button
+                buttonWidth='100%'
+                hasBorder={true}
+                borderRadius={40}
+                background={'black'}
+                borderColor={['#BD37EC', '#1F67FF']}
+                text='Reinvest my rewards'
                 onClick={sendStakeRewardsTransaction}
-                className='butLineBig goldButton'
-              >
-                REINVEST REWARDS{' '}
-              </button>
-            </div>
+              />
+            </>
           ) : (
-            <div className={notAllowedClass}>
-              <button className='butLineBig'>Processing</button>
-            </div>
+            <>
+              <Button
+                buttonWidth='100%'
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                borderColor={'black'}
+                text='Processing'
+                disabled={true}
+              />
+            </>
           )}
         </>
       )}

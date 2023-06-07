@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Footer = () => {
   return (
-    <footer className='text-center mt-2 mb-3'>
+    <footer className='text-center footer'>
       <div>
         <a
           {...{

@@ -21,6 +21,7 @@ import { PageNotFound } from 'pages';
 import { routeNames } from 'routes';
 import { routes } from 'routes';
 import Unlock from 'pages/Unlock';
+import neon1 from './assets/img/neon1.svg';
 
 export const App = () => {
   return (
@@ -28,6 +29,24 @@ export const App = () => {
       <AxiosInterceptorContext.Interceptor
         authenticatedDomanis={sampleAuthenticatedDomains}
       >
+        {' '}
+        <svg
+          className='neon1'
+          height='100%'
+          width='100%'
+          xmlns='http://www.w3.org/2000/svg'
+          preserveAspectRatio='none'
+        >
+          <image
+            className='neon1'
+            x='0'
+            y='0'
+            height='100%'
+            width='100%'
+            href={neon1}
+            preserveAspectRatio='none'
+          />
+        </svg>
         <Router>
           <DappProvider
             environment={EnvironmentsEnum.devnet}

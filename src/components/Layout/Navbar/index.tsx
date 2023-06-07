@@ -215,7 +215,7 @@ export const MyNavbar = () => {
                     <span>Tokenomics</span>
                   </Link>{' '}
                 </NavDropdown.Item>
-                {isLoggedIn && (
+                {/* {isLoggedIn && (
                   <NavDropdown.Item>
                     <Link
                       className='d-flex align-items-center navbar-brand mr-10'
@@ -226,7 +226,7 @@ export const MyNavbar = () => {
                       <span>Deposit</span>
                     </Link>{' '}
                   </NavDropdown.Item>
-                )}
+                )} */}
                 <NavDropdown.Item
                   href='https://docs.middlestaking.fr'
                   className='text-white'

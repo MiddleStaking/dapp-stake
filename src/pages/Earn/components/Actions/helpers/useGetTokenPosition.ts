@@ -14,6 +14,8 @@ const resultsParser = new ResultsParser();
 export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
   const { network } = useGetNetworkConfig();
   const [tokenPosition, setTokenPosition] = useState({
+    stakedToken: '',
+    rewardedToken: '',
     balance: BigInt(1),
     total_stake: BigInt(1),
     total_rewards: BigInt(1),
@@ -28,6 +30,21 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
 
   const getTokenPosition = async () => {
     //using storage to reduce calls
+
+    setTokenPosition({
+      stakedToken: '',
+      rewardedToken: '',
+      balance: BigInt(0),
+      total_stake: BigInt(0),
+      total_rewards: BigInt(0),
+      fee_percentage: BigInt(1000),
+      burn_percentage: BigInt(0),
+      last_fund_block: BigInt(0),
+      paused: 0,
+      blocks_to_max: BigInt(0),
+      users: BigInt(0)
+    });
+
     const expire_test = Number(
       localStorage.getItem(
         'token_position_' + stakedToken + '_' + rewardedToken + '_expire'
@@ -72,6 +89,8 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
 
       if (tab) {
         setTokenPosition({
+          stakedToken: stakedToken,
+          rewardedToken: rewardedToken,
           balance: tab[0].toFixed(),
           total_stake: tab[1].toFixed(),
           total_rewards: tab[2].toFixed(),
@@ -89,6 +108,8 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
         localStorage.setItem(
           'token_position_' + stakedToken + '_' + rewardedToken,
           JSON.stringify({
+            stakedToken: stakedToken,
+            rewardedToken: rewardedToken,
             balance: tab[0].toFixed(),
             total_stake: tab[1].toFixed(),
             total_rewards: tab[2].toFixed(),
@@ -112,7 +133,7 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
 
   useEffect(() => {
     getTokenPosition();
-  }, []);
+  }, [stakedToken, rewardedToken]);
 
   return tokenPosition;
 };

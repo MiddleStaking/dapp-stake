@@ -6,14 +6,16 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
 import { Button } from './../../../../components/Design';
 
-export const ActionStake = ({
-  stakedToken,
-  rewardedToken,
+export const ActionSwap = ({
+  first_token,
+  second_token,
+  in_token,
   user_fund,
+  min_out,
+  price_impact,
   name
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-
   function bigToHexDec(d: bigint) {
     let result = '';
     result = d.toString(16);
@@ -32,25 +34,29 @@ export const ActionStake = ({
       value: 0,
       data:
         'ESDTTransfer@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
+        Buffer.from(in_token, 'utf8').toString('hex') +
         '@' +
         bigToHexDec(BigInt(user_fund)) +
         '@' +
-        Buffer.from('stake', 'utf8').toString('hex') +
+        Buffer.from('swap', 'utf8').toString('hex') +
         '@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex'),
+        Buffer.from(first_token, 'utf8').toString('hex') +
+        '@' +
+        Buffer.from(second_token, 'utf8').toString('hex') +
+        '@' +
+        bigToHexDec(BigInt(min_out)),
 
       receiver: contractAddress,
-      gasLimit: '5100000'
+      gasLimit: '5000000'
     };
     await refreshAccount();
 
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: stakeTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Stake transaction',
-        errorMessage: 'An error has occured Stake',
-        successMessage: 'Stake transaction successful'
+        processingMessage: 'Processing Swap transaction',
+        errorMessage: 'An error has occured Swap',
+        successMessage: 'Swap transaction successful'
       },
       redirectAfterSign: false
     });
@@ -68,14 +74,26 @@ export const ActionStake = ({
         <>
           {!hasPendingTransactions ? (
             <>
-              <Button
-                buttonWidth='100%'
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                text='Stake tokens'
-                onClick={sendStakeTransaction}
-                disabled={user_fund == 0}
-              />
+              {price_impact > 10 ? (
+                <Button
+                  buttonWidth='100%'
+                  borderRadius={40}
+                  background={['rgb(236 55 55)', 'rgb(236 55 55)']}
+                  borderColor={'black'}
+                  text='LOW LIQUIDITY'
+                  onClick={sendStakeTransaction}
+                  disabled={false}
+                />
+              ) : (
+                <Button
+                  buttonWidth='100%'
+                  borderRadius={40}
+                  background={['#BD37EC', '#1F67FF']}
+                  text='Swap tokens'
+                  onClick={sendStakeTransaction}
+                  disabled={user_fund == 0}
+                />
+              )}
             </>
           ) : (
             <>
