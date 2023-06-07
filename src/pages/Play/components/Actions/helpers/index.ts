@@ -6,3 +6,4 @@ export * from './useGetNonce';
 export * from './useGetNftInformations';
 export * from './useGetPayment';
 export * from './useGetPrice';
+export * from './useGetTokenList';

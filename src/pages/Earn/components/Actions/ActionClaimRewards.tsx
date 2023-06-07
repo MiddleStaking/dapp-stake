@@ -4,6 +4,7 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress } from 'config';
+import { Button } from './../../../../components/Design';
 
 export const ActionClaimRewards = ({
   stakedToken,
@@ -25,7 +26,7 @@ export const ActionClaimRewards = ({
         '@' +
         Buffer.from(rewardedToken, 'utf8').toString('hex'),
       receiver: contractAddress,
-      gasLimit: '4000000'
+      gasLimit: '4100000'
     };
     await refreshAccount();
 
@@ -47,22 +48,32 @@ export const ActionClaimRewards = ({
   const notAllowedClass = claimAllowed ? '' : 'not-allowed disabled';
 
   return (
-    <div>
+    <div className='center' style={{ width: '100%' }}>
       {rewardsAmount !== undefined && rewardsAmount > 0 && (
         <>
           {!hasPendingTransactions ? (
-            <div>
-              <button
+            <>
+              <Button
+                buttonWidth='100%'
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                borderColor={'black'}
+                text='Claim my rewards'
                 onClick={sendClaimTransaction}
-                className='butLineBig goldButton'
-              >
-                CLAIM REWARDS{' '}
-              </button>
-            </div>
+              />
+            </>
           ) : (
-            <div className={notAllowedClass}>
-              <button className='butLineBig'>Processing</button>
-            </div>
+            <>
+              {' '}
+              <Button
+                buttonWidth='100%'
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                borderColor={'black'}
+                text='Processing'
+                disabled={true}
+              />
+            </>
           )}
         </>
       )}

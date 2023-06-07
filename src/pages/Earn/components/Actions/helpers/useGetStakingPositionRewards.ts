@@ -23,7 +23,7 @@ export const useGetStakingPositionRewards = (
 ) => {
   // const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
-  const [rewardsAmount, setRewardsAmount] = useState<bigint>(BigInt(1));
+  const [rewardsAmount, setRewardsAmount] = useState<bigint>(BigInt(0));
   const [time, setTime] = useState(new Date());
 
   const getStakingPositionRewards = async () => {
@@ -76,7 +76,7 @@ export const useGetStakingPositionRewards = (
       } else {
         stake_amount = BigInt(0);
       }
-    }, 30000);
+    }, 300000);
 
     return () => clearInterval(interval);
   }, [stake_amount, hasPendingTransactions, time]);

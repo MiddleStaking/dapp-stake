@@ -8,6 +8,7 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 
 import { smartContract } from './smartContract';
+import { defaultPairs } from 'config';
 
 const resultsParser = new ResultsParser();
 
@@ -27,13 +28,7 @@ export const useGetRewardedTokens = (stakedToken: string) => {
     const pairs =
       localStorage.getItem('pairs_') != null
         ? JSON.parse(localStorage.getItem('pairs_') as string)
-        : [
-            { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
-            { s: 'MID-ecb7bf', r: 'MEX-455c57' },
-            { s: 'MID-ecb7bf', r: 'VITAL-ab7917' },
-            { s: 'MEX-455c57', r: 'MID-ecb7bf' },
-            { s: 'VITAL-ab7917', r: 'MID-ecb7bf' }
-          ];
+        : defaultPairs;
     if (time.getTime() < expire_test) {
       return;
     }

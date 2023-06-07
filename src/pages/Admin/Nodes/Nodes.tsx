@@ -117,10 +117,6 @@ const actions: ActionsType[] = [
 export const Nodes = () => {
   const nodesStates = GetNodesStatus();
   const nodesNumber = GetNodesNumber();
-
-  console.log(nodesStates);
-  console.log(nodesNumber);
-
   const { sendTransactionAdmin } = useTransaction();
   const { pending } = useGetActiveTransactionsStatus();
   const { hasSuccessfulTransactions, successfulTransactionsArray } =
@@ -132,12 +128,6 @@ export const Nodes = () => {
   const onAct = useCallback(
     async (parameters: ArgumentsType): Promise<void> => {
       const { value, type, args } = parameters;
-
-      console.log('ici');
-      console.log(value);
-      console.log(type);
-      console.log(args);
-
       try {
         await sendTransactionAdmin({
           args,
@@ -145,14 +135,11 @@ export const Nodes = () => {
           value
         });
       } catch (error) {
-        console.log('error');
-
         console.log(error);
       }
     },
     []
   );
-
   const fetchQueue = useCallback(async (key: string) => {
     const provider = new ProxyNetworkProvider(network.apiAddress);
     const query = new Query({
