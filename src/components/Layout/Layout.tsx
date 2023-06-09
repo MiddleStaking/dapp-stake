@@ -6,23 +6,22 @@ import BackgroundMobile from './../../assets/img/MobileBackground.svg';
 import BackgroundDekstopTopLeft from './../../assets/img/DekstopTopLeft.svg';
 import BackgroundDekstopBottomRigh from './../../assets/img/DekstopBottomRigh.svg';
 import { useWindowDimensions } from 'components/DimensionScreen.tsx';
-import HeaderDekstop from '../Header';
-import FooterDekstop from '../Footer';
+import FooterDekstop from 'components/Footer';
+import HeaderDekstop from 'components/Header';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();
   const { width } = useWindowDimensions();
 
-  const backgroundMobileStyle = `url(${BackgroundMobile})`;
+  const backgroundMobileStyle = `url(${BackgroundMobile}),#000000`;
   const backgroundDekstopStyle = `url(${BackgroundDekstopTopLeft}) top left,url(${BackgroundDekstopBottomRigh}) bottom right, #000000`;
   // '79px',
-
   return (
     <div
       style={{
         background:
           width > 450 ? backgroundDekstopStyle : backgroundMobileStyle,
-        backgroundSize: width > 450 ? '' : 'cover',
+        backgroundSize: width > 450 ? '' : 'contain',
         backgroundRepeat: width > 450 ? 'no-repeat' : 'repeat',
         minHeight: '100vh',
         width: '100%',
@@ -32,7 +31,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       }}
       // className='d-flex flex-column flex-fill wrapper'
     >
-      {/* <img src={BackgroundDekstopTopLeft} alt='' /> */}
       <HeaderDekstop />
 
       <main
