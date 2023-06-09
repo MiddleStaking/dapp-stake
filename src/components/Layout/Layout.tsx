@@ -21,7 +21,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       style={{
         background:
           width > 450 ? backgroundDekstopStyle : backgroundMobileStyle,
-        backgroundSize: width > 450 ? '' : 'contain',
+        backgroundSize: width > 450 ? '' : 'cover',
         backgroundRepeat: width > 450 ? 'no-repeat' : 'repeat',
         minHeight: '100vh',
         width: '100%',
