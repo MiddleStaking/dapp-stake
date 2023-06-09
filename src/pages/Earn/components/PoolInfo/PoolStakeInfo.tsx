@@ -7,6 +7,7 @@ import StakeModal from './../StakeModal';
 import UnstakeModal from './../UnstakeModal';
 import { ActionClaimRewards, ActionStakeRewards } from './../Actions';
 import { Button } from './../../../../components/Design';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 
 export const PoolStakeInfo = ({
   address,
@@ -29,6 +30,8 @@ export const PoolStakeInfo = ({
 }: any) => {
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
+  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
+
   return (
     <>
       <StakeModal
@@ -37,7 +40,9 @@ export const PoolStakeInfo = ({
         stakedToken={stakedToken}
         balance={balance}
         decimals={sdecimals}
-        onClose={() => setShowStake(false)}
+        onClose={() => {
+          setHeaderMenu(true), setShowStake(false);
+        }}
         show={showStake}
         image1={image1}
         image2={image2}
@@ -48,7 +53,9 @@ export const PoolStakeInfo = ({
         stakedToken={stakedToken}
         balance={stakingPosition.stake_amount}
         decimals={sdecimals}
-        onClose={() => setShowUnstake(false)}
+        onClose={() => {
+          setHeaderMenu(true), setShowUnstake(false);
+        }}
         show={showUnstake}
       />
 
@@ -89,7 +96,10 @@ export const PoolStakeInfo = ({
                   borderColor={['#BD37EC', '#1F67FF']}
                   text={'Stake ' + stakedToken}
                   buttonWidth={'100%'}
-                  onClick={() => setShowStake(true)}
+                  onClick={() => {
+                    setHeaderMenu(false);
+                    setShowStake(true);
+                  }}
                 />
               </div>
             </div>
@@ -138,14 +148,19 @@ export const PoolStakeInfo = ({
                   background={'#000000'}
                   borderColor={'black'}
                   text='Stake'
-                  onClick={() => setShowStake(true)}
+                  onClick={() => {
+                    setShowStake(true);
+                    setHeaderMenu(false);
+                  }}
                 />
                 <Button
                   borderRadius={40}
                   background={'#000000'}
                   borderColor={'black'}
                   text='Unstake'
-                  onClick={() => setShowUnstake(true)}
+                  onClick={() => {
+                    setHeaderMenu(false), setShowUnstake(true);
+                  }}
                 />
               </div>
             </div>
