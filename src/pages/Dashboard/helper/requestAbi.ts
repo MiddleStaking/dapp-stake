@@ -494,9 +494,9 @@ const sendClaimRewards = async (): Promise<void> => {
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: reDelegateRewardsTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing reDelegateRewards transaction',
-        errorMessage: 'An error has occured during reDelegateRewards',
-        successMessage: 'reDelegateRewards transaction successful'
+        processingMessage: 'Processing claimRewards transaction',
+        errorMessage: 'An error has occured during claimRewards',
+        successMessage: 'claimRewards transaction successful'
       },
       redirectAfterSign: false
     });

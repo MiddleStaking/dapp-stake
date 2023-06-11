@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress } from 'config';
+import { contractAddress, defaultToken } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionSwap = ({
@@ -30,7 +30,7 @@ export const ActionSwap = ({
     >(null);
 
   const sendStakeTransaction = async () => {
-    const stakeTransaction = {
+    let stakeTransaction = {
       value: 0,
       data:
         'ESDTTransfer@' +
@@ -45,10 +45,41 @@ export const ActionSwap = ({
         Buffer.from(second_token, 'utf8').toString('hex') +
         '@' +
         bigToHexDec(BigInt(min_out)),
-
       receiver: contractAddress,
-      gasLimit: '5000000'
+      gasLimit: '5200000'
     };
+
+    if (
+      in_token != defaultToken &&
+      first_token != defaultToken &&
+      second_token != defaultToken
+    ) {
+      stakeTransaction = {
+        value: 0,
+        data:
+          'ESDTTransfer@' +
+          Buffer.from(in_token, 'utf8').toString('hex') +
+          '@' +
+          bigToHexDec(BigInt(user_fund)) +
+          '@' +
+          Buffer.from('dualSwap', 'utf8').toString('hex') +
+          '@' +
+          Buffer.from(
+            in_token == first_token ? first_token : second_token,
+            'utf8'
+          ).toString('hex') +
+          '@' +
+          Buffer.from(
+            in_token == first_token ? second_token : first_token,
+            'utf8'
+          ).toString('hex') +
+          '@' +
+          bigToHexDec(BigInt(0)),
+        receiver: contractAddress,
+        gasLimit: '5200000'
+      };
+    }
+
     await refreshAccount();
 
     const { sessionId /*, error*/ } = await sendTransactions({

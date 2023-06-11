@@ -9,11 +9,25 @@ import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
 import { ActionSwap } from './Actions';
 import { Button } from './../../../components/Design';
+import { defaultToken } from 'config';
+import { PoolInfo } from './PoolInfo';
 
 const SwapModal = (props: any) => {
   const userEsdtBalance = props.userEsdtBalance;
-  const [first_token, setFirsttoken] = React.useState(props.first_token);
-  const [second_token, setSecondtoken] = React.useState(props.second_token);
+  const [first_token, setFirstToken] = React.useState(props.first_token);
+  const [second_token, setSecondToken] = React.useState(props.second_token);
+  const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
+  const [second_pool, setSecondPool] = React.useState(props.secondPoolPosition);
+  React.useEffect(() => {
+    setFirstPool(props.firstPoolPosition);
+    setSecondPool(props.secondPoolPosition);
+  }, [props.firstPoolPosition, props.secondPoolPosition]);
+
+  console.log(first_pool);
+  console.log(second_pool);
+  console.log(props.firstPoolPosition);
+  console.log(props.secondPoolPosition);
+
   const [in_token, setInToken] = React.useState(props.in_token);
   const [out_token, setOutToken] = React.useState(props.out_token);
 
@@ -55,12 +69,13 @@ const SwapModal = (props: any) => {
   const first_image = first_esdt_info?.assets?.svgUrl
     ? first_esdt_info?.assets?.svgUrl
     : notFound;
-  const second_image = second_decimals?.assets?.svgUrl
-    ? second_decimals?.assets?.svgUrl
+  const second_image = second_esdt_info?.assets?.svgUrl
+    ? second_esdt_info?.assets?.svgUrl
     : notFound;
 
   function handleTokenAmountChange(e: React.ChangeEvent<any>) {
     const amount = BigInt(e.target.value * 10 ** in_decimals);
+    let range = 0;
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
@@ -69,6 +84,7 @@ const SwapModal = (props: any) => {
         Number(BigInt(inBalance)) / Number(BigInt(10 ** in_decimals))
       );
       setBigAmount(inBalance);
+      range = 100;
     } else {
       setTokenAmount(e.target.value);
       const output = toBigAmount(Number(e.target.value), Number(in_decimals));
@@ -77,7 +93,7 @@ const SwapModal = (props: any) => {
     const percentage = Number(
       (BigInt(amount) * BigInt(100)) / BigInt(inBalance)
     );
-    setRangeValue(percentage);
+    setRangeValue(range > 0 ? range : percentage);
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
@@ -142,48 +158,111 @@ const SwapModal = (props: any) => {
     setRangeValue(100);
   }
 
-  const k_pool =
-    BigInt(props.poolPosition.first_token_amount) *
-    BigInt(props.poolPosition.second_token_amount);
-  const in_amount = BigInt(bigAmount);
+  if (first_token == defaultToken || second_token == defaultToken) {
+    //Simple Swap
+    const k_pool =
+      BigInt(first_pool.first_token_amount) *
+      BigInt(first_pool.second_token_amount);
+    const in_amount = BigInt(bigAmount);
 
-  if (first_token == in_token) {
-    //******* */
-    const in_fees =
-      (in_amount * BigInt(props.poolPosition.first_fee)) / BigInt(10000);
-    const y_amount =
-      k_pool /
-      (BigInt(props.poolPosition.first_token_amount) + in_amount - in_fees);
+    if (first_token == in_token) {
+      //******* */
+      const in_fees =
+        (in_amount * BigInt(first_pool.first_fee)) / BigInt(10000);
+      const y_amount =
+        k_pool / (BigInt(first_pool.first_token_amount) + in_amount - in_fees);
 
-    out_amount = BigInt(props.poolPosition.second_token_amount) - y_amount;
-    out_fees =
-      (out_amount * BigInt(10000)) /
-      BigInt(props.poolPosition.second_fee) /
-      BigInt(10000);
+      out_amount = BigInt(first_pool.second_token_amount) - y_amount;
+      out_fees =
+        (out_amount * BigInt(10000)) /
+        BigInt(first_pool.second_fee) /
+        BigInt(10000);
 
-    price_impact =
-      (Number(in_amount.toString()) /
-        props.poolPosition.first_token_amount.toString()) *
-      100;
+      price_impact =
+        (Number(in_amount.toString()) /
+          first_pool.first_token_amount.toString()) *
+        100;
+    } else {
+      //******* */
+      const in_fees =
+        (in_amount * BigInt(first_pool.first_fee)) / BigInt(10000);
+      const x_amount =
+        k_pool / (BigInt(first_pool.second_token_amount) + in_amount - in_fees);
+
+      out_amount = BigInt(first_pool.first_token_amount) - x_amount;
+      out_fees =
+        (out_amount * BigInt(10000)) /
+        BigInt(first_pool.second_fee) /
+        BigInt(10000);
+
+      price_impact =
+        (Number(in_amount.toString()) /
+          first_pool.second_token_amount.toString()) *
+        100;
+    }
   } else {
-    //******* */
-    const in_fees =
-      (in_amount * BigInt(props.poolPosition.first_fee)) / BigInt(10000);
-    const x_amount =
-      k_pool /
-      (BigInt(props.poolPosition.second_token_amount) + in_amount - in_fees);
+    //Dual Swap
 
-    out_amount = BigInt(props.poolPosition.first_token_amount) - x_amount;
-    out_fees =
-      (out_amount * BigInt(10000)) /
-      BigInt(props.poolPosition.second_fee) /
-      BigInt(10000);
+    const first_k_pool =
+      BigInt(second_pool.first_token_amount) *
+      BigInt(second_pool.second_token_amount);
+    const second_k_pool =
+      BigInt(first_pool.first_token_amount) *
+      BigInt(first_pool.second_token_amount);
+    const in_amount = BigInt(bigAmount);
 
-    price_impact =
-      (Number(in_amount.toString()) /
-        props.poolPosition.second_token_amount.toString()) *
-      100;
+    if (first_token == in_token) {
+      //******* */
+      const in_fees =
+        (in_amount * BigInt(second_pool.first_fee)) / BigInt(10000);
+      const first_x_amount =
+        first_k_pool /
+        (BigInt(second_pool.second_token_amount) + in_amount - in_fees);
+      const first_out_amount =
+        BigInt(second_pool.first_token_amount) - first_x_amount;
+
+      const second_y_amount =
+        second_k_pool /
+        (BigInt(first_pool.first_token_amount) + first_out_amount);
+      out_amount = BigInt(first_pool.second_token_amount) - second_y_amount;
+
+      out_fees =
+        (out_amount * BigInt(10000)) /
+        BigInt(first_pool.second_fee) /
+        BigInt(10000);
+
+      price_impact =
+        (Number(in_amount.toString()) /
+          first_pool.first_token_amount.toString()) *
+        100;
+    } else {
+      //******* */
+      const in_fees =
+        (in_amount * BigInt(first_pool.first_fee)) / BigInt(10000);
+      const first_x_amount =
+        second_k_pool /
+        (BigInt(first_pool.second_token_amount) + in_amount - in_fees);
+      const first_out_amount =
+        BigInt(first_pool.first_token_amount) - first_x_amount;
+
+      const second_y_amount =
+        first_k_pool /
+        (BigInt(second_pool.first_token_amount) + first_out_amount);
+      out_amount = BigInt(second_pool.second_token_amount) - second_y_amount;
+
+      out_fees =
+        (out_amount * BigInt(10000)) /
+        BigInt(second_pool.second_fee) /
+        BigInt(10000);
+
+      price_impact =
+        (Number(in_amount.toString()) /
+          second_pool.first_token_amount.toString()) *
+        100;
+    }
   }
+
+  //Slippage :
   const min_out = ((out_amount - out_fees) * BigInt(95)) / BigInt(100);
   //console.log('in_stake : ' + in_stake + ' out_mid : ' + out_mid);
 
@@ -216,91 +295,205 @@ const SwapModal = (props: any) => {
                 </div>
 
                 <div className='token-position'>
-                  <div className='logos3'>
-                    <div className='image2'>
-                      <div className='logos4'>
-                        <img className='image-32' src={first_image} />
+                  {!props.isDual ? (
+                    <>
+                      <div className='logos3'>
+                        <div className='image2'>
+                          <div className='logos4'>
+                            <img className='image-32' src={first_image} />
+                          </div>
+                        </div>
+
+                        <div className='logo2'>
+                          <img className='image-12' src={second_image} />
+                        </div>
                       </div>
-                    </div>
 
-                    <div className='logo2'>
-                      <img className='image-12' src={second_image} />
-                    </div>
-                  </div>
+                      <div className='group-4'>
+                        <div className='frame-4'>
+                          <div className='rewards'>{first_token}</div>
 
-                  <div className='group-4'>
-                    <div className='frame-4'>
-                      <div className='rewards'>{first_token}</div>
+                          <div className='_18-853-74'>
+                            {' '}
+                            <FormatAmount
+                              value={first_pool.first_token_amount.toString()}
+                              decimals={Number(first_decimals)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />
+                          </div>
+                        </div>
 
-                      <div className='_18-853-74'>
-                        {' '}
-                        <FormatAmount
-                          value={props.poolPosition.first_token_amount.toString()}
-                          decimals={Number(first_decimals)}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
-                      </div>
-                    </div>
+                        <div className='frame-6'>
+                          <div className='rewards'>{second_token}</div>
 
-                    <div className='frame-6'>
-                      <div className='rewards'>{second_token}</div>
+                          <div className='_18-853-74'>
+                            {' '}
+                            <FormatAmount
+                              value={first_pool.second_token_amount.toString()}
+                              decimals={Number(second_decimals)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />
+                          </div>
+                        </div>
 
-                      <div className='_18-853-74'>
-                        {' '}
-                        <FormatAmount
-                          value={props.poolPosition.second_token_amount.toString()}
-                          decimals={Number(second_decimals)}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
-                      </div>
-                    </div>
+                        <div className='frame-7'>
+                          <div className='all-time-rewarded'>in_fee</div>
 
-                    <div className='frame-7'>
-                      <div className='all-time-rewarded'>in_fee</div>
+                          <div className='_98-75'>
+                            {' '}
+                            <FormatAmount
+                              value={first_pool.first_fee.toString()}
+                              decimals={Number(2)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />{' '}
+                            %
+                          </div>
+                        </div>
 
-                      <div className='_98-75'>
-                        {' '}
-                        <FormatAmount
-                          value={props.poolPosition.first_fee.toString()}
-                          decimals={Number(2)}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />{' '}
-                        %
-                      </div>
-                    </div>
+                        <div className='frame-8'>
+                          <div className='speed'>out_fee</div>
 
-                    <div className='frame-8'>
-                      <div className='speed'>out_fee</div>
+                          <div className='_365-days'>
+                            <FormatAmount
+                              value={first_pool.second_fee.toString()}
+                              decimals={Number(2)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />{' '}
+                            %
+                          </div>
+                        </div>
 
-                      <div className='_365-days'>
-                        <FormatAmount
-                          value={props.poolPosition.second_fee.toString()}
-                          decimals={Number(2)}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />{' '}
-                        %
-                      </div>
-                    </div>
+                        <div className='frame-10'>
+                          <div className='total-value'>LP value</div>
 
-                    <div className='frame-10'>
-                      <div className='total-value'>LP value</div>
-
-                      <div className='_5-198-9'>
-                        {/* {staked_value.toLocaleString('en-US', {
+                          <div className='_5-198-9'>
+                            {/* {staked_value.toLocaleString('en-US', {
                               maximumFractionDigits: 2
                             })}{' '} */}
-                        TBD$
+                            TBD$
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className='logos3'>
+                        <div className='image2'>
+                          <div className='logos4'>
+                            <img className='image-32' src={first_image} />
+                          </div>
+                        </div>
+
+                        <div className='logo2'>
+                          <img className='image-12' src={second_image} />
+                        </div>
+                      </div>
+
+                      <div className='group-4'>
+                        <div className='frame-4'>
+                          <div className='rewards'>
+                            {defaultToken.split('-')[0]} :{' '}
+                            {first_token.split('-')[0]}
+                          </div>
+
+                          <div className='_18-853-74'>
+                            {' '}
+                            <FormatAmount
+                              value={second_pool.first_token_amount.toString()}
+                              decimals={Number(first_decimals)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />{' '}
+                            :{' '}
+                            <FormatAmount
+                              value={second_pool.second_token_amount.toString()}
+                              decimals={Number(first_decimals)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />
+                          </div>
+                        </div>
+
+                        <div className='frame-6'>
+                          <div className='rewards'>
+                            {defaultToken.split('-')[0]} :{' '}
+                            {second_token.split('-')[0]}
+                          </div>
+
+                          <div className='_18-853-74'>
+                            {' '}
+                            <FormatAmount
+                              value={first_pool.first_token_amount.toString()}
+                              decimals={Number(first_decimals)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />{' '}
+                            :{' '}
+                            <FormatAmount
+                              value={first_pool.second_token_amount.toString()}
+                              decimals={Number(second_decimals)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />
+                          </div>
+                        </div>
+
+                        <div className='frame-7'>
+                          <div className='all-time-rewarded'>in_fee</div>
+
+                          <div className='_98-75'>
+                            {' '}
+                            <FormatAmount
+                              value={first_pool.first_fee.toString()}
+                              decimals={Number(2)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />{' '}
+                            %
+                          </div>
+                        </div>
+
+                        <div className='frame-8'>
+                          <div className='speed'>out_fee</div>
+
+                          <div className='_365-days'>
+                            <FormatAmount
+                              value={first_pool.second_fee.toString()}
+                              decimals={Number(2)}
+                              egldLabel={' '}
+                              data-testid='balance'
+                              digits={2}
+                            />{' '}
+                            %
+                          </div>
+                        </div>
+
+                        <div className='frame-10'>
+                          <div className='total-value'>LP value</div>
+
+                          <div className='_5-198-9'>
+                            {/* {staked_value.toLocaleString('en-US', {
+                              maximumFractionDigits: 2
+                            })}{' '} */}
+                            TBD$
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -498,8 +691,12 @@ const SwapModal = (props: any) => {
                 onClick={props.onClose}
               />{' '}
               <ActionSwap
-                first_token={first_token}
-                second_token={second_token}
+                first_token={
+                  second_token == defaultToken ? second_token : first_token
+                }
+                second_token={
+                  second_token == defaultToken ? first_token : second_token
+                }
                 in_token={in_token}
                 user_fund={bigAmount}
                 min_out={min_out}
@@ -529,5 +726,4 @@ const SwapModal = (props: any) => {
     </>
   );
 };
-
 export default SwapModal;

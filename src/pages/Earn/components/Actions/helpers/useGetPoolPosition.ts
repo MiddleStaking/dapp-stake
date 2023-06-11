@@ -15,7 +15,8 @@ export const useGetPoolPosition = (
   stakedToken: any,
   rewardedToken: any,
   showStake: boolean,
-  hasPendingTransactions: boolean
+  hasPendingTransactions: boolean,
+  isDual: boolean
 ) => {
   const { network } = useGetNetworkConfig();
   const [tokenPosition, setTokenPosition] = useState({
@@ -30,9 +31,10 @@ export const useGetPoolPosition = (
 
   const getTokenPosition = async () => {
     //using storage to reduce calls do not load if pending tx
-    if (stakedToken == rewardedToken || hasPendingTransactions) {
+    if (stakedToken == rewardedToken || hasPendingTransactions || !isDual) {
       return;
     }
+
     setTokenPosition({
       has_roles: 0,
       first_token_amount: BigInt(1),

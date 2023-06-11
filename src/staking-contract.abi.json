@@ -303,6 +303,7 @@
         },
         {
             "name": "issueLpToken",
+            "onlyOwner": true,
             "mutability": "mutable",
             "payableInTokens": [
                 "EGLD"
@@ -383,6 +384,11 @@
                 {
                     "name": "second_token",
                     "type": "TokenIdentifier"
+                },
+                {
+                    "name": "opt_min_out",
+                    "type": "optional<BigUint>",
+                    "multi_arg": true
                 }
             ],
             "outputs": []
@@ -532,6 +538,17 @@
             "outputs": [
                 {
                     "type": "variadic<Address>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getSwapedTokens",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<TokenIdentifier>",
                     "multi_result": true
                 }
             ]

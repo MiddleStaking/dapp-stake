@@ -33,9 +33,9 @@ export const ActionClaimRewards = ({
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: claimTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Claim transaction',
-        errorMessage: 'An error has occured Claim transaction',
-        successMessage: 'Claim transaction successful'
+        processingMessage: 'Processing claimRewards transaction',
+        errorMessage: 'An error has occured claimRewards transaction',
+        successMessage: 'claimRewards transaction successful'
       },
       redirectAfterSign: false
     });

@@ -59,6 +59,7 @@ const StakeModal = (props: any) => {
     BigInt(60);
 
   function handleTokenAmountChange(e: React.ChangeEvent<any>) {
+    let range = 0;
     const amount = BigInt(e.target.value * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
@@ -66,13 +67,14 @@ const StakeModal = (props: any) => {
     } else if (amount > balance) {
       setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
       setBigAmount(balance);
+      range = 100;
     } else {
       setTokenAmount(e.target.value);
       const output = toBigAmount(Number(e.target.value), Number(sdecimals));
       setBigAmount(BigInt(output));
     }
     const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
-    setRangeValue(percentage);
+    setRangeValue(range > 0 ? range : percentage);
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {

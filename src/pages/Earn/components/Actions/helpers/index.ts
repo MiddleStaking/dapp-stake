@@ -7,3 +7,4 @@ export * from './useGetESDTInformations';
 export * from './useGetESDTCompute';
 export * from './useGetIsPaused';
 export * from './useGetPoolPosition';
+export * from './useGetSwapedTokens';
