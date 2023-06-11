@@ -7,6 +7,8 @@ import StakeModal from './../StakeModal';
 import UnstakeModal from './../UnstakeModal';
 import { ActionClaimRewards, ActionStakeRewards } from './../Actions';
 import { Button } from './../../../../components/Design';
+import { PoolSwapInfo } from './../PoolInfo/PoolSwapInfo';
+import { defaultToken } from 'config';
 
 export const PoolStakeInfo = ({
   address,
@@ -25,7 +27,8 @@ export const PoolStakeInfo = ({
   stakingPositionRewards,
   my_rewards_value,
   canBeStaked,
-  userEsdtBalance
+  userEsdtBalance,
+  swapedTokens
 }: any) => {
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
@@ -92,6 +95,28 @@ export const PoolStakeInfo = ({
                   onClick={() => setShowStake(true)}
                 />
               </div>
+              {(swapedTokens.includes(stakedToken) ||
+                swapedTokens.includes(rewardedToken)) &&
+                stakedToken != rewardedToken && (
+                  <PoolSwapInfo
+                    address={address}
+                    stakedToken={
+                      swapedTokens.includes(stakedToken) &&
+                      swapedTokens.includes(rewardedToken)
+                        ? stakedToken
+                        : defaultToken
+                    }
+                    rewardedToken={
+                      swapedTokens.includes(stakedToken) &&
+                      swapedTokens.includes(rewardedToken)
+                        ? rewardedToken
+                        : swapedTokens.includes(stakedToken)
+                        ? stakedToken
+                        : rewardedToken
+                    }
+                    userEsdtBalance={userEsdtBalance}
+                  />
+                )}
             </div>
           ) : (
             <div className='my-stake-section'>
@@ -148,10 +173,34 @@ export const PoolStakeInfo = ({
                   onClick={() => setShowUnstake(true)}
                 />
               </div>
+
+              {(swapedTokens.includes(stakedToken) ||
+                swapedTokens.includes(rewardedToken)) &&
+                stakedToken != rewardedToken && (
+                  <PoolSwapInfo
+                    address={address}
+                    stakedToken={
+                      swapedTokens.includes(stakedToken) &&
+                      swapedTokens.includes(rewardedToken)
+                        ? stakedToken
+                        : defaultToken
+                    }
+                    rewardedToken={
+                      swapedTokens.includes(stakedToken) &&
+                      swapedTokens.includes(rewardedToken)
+                        ? rewardedToken
+                        : swapedTokens.includes(stakedToken)
+                        ? stakedToken
+                        : rewardedToken
+                    }
+                    userEsdtBalance={userEsdtBalance}
+                  />
+                )}
             </div>
           )}
         </>
       )}
+
       {stakingPositionRewards > 0 && (
         <div className='rewards-section'>
           <div className='top5'>

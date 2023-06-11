@@ -33,6 +33,7 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { PoolTopInfo } from './PoolInfo/PoolTopInfo';
 import { PoolStakeInfo } from './PoolInfo/PoolStakeInfo';
 import { PoolSwapInfo } from './PoolInfo/PoolSwapInfo';
+import { defaultToken } from 'config';
 
 export const PoolInfo = ({
   myPools,
@@ -42,7 +43,8 @@ export const PoolInfo = ({
   canBeStaked,
   isPaused,
   tokens_extra_informations,
-  userEsdtBalance
+  userEsdtBalance,
+  swapedTokens
 }: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
@@ -317,6 +319,7 @@ export const PoolInfo = ({
 
         <PoolStakeInfo
           address={address}
+          swapedTokens={swapedTokens}
           userEsdtBalance={userEsdtBalance}
           stakedToken={stakedToken}
           rewardedToken={rewardedToken}
@@ -333,13 +336,6 @@ export const PoolInfo = ({
           stakingPositionRewards={stakingPositionRewards}
           my_rewards_value={my_rewards_value}
           canBeStaked={canBeStaked}
-        />
-
-        <PoolSwapInfo
-          address={address}
-          stakedToken={stakedToken}
-          rewardedToken={rewardedToken}
-          userEsdtBalance={userEsdtBalance}
         />
       </div>
       {/* 

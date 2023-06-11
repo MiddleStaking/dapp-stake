@@ -19,7 +19,7 @@ import notFound from './../../../assets/img/notfoundc.svg';
 import twitter from './../../../assets/img/twitter.svg';
 import { useGetRewardedTokens } from './Actions/helpers';
 import { useGetIsPaused } from './Actions/helpers';
-import { useGetStakedTokens } from './Actions/helpers';
+import { useGetStakedTokens, useGetSwapedTokens } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { PoolInfo } from './PoolInfo';
@@ -54,6 +54,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   //const isPaused = 0;
 
   const stakedTokens: string[] = useGetStakedTokens();
+  const swapedTokens: string[] = useGetSwapedTokens();
   const { param } = useParams();
   const [url] = useState(param ? param.toString() : defaultToken);
 
@@ -484,6 +485,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                   {' '}
                   <PoolInfo
                     userEsdtBalance={userEsdtBalance}
+                    swapedTokens={swapedTokens}
                     myPools={myPools}
                     stakedToken={stoken}
                     rewardedToken={rtoken.identifier}
