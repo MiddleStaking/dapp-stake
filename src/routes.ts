@@ -1,14 +1,13 @@
 import { RouteType } from '@multiversx/sdk-dapp/types';
 import { dAppName } from 'config';
+import { Admin } from 'pages/Admin';
 import Faucet from 'pages/Faucet';
 import Rewards from 'pages/Rewards';
+import Rewards2 from 'pages/RewardsV2';
 import Tokenomics from 'pages/Tokenomics';
 import TokenomicsV2 from 'pages/TokenomicstentativeV2';
-
 import { withPageTitle } from './components/PageTitle';
 import { Dashboard, Home, Statistics, Earn, Fund, Play } from './pages';
-import Rewards2 from 'pages/RewardsV2';
-import { Admin } from 'pages/Admin';
 
 export const routeNames = {
   home: '/',

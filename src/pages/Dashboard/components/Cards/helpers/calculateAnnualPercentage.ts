@@ -1,4 +1,4 @@
-import { decodeString } from '@multiversx/sdk-core/out';
+//import { decodeString } from '@multiversx/sdk-core/out';
 import {
   denomination,
   decimals,
@@ -22,7 +22,6 @@ const denominateValue = (value: string) => {
 
 const calculateAnnualPercentage = ({
   activeStake,
-  blsKeys,
   networkStatus,
   serviceFee,
   configNetwork,

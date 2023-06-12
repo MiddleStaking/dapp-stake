@@ -9,7 +9,6 @@ import {
   DappProvider,
   AxiosInterceptorContext // using this is optional
 } from '@multiversx/sdk-dapp/wrappers';
-
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { Layout } from 'components';
 import {
@@ -18,9 +17,8 @@ import {
   sampleAuthenticatedDomains
 } from 'config';
 import { PageNotFound } from 'pages';
-import { routeNames } from 'routes';
-import { routes } from 'routes';
 import Unlock from 'pages/Unlock';
+import { routeNames, routes } from 'routes';
 import neon1 from './assets/img/neon1.svg';
 
 export const App = () => {

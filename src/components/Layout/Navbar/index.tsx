@@ -1,14 +1,8 @@
 import React from 'react';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
-import { logout } from '@multiversx/sdk-dapp/utils';
 import {
   faBoltLightning,
-  faChartSimple,
   faFaucet,
-  faLock,
-  faRotate,
   faClockRotateLeft,
-  faVault,
   faScrewdriverWrench,
   faChartColumn,
   faPiggyBank,
@@ -18,17 +12,18 @@ import {
   faBook
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { logout } from '@multiversx/sdk-dapp/utils';
 //*import { Navbar as BsNavbar, NavItem } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { dAppName } from 'config';
-import { routeNames } from 'routes';
-import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { Link } from 'react-router-dom';
 import { defaultToken } from 'config';
+import { routeNames } from 'routes';
+import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
 
 export const MyNavbar = () => {
   const isLoggedIn = useGetIsLoggedIn();

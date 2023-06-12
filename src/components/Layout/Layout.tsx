@@ -4,9 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { routes, routeNames } from 'routes';
 import { Footer } from './Footer';
 import { MyNavbar } from './Navbar';
-import image from './../../assets/img/background4.png';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();

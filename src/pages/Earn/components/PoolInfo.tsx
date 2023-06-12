@@ -1,38 +1,18 @@
 import * as React from 'react';
 import { useState } from 'react';
-import {
-  faCircleInfo,
-  faDollar,
-  faEarth
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { Col, Row } from 'react-bootstrap';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import Popover from 'react-bootstrap/Popover';
-import { Link } from 'react-router-dom';
-import { routeNames } from 'routes';
-import image from './../../../assets/img/background2.png';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { ActionClaimRewards, ActionStakeRewards } from './Actions';
 import { useGetESDTInformations, useGetESDTCompute } from './Actions/helpers';
 import {
   useGetTokenPosition,
   useGetStakingPosition,
   useGetStakingPositionRewards
 } from './Actions/helpers';
-
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import eCompass from './../../../assets/img/ecompass.svg';
-import jungle from './../../../assets/img/jungle.svg';
-import jexchange from './../../../assets/img/jexchange.svg';
-import twitter from './../../../assets/img/twitter.svg';
-import styles from './../earn.module.scss';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { PoolTopInfo } from './PoolInfo/PoolTopInfo';
 import { PoolStakeInfo } from './PoolInfo/PoolStakeInfo';
-import { PoolSwapInfo } from './PoolInfo/PoolSwapInfo';
 import { defaultToken } from 'config';
 import { useGetPoolPosition } from './Actions/helpers';
 

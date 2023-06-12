@@ -5,11 +5,10 @@ import {
   Address,
   AddressValue
 } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-
-import { smartContract } from './smartContract';
-import { network } from 'config';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+import { network } from 'config';
+import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 

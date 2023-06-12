@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
 import classNames from 'classnames';
-
 // import { useGlobalContext } from 'context';
 // import useTransaction from 'helpers/useTransaction';
 import { GetContractDetails } from 'pages/Dashboard/helper/requestAbi';
-
-import styles from './styles.module.scss';
 import useTransaction from 'pages/Dashboard/helper/useTransaction';
+import styles from './styles.module.scss';
 
 export interface SwitchPropsType {
   transaction: string;

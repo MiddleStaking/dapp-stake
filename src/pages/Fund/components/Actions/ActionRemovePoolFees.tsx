@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { faDollar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractAddress, defaultToken } from 'config';
-import { useGetUserESDT } from './../Actions/helpers/useGetUserESDT';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDollar } from '@fortawesome/free-solid-svg-icons';
+import { useGetUserESDT } from './../Actions/helpers/useGetUserESDT';
 export const ActionRemovePoolFees = ({
   stakedToken,
   rewardedToken,

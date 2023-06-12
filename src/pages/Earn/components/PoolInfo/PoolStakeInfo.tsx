@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { defaultToken } from 'config';
 import { routeNames } from 'routes';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import StakeModal from './../StakeModal';
@@ -8,7 +9,6 @@ import UnstakeModal from './../UnstakeModal';
 import { ActionClaimRewards, ActionStakeRewards } from './../Actions';
 import { Button } from './../../../../components/Design';
 import { PoolSwapInfo } from './../PoolInfo/PoolSwapInfo';
-import { defaultToken } from 'config';
 
 export const PoolStakeInfo = ({
   address,

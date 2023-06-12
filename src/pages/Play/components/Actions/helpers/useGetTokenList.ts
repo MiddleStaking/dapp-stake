@@ -15,8 +15,8 @@ export const useGetTokenList = () => {
     //using storage to reduce calls
     const expire_test = Number(localStorage.getItem('payment_tokens_expire'));
     const storage = localStorage.getItem('payment_tokens');
-    const tokens = storage?.split(',');
-    setTokens(tokens ? tokens : []);
+    const store = storage?.split(',');
+    setTokens(store ? store : []);
     if (time.getTime() < expire_test) {
       return;
     }
@@ -31,18 +31,18 @@ export const useGetTokenList = () => {
       );
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getTokenList');
-      const { firstValue: tokens } = resultsParser.parseQueryResponse(
+      const { firstValue: data } = resultsParser.parseQueryResponse(
         queryResponse,
         endpointDefinition
       );
       if (queryResponse.returnCode == 'ok') {
-        setTokens(tokens?.valueOf()?.toString(10).split(','));
+        setTokens(data?.valueOf()?.toString(10).split(','));
         //storage of 15 minutes
         const expire = time.getTime() + 1000 * 60 * 15;
         //const expire = time.getTime() + 1000 * 60 * 15;
         localStorage.setItem(
           'payment_tokens',
-          tokens?.valueOf()?.toString(10).split(',')
+          data?.valueOf()?.toString(10).split(',')
         );
         localStorage.setItem('payment_tokens_expire', expire.toString());
       }

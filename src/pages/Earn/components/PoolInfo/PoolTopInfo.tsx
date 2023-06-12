@@ -1,5 +1,5 @@
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import * as React from 'react';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import eCompass from './../../../../assets/img/ecompass.svg';
 import jexchange from './../../../../assets/img/jexchange.svg';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';

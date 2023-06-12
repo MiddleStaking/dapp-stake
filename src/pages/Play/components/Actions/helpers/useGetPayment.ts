@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  ContractFunction,
-  ResultsParser,
-  TokenIdentifierValue
-} from '@multiversx/sdk-core/out';
+import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 

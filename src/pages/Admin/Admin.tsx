@@ -3,19 +3,16 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useNavigate } from 'react-router-dom';
-
 // import { Nodes } from 'components/Nodes';
 // import { Toggles } from 'components/Toggles';
-
 // import { useGlobalContext } from 'context';
-
 // import useGlobalData from '../../hooks/useGlobalData';
-import styles from './styles.module.scss';
-import Heading from 'pages/Dashboard/components/Heading';
 import Cards from 'pages/Dashboard/components/Cards';
+import Heading from 'pages/Dashboard/components/Heading';
 import { GetContractDetails } from 'pages/Dashboard/helper/requestAbi';
 import { Toggles } from './components/Toggles';
 import { Nodes } from './Nodes';
+import styles from './styles.module.scss';
 
 export const Admin = () => {
   const { address } = useGetAccountInfo();

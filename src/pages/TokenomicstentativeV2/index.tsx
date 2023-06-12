@@ -95,7 +95,7 @@ const TokenomicsV2 = () => {
       setShowIci(isOverflowing);
     }
   };
-
+  console.log(showIci);
   useEffect(() => {
     checkOverflow();
 

@@ -1,10 +1,7 @@
 import React from 'react';
-
 import { Formik } from 'formik';
 import { object, array, mixed } from 'yup';
-
 import { Submit } from 'components/Action';
-
 import { useAction } from 'components/Action/context';
 // import {
 //   Dropzone,
@@ -12,10 +9,9 @@ import { useAction } from 'components/Action/context';
 //   DropzoneFormType
 // } from 'components/Nodes/components/Dropzone';
 // import useTransaction from 'helpers/useTransaction';
-
-import styles from './styles.module.scss';
 import useTransaction from 'pages/Dashboard/helper/useTransaction';
 import { Dropzone, DropzoneFormType, DropzonePayloadType } from '../Dropzone';
+import styles from './styles.module.scss';
 
 export const Add = () => {
   const { sendTransaction } = useTransaction();

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
+import { faBan, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { getTransactions } from '@multiversx/sdk-dapp/apiCalls';
-
 import {
   useGetAccount,
   useGetActiveTransactionsStatus,
@@ -10,7 +9,6 @@ import {
 
 import { ServerTransactionType } from '@multiversx/sdk-dapp/types';
 import { TransactionsTable, Loader, PageState } from '@multiversx/sdk-dapp/UI';
-import { faBan, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { AxiosError } from 'axios';
 
 import { apiTimeout, contractAddress, transactionSize } from 'config';

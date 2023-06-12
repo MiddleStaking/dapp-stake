@@ -3,18 +3,16 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { Formik } from 'formik';
 import { string, object } from 'yup';
-
 import { Submit } from 'components/Action';
 import { network } from 'config';
-
-import styles from './styles.module.scss';
-import useTransaction from 'pages/Dashboard/helper/useTransaction';
 import { denominated } from 'pages/Dashboard/helper/denominate';
 import { nominateValToHex } from 'pages/Dashboard/helper/nominate';
 import {
   GetContractDetails,
   GetTotalActiveStake
 } from 'pages/Dashboard/helper/requestAbi';
+import useTransaction from 'pages/Dashboard/helper/useTransaction';
+import styles from './styles.module.scss';
 
 interface ActionDataType {
   amount: string;

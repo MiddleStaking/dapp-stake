@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
-import { ActionRemovePoolFees, ActionStake } from './Actions';
-import { useGetTokenPosition } from './Actions/helpers';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
 import { ActionSwap } from './Actions';
 import { Button } from './../../../components/Design';
 import { defaultToken } from 'config';
-import { PoolInfo } from './PoolInfo';
 
 const SwapModal = (props: any) => {
   const userEsdtBalance = props.userEsdtBalance;

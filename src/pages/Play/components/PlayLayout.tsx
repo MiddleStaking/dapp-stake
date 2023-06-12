@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './PoolCol.scss';
-import { Link } from 'react-router-dom';
-import { routeNames } from 'routes';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
-import image from './../../../assets/img/background2.png';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import nft_preview_not_found from './../../../assets/img/notfoundnft.png';
-import { useGetESDTInformations } from './../../../pages/Earn/components/Actions/helpers';
-import notFound from './../../../assets/img/notfoundc.svg';
+import {
+  useGetIsLoggedIn,
+  useGetAccountInfo
+} from '@multiversx/sdk-dapp/hooks';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import ReactPlayer from 'react-player';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-
+import { Link } from 'react-router-dom';
+import { contractPlay } from 'config';
+import { routeNames } from 'routes';
+import notFound from './../../../assets/img/notfoundc.svg';
+import nft_preview_not_found from './../../../assets/img/notfoundnft.png';
+import { Button } from './../../../components/Design';
+import { useGetESDTInformations } from './../../../pages/Earn/components/Actions/helpers';
+import { ActionMine, ActionEnd } from './Actions';
 import {
   useGetWinner,
   useGetBlocksLeft,
@@ -18,15 +21,8 @@ import {
   useGetNonce,
   useGetNftInformations,
   useGetPayment,
-  useGetPrice,
-  useGetTokenList
+  useGetPrice
 } from './Actions/helpers';
-import { TopInfo } from './TopInfo';
-import { ActionMine, ActionEnd } from './Actions';
-import { Button } from './../../../components/Design';
-import { contractPlay } from 'config';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-
 export const PlayLayout = ({ children }: React.PropsWithChildren) => {
   const { network } = useGetNetworkConfig();
 
@@ -34,7 +30,6 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
   const last_user = useGetWinner();
   const payment = useGetPayment(last_user);
   const price = useGetPrice(payment);
-  const token_list = useGetTokenList();
   const payment_esdt_info = useGetESDTInformations(payment);
   const blocks_left = Number(useGetBlocksLeft() * 6);
   const identifier = useGetIdentifier(last_user);

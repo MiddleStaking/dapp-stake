@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import {
   ContractFunction,
   ResultsParser,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { smartContract } from './smartContract';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { defaultToken } from 'config';
+import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 
