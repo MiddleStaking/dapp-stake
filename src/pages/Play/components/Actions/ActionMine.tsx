@@ -1,18 +1,14 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { faDollar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractPlay } from 'config';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { useGetUserESDT } from './../../../../pages/Earn/components/Actions/helpers/useGetUserESDT';
-import {
-  faCircleInfo,
-  faDollar,
-  faEarth
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from './../../../../components/Design';
+import { useGetUserESDT } from './../../../../pages/Earn/components/Actions/helpers/useGetUserESDT';
 
 export const ActionMine = ({ payment_esdt_info, price }: any) => {
   const pdecimals = payment_esdt_info?.decimals
@@ -29,11 +25,6 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
       .map((token) => token.balance)
       .toString()
   );
-  const decimals = userEsdtBalance
-    .filter((token) => {
-      return token.identifier === payment_esdt_info?.identifier;
-    })
-    .map((token) => token.decimals);
 
   function bigToHexDec(d: bigint) {
     let result = '';

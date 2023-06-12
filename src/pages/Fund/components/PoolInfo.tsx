@@ -4,25 +4,20 @@ import {
   faCircleInfo,
   faDollar,
   faEarth,
-  faChartSimple,
   faTriangleExclamation
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { Col, Row } from 'react-bootstrap';
-import { useGetTokenPosition } from './Actions/helpers';
-import FundModal from './FundModal';
-import PayFeesModal from './PayFeesModal';
-import { useGetESDTInformations } from './Actions/helpers';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import eCompass from './../../../assets/img/ecompass.svg';
-import jexchange from './../../../assets/img/jexchange.svg';
-import twitter from './../../../assets/img/twitter.svg';
-import notFound from './../../../assets/img/notfoundc.svg';
 import { defaultToken } from 'config';
-import { TopInfo } from './TopInfo';
+import notFound from './../../../assets/img/notfoundc.svg';
+import twitter from './../../../assets/img/twitter.svg';
+import { useGetTokenPosition, useGetESDTInformations } from './Actions/helpers';
+import FundModal from './FundModal';
+import PayFeesModal from './PayFeesModal';
 
 export const PoolInfo = ({
   stakedToken,

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import axios from 'axios';
-import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import axios from 'axios';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 
 const Faucet = () => {
   const address = useGetAccountInfo().address;

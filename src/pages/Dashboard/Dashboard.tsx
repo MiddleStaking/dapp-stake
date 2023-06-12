@@ -1,15 +1,15 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './styles.module.scss';
 import Cards from './components/Cards';
 import Heading from './components/Heading';
 import Stake from './components/Stake';
 import Withdrawals from './components/Withdrawals';
+import styles from './styles.module.scss';
 
 export const Dashboard = () => {
   const { address } = useGetAccountInfo();

@@ -1,12 +1,4 @@
-import React, { FC, useCallback, useEffect, ReactNode } from 'react';
-
-import {
-  decodeUnsignedNumber,
-  ContractFunction,
-  Address,
-  Query,
-  decodeString
-} from '@multiversx/sdk-core';
+import React, { FC, useCallback, ReactNode } from 'react';
 import {
   faUsers,
   faServer,
@@ -16,40 +8,35 @@ import {
   faCog
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { formatAmount } from '@multiversx/sdk-dapp/utils';
 import { useLocation } from 'react-router-dom';
 import Logo from 'assets/Logo';
-
 import Action from 'components/Action';
 // import { useGlobalContext, useDispatch } from 'context';
-
-import calculateAnnualPercentage from './helpers/calculateAnnualPercentage';
-
-import styles from './styles.module.scss';
 // import {
 //   ApiNetworkProvider,
 //   NetworkStake,
 //   NetworkStatus
 // } from '@multiversx/sdk-network-providers/out';
+import { denominated } from 'pages/Dashboard/helper/denominate';
+import getPercentage from 'pages/Dashboard/helper/getPercentage';
+import modifiable from 'pages/Dashboard/helper/modifiable';
 import {
   GetContractConfig,
   GetNetworkStatus,
   GetTotalActiveStake,
   GetTotalNetworkStake,
-  GetTotalNode,
   GetTotalUser,
   ConfigNetwork,
   GetEpochNumber,
   NetworkEconomics
 } from '../../helper/requestAbi';
-import { formatAmount } from '@multiversx/sdk-dapp/utils';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
-import { denominated } from 'pages/Dashboard/helper/denominate';
-import getPercentage from 'pages/Dashboard/helper/getPercentage';
-import modifiable from 'pages/Dashboard/helper/modifiable';
-import { ChangeServiceFee } from './components/ChangeServiceFee';
 import { ChangeDelegationCap } from './components/ChangeDelegationCap';
+import { ChangeServiceFee } from './components/ChangeServiceFee';
+import calculateAnnualPercentage from './helpers/calculateAnnualPercentage';
+import styles from './styles.module.scss';
 
 interface CardType {
   label: string;
@@ -135,7 +122,7 @@ const Cards: FC = () => {
     };
   }, []);
   const getNodesNumber = useCallback(() => {
-    const TotalNodesNumber = GetTotalNode();
+    //const TotalNodesNumber = GetTotalNode();
     return {
       // value: TotalNodesNumber,
       value: '31'

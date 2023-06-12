@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { Col, Form, Row } from 'react-bootstrap';
 import { defaultToken } from 'config';
-import styles from './../fund.module.scss';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { PoolInfo } from './PoolInfo';
 import { TopInfo } from './TopInfo';
-import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const FundLayout = ({ children }: React.PropsWithChildren) => {
   const userEsdtBalance = useGetUserESDT();
@@ -28,16 +27,10 @@ export const FundLayout = ({ children }: React.PropsWithChildren) => {
   }, [tokenProps]);
 
   function setFSToken(e: React.ChangeEvent<any>) {
-    const index = userEsdtBalance
-      .filter(({ identifier }) => identifier === identifier)
-      .findIndex((tokens) => tokens.identifier === e.target.value);
     setStoken(e.target.value);
   }
 
   function setFRtoken(e: React.ChangeEvent<any>) {
-    const index = userEsdtBalance
-      .filter(({ identifier }) => identifier === identifier)
-      .findIndex((tokens) => tokens.identifier === e.target.value);
     setRtoken(e.target.value);
 
     if (tokenProps?.decimals) setDecimals(tokenProps.decimals);

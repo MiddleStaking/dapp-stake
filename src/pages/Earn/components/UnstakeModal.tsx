@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import { ActionUnstake } from './Actions';
 import { useGetTokenPosition } from './Actions/helpers';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
-import { ActionFund } from './Actions';
 import { Button } from './../../../components/Design';
 
 const StakeModal = (props: any) => {

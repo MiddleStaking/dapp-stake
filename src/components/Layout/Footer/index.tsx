@@ -1,8 +1,8 @@
 import React from 'react';
-import { ReactComponent as HeartIcon } from '../../../assets/img/heart.svg';
-import { ReactComponent as GitHub } from '../../../assets/img/github.svg';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ReactComponent as GitHub } from '../../../assets/img/github.svg';
+import { ReactComponent as HeartIcon } from '../../../assets/img/heart.svg';
 
 export const Footer = () => {
   return (

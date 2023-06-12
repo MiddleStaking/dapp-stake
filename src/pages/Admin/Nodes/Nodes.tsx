@@ -19,21 +19,16 @@ import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transac
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import classNames from 'classnames';
 import { Dropdown } from 'react-bootstrap';
-
+import Action from 'components/Action';
 import { network, auctionContract, contractAddressDelegation } from 'config';
-
-import { Add } from './components/Add';
-
-import styles from './styles.module.scss';
-
-import variants from './variants.json';
-import useTransactionAdmin from 'pages/Dashboard/helper/useTransaction';
 import {
   GetNodesNumber,
   GetNodesStatus
 } from 'pages/Dashboard/helper/requestAbi';
-import Action from 'components/Action';
 import useTransaction from 'pages/Dashboard/helper/useTransaction';
+import { Add } from './components/Add';
+import styles from './styles.module.scss';
+import variants from './variants.json';
 
 interface NodeType {
   code: string;

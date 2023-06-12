@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import './../../../assets/Modal.css';
 import { ActionRemovePoolFees } from './Actions/ActionRemovePoolFees';
 const PayFeesModal = (props: any) => {
