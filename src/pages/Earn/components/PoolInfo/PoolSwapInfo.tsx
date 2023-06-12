@@ -10,19 +10,15 @@ export const PoolSwapInfo = ({
   address,
   stakedToken,
   rewardedToken,
-  userEsdtBalance
+  userEsdtBalance,
+  isDual
 }: any) => {
   const [showStake, setShowStake] = useState(false);
   const { hasPendingTransactions } = useGetPendingTransactions();
 
-  let isDual = false;
-  if (stakedToken != defaultToken && rewardedToken != defaultToken) {
-    isDual = true;
-  }
-
   const firstPoolPosition = useGetPoolPosition(
     defaultToken,
-    rewardedToken,
+    rewardedToken == defaultToken ? stakedToken : rewardedToken,
     showStake,
     hasPendingTransactions,
     true
@@ -34,8 +30,6 @@ export const PoolSwapInfo = ({
     hasPendingTransactions,
     isDual
   );
-
-  console.log('PoolSwapInfo ' + stakedToken + ' ' + rewardedToken);
 
   return (
     <>

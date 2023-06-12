@@ -28,7 +28,10 @@ export const PoolStakeInfo = ({
   my_rewards_value,
   canBeStaked,
   userEsdtBalance,
-  swapedTokens
+  swapedTokens,
+  isDual,
+  firstPoolPosition,
+  secondPoolPosition
 }: any) => {
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
@@ -115,6 +118,9 @@ export const PoolStakeInfo = ({
                         : rewardedToken
                     }
                     userEsdtBalance={userEsdtBalance}
+                    isDual={isDual}
+                    firstPoolPosition={firstPoolPosition}
+                    secondPoolPosition={secondPoolPosition}
                   />
                 )}
             </div>
@@ -194,6 +200,9 @@ export const PoolStakeInfo = ({
                         : rewardedToken
                     }
                     userEsdtBalance={userEsdtBalance}
+                    isDual={isDual}
+                    firstPoolPosition={firstPoolPosition}
+                    secondPoolPosition={secondPoolPosition}
                   />
                 )}
             </div>

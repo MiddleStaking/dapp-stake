@@ -20,6 +20,9 @@ export const useGetPoolPosition = (
 ) => {
   const { network } = useGetNetworkConfig();
   const [tokenPosition, setTokenPosition] = useState({
+    first_token: stakedToken,
+    second_token: rewardedToken,
+    isDual: isDual,
     has_roles: 0,
     first_token_amount: BigInt(1),
     second_token_amount: BigInt(1),
@@ -36,6 +39,9 @@ export const useGetPoolPosition = (
     }
 
     setTokenPosition({
+      first_token: stakedToken,
+      second_token: rewardedToken,
+      isDual: isDual,
       has_roles: 0,
       first_token_amount: BigInt(1),
       second_token_amount: BigInt(1),
@@ -95,6 +101,9 @@ export const useGetPoolPosition = (
 
       if (tab) {
         setTokenPosition({
+          first_token: stakedToken,
+          second_token: rewardedToken,
+          isDual: isDual,
           has_roles: tab[0].toFixed(),
           first_token_amount: tab[1].toFixed(),
           second_token_amount: tab[2].toFixed(),
@@ -108,6 +117,9 @@ export const useGetPoolPosition = (
         localStorage.setItem(
           'pool_position_' + stakedToken + '_' + rewardedToken,
           JSON.stringify({
+            first_token: stakedToken,
+            second_token: rewardedToken,
+            isDual: isDual,
             has_roles: tab[0].toFixed(),
             first_token_amount: tab[1].toFixed(),
             second_token_amount: tab[2].toFixed(),
