@@ -34,6 +34,7 @@ import { PoolTopInfo } from './PoolInfo/PoolTopInfo';
 import { PoolStakeInfo } from './PoolInfo/PoolStakeInfo';
 import { PoolSwapInfo } from './PoolInfo/PoolSwapInfo';
 import { defaultToken } from 'config';
+import { useGetPoolPosition } from './Actions/helpers';
 
 export const PoolInfo = ({
   myPools,
@@ -51,6 +52,26 @@ export const PoolInfo = ({
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
   const { hasPendingTransactions } = useGetPendingTransactions();
+
+  let isDual = false;
+  if (stakedToken != defaultToken && rewardedToken != defaultToken) {
+    isDual = true;
+  }
+
+  const firstPoolPosition = useGetPoolPosition(
+    defaultToken,
+    rewardedToken == defaultToken ? stakedToken : rewardedToken,
+    showStake,
+    hasPendingTransactions,
+    true
+  );
+  const secondPoolPosition = useGetPoolPosition(
+    defaultToken,
+    stakedToken,
+    showStake,
+    hasPendingTransactions,
+    isDual
+  );
 
   const staked_esdt_info = useGetESDTInformations(stakedToken);
   const stakedCompute = useGetESDTCompute(stakedToken);
@@ -270,6 +291,53 @@ export const PoolInfo = ({
         BigInt(365)) /
       fixed_speed;
   }
+  if (
+    Number(priced_apr) == 0 &&
+    firstPoolPosition.first_token_amount > 1 &&
+    !isDual
+  ) {
+    const first_pooled_price = BigInt(100000);
+    const second_pooled_price = BigInt(
+      (BigInt(firstPoolPosition.first_token_amount) * BigInt(100000)) /
+        BigInt(firstPoolPosition.second_token_amount)
+    );
+
+    let pooled_initial_value = BigInt(
+      first_pooled_price > 0 && BigInt(tokenPosition.total_stake)
+        ? first_pooled_price * BigInt(tokenPosition.total_stake)
+        : 1
+    );
+    let pooled_reward_value = BigInt(
+      second_pooled_price > 0 && BigInt(tokenPosition.balance)
+        ? second_pooled_price * BigInt(tokenPosition.balance)
+        : 1
+    );
+    if (rewardedToken == defaultToken) {
+      pooled_initial_value = BigInt(
+        first_pooled_price > 0 && BigInt(tokenPosition.balance)
+          ? first_pooled_price * BigInt(tokenPosition.balance)
+          : 1
+      );
+      pooled_reward_value = BigInt(
+        second_pooled_price > 0 && BigInt(tokenPosition.total_stake)
+          ? second_pooled_price * BigInt(tokenPosition.total_stake)
+          : 1
+      );
+    }
+
+    const pooled_final_value = BigInt(
+      pooled_initial_value + pooled_reward_value
+    );
+    priced_apr = BigInt(
+      (
+        (((Number(pooled_final_value) - Number(pooled_initial_value)) /
+          Number(pooled_initial_value)) *
+          100 *
+          365) /
+        Number(speed)
+      ).toFixed()
+    );
+  }
 
   localStorage.setItem(
     'apr_' + stakedToken + '_' + rewardedToken,
@@ -315,6 +383,7 @@ export const PoolInfo = ({
           staked_value={staked_value}
           speed={speed}
           tokens_extra_informations={tokens_extra_informations}
+          swapedTokens={swapedTokens}
         />
 
         <PoolStakeInfo
@@ -336,6 +405,9 @@ export const PoolInfo = ({
           stakingPositionRewards={stakingPositionRewards}
           my_rewards_value={my_rewards_value}
           canBeStaked={canBeStaked}
+          isDual={isDual}
+          firstPoolPosition={firstPoolPosition}
+          secondPoolPosition={secondPoolPosition}
         />
       </div>
       {/* 

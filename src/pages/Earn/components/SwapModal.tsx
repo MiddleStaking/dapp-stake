@@ -23,11 +23,6 @@ const SwapModal = (props: any) => {
     setSecondPool(props.secondPoolPosition);
   }, [props.firstPoolPosition, props.secondPoolPosition]);
 
-  console.log(first_pool);
-  console.log(second_pool);
-  console.log(props.firstPoolPosition);
-  console.log(props.secondPoolPosition);
-
   const [in_token, setInToken] = React.useState(props.in_token);
   const [out_token, setOutToken] = React.useState(props.out_token);
 
