@@ -337,15 +337,16 @@
     }
   }
   .InverseArrow {
+    margin: 0px 0px 0px 0px;
     transform: rotate(90deg);
-    margin-top: 0;
   }
 }
 
-.InverseArrow {
-  margin-top: 10px;
+@media (min-width: 551px) {
+  .InverseArrow {
+    margin: 29px 0px 0px 0px;
+  }
 }
-
 .dropDownArrow {
   display: flex;
   justify-content: center;
@@ -375,4 +376,62 @@
   grid-template-columns: 1fr 1fr 1fr;
   gap: 15px;
   margin-bottom: 15px;
+}
+
+.InputRangePerso {
+  position: relative;
+  width: 100%;
+
+  #slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    background: #eee;
+    outline: none;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: transparent;
+    height: 100%;
+    // &::-webkit-slider-thumb {
+    //   -webkit-appearance: none;
+    //   appearance: none;
+    //   width: 25px;
+    //   height: 25px;
+    //   background: #000000;
+    //   cursor: pointer;
+    //   border-radius: 50%;
+    // }
+
+    // &::-moz-range-thumb {
+    //   width: 25px;
+    //   height: 25px;
+    //   background: #000000;
+    //   cursor: pointer;
+    //   border-radius: 50%;
+    // }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, #bd37ec, #1f67ff);
+      z-index: -1;
+      border-radius: 10px 10px 10px 10px;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: calc(100% - var(--value) * 1%);
+      height: 100%;
+      background: #eee;
+      z-index: -1;
+      border-radius: 10px 10px 10px 10px;
+    }
+  }
 }

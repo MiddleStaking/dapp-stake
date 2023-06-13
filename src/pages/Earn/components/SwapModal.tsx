@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
@@ -12,6 +12,8 @@ import { Button } from './../../../components/Design';
 import './StakeModal.scss';
 import DropdownMenu from 'components/DropdownMenu';
 import Input from 'components/Design/Input';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
 
 const SwapModal = (props: any) => {
   const userEsdtBalance = props.userEsdtBalance;
@@ -82,6 +84,14 @@ const SwapModal = (props: any) => {
     );
     setRangeValue(percentage);
   }
+
+  const sliderRef: any = useRef();
+
+  useEffect(() => {
+    if (sliderRef.current) {
+      sliderRef.current.style.setProperty('--value', rangeValue.toString());
+    }
+  }, [rangeValue]);
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
     if (inBalance > BigInt(0)) {
@@ -342,7 +352,14 @@ const SwapModal = (props: any) => {
                   />
                 </div>
                 <div className='dropDownArrow' onClick={inverse}>
-                  <div className='InverseArrow'>{'<->'}</div>
+                  <div className='InverseArrow'>
+                    <FontAwesomeIcon
+                      icon={faArrowsLeftRight}
+                      style={{
+                        fontSize: '20px'
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className='dropDownEarn'>
                   <div className='GroupeLabelDropdoownFormatAmount'>
@@ -379,6 +396,7 @@ const SwapModal = (props: any) => {
               <div>
                 <div className='AmountRageGroupeSwap'>
                   <div className='label6'>amount</div>
+                  {/* <div className='InputRangePerso'> */}
                   <input
                     type='range'
                     id='slider'
@@ -387,7 +405,9 @@ const SwapModal = (props: any) => {
                     step='1'
                     value={rangeValue}
                     onChange={handleRangeValueChange}
-                  />{' '}
+                    ref={sliderRef}
+                  />
+                  {/* </div> */}
                   <div className='label6'>{rangeValue}%</div>
                 </div>
                 <div className='label6'>

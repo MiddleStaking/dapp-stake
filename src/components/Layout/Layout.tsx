@@ -29,7 +29,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         display: 'flex',
         flexDirection: 'column'
       }}
-      // className='d-flex flex-column flex-fill wrapper'
+      className='d-flex flex-column flex-fill wrapper'
     >
       <HeaderDekstop />
 
