@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
-import { Col, Form } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import { ActionUnstake } from './Actions';
 import { useGetTokenPosition } from './Actions/helpers';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
+import { ActionFund } from './Actions';
 import { Button } from './../../../components/Design';
+import './StakeModal.scss';
+import DropdownMenu from 'components/Design/DropdownMenu';
+import Input from 'components/Design/Input';
 
 const StakeModal = (props: any) => {
   const userEsdtBalance = props.userEsdtBalance;
@@ -56,23 +61,23 @@ const StakeModal = (props: any) => {
     BigInt(60) /
     BigInt(60);
 
-  function handleTokenAmountChange(e: React.ChangeEvent<any>) {
-    let range = 0;
-    const amount = BigInt(e.target.value * 10 ** sdecimals);
+  function handleTokenAmountChange(value: any) {
+    console.log(Number(value));
+
+    const amount = BigInt(Number(value) * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
     } else if (amount > balance) {
       setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
       setBigAmount(balance);
-      range = 100;
     } else {
-      setTokenAmount(e.target.value);
-      const output = toBigAmount(Number(e.target.value), Number(sdecimals));
+      setTokenAmount(Number(value));
+      const output = toBigAmount(Number(value), Number(sdecimals));
       setBigAmount(BigInt(output));
     }
     const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
-    setRangeValue(range > 0 ? range : percentage);
+    setRangeValue(percentage);
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
@@ -129,129 +134,99 @@ const StakeModal = (props: any) => {
   }
   return (
     <>
-      <div className='new-pool-already-exist-default'>
-        <div className='background'>
-          <div className='modal2'>
-            <div className='content'>
-              <div className='create-new-pool'>Unstake tokens</div>
+      <div className='centerStakeModal'>
+        <div className='backgroundStakeModal'>
+          <div className='modalStakeModal'>
+            <div className='contentStakeModal'>
+              <div className='modalLabelStakeModal'>Unstake tokens</div>
 
-              <div className='logos'>
-                <div className='image'>
-                  <div className='logos2'>
-                    <img className='image-3' src={image2} />
+              <div className='logosStakeModal'>
+                <div className='logo2StakeModal'>
+                  <div className='image_2StakeModal'>
+                    <img className='img_2StakeModal' src={image2} />
                   </div>
                 </div>
 
-                <div className='logo'>
-                  <img className='image-1' src={image1} />
+                <div className='logo1StakeModal'>
+                  <div className='image_1StakeModal'>
+                    <img className='img_1StakeModal' src={image1} />
+                  </div>
                 </div>
               </div>
 
-              <div className='frame-56'>
-                <div className='input'>
-                  <div className='label'>
-                    <div className='label2'>Stake</div>
+              <div className='dropDownGroupeStakeModal'>
+                <div className='dropDownStake'>
+                  <div className='GroupeLabelDropdoown'>
+                    <div className='LabelDropdoown'>STAKE</div>
                   </div>
 
-                  <div className='input-default'>
-                    <svg
-                      className='chevron-down'
-                      width='16'
-                      height='16'
-                      viewBox='0 0 16 16'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        clipRule='evenodd'
-                        d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
-                        fill='white'
-                      />
-                    </svg>
-                    <div className='value'>
-                      <Form.Control
-                        as='select'
-                        value={stoken}
-                        disabled={false}
-                        className='search-select'
-                      >
-                        <option
-                          disabled={true}
-                          className='text-center not-allowed disabled'
-                        >
-                          {stoken}
-                        </option>
-                      </Form.Control>
-                    </div>
-                  </div>
+                  <DropdownMenu
+                    BoxShadowActive={true}
+                    BoxShadowActiveColor='0 0 24px 0 rgba(182,57,237,.64)'
+                    BoxShadowColor='0 0 24px 0 rgba(182,57,237,.64)'
+                    inputHeight={'40px'}
+                    inputWidth='179px'
+                    borderRadius='54'
+                    hasBorder={true}
+                    borderColor='#695885'
+                    borderRadiusOptions='5px'
+                    options={[{ text: stoken, value: stoken }]}
+                    defaultValue={stoken}
+                    disableOption={true}
+                    onSelect={function (value: any): void {
+                      throw new Error('Function not implemented.');
+                    }}
+                  />
                 </div>
-
-                <div className='input2'>
-                  <div className='label3'>
-                    <div className='label4'>Earn</div>
+                <div className='dropDownEarn'>
+                  <div className='GroupeLabelDropdoown'>
+                    <div className='LabelDropdoown'>EARN</div>
                   </div>
-
-                  <div className='input-default2'>
-                    <svg
-                      className='chevron-down2'
-                      width='16'
-                      height='16'
-                      viewBox='0 0 16 16'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        clipRule='evenodd'
-                        d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
-                        fill='white'
-                      />
-                    </svg>
-                    <div className='value'>
-                      <Form.Control
-                        as='select'
-                        value={rtoken}
-                        disabled={false}
-                        className='search-select'
-                      >
-                        <option
-                          disabled={true}
-                          className='text-center not-allowed disabled'
-                        >
-                          {rtoken}
-                        </option>
-                      </Form.Control>
-                    </div>
-                  </div>
+                  <DropdownMenu
+                    BoxShadowActive={false}
+                    BoxShadowActiveColor='none'
+                    BoxShadowColor='none'
+                    inputHeight={'40px'}
+                    inputWidth='179px'
+                    borderRadius='54'
+                    hasBorder={true}
+                    borderRadiusOptions='5px'
+                    borderColor='#695885'
+                    options={[{ text: rtoken, value: rtoken }]}
+                    defaultValue={rtoken}
+                    disableOption={true}
+                    onSelect={function (value: any): void {
+                      throw new Error('Function not implemented.');
+                    }}
+                  />
                 </div>
               </div>
               {tokenPosition.stakedToken == stoken &&
                 tokenPosition.rewardedToken == rtoken && (
-                  <div className='pool-details'>
-                    <div className='this-pool-already-exists'>
+                  <div className='pool-details_StakeModal'>
+                    <div className='this-pool-already-exists_StakeModal'>
                       Staking pool informations
                     </div>
+                    <div className='GroupeDetails_StakeModal'>
+                      <div className='LogosDetails_StakeModal'>
+                        <div className='logosStakeModal'>
+                          <div className='logo2StakeModal'>
+                            <div className='image_2StakeModal'>
+                              <img className='img_2StakeModal' src={image2} />
+                            </div>
+                          </div>
 
-                    <div className='token-position'>
-                      <div className='logos3'>
-                        <div className='image2'>
-                          <div className='logos4'>
-                            <img className='image-32' src={image2} />
+                          <div className='logo1StakeModal'>
+                            <div className='image_1StakeModal'>
+                              <img className='img_1StakeModal' src={image1} />
+                            </div>
                           </div>
                         </div>
-
-                        <div className='logo2'>
-                          <img className='image-12' src={image1} />
-                        </div>
                       </div>
-
-                      <div className='group-4'>
-                        <div className='frame-4'>
-                          <div className='rewards'>Rewards</div>
-
-                          <div className='_18-853-74'>
-                            {' '}
+                      <div className='PoolDetails_StakeModal'>
+                        <div className='DetailsInfo'>
+                          <div className='LabelDetailsInfo'>Rewards</div>
+                          <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={tokenPosition.balance.toString()}
                               decimals={Number(rdecimals)}
@@ -261,25 +236,20 @@ const StakeModal = (props: any) => {
                             />
                           </div>
                         </div>
-
-                        <div className='frame-6'>
-                          <div className='value2'>Value</div>
-
-                          <div className='_723-37'>
+                        <div className='DetailsInfo'>
+                          <div className='LabelDetailsInfo'>Value</div>
+                          <div className='ValueDetailsInfo'>
                             {rewarded_value.toLocaleString('en-US', {
                               maximumFractionDigits: 2
                             })}{' '}
                             $
                           </div>
                         </div>
-
-                        <div className='frame-7'>
-                          <div className='all-time-rewarded'>
+                        <div className='DetailsInfo'>
+                          <div className='LabelDetailsInfo'>
                             All time rewarded
                           </div>
-
-                          <div className='_98-75'>
-                            {' '}
+                          <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={tokenPosition.total_rewards.toString()}
                               decimals={Number(rdecimals)}
@@ -289,20 +259,15 @@ const StakeModal = (props: any) => {
                             />
                           </div>
                         </div>
-
-                        <div className='frame-8'>
-                          <div className='speed'>Speed</div>
-
-                          <div className='_365-days'>
+                        <div className='DetailsInfo'>
+                          <div className='LabelDetailsInfo'>Speed </div>
+                          <div className='ValueDetailsInfo'>
                             {speed.toString()} days
                           </div>
                         </div>
-
-                        <div className='frame-9'>
-                          <div className='total-staked'>Staked</div>
-
-                          <div className='_135-492-65'>
-                            {' '}
+                        <div className='DetailsInfo'>
+                          <div className='LabelDetailsInfo'>Staked </div>
+                          <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={tokenPosition.total_stake.toString()}
                               decimals={Number(sdecimals)}
@@ -312,23 +277,18 @@ const StakeModal = (props: any) => {
                             />
                           </div>
                         </div>
-
-                        <div className='frame-10'>
-                          <div className='total-value'>Staked value</div>
-
-                          <div className='_5-198-9'>
+                        <div className='DetailsInfo'>
+                          <div className='LabelDetailsInfo'>Staked value</div>
+                          <div className='ValueDetailsInfo'>
                             {staked_value.toLocaleString('en-US', {
                               maximumFractionDigits: 2
                             })}{' '}
                             $
                           </div>
                         </div>
-
-                        <div className='frame-11'>
-                          <div className='users'>Users</div>
-
-                          <div className='_6'>
-                            {' '}
+                        <div className='DetailsInfo'>
+                          <div className='LabelDetailsInfo'>Users</div>
+                          <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={
                                 tokenPosition.users
@@ -346,88 +306,83 @@ const StakeModal = (props: any) => {
                     </div>
                   </div>
                 )}
+              <div className='staked-rewarded-tokens-StakeModal'>
+                <div className='do-you-want-to-add-it-rewarded-tokens-StakeModal'>
+                  Set the amount you want to unstake
+                </div>
 
-              <div className='staked-rewarded-tokens'>
-                <>
-                  <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    Set the amount you want to unstake
+                <div>
+                  <div className='AmountRageGroupe'>
+                    <div className='label6'>amount</div>
+                    <input
+                      type='range'
+                      id='slider'
+                      min='0'
+                      max='100'
+                      step='1'
+                      value={rangeValue}
+                      onChange={handleRangeValueChange}
+                    />{' '}
+                    <div className='label6'>{rangeValue}%</div>
                   </div>
-
-                  <div className='form'>
-                    <div className='frame-57'>
-                      <div className='input3'>
-                        <div className='label5'>
-                          <div className='label6'>amount</div>{' '}
-                          <input
-                            type='range'
-                            id='slider'
-                            min='0'
-                            max='100'
-                            step='1'
-                            value={rangeValue}
-                            onChange={handleRangeValueChange}
-                          />{' '}
-                          <div className='label6'>{rangeValue}%</div>
-                        </div>
-
-                        <Form.Group
-                          className='amount-bar'
-                          as={Col}
-                          controlId='TokenAmount'
-                          onChange={handleTokenAmountChange}
-                        >
-                          <Form.Control
-                            className='amount-input'
-                            required
-                            type='number'
-                            placeholder=''
-                            defaultValue='0'
-                            value={tokenAmount}
-                          />{' '}
-                          <div
-                            className='max cursor-pointer'
-                            onClick={setToMax}
-                          >
-                            MAX
-                          </div>
-                        </Form.Group>
-                      </div>
-
-                      <div className='font-uniformisation'>
-                        <div className='_7-56-mex-ecb-7-bf'>
-                          <FormatAmount
-                            decimals={Number(sdecimals.toString())}
-                            value={balance.toString()}
-                            egldLabel={stoken}
-                            data-testid='staked'
-                          />
-                        </div>
-                      </div>
+                  <div className='AmountInputGroupe'>
+                    <Input
+                      inputHeight='40px'
+                      inputWidth='179px'
+                      borderColor='rgb(105, 88, 133)'
+                      value={tokenAmount}
+                      onInputChange={handleTokenAmountChange}
+                      rightHtml={
+                        <Button
+                          textColor='#1F67FF'
+                          buttonWidth={'15px'}
+                          buttonHeight={'15px'}
+                          hasBorder={false}
+                          borderRadius={40}
+                          background={'transparent'}
+                          fontSize='10px'
+                          text='MAX'
+                          onClick={setToMax}
+                        />
+                      }
+                      type='number'
+                      placeholder={'number'}
+                      fontSize={14}
+                    />
+                    <div className='FormatAmountStaked'>
+                      <FormatAmount
+                        decimals={Number(sdecimals.toString())}
+                        value={balance.toString()}
+                        egldLabel={stoken}
+                        data-testid='staked'
+                      />
                     </div>
                   </div>
-                </>
+                  <div className='bottomGroupeModal' onClick={props.onClose}>
+                    <div className='bottomModal'>
+                      <Button
+                        buttonWidth='100%'
+                        hasBorder={true}
+                        borderRadius={40}
+                        background={'black'}
+                        borderColor={['#BD37EC', '#1F67FF']}
+                        text='Cancel'
+                        onClick={props.onClose}
+                      />
+                    </div>
+                    <div className='bottomModal'>
+                      <ActionUnstake
+                        stakedToken={stoken}
+                        rewardedToken={rtoken}
+                        user_fund={bigAmount}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div className='bottom' onClick={props.onClose}>
-              <Button
-                buttonWidth='100%'
-                borderRadius={40}
-                hasBorder={true}
-                background={'black'}
-                borderColor={['#BD37EC', '#1F67FF']}
-                text='Cancel'
-                onClick={props.onClose}
-              />
-              <ActionUnstake
-                stakedToken={stoken}
-                rewardedToken={rtoken}
-                user_fund={bigAmount}
-              />
-            </div>
-
             <svg
-              className='close'
+              className='closeStakeModal'
               onClick={props.onClose}
               width='24'
               height='24'
@@ -440,8 +395,7 @@ const StakeModal = (props: any) => {
                 fill='white'
               />
             </svg>
-
-            <div className='neon-border'></div>
+            {/* <div className='neon-border'></div> */}
           </div>
         </div>
       </div>
