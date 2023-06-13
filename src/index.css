@@ -1,11 +1,12 @@
 body {
 margin: 0;
 padding: 0;
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 
 .styles_unlock__3FTxt,
@@ -13,7 +14,7 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   z-index: 1;
 }
 code {
-font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+font-family: 'Plus Jakarta Sans', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 monospace;
 }
 .cursor-pointer {
@@ -188,7 +189,7 @@ flex-direction: row;
 .label2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: 300 10px 'Plus Jakarta Sans', sans-serif;
+/* font: 300 10px 'Plus Jakarta Sans', sans-serif; */
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -243,7 +244,7 @@ flex-direction: row;
 .label4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: 300 10px 'Plus Jakarta Sans', sans-serif;
+/* font: 300 10px 'Plus Jakarta Sans', sans-serif; */
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -270,7 +271,7 @@ border-style: solid;
 .value {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -329,7 +330,7 @@ width: 16px;
 .staken-only {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: 600 12px 'Plus Jakarta Sans', sans-serif;
+/* font: 600 12px 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -459,7 +460,7 @@ gap: 0px;
 .search-pool {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: 400 14px 'Plus Jakarta Sans', sans-serif;
+/* font: 400 14px 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -581,7 +582,7 @@ gap: 2px;
 .earn-mex {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -591,7 +592,7 @@ font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
 .stake-mex {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -611,7 +612,7 @@ gap: 8px;
 .apr2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -634,7 +635,7 @@ padding: 4px 8px 4px 8px;
 ._14 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -713,7 +714,7 @@ align-items: center;
 .show-details {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: 300 8px 'Plus Jakarta Sans', sans-serif;
+/* font: 300 8px 'Plus Jakarta Sans', sans-serif; */
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -756,7 +757,7 @@ gap: 12px;
 .my-stake2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   align-self: stretch;
   display: flex;
@@ -787,7 +788,7 @@ gap: 12px;
 ._18-853-74 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--title-18-px-bold, 600 18px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--title-18-px-bold, 600 18px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -812,7 +813,7 @@ border-color: var(--neutral-light, #695885);
 ._98-75 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: 600 12px 'Plus Jakarta Sans', sans-serif;
+/* font: 600 12px 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -822,7 +823,7 @@ font: 600 12px 'Plus Jakarta Sans', sans-serif;
 ._1-42 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -856,7 +857,7 @@ padding: 8px 19px 8px 19px;
 .stake {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -879,7 +880,7 @@ padding: 8px 19px 8px 19px;
 .stake2 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -951,7 +952,7 @@ gap: 2px;
 .earn-mex2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -961,7 +962,7 @@ font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
 .stake-mex2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -981,7 +982,7 @@ gap: 8px;
 .apr4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1004,7 +1005,7 @@ padding: 4px 8px 4px 8px;
 ._142 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1099,7 +1100,7 @@ position: absolute;
 .hide-details {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: 300 8px 'Plus Jakarta Sans', sans-serif;
+/* font: 300 8px 'Plus Jakarta Sans', sans-serif; */
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -1138,7 +1139,7 @@ align-items: center;
 .rewards {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1148,7 +1149,7 @@ font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
 ._18-853-742 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1168,7 +1169,7 @@ align-items: center;
 .value2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1178,7 +1179,7 @@ font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
 ._723-37 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1198,7 +1199,7 @@ align-items: center;
 .all-time-rewarded {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1208,7 +1209,7 @@ font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
 ._98-752 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1228,7 +1229,7 @@ align-items: center;
 .speed {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1238,7 +1239,7 @@ font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
 ._365-days {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1258,7 +1259,7 @@ align-items: center;
 .total-staked {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1268,7 +1269,7 @@ font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
 ._135-492-65 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1288,7 +1289,7 @@ align-items: center;
 .total-value {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1298,7 +1299,7 @@ font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
 ._5-198-9 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1318,7 +1319,7 @@ align-items: center;
 .users {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1328,7 +1329,7 @@ font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
 ._6 {
 color: var(--neutral-white, #ffffff);
 text-align: right;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1438,7 +1439,7 @@ gap: 12px;
 .my-stake4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   align-self: stretch;
   display: flex;
@@ -1469,7 +1470,7 @@ gap: 12px;
 ._18-853-743 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: 600 18px 'Plus Jakarta Sans', sans-serif;
+/* font: 600 18px 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -1494,7 +1495,7 @@ border-color: var(--neutral-light, #695885);
 ._98-753 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: 600 12px 'Plus Jakarta Sans', sans-serif;
+/* font: 600 12px 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -1504,7 +1505,7 @@ font: 600 12px 'Plus Jakarta Sans', sans-serif;
 ._1-422 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1538,7 +1539,7 @@ padding: 8px 19px 8px 19px;
 .stake3 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1561,7 +1562,7 @@ padding: 8px 19px 8px 19px;
 .stake4 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1600,7 +1601,7 @@ gap: 12px;
 .availabled-rewards {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1620,7 +1621,7 @@ gap: 12px;
 ._18-853-744 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--title-18-px-bold, 600 18px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--title-18-px-bold, 600 18px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1645,7 +1646,7 @@ border-color: var(--neutral-light, #695885);
 ._98-754 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: 600 12px 'Plus Jakarta Sans', sans-serif;
+/* font: 600 12px 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -1754,7 +1755,7 @@ padding: 12px 19px 12px 19px;
 .stake5 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1826,7 +1827,7 @@ gap: 2px;
 .earn-mex3 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1836,7 +1837,7 @@ font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
 .stake-mex3 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1856,7 +1857,7 @@ gap: 8px;
 .apr6 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1879,7 +1880,7 @@ padding: 4px 8px 4px 8px;
 ._143 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -1958,7 +1959,7 @@ align-items: center;
 .show-details2 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: 300 8px 'Plus Jakarta Sans', sans-serif;
+/* font: 300 8px 'Plus Jakarta Sans', sans-serif; */
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -2001,7 +2002,7 @@ gap: 12px;
 .my-stake6 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   align-self: stretch;
   display: flex;
@@ -2026,7 +2027,7 @@ padding: 12px 12px 12px 12px;
 .you-have-no-mex-earned-for-the-moment {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -2060,7 +2061,7 @@ padding: 8px 19px 8px 19px;
 .stake6 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -2130,7 +2131,7 @@ gap: 2px;
 .earn-mex4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -2140,7 +2141,7 @@ font: var(--title-22-px-bold, 700 22px 'Plus Jakarta Sans', sans-serif);
 .stake-mex4 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -2160,7 +2161,7 @@ gap: 8px;
 .apr8 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -2183,7 +2184,7 @@ padding: 4px 8px 4px 8px;
 ._144 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -2262,7 +2263,7 @@ align-items: center;
 .show-details3 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: 300 8px 'Plus Jakarta Sans', sans-serif;
+/* font: 300 8px 'Plus Jakarta Sans', sans-serif; */
   text-transform: uppercase;
   position: relative;
   display: flex;
@@ -2305,7 +2306,7 @@ gap: 12px;
 .my-stake8 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   align-self: stretch;
   display: flex;
@@ -2330,7 +2331,7 @@ padding: 12px 12px 12px 12px;
 .you-have-no-mex-earned-for-the-moment2 {
 color: var(--neutral-white, #ffffff);
 text-align: left;
-font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-10-px-regular, 400 10px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -2364,7 +2365,7 @@ padding: 8px 19px 8px 19px;
 .stake7 {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+/* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
   position: relative;
   display: flex;
   align-items: center;
@@ -2478,7 +2479,7 @@ top: 19.5px;
 .middle-staking {
 color: #ffffff;
 text-align: left;
-font: 700 19px/100% 'Plus Jakarta Sans', sans-serif;
+/* font: 700 19px/100% 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -2508,7 +2509,7 @@ gap: 51px;
 .staking {
 color: #ffffff;
 text-align: left;
-font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
+/* font: 600 16px/100% 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -2518,7 +2519,7 @@ font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
 .dashboard {
 color: #ffffff;
 text-align: left;
-font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
+/* font: 600 16px/100% 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -2528,7 +2529,7 @@ font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
 .play {
 color: #ffffff;
 text-align: left;
-font: 600 16px/100% 'Plus Jakarta Sans', sans-serif;
+/* font: 600 16px/100% 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;
@@ -2556,7 +2557,7 @@ border-width: 2px;
 .account {
 color: var(--neutral-white, #ffffff);
 text-align: center;
-font: 700 16px 'Plus Jakarta Sans', sans-serif;
+/* font: 700 16px 'Plus Jakarta Sans', sans-serif; */
   position: relative;
   display: flex;
   align-items: center;

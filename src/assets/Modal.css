@@ -68,7 +68,7 @@ background: none;
 .modal2 .create-new-pool {
 color: var(--neutral-white, #ffffff);
     text-align: center;
-    font: var(--title-28-px-bold, 700 28px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--title-28-px-bold, 700 28px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -178,7 +178,7 @@ padding: 0px 0px 0px 14px;
 .modal2 .label2 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: 300 10px 'Plus Jakarta Sans', sans-serif;
+    /* font: 300 10px 'Plus Jakarta Sans', sans-serif; */
     text-transform: uppercase;
     position: relative;
     display: flex;
@@ -205,7 +205,7 @@ background: var(--neutral-black, #000000);
 .modal2 .value {
 color: var(--neutral-white, #ffffff);
     text-align: center;
-    font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -242,7 +242,7 @@ padding: 0px 0px 0px 14px;
 .modal2 .label4 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: 300 10px 'Plus Jakarta Sans', sans-serif;
+    /* font: 300 10px 'Plus Jakarta Sans', sans-serif; */
     text-transform: uppercase;
     position: relative;
     display: flex;
@@ -285,7 +285,7 @@ display: flex;
 .modal2 .this-pool-already-exists {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--title-16-px-bold, 700 16px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--title-16-px-bold, 700 16px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     align-self: stretch;
 }
@@ -389,7 +389,7 @@ display: flex;
 .modal2 .rewards {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -399,7 +399,7 @@ color: var(--neutral-white, #ffffff);
 .modal2 ._18-853-74 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
-    font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -420,7 +420,7 @@ display: flex;
 .modal2 .value2 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -430,7 +430,7 @@ color: var(--neutral-white, #ffffff);
 .modal2 ._723-37 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
-    font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -451,7 +451,7 @@ display: flex;
 .modal2 .all-time-rewarded {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -461,7 +461,7 @@ color: var(--neutral-white, #ffffff);
 .modal2 ._98-75 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
-    font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -482,7 +482,7 @@ display: flex;
 .modal2 .speed {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -492,7 +492,7 @@ color: var(--neutral-white, #ffffff);
 .modal2 ._365-days {
 color: var(--neutral-white, #ffffff);
     text-align: right;
-    font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -513,7 +513,7 @@ display: flex;
 .modal2 .total-staked {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -523,7 +523,7 @@ color: var(--neutral-white, #ffffff);
 .modal2 ._135-492-65 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
-    font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -544,7 +544,7 @@ display: flex;
 .modal2 .total-value {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -554,7 +554,7 @@ color: var(--neutral-white, #ffffff);
 .modal2 ._5-198-9 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
-    font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -575,7 +575,7 @@ display: flex;
 .modal2 .users {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-light, 300 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -585,7 +585,7 @@ color: var(--neutral-white, #ffffff);
 .modal2 ._6 {
 color: var(--neutral-white, #ffffff);
     text-align: right;
-    font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -605,7 +605,7 @@ display: flex;
 .modal2 .do-you-want-to-add-it-rewarded-tokens {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--text-14-px-semibold, 600 14px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-14-px-semibold, 600 14px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     width: 436px;
 }
@@ -656,7 +656,7 @@ padding: 0px 0px 0px 14px;
 .modal2 .label6 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: 400 10px 'Plus Jakarta Sans', sans-serif;
+    /* font: 400 10px 'Plus Jakarta Sans', sans-serif; */
     text-transform: uppercase;
     position: relative;
     display: flex;
@@ -683,7 +683,7 @@ background: var(--neutral-black, #000000);
 .modal2 .value3 {
 color: var(--neutral-light, #695885);
     text-align: center;
-    font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-14-px-light, 300 14px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -693,7 +693,7 @@ color: var(--neutral-light, #695885);
 .modal2 .max {
 color: rgb(170, 169, 234);
     text-align: right;
-    font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-semibold, 600 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -716,7 +716,7 @@ padding: 2px 0px 2px 0px;
 .modal2 ._7-56-mex-ecb-7-bf {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: 300 italic 12px 'Plus Jakarta Sans', sans-serif;
+    /* font: 300 italic 12px 'Plus Jakarta Sans', sans-serif; */
     position: relative;
     display: flex;
     align-items: center;
@@ -767,7 +767,7 @@ flex-shrink: 0;
 .modal2 .label7 {
 color: var(--neutral-white, #ffffff);
     text-align: left;
-    font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-12-px-medium, 500 12px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -803,7 +803,7 @@ position: relative;
 .modal2 .cancel {
 color: var(--neutral-white, #ffffff);
     text-align: center;
-    font: var(--text-14-px-semibold, 600 14px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-14-px-semibold, 600 14px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
     display: flex;
     align-items: center;
@@ -826,7 +826,7 @@ background: var(--linear-primary, linear-gradient(90deg, rgba(189, 55, 236, 1.00
 .modal2 .stake2 {
 color: var(--neutral-white, #ffffff);
     text-align: center;
-    font: var(--text-14-px-semibold, 600 14px 'Plus Jakarta Sans', sans-serif);
+    /* font: var(--text-14-px-semibold, 600 14px 'Plus Jakarta Sans', sans-serif); */
     position: relative;
 display: flex;
 align-items: center;
