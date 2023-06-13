@@ -2,11 +2,16 @@ import React, { useEffect } from 'react';
 import { Col, Form } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
+import './StakeModal.scss';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
 import { ActionSwap } from './Actions';
 import { Button } from './../../../components/Design';
 import { defaultToken } from 'config';
+import DropdownMenu from 'components/Design/DropdownMenu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
+import Input from 'components/Design/Input';
 
 const SwapModal = (props: any) => {
   const userEsdtBalance = props.userEsdtBalance;
@@ -262,441 +267,285 @@ const SwapModal = (props: any) => {
   }
   return (
     <>
-      <div className='new-pool-already-exist-default'>
-        <div className='background'>
-          <div className='modal2'>
-            <div className='content'>
-              <div className='create-new-pool'>Swap tokens</div>
+      <div className='centerStakeModal'>
+        <div className='backgroundStakeModal'>
+          <div className='modalStakeModal'>
+            <div className='contentStakeModal'>
+              <div className='modalLabelStakeModal'>Swap tokens</div>
 
-              <div className='logos'>
-                <div className='image'>
-                  <div className='logos2'>
-                    <img className='image-3' src={second_image} />
+              <div className='logosStakeModal'>
+                <div className='logo2StakeModal'>
+                  <div className='image_2StakeModal'>
+                    <img className='img_2StakeModal' src={second_image} />
                   </div>
                 </div>
 
-                <div className='logo'>
-                  <img className='image-1' src={first_image} />
+                <div className='logo1StakeModal'>
+                  <div className='image_1StakeModal'>
+                    <img className='img_1StakeModal' src={first_image} />
+                  </div>
                 </div>
               </div>
-
-              <div className='pool-details'>
-                <div className='this-pool-already-exists'>
+              <div className='pool-details_StakeModal'>
+                <div className='this-pool-already-exists_StakeModal'>
                   Pool informations
                 </div>
-
-                <div className='token-position'>
-                  {!props.isDual ? (
-                    <>
-                      <div className='logos3'>
-                        <div className='image2'>
-                          <div className='logos4'>
-                            <img className='image-32' src={first_image} />
-                          </div>
-                        </div>
-
-                        <div className='logo2'>
-                          <img className='image-12' src={second_image} />
+                <div className='GroupeDetails_StakeModal'>
+                  <div className='LogosDetails_StakeModal'>
+                    <div className='logosStakeModal'>
+                      <div className='logo2StakeModal'>
+                        <div className='image_2StakeModal'>
+                          <img className='img_2StakeModal' src={first_image} />
                         </div>
                       </div>
 
-                      <div className='group-4'>
-                        <div className='frame-4'>
-                          <div className='rewards'>{first_token}</div>
-
-                          <div className='_18-853-74'>
-                            {' '}
-                            <FormatAmount
-                              value={first_pool.first_token_amount.toString()}
-                              decimals={Number(first_decimals)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />
-                          </div>
-                        </div>
-
-                        <div className='frame-6'>
-                          <div className='rewards'>{second_token}</div>
-
-                          <div className='_18-853-74'>
-                            {' '}
-                            <FormatAmount
-                              value={first_pool.second_token_amount.toString()}
-                              decimals={Number(second_decimals)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />
-                          </div>
-                        </div>
-
-                        <div className='frame-7'>
-                          <div className='all-time-rewarded'>in_fee</div>
-
-                          <div className='_98-75'>
-                            {' '}
-                            <FormatAmount
-                              value={first_pool.first_fee.toString()}
-                              decimals={Number(2)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />{' '}
-                            %
-                          </div>
-                        </div>
-
-                        <div className='frame-8'>
-                          <div className='speed'>out_fee</div>
-
-                          <div className='_365-days'>
-                            <FormatAmount
-                              value={first_pool.second_fee.toString()}
-                              decimals={Number(2)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />{' '}
-                            %
-                          </div>
-                        </div>
-
-                        <div className='frame-10'>
-                          <div className='total-value'>LP value</div>
-
-                          <div className='_5-198-9'>
-                            {/* {staked_value.toLocaleString('en-US', {
-                              maximumFractionDigits: 2
-                            })}{' '} */}
-                            TBD$
-                          </div>
+                      <div className='logo1StakeModal'>
+                        <div className='image_1StakeModal'>
+                          <img className='img_1StakeModal' src={second_image} />
                         </div>
                       </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className='logos3'>
-                        <div className='image2'>
-                          <div className='logos4'>
-                            <img className='image-32' src={first_image} />
-                          </div>
-                        </div>
-
-                        <div className='logo2'>
-                          <img className='image-12' src={second_image} />
-                        </div>
+                    </div>
+                  </div>
+                  <div className='PoolDetails_StakeModal'>
+                    <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>{first_token}</div>
+                      <div className='ValueDetailsInfo'>
+                        <FormatAmount
+                          value={first_pool.first_token_amount.toString()}
+                          decimals={Number(first_decimals)}
+                          egldLabel={' '}
+                          data-testid='balance'
+                          digits={2}
+                        />
                       </div>
-
-                      <div className='group-4'>
-                        <div className='frame-4'>
-                          <div className='rewards'>
-                            {defaultToken.split('-')[0]} :{' '}
-                            {first_token.split('-')[0]}
-                          </div>
-
-                          <div className='_18-853-74'>
-                            {' '}
-                            <FormatAmount
-                              value={second_pool.first_token_amount.toString()}
-                              decimals={Number(first_decimals)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />{' '}
-                            :{' '}
-                            <FormatAmount
-                              value={second_pool.second_token_amount.toString()}
-                              decimals={Number(first_decimals)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />
-                          </div>
-                        </div>
-
-                        <div className='frame-6'>
-                          <div className='rewards'>
-                            {defaultToken.split('-')[0]} :{' '}
-                            {second_token.split('-')[0]}
-                          </div>
-
-                          <div className='_18-853-74'>
-                            {' '}
-                            <FormatAmount
-                              value={first_pool.first_token_amount.toString()}
-                              decimals={Number(first_decimals)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />{' '}
-                            :{' '}
-                            <FormatAmount
-                              value={first_pool.second_token_amount.toString()}
-                              decimals={Number(second_decimals)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />
-                          </div>
-                        </div>
-
-                        <div className='frame-7'>
-                          <div className='all-time-rewarded'>in_fee</div>
-
-                          <div className='_98-75'>
-                            {' '}
-                            <FormatAmount
-                              value={first_pool.first_fee.toString()}
-                              decimals={Number(2)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />{' '}
-                            %
-                          </div>
-                        </div>
-
-                        <div className='frame-8'>
-                          <div className='speed'>out_fee</div>
-
-                          <div className='_365-days'>
-                            <FormatAmount
-                              value={first_pool.second_fee.toString()}
-                              decimals={Number(2)}
-                              egldLabel={' '}
-                              data-testid='balance'
-                              digits={2}
-                            />{' '}
-                            %
-                          </div>
-                        </div>
-
-                        <div className='frame-10'>
-                          <div className='total-value'>LP value</div>
-
-                          <div className='_5-198-9'>
-                            {/* {staked_value.toLocaleString('en-US', {
-                              maximumFractionDigits: 2
-                            })}{' '} */}
-                            TBD$
-                          </div>
-                        </div>
+                    </div>
+                    <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>{second_token}</div>
+                      <div className='ValueDetailsInfo'>
+                        <FormatAmount
+                          value={first_pool.second_token_amount.toString()}
+                          decimals={Number(second_decimals)}
+                          egldLabel={' '}
+                          data-testid='balance'
+                          digits={2}
+                        />
                       </div>
-                    </>
-                  )}
+                    </div>
+                    <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>in_fee</div>
+                      <div className='ValueDetailsInfo'>
+                        <FormatAmount
+                          value={first_pool.first_fee.toString()}
+                          decimals={Number(2)}
+                          egldLabel={' '}
+                          data-testid='balance'
+                          digits={2}
+                        />{' '}
+                        %
+                      </div>
+                    </div>
+                    <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>out_fee</div>
+                      <div className='ValueDetailsInfo'>
+                        <FormatAmount
+                          value={first_pool.second_fee.toString()}
+                          decimals={Number(2)}
+                          egldLabel={' '}
+                          data-testid='balance'
+                          digits={2}
+                        />{' '}
+                        %
+                      </div>
+                    </div>
+                    <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>LP value</div>
+                      <div className='ValueDetailsInfo'>
+                        {/* {staked_value.toLocaleString('en-US', {
+                            maximumFractionDigits: 2
+                          })}{' '} */}
+                        TBD$
+                      </div>
+                    </div>
+                    {/* <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>{'Send'}</div>
+                      <div className='ValueDetailsInfo'>
+                        <FormatAmount
+                          className='label2'
+                          decimals={Number(in_decimals.toString())}
+                          value={inBalance.toString()}
+                          egldLabel={' '}
+                          data-testid='staked'
+                        />
+                      </div>
+                    </div> */}
+                  </div>
                 </div>
               </div>
-
-              <div className='frame-56'>
-                <div className='input'>
-                  <div className='label'>
-                    <div className='label2'>{'Send '}</div>{' '}
-                    <FormatAmount
-                      className='label2'
-                      decimals={Number(in_decimals.toString())}
-                      value={inBalance.toString()}
-                      egldLabel={' '}
-                      data-testid='staked'
+              <div className='dropDownGroupeStakeModal'>
+                <div className='dropDownStake'>
+                  <div className='GroupeLabelDropdoownFormatAmount'>
+                    <div className='LabelDropdoown'>Send</div>
+                    <div className='LabelDropdoownFormatAmount'>
+                      <FormatAmount
+                        className='label2'
+                        decimals={Number(in_decimals.toString())}
+                        value={inBalance.toString()}
+                        egldLabel={' '}
+                        data-testid='staked'
+                      />
+                    </div>
+                  </div>
+                  <DropdownMenu
+                    BoxShadowActive={true}
+                    BoxShadowActiveColor='0 0 24px 0 rgba(182,57,237,.64)'
+                    BoxShadowColor='0 0 24px 0 rgba(182,57,237,.64)'
+                    inputHeight={'40px'}
+                    inputWidth='179px'
+                    borderRadius='54'
+                    hasBorder={true}
+                    borderColor='#695885'
+                    borderRadiusOptions='5px'
+                    options={[{ text: in_token, value: in_token }]}
+                    defaultValue={in_token}
+                    disableOption={true}
+                    onSelect={function (value: any): void {
+                      throw new Error('Function not implemented.');
+                    }}
+                  />
+                </div>
+                <div className='dropDownArrow' onClick={inverse}>
+                  <div className='InverseArrow'>
+                    <FontAwesomeIcon
+                      icon={faArrowsLeftRight}
+                      style={{
+                        fontSize: '20px'
+                      }}
                     />
                   </div>
-
-                  <div className='input-default'>
-                    <svg
-                      className='chevron-down'
-                      width='16'
-                      height='16'
-                      viewBox='0 0 16 16'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        clipRule='evenodd'
-                        d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
-                        fill='white'
+                </div>
+                <div className='dropDownEarn'>
+                  <div className='GroupeLabelDropdoownFormatAmount'>
+                    <div className='LabelDropdoown'>Receive</div>
+                    <div className='LabelDropdoownFormatAmount'>
+                      <FormatAmount
+                        className='label2'
+                        decimals={Number(out_decimals.toString())}
+                        value={outBalance.toString()}
+                        egldLabel={' '}
+                        data-testid='staked'
                       />
-                    </svg>
-                    <div className='value'>
-                      <Form.Control
-                        as='select'
-                        value={in_token}
-                        disabled={false}
-                        className='search-select'
-                      >
-                        <option
-                          disabled={true}
-                          className='text-center not-allowed disabled'
-                        >
-                          {in_token}
-                        </option>
-                      </Form.Control>
                     </div>
                   </div>
+                  <DropdownMenu
+                    BoxShadowActive={false}
+                    BoxShadowActiveColor='none'
+                    BoxShadowColor='none'
+                    inputHeight={'40px'}
+                    inputWidth='179px'
+                    borderRadius='54'
+                    hasBorder={true}
+                    borderRadiusOptions='5px'
+                    borderColor='#695885'
+                    options={[{ text: out_token, value: out_token }]}
+                    defaultValue={out_token}
+                    disableOption={true}
+                    onSelect={function (value: any): void {
+                      throw new Error('Function not implemented.');
+                    }}
+                  />
                 </div>
-                <div className='max cursor-pointer' onClick={inverse}>
-                  {'<->'}
+              </div>
+              <div>
+                <div className='AmountRageGroupeSwap'>
+                  <div className='label6'>amount</div>
+                  {/* <div className='InputRangePerso'> */}
+                  <input
+                    type='range'
+                    id='slider'
+                    min='0'
+                    max='100'
+                    step='1'
+                    value={rangeValue}
+                    onChange={handleRangeValueChange}
+                    // ref={sliderRef}
+                  />
+                  {/* </div> */}
+                  <div className='label6'>{rangeValue}%</div>
                 </div>
-                <div className='input2'>
-                  <div className='label3'>
-                    <div className='label4'>Receive</div>
-                    <FormatAmount
-                      className='label2'
-                      decimals={Number(out_decimals.toString())}
-                      value={outBalance.toString()}
-                      egldLabel={' '}
-                      data-testid='staked'
-                    />
-                  </div>
-
-                  <div className='input-default2'>
-                    <svg
-                      className='chevron-down2'
-                      width='16'
-                      height='16'
-                      viewBox='0 0 16 16'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        clipRule='evenodd'
-                        d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
-                        fill='white'
-                      />
-                    </svg>
-                    <div className='value'>
-                      <Form.Control
-                        as='select'
-                        value={out_token}
-                        disabled={false}
-                        className='search-select'
-                      >
-                        <option
-                          disabled={true}
-                          className='text-center not-allowed disabled'
-                        >
-                          {out_token}
-                        </option>
-                      </Form.Control>
-                    </div>
-                  </div>
+                <div className='label6'>
+                  price_impact {price_impact.toString()}
                 </div>
               </div>
 
-              <div className='staked-rewarded-tokens'>
-                <>
-                  <div className='form'>
-                    <div className='frame-57'>
-                      <div className='input3'>
-                        <div className='label5'>
-                          <div className='label6'>amount</div>
-                          <input
-                            type='range'
-                            id='slider'
-                            min='0'
-                            max='100'
-                            step='1'
-                            value={rangeValue}
-                            onChange={handleRangeValueChange}
-                          />{' '}
-                          <div className='label6'>{rangeValue}%</div>
-                          <div className='label6'>
-                            price_impact {price_impact.toString()}
-                          </div>
-                        </div>
+              <div className='AmountInputGroupe'>
+                <div className='FormatAmountStaked'>
+                  <Input
+                    inputHeight='40px'
+                    inputWidth='179px'
+                    borderColor='rgb(105, 88, 133)'
+                    value={tokenAmount}
+                    onInputChange={handleTokenAmountChange}
+                    rightHtml={
+                      <Button
+                        textColor='#1F67FF'
+                        buttonWidth={'15px'}
+                        buttonHeight={'15px'}
+                        hasBorder={false}
+                        borderRadius={40}
+                        background={'transparent'}
+                        fontSize='10px'
+                        text='MAX'
+                        onClick={setToMax}
+                      />
+                    }
+                    type='number'
+                    placeholder={'number'}
+                    fontSize={14}
+                  />
+                </div>
 
-                        <Form.Group
-                          className='amount-bar'
-                          as={Col}
-                          controlId='TokenAmount'
-                          onChange={handleTokenAmountChange}
-                        >
-                          <Form.Control
-                            className='amount-input'
-                            required
-                            type='number'
-                            placeholder=''
-                            defaultValue='0'
-                            value={tokenAmount}
-                          />{' '}
-                          <div
-                            className='max cursor-pointer'
-                            onClick={setToMax}
-                          >
-                            MAX
-                          </div>
-                        </Form.Group>
-                      </div>
-                      <div className='font-uniformisation'>
-                        <Form.Group
-                          className='amount-bar'
-                          as={Col}
-                          controlId='TokenAmount'
-                        >
-                          <Form.Control
-                            className='amount-input'
-                            required
-                            type='number'
-                            placeholder=''
-                            defaultValue='0'
-                            value={(
-                              Number(out_amount - out_fees) /
-                              10 ** out_decimals
-                            ).toString()}
-                          />{' '}
-                        </Form.Group>
-                        {/* <div className='_7-56-mex-ecb-7-bf'>
-                          <FormatAmount
-                            decimals={Number(in_decimals.toString())}
-                            value={balance.toString()}
-                            egldLabel={in_token}
-                            data-testid='staked'
-                          />
-                        </div> */}
-                      </div>
-                      <div className='font-uniformisation'>
-                        {/* <div className='_7-56-mex-ecb-7-bf'>
-                          <FormatAmount
-                            decimals={Number(out_decimals.toString())}
-                            value={out_amount.toString()}
-                            egldLabel={out_token}
-                            data-testid='staked'
-                          />
-                        </div> */}
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <div className='FormatAmountStaked'>
+                  <Input
+                    inputHeight='40px'
+                    inputWidth='179px'
+                    borderColor='rgb(105, 88, 133)'
+                    disabled={true}
+                    value={(
+                      Number(out_amount - out_fees) /
+                      10 ** out_decimals
+                    ).toString()}
+                    type='number'
+                    placeholder={'number'}
+                    fontSize={14}
+                  />
+                </div>
+              </div>
+              <div className='bottomGroupeModal' onClick={props.onClose}>
+                <div className='bottomModal'>
+                  <Button
+                    buttonWidth='100%'
+                    hasBorder={true}
+                    borderRadius={40}
+                    background={'black'}
+                    borderColor={['#BD37EC', '#1F67FF']}
+                    text='Cancel'
+                    onClick={props.onClose}
+                  />
+                </div>
+                <div className='bottomModal'>
+                  <ActionSwap
+                    first_token={first_token}
+                    second_token={second_token}
+                    in_token={in_token}
+                    user_fund={bigAmount}
+                    min_out={min_out}
+                    price_impact={price_impact}
+                  />
+                </div>
               </div>
             </div>
-
-            <div className='bottom' onClick={props.onClose}>
-              <Button
-                buttonWidth='100%'
-                hasBorder={true}
-                borderRadius={40}
-                background={'black'}
-                borderColor={['#BD37EC', '#1F67FF']}
-                text='Cancel'
-                onClick={props.onClose}
-              />{' '}
-              <ActionSwap
-                first_token={
-                  second_token == defaultToken ? second_token : first_token
-                }
-                second_token={
-                  second_token == defaultToken ? first_token : second_token
-                }
-                in_token={in_token}
-                user_fund={bigAmount}
-                min_out={min_out}
-                price_impact={price_impact}
-              />
-            </div>
-
             <svg
-              className='close'
+              className='closeStakeModal'
               onClick={props.onClose}
               width='24'
               height='24'
@@ -709,8 +558,7 @@ const SwapModal = (props: any) => {
                 fill='white'
               />
             </svg>
-
-            <div className='neon-border'></div>
+            {/* <div className='neon-border'></div> */}
           </div>
         </div>
       </div>
