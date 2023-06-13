@@ -69,8 +69,8 @@ const SwapModal = (props: any) => {
     ? second_esdt_info?.assets?.svgUrl
     : notFound;
 
-  function handleTokenAmountChange(e: React.ChangeEvent<any>) {
-    const amount = BigInt(e.target.value * 10 ** in_decimals);
+  function handleTokenAmountChange(value: any) {
+    const amount = BigInt(Number(value) * 10 ** in_decimals);
     let range = 0;
     if (amount < BigInt(0)) {
       setTokenAmount(0);
@@ -82,8 +82,8 @@ const SwapModal = (props: any) => {
       setBigAmount(inBalance);
       range = 100;
     } else {
-      setTokenAmount(e.target.value);
-      const output = toBigAmount(Number(e.target.value), Number(in_decimals));
+      setTokenAmount(Number(value));
+      const output = toBigAmount(Number(value), Number(in_decimals));
       setBigAmount(BigInt(output));
     }
     const percentage = Number(
