@@ -27,6 +27,7 @@ import { TopInfo } from './TopInfo';
 import FundModal from './FundModal';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { CheckBox, ToggleSwitch } from './../../../components/Design';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const { network } = useGetNetworkConfig();
@@ -204,13 +205,16 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   function setFOrderBy(e: React.ChangeEvent<any>) {
     setOrderBy(e.target.value);
   }
+  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
   return (
     <div className='center'>
       <FundModal
         userEsdtBalance={userEsdtBalance}
         show={showFund}
-        onClose={() => setShowFund(false)}
+        onClose={() => {
+          setHeaderMenu(true), setShowFund(false);
+        }}
       />
       <Row className='pb-4'>
         <Col
@@ -397,7 +401,9 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
           {address && (
             <div
               className='button-icon-border  cursor-pointer'
-              onClick={() => setShowFund(true)}
+              onClick={() => {
+                setShowFund(true), setHeaderMenu(false);
+              }}
             >
               <div className='button-icon'>
                 <svg

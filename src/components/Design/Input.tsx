@@ -86,7 +86,7 @@ const Input: FC<InputProps> = ({
   borderRadius = 25,
   disabled = false,
   fontSize = '14px',
-  fontFamily = 'Plus Jakarta Sans',
+  fontFamily = '',
   onInputChange,
   hasBorderActive = true,
   BorderActiveColor = '#2266FF',
