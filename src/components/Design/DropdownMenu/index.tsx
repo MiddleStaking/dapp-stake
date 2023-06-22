@@ -71,7 +71,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   width = '150px',
   height = '40px',
   fontSize = '14px',
-  fontFamily = 'Plus Jakarta Sans',
+  fontFamily = '',
   background = '#000000',
 
   gradientDirection = 'to right',
@@ -212,8 +212,30 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
     inputRef.current.focus();
   };
 
+  const dropdownRef: any = useRef(null);
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      // Si le menu est ouvert et le clic est en dehors du menu, fermez-le
+      if (
+        isOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', checkIfClickedOutside);
+
+    return () => {
+      // Nettoyez l'écouteur lorsque le composant se démonte
+      document.removeEventListener('mousedown', checkIfClickedOutside);
+    };
+  }, [isOpen]);
+
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} ref={dropdownRef}>
       {placeholderColor && <style>{customPlaceholderStyles}</style>}
       <div onClick={handleClick} style={dropDownBarStyle} ref={dropDownBarRef}>
         <div>
@@ -268,7 +290,8 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
             overflow: 'auto',
             maxHeight: OptonsCrollHeight,
             borderRadius: `${borderRadiusOptions}px`,
-            background: 'transparent'
+            background: 'transparent',
+            zIndex: 10
           }}
         >
           {(() => {

@@ -4,6 +4,11 @@ import { defaultToken } from 'config';
 import { routeNames } from 'routes';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { Button } from 'components/Design/Button';
+import Logo from 'assets/Logo';
+// import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
+import { ReactComponent as MiddleLogo } from '../../assets/img/ms.svg';
+import LogoText from 'assets/LogoMiddleS';
+import LogoTextMobile from 'assets/LogoMiddleSMobile';
 
 // interface DropdownMenuProps {}
 
@@ -76,7 +81,7 @@ const styles = {
 
 const defaultButtonProps = {
   background: 'transparent',
-  fontFamily: 'Plus Jakarta Sans',
+  fontFamily: '',
   buttonHeight: '52px',
   fontSize: '16px'
 };
@@ -94,7 +99,7 @@ const HeaderDesktop = () => {
         onClick={() => handleNavigate(routeNames.stake + '/' + defaultToken)}
         style={styles.headerLogo}
       >
-        <LogoSvg widthSvg='100%' />
+        <LogoText />
       </div>
       <div style={styles.headerMenu}>
         <div style={styles.styleGauche}>
@@ -125,7 +130,7 @@ const HeaderDesktop = () => {
               text='Account'
               hasBorder={true}
               onClick={() => handleNavigate(routeNames.home)}
-              fontFamily='Plus Jakarta Sans'
+              fontFamily=''
               buttonHeight='52px'
               fontSize='20px'
             />
@@ -135,7 +140,7 @@ const HeaderDesktop = () => {
     </div>
   ) : (
     <div style={styles.headerMobile}>
-      <LogoSvg widthSvg='109px' />
+      <LogoTextMobile />
     </div>
   );
 };
