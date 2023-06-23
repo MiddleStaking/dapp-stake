@@ -132,6 +132,9 @@ const StakeModal = (props: any) => {
   if (!props.show) {
     return null;
   }
+
+  const percentage = rangeValue / 100;
+
   return (
     <>
       <div className='centerStakeModal'>
@@ -314,7 +317,7 @@ const StakeModal = (props: any) => {
                 <div>
                   <div className='AmountRageGroupe'>
                     <div className='label6'>amount</div>
-                    <input
+                    {/* <input
                       type='range'
                       id='slider'
                       min='0'
@@ -322,7 +325,30 @@ const StakeModal = (props: any) => {
                       step='1'
                       value={rangeValue}
                       onChange={handleRangeValueChange}
-                    />{' '}
+                    />{' '} */}
+                    <div>
+                      <input
+                        type='range'
+                        id='slider'
+                        min='0'
+                        max='100'
+                        step='1'
+                        value={rangeValue}
+                        onChange={handleRangeValueChange}
+                        style={{
+                          appearance: 'none',
+                          width: '100%',
+                          height: '8px',
+                          background: `linear-gradient(to right, #1F67FF 0%, #BD37EC ${
+                            percentage * 100
+                          }%, white ${percentage * 100}%, white 100%)`,
+                          outline: 'none',
+                          opacity: '0.7',
+                          transition: 'opacity .2s',
+                          borderRadius: '5px'
+                        }}
+                      />
+                    </div>
                     <div className='label6'>{rangeValue}%</div>
                   </div>
                   <div className='AmountInputGroupe'>

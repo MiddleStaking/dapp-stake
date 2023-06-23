@@ -62,8 +62,6 @@ const StakeModal = (props: any) => {
     BigInt(60);
 
   function handleTokenAmountChange(value: any) {
-    console.log(Number(value));
-
     const amount = BigInt(Number(value) * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
@@ -133,6 +131,8 @@ const StakeModal = (props: any) => {
   if (!props.show) {
     return null;
   }
+
+  const percentage = rangeValue / 100;
 
   return (
     <>
@@ -315,7 +315,7 @@ const StakeModal = (props: any) => {
                 <div>
                   <div className='AmountRageGroupe'>
                     <div className='label6'>amount</div>
-                    <input
+                    {/* <input
                       type='range'
                       id='slider'
                       min='0'
@@ -323,13 +323,36 @@ const StakeModal = (props: any) => {
                       step='1'
                       value={rangeValue}
                       onChange={handleRangeValueChange}
-                    />{' '}
+                    /> */}
+                    <div>
+                      <input
+                        type='range'
+                        id='slider'
+                        min='0'
+                        max='100'
+                        step='1'
+                        value={rangeValue}
+                        onChange={handleRangeValueChange}
+                        style={{
+                          appearance: 'none',
+                          width: '100%',
+                          height: '8px',
+                          background: `linear-gradient(to right, #1F67FF 0%, #BD37EC ${
+                            percentage * 100
+                          }%, white ${percentage * 100}%, white 100%)`,
+                          outline: 'none',
+                          opacity: '0.7',
+                          transition: 'opacity .2s',
+                          borderRadius: '5px'
+                        }}
+                      />
+                    </div>
                     <div className='label6'>{rangeValue}%</div>
                   </div>
                   <div className='AmountInputGroupe'>
                     <Input
                       inputHeight='40px'
-                      inputWidth='179px'
+                      inputWidth='180px'
                       borderColor='rgb(105, 88, 133)'
                       value={tokenAmount}
                       onInputChange={handleTokenAmountChange}

@@ -115,9 +115,8 @@ const FundModal = (props: any) => {
     BigInt(60) /
     BigInt(60);
 
-  function handleTokenAmountChange(e: React.ChangeEvent<any>) {
-    const amount = BigInt(e.target.value * 10 ** decimals);
-
+  function handleTokenAmountChange(value: any) {
+    const amount = BigInt(Number(value) * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
@@ -125,8 +124,8 @@ const FundModal = (props: any) => {
       setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
       setBigAmount(balance);
     } else {
-      setTokenAmount(e.target.value);
-      const output = toBigAmount(Number(e.target.value), Number(decimals));
+      setTokenAmount(Number(value));
+      const output = toBigAmount(Number(value), Number(decimals));
       setBigAmount(BigInt(output));
     }
     const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
@@ -186,6 +185,9 @@ const FundModal = (props: any) => {
   if (!props.show) {
     return null;
   }
+
+  const percentage = rangeValue / 100;
+
   return (
     <>
       <div className='centerStakeModal'>
@@ -473,7 +475,7 @@ const FundModal = (props: any) => {
                       <div className='AmountRageGroupeSwap'>
                         <div className='label6'>Rewards</div>
                         {/* <div className='InputRangePerso'> */}
-                        <input
+                        {/* <input
                           type='range'
                           id='slider'
                           min='0'
@@ -482,7 +484,31 @@ const FundModal = (props: any) => {
                           value={rangeValue}
                           onChange={handleRangeValueChange}
                           // ref={sliderRef}
-                        />
+                        /> */}
+                        <div>
+                          <input
+                            type='range'
+                            id='slider'
+                            min='0'
+                            max='100'
+                            step='1'
+                            value={rangeValue}
+                            onChange={handleRangeValueChange}
+                            style={{
+                              appearance: 'none',
+                              width: '100%',
+                              height: '8px',
+                              background: `linear-gradient(to right, #1F67FF 0%, #BD37EC ${
+                                percentage * 100
+                              }%, white ${percentage * 100}%, white 100%)`,
+                              outline: 'none',
+                              opacity: '0.7',
+                              transition: 'opacity .2s',
+                              borderRadius: '5px'
+                            }}
+                          />
+                        </div>
+
                         {/* </div> */}
                         <div className='label6'>{rangeValue}%</div>
                       </div>
