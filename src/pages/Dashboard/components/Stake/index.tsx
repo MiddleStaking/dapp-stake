@@ -18,6 +18,7 @@ import Delegate from './components/Delegate';
 import Undelegate from './components/Undelegate';
 
 import styles from './styles.module.scss';
+import './stack.css';
 
 interface ActionType {
   label: string;
