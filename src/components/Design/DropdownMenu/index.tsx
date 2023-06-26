@@ -67,8 +67,8 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   // grayscale = '0%',
 
   // animationDelay = 3,
-  value = '',
-  width = '150px',
+  value = '', //TODO K : why ?
+  // width = '150px',  //TODO K : why ?
   height = '40px',
   fontSize = '14px',
   fontFamily = '',
@@ -144,10 +144,10 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   const [uniqueId] = useState(generateUniqueId());
   const dropDownMenuClassName = `dropDownInput-${uniqueId}`;
 
-  const handleOptionClick = (value: any) => {
-    onSelect(value);
+  const handleOptionClick = (val: any) => {
+    onSelect(val);
     // setSelectedValue(value);
-    const foundOption = options.find((option) => option.value === value);
+    const foundOption = options.find((option) => option.value === val);
     setDisplayText(foundOption ? foundOption.text : 'Select an option');
     setSearchValue('');
     setIsOpen(false);
