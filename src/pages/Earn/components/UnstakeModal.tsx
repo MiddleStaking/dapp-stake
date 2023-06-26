@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
-import { ActionUnstake } from './Actions';
-import { useGetTokenPosition } from './Actions/helpers';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetESDTInformations } from './Actions/helpers';
-import { ActionFund } from './Actions';
-import { Button } from './../../../components/Design';
-import './StakeModal.scss';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
+import notFound from './../../../assets/img/notfoundc.svg';
+import { Button } from './../../../components/Design';
+import { ActionUnstake } from './Actions';
+import { useGetTokenPosition } from './Actions/helpers';
+import { useGetESDTInformations } from './Actions/helpers';
+import './StakeModal.scss';
 
 const StakeModal = (props: any) => {
-  const userEsdtBalance = props.userEsdtBalance;
   const [stoken, setStoken] = React.useState(props.stakedToken);
   const [rtoken, setRtoken] = React.useState(props.rewardedToken);
   const [balance, setBalance] = React.useState(BigInt(0));
@@ -48,12 +44,6 @@ const StakeModal = (props: any) => {
     ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
       rewarded_esdt_info?.price
     : 0;
-
-  let apr = BigInt(100);
-  if (tokenPosition.total_stake > BigInt(0)) {
-    apr =
-      (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
-  }
 
   const speed =
     (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
