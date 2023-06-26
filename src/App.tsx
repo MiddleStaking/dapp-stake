@@ -17,13 +17,12 @@ import {
   walletConnectV2ProjectId,
   sampleAuthenticatedDomains
 } from 'config';
+import { ContextProvider } from 'context';
+import { HeaderMenuProvider } from 'context/Header/HeaderMenuProvider';
 import { PageNotFound } from 'pages';
+import Unlock from 'pages/Unlock';
 import { routeNames } from 'routes';
 import { routes } from 'routes';
-import Unlock from 'pages/Unlock';
-import { HeaderMenuProvider } from 'context/Header/HeaderMenuProvider';
-
-import { ContextProvider } from 'context';
 
 export const App = () => {
   return (
