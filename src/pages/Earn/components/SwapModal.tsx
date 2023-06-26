@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Col, Form } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import './StakeModal.scss';
