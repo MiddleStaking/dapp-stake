@@ -3,20 +3,20 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useNavigate } from 'react-router-dom';
-// import { Nodes } from 'components/Nodes';
-// import { Toggles } from 'components/Toggles';
-// import { useGlobalContext } from 'context';
-// import useGlobalData from '../../hooks/useGlobalData';
-import Cards from 'pages/Dashboard/components/Cards';
-import Heading from 'pages/Dashboard/components/Heading';
-import { GetContractDetails } from 'pages/Dashboard/helper/requestAbi';
-import { Toggles } from './components/Toggles';
-import { Nodes } from './Nodes';
+
+import { Cards } from 'components/Cards';
+import { Heading } from 'components/Heading';
+import { Nodes } from 'components/Nodes';
+import { Toggles } from 'components/Toggles';
+
+import { useGlobalContext } from 'context';
+
+import useGlobalData from '../../hooks/useGlobalData';
 import styles from './styles.module.scss';
 
 export const Admin = () => {
   const { address } = useGetAccountInfo();
-  const contractDetails: any = GetContractDetails();
+  const { contractDetails } = useGlobalContext();
   const [loading, setLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
@@ -26,8 +26,8 @@ export const Admin = () => {
       return;
     }
 
-    if (contractDetails.status !== 'failed') {
-      if (contractDetails && contractDetails.owner) {
+    if (contractDetails.status === 'loaded') {
+      if (contractDetails.data && contractDetails.data.owner) {
         setLoading(false);
       } else {
         navigate('/dashboard');
@@ -35,8 +35,8 @@ export const Admin = () => {
     }
   };
 
-  useEffect(handleRedirect, [address, contractDetails]);
-  //   useGlobalData();
+  useEffect(handleRedirect, [address, contractDetails.data]);
+  useGlobalData();
 
   if (loading) {
     return (
@@ -50,7 +50,6 @@ export const Admin = () => {
           spin={true}
           className='mr-3'
         />
-        {contractDetails.status}
         Loading...
       </div>
     );

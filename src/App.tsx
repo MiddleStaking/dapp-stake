@@ -23,6 +23,8 @@ import { routes } from 'routes';
 import Unlock from 'pages/Unlock';
 import { HeaderMenuProvider } from 'context/Header/HeaderMenuProvider';
 
+import { ContextProvider } from 'context';
+
 export const App = () => {
   return (
     <AxiosInterceptorContext.Provider>
@@ -38,34 +40,37 @@ export const App = () => {
               walletConnectV2ProjectId
             }}
           >
-            <HeaderMenuProvider>
-              <Layout>
-                <AxiosInterceptorContext.Listener />
-                <TransactionsToastList />
-                <NotificationModal />
-                <SignTransactionsModals className='custom-class-for-modals' />
-                <Routes>
-                  <Route
-                    path={routeNames.unlock + '/:route' + '/:param'}
-                    element={<Unlock />}
-                  />
-                  <Route
-                    path={routeNames.unlock + '/:route'}
-                    element={<Unlock />}
-                  />
-                  <Route path={routeNames.unlock} element={<Unlock />} />
-
-                  {routes.map((route, index) => (
+            {' '}
+            <ContextProvider>
+              <HeaderMenuProvider>
+                <Layout>
+                  <AxiosInterceptorContext.Listener />
+                  <TransactionsToastList />
+                  <NotificationModal />
+                  <SignTransactionsModals className='custom-class-for-modals' />
+                  <Routes>
                     <Route
-                      path={route.path}
-                      key={'route-key-' + index}
-                      element={<route.component />}
+                      path={routeNames.unlock + '/:route' + '/:param'}
+                      element={<Unlock />}
                     />
-                  ))}
-                  <Route path='*' element={<PageNotFound />} />
-                </Routes>
-              </Layout>
-            </HeaderMenuProvider>
+                    <Route
+                      path={routeNames.unlock + '/:route'}
+                      element={<Unlock />}
+                    />
+                    <Route path={routeNames.unlock} element={<Unlock />} />
+
+                    {routes.map((route, index) => (
+                      <Route
+                        path={route.path}
+                        key={'route-key-' + index}
+                        element={<route.component />}
+                      />
+                    ))}
+                    <Route path='*' element={<PageNotFound />} />
+                  </Routes>
+                </Layout>
+              </HeaderMenuProvider>{' '}
+            </ContextProvider>
           </DappProvider>
         </Router>
       </AxiosInterceptorContext.Interceptor>

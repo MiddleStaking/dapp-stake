@@ -62,6 +62,10 @@ export const network: NetworkType = {
 // ];
 
 //GLOBAL :
+
+export const stakingContract =
+  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
+
 export const dAppName = 'Middle Staking';
 // Generate your own WalletConnect 2 ProjectId here: https://cloud.walletconnect.com/app
 export const walletConnectV2ProjectId = '9b1a9564f91cb659ffe21b73d5c4e2d8';
