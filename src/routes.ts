@@ -2,6 +2,7 @@ import { RouteType } from '@multiversx/sdk-dapp/types';
 import { dAppName } from 'config';
 import { Admin } from 'pages/Admin';
 import Faucet from 'pages/Faucet';
+import Account from 'pages/Account';
 import Rewards from 'pages/Rewards';
 import Rewards2 from 'pages/RewardsV2';
 import Tokenomics from 'pages/Tokenomics';
@@ -17,6 +18,7 @@ export const routeNames = {
   stake: '/stake',
   fund: '/fund',
   faucet: '/faucet',
+  account: '/account',
   rewards: '/rewards',
   tokenomics: '/tokenomics',
   tokenomics2: '/tokenomics2',
@@ -74,6 +76,12 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.faucet,
     title: 'Faucet',
     component: Faucet,
+    authenticatedRoute: true
+  },
+  {
+    path: routeNames.account,
+    title: 'Account',
+    component: Account,
     authenticatedRoute: true
   },
   {
