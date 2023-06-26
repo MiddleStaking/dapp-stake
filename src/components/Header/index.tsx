@@ -10,6 +10,7 @@ import { routeNames } from 'routes';
 // import Logo from 'assets/Logo';
 // import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
 // import { ReactComponent as MiddleLogo } from '../../assets/img/ms.svg';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 
 // interface DropdownMenuProps {}
 
@@ -87,6 +88,8 @@ const defaultButtonProps = {
   fontSize: '16px'
 };
 const HeaderDesktop = () => {
+  const isLoggedIn = useGetIsLoggedIn();
+
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
 
@@ -107,14 +110,14 @@ const HeaderDesktop = () => {
           <div style={styles.styleDroit}>
             <Button
               {...defaultButtonProps}
-              text='Staking'
+              text='Stake'
               onClick={() =>
                 handleNavigate(routeNames.stake + '/' + defaultToken)
               }
             />
             <Button
               {...defaultButtonProps}
-              text='Dashboard'
+              text='Delegate'
               onClick={() => handleNavigate(routeNames.dashboard)}
             />
             <Button
@@ -128,9 +131,9 @@ const HeaderDesktop = () => {
               borderRadius={40}
               background='black'
               borderColor={['#BD37EC', '#1F67FF']}
-              text='Account'
+              text={isLoggedIn ? 'Account' : 'Login'}
               hasBorder={true}
-              onClick={() => handleNavigate(routeNames.home)}
+              onClick={() => handleNavigate(routeNames.account)}
               fontFamily=''
               buttonHeight='52px'
               fontSize='20px'

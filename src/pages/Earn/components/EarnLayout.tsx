@@ -207,6 +207,9 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   }
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
+  console.log(orderedTokens);
+  console.log(orderedPairs);
+
   return (
     <div className='center'>
       <FundModal
@@ -450,6 +453,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                     {' '}
                     <PoolInfo
                       userEsdtBalance={userEsdtBalance}
+                      swapedTokens={swapedTokens}
                       myPools={myPools}
                       stakedToken={p.s}
                       rewardedToken={p.r}

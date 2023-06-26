@@ -6,4 +6,5 @@ export * from './Unlock';
 export * from './Earn';
 export * from './Fund';
 export * from './Faucet';
+export * from './Account';
 export * from './Play';
