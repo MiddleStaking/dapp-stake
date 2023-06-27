@@ -344,7 +344,7 @@ export const PoolInfo = ({
   let opacity = '';
 
   if (myPools && stakingPosition.stake_amount == BigInt(0)) {
-    opacity = 'card hide';
+    opacity = 'card ghost';
   }
 
   return (
