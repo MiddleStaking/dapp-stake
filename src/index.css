@@ -2635,6 +2635,9 @@ border-radius: 50%;
 .hide {
 display: none;
 }
+.ghost {
+  opacity: 40%;
+}
 .styled-checkbox {
   position: absolute;
   opacity: 0;
