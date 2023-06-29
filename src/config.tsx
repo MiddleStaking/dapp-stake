@@ -1,4 +1,4 @@
-//DEVNET :
+// //DEVNET :
 export const defaultToken = 'MID-7f1d59';
 export const defaultPairs = [
   { s: 'MID-7f1d59', r: 'MID-7f1d59' },
@@ -43,9 +43,9 @@ export const network: NetworkType = {
 //   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
 
 // export const network: NetworkType = {
-//   id: 'devnet',
-//   name: 'Devnet',
-//   egldLabel: 'xEGLD',
+//   id: 'mainnet',
+//   name: 'Mainnet',
+//   egldLabel: 'EGLD',
 //   walletAddress: 'https://wallet.multiversx.com/dapp/init',
 //   apiAddress: 'https://api.multiversx.com',
 //   gatewayAddress: 'https://gateway.multiversx.com',
