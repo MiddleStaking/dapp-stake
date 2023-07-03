@@ -205,13 +205,15 @@ const FooterDekstop: FC<any> = ({}) => {
       </div>
 
       <div
-        onClick={() => navigate(routeNames.home)}
+        onClick={() => navigate(routeNames.account)}
         style={{
           ...iconStyle,
-          ...(firstSegment === routeNames.home ? backGroundActive : backGround)
+          ...(firstSegment === routeNames.account
+            ? backGroundActive
+            : backGround)
         }}
       >
-        <UserSvg select={firstSegment === routeNames.home} />
+        <UserSvg select={firstSegment === routeNames.account} />
         <p
           style={
             // firstSegment === routeNames.design ? gradientStyle :
