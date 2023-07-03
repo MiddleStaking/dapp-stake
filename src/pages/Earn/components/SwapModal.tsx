@@ -18,6 +18,7 @@ const SwapModal = (props: any) => {
   const [second_token, setSecondToken] = React.useState(props.second_token);
   const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
   const [second_pool, setSecondPool] = React.useState(props.secondPoolPosition);
+
   React.useEffect(() => {
     setFirstPool(props.firstPoolPosition);
     setSecondPool(props.secondPoolPosition);
@@ -153,6 +154,10 @@ const SwapModal = (props: any) => {
     setRangeValue(100);
   }
 
+  //Si la pool a été créé mais qu'il n'y a pas de LP
+  if (first_pool.first_token_amount == 0) {
+    return <></>;
+  }
   if (first_token == defaultToken || second_token == defaultToken) {
     //Simple Swap
     const k_pool =
@@ -164,6 +169,7 @@ const SwapModal = (props: any) => {
       //******* */
       const in_fees =
         (in_amount * BigInt(first_pool.first_fee)) / BigInt(10000);
+      console.log(first_pool.first_token_amount);
       const y_amount =
         k_pool / (BigInt(first_pool.first_token_amount) + in_amount - in_fees);
 
@@ -655,7 +661,6 @@ const SwapModal = (props: any) => {
                     fontSize={14}
                   />
                 </div>
-
                 <div className='FormatAmountStaked'>
                   <Input
                     inputHeight='40px'
@@ -670,7 +675,14 @@ const SwapModal = (props: any) => {
                     placeholder={'number'}
                     fontSize={14}
                   />
-                </div>
+                </div>{' '}
+                <FormatAmount
+                  className='label2'
+                  decimals={Number(out_decimals.toString())}
+                  value={min_out.toString()}
+                  egldLabel={' '}
+                  data-testid='staked'
+                />
               </div>
               <div className='bottomGroupeModal' onClick={props.onClose}>
                 <div className='bottomModal'>
