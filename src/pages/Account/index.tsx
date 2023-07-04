@@ -53,9 +53,6 @@ const Account = () => {
       square.classList.add('hovered');
     });
   }, []);
-
-  console.log(network.id);
-
   return (
     <div className={styles.container}>
       <div
