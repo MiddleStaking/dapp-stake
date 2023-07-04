@@ -142,16 +142,18 @@
 }
 
 @media (max-width: 500px) {
-    .squareContainer {
-      grid-template-columns: 1fr 1fr;
-    }
+  .squareContainer {
+    grid-template-columns: 1fr 1fr;
   }
-  @media (max-width: 340px) {
-    .squareContainer {
-      grid-template-columns: 1fr;
-    }
+}
+@media (max-width: 340px) {
+  .squareContainer {
+    grid-template-columns: 1fr;
   }
+}
 .square {
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
   padding: 10px 10px 10px 10px;
   border-radius: 10px;
   background: #00000052;
@@ -178,4 +180,31 @@
       width: 100%;
     }
   }
+}
+// .square:hover {
+//   animation-name: hover-animation;
+// }
+
+// @keyframes hover-animation {
+//   0% {
+//     background-color: #00000052;
+//     color: white;
+//   }
+//   100% {
+//     background-color: rgb(255 255 255 / 71%);
+//     color: black;
+//   }
+// }
+
+.square {
+  -webkit-transition: background-color 0.5s ease-out, color 0.5s ease-out;
+  -moz-transition: background-color 0.5s ease-out, color 0.5s ease-out;
+  -o-transition: background-color 0.5s ease-out, color 0.5s ease-out;
+  transition: background-color 0.5s ease-out, color 0.5s ease-out;
+}
+
+.square:hover {
+  background-color: rgb(255 255 255 / 71%);
+  color: black;
+  cursor: pointer;
 }

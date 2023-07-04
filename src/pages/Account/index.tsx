@@ -1,19 +1,18 @@
 import * as React from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import {
   faExternalLinkAlt,
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import { Col, Form, Row } from 'react-bootstrap';
+// import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { logout } from '@multiversx/sdk-dapp/utils';
-import { Button } from 'components/Design/Button';
+// import { Button } from 'components/Design/Button';
 import { useNavigate } from 'react-router-dom';
 import { routeNames } from 'routes';
-import styles from './account.module.scss';
 import { useGetUserESDT } from './../Earn/components/Actions/helpers/useGetUserESDT';
+import styles from './account.module.scss';
 
 const Account = () => {
   const userEsdtBalance = useGetUserESDT();
@@ -28,12 +27,14 @@ const Account = () => {
   const accountInfo = useGetAccountInfo();
   const address = accountInfo.address;
   const { network } = useGetNetworkConfig();
-  const [faddress, setAddress] = React.useState(
-    address === null ? '' : address
-  );
-  const [amount, setAmount] = React.useState(1);
-  const [error, setError] = React.useState('');
-  const [success, setSuccess] = React.useState('');
+  const [
+    ,
+    // faddress
+    setAddress
+  ] = React.useState(address === null ? '' : address);
+  // const [amount, setAmount] = React.useState(1);
+  // const [error, setError] = React.useState('');
+  // const [success, setSuccess] = React.useState('');
 
   React.useEffect(() => {
     setAddress(address === null ? '' : address);
@@ -45,6 +46,16 @@ const Account = () => {
     network.id == 'devnet'
       ? 'https://devnet-explorer.multiversx.com/accounts/'
       : 'https://explorer.multiversx.com/accounts/';
+
+  React.useEffect(() => {
+    const squares = document.querySelectorAll('.' + styles.square);
+    squares.forEach((square) => {
+      square.classList.add('hovered');
+    });
+  }, []);
+
+  console.log(network.id);
+
   return (
     <div className={styles.container}>
       <div
@@ -75,13 +86,13 @@ const Account = () => {
         <div className={styles.squareContainerCenter}>
           <div className={styles.squareContainerCenter2}>
             <div className={styles.squareContainer}>
-              <div className={styles.square}>
-                <div
-                  className={styles.labelIconSquare}
-                  onClick={() =>
-                    open('https://docs.middlestaking.fr/welcome/presentation')
-                  }
-                >
+              <div
+                className={styles.square}
+                onClick={() =>
+                  open('https://docs.middlestaking.fr/welcome/presentation')
+                }
+              >
+                <div className={styles.labelIconSquare}>
                   <span className={styles.labelSquare}>Docs</span>{' '}
                   <FontAwesomeIcon icon={faArrowRight} />
                 </div>
@@ -92,11 +103,11 @@ const Account = () => {
                   </p>
                 </div>
               </div>
-              <div className={styles.square}>
-                <div
-                  className={styles.labelIconSquare}
-                  onClick={() => open('https://devnet-app.middlestaking.fr/')}
-                >
+              <div
+                className={styles.square}
+                onClick={() => open('https://devnet-app.middlestaking.fr/')}
+              >
+                <div className={styles.labelIconSquare}>
                   <span className={styles.labelSquare}>Devnet</span>{' '}
                   <FontAwesomeIcon icon={faArrowRight} />
                 </div>
@@ -107,11 +118,11 @@ const Account = () => {
                 </div>
               </div>
               <div>
-                <div className={styles.square}>
-                  <div
-                    className={styles.labelIconSquare}
-                    onClick={() => handleNavigate(routeNames.tokenomics)}
-                  >
+                <div
+                  className={styles.square}
+                  onClick={() => handleNavigate(routeNames.tokenomics)}
+                >
+                  <div className={styles.labelIconSquare}>
                     <span className={styles.labelSquare}>Tokenomics</span>{' '}
                     <FontAwesomeIcon icon={faArrowRight} />
                   </div>
@@ -123,11 +134,11 @@ const Account = () => {
                 </div>
               </div>
               <div>
-                <div className={styles.square}>
-                  <div
-                    className={styles.labelIconSquare}
-                    onClick={() => handleNavigate(routeNames.rewards)}
-                  >
+                <div
+                  className={styles.square}
+                  onClick={() => handleNavigate(routeNames.rewards)}
+                >
+                  <div className={styles.labelIconSquare}>
                     <span className={styles.labelSquare}>Rewards</span>{' '}
                     <FontAwesomeIcon icon={faArrowRight} />
                   </div>
@@ -138,28 +149,27 @@ const Account = () => {
                   </div>
                 </div>
               </div>
-              <div>
-                <div className={styles.square}>
+              {network.id === 'devnet' && (
+                <div>
                   <div
-                    className={styles.labelIconSquare}
+                    className={styles.square}
                     onClick={() => handleNavigate(routeNames.faucet)}
                   >
-                    <span className={styles.labelSquare}>Faucet</span>{' '}
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </div>
-                  <div className={styles.InfoSquare}>
-                    <p className={styles.PInfoSquare}>
-                      Redirects to Rewards page
-                    </p>
+                    <div className={styles.labelIconSquare}>
+                      <span className={styles.labelSquare}>Faucet</span>{' '}
+                      <FontAwesomeIcon icon={faArrowRight} />
+                    </div>
+                    <div className={styles.InfoSquare}>
+                      <p className={styles.PInfoSquare}>
+                        Redirects to Rewards page
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
               <div>
-                <div className={styles.square}>
-                  <div
-                    className={styles.labelIconSquare}
-                    onClick={handleLogout}
-                  >
+                <div className={styles.square} onClick={handleLogout}>
+                  <div className={styles.labelIconSquare}>
                     <span className={styles.labelSquare}>Disconnect</span>{' '}
                     <FontAwesomeIcon icon={faArrowRight} />
                   </div>
