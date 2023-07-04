@@ -165,7 +165,7 @@ const Account = () => {
                 </div>
               )}
               <div>
-                <div className={styles.square} onClick={handleLogout}>
+                <div className={styles.squareDisconect} onClick={handleLogout}>
                   <div className={styles.labelIconSquare}>
                     <span className={styles.labelSquare}>Disconnect</span>{' '}
                     <FontAwesomeIcon icon={faArrowRight} />
