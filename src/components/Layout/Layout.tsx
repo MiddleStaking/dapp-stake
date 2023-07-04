@@ -1,13 +1,13 @@
 import React from 'react';
 import { AuthenticatedRoutesWrapper } from '@multiversx/sdk-dapp/wrappers';
 import { useLocation } from 'react-router-dom';
-import { routes, routeNames } from 'routes';
-import BackgroundMobile from './../../assets/img/MobileBackground.svg';
-import BackgroundDekstopTopLeft from './../../assets/img/DekstopTopLeft.svg';
-import BackgroundDekstopBottomRigh from './../../assets/img/DekstopBottomRigh.svg';
+import { useWindowDimensions } from 'components/DimensionScreen';
 import FooterDekstop from 'components/Footer';
 import HeaderDekstop from 'components/Header';
-import { useWindowDimensions } from 'components/DimensionScreen';
+import { routes, routeNames } from 'routes';
+import BackgroundDekstopBottomRigh from './../../assets/img/DekstopBottomRigh.svg';
+import BackgroundDekstopTopLeft from './../../assets/img/DekstopTopLeft.svg';
+import BackgroundMobile from './../../assets/img/MobileBackground.svg';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();

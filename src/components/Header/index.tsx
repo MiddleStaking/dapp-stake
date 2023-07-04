@@ -1,5 +1,6 @@
 // import React, { FC } from 'react';
 import React from 'react';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useNavigate } from 'react-router-dom';
 import LogoText from 'assets/LogoMiddleS';
 import LogoTextMobile from 'assets/LogoMiddleSMobile';
@@ -10,7 +11,6 @@ import { routeNames } from 'routes';
 // import Logo from 'assets/Logo';
 // import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
 // import { ReactComponent as MiddleLogo } from '../../assets/img/ms.svg';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 
 // interface DropdownMenuProps {}
 
