@@ -65,6 +65,22 @@ const Account = () => {
   }, []);
   return (
     <>
+      <WrapModal
+        account={account}
+        balance={balance}
+        onClose={() => {
+          setShowWrap(false);
+        }}
+        show={showWrap}
+      />
+      <UnwrapModal
+        account={account}
+        balance={wegldBalance}
+        onClose={() => {
+          setShowUnwrap(false);
+        }}
+        show={showUnwrap}
+      />
       <div className={styles.container}>
         <div
           style={{
