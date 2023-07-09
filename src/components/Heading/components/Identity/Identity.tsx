@@ -8,17 +8,17 @@ import {
 import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
-import classNames from 'classnames';
-import { Formik, FormikProps } from 'formik';
+// import classNames from 'classnames';
+// import { Formik, FormikProps } from 'formik';
 import { object, string } from 'yup';
 
-import { Submit } from 'components/Action';
+// import { Submit } from 'components/Action';
 import { network } from 'config';
 
 import { useDispatch, useGlobalContext } from 'context';
 import useTransaction from 'helpers/useTransaction';
 
-import styles from './styles.module.scss';
+// import styles from './styles.module.scss';
 
 interface FieldType {
   [key: string]: any;
