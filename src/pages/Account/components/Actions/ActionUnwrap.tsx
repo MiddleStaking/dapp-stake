@@ -3,17 +3,21 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress } from 'config';
 import { Button } from './../../../../components/Design';
 
-export const ActionStake = ({
-  stakedToken,
-  rewardedToken,
-  user_fund,
-  name
-}: any) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+const shard0 = 'erd1qqqqqqqqqqqqqpgqvc7gdl0p4s97guh498wgz75k8sav6sjfjlwqh679jy';
+const shard1 = 'erd1qqqqqqqqqqqqqpgqhe8t5jewej70zupmh44jurgn29psua5l2jps3ntjj3';
+const shard2 = 'erd1qqqqqqqqqqqqqpgqmuk0q2saj0mgutxm4teywre6dl8wqf58xamqdrukln';
+export const ActionUnwrap = ({ user_fund, account }: any) => {
+  let contractAddress = shard0;
+  if (account.shard == 1) {
+    contractAddress = shard1;
+  }
+  if (account.shard == 2) {
+    contractAddress = shard2;
+  }
 
+  const { hasPendingTransactions } = useGetPendingTransactions();
   function bigToHexDec(d: bigint) {
     let result = '';
     result = d.toString(16);
@@ -32,16 +36,13 @@ export const ActionStake = ({
       value: 0,
       data:
         'ESDTTransfer@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
+        Buffer.from('WEGLD-bd4d79', 'utf8').toString('hex') +
         '@' +
         bigToHexDec(BigInt(user_fund)) +
         '@' +
-        Buffer.from('stake', 'utf8').toString('hex') +
-        '@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex'),
-
+        Buffer.from('unwrapEgld', 'utf8').toString('hex'),
       receiver: contractAddress,
-      gasLimit: '5200000'
+      gasLimit: '4200000'
     };
     await refreshAccount();
 
@@ -72,7 +73,7 @@ export const ActionStake = ({
                 buttonWidth='100%'
                 borderRadius={40}
                 background={['#BD37EC', '#1F67FF']}
-                text='Stake tokens'
+                text='Unwrap EGLD'
                 onClick={sendStakeTransaction}
                 disabled={user_fund == 0}
               />

@@ -207,8 +207,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   }
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
-  console.log(orderedTokens);
-  console.log(orderedPairs);
+  // console.log(orderedTokens);
+  // console.log(orderedPairs);
 
   return (
     <div className='center'>
@@ -528,8 +528,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       </div>{' '}
       <div className='col-12'>
         <div className='text-white text-center'>
-          The staking pool listing is permissionless. Anyone can add tokens as a
-          reward. Be sure to do your research before investing in a token.{' '}
+          The staking rewards listing is permissionless. Anyone can add tokens
+          as a reward. Be sure to do your research before investing in a token.{' '}
         </div>
       </div>
     </div>

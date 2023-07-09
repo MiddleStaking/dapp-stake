@@ -52,7 +52,7 @@ const StakeModal = (props: any) => {
     BigInt(60);
 
   function handleTokenAmountChange(value: any) {
-    console.log(Number(value));
+    // console.log(Number(value));
 
     const amount = BigInt(Number(value) * 10 ** sdecimals);
     if (amount < BigInt(0)) {

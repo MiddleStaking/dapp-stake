@@ -118,21 +118,29 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
             </>
           ) : (
             <>
-              <FormatAmount
-                value={balance.toString()}
-                decimals={Number(pdecimals)}
-                egldLabel={' '}
-                data-testid='balance'
-                digits={2}
-              />
-              /{' '}
-              <FormatAmount
-                value={price ? price.toString() : 0}
-                decimals={Number(pdecimals)}
-                egldLabel={payment_esdt_info?.identifier}
-                data-testid='balance'
-                digits={2}
-              />
+              {payment_esdt_info?.identifier ? (
+                <>
+                  {' '}
+                  <FormatAmount
+                    value={balance.toString()}
+                    decimals={Number(pdecimals)}
+                    egldLabel={' '}
+                    data-testid='balance'
+                    digits={2}
+                  />
+                  /{' '}
+                  <FormatAmount
+                    value={price ? price.toString() : 0}
+                    decimals={Number(pdecimals)}
+                    egldLabel={payment_esdt_info?.identifier}
+                    data-testid='balance'
+                    digits={2}
+                  />
+                </>
+              ) : (
+                <>Loading token informations...</>
+              )}
+
               {payment_esdt_info?.price && (
                 <>
                   <br />~{' '}

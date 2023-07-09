@@ -74,6 +74,9 @@ export const useGetESDTInformations = (identifier: string) => {
         baseURL: network.apiAddress,
         params: {}
       });
+      // if (data.data?.identifier != identifier) {
+      //   return;
+      // }
       setEsdtInfo(data);
       //storage of 10 minutes
       const expire = time.getTime() + 1000 * 60 * 10;

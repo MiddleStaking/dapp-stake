@@ -83,7 +83,7 @@ const Options: FC<OptionProps> = ({
     fontFamily: fontFamily
   };
 
-  console.log(borderRadius);
+  //console.log(borderRadius);
 
   return (
     <div
