@@ -1,8 +1,8 @@
 import { RouteType } from '@multiversx/sdk-dapp/types';
 import { dAppName } from 'config';
+import Account from 'pages/Account';
 import { Admin } from 'pages/Admin';
 import Faucet from 'pages/Faucet';
-import Account from 'pages/Account';
 import Rewards from 'pages/Rewards';
 import Rewards2 from 'pages/RewardsV2';
 import Tokenomics from 'pages/Tokenomics';
