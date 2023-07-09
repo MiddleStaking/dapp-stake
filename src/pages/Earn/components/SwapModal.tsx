@@ -169,7 +169,6 @@ const SwapModal = (props: any) => {
       //******* */
       const in_fees =
         (in_amount * BigInt(first_pool.first_fee)) / BigInt(10000);
-      console.log(first_pool.first_token_amount);
       const y_amount =
         k_pool / (BigInt(first_pool.first_token_amount) + in_amount - in_fees);
 

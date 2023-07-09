@@ -194,7 +194,7 @@ const FundModal = (props: any) => {
         <div className='backgroundStakeModal'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
-              <div className='modalLabelStakeModal'>Create new pool</div>
+              <div className='modalLabelStakeModal'>Add staking rewards</div>
               <div className='logosStakeModal'>
                 <div className='logo2StakeModal'>
                   <div className='image_2StakeModal'>
