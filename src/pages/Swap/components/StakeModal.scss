@@ -13,20 +13,6 @@
   color: var(--neutral-white, #fff);
 }
 
-.centerSwapModal {
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  width: 100%;
-  height: 80%;
-  top: 100;
-  left: 0;
-  background-color: transparent;
-  border-radius: 32px;
-  color: var(--neutral-white, #fff);
-}
 .backgroundStakeModal {
   z-index: 100;
   border-radius: 32px;
@@ -41,7 +27,7 @@
 }
 
 .neon-border-stack {
-  z-index: -1; 
+  z-index: -1;
   width: 480px;
   height: 600px;
   position: absolute;
@@ -51,23 +37,18 @@
   right: 10px;
   border-radius: 34px;
   border: 3px solid transparent;
-  background: linear-gradient(
-      179.89deg,
+  background: linear-gradient(179.89deg,
       rgba(73, 84, 246, 1) 0%,
       rgba(92, 228, 249, 1) 30%,
-      rgba(92, 228, 249, 0) 70%
-    )
-    border-box; 
+      rgba(92, 228, 249, 0) 70%) border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box,
     linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; 
-  mask-composite: exclude; 
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 80%,
-    0 80%
-  );
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  clip-path: polygon(0 0,
+      100% 0,
+      100% 80%,
+      0 80%);
 }
 
 @media (max-height: 670px) {
@@ -89,6 +70,7 @@
     max-width: 380px;
     max-height: 650px;
   }
+
   .neon-border-stack {
     min-width: 0px;
     min-height: 0px;
@@ -100,11 +82,9 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  background: linear-gradient(
-      156.86deg,
+  background: linear-gradient(156.86deg,
       rgba(189, 55, 236, 0.26) 12.97%,
-      rgba(31, 103, 255, 0) 71.91%
-    ),
+      rgba(31, 103, 255, 0) 71.91%),
     rgba(99, 74, 203, 0.32);
 
   .modalLabelStakeModal {
@@ -124,8 +104,10 @@
 
   overflow: hidden;
 }
+
 .closeStakeModal {
-  color: #a18fb3; /* Couleur de base du SVG */
+  color: #a18fb3;
+  /* Couleur de base du SVG */
   margin-right: 20px;
   margin-top: 25px;
   position: absolute;
@@ -134,7 +116,8 @@
 }
 
 .closeStakeModal:hover {
-  color: white; /* Couleur du SVG au survol */
+  color: white;
+  /* Couleur du SVG au survol */
   cursor: pointer;
 }
 
@@ -146,6 +129,7 @@
   justify-content: flex-start;
   flex-shrink: 0;
   position: relative;
+
   .image_2StakeModal {
     background: var(--neutral-black, #000000);
     border-radius: 132.6px;
@@ -240,6 +224,7 @@
     justify-content: center;
     width: 100%;
     margin-bottom: 5px;
+
     .LabelDropdoown {
       font: 300 10px '', sans-serif;
       text-transform: uppercase;
@@ -248,8 +233,10 @@
     }
   }
 }
+
 .pool-details_StakeModal {
   width: 100%;
+
   .this-pool-already-exists_StakeModal {
     float: left;
   }
@@ -348,13 +335,16 @@
   display: flex;
   flex: 2;
   flex-direction: column;
+
   .DetailsInfo {
     display: flex;
     justify-content: space-between; // Nouvelle ligne
+
     .LabelDetailsInfo {
       // float: left; // Supprimée
       font: 300 12px '', sans-serif;
     }
+
     .ValueDetailsInfo {
       // float: right; // Supprimée
       font: 600 12px '', sans-serif;
@@ -367,6 +357,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+
   .do-you-want-to-add-it-rewarded-tokens-StakeModal {
     float: left;
   }
@@ -385,26 +376,32 @@
   align-items: center;
   width: 100%;
 }
+
 .bottomGroupeModal {
   margin-top: 15px;
 }
+
 .bottomModal {
   width: 100%;
 }
+
 .AmountRageGroupe {
   display: flex;
   flex-direction: row;
   gap: 15px;
   margin-bottom: 15px;
 }
+
 /* Ajoutez cette partie pour les écrans de moins de 550px */
 @media (max-width: 550px) {
   .dropDownGroupeStakeModal {
     flex-direction: column;
+
     .dropDownStake {
       margin-bottom: 10px;
     }
   }
+
   .InverseArrow {
     margin: 0px 0px 0px 0px;
     transform: rotate(90deg);
@@ -416,12 +413,14 @@
     margin: 29px 0px 0px 0px;
   }
 }
+
 .dropDownArrow {
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 60px;
 }
+
 .dropDownArrow:hover {
   cursor: pointer;
 }
@@ -433,6 +432,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+
   .LabelDropdoown,
   .LabelDropdoownFormatAmount {
     width: 100%;
