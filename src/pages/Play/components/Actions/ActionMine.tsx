@@ -9,8 +9,12 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractPlay } from 'config';
 import { Button } from './../../../../components/Design';
 import { useGetUserESDT } from './../../../../pages/Earn/components/Actions/helpers/useGetUserESDT';
+import { routeNames } from 'routes';
+import { useNavigate } from 'react-router-dom';
 
 export const ActionMine = ({ payment_esdt_info, price }: any) => {
+  const navigate = useNavigate();
+
   const pdecimals = payment_esdt_info?.decimals
     ? payment_esdt_info?.decimals
     : 0;
@@ -162,6 +166,17 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
                 borderColor={['#BD37EC', '#1F67FF']}
                 text={'Low balance'}
                 disabled={true}
+              />
+
+              <Button
+                onClick={() => navigate(routeNames.swap)}
+                buttonWidth=''
+                hasBorder={true}
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                borderColor={['#BD37EC', '#1F67FF']}
+                text={'Swap tokens'}
+                disabled={false}
               />
             </>
           )}

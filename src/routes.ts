@@ -8,7 +8,7 @@ import Rewards2 from 'pages/RewardsV2';
 import Tokenomics from 'pages/Tokenomics';
 import TokenomicsV2 from 'pages/TokenomicstentativeV2';
 import { withPageTitle } from './components/PageTitle';
-import { Dashboard, Home, Statistics, Earn, Fund, Play } from './pages';
+import { Dashboard, Home, Statistics, Earn, Fund, Play, Swap } from './pages';
 
 export const routeNames = {
   home: '/',
@@ -16,6 +16,7 @@ export const routeNames = {
   statistics: '/statistics',
   unlock: '/unlock',
   stake: '/stake',
+  swap: '/swap',
   fund: '/fund',
   faucet: '/faucet',
   account: '/account',
@@ -64,6 +65,12 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.stake,
     title: 'Stake',
     component: Earn,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.swap,
+    title: 'Swap',
+    component: Swap,
     authenticatedRoute: false
   },
   {
