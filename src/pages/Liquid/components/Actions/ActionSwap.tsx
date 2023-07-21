@@ -7,7 +7,6 @@ import { contractAddress, defaultToken } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionSwap = ({
-  isLoggedIn,
   first_token,
   second_token,
   in_token,
@@ -102,7 +101,7 @@ export const ActionSwap = ({
 
   return (
     <>
-      {user_fund !== undefined && isLoggedIn && (
+      {user_fund !== undefined && (
         <>
           {!hasPendingTransactions ? (
             <>

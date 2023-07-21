@@ -308,15 +308,18 @@ export const PoolInfo = ({
     const pooled_final_value = BigInt(
       pooled_initial_value + pooled_reward_value
     );
-    priced_apr = BigInt(
-      (
-        (((Number(pooled_final_value) - Number(pooled_initial_value)) /
-          Number(pooled_initial_value)) *
-          100 *
-          365) /
-        Number(speed)
-      ).toFixed()
-    );
+
+    priced_apr = tokenPosition.paused
+      ? BigInt(0)
+      : BigInt(
+          (
+            (((Number(pooled_final_value) - Number(pooled_initial_value)) /
+              Number(pooled_initial_value)) *
+              100 *
+              365) /
+            Number(speed)
+          ).toFixed()
+        );
   }
 
   localStorage.setItem(
@@ -372,6 +375,7 @@ export const PoolInfo = ({
           userEsdtBalance={userEsdtBalance}
           stakedToken={stakedToken}
           rewardedToken={rewardedToken}
+          tokenPosition={tokenPosition}
           stakingPosition={stakingPosition}
           staked_esdt_info={staked_esdt_info}
           rewarded_esdt_info={rewarded_esdt_info}

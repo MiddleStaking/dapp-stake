@@ -8,6 +8,7 @@ import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { routeNames } from 'routes';
 import { ReactComponent as GitHub } from '../../assets/img/github.svg';
 import { ReactComponent as HeartIcon } from '../../assets/img/heart.svg';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 
 // interface DropdownMenuProps {}
 
@@ -15,6 +16,7 @@ const FooterDekstop: FC<any> = ({}) => {
   const { headerMenu } = useContext(HeaderMenuContext);
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
+  const isLoggedIn = useGetIsLoggedIn();
 
   //   background: linear-gradient(90deg, #2266FF 0%, #1F67FF 100%);
 
@@ -155,14 +157,14 @@ const FooterDekstop: FC<any> = ({}) => {
           ...(firstSegment === routeNames.stake ? backGroundActive : backGround)
         }}
       >
-        <StackingSvg select={firstSegment === routeNames.stake} />
+        <StakingSvg select={firstSegment === routeNames.stake} />
         <p
           style={
             // firstSegment === routeNames.stake ? gradientStyle :
             labelIconStyle
           }
         >
-          Stacking
+          Stake
         </p>
       </div>
       <div
@@ -187,20 +189,20 @@ const FooterDekstop: FC<any> = ({}) => {
       </div>
 
       <div
-        onClick={() => navigate(routeNames.play)}
+        onClick={() => navigate(routeNames.swap)}
         style={{
           ...iconStyle,
-          ...(firstSegment === routeNames.play ? backGroundActive : backGround)
+          ...(firstSegment === routeNames.swap ? backGroundActive : backGround)
         }}
       >
-        <PlayCircleSvg select={firstSegment === routeNames.play} />
+        <SwapCircleSvg select={firstSegment === routeNames.swap} />
         <p
           style={
             // firstSegment === routeNames.play ? gradientStyle :
             labelIconStyle
           }
         >
-          Play
+          Swap
         </p>
       </div>
 
@@ -220,7 +222,7 @@ const FooterDekstop: FC<any> = ({}) => {
             labelIconStyle
           }
         >
-          Account
+          {isLoggedIn ? 'Account' : 'Login'}
         </p>
       </div>
     </div>
@@ -236,7 +238,7 @@ interface SvgProps {
   select: boolean;
 }
 
-const StackingSvg: FC<SvgProps> = () => {
+const StakingSvg: FC<SvgProps> = () => {
   return (
     <svg
       width='24'
@@ -267,9 +269,9 @@ const StackingSvg: FC<SvgProps> = () => {
 const LayoutSvg: FC<SvgProps> = () => {
   return (
     <svg
-      width='25'
+      width='24'
       height='24'
-      viewBox='0 0 25 24'
+      viewBox='0 0 24 24'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
@@ -289,9 +291,9 @@ const LayoutSvg: FC<SvgProps> = () => {
 const PlayCircleSvg: FC<SvgProps> = () => {
   return (
     <svg
-      width='25'
+      width='24'
       height='24'
-      viewBox='0 0 25 24'
+      viewBox='0 0 24 24'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
@@ -308,12 +310,30 @@ const PlayCircleSvg: FC<SvgProps> = () => {
   );
 };
 
+const SwapCircleSvg: FC<SvgProps> = () => {
+  return (
+    <svg
+      version='1.1'
+      xmlns='http://www.w3.org/2000/svg'
+      width='24px'
+      height='24px'
+      viewBox='0,0,256,256'
+    >
+      <g fill='#ffffff' fillRule='nonzero'>
+        <g transform='scale(10.66667,10.66667)'>
+          <path d='M12,2c-2.75258,0 -5.2556,1.12332 -7.06641,2.93359l-1.93359,-1.93359v5h5l-1.6543,-1.6543c1.44833,-1.44973 3.44456,-2.3457 5.6543,-2.3457c4.41948,0 8,3.58052 8,8h2c0,-5.50452 -4.49548,-10 -10,-10zM11.71289,5.59961v1.42773c-0.339,0.043 -2.23633,0.40141 -2.23633,2.69141c0,3.341 3.45898,2.35108 3.45898,4.58008c0,1.116 -0.72214,1.14258 -0.86914,1.14258c-0.134,0 -1.01367,0.07128 -1.01367,-1.63672h-1.89062c0,2.892 2.09816,3.12302 2.41016,3.16602v1.33008h1.00195v-1.33008c0.338,-0.042 2.25,-0.35755 2.25,-2.68555c0,-3.205 -3.45798,-2.59159 -3.45898,-4.55859c0,-1.127 0.61991,-1.16211 0.75391,-1.16211c0.245,0 0.82813,0.21684 0.82813,1.58984h1.89063c0,-2.627 -1.79619,-3.03666 -2.11719,-3.09766v-1.45703zM2,12c0,5.50452 4.49548,10 10,10c2.75258,0 5.2556,-1.12332 7.06641,-2.93359l1.93359,1.93359v-5h-5l1.6543,1.6543c-1.44833,1.44973 -3.44456,2.3457 -5.6543,2.3457c-4.41948,0 -8,-3.58052 -8,-8z'></path>
+        </g>
+      </g>
+    </svg>
+  );
+};
+
 const UserSvg: FC<SvgProps> = () => {
   return (
     <svg
-      width='25'
+      width='24'
       height='24'
-      viewBox='0 0 25 24'
+      viewBox='0 0 24 24'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
