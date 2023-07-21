@@ -385,7 +385,7 @@ const SwapModal = (props: any) => {
                         </div>
                       </div>
                       <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>LP value</div>
+                        <div className='LabelDetailsInfo'>LP value 1</div>
                         <div className='ValueDetailsInfo'>
                           {/* {staked_value.toLocaleString('en-US', {
                             maximumFractionDigits: 2
@@ -399,18 +399,18 @@ const SwapModal = (props: any) => {
                           />{' '}
                         </div>
                       </div>
-                      {/* <div className='DetailsInfo'>
-                      <div className='LabelDetailsInfo'>{'Send'}</div>
-                      <div className='ValueDetailsInfo'>
-                        <FormatAmount
-                          className='label2'
-                          decimals={Number(in_decimals.toString())}
-                          value={inBalance.toString()}
-                          egldLabel={' '}
-                          data-testid='staked'
-                        />
+                      <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>LP value 2</div>
+                        <div className='ValueDetailsInfo'>
+                          <FormatAmount
+                            value={lp_value2.toString()}
+                            decimals={Number(18)}
+                            egldLabel={'$'}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
+                        </div>
                       </div>
-                    </div> */}
                     </div>
                   </div>
                 ) : (
@@ -515,7 +515,13 @@ const SwapModal = (props: any) => {
                           {/* {staked_value.toLocaleString('en-US', {
                             maximumFractionDigits: 2
                           })}{' '} */}
-                          TBD$
+                          <FormatAmount
+                            value={lp_value1.toString()}
+                            decimals={Number(18)}
+                            egldLabel={'$'}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
                         </div>
                       </div>
                       {/* <div className='DetailsInfo'>

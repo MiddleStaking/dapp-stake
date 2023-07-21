@@ -15,7 +15,6 @@ export const PoolStakeInfo = ({
   address,
   stakedToken,
   rewardedToken,
-  tokenPosition,
   stakingPosition,
   staked_esdt_info,
   rewarded_esdt_info,
@@ -96,29 +95,18 @@ export const PoolStakeInfo = ({
               </div>
 
               <div className='buttons'>
-                {tokenPosition.paused == 1 ? (
-                  <Button
-                    borderRadius={40}
-                    background={'#000000'}
-                    borderColor={'black'}
-                    text='Paused'
-                    buttonWidth={'100%'}
-                    disabled={true}
-                  />
-                ) : (
-                  <Button
-                    borderRadius={40}
-                    hasBorder={true}
-                    background={'black'}
-                    borderColor={['#BD37EC', '#1F67FF']}
-                    text={'Stake ' + stakedToken}
-                    buttonWidth={'100%'}
-                    onClick={() => {
-                      setHeaderMenu(false);
-                      setShowStake(true);
-                    }}
-                  />
-                )}
+                <Button
+                  borderRadius={40}
+                  hasBorder={true}
+                  background={'black'}
+                  borderColor={['#BD37EC', '#1F67FF']}
+                  text={'Stake ' + stakedToken}
+                  buttonWidth={'100%'}
+                  onClick={() => {
+                    setHeaderMenu(false);
+                    setShowStake(true);
+                  }}
+                />
               </div>
               {(swapedTokens.includes(stakedToken) ||
                 swapedTokens.includes(rewardedToken)) &&
@@ -186,27 +174,16 @@ export const PoolStakeInfo = ({
               </div>
 
               <div className='buttons'>
-                {tokenPosition.paused == 1 ? (
-                  <Button
-                    borderRadius={40}
-                    background={'#000000'}
-                    borderColor={'black'}
-                    text='Paused'
-                    disabled={true}
-                  />
-                ) : (
-                  <Button
-                    borderRadius={40}
-                    background={'#000000'}
-                    borderColor={'black'}
-                    text='Stake'
-                    onClick={() => {
-                      setHeaderMenu(false);
-                      setShowStake(true);
-                    }}
-                  />
-                )}
-
+                <Button
+                  borderRadius={40}
+                  background={'#000000'}
+                  borderColor={'black'}
+                  text='Stake'
+                  onClick={() => {
+                    setHeaderMenu(false);
+                    setShowStake(true);
+                  }}
+                />
                 <Button
                   borderRadius={40}
                   background={'#000000'}

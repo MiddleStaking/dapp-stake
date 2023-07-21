@@ -122,8 +122,8 @@ const HeaderDesktop = () => {
             />
             <Button
               {...defaultButtonProps}
-              text='Play'
-              onClick={() => handleNavigate(routeNames.play)}
+              text='Swap'
+              onClick={() => handleNavigate(routeNames.swap)}
             />
             <Button
               boxShadow='0px 0px 44px 0px #8E44EB80 inset'

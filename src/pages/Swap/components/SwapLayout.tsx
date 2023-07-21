@@ -15,6 +15,7 @@ import Input from 'components/Design/Input';
 import { Button } from './../../../components/Design';
 import { ActionSwap } from './Actions';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 
 export const SwapLayout = ({ children }: React.PropsWithChildren) => {
   const [first_token, setFirstToken] = React.useState('WEGLD-bd4d79');
@@ -27,15 +28,18 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
+
   let out_amount = BigInt(0);
   let out_fees = BigInt(0);
   let price_impact = 0;
   let dual_price_impact = 0;
 
+  const isLoggedIn = useGetIsLoggedIn();
   const userEsdtBalance = useGetUserESDT();
   const swapedTokens: string[] = useGetSwapedTokens();
   const in_esdt_info = useGetESDTInformations(in_token);
   const out_esdt_info = useGetESDTInformations(out_token);
+  const def_esdt_info = useGetESDTInformations(defaultToken);
 
   const first_image = in_esdt_info?.assets?.svgUrl
     ? in_esdt_info?.assets?.svgUrl
@@ -106,7 +110,7 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
-    } else if (amount > inBalance) {
+    } else if (amount > inBalance && isLoggedIn) {
       setTokenAmount(
         Number(BigInt(inBalance)) / Number(BigInt(10 ** in_decimals))
       );
@@ -118,7 +122,8 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
       setBigAmount(BigInt(output));
     }
     const percentage = Number(
-      (BigInt(amount) * BigInt(100)) / BigInt(inBalance)
+      (BigInt(amount) * BigInt(100)) /
+        BigInt(inBalance ? inBalance : amount ? amount : 1)
     );
     setRangeValue(range > 0 ? range : percentage);
   }
@@ -284,6 +289,17 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
 
   const percentage = rangeValue / 100;
 
+  const first_amount = firstPoolPosition.first_token_amount
+    ? Number(firstPoolPosition.first_token_amount)
+    : Number(1);
+  const second_amount = secondPoolPosition.first_token_amount
+    ? Number(secondPoolPosition.first_token_amount)
+    : Number(1);
+  const price = def_esdt_info.price
+    ? Number(def_esdt_info.price) * 2
+    : Number(1);
+  const lp_value1 = first_amount * price;
+  const lp_value2 = second_amount * price;
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
   setHeaderMenu(true);
   return (
@@ -393,7 +409,13 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                           {/* {staked_value.toLocaleString('en-US', {
                             maximumFractionDigits: 2
                           })}{' '} */}
-                          TBD$
+                          <FormatAmount
+                            value={lp_value1.toString()}
+                            decimals={Number(18)}
+                            egldLabel={'$'}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
                         </div>
                       </div>
                       {/* <div className='DetailsInfo'>
@@ -507,26 +529,32 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                         </div>
                       </div>
                       <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>LP value</div>
+                        <div className='LabelDetailsInfo'>LP value 1</div>
                         <div className='ValueDetailsInfo'>
                           {/* {staked_value.toLocaleString('en-US', {
                             maximumFractionDigits: 2
                           })}{' '} */}
-                          TBD$
+                          <FormatAmount
+                            value={lp_value1.toString()}
+                            decimals={Number(18)}
+                            egldLabel={'$'}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
                         </div>
                       </div>
-                      {/* <div className='DetailsInfo'>
-                      <div className='LabelDetailsInfo'>{'Send'}</div>
-                      <div className='ValueDetailsInfo'>
-                        <FormatAmount
-                          className='label2'
-                          decimals={Number(in_decimals.toString())}
-                          value={inBalance.toString()}
-                          egldLabel={' '}
-                          data-testid='staked'
-                        />
+                      <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>LP value 2</div>
+                        <div className='ValueDetailsInfo'>
+                          <FormatAmount
+                            value={lp_value2.toString()}
+                            decimals={Number(18)}
+                            egldLabel={'$'}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
+                        </div>
                       </div>
-                    </div> */}
                     </div>
                   </div>
                 )}
@@ -724,6 +752,7 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
               <div className='bottomGroupeModal'>
                 <div className='bottomModal'>
                   <ActionSwap
+                    isLoggedIn={isLoggedIn}
                     first_token={
                       in_token == defaultToken
                         ? in_token

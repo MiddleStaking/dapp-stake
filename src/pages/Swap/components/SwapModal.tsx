@@ -18,6 +18,7 @@ const SwapModal = (props: any) => {
   const [second_token, setSecondToken] = React.useState(props.second_token);
   const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
   const [second_pool, setSecondPool] = React.useState(props.secondPoolPosition);
+  const def_esdt_info = useGetESDTInformations(defaultToken);
 
   React.useEffect(() => {
     setFirstPool(props.firstPoolPosition);
@@ -271,7 +272,17 @@ const SwapModal = (props: any) => {
   }
 
   const percentage = rangeValue / 100;
-
+  const first_amount = first_pool.first_token_amount
+    ? Number(first_pool.first_token_amount)
+    : Number(1);
+  const second_amount = second_pool.first_token_amount
+    ? Number(second_pool.first_token_amount)
+    : Number(1);
+  const price = def_esdt_info.price
+    ? Number(def_esdt_info.price) * 2
+    : Number(1);
+  const lp_value1 = first_amount * price;
+  const lp_value2 = second_amount * price;
   return (
     <>
       <div className='centerStakeModal'>
@@ -377,7 +388,13 @@ const SwapModal = (props: any) => {
                           {/* {staked_value.toLocaleString('en-US', {
                             maximumFractionDigits: 2
                           })}{' '} */}
-                          TBD$
+                          <FormatAmount
+                            value={lp_value1.toString()}
+                            decimals={Number(18)}
+                            egldLabel={'$'}
+                            data-testid='balance'
+                            digits={2}
+                          />
                         </div>
                       </div>
                       {/* <div className='DetailsInfo'>
@@ -496,7 +513,13 @@ const SwapModal = (props: any) => {
                           {/* {staked_value.toLocaleString('en-US', {
                             maximumFractionDigits: 2
                           })}{' '} */}
-                          TBD$
+                          <FormatAmount
+                            value={lp_value1.toString()}
+                            decimals={Number(18)}
+                            egldLabel={'$'}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
                         </div>
                       </div>
                       {/* <div className='DetailsInfo'>
