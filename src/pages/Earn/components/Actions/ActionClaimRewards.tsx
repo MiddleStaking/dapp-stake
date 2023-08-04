@@ -26,7 +26,7 @@ export const ActionClaimRewards = ({
         '@' +
         Buffer.from(rewardedToken, 'utf8').toString('hex'),
       receiver: contractAddress,
-      gasLimit: '4100000'
+      gasLimit: '5000000'
     };
     await refreshAccount();
 

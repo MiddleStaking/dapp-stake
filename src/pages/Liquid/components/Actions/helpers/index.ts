@@ -8,3 +8,4 @@ export * from './useGetESDTCompute';
 export * from './useGetIsPaused';
 export * from './useGetPoolPosition';
 export * from './useGetSwapedTokens';
+export * from './useGetPoolLpIdentifier';

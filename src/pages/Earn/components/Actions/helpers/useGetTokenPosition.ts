@@ -4,7 +4,7 @@ import {
   ResultsParser,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { network } from 'config';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
 import { smartContract } from './smartContract';
@@ -12,7 +12,6 @@ import { smartContract } from './smartContract';
 const resultsParser = new ResultsParser();
 
 export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
-  const { network } = useGetNetworkConfig();
   const [tokenPosition, setTokenPosition] = useState({
     stakedToken: '',
     rewardedToken: '',
@@ -74,9 +73,7 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
       //const proxy = new ProxyNetworkProvider(network.gatewayAddress);
 
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(
-        'https://api.middlestaking.fr/' + network.id
-      );
+      const proxy = new ProxyNetworkProvider(network.gatewayCached);
 
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getTokenPosition');

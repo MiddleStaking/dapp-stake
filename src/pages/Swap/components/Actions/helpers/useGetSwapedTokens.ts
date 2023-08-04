@@ -4,11 +4,11 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { smartContract } from './smartContract';
 import { defaultToken } from 'config';
-
+import { network } from 'config';
 const resultsParser = new ResultsParser();
 
 export const useGetSwapedTokens = () => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const [swapedTokens, setSwapedTokens] = useState<string[]>([]);
   const time = new Date();
 
@@ -27,9 +27,7 @@ export const useGetSwapedTokens = () => {
         func: new ContractFunction('getSwapedTokens')
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(
-        'https://api.middlestaking.fr/' + network.id
-      );
+      const proxy = new ProxyNetworkProvider(network.gatewayCached);
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getSwapedTokens');
       const { firstValue: tokens } = resultsParser.parseQueryResponse(
