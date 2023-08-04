@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import SwapModal from './../SwapModal';
 import { Button } from './../../../../components/Design';
 import { useGetPoolPosition } from '../Actions/helpers';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
@@ -35,21 +34,6 @@ export const PoolSwapInfo = ({
 
   return (
     <>
-      <SwapModal
-        userEsdtBalance={userEsdtBalance}
-        firstPoolPosition={firstPoolPosition}
-        secondPoolPosition={secondPoolPosition}
-        first_token={stakedToken}
-        second_token={rewardedToken}
-        in_token={stakedToken}
-        out_token={rewardedToken}
-        onClose={() => {
-          setHeaderMenu(true), setShowStake(false);
-        }}
-        show={showStake}
-        isDual={isDual}
-      />
-
       {address && firstPoolPosition.first_token_amount > 100 && (
         <>
           <Button

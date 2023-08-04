@@ -3,120 +3,104 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import './StakeModal.scss';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetESDTInformations } from './Actions/helpers';
-import { ActionSwap } from './Actions';
+import { ActionLiquid } from './Actions';
 import { Button } from './../../../components/Design';
-import { defaultToken } from 'config';
 import DropdownMenu from 'components/Design/DropdownMenu';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
 import Input from 'components/Design/Input';
-
-const SwapModal = (props: any) => {
-  const userEsdtBalance = props.userEsdtBalance;
-  const [first_token, setFirstToken] = React.useState(props.first_token);
-  const [second_token, setSecondToken] = React.useState(props.second_token);
+const LiquidModal = (props: any) => {
+  const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
+  const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
+  const [second_token, setSecondToken] = React.useState(props.second_esdt_info);
   const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
-  const [second_pool, setSecondPool] = React.useState(props.secondPoolPosition);
-  const def_esdt_info = useGetESDTInformations(defaultToken);
+  //const [lp_token, setLpToken] = React.useState('');
 
   React.useEffect(() => {
+    setUserBalance(props.userEsdtBalance);
+  }, [props.userEsdtBalance]);
+  React.useEffect(() => {
     setFirstPool(props.firstPoolPosition);
-    setSecondPool(props.secondPoolPosition);
-  }, [props.firstPoolPosition, props.secondPoolPosition]);
+  }, [props.firstPoolPosition]);
+  React.useEffect(() => {
+    setFirstToken(props.first_esdt_info);
+    props.second_esdt_info;
+  }, [props.first_esdt_info]);
+  React.useEffect(() => {
+    setSecondToken(props.second_esdt_info);
+  }, [props.second_esdt_info]);
 
-  const [in_token, setInToken] = React.useState(props.in_token);
-  const [out_token, setOutToken] = React.useState(props.out_token);
-
-  const [inBalance, setInBalance] = React.useState(BigInt(0));
-  const [outBalance, setOutBalance] = React.useState(BigInt(0));
+  const [firstBalance, setFirstBalance] = React.useState(BigInt(0));
+  const [secondBalance, setSecondBalance] = React.useState(BigInt(0));
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
-  const [bigAmount, setBigAmount] = React.useState(BigInt(0));
+  const [firstBig, setFirstBig] = React.useState(BigInt(0));
+  const [secondBig, setSecondBig] = React.useState(BigInt(0));
 
-  let out_amount = BigInt(0);
-  let out_fees = BigInt(0);
-  let price_impact = 0;
-
-  const in_balance = userEsdtBalance.find(
-    (item: any) => item.identifier === in_token
-  );
-  const out_balance = userEsdtBalance.find(
-    (item: any) => item.identifier === out_token
-  );
   useEffect(() => {
-    setInBalance(in_balance?.balance ? in_balance?.balance : BigInt(0));
-    setOutBalance(out_balance?.balance ? out_balance?.balance : BigInt(0));
-  }, [in_token, in_balance]);
+    const first_balance = user_balance.find(
+      (item: any) => item.identifier === first_token.identifier
+    );
+    const second_balance = user_balance.find(
+      (item: any) => item.identifier === second_token.identifier
+    );
+    setFirstBalance(
+      first_balance?.balance ? first_balance?.balance : BigInt(0)
+    );
+    setSecondBalance(
+      second_balance?.balance ? second_balance?.balance : BigInt(0)
+    );
+  }, [props.first_esdt_info, props.second_esdt_info, user_balance]);
 
-  const first_esdt_info = useGetESDTInformations(first_token);
-  const second_esdt_info = useGetESDTInformations(second_token);
-  const in_esdt_info = useGetESDTInformations(in_token);
-  const out_esdt_info = useGetESDTInformations(out_token);
+  const first_decimals = first_token?.decimals ? first_token?.decimals : 0;
+  const second_decimals = second_token?.decimals ? second_token?.decimals : 0;
 
-  const first_decimals = first_esdt_info?.decimals
-    ? first_esdt_info?.decimals
-    : 0;
-  const second_decimals = second_esdt_info?.decimals
-    ? second_esdt_info?.decimals
-    : 0;
-  const in_decimals = in_esdt_info?.decimals ? in_esdt_info?.decimals : 0;
-  const out_decimals = out_esdt_info?.decimals ? out_esdt_info?.decimals : 0;
-
-  const first_image = first_esdt_info?.assets?.svgUrl
-    ? first_esdt_info?.assets?.svgUrl
+  const first_image = first_token?.assets?.svgUrl
+    ? first_token?.assets?.svgUrl
     : notFound;
-  const second_image = second_esdt_info?.assets?.svgUrl
-    ? second_esdt_info?.assets?.svgUrl
+  const second_image = second_token?.assets?.svgUrl
+    ? second_token?.assets?.svgUrl
     : notFound;
+
+  const taux =
+    (BigInt(first_pool.second_token_amount) * BigInt(1000000000)) /
+    BigInt(first_pool.first_token_amount);
+  const second_amount = Number(
+    (BigInt(firstBig) * BigInt(taux)) / BigInt(1000000000)
+  );
 
   function handleTokenAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** in_decimals);
-    let range = 0;
+    const amount = BigInt(Number(value) * 10 ** first_decimals);
+    const second_amount = (BigInt(amount) * BigInt(taux)) / BigInt(1000000000);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
-      setBigAmount(BigInt(0));
-    } else if (amount > inBalance) {
-      setTokenAmount(
-        Number(BigInt(inBalance)) / Number(BigInt(10 ** in_decimals))
-      );
-      setBigAmount(inBalance);
-      range = 100;
+      setFirstBig(BigInt(0));
+      setSecondBig(BigInt(0));
     } else {
       setTokenAmount(Number(value));
-      const output = toBigAmount(Number(value), Number(in_decimals));
-      setBigAmount(BigInt(output));
+      const output = toBigAmount(Number(value), Number(first_decimals));
+      setFirstBig(BigInt(output));
+      setSecondBig(second_amount);
     }
-    const percentage = Number(
-      (BigInt(amount) * BigInt(100)) / BigInt(inBalance)
-    );
-    setRangeValue(range > 0 ? range : percentage);
+    const percentage =
+      firstBalance > 0
+        ? Number((BigInt(amount) * BigInt(100)) / BigInt(firstBalance))
+        : 0;
+    setRangeValue(percentage);
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (inBalance > BigInt(0)) {
+    if (firstBalance > BigInt(0)) {
       setRangeValue(e.target.value);
       const percentage = Number(e.target.value).toFixed();
       const big_amount = BigInt(
-        (BigInt(inBalance) * BigInt(percentage)) / BigInt(100)
+        (BigInt(firstBalance) * BigInt(percentage)) / BigInt(100)
       );
       setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** in_decimals))
+        Number(BigInt(big_amount)) / Number(BigInt(10 ** first_decimals))
       );
-      setBigAmount(big_amount);
+      setFirstBig(big_amount);
     } else {
       setRangeValue(0);
     }
-  }
-
-  function inverse() {
-    const first = in_token;
-    const second = out_token;
-    setInToken(second);
-    setOutToken(first);
-    setTokenAmount(0);
-    setBigAmount(BigInt(0));
-    setRangeValue(0);
   }
 
   function toBigAmount(invalue: number, indec: number) {
@@ -149,141 +133,22 @@ const SwapModal = (props: any) => {
 
   function setToMax() {
     setTokenAmount(
-      Number(BigInt(inBalance)) / Number(BigInt(10 ** in_decimals))
+      Number(BigInt(firstBalance)) / Number(BigInt(10 ** first_decimals))
     );
-    setBigAmount(inBalance);
+    setFirstBig(firstBalance);
     setRangeValue(100);
   }
-
-  //Si la pool a été créé mais qu'il n'y a pas de LP
-  if (first_pool.first_token_amount == 0) {
-    return <></>;
-  }
-  if (first_token == defaultToken || second_token == defaultToken) {
-    //Simple Swap
-    const k_pool =
-      BigInt(first_pool.first_token_amount) *
-      BigInt(first_pool.second_token_amount);
-    const in_amount = BigInt(bigAmount);
-
-    if (first_token == in_token) {
-      //******* */
-      const in_fees =
-        (in_amount * BigInt(first_pool.first_fee)) / BigInt(10000);
-      const y_amount =
-        k_pool / (BigInt(first_pool.first_token_amount) + in_amount - in_fees);
-
-      out_amount = BigInt(first_pool.second_token_amount) - y_amount;
-      out_fees =
-        (out_amount * BigInt(10000)) /
-        BigInt(first_pool.second_fee) /
-        BigInt(10000);
-
-      price_impact =
-        (Number(in_amount.toString()) /
-          first_pool.first_token_amount.toString()) *
-        100;
-    } else {
-      //******* */
-      const in_fees =
-        (in_amount * BigInt(first_pool.first_fee)) / BigInt(10000);
-      const x_amount =
-        k_pool / (BigInt(first_pool.second_token_amount) + in_amount - in_fees);
-
-      out_amount = BigInt(first_pool.first_token_amount) - x_amount;
-      out_fees =
-        (out_amount * BigInt(10000)) /
-        BigInt(first_pool.second_fee) /
-        BigInt(10000);
-
-      price_impact =
-        (Number(in_amount.toString()) /
-          first_pool.second_token_amount.toString()) *
-        100;
-    }
-  } else {
-    //Dual Swap
-
-    const first_k_pool =
-      BigInt(second_pool.first_token_amount) *
-      BigInt(second_pool.second_token_amount);
-    const second_k_pool =
-      BigInt(first_pool.first_token_amount) *
-      BigInt(first_pool.second_token_amount);
-    const in_amount = BigInt(bigAmount);
-
-    if (first_token == in_token) {
-      //******* */
-      const in_fees =
-        (in_amount * BigInt(second_pool.first_fee)) / BigInt(10000);
-      const first_x_amount =
-        first_k_pool /
-        (BigInt(second_pool.second_token_amount) + in_amount - in_fees);
-      const first_out_amount =
-        BigInt(second_pool.first_token_amount) - first_x_amount;
-
-      const second_y_amount =
-        second_k_pool /
-        (BigInt(first_pool.first_token_amount) + first_out_amount);
-      out_amount = BigInt(first_pool.second_token_amount) - second_y_amount;
-
-      out_fees =
-        (out_amount * BigInt(10000)) /
-        BigInt(first_pool.second_fee) /
-        BigInt(10000);
-
-      price_impact =
-        (Number(in_amount.toString()) /
-          first_pool.first_token_amount.toString()) *
-        100;
-    } else {
-      //******* */
-      const in_fees =
-        (in_amount * BigInt(first_pool.first_fee)) / BigInt(10000);
-      const first_x_amount =
-        second_k_pool /
-        (BigInt(first_pool.second_token_amount) + in_amount - in_fees);
-      const first_out_amount =
-        BigInt(first_pool.first_token_amount) - first_x_amount;
-
-      const second_y_amount =
-        first_k_pool /
-        (BigInt(second_pool.first_token_amount) + first_out_amount);
-      out_amount = BigInt(second_pool.second_token_amount) - second_y_amount;
-
-      out_fees =
-        (out_amount * BigInt(10000)) /
-        BigInt(second_pool.second_fee) /
-        BigInt(10000);
-
-      price_impact =
-        (Number(in_amount.toString()) /
-          second_pool.first_token_amount.toString()) *
-        100;
-    }
-  }
-
-  //Slippage :
-  const min_out = ((out_amount - out_fees) * BigInt(99)) / BigInt(100);
-  //console.log('in_stake : ' + in_stake + ' out_mid : ' + out_mid);
 
   if (!props.show) {
     return null;
   }
 
   const percentage = rangeValue / 100;
-
   const first_amount = first_pool.first_token_amount
     ? Number(first_pool.first_token_amount)
     : Number(1);
-  const second_amount = second_pool.first_token_amount
-    ? Number(second_pool.first_token_amount)
-    : Number(1);
-  const price = def_esdt_info.price
-    ? Number(def_esdt_info.price) * 2
-    : Number(1);
+  const price = first_token?.price ? Number(first_token.price) * 2 : Number(1);
   const lp_value1 = first_amount * price;
-  const lp_value2 = second_amount * price;
 
   return (
     <>
@@ -291,7 +156,7 @@ const SwapModal = (props: any) => {
         <div className='backgroundStakeModal'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
-              <div className='modalLabelStakeModal'>Swap tokens</div>
+              <div className='modalLabelStakeModal'>Add liquidity</div>
 
               <div className='logosStakeModal'>
                 <div className='logo2StakeModal'>
@@ -335,7 +200,9 @@ const SwapModal = (props: any) => {
                     </div>
                     <div className='PoolDetails_StakeModal'>
                       <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>{first_token}</div>
+                        <div className='LabelDetailsInfo'>
+                          {first_token.identifier}
+                        </div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={first_pool.first_token_amount.toString()}
@@ -347,7 +214,9 @@ const SwapModal = (props: any) => {
                         </div>
                       </div>
                       <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>{second_token}</div>
+                        <div className='LabelDetailsInfo'>
+                          {second_token.identifier}
+                        </div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={first_pool.second_token_amount.toString()}
@@ -385,7 +254,7 @@ const SwapModal = (props: any) => {
                         </div>
                       </div>
                       <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>LP value 1</div>
+                        <div className='LabelDetailsInfo'>LP value</div>
                         <div className='ValueDetailsInfo'>
                           {/* {staked_value.toLocaleString('en-US', {
                             maximumFractionDigits: 2
@@ -396,21 +265,21 @@ const SwapModal = (props: any) => {
                             egldLabel={'$'}
                             data-testid='balance'
                             digits={2}
-                          />{' '}
+                          />
                         </div>
                       </div>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>LP value 2</div>
-                        <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={lp_value2.toString()}
-                            decimals={Number(18)}
-                            egldLabel={'$'}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                        </div>
+                      {/* <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>{'Send'}</div>
+                      <div className='ValueDetailsInfo'>
+                        <FormatAmount
+                          className='label2'
+                          decimals={Number(in_decimals.toString())}
+                          value={inBalance.toString()}
+                          egldLabel={' '}
+                          data-testid='staked'
+                        />
                       </div>
+                    </div> */}
                     </div>
                   </div>
                 ) : (
@@ -439,31 +308,12 @@ const SwapModal = (props: any) => {
                     <div className='PoolDetails_StakeModal'>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>
-                          {defaultToken.split('-')[0]} :{' '}
-                          {first_token.split('-')[0]}
-                        </div>
-                        <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={second_pool.first_token_amount.toString()}
-                            decimals={Number(first_decimals)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                          :{' '}
-                          <FormatAmount
-                            value={second_pool.second_token_amount.toString()}
-                            decimals={Number(first_decimals)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />
+                          {first_token.identifier.split('-')[0]} :{' '}
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>
-                          {defaultToken.split('-')[0]} :{' '}
-                          {second_token.split('-')[0]}
+                          {second_token.identifier.split('-')[0]}
                         </div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
@@ -547,8 +397,8 @@ const SwapModal = (props: any) => {
                     <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
-                        decimals={Number(in_decimals.toString())}
-                        value={inBalance.toString()}
+                        decimals={Number(first_decimals.toString())}
+                        value={firstBalance.toString()}
                         egldLabel={' '}
                         data-testid='staked'
                       />
@@ -564,32 +414,28 @@ const SwapModal = (props: any) => {
                     hasBorder={true}
                     borderColor='#695885'
                     borderRadiusOptions='5px'
-                    options={[{ text: in_token, value: in_token }]}
-                    defaultValue={in_token}
+                    options={[
+                      {
+                        text: first_token.identifier,
+                        value: first_token.identifier
+                      }
+                    ]}
+                    defaultValue={first_token.identifier}
                     disableOption={true}
                     onSelect={function (value: any): void {
                       throw new Error('Function not implemented.');
                     }}
                   />
                 </div>
-                <div className='dropDownArrow' onClick={inverse}>
-                  <div className='InverseArrow'>
-                    <FontAwesomeIcon
-                      icon={faArrowsLeftRight}
-                      style={{
-                        fontSize: '20px'
-                      }}
-                    />
-                  </div>
-                </div>
+
                 <div className='dropDownEarn'>
                   <div className='GroupeLabelDropdoownFormatAmount'>
-                    <div className='LabelDropdoown'>Receive</div>
+                    <div className='LabelDropdoown'>Send</div>
                     <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
-                        decimals={Number(out_decimals.toString())}
-                        value={outBalance.toString()}
+                        decimals={Number(second_decimals.toString())}
+                        value={secondBalance.toString()}
                         egldLabel={' '}
                         data-testid='staked'
                       />
@@ -605,8 +451,13 @@ const SwapModal = (props: any) => {
                     hasBorder={true}
                     borderRadiusOptions='5px'
                     borderColor='#695885'
-                    options={[{ text: out_token, value: out_token }]}
-                    defaultValue={out_token}
+                    options={[
+                      {
+                        text: second_token.identifier,
+                        value: second_token.identifier
+                      }
+                    ]}
+                    defaultValue={second_token.identifier}
                     disableOption={true}
                     onSelect={function (value: any): void {
                       throw new Error('Function not implemented.');
@@ -654,9 +505,6 @@ const SwapModal = (props: any) => {
                   {/* </div> */}
                   <div className='label6'>{rangeValue}%</div>
                 </div>
-                <div className='label6'>
-                  price_impact {price_impact.toString()}
-                </div>
               </div>
 
               <div className='AmountInputGroupe'>
@@ -692,8 +540,8 @@ const SwapModal = (props: any) => {
                     borderColor='rgb(105, 88, 133)'
                     disabled={true}
                     value={(
-                      Number(out_amount - out_fees) /
-                      10 ** out_decimals
+                      Number(second_amount) /
+                      10 ** second_decimals
                     ).toString()}
                     type='number'
                     placeholder={'number'}
@@ -702,8 +550,8 @@ const SwapModal = (props: any) => {
                 </div>{' '}
                 <FormatAmount
                   className='label2'
-                  decimals={Number(out_decimals.toString())}
-                  value={min_out.toString()}
+                  decimals={Number(second_decimals.toString())}
+                  value={second_amount.toString()}
                   egldLabel={' '}
                   data-testid='staked'
                 />
@@ -721,13 +569,13 @@ const SwapModal = (props: any) => {
                   />
                 </div>
                 <div className='bottomModal'>
-                  <ActionSwap
-                    first_token={first_token}
-                    second_token={second_token}
-                    in_token={in_token}
-                    user_fund={bigAmount}
-                    min_out={min_out}
-                    price_impact={price_impact}
+                  <ActionLiquid
+                    first_token={first_token.identifier}
+                    second_token={second_token.identifier}
+                    first_amount={firstBig}
+                    second_amount={secondBig}
+                    first_balance={firstBalance}
+                    second_balance={secondBalance}
                   />
                 </div>
               </div>
@@ -750,4 +598,4 @@ const SwapModal = (props: any) => {
     </>
   );
 };
-export default SwapModal;
+export default LiquidModal;

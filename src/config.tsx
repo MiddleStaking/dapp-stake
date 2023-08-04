@@ -49,9 +49,21 @@ export const network: NetworkType = {
   walletAddress: 'https://wallet.multiversx.com/dapp/init',
   apiAddress: 'https://api.multiversx.com',
   gatewayAddress: 'https://gateway.multiversx.com',
+  gatewayCached: 'https://api.middlestaking.fr/mainnet',
   explorerAddress: 'http://explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };
+// export const network: NetworkType = {
+//   id: 'mainnet',
+//   name: 'Mainnet',
+//   egldLabel: 'EGLD',
+//   walletAddress: 'https://wallet.multiversx.com/dapp/init',
+//   apiAddress: 'https://mvx-api.e-compass.io',
+//   gatewayAddress: 'https://mvx-proxy.e-compass.io',
+//   gatewayCached: 'https://mvx-proxy.e-compass.io',
+//   explorerAddress: 'http://explorer.multiversx.com',
+//   delegationContract: contractAddressDelegation
+// };
 export const defaultPairs = [
   { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
   { s: 'MID-ecb7bf', r: 'MEX-455c57' },
@@ -62,7 +74,6 @@ export const defaultPairs = [
 ];
 
 //GLOBAL :
-
 export const stakingContract =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 
@@ -108,6 +119,7 @@ interface NetworkType {
   walletAddress: string;
   apiAddress: string;
   gatewayAddress: string;
+  gatewayCached: string;
   explorerAddress: string;
   delegationContract: string;
 }

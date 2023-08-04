@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { smartContract } from './smartContract';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetStakedTokens = () => {
-  const { network } = useGetNetworkConfig();
   const [stakedTokens, setStakedTokens] = useState<string[]>([]);
   const time = new Date();
 
@@ -26,9 +25,7 @@ export const useGetStakedTokens = () => {
         func: new ContractFunction('getStakedTokens')
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(
-        'https://api.middlestaking.fr/' + network.id
-      );
+      const proxy = new ProxyNetworkProvider(network.gatewayCached);
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getStakedTokens');
       const { firstValue: tokens } = resultsParser.parseQueryResponse(

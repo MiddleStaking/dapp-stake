@@ -7,9 +7,7 @@ import {
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-
 import { smartContract } from './smartContract';
 import { network } from 'config';
 
@@ -21,7 +19,6 @@ export const useGetStakingPositionRewards = (
   stake_amount: bigint,
   hasPendingTransactions: boolean
 ) => {
-  // const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const [rewardsAmount, setRewardsAmount] = useState<bigint>(BigInt(0));
   const [time, setTime] = useState(new Date());

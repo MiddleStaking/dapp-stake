@@ -116,7 +116,7 @@ export const Cards = () => {
     });
 
     try {
-      const provider = new ProxyNetworkProvider(network.apiAddress);
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getNumUsers')

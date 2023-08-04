@@ -305,19 +305,14 @@ export const PoolInfo = ({
       );
     }
 
-    const pooled_final_value = BigInt(
-      pooled_initial_value + pooled_reward_value
-    );
-
     priced_apr = tokenPosition.paused
       ? BigInt(0)
       : BigInt(
           (
-            (((Number(pooled_final_value) - Number(pooled_initial_value)) /
-              Number(pooled_initial_value)) *
+            ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
               100 *
               365) /
-            Number(speed)
+            Number(speed ? speed : 1)
           ).toFixed()
         );
   }

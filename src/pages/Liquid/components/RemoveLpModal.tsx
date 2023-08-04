@@ -1,131 +1,106 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { defaultToken } from 'config';
-import { useGetSwapedTokens } from './Actions/helpers';
-import { useGetESDTInformations } from './Actions/helpers';
-import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import './../../../assets/Modal.css';
+import './StakeModal.scss';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { useGetPoolPosition } from './Actions/helpers';
-import DropdownMenu from 'components/Design/DropdownMenu';
-import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
-import Input from 'components/Design/Input';
+import { ActionLiquid } from './Actions';
 import { Button } from './../../../components/Design';
-import { ActionSwap } from './Actions';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import DropdownMenu from 'components/Design/DropdownMenu';
+import Input from 'components/Design/Input';
+const RemoveLPModal = (props: any) => {
+  const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
+  const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
+  const [second_token, setSecondToken] = React.useState(props.second_esdt_info);
+  const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
+  //const [lp_token, setLpToken] = React.useState('');
 
-export const SwapLayout = ({ children }: React.PropsWithChildren) => {
-  const [first_token, setFirstToken] = React.useState('WEGLD-bd4d79');
-  const [second_token, setSecondToken] = React.useState(defaultToken);
-  const { hasPendingTransactions } = useGetPendingTransactions();
-  const [inBalance, setInBalance] = React.useState(BigInt(0));
-  const [outBalance, setOutBalance] = React.useState(BigInt(0));
-  const [in_token, setInToken] = React.useState(first_token);
-  const [out_token, setOutToken] = React.useState(second_token);
+  React.useEffect(() => {
+    setUserBalance(props.userEsdtBalance);
+  }, [props.userEsdtBalance]);
+  React.useEffect(() => {
+    setFirstPool(props.firstPoolPosition);
+  }, [props.firstPoolPosition]);
+  React.useEffect(() => {
+    setFirstToken(props.first_esdt_info);
+    props.second_esdt_info;
+  }, [props.first_esdt_info]);
+  React.useEffect(() => {
+    setSecondToken(props.second_esdt_info);
+  }, [props.second_esdt_info]);
+
+  const [firstBalance, setFirstBalance] = React.useState(BigInt(0));
+  const [secondBalance, setSecondBalance] = React.useState(BigInt(0));
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
-  const [bigAmount, setBigAmount] = React.useState(BigInt(0));
+  const [firstBig, setFirstBig] = React.useState(BigInt(0));
+  const [secondBig, setSecondBig] = React.useState(BigInt(0));
 
-  let out_amount = BigInt(0);
-  let out_fees = BigInt(0);
-  let price_impact = 0;
-  let dual_price_impact = 0;
-
-  const isLoggedIn = useGetIsLoggedIn();
-  const userEsdtBalance = useGetUserESDT();
-  const swapedTokens: string[] = useGetSwapedTokens();
-  const in_esdt_info = useGetESDTInformations(in_token);
-  const out_esdt_info = useGetESDTInformations(out_token);
-  const def_esdt_info = useGetESDTInformations(defaultToken);
-
-  const first_image = in_esdt_info?.assets?.svgUrl
-    ? in_esdt_info?.assets?.svgUrl
-    : notFound;
-  const second_image = out_esdt_info?.assets?.svgUrl
-    ? out_esdt_info?.assets?.svgUrl
-    : notFound;
-
-  let isDual = false;
-  if (in_token != defaultToken && out_token != defaultToken) {
-    isDual = true;
-  }
-
-  const firstPoolPosition = useGetPoolPosition(
-    defaultToken,
-    in_token == defaultToken ? out_token : in_token,
-    true,
-    hasPendingTransactions,
-    true
-  );
-  const secondPoolPosition = useGetPoolPosition(
-    defaultToken,
-    out_token,
-    true,
-    hasPendingTransactions,
-    isDual
-  );
-
-  const first_decimals = in_esdt_info?.decimals ? in_esdt_info?.decimals : 0;
-  const second_decimals = out_esdt_info?.decimals ? out_esdt_info?.decimals : 0;
-
-  const in_balance = userEsdtBalance.find(
-    (item: any) => item.identifier === in_token
-  );
-  const out_balance = userEsdtBalance.find(
-    (item: any) => item.identifier === out_token
-  );
   useEffect(() => {
-    setInBalance(in_balance?.balance ? in_balance?.balance : BigInt(0));
-    setOutBalance(out_balance?.balance ? out_balance?.balance : BigInt(0));
-    if (in_token == out_token) {
-      setInToken('WEGLD-bd4d79');
-      setOutToken(defaultToken);
-    }
-  }, [in_token, out_token, userEsdtBalance]);
-
-  function inverse() {
-    const first = in_token;
-    const second = out_token;
-    setInToken(second);
-    setOutToken(first);
-    setTokenAmount(0);
-    setBigAmount(BigInt(0));
-    setRangeValue(0);
-  }
-  function setToMax() {
-    setTokenAmount(
-      Number(BigInt(inBalance)) / Number(BigInt(10 ** in_decimals))
+    const first_balance = user_balance.find(
+      (item: any) => item.identifier === first_token.identifier
     );
-    setBigAmount(inBalance);
-    setRangeValue(100);
-  }
-  const in_decimals = in_esdt_info?.decimals ? in_esdt_info?.decimals : 0;
-  const out_decimals = out_esdt_info?.decimals ? out_esdt_info?.decimals : 0;
+    const second_balance = user_balance.find(
+      (item: any) => item.identifier === second_token.identifier
+    );
+    setFirstBalance(
+      first_balance?.balance ? first_balance?.balance : BigInt(0)
+    );
+    setSecondBalance(
+      second_balance?.balance ? second_balance?.balance : BigInt(0)
+    );
+  }, [props.first_esdt_info, props.second_esdt_info, user_balance]);
+
+  const first_decimals = first_token?.decimals ? first_token?.decimals : 0;
+  const second_decimals = second_token?.decimals ? second_token?.decimals : 0;
+
+  const first_image = first_token?.assets?.svgUrl
+    ? first_token?.assets?.svgUrl
+    : notFound;
+  const second_image = second_token?.assets?.svgUrl
+    ? second_token?.assets?.svgUrl
+    : notFound;
+
+  const taux =
+    (BigInt(first_pool.second_token_amount) * BigInt(1000000000)) /
+    BigInt(first_pool.first_token_amount);
+  const second_amount = Number(
+    (BigInt(firstBig) * BigInt(taux)) / BigInt(1000000000)
+  );
+
   function handleTokenAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** in_decimals);
-    let range = 0;
+    const amount = BigInt(Number(value) * 10 ** first_decimals);
+    const second_amount = (BigInt(amount) * BigInt(taux)) / BigInt(1000000000);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
-      setBigAmount(BigInt(0));
-    } else if (amount > inBalance && isLoggedIn) {
-      setTokenAmount(
-        Number(BigInt(inBalance)) / Number(BigInt(10 ** in_decimals))
-      );
-      setBigAmount(inBalance);
-      range = 100;
+      setFirstBig(BigInt(0));
+      setSecondBig(BigInt(0));
     } else {
       setTokenAmount(Number(value));
-      const output = toBigAmount(Number(value), Number(in_decimals));
-      setBigAmount(BigInt(output));
+      const output = toBigAmount(Number(value), Number(first_decimals));
+      setFirstBig(BigInt(output));
+      setSecondBig(second_amount);
     }
-    const percentage = Number(
-      (BigInt(amount) * BigInt(100)) /
-        BigInt(inBalance ? inBalance : amount ? amount : 1)
-    );
-    setRangeValue(range > 0 ? range : percentage);
+    const percentage =
+      firstBalance > 0
+        ? Number((BigInt(amount) * BigInt(100)) / BigInt(firstBalance))
+        : 0;
+    setRangeValue(percentage);
+  }
+
+  function handleRangeValueChange(e: React.ChangeEvent<any>) {
+    if (firstBalance > BigInt(0)) {
+      setRangeValue(e.target.value);
+      const percentage = Number(e.target.value).toFixed();
+      const big_amount = BigInt(
+        (BigInt(firstBalance) * BigInt(percentage)) / BigInt(100)
+      );
+      setTokenAmount(
+        Number(BigInt(big_amount)) / Number(BigInt(10 ** first_decimals))
+      );
+      setFirstBig(big_amount);
+    } else {
+      setRangeValue(0);
+    }
   }
 
   function toBigAmount(invalue: number, indec: number) {
@@ -155,156 +130,29 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
     }
     return output;
   }
-  function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (inBalance > BigInt(0)) {
-      setRangeValue(e.target.value);
-      const percentage = Number(e.target.value).toFixed();
-      const big_amount = BigInt(
-        (BigInt(inBalance) * BigInt(percentage)) / BigInt(100)
-      );
-      setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** in_decimals))
-      );
-      setBigAmount(big_amount);
-    } else {
-      setRangeValue(0);
-    }
-  }
-  if (in_token == defaultToken || out_token == defaultToken) {
-    //Simple Swap
-    const k_pool =
-      BigInt(firstPoolPosition.first_token_amount) *
-      BigInt(firstPoolPosition.second_token_amount);
-    const in_amount = BigInt(bigAmount);
 
-    if (defaultToken == in_token) {
-      //******* */
-      const in_fees =
-        (in_amount * BigInt(firstPoolPosition.first_fee)) / BigInt(10000);
-      const y_amount =
-        k_pool /
-        (BigInt(firstPoolPosition.first_token_amount) + in_amount - in_fees);
-
-      out_amount = BigInt(firstPoolPosition.second_token_amount) - y_amount;
-      out_fees =
-        (out_amount * BigInt(10000)) /
-        BigInt(firstPoolPosition.second_fee) /
-        BigInt(10000);
-
-      price_impact =
-        (Number(in_amount.toString()) /
-          Number(firstPoolPosition.first_token_amount.toString())) *
-        100;
-    } else {
-      //******* */
-      const in_fees =
-        (in_amount * BigInt(firstPoolPosition.first_fee)) / BigInt(10000);
-      const x_amount =
-        k_pool /
-        (BigInt(firstPoolPosition.second_token_amount) + in_amount - in_fees);
-
-      out_amount = BigInt(firstPoolPosition.first_token_amount) - x_amount;
-      out_fees =
-        (out_amount * BigInt(10000)) /
-        BigInt(firstPoolPosition.second_fee) /
-        BigInt(10000);
-
-      price_impact =
-        (Number(in_amount.toString()) /
-          Number(firstPoolPosition.second_token_amount.toString())) *
-        100;
-    }
-  } else {
-    //Dual Swap
-
-    const first_k_pool =
-      BigInt(secondPoolPosition.first_token_amount) *
-      BigInt(secondPoolPosition.second_token_amount);
-    const second_k_pool =
-      BigInt(firstPoolPosition.first_token_amount) *
-      BigInt(firstPoolPosition.second_token_amount);
-    const in_amount = BigInt(bigAmount);
-
-    // if (first_token == in_token) {
-    //******* */
-    // const in_fees =
-    //   (in_amount * BigInt(secondPoolPosition.first_fee)) / BigInt(10000);
-    // const first_x_amount =
-    //   first_k_pool /
-    //   (BigInt(secondPoolPosition.second_token_amount) + in_amount - in_fees);
-    // const first_out_amount =
-    //   BigInt(secondPoolPosition.first_token_amount) - first_x_amount;
-
-    // const second_y_amount =
-    //   second_k_pool /
-    //   (BigInt(firstPoolPosition.first_token_amount) + first_out_amount);
-    // out_amount =
-    //   BigInt(firstPoolPosition.second_token_amount) - second_y_amount;
-
-    // out_fees =
-    //   (out_amount * BigInt(10000)) /
-    //   BigInt(firstPoolPosition.second_fee) /
-    //   BigInt(10000);
-
-    // price_impact =
-    //   (Number(in_amount.toString()) /
-    //     Number(firstPoolPosition.first_token_amount.toString())) *
-    //   100;
-    // } else {
-    //******* */
-    const in_fees =
-      (in_amount * BigInt(firstPoolPosition.first_fee)) / BigInt(10000);
-    const first_x_amount =
-      second_k_pool /
-      (BigInt(firstPoolPosition.second_token_amount) + in_amount - in_fees);
-    const first_out_amount =
-      BigInt(firstPoolPosition.first_token_amount) - first_x_amount;
-
-    price_impact =
-      (Number(in_amount.toString()) /
-        Number(firstPoolPosition.second_token_amount.toString())) *
-      100;
-    const second_y_amount =
-      first_k_pool /
-      (BigInt(secondPoolPosition.first_token_amount) + first_out_amount);
-    out_amount =
-      BigInt(secondPoolPosition.second_token_amount) - second_y_amount;
-
-    out_fees =
-      (out_amount * BigInt(10000)) /
-      BigInt(secondPoolPosition.second_fee) /
-      BigInt(10000);
-
-    dual_price_impact =
-      (Number(first_out_amount.toString()) /
-        Number(secondPoolPosition.first_token_amount.toString())) *
-      100;
-
-    // }
+  function setToMax() {
+    setTokenAmount(
+      Number(BigInt(firstBalance)) / Number(BigInt(10 ** first_decimals))
+    );
+    setFirstBig(firstBalance);
+    setRangeValue(100);
   }
 
-  //Slippage :
-  const min_out = ((out_amount - out_fees) * BigInt(99)) / BigInt(100);
-  //console.log('in_stake : ' + in_stake + ' out_mid : ' + out_mid);
+  if (!props.show) {
+    return null;
+  }
 
   const percentage = rangeValue / 100;
-
-  const first_amount = firstPoolPosition.first_token_amount
-    ? Number(firstPoolPosition.first_token_amount)
+  const first_amount = first_pool.first_token_amount
+    ? Number(first_pool.first_token_amount)
     : Number(1);
-  const second_amount = secondPoolPosition.first_token_amount
-    ? Number(secondPoolPosition.first_token_amount)
-    : Number(1);
-  const price = def_esdt_info?.price
-    ? Number(def_esdt_info.price) * 2
-    : Number(1);
+  const price = first_token?.price ? Number(first_token.price) * 2 : Number(1);
   const lp_value1 = first_amount * price;
-  const lp_value2 = second_amount * price;
-  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
-  setHeaderMenu(true);
+
   return (
-    <div className='center'>
-      <div className='centerSwapModal'>
+    <>
+      <div className='centerStakeModal'>
         <div className='backgroundStakeModal'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
@@ -327,7 +175,7 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                 <div className='this-pool-already-exists_StakeModal'>
                   Pool informations
                 </div>
-                {!isDual ? (
+                {!props.isDual ? (
                   <div className='GroupeDetails_StakeModal'>
                     <div className='LogosDetails_StakeModal'>
                       <div className='logosStakeModal'>
@@ -335,7 +183,7 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                           <div className='image_2StakeModal'>
                             <img
                               className='img_2StakeModal'
-                              src={second_image}
+                              src={first_image}
                             />
                           </div>
                         </div>
@@ -344,7 +192,7 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                           <div className='image_1StakeModal'>
                             <img
                               className='img_1StakeModal'
-                              src={first_image}
+                              src={second_image}
                             />
                           </div>
                         </div>
@@ -352,10 +200,12 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                     </div>
                     <div className='PoolDetails_StakeModal'>
                       <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>{defaultToken}</div>
+                        <div className='LabelDetailsInfo'>
+                          {first_token.identifier}
+                        </div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
-                            value={firstPoolPosition.first_token_amount.toString()}
+                            value={first_pool.first_token_amount.toString()}
                             decimals={Number(first_decimals)}
                             egldLabel={' '}
                             data-testid='balance'
@@ -365,11 +215,11 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>
-                          {in_token == defaultToken ? out_token : in_token}
+                          {second_token.identifier}
                         </div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
-                            value={firstPoolPosition.second_token_amount.toString()}
+                            value={first_pool.second_token_amount.toString()}
                             decimals={Number(second_decimals)}
                             egldLabel={' '}
                             data-testid='balance'
@@ -381,7 +231,7 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                         <div className='LabelDetailsInfo'>in_fee</div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
-                            value={firstPoolPosition.first_fee.toString()}
+                            value={first_pool.first_fee.toString()}
                             decimals={Number(2)}
                             egldLabel={' '}
                             data-testid='balance'
@@ -394,7 +244,113 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                         <div className='LabelDetailsInfo'>out_fee</div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
-                            value={firstPoolPosition.second_fee.toString()}
+                            value={first_pool.second_fee.toString()}
+                            decimals={Number(2)}
+                            egldLabel={' '}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
+                          %
+                        </div>
+                      </div>
+                      <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>LP value</div>
+                        <div className='ValueDetailsInfo'>
+                          {/* {staked_value.toLocaleString('en-US', {
+                            maximumFractionDigits: 2
+                          })}{' '} */}
+                          <FormatAmount
+                            value={lp_value1.toString()}
+                            decimals={Number(18)}
+                            egldLabel={'$'}
+                            data-testid='balance'
+                            digits={2}
+                          />
+                        </div>
+                      </div>
+                      {/* <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>{'Send'}</div>
+                      <div className='ValueDetailsInfo'>
+                        <FormatAmount
+                          className='label2'
+                          decimals={Number(in_decimals.toString())}
+                          value={inBalance.toString()}
+                          egldLabel={' '}
+                          data-testid='staked'
+                        />
+                      </div>
+                    </div> */}
+                    </div>
+                  </div>
+                ) : (
+                  <div className='GroupeDetails_StakeModal'>
+                    <div className='LogosDetails_StakeModal'>
+                      <div className='logosStakeModal'>
+                        <div className='logo2StakeModal'>
+                          <div className='image_2StakeModal'>
+                            <img
+                              className='img_2StakeModal'
+                              src={first_image}
+                            />
+                          </div>
+                        </div>
+
+                        <div className='logo1StakeModal'>
+                          <div className='image_1StakeModal'>
+                            <img
+                              className='img_1StakeModal'
+                              src={second_image}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='PoolDetails_StakeModal'>
+                      <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>
+                          {first_token.identifier.split('-')[0]} :{' '}
+                        </div>
+                      </div>
+                      <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>
+                          {second_token.identifier.split('-')[0]}
+                        </div>
+                        <div className='ValueDetailsInfo'>
+                          <FormatAmount
+                            value={first_pool.first_token_amount.toString()}
+                            decimals={Number(first_decimals)}
+                            egldLabel={' '}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
+                          :{' '}
+                          <FormatAmount
+                            value={first_pool.second_token_amount.toString()}
+                            decimals={Number(second_decimals)}
+                            egldLabel={' '}
+                            data-testid='balance'
+                            digits={2}
+                          />
+                        </div>
+                      </div>
+                      <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>in_fee</div>
+                        <div className='ValueDetailsInfo'>
+                          <FormatAmount
+                            value={first_pool.first_fee.toString()}
+                            decimals={Number(2)}
+                            egldLabel={' '}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
+                          %
+                        </div>
+                      </div>
+                      <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>out_fee</div>
+                        <div className='ValueDetailsInfo'>
+                          <FormatAmount
+                            value={first_pool.second_fee.toString()}
                             decimals={Number(2)}
                             egldLabel={' '}
                             data-testid='balance'
@@ -432,131 +388,6 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                     </div> */}
                     </div>
                   </div>
-                ) : (
-                  <div className='GroupeDetails_StakeModal'>
-                    <div className='LogosDetails_StakeModal'>
-                      <div className='logosStakeModal'>
-                        <div className='logo2StakeModal'>
-                          <div className='image_2StakeModal'>
-                            <img
-                              className='img_2StakeModal'
-                              src={second_image}
-                            />
-                          </div>
-                        </div>
-
-                        <div className='logo1StakeModal'>
-                          <div className='image_1StakeModal'>
-                            <img
-                              className='img_1StakeModal'
-                              src={first_image}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className='PoolDetails_StakeModal'>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>
-                          {defaultToken.split('-')[0]} :{' '}
-                          {in_token.split('-')[0]}
-                        </div>
-                        <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={firstPoolPosition.first_token_amount.toString()}
-                            decimals={Number(18)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                          :{' '}
-                          <FormatAmount
-                            value={firstPoolPosition.second_token_amount.toString()}
-                            decimals={Number(first_decimals)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />
-                        </div>
-                      </div>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>
-                          {defaultToken.split('-')[0]} :{' '}
-                          {out_token.split('-')[0]}
-                        </div>
-                        <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={secondPoolPosition.first_token_amount.toString()}
-                            decimals={Number(18)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                          :{' '}
-                          <FormatAmount
-                            value={secondPoolPosition.second_token_amount.toString()}
-                            decimals={Number(second_decimals)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />
-                        </div>
-                      </div>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>in_fee</div>
-                        <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={firstPoolPosition.first_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                          %
-                        </div>
-                      </div>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>out_fee</div>
-                        <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={firstPoolPosition.second_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                          %
-                        </div>
-                      </div>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>LP value 1</div>
-                        <div className='ValueDetailsInfo'>
-                          {/* {staked_value.toLocaleString('en-US', {
-                            maximumFractionDigits: 2
-                          })}{' '} */}
-                          <FormatAmount
-                            value={lp_value1.toString()}
-                            decimals={Number(18)}
-                            egldLabel={'$'}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                        </div>
-                      </div>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>LP value 2</div>
-                        <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={lp_value2.toString()}
-                            decimals={Number(18)}
-                            egldLabel={'$'}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 )}
               </div>
               <div className='dropDownGroupeStakeModal'>
@@ -567,7 +398,7 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                       <FormatAmount
                         className='label2'
                         decimals={Number(first_decimals.toString())}
-                        value={inBalance.toString()}
+                        value={firstBalance.toString()}
                         egldLabel={' '}
                         data-testid='staked'
                       />
@@ -583,39 +414,28 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                     hasBorder={true}
                     borderColor='#695885'
                     borderRadiusOptions='5px'
-                    options={
-                      swapedTokens
-                        ? swapedTokens.map((item: any) => ({
-                            text: item,
-                            value: item
-                          }))
-                        : [{ text: in_token, value: in_token }]
-                    }
-                    defaultValue={in_token}
-                    disableOption={false}
+                    options={[
+                      {
+                        text: first_token.identifier,
+                        value: first_token.identifier
+                      }
+                    ]}
+                    defaultValue={first_token.identifier}
+                    disableOption={true}
                     onSelect={function (value: any): void {
-                      setInToken(value);
+                      throw new Error('Function not implemented.');
                     }}
                   />
                 </div>
-                <div className='dropDownArrow' onClick={inverse}>
-                  <div className='InverseArrow'>
-                    <FontAwesomeIcon
-                      icon={faArrowsLeftRight}
-                      style={{
-                        fontSize: '20px'
-                      }}
-                    />
-                  </div>
-                </div>
+
                 <div className='dropDownEarn'>
                   <div className='GroupeLabelDropdoownFormatAmount'>
-                    <div className='LabelDropdoown'>Receive</div>
+                    <div className='LabelDropdoown'>Send</div>
                     <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
-                        decimals={Number(out_decimals.toString())}
-                        value={outBalance.toString()}
+                        decimals={Number(second_decimals.toString())}
+                        value={secondBalance.toString()}
                         egldLabel={' '}
                         data-testid='staked'
                       />
@@ -631,18 +451,16 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                     hasBorder={true}
                     borderRadiusOptions='5px'
                     borderColor='#695885'
-                    options={
-                      swapedTokens
-                        ? swapedTokens.map((item: any) => ({
-                            text: item,
-                            value: item
-                          }))
-                        : [{ text: out_token, value: out_token }]
-                    }
-                    defaultValue={out_token}
-                    disableOption={false}
+                    options={[
+                      {
+                        text: second_token.identifier,
+                        value: second_token.identifier
+                      }
+                    ]}
+                    defaultValue={second_token.identifier}
+                    disableOption={true}
                     onSelect={function (value: any): void {
-                      setOutToken(value);
+                      throw new Error('Function not implemented.');
                     }}
                   />
                 </div>
@@ -687,17 +505,6 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                   {/* </div> */}
                   <div className='label6'>{rangeValue}%</div>
                 </div>
-                {!isDual ? (
-                  <div className='label6'>
-                    price_impact {price_impact.toString()}
-                  </div>
-                ) : (
-                  <div className='label6'>
-                    price_impact 1 {price_impact.toString()}
-                    <br />
-                    price_impact 2 {dual_price_impact.toString()}
-                  </div>
-                )}
               </div>
 
               <div className='AmountInputGroupe'>
@@ -733,8 +540,8 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                     borderColor='rgb(105, 88, 133)'
                     disabled={true}
                     value={(
-                      Number(out_amount - out_fees) /
-                      10 ** out_decimals
+                      Number(second_amount) /
+                      10 ** second_decimals
                     ).toString()}
                     type='number'
                     placeholder={'number'}
@@ -743,42 +550,52 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                 </div>{' '}
                 <FormatAmount
                   className='label2'
-                  decimals={Number(out_decimals.toString())}
-                  value={min_out.toString()}
+                  decimals={Number(second_decimals.toString())}
+                  value={second_amount.toString()}
                   egldLabel={' '}
                   data-testid='staked'
                 />
               </div>
-              <div className='bottomGroupeModal'>
+              <div className='bottomGroupeModal' onClick={props.onClose}>
                 <div className='bottomModal'>
-                  <ActionSwap
-                    isLoggedIn={isLoggedIn}
-                    first_token={
-                      in_token == defaultToken
-                        ? in_token
-                        : out_token == defaultToken
-                        ? out_token
-                        : in_token
-                    }
-                    second_token={
-                      out_token == defaultToken ? in_token : out_token
-                    }
-                    in_token={in_token}
-                    user_fund={bigAmount}
-                    min_out={min_out}
-                    price_impact={
-                      price_impact > dual_price_impact
-                        ? price_impact
-                        : dual_price_impact
-                    }
+                  <Button
+                    buttonWidth='100%'
+                    hasBorder={true}
+                    borderRadius={40}
+                    background={'black'}
+                    borderColor={['#BD37EC', '#1F67FF']}
+                    text='Cancel'
+                    onClick={props.onClose}
+                  />
+                </div>
+                <div className='bottomModal'>
+                  <ActionLiquid
+                    first_token={first_token.identifier}
+                    second_token={second_token.identifier}
+                    first_amount={firstBig}
+                    second_amount={secondBig}
+                    first_balance={firstBalance}
+                    second_balance={secondBalance}
                   />
                 </div>
               </div>
             </div>
+            <svg
+              className='closeStakeModal'
+              onClick={props.onClose}
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              fill='currentColor'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path d='M13.4099 12.0002L17.7099 7.71019C17.8982 7.52188 18.004 7.26649 18.004 7.00019C18.004 6.73388 17.8982 6.47849 17.7099 6.29019C17.5216 6.10188 17.2662 5.99609 16.9999 5.99609C16.7336 5.99609 16.4782 6.10188 16.2899 6.29019L11.9999 10.5902L7.70994 6.29019C7.52164 6.10188 7.26624 5.99609 6.99994 5.99609C6.73364 5.99609 6.47824 6.10188 6.28994 6.29019C6.10164 6.47849 5.99585 6.73388 5.99585 7.00019C5.99585 7.26649 6.10164 7.52188 6.28994 7.71019L10.5899 12.0002L6.28994 16.2902C6.19621 16.3831 6.12182 16.4937 6.07105 16.6156C6.02028 16.7375 5.99414 16.8682 5.99414 17.0002C5.99414 17.1322 6.02028 17.2629 6.07105 17.3848C6.12182 17.5066 6.19621 17.6172 6.28994 17.7102C6.3829 17.8039 6.4935 17.8783 6.61536 17.9291C6.73722 17.9798 6.86793 18.006 6.99994 18.006C7.13195 18.006 7.26266 17.9798 7.38452 17.9291C7.50638 17.8783 7.61698 17.8039 7.70994 17.7102L11.9999 13.4102L16.2899 17.7102C16.3829 17.8039 16.4935 17.8783 16.6154 17.9291C16.7372 17.9798 16.8679 18.006 16.9999 18.006C17.132 18.006 17.2627 17.9798 17.3845 17.9291C17.5064 17.8783 17.617 17.8039 17.7099 17.7102C17.8037 17.6172 17.8781 17.5066 17.9288 17.3848C17.9796 17.2629 18.0057 17.1322 18.0057 17.0002C18.0057 16.8682 17.9796 16.7375 17.9288 16.6156C17.8781 16.4937 17.8037 16.3831 17.7099 16.2902L13.4099 12.0002Z' />
+            </svg>
             <div className='neon-border-stack'></div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
+export default RemoveLPModal;

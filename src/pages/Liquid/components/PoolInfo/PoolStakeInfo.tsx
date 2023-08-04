@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 import { defaultToken } from 'config';
 import { routeNames } from 'routes';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import StakeModal from './../StakeModal';
-import UnstakeModal from './../UnstakeModal';
-import { ActionClaimRewards, ActionStakeRewards } from './../Actions';
 import { Button } from './../../../../components/Design';
 import { PoolSwapInfo } from './../PoolInfo/PoolSwapInfo';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
@@ -40,31 +37,6 @@ export const PoolStakeInfo = ({
 
   return (
     <>
-      <StakeModal
-        userEsdtBalance={userEsdtBalance}
-        rewardedToken={rewardedToken}
-        stakedToken={stakedToken}
-        balance={balance}
-        decimals={sdecimals}
-        onClose={() => {
-          setHeaderMenu(true), setShowStake(false);
-        }}
-        show={showStake}
-        image1={image1}
-        image2={image2}
-      />
-      <UnstakeModal
-        userEsdtBalance={userEsdtBalance}
-        rewardedToken={rewardedToken}
-        stakedToken={stakedToken}
-        balance={stakingPosition.stake_amount}
-        decimals={sdecimals}
-        onClose={() => {
-          setHeaderMenu(true), setShowUnstake(false);
-        }}
-        show={showUnstake}
-      />
-
       {!address ? (
         <div className='my-stake-section3 '>
           <Link
@@ -547,18 +519,6 @@ export const PoolStakeInfo = ({
               </defs>
             </svg>
           </div>
-          <ActionClaimRewards
-            stakedToken={stakedToken}
-            rewardedToken={rewardedToken}
-            rewardsAmount={stakingPositionRewards}
-          />{' '}
-          {stakedToken == rewardedToken && (
-            <ActionStakeRewards
-              stakedToken={stakedToken}
-              rewardedToken={rewardedToken}
-              rewardsAmount={stakingPositionRewards}
-            />
-          )}
         </div>
       )}
       {canBeStaked && (
