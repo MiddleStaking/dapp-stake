@@ -106,16 +106,9 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
   const out_decimals = out_esdt_info?.decimals ? out_esdt_info?.decimals : 0;
   function handleTokenAmountChange(value: any) {
     const amount = BigInt(Number(value) * 10 ** in_decimals);
-    let range = 0;
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
-    } else if (amount > inBalance && isLoggedIn) {
-      setTokenAmount(
-        Number(BigInt(inBalance)) / Number(BigInt(10 ** in_decimals))
-      );
-      setBigAmount(inBalance);
-      range = 100;
     } else {
       setTokenAmount(Number(value));
       const output = toBigAmount(Number(value), Number(in_decimals));
@@ -125,7 +118,7 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
       (BigInt(amount) * BigInt(100)) /
         BigInt(inBalance ? inBalance : amount ? amount : 1)
     );
-    setRangeValue(range > 0 ? range : percentage);
+    setRangeValue(percentage);
   }
 
   function toBigAmount(invalue: number, indec: number) {
