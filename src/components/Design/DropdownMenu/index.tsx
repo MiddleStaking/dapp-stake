@@ -286,7 +286,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
         <div
           style={{
             marginTop: '10px',
-            position: 'fixed',
+            position: 'absolute',
             overflow: 'auto',
             maxHeight: OptonsCrollHeight,
             borderRadius: `${borderRadiusOptions}px`,

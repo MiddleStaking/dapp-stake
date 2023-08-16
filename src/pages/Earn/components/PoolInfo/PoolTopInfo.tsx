@@ -42,7 +42,10 @@ export const PoolTopInfo = ({
               <div className='_14'>
                 {tokenPosition.paused == 1
                   ? 'Paused'
-                  : pool_apr.toString() + ' %'}
+                  : pool_apr > 0
+                  ? pool_apr.toString() + ' %'
+                  : ''}
+                {pool_apr == 0 && 'N/A'}
               </div>
             </div>
           </div>

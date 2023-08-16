@@ -11,7 +11,6 @@ import {
   useGetStakingPosition,
   useGetStakingPositionRewards
 } from './Actions/helpers';
-import { PoolTopInfo } from './PoolInfo/PoolTopInfo';
 import { PoolStakeInfo } from './PoolInfo/PoolStakeInfo';
 import { defaultToken } from 'config';
 import { useGetPoolPosition } from './Actions/helpers';

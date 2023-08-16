@@ -289,14 +289,18 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                 >
                   {stakedTokens &&
                     stakedTokens.map((item) => (
-                      <option
-                        className=''
-                        disabled={false}
-                        key={item}
-                        value={item}
-                      >
-                        {item}
-                      </option>
+                      <>
+                        {item != 'MIDUSDC-3d93f4' && (
+                          <option
+                            className=''
+                            disabled={false}
+                            key={item}
+                            value={item}
+                          >
+                            {item}
+                          </option>
+                        )}
+                      </>
                     ))}
                 </Form.Control>
               </div>

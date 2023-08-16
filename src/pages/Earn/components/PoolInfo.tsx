@@ -147,27 +147,6 @@ export const PoolInfo = ({
       </Popover.Body>
     </Popover>
   );
-
-  const aprPopover = (
-    <Popover id='popover-basic'>
-      <Popover.Header as='h3'>APR (calulated)</Popover.Header>
-      <Popover.Body>
-        This is an estimation of the APR based on the Total staked and token
-        left in the reward pool. <br />
-        It does not take in count the value of each token (one is not priced)
-      </Popover.Body>
-    </Popover>
-  );
-  const pricedAprPopover = (
-    <Popover id='popover-basic'>
-      <Popover.Header as='h3'>APR (calulated)</Popover.Header>
-      <Popover.Body>
-        This is an estimation of the APR based on the Total staked and token
-        left in the reward pool. <br />
-        Using the price of both tokens
-      </Popover.Body>
-    </Popover>
-  );
   const allTimeRewardsPopover = (
     <Popover id='popover-basic'>
       <Popover.Header as='h3'>All time rewarded</Popover.Header>
@@ -250,13 +229,9 @@ export const PoolInfo = ({
         : 1
     );
 
-    const final_value = BigInt(initial_value + reward_value);
     priced_apr = BigInt(
       (
-        (((Number(final_value) - Number(initial_value)) /
-          Number(initial_value)) *
-          100 *
-          365) /
+        ((Number(reward_value) / Number(initial_value)) * 100 * 365) /
         Number(speed)
       ).toFixed()
     );
@@ -276,9 +251,13 @@ export const PoolInfo = ({
     firstPoolPosition.first_token_amount > 1 &&
     !isDual
   ) {
-    const first_pooled_price = BigInt(100000);
+    console.log('CALC ' + rewardedToken);
+
+    //fake mid price
+    const first_pooled_price = BigInt(10000000000000);
+    //second token value
     const second_pooled_price = BigInt(
-      (BigInt(firstPoolPosition.first_token_amount) * BigInt(100000)) /
+      (BigInt(firstPoolPosition.first_token_amount) * BigInt(10000000000000)) /
         BigInt(firstPoolPosition.second_token_amount)
     );
 
@@ -287,11 +266,16 @@ export const PoolInfo = ({
         ? first_pooled_price * BigInt(tokenPosition.total_stake)
         : 1
     );
+    console.log(pooled_initial_value);
+
     let pooled_reward_value = BigInt(
       second_pooled_price > 0 && BigInt(tokenPosition.balance)
         ? second_pooled_price * BigInt(tokenPosition.balance)
         : 1
     );
+    console.log(pooled_reward_value);
+
+    //Si mid en second on inverse
     if (rewardedToken == defaultToken) {
       pooled_initial_value = BigInt(
         first_pooled_price > 0 && BigInt(tokenPosition.balance)
@@ -305,16 +289,27 @@ export const PoolInfo = ({
       );
     }
 
-    priced_apr = tokenPosition.paused
-      ? BigInt(0)
-      : BigInt(
-          (
-            ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
-              100 *
-              365) /
-            Number(speed ? speed : 1)
-          ).toFixed()
-        );
+    priced_apr = BigInt(
+      (
+        ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
+          100 *
+          365) /
+        Number(speed)
+      ).toFixed()
+    );
+
+    // priced_apr = tokenPosition.paused
+    //   ? BigInt(0)
+    //   : BigInt(
+    //       (
+    //         ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
+    //           100 *
+    //           365) /
+    //         Number(speed ? speed : 1)
+    //       ).toFixed()
+    //     );
+    console.log(pooled_reward_value);
+    console.log(pooled_initial_value);
   }
 
   localStorage.setItem(
