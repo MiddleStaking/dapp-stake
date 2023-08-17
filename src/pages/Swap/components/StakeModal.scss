@@ -37,18 +37,17 @@
   right: 10px;
   border-radius: 34px;
   border: 3px solid transparent;
-  background: linear-gradient(179.89deg,
+  background: linear-gradient(
+      179.89deg,
       rgba(73, 84, 246, 1) 0%,
       rgba(92, 228, 249, 1) 30%,
-      rgba(92, 228, 249, 0) 70%) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-    linear-gradient(#fff 0 0);
+      rgba(92, 228, 249, 0) 70%
+    )
+    border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  clip-path: polygon(0 0,
-      100% 0,
-      100% 80%,
-      0 80%);
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 80%);
 }
 
 @media (max-height: 670px) {
@@ -82,9 +81,11 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  background: linear-gradient(156.86deg,
+  background: linear-gradient(
+      156.86deg,
       rgba(189, 55, 236, 0.26) 12.97%,
-      rgba(31, 103, 255, 0) 71.91%),
+      rgba(31, 103, 255, 0) 71.91%
+    ),
     rgba(99, 74, 203, 0.32);
 
   .modalLabelStakeModal {
@@ -414,6 +415,31 @@
   }
 }
 
+.LogoStakeModalGroupe {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  .LogoStake,
+  .LogoEarn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: transparent;
+
+    img {
+      width: 50.4px;
+      height: 50.4px;
+    }
+  }
+}
+
+.LogoArrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 60px;
+}
 .dropDownArrow {
   display: flex;
   justify-content: center;

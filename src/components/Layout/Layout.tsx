@@ -5,40 +5,21 @@ import { useWindowDimensions } from 'components/DimensionScreen';
 import FooterDekstop from 'components/Footer';
 import HeaderDekstop from 'components/Header';
 import { routes, routeNames } from 'routes';
-import BackgroundDekstopBottomRigh from './../../assets/img/DekstopBottomRigh.svg';
-import BackgroundDekstopTopLeft from './../../assets/img/DekstopTopLeft.svg';
-import BackgroundMobile from './../../assets/img/MobileBackground.svg';
+import './Layout.scss';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();
   const { width } = useWindowDimensions();
 
-  const backgroundMobileStyle = `url(${BackgroundMobile}),#000000`;
-  const backgroundDekstopStyle = `url(${BackgroundDekstopTopLeft}) top left,url(${BackgroundDekstopBottomRigh}) bottom right, #000000`;
-  // '79px',
   return (
     <div
-      style={{
-        background:
-          width > 450 ? backgroundDekstopStyle : backgroundMobileStyle,
-        backgroundSize: width > 450 ? '' : 'cover',
-        backgroundRepeat: width > 450 ? 'no-repeat' : 'repeat',
-        minHeight: '100vh',
-        width: '100%',
-        margin: 0,
-        display: 'flex',
-        flexDirection: 'column'
-      }}
-      className='d-flex flex-column flex-fill wrapper'
+      className={`d-flex flex-column flex-fill wrapper ${
+        width <= 450 ? 'neon-background-mobile' : ''
+      }`}
     >
       <HeaderDekstop />
 
-      <main
-        style={{
-          marginBottom: width > 450 ? 0 : '84px'
-        }}
-        className='d-flex flex-column flex-grow-1'
-      >
+      <main className={'d-flex flex-column flex-grow-1 main-content'}>
         <AuthenticatedRoutesWrapper
           routes={routes}
           unlockRoute={`${routeNames.unlock}${search}`}
