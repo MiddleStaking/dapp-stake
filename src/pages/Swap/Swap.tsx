@@ -20,6 +20,8 @@ import {
   transactionSize
 } from 'config';
 import { SwapLayout } from './components';
+import { useGetUserESDT } from './components/Actions/helpers/useGetUserESDT';
+import { useGetSwapedTokens } from './components/Actions/helpers';
 
 const SwapPage = ({ children }: React.PropsWithChildren) => {
   const {
@@ -92,10 +94,16 @@ const SwapPage = ({ children }: React.PropsWithChildren) => {
   return <TransactionsTable transactions={transactions} />;
 };
 
-export const Swap = () => (
-  <SwapLayout
-    firstToken={'WEGLD-bd4d79'}
-    secondToken={defaultToken}
-    defaultToken={defaultToken}
-  />
-);
+export const Swap = () => {
+  const userEsdtBalance = useGetUserESDT();
+  const swapedTokens: string[] = useGetSwapedTokens();
+  return (
+    <SwapLayout
+      userEsdtBalance={userEsdtBalance}
+      swapedTokens={swapedTokens}
+      firstToken={'WEGLD-bd4d79'}
+      secondToken={defaultToken}
+      defaultToken={defaultToken}
+    />
+  );
+};

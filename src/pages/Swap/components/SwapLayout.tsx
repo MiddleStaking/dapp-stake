@@ -25,11 +25,15 @@ interface SwapLayoutProps {
   firstToken: string;
   secondToken: string;
   defaultToken: string;
+  userEsdtBalance: Array<any>;
+  swapedTokens: string[];
 }
 export const SwapLayout: FC<SwapLayoutProps> = ({
   firstToken = 'WEGLD-bd4d79',
   secondToken,
-  defaultToken
+  defaultToken,
+  userEsdtBalance,
+  swapedTokens
 }) => {
   const [first_token, setFirstToken] = React.useState(firstToken);
   const [second_token, setSecondToken] = React.useState(secondToken);
@@ -48,8 +52,6 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   let dual_price_impact = 0;
 
   const isLoggedIn = useGetIsLoggedIn();
-  const userEsdtBalance = useGetUserESDT();
-  const swapedTokens: string[] = useGetSwapedTokens();
   const in_esdt_info = useGetESDTInformations(in_token);
   const out_esdt_info = useGetESDTInformations(out_token);
   const def_esdt_info = useGetESDTInformations(defaultToken);
