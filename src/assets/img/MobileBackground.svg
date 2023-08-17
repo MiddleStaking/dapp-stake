@@ -40,13 +40,18 @@
 <stop offset="0.729167" stop-color="#160A5C"/>
 <stop offset="1" stop-color="#010103"/>
 </radialGradient>
-<linearGradient id="paint1_linear_1739_4474" x1="-16.6387" y1="609.609" x2="357.366" y2="551.918" gradientUnits="userSpaceOnUse">
-<stop stop-color="#8624A5"/>
-<stop offset="1" stop-color="#AD05E9" stop-opacity="0"/>
+<linearGradient id="paint1_linear_1739_4474" x1="16" y1="16" x2="600" y2="600" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#8624A5"/>
+    <stop offset="25%" stop-color="#632082"/>
+    <stop offset="70%" stop-color="#290041"/>
+    <stop offset="80%" stop-color="#1D002F"/>
+    <stop offset="90%" stop-color="#10001E"/>
+    <stop offset="100%" stop-color="#000000"/>
 </linearGradient>
+
 <linearGradient id="paint2_linear_1739_4474" x1="-154.604" y1="191.733" x2="-298.689" y2="94.0597" gradientUnits="userSpaceOnUse">
-<stop stop-color="#73FBFB"/>
-<stop offset="1" stop-color="#73FBF9" stop-opacity="0"/>
+<stop stop-color="#000000"/>
+<stop offset="1" stop-color="#000000" stop-opacity="0"/>
 </linearGradient>
 <clipPath id="clip0_1739_4474">
 <rect width="360" height="800" fill="white"/>

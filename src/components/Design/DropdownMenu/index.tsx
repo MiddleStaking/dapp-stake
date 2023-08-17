@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import Options from './components';
+import { useWindowDimensions } from 'components/DimensionScreen';
 
 interface DropdownMenuProps {
   options: {
@@ -42,6 +43,7 @@ interface DropdownMenuProps {
   colorSvg?: string;
   OptonsCrollHeight?: string;
   disableOption?: boolean;
+  borderColorMobile?: string;
 }
 
 const generateUniqueId = () => {
@@ -78,7 +80,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   inputHeight = '50px',
   inputWidth = '100%',
   BorderActiveColor = '#2266FF',
-  borderRadiusOptions = '4',
+  borderRadiusOptions = '5',
   hasBorderActive = true,
 
   textColorOption = '#FFFFFF',
@@ -86,6 +88,8 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   heightSvg = '16px',
 
   disabled = false,
+
+  borderColorMobile = 'red',
 
   borderRadius = disabled ? '25' : '25',
   hasBorder = disabled ? true : false,
@@ -101,7 +105,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   //   defaultOption ? defaultOption.value : null
   // );
   const [searchValue, setSearchValue] = useState('');
-
+  const { width } = useWindowDimensions();
   const [displayText, setDisplayText] = useState(
     defaultValue ? defaultValue : 'Select an option'
   );
@@ -195,7 +199,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 100
+    zIndex: 1
   };
   const customPlaceholderStyles = `
     .${dropDownMenuClassName}::placeholder {
@@ -289,7 +293,8 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
             position: 'absolute',
             overflow: 'auto',
             maxHeight: OptonsCrollHeight,
-            borderRadius: `${borderRadiusOptions}px`,
+            borderRadius: `${borderRadiusOptions}`,
+            border: width > 450 ? 'none' : `1px solid ${borderColorMobile}`,
             background: 'transparent',
             zIndex: 10
           }}

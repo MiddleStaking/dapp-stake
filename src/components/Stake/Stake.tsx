@@ -115,59 +115,61 @@ export const Stake = () => {
           <Delegate />
         </div>
       ) : (
-        panels.map((panel, index) => (
-          <div key={panel.title} className={styles.panel}>
-            <div className={styles.icon}>
-              <MultiversX />
+        <div className={styles.panelGroupes}>
+          {panels.map((panel, index) => (
+            <div key={panel.title} className={styles.panel}>
+              <div className={styles.icon}>
+                <MultiversX />
 
-              {index > 0 &&
-                Array.from({ length: 4 }).map((item, iteratee) => (
-                  <strong
-                    key={`plus-${iteratee}`}
-                    className={classNames(
-                      styles.plus,
-                      styles[`plus-${iteratee + 1}`]
-                    )}
-                  >
-                    +
-                  </strong>
-                ))}
+                {index > 0 &&
+                  Array.from({ length: 4 }).map((item, iteratee) => (
+                    <strong
+                      key={`plus-${iteratee}`}
+                      className={classNames(
+                        styles.plus,
+                        styles[`plus-${iteratee + 1}`]
+                      )}
+                    >
+                      +
+                    </strong>
+                  ))}
 
-              <div
-                style={{ background: panel.color }}
-                className={styles.subicon}
-              >
-                {panel.subicon}
+                <div
+                  style={{ background: panel.color }}
+                  className={styles.subicon}
+                >
+                  {panel.subicon}
+                </div>
+              </div>
+
+              <div className={styles.title}>{panel.title}</div>
+
+              <strong className={styles.value}>
+                {panel.value} {network.egldLabel}
+              </strong>
+
+              <div className={styles.actions}>
+                {panel.actions.map((action, iteratee) =>
+                  action.render ? (
+                    <div key={action.label}>{action.render}</div>
+                  ) : (
+                    <button
+                      key={action.label}
+                      type='button'
+                      style={{ background: iteratee ? panel.color : '#303234' }}
+                      onClick={action.transaction}
+                      className={classNames(styles.action, {
+                        [styles.disabled]: panel.disabled || pending
+                      })}
+                    >
+                      {action.label}
+                    </button>
+                  )
+                )}
               </div>
             </div>
-
-            <div className={styles.title}>{panel.title}</div>
-
-            <strong className={styles.value}>
-              {panel.value} {network.egldLabel}
-            </strong>
-
-            <div className={styles.actions}>
-              {panel.actions.map((action, iteratee) =>
-                action.render ? (
-                  <div key={action.label}>{action.render}</div>
-                ) : (
-                  <button
-                    key={action.label}
-                    type='button'
-                    style={{ background: iteratee ? panel.color : '#303234' }}
-                    onClick={action.transaction}
-                    className={classNames(styles.action, {
-                      [styles.disabled]: panel.disabled || pending
-                    })}
-                  >
-                    {action.label}
-                  </button>
-                )
-              )}
-            </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   );

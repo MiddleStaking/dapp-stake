@@ -13,7 +13,12 @@ import { TransactionsTable, Loader, PageState } from '@multiversx/sdk-dapp/UI';
 import { faBan, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { AxiosError } from 'axios';
 
-import { apiTimeout, contractAddress, transactionSize } from 'config';
+import {
+  apiTimeout,
+  contractAddress,
+  defaultToken,
+  transactionSize
+} from 'config';
 import { SwapLayout } from './components';
 
 const SwapPage = ({ children }: React.PropsWithChildren) => {
@@ -87,4 +92,10 @@ const SwapPage = ({ children }: React.PropsWithChildren) => {
   return <TransactionsTable transactions={transactions} />;
 };
 
-export const Swap = () => <SwapLayout>{/* <EarnPage /> */}</SwapLayout>;
+export const Swap = () => (
+  <SwapLayout
+    firstToken={'WEGLD-bd4d79'}
+    secondToken={defaultToken}
+    defaultToken={defaultToken}
+  />
+);

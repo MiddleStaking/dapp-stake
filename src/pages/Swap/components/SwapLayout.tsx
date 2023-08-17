@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { defaultToken } from 'config';
+// import { defaultToken } from 'config';
 import { useGetSwapedTokens } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
@@ -10,16 +10,29 @@ import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { useGetPoolPosition } from './Actions/helpers';
 import DropdownMenu from 'components/Design/DropdownMenu';
-import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowsLeftRight,
+  faArrowRight
+} from '@fortawesome/free-solid-svg-icons';
 import Input from 'components/Design/Input';
 import { Button } from './../../../components/Design';
 import { ActionSwap } from './Actions';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import './StakeModal.scss';
 
-export const SwapLayout = ({ children }: React.PropsWithChildren) => {
-  const [first_token, setFirstToken] = React.useState('WEGLD-bd4d79');
-  const [second_token, setSecondToken] = React.useState(defaultToken);
+interface SwapLayoutProps {
+  firstToken: string;
+  secondToken: string;
+  defaultToken: string;
+}
+export const SwapLayout: FC<SwapLayoutProps> = ({
+  firstToken = 'WEGLD-bd4d79',
+  secondToken,
+  defaultToken
+}) => {
+  const [first_token, setFirstToken] = React.useState(firstToken);
+  const [second_token, setSecondToken] = React.useState(secondToken);
   const { hasPendingTransactions } = useGetPendingTransactions();
   const [inBalance, setInBalance] = React.useState(BigInt(0));
   const [outBalance, setOutBalance] = React.useState(BigInt(0));
@@ -304,7 +317,7 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
               <div className='modalLabelStakeModal'>Swap tokens</div>
 
               <div className='logosStakeModal'>
-                <div className='logo2StakeModal'>
+                {/* <div className='logo2StakeModal'>
                   <div className='image_2StakeModal'>
                     <img className='img_2StakeModal' src={second_image} />
                   </div>
@@ -313,6 +326,24 @@ export const SwapLayout = ({ children }: React.PropsWithChildren) => {
                 <div className='logo1StakeModal'>
                   <div className='image_1StakeModal'>
                     <img className='img_1StakeModal' src={first_image} />
+                  </div>
+                </div> */}
+                <div className='LogoStakeModalGroupe'>
+                  <div className='LogoStake'>
+                    <img src={second_image} />
+                  </div>
+                  <div className='LogoArrow'>
+                    <div className='LogoInverseArrow'>
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        style={{
+                          fontSize: '20px'
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className='LogoEarn'>
+                    <img src={first_image} />
                   </div>
                 </div>
               </div>

@@ -1,0 +1,75 @@
+// .neon-background-mobile::before,
+// .neon-background-mobile::after {
+//   content: '';
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   z-index: -1;
+// }
+
+// .neon-background-mobile::before {
+//   background: linear-gradient(
+//     45deg,
+//     rgba(58, 123, 213, 0.8) 50%,
+//     transparent 50%
+//   );
+//   background-size: 20px 20px;
+// }
+
+// .neon-background-mobile::after {
+//   background: linear-gradient(
+//     45deg,
+//     transparent 50%,
+//     rgba(240, 38, 150, 0.8) 50%
+//   );
+//   background-size: 20px 20px;
+// }
+
+.wrapper {
+  background: black;
+  background-size: cover;
+  background-repeat: repeat;
+  minheight: 100vh;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+
+  &.neon-background-mobile {
+    background-image: linear-gradient(
+      to bottom,
+      #0f001d,
+      #17092b,
+      #1f0f39,
+      #291248,
+      #341457,
+      #351455,
+      #351453,
+      #361451,
+      #2b123e,
+      #20102c,
+      #160a1b,
+      #040205
+    );
+    // Mettez ceci sur auto pour répéter l'image à sa taille originale
+  }
+}
+
+@media (min-width: 451px) {
+  .wrapper {
+    background: url('./../../assets/img/DekstopTopLeft.svg') top left,
+      url('./../../assets/img/DekstopBottomRigh.svg') bottom right, #000000;
+    background-size: auto;
+    background-repeat: no-repeat;
+  }
+}
+
+.main-content {
+  margin-bottom: 84px;
+
+  @media (min-width: 451px) {
+    margin-bottom: 0;
+  }
+}
