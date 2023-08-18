@@ -1,9 +1,13 @@
-import React, { CSSProperties, FC } from 'react';
+import React, { CSSProperties, FC, useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import { useNavigate } from 'react-router-dom';
 import { defaultToken } from 'config';
 import { routeNames } from 'routes';
 import { Button } from 'components/Design';
+import { PoolSwapInfo } from '../../PoolInfo/PoolSwapInfo';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+import UnstakeModal from '../../UnstakeModal';
+import StakeModal from '../../StakeModal';
 
 interface MyStakeSectionProps {
   address: any;
@@ -12,20 +16,52 @@ interface MyStakeSectionProps {
   staked_esdt_info: any;
   my_staked_value: any;
   rest: any;
-  setShowStake: (show: boolean) => void;
-  setShowUnstake: (show: boolean) => void;
+  tokenPosition: any;
+  rewardedToken: any;
+  swapedTokens: any;
+  userEsdtBalance: any;
+  isDual: any;
+  firstPoolPosition: any;
+  secondPoolPosition: any;
+  rewarded_esdt_info: any;
+  balanc: any;
+  image1: any;
+  image2: any;
+  sdecimals: any;
+  rdecimals: any;
+  balance: any;
+  stakingPositionRewards: any;
+  my_rewards_value: any;
+  canBeStaked: any;
 }
 const MyStakeSection: FC<MyStakeSectionProps> = ({
   address,
   stakedToken,
-  setShowStake,
-  setShowUnstake,
+  secondPoolPosition,
+  rewardedToken,
+  tokenPosition,
   stakingPosition,
   staked_esdt_info,
+  rewarded_esdt_info,
   my_staked_value,
-  rest
+  rest,
+  balance,
+  image1,
+  image2,
+  sdecimals,
+  rdecimals,
+  stakingPositionRewards,
+  my_rewards_value,
+  canBeStaked,
+  userEsdtBalance,
+  swapedTokens,
+  isDual,
+  firstPoolPosition
 }) => {
   const navigate = useNavigate();
+  const [showStake, setShowStake] = useState(false);
+  const [showUnstake, setShowUnstake] = useState(false);
+  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
   const sectionStyle: CSSProperties = {
     background: 'var(--bgtransparency, rgba(99, 74, 203, 0.32))',
@@ -45,7 +81,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
 
   const MyStackedStyle: CSSProperties = {
     color: '#FFFFFF',
-    fontFamily: 'Plus Jakarta Sans',
+    fontFamily: '',
     fontSize: '14px',
     fontWeight: '300',
     lineHeight: '18px',
@@ -57,18 +93,50 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
     background: '#634ACB52',
     borderRadius: '8px',
     width: '240px',
-    height: '37px',
+    height: '30px',
     display: 'flex',
     alignItems: 'center',
     paddingLeft: '12px',
     marginTop: '12px',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    fontSize: '10px'
     // justifyContent: 'center'
+  };
+
+  const MyStackedContentStyle: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px'
   };
 
   return (
     // <>
     <div style={sectionStyle}>
+      <StakeModal
+        userEsdtBalance={userEsdtBalance}
+        rewardedToken={rewardedToken}
+        stakedToken={stakedToken}
+        balance={balance}
+        decimals={sdecimals}
+        onClose={() => {
+          setHeaderMenu(true), setShowStake(false);
+        }}
+        show={showStake}
+        image1={image1}
+        image2={image2}
+      />
+      <UnstakeModal
+        userEsdtBalance={userEsdtBalance}
+        rewardedToken={rewardedToken}
+        stakedToken={stakedToken}
+        balance={stakingPosition.stake_amount}
+        decimals={sdecimals}
+        onClose={() => {
+          setHeaderMenu(true), setShowUnstake(false);
+        }}
+        show={showUnstake}
+      />
+
       {!address ? (
         <div
           style={{
@@ -98,8 +166,8 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
       ) : (
         <>
           {stakingPosition.stake_amount < 1 ? (
-            <div className='my-stake-section3'>
-              <div className='my-stake5'>
+            <div style={MyStackedContentStyle}>
+              <div>
                 <div style={MyStackedStyle}>My Stake</div>
 
                 <div style={Content}>Stake now to earn {stakedToken}</div>
@@ -110,25 +178,68 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   width: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  marginTop: '16px'
+                  justifyContent: 'center'
                 }}
               >
-                <Button
-                  borderRadius={40}
-                  buttonHeight='31px'
-                  buttonWidth='240px'
-                  textColor='#ffffff'
-                  background={'#000000'}
-                  onClick={() => setShowStake(true)}
-                  text={`Stake ${stakedToken}`}
-                />
+                {tokenPosition.paused == 1 ? (
+                  <Button
+                    borderRadius={40}
+                    buttonHeight='31px'
+                    buttonWidth='240px'
+                    textColor='#ffffff'
+                    text='Paused'
+                    background={'#000000'}
+                    disabled={true}
+                  />
+                ) : (
+                  <Button
+                    borderRadius={40}
+                    buttonHeight='31px'
+                    buttonWidth='240px'
+                    textColor='#ffffff'
+                    background={'#000000'}
+                    onClick={() => {
+                      setHeaderMenu(false);
+                      setShowStake(true);
+                    }}
+                    text={`Stake ${stakedToken}`}
+                  />
+                )}
               </div>
+              {(swapedTokens.includes(stakedToken) ||
+                swapedTokens.includes(rewardedToken)) &&
+                stakedToken != rewardedToken && (
+                  <PoolSwapInfo
+                    buttonHeight={'31px'}
+                    address={address}
+                    stakedToken={
+                      swapedTokens.includes(stakedToken) &&
+                      swapedTokens.includes(rewardedToken)
+                        ? stakedToken
+                        : defaultToken
+                    }
+                    rewardedToken={
+                      swapedTokens.includes(stakedToken) &&
+                      swapedTokens.includes(rewardedToken)
+                        ? rewardedToken
+                        : swapedTokens.includes(stakedToken)
+                        ? stakedToken
+                        : rewardedToken
+                    }
+                    userEsdtBalance={userEsdtBalance}
+                    isDual={isDual}
+                    firstPoolPosition={firstPoolPosition}
+                    secondPoolPosition={secondPoolPosition}
+                  />
+                )}
             </div>
           ) : (
             <div
               style={{
-                width: '100%'
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px'
               }}
             >
               <div
@@ -200,7 +311,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     )}
                   </div>
 
-                  <div className='_1-42'>{rest} %</div>
+                  <div>{rest} %</div>
                 </div>
               </div>
 
@@ -210,7 +321,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   display: 'flex',
                   justifyContent: 'space-between', // ajoute de l'espace entre les éléments
                   alignItems: 'center', // centre les éléments verticalement
-                  marginTop: '16px',
                   color: 'white'
                   // margin: 0
                 }}
@@ -239,6 +349,32 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   />
                 </div>
               </div>
+              {(swapedTokens.includes(stakedToken) ||
+                swapedTokens.includes(rewardedToken)) &&
+                stakedToken != rewardedToken && (
+                  <PoolSwapInfo
+                    buttonHeight={'31px'}
+                    address={address}
+                    stakedToken={
+                      swapedTokens.includes(stakedToken) &&
+                      swapedTokens.includes(rewardedToken)
+                        ? stakedToken
+                        : defaultToken
+                    }
+                    rewardedToken={
+                      swapedTokens.includes(stakedToken) &&
+                      swapedTokens.includes(rewardedToken)
+                        ? rewardedToken
+                        : swapedTokens.includes(stakedToken)
+                        ? stakedToken
+                        : rewardedToken
+                    }
+                    userEsdtBalance={userEsdtBalance}
+                    isDual={isDual}
+                    firstPoolPosition={firstPoolPosition}
+                    secondPoolPosition={secondPoolPosition}
+                  />
+                )}
             </div>
           )}
         </>

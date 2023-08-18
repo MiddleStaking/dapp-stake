@@ -12,7 +12,8 @@ export const PoolSwapInfo = ({
   stakedToken,
   rewardedToken,
   userEsdtBalance,
-  isDual
+  isDual,
+  buttonHeight
 }: any) => {
   const [showStake, setShowStake] = useState(false);
   const { hasPendingTransactions } = useGetPendingTransactions();
@@ -59,6 +60,7 @@ export const PoolSwapInfo = ({
             borderColor={['#BD37EC', '#1F67FF']}
             text={'Swap'}
             buttonWidth={'100%'}
+            buttonHeight='31px'
             onClick={() => {
               setHeaderMenu(false), setShowStake(true);
             }}
