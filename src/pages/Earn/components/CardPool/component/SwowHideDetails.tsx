@@ -117,7 +117,7 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
         )}
         {Speed && (
           <div style={detailsRow}>
-            <div className='speed'>Speed</div>
+            <div>Speed</div>
 
             <div style={detailsRowResult}>{Speed.toString()} days</div>
           </div>
@@ -125,9 +125,9 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
 
         {Staked && (
           <div style={detailsRow}>
-            <div style={detailsRowResult}>Staked</div>
+            <div>Staked</div>
 
-            <div className='_135-492-65'>
+            <div style={detailsRowResult}>
               <FormatAmount
                 value={Staked}
                 decimals={decimals}
@@ -141,9 +141,9 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
 
         {Staked_value && (
           <div style={detailsRow}>
-            <div style={detailsRowResult}>Staked value</div>
+            <div>Staked value</div>
 
-            <div className='_135-492-65'>
+            <div style={detailsRowResult}>
               {Staked_value.toLocaleString('en-US', {
                 maximumFractionDigits: 2
               })}{' '}
@@ -154,9 +154,9 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
 
         {Users && (
           <div style={detailsRow}>
-            <div className='total-staked'>User</div>
+            <div>User</div>
 
-            <div className='_135-492-65'>
+            <div style={detailsRowResult}>
               <FormatAmount
                 value={Users}
                 decimals={Number(0)}

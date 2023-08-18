@@ -474,18 +474,18 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                     p.r.toLowerCase().includes(mySearch.toLowerCase())
                 )
                 .map((p: any) => (
-                  <Col
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={4}
-                    xl={3}
-                    xxl={3}
-                    key={p.s + p.r}
-                    className='pb-4'
-                  >
-                    {' '}
-                    <PoolInfo
+                  <>
+                    <Col
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={4}
+                      xl={3}
+                      xxl={3}
+                      key={p.s + p.r}
+                      className='pb-4'
+                    >
+                      {/* <PoolInfo
                       userEsdtBalance={userEsdtBalance}
                       swapedTokens={swapedTokens}
                       myPools={myPools}
@@ -499,8 +499,54 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                           return token.identifier === p.r;
                         })
                         .map((token) => (token.identifier ? token : ''))}
-                    />
-                  </Col>
+                    /> */}
+                      <CardPool
+                        height={heightComponentTypeSection}
+                        WindowDimensions={width}
+                        textColor='#ffffff'
+                        fontFamily='sans-serif'
+                        userEsdtBalance={userEsdtBalance}
+                        swapedTokens={swapedTokens}
+                        myPools={myPools}
+                        stakedToken={p.s}
+                        rewardedToken={p.r}
+                        balance={balance}
+                        canBeStaked={false}
+                        isPaused={isPaused}
+                        tokens_extra_informations={tokens_extra_informations
+                          .filter((token) => {
+                            return token.identifier === p.r;
+                          })
+                          .map((token) => (token.identifier ? token : ''))}
+                      />
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={4}
+                      xl={3}
+                      xxl={3}
+                      key={p.s + p.r}
+                      className='pb-4'
+                    >
+                      <PoolInfo
+                        userEsdtBalance={userEsdtBalance}
+                        swapedTokens={swapedTokens}
+                        myPools={myPools}
+                        stakedToken={p.s}
+                        rewardedToken={p.r}
+                        balance={balance}
+                        canBeStaked={false}
+                        isPaused={isPaused}
+                        tokens_extra_informations={tokens_extra_informations
+                          .filter((token) => {
+                            return token.identifier === p.r;
+                          })
+                          .map((token) => (token.identifier ? token : ''))}
+                      />
+                    </Col>
+                  </>
                 ))}{' '}
             <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
               <div className='card-type'></div>
