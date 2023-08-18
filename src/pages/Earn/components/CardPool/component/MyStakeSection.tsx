@@ -76,7 +76,8 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
     flexShrink: 0,
     position: 'relative',
     overflow: 'hidden',
-    width: '100%'
+    width: '100%',
+    height: '202px'
   };
 
   const MyStackedStyle: CSSProperties = {
@@ -92,7 +93,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   const Content: CSSProperties = {
     background: '#634ACB52',
     borderRadius: '8px',
-    width: '240px',
+    width: '100%',
     height: '30px',
     display: 'flex',
     alignItems: 'center',
@@ -106,7 +107,8 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   const MyStackedContentStyle: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '16px'
+    gap: '16px',
+    width: '100%'
   };
 
   return (
@@ -167,7 +169,12 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
         <>
           {stakingPosition.stake_amount < 1 ? (
             <div style={MyStackedContentStyle}>
-              <div>
+              <div
+                style={{
+                  height: '60px',
+                  width: '100%'
+                }}
+              >
                 <div style={MyStackedStyle}>My Stake</div>
 
                 <div style={Content}>Stake now to earn {stakedToken}</div>
@@ -195,7 +202,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   <Button
                     borderRadius={40}
                     buttonHeight='31px'
-                    buttonWidth='240px'
+                    buttonWidth='100%'
                     textColor='#ffffff'
                     background={'#000000'}
                     onClick={() => {
@@ -244,7 +251,8 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
             >
               <div
                 style={{
-                  width: '100%'
+                  width: '100%',
+                  height: '60px'
                 }}
               >
                 <div style={MyStackedStyle}>My Stake</div>
@@ -341,7 +349,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   <Button
                     borderRadius={40}
                     buttonHeight='31px'
-                    // buttonWidth='240px'
                     textColor='#ffffff'
                     background={'#000000'}
                     onClick={() => setShowUnstake(true)}
