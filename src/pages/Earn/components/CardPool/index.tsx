@@ -22,7 +22,9 @@ import {
   useGetStakingPositionRewards,
   useGetTokenPosition
 } from '../Actions/helpers';
-import notFound from './../../../../assets/img/notfound.svg';
+import notFound from './../../../../assets/img/notfoundc.svg';
+import { Link } from 'react-router-dom';
+import { routeNames } from 'routes';
 
 interface CardPoolrops {
   height: string;
@@ -94,6 +96,7 @@ const CardPool: FC<CardPoolrops> = ({
   Users,
   socialNetwork,
   myPools,
+  canBeStaked,
   decimals = 0,
   textColor = '#ffffff',
   fontFamily = 'sans-serif',
@@ -101,6 +104,8 @@ const CardPool: FC<CardPoolrops> = ({
   stakedToken,
   tokens_extra_informations,
   swapedTokens,
+  userEsdtBalance,
+  balance,
   //   setShowStake,
   //   setShowUnstake,
   //   stakingPosition,
@@ -405,13 +410,28 @@ const CardPool: FC<CardPoolrops> = ({
         />
         <MyStakeSection
           address={address}
+          swapedTokens={swapedTokens}
+          userEsdtBalance={userEsdtBalance}
           stakedToken={stakedToken}
+          rewardedToken={rewardedToken}
+          tokenPosition={tokenPosition}
           stakingPosition={stakingPosition}
-          rest={rest}
           staked_esdt_info={staked_esdt_info}
+          rewarded_esdt_info={rewarded_esdt_info}
           my_staked_value={my_staked_value}
-          setShowStake={setShowStake}
-          setShowUnstake={setShowUnstake}
+          rest={rest}
+          balance={balance}
+          image1={image1}
+          image2={image2}
+          sdecimals={sdecimals}
+          rdecimals={rdecimals}
+          stakingPositionRewards={stakingPositionRewards}
+          my_rewards_value={my_rewards_value}
+          canBeStaked={canBeStaked}
+          isDual={isDual}
+          firstPoolPosition={firstPoolPosition}
+          secondPoolPosition={secondPoolPosition}
+          balanc={balance}
         />
 
         {address && (
@@ -424,6 +444,18 @@ const CardPool: FC<CardPoolrops> = ({
             stakedToken={stakedToken}
             rewardedToken={rewardedToken}
           />
+        )}
+        {canBeStaked && (
+          <>
+            {' '}
+            <Link
+              to={routeNames.stake + `/${rewardedToken}`}
+              className='butLine bouton-visiter'
+              data-testid='loginBtn'
+            >
+              Stake {rewardedToken}
+            </Link>
+          </>
         )}
       </div>
     </div>
