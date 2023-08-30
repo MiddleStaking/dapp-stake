@@ -154,7 +154,7 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
 
         {Users && (
           <div style={detailsRow}>
-            <div>User</div>
+            <div>Users</div>
 
             <div style={detailsRowResult}>
               <FormatAmount

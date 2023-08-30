@@ -520,7 +520,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                           .map((token) => (token.identifier ? token : ''))}
                       />
                     </Col>
-                    <Col
+                    {/* <Col
                       xs={12}
                       sm={12}
                       md={6}
@@ -545,7 +545,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                           })
                           .map((token) => (token.identifier ? token : ''))}
                       />
-                    </Col>
+                    </Col> */}
                   </>
                 ))}{' '}
             <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
@@ -632,7 +632,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                     />
                   </Col>
 
-                  <Col
+                  {/* <Col
                     xs={12}
                     sm={12}
                     md={6}
@@ -661,7 +661,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         })
                         .map((token) => (token.identifier ? token : ''))}
                     />
-                  </Col>
+                  </Col> */}
                 </>
               ))}
             <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
