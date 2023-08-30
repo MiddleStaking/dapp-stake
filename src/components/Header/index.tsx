@@ -133,7 +133,11 @@ const HeaderDesktop = () => {
               borderColor={['#BD37EC', '#1F67FF']}
               text={isLoggedIn ? 'Account' : 'Login'}
               hasBorder={true}
-              onClick={() => handleNavigate(routeNames.account)}
+              onClick={
+                isLoggedIn
+                  ? () => handleNavigate(routeNames.account)
+                  : () => handleNavigate(routeNames.unlock)
+              }
               fontFamily=''
               buttonHeight='52px'
               fontSize='20px'
