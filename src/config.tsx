@@ -43,15 +43,28 @@ export const contractPlay =
   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
 
 export const network: NetworkType = {
-  id: 'devnet',
-  name: 'Devnet',
-  egldLabel: 'xEGLD',
+  id: 'mainnet',
+  name: 'Mainnet',
+  egldLabel: 'EGLD',
   walletAddress: 'https://wallet.multiversx.com/dapp/init',
   apiAddress: 'https://api.multiversx.com',
   gatewayAddress: 'https://gateway.multiversx.com',
+  gatewayCached: 'https://api.middlestaking.fr/mainnet',
   explorerAddress: 'http://explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };
+// export const network: NetworkType = {
+//   id: 'mainnet',
+//   name: 'Mainnet',
+//   egldLabel: 'EGLD',
+//   walletAddress: 'https://wallet.multiversx.com/dapp/init',
+//   apiAddress: 'https://mvx-api.e-compass.io',
+//   gatewayAddress: 'https://mvx-proxy.e-compass.io',
+//   gatewayCached: 'https://mvx-proxy.e-compass.io',
+//   explorerAddress: 'http://explorer.multiversx.com',
+//   delegationContract: contractAddressDelegation
+// };
+
 export const defaultPairs = [
   { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
   { s: 'MID-ecb7bf', r: 'MEX-455c57' },
@@ -62,6 +75,9 @@ export const defaultPairs = [
 ];
 
 //GLOBAL :
+export const stakingContract =
+  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
+
 export const dAppName = 'Middle Staking';
 // Generate your own WalletConnect 2 ProjectId here: https://cloud.walletconnect.com/app
 export const walletConnectV2ProjectId = '9b1a9564f91cb659ffe21b73d5c4e2d8';
@@ -104,6 +120,7 @@ interface NetworkType {
   walletAddress: string;
   apiAddress: string;
   gatewayAddress: string;
+  gatewayCached: string;
   explorerAddress: string;
   delegationContract: string;
 }

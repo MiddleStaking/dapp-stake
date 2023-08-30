@@ -1,0 +1,252 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 80vh; // Occupy full viewport height
+  text-align: center;
+  padding: 0px 10px;
+}
+
+.item {
+  width: 10em;
+  color: red;
+  text-align: center;
+}
+
+.contractWrape {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading {
+  margin-bottom: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (min-width: 992px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .meta {
+    margin-bottom: 30px;
+    width: 100%;
+
+    .icon {
+      svg path {
+        fill: #808ea3;
+      }
+    }
+  }
+
+  .label {
+    line-height: 1;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+    color: #9ba5b4;
+  }
+
+  .contract {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 1;
+    color: white;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (min-width: 768px) {
+      margin-right: 15px;
+    }
+  }
+
+  .button {
+    width: calc((100vw - 70px) / 2);
+    max-width: 130px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(white, 0.1);
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: white;
+    border: none;
+
+    &:last-child {
+      margin-left: 10px;
+    }
+
+    &.disabled {
+      pointer-events: none;
+      color: rgba(white, 0.5);
+      background-color: #303234 !important;
+
+      svg path {
+        fill: rgba(white, 0.5);
+      }
+    }
+
+    @media (min-width: 992px) {
+      width: auto;
+    }
+
+    @media (min-width: 1200px) {
+      width: 130px;
+    }
+
+    .icon {
+      cursor: pointer;
+      margin-right: 8px;
+    }
+
+    svg path {
+      fill: white;
+    }
+  }
+}
+
+.squareContainerCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.squareContainerCenter2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.squareContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+// 450
+@media (max-width: 750px) {
+  .squareContainer {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .squareContainer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 340px) {
+  .squareContainer {
+    grid-template-columns: 1fr;
+  }
+}
+.square {
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  background: #00000052;
+  color: white;
+  width: 160px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  .labelIconSquare {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .labelSquare {
+      font-size: 18px;
+    }
+  }
+
+  .InfoSquare {
+    margin-top: 6px;
+    font-size: 10px;
+    .PInfoSquare {
+      text-align: left;
+      width: 100%;
+    }
+  }
+}
+// .square:hover {
+//   animation-name: hover-animation;
+// }
+
+// @keyframes hover-animation {
+//   0% {
+//     background-color: #00000052;
+//     color: white;
+//   }
+//   100% {
+//     background-color: rgb(255 255 255 / 71%);
+//     color: black;
+//   }
+// }
+
+.square {
+  -webkit-transition: background-color 0.5s ease-out, color 0.5s ease-out;
+  -moz-transition: background-color 0.5s ease-out, color 0.5s ease-out;
+  -o-transition: background-color 0.5s ease-out, color 0.5s ease-out;
+  transition: background-color 0.5s ease-out, color 0.5s ease-out;
+}
+
+.square:hover {
+  background-color: rgb(255 255 255 / 71%);
+  color: black;
+  cursor: pointer;
+}
+
+.squareDisconect {
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  background: #00000052;
+  color: white;
+  width: 160px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+
+  -webkit-transition: background-color 0.5s ease-out, color 0.5s ease-out;
+  -moz-transition: background-color 0.5s ease-out, color 0.5s ease-out;
+  -o-transition: background-color 0.5s ease-out, color 0.5s ease-out;
+  transition: background-color 0.5s ease-out, color 0.5s ease-out;
+
+  .labelIconSquare {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .labelSquare {
+      font-size: 18px;
+    }
+  }
+
+  .InfoSquare {
+    margin-top: 6px;
+    font-size: 10px;
+    .PInfoSquare {
+      text-align: left;
+      width: 100%;
+    }
+  }
+}
+
+.squareDisconect:hover {
+    background-color: rgba(255, 0, 0, 0.822);
+    cursor: pointer;
+  }

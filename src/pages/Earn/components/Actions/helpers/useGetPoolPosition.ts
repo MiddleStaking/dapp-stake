@@ -4,10 +4,9 @@ import {
   ResultsParser,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-
 import { smartContract } from './smartContract';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
@@ -18,7 +17,6 @@ export const useGetPoolPosition = (
   hasPendingTransactions: boolean,
   isDual: boolean
 ) => {
-  const { network } = useGetNetworkConfig();
   const [tokenPosition, setTokenPosition] = useState({
     first_token: stakedToken,
     second_token: rewardedToken,
@@ -82,12 +80,10 @@ export const useGetPoolPosition = (
       //const proxy = new ProxyNetworkProvider(network.gatewayAddress);
 
       //No modal > using cache
-      let proxy = new ProxyNetworkProvider(
-        'https://api.middlestaking.fr/' + network.id
-      );
+      let proxy = new ProxyNetworkProvider(network.gatewayCached);
       //if modal open we want fresh data from pool
       if (showStake == true) {
-        proxy = new ProxyNetworkProvider(network.apiAddress);
+        proxy = new ProxyNetworkProvider(network.gatewayAddress);
       }
 
       const queryResponse = await proxy.queryContract(query);

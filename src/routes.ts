@@ -1,5 +1,6 @@
 import { RouteType } from '@multiversx/sdk-dapp/types';
 import { dAppName } from 'config';
+import Account from 'pages/Account';
 import { Admin } from 'pages/Admin';
 import Faucet from 'pages/Faucet';
 import Rewards from 'pages/Rewards';
@@ -7,7 +8,16 @@ import Rewards2 from 'pages/RewardsV2';
 import Tokenomics from 'pages/Tokenomics';
 import TokenomicsV2 from 'pages/TokenomicstentativeV2';
 import { withPageTitle } from './components/PageTitle';
-import { Dashboard, Home, Statistics, Earn, Fund, Play } from './pages';
+import {
+  Dashboard,
+  Home,
+  Statistics,
+  Earn,
+  Fund,
+  Play,
+  Swap,
+  Liquidity
+} from './pages';
 
 export const routeNames = {
   home: '/',
@@ -15,13 +25,16 @@ export const routeNames = {
   statistics: '/statistics',
   unlock: '/unlock',
   stake: '/stake',
+  swap: '/swap',
   fund: '/fund',
   faucet: '/faucet',
+  account: '/account',
   rewards: '/rewards',
   tokenomics: '/tokenomics',
   tokenomics2: '/tokenomics2',
   rewards2: '/rewards2',
   play: '/play',
+  liquidity: '/liquidity',
   admin: '/admin'
 };
 
@@ -65,6 +78,18 @@ export const routes: RouteWithTitleType[] = [
     authenticatedRoute: false
   },
   {
+    path: routeNames.liquidity,
+    title: 'Liquidity',
+    component: Liquidity,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.swap,
+    title: 'Swap',
+    component: Swap,
+    authenticatedRoute: false
+  },
+  {
     path: routeNames.fund,
     title: 'Fund',
     component: Fund,
@@ -74,6 +99,12 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.faucet,
     title: 'Faucet',
     component: Faucet,
+    authenticatedRoute: true
+  },
+  {
+    path: routeNames.account,
+    title: 'Account',
+    component: Account,
     authenticatedRoute: true
   },
   {

@@ -41,7 +41,7 @@ export const ActionStake = ({
         Buffer.from(rewardedToken, 'utf8').toString('hex'),
 
       receiver: contractAddress,
-      gasLimit: '5100000'
+      gasLimit: '5200000'
     };
     await refreshAccount();
 
