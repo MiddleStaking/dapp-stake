@@ -21,6 +21,8 @@ export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
+export const contractNftStake =
+  'erd1qqqqqqqqqqqqqpgqjg8asw7drqzmh4fgwpztt4exwydq2hhfch9s3dm2hv';
 export const network: NetworkType = {
   id: 'devnet',
   name: 'Devnet',
@@ -41,7 +43,8 @@ export const network: NetworkType = {
 //   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 // export const contractPlay =
 //   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
-
+// export const contractNftStake =
+//   '?????';
 // export const network: NetworkType = {
 //   id: 'mainnet',
 //   name: 'Mainnet',
