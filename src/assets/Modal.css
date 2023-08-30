@@ -179,6 +179,7 @@ padding: 0px 0px 0px 14px;
 color: var(--neutral-white, #ffffff);
     text-align: left;
     font: 300 10px '', sans-serif;
+
     text-transform: uppercase;
     position: relative;
     display: flex;

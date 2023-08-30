@@ -1,4 +1,4 @@
-// //DEVNET :
+//DEVNET :
 // export const defaultToken = 'MID-7f1d59';
 // export const defaultPairs = [
 //   { s: 'MID-7f1d59', r: 'MID-7f1d59' },
@@ -64,6 +64,7 @@ export const network: NetworkType = {
 //   explorerAddress: 'http://explorer.multiversx.com',
 //   delegationContract: contractAddressDelegation
 // };
+
 export const defaultPairs = [
   { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
   { s: 'MID-ecb7bf', r: 'MEX-455c57' },
