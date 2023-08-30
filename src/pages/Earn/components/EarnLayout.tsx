@@ -9,7 +9,7 @@ import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { Col, Form, Row } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { defaultToken } from 'config';
 import image from './../../../assets/img/background2.png';
 import eCompass from './../../../assets/img/ecompass.svg';
@@ -27,6 +27,9 @@ import { TopInfo } from './TopInfo';
 import FundModal from './FundModal';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { CheckBox, ToggleSwitch } from './../../../components/Design';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+import CardPool from './CardPool';
+import { useWindowDimensions } from 'components/DimensionScreen';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const { network } = useGetNetworkConfig();
@@ -204,13 +207,47 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   function setFOrderBy(e: React.ChangeEvent<any>) {
     setOrderBy(e.target.value);
   }
+  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
+
+  // console.log(orderedTokens);
+  // console.log(orderedPairs);
+
+  const [showStake, setShowStake] = useState(false);
+  const [showUnstake, setShowUnstake] = useState(false);
+
+  console.log(showStake);
+  console.log(showUnstake);
+
+  const { width } = useWindowDimensions();
+  const heightComponentTypeSection = width > 450 ? '162px' : '114px';
+  const socialNetworks: any = [
+    // {
+    //   icon: <IconGlobe />,
+    //   url: 'https://www.middlestaking.fr'
+    // },
+    // {
+    //   icon: <IconTwitter />,
+    //   url: 'https://twitter.com/MiddleStaking'
+    // },
+    // {
+    //   icon: <IconFlash />,
+    //   url: 'https://explorer.multiversx.com/tokens/MEX-455c57'
+    // }
+  ];
+
+  const path = useLocation().pathname;
+  const stakedToken = path.split('/')[2];
+
+  const rewardedToken = path.split('/')[2];
 
   return (
     <div className='center'>
       <FundModal
         userEsdtBalance={userEsdtBalance}
         show={showFund}
-        onClose={() => setShowFund(false)}
+        onClose={() => {
+          setHeaderMenu(true), setShowFund(false);
+        }}
       />
       <Row className='pb-4'>
         <Col
@@ -282,14 +319,18 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                 >
                   {stakedTokens &&
                     stakedTokens.map((item) => (
-                      <option
-                        className=''
-                        disabled={false}
-                        key={item}
-                        value={item}
-                      >
-                        {item}
-                      </option>
+                      <>
+                        {item != 'MIDUSDC-3d93f4' && (
+                          <option
+                            className=''
+                            disabled={false}
+                            key={item}
+                            value={item}
+                          >
+                            {item}
+                          </option>
+                        )}
+                      </>
                     ))}
                 </Form.Control>
               </div>
@@ -397,7 +438,9 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
           {address && (
             <div
               className='button-icon-border  cursor-pointer'
-              onClick={() => setShowFund(true)}
+              onClick={() => {
+                setShowFund(true), setHeaderMenu(false);
+              }}
             >
               <div className='button-icon'>
                 <svg
@@ -431,19 +474,20 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                     p.r.toLowerCase().includes(mySearch.toLowerCase())
                 )
                 .map((p: any) => (
-                  <Col
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={4}
-                    xl={3}
-                    xxl={3}
-                    key={p.s + p.r}
-                    className='pb-4'
-                  >
-                    {' '}
-                    <PoolInfo
+                  <>
+                    <Col
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={4}
+                      xl={3}
+                      xxl={3}
+                      key={p.s + p.r}
+                      className='pb-4'
+                    >
+                      {/* <PoolInfo
                       userEsdtBalance={userEsdtBalance}
+                      swapedTokens={swapedTokens}
                       myPools={myPools}
                       stakedToken={p.s}
                       rewardedToken={p.r}
@@ -455,8 +499,54 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                           return token.identifier === p.r;
                         })
                         .map((token) => (token.identifier ? token : ''))}
-                    />
-                  </Col>
+                    /> */}
+                      <CardPool
+                        height={heightComponentTypeSection}
+                        WindowDimensions={width}
+                        textColor='#ffffff'
+                        fontFamily='sans-serif'
+                        userEsdtBalance={userEsdtBalance}
+                        swapedTokens={swapedTokens}
+                        myPools={myPools}
+                        stakedToken={p.s}
+                        rewardedToken={p.r}
+                        balance={balance}
+                        canBeStaked={false}
+                        isPaused={isPaused}
+                        tokens_extra_informations={tokens_extra_informations
+                          .filter((token) => {
+                            return token.identifier === p.r;
+                          })
+                          .map((token) => (token.identifier ? token : ''))}
+                      />
+                    </Col>
+                    {/* <Col
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={4}
+                      xl={3}
+                      xxl={3}
+                      key={p.s + p.r}
+                      className='pb-4'
+                    >
+                      <PoolInfo
+                        userEsdtBalance={userEsdtBalance}
+                        swapedTokens={swapedTokens}
+                        myPools={myPools}
+                        stakedToken={p.s}
+                        rewardedToken={p.r}
+                        balance={balance}
+                        canBeStaked={false}
+                        isPaused={isPaused}
+                        tokens_extra_informations={tokens_extra_informations
+                          .filter((token) => {
+                            return token.identifier === p.r;
+                          })
+                          .map((token) => (token.identifier ? token : ''))}
+                      />
+                    </Col> */}
+                  </>
                 ))}{' '}
             <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
               <div className='card-type'></div>
@@ -472,36 +562,107 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
           <Row className='pt-4'>
             {rewardedTokens[0] != '' &&
               orderedTokens.map((rtoken) => (
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  lg={4}
-                  xl={3}
-                  xxl={3}
-                  key={stoken + rtoken.identifier}
-                  className='pb-4'
-                >
-                  {' '}
-                  <PoolInfo
-                    userEsdtBalance={userEsdtBalance}
-                    swapedTokens={swapedTokens}
-                    myPools={myPools}
-                    stakedToken={stoken}
-                    rewardedToken={rtoken.identifier}
-                    balance={balance}
-                    canBeStaked={
-                      stakedTokens.includes(rtoken.identifier) &&
-                      stoken != rtoken.identifier
-                    }
-                    isPaused={isPaused}
-                    tokens_extra_informations={tokens_extra_informations
-                      .filter((token) => {
-                        return token.identifier === rtoken.identifier;
-                      })
-                      .map((token) => (token.identifier ? token : ''))}
-                  />
-                </Col>
+                // CardPool
+                <>
+                  <Col
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    lg={4}
+                    xl={3}
+                    xxl={3}
+                    key={stoken + rtoken.identifier}
+                    className='pb-4'
+                  >
+                    <CardPool
+                      height={heightComponentTypeSection}
+                      WindowDimensions={width}
+                      textColor='#ffffff'
+                      fontFamily='sans-serif'
+                      // image1={notFound}
+                      // image2={notFound}
+                      // StakeTile='Mid'
+                      // EarnTitle='Mid'
+                      // Apr='13'
+                      // decimals={18}
+                      // Rewards='18633490000000000000000'
+                      // Rewards_value={698.8}
+                      // Speed=' 365'
+                      // Staked='143526010000000000000000'
+                      // Staked_value={5382.73}
+                      // Users='91'
+                      // socialNetwork={socialNetworks}
+
+                      // address={address}
+                      // stakedToken={stakedToken}
+                      // stakingPosition={{
+                      //   stake_amount: '18633490000000000000000'
+                      // }}
+                      // rest={'1,42'}
+                      // staked_esdt_info={{
+                      //   decimals: 18
+                      // }}
+                      // my_staked_value={698.8}
+                      // setShowStake={setShowStake}
+                      // setShowUnstake={setShowUnstake}
+                      // stakingPositionRewards={'18633490000000000000000'}
+                      // rdecimals={18}
+                      // rewarded_esdt_info={{
+                      //   price: '1000'
+                      // }}
+                      // my_rewards_value={698.8}
+                      // rewardedToken={rewardedToken}
+
+                      userEsdtBalance={userEsdtBalance}
+                      swapedTokens={swapedTokens}
+                      myPools={myPools}
+                      stakedToken={stoken}
+                      rewardedToken={rtoken.identifier}
+                      balance={balance}
+                      canBeStaked={
+                        stakedTokens.includes(rtoken.identifier) &&
+                        stoken != rtoken.identifier
+                      }
+                      isPaused={isPaused}
+                      tokens_extra_informations={tokens_extra_informations
+                        .filter((token) => {
+                          return token.identifier === rtoken.identifier;
+                        })
+                        .map((token) => (token.identifier ? token : ''))}
+                    />
+                  </Col>
+
+                  {/* <Col
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    lg={4}
+                    xl={3}
+                    xxl={3}
+                    key={stoken + rtoken.identifier}
+                    className='pb-4'
+                  >
+                    {' '}
+                    <PoolInfo
+                      userEsdtBalance={userEsdtBalance}
+                      swapedTokens={swapedTokens}
+                      myPools={myPools}
+                      stakedToken={stoken}
+                      rewardedToken={rtoken.identifier}
+                      balance={balance}
+                      canBeStaked={
+                        stakedTokens.includes(rtoken.identifier) &&
+                        stoken != rtoken.identifier
+                      }
+                      isPaused={isPaused}
+                      tokens_extra_informations={tokens_extra_informations
+                        .filter((token) => {
+                          return token.identifier === rtoken.identifier;
+                        })
+                        .map((token) => (token.identifier ? token : ''))}
+                    />
+                  </Col> */}
+                </>
               ))}
             <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
               <div className='card-type'></div>
@@ -518,8 +679,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       </div>{' '}
       <div className='col-12'>
         <div className='text-white text-center'>
-          The staking pool listing is permissionless. Anyone can add tokens as a
-          reward. Be sure to do your research before investing in a token.{' '}
+          The staking rewards listing is permissionless. Anyone can add tokens
+          as a reward. Be sure to do your research before investing in a token.{' '}
         </div>
       </div>
     </div>

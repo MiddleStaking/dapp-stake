@@ -5,16 +5,19 @@ import { Button } from './../../../../components/Design';
 import { useGetPoolPosition } from '../Actions/helpers';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { defaultToken } from 'config';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 
 export const PoolSwapInfo = ({
   address,
   stakedToken,
   rewardedToken,
   userEsdtBalance,
-  isDual
+  isDual,
+  buttonHeight
 }: any) => {
   const [showStake, setShowStake] = useState(false);
   const { hasPendingTransactions } = useGetPendingTransactions();
+  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
   const firstPoolPosition = useGetPoolPosition(
     defaultToken,
@@ -41,7 +44,9 @@ export const PoolSwapInfo = ({
         second_token={rewardedToken}
         in_token={stakedToken}
         out_token={rewardedToken}
-        onClose={() => setShowStake(false)}
+        onClose={() => {
+          setHeaderMenu(true), setShowStake(false);
+        }}
         show={showStake}
         isDual={isDual}
       />
@@ -55,7 +60,10 @@ export const PoolSwapInfo = ({
             borderColor={['#BD37EC', '#1F67FF']}
             text={'Swap'}
             buttonWidth={'100%'}
-            onClick={() => setShowStake(true)}
+            buttonHeight='31px'
+            onClick={() => {
+              setHeaderMenu(false), setShowStake(true);
+            }}
           />
         </>
       )}

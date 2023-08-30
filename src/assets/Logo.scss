@@ -1,0 +1,35 @@
+/* Logo.css */
+
+.logo-container {
+  display: flex;
+  // flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  margin-bottom: 0;
+  color: #fff;
+}
+
+.text {
+  /* Vous pouvez ajouter du style ici si nécessaire */
+  color: #fff;
+  font-size: 25px;
+  line-height: 1; /* Vous pouvez ajuster cette valeur jusqu'à ce que "Middle" et "Staking" soient aussi proches que vous le souhaitez */
+  font-weight: bold;
+}
+  
+  .logo-mobile {
+    margin-bottom: 0;
+    color: #fff;
+  }
+  
+  .text-mobile {
+    /* Vous pouvez ajouter du style ici si nécessaire */
+    color: #fff;
+    font-size: 20px;
+    line-height: 1; /* Vous pouvez ajuster cette valeur jusqu'à ce que "Middle" et "Staking" soient aussi proches que vous le souhaitez */
+    font-weight: bold;
+  }
+  

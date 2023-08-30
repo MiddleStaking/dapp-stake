@@ -65,7 +65,7 @@ export const ActionRemovePoolFees = ({ stakedToken, rewardedToken }: any) => {
         Buffer.from(rewardedToken, 'utf8').toString('hex'),
 
       receiver: contractAddress,
-      gasLimit: '6000000'
+      gasLimit: '7000000'
     };
     await refreshAccount();
 

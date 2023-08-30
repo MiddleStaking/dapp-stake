@@ -9,6 +9,7 @@ import {
   DappProvider,
   AxiosInterceptorContext // using this is optional
 } from '@multiversx/sdk-dapp/wrappers';
+
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { Layout } from 'components';
 import {
@@ -16,10 +17,12 @@ import {
   walletConnectV2ProjectId,
   sampleAuthenticatedDomains
 } from 'config';
+import { ContextProvider } from 'context';
+import { HeaderMenuProvider } from 'context/Header/HeaderMenuProvider';
 import { PageNotFound } from 'pages';
 import Unlock from 'pages/Unlock';
-import { routeNames, routes } from 'routes';
-import neon1 from './assets/img/neon1.svg';
+import { routeNames } from 'routes';
+import { routes } from 'routes';
 
 export const App = () => {
   return (
@@ -27,24 +30,6 @@ export const App = () => {
       <AxiosInterceptorContext.Interceptor
         authenticatedDomanis={sampleAuthenticatedDomains}
       >
-        {' '}
-        <svg
-          className='neon1'
-          height='100%'
-          width='100%'
-          xmlns='http://www.w3.org/2000/svg'
-          preserveAspectRatio='none'
-        >
-          <image
-            className='neon1'
-            x='0'
-            y='0'
-            height='100%'
-            width='100%'
-            href={neon1}
-            preserveAspectRatio='none'
-          />
-        </svg>
         <Router>
           <DappProvider
             environment={EnvironmentsEnum.mainnet}
@@ -54,32 +39,37 @@ export const App = () => {
               walletConnectV2ProjectId
             }}
           >
-            <Layout>
-              <AxiosInterceptorContext.Listener />
-              <TransactionsToastList />
-              <NotificationModal />
-              <SignTransactionsModals className='custom-class-for-modals' />
-              <Routes>
-                <Route
-                  path={routeNames.unlock + '/:route' + '/:param'}
-                  element={<Unlock />}
-                />
-                <Route
-                  path={routeNames.unlock + '/:route'}
-                  element={<Unlock />}
-                />
-                <Route path={routeNames.unlock} element={<Unlock />} />
+            {' '}
+            <ContextProvider>
+              <HeaderMenuProvider>
+                <Layout>
+                  <AxiosInterceptorContext.Listener />
+                  <TransactionsToastList />
+                  <NotificationModal />
+                  <SignTransactionsModals className='custom-class-for-modals' />
+                  <Routes>
+                    <Route
+                      path={routeNames.unlock + '/:route' + '/:param'}
+                      element={<Unlock />}
+                    />
+                    <Route
+                      path={routeNames.unlock + '/:route'}
+                      element={<Unlock />}
+                    />
+                    <Route path={routeNames.unlock} element={<Unlock />} />
 
-                {routes.map((route, index) => (
-                  <Route
-                    path={route.path}
-                    key={'route-key-' + index}
-                    element={<route.component />}
-                  />
-                ))}
-                <Route path='*' element={<PageNotFound />} />
-              </Routes>
-            </Layout>
+                    {routes.map((route, index) => (
+                      <Route
+                        path={route.path}
+                        key={'route-key-' + index}
+                        element={<route.component />}
+                      />
+                    ))}
+                    <Route path='*' element={<PageNotFound />} />
+                  </Routes>
+                </Layout>
+              </HeaderMenuProvider>{' '}
+            </ContextProvider>
           </DappProvider>
         </Router>
       </AxiosInterceptorContext.Interceptor>

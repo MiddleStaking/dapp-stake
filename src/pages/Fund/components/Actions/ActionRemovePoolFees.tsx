@@ -56,21 +56,20 @@ export const ActionRemovePoolFees = ({
       return;
     }
     const fundTransaction = {
-      value: 0,
-      data:
-        'ESDTTransfer@' +
-        Buffer.from(defaultToken, 'utf8').toString('hex') +
-        '@' +
-        bigToHexDec(BigInt(price)) +
-        '@' +
-        Buffer.from('removePoolFees', 'utf8').toString('hex') +
-        '@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
-        '@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex'),
-
-      receiver: contractAddress,
-      gasLimit: '6000000'
+      // value: 0,
+      // data:
+      //   'ESDTTransfer@' +
+      //   Buffer.from(defaultToken, 'utf8').toString('hex') +
+      //   '@' +
+      //   bigToHexDec(BigInt(price)) +
+      //   '@' +
+      //   Buffer.from('removePoolFees', 'utf8').toString('hex') +
+      //   '@' +
+      //   Buffer.from(stakedToken, 'utf8').toString('hex') +
+      //   '@' +
+      //   Buffer.from(rewardedToken, 'utf8').toString('hex'),
+      // receiver: contractAddress,
+      // gasLimit: '7000000'
     };
     await refreshAccount();
 

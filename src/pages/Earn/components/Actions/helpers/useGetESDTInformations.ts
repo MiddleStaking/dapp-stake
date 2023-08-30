@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import axios from 'axios';
-
+import { network } from 'config';
 export const useGetESDTInformations = (identifier: string) => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const time = new Date();
   const [esdtInfo, setEsdtInfo] = useState<any>({});
   // {
@@ -74,6 +74,9 @@ export const useGetESDTInformations = (identifier: string) => {
         baseURL: network.apiAddress,
         params: {}
       });
+      // if (data.data?.identifier != identifier) {
+      //   return;
+      // }
       setEsdtInfo(data);
       //storage of 10 minutes
       const expire = time.getTime() + 1000 * 60 * 10;

@@ -79,8 +79,8 @@ const Rewards2 = () => {
     fetchRewardsList();
   }, [setYRewards]);
 
-  console.log('tab');
-  console.log(tab !== null || undefined ? tab : '2021');
+  // console.log('tab');
+  // console.log(tab !== null || undefined ? tab : '2021');
 
   console.log(
     points.points.map((item: string, index: number) =>

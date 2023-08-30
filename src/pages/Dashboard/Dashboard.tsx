@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from 'react';
-
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useNavigate } from 'react-router-dom';
 
-import Cards from './components/Cards';
-import Heading from './components/Heading';
-import Stake from './components/Stake';
-import Withdrawals from './components/Withdrawals';
+import { Cards } from 'components/Cards';
+import { Heading } from 'components/Heading';
+import { Stake } from 'components/Stake';
+import { Withdrawals } from 'components/Withdrawals';
+
+import useGlobalData from '../../hooks/useGlobalData';
+
 import styles from './styles.module.scss';
 
 export const Dashboard = () => {
   const { address } = useGetAccountInfo();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
   const handleRedirect = () =>
     Boolean(address) ? setLoading(false) : navigate('/unlock');
 
   useEffect(handleRedirect, [address]);
-  // useGlobalData();
+  useGlobalData();
 
   if (loading) {
     return (
@@ -42,11 +44,8 @@ export const Dashboard = () => {
   return (
     <div className={styles.dashboard}>
       <Heading />
-
       <Cards />
-
       <Stake />
-
       <Withdrawals />
     </div>
   );
