@@ -1,78 +1,67 @@
 //DEVNET :
-// export const defaultToken = 'MID-7f1d59';
-// export const defaultPairs = [
-//   { s: 'MID-7f1d59', r: 'MID-7f1d59' },
-//   { s: 'MID-7f1d59', r: 'ATS-e57f90' },
-//   { s: 'MID-7f1d59', r: 'MEX-dc289c' },
-//   { s: 'MID-7f1d59', r: 'WEGLD-d7c6bb' },
-//   { s: 'MEX-dc289c', r: 'MID-7f1d59' },
-//   { s: 'MEX-dc289c', r: 'MEX-dc289c' },
-//   { s: 'SNS-ffcb8c', r: 'TIKA-c375d8' },
-//   { s: 'SNS-ffcb8c', r: 'MID-7f1d59' },
-//   { s: 'SNS-ffcb8c', r: 'RENBTC-0b6973' },
-//   { s: 'SNS-ffcb8c', r: 'WEGLD-d7c6bb' },
-//   { s: 'VITAL-058fd5', r: 'VITAL-058fd5' },
-//   { s: 'USDC-8d4068', r: 'VITAL-058fd5' }
-// ];
-// export const contractAddress =
-//   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
-// //'erd1qqqqqqqqqqqqqpgqf63utxdnjxlklutavl5sqamjgsmf5565ch9sdxj750';
-// export const contractAddressDelegation =
-//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
-// export const contractPlay =
-//   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
-
-// export const network: NetworkType = {
-//   id: 'devnet',
-//   name: 'Devnet',
-//   egldLabel: 'xEGLD',
-//   walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
-//   apiAddress: 'https://devnet-api.multiversx.com',
-//   gatewayAddress: 'https://devnet-gateway.multiversx.com',
-//   explorerAddress: 'http://devnet-explorer.multiversx.com',
-//   delegationContract: contractAddressDelegation
-// };
-
-//MAINNET :
-export const defaultToken = 'MID-ecb7bf';
+export const defaultToken = 'MID-7f1d59';
+export const defaultPairs = [
+  { s: 'MID-7f1d59', r: 'MID-7f1d59' },
+  { s: 'MID-7f1d59', r: 'ATS-e57f90' },
+  { s: 'MID-7f1d59', r: 'MEX-dc289c' },
+  { s: 'MID-7f1d59', r: 'WEGLD-d7c6bb' },
+  { s: 'MEX-dc289c', r: 'MID-7f1d59' },
+  { s: 'MEX-dc289c', r: 'MEX-dc289c' },
+  { s: 'SNS-ffcb8c', r: 'TIKA-c375d8' },
+  { s: 'SNS-ffcb8c', r: 'MID-7f1d59' },
+  { s: 'SNS-ffcb8c', r: 'RENBTC-0b6973' },
+  { s: 'SNS-ffcb8c', r: 'WEGLD-d7c6bb' },
+  { s: 'VITAL-058fd5', r: 'VITAL-058fd5' },
+  { s: 'USDC-8d4068', r: 'VITAL-058fd5' }
+];
 export const contractAddress =
-  'erd1qqqqqqqqqqqqqpgqgdf6vk43c2jxk4a6nw2adv8vmnpqagegtxfqmf8et2';
+  'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
+//'erd1qqqqqqqqqqqqqpgqf63utxdnjxlklutavl5sqamjgsmf5565ch9sdxj750';
 export const contractAddressDelegation =
-  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
+  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 export const contractPlay =
-  'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
-
+  'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
 export const network: NetworkType = {
-  id: 'mainnet',
-  name: 'Mainnet',
-  egldLabel: 'EGLD',
-  walletAddress: 'https://wallet.multiversx.com/dapp/init',
-  apiAddress: 'https://api.multiversx.com',
-  gatewayAddress: 'https://gateway.multiversx.com',
-  gatewayCached: 'https://api.middlestaking.fr/mainnet',
-  explorerAddress: 'http://explorer.multiversx.com',
+  id: 'devnet',
+  name: 'Devnet',
+  egldLabel: 'xEGLD',
+  walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
+  apiAddress: 'https://devnet-api.multiversx.com',
+  gatewayAddress: 'https://devnet-gateway.multiversx.com',
+  gatewayCached: 'https://api.middlestaking.fr/devnet',
+  explorerAddress: 'http://devnet-explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };
+
+//MAINNET :
+// export const defaultToken = 'MID-ecb7bf';
+// export const contractAddress =
+//   'erd1qqqqqqqqqqqqqpgqgdf6vk43c2jxk4a6nw2adv8vmnpqagegtxfqmf8et2';
+// export const contractAddressDelegation =
+//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
+// export const contractPlay =
+//   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
+
 // export const network: NetworkType = {
 //   id: 'mainnet',
 //   name: 'Mainnet',
 //   egldLabel: 'EGLD',
 //   walletAddress: 'https://wallet.multiversx.com/dapp/init',
-//   apiAddress: 'https://mvx-api.e-compass.io',
-//   gatewayAddress: 'https://mvx-proxy.e-compass.io',
-//   gatewayCached: 'https://mvx-proxy.e-compass.io',
+//   apiAddress: 'https://api.multiversx.com',
+//   gatewayAddress: 'https://gateway.multiversx.com',
+//   gatewayCached: 'https://api.middlestaking.fr/mainnet',
 //   explorerAddress: 'http://explorer.multiversx.com',
 //   delegationContract: contractAddressDelegation
 // };
-
-export const defaultPairs = [
-  { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
-  { s: 'MID-ecb7bf', r: 'MEX-455c57' },
-  { s: 'MID-ecb7bf', r: 'VITAL-ab7917' },
-  { s: 'MIDUSDC-3d93f4', r: 'MID-ecb7bf' },
-  { s: 'MEX-455c57', r: 'MID-ecb7bf' },
-  { s: 'VITAL-ab7917', r: 'MID-ecb7bf' }
-];
+// export const defaultPairs = [
+//   { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
+//   { s: 'MID-ecb7bf', r: 'MEX-455c57' },
+//   { s: 'MID-ecb7bf', r: 'VITAL-ab7917' },
+//   { s: 'MID-ecb7bf', r: 'XTW-78700a' },
+//   { s: 'MIDUSDC-3d93f4', r: 'MID-ecb7bf' },
+//   { s: 'MEX-455c57', r: 'MID-ecb7bf' },
+//   { s: 'VITAL-ab7917', r: 'MID-ecb7bf' }
+// ];
 
 //GLOBAL :
 export const stakingContract =
