@@ -16,7 +16,8 @@ import {
   Fund,
   Play,
   Swap,
-  Liquidity
+  Liquidity,
+  Collections
 } from './pages';
 
 export const routeNames = {
@@ -35,6 +36,7 @@ export const routeNames = {
   rewards2: '/rewards2',
   play: '/play',
   liquidity: '/liquidity',
+  collections: '/collections',
   admin: '/admin'
 };
 
@@ -75,6 +77,12 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.stake,
     title: 'Stake',
     component: Earn,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.collections,
+    title: 'Collections',
+    component: Collections,
     authenticatedRoute: false
   },
   {
