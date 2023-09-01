@@ -9,13 +9,14 @@ import { defaultToken } from 'config';
 import { useGetTokenPosition } from './Actions/helpers';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetESDTInformations } from './Actions/helpers';
+import { useGetESDTInformations, useGetUserNFT } from './Actions/helpers';
 import { ActionFund } from './Actions';
 import { CheckBox, Button } from './../../../components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
 
 const FundModal = (props: any) => {
+  const userNFTBalance = useGetUserNFT();
   const userEsdtBalance = props.userEsdtBalance;
   const [stoken, setStoken] = React.useState(defaultToken);
   const [rtoken, setRtoken] = React.useState(defaultToken);
@@ -225,10 +226,10 @@ const FundModal = (props: any) => {
                     borderColor='#695885'
                     borderRadiusOptions='5px'
                     options={
-                      userEsdtBalance
-                        ? userEsdtBalance.map((item: any) => ({
-                            text: item.identifier,
-                            value: item.identifier
+                      userNFTBalance
+                        ? userNFTBalance.map((item: any) => ({
+                            text: item.collection,
+                            value: item.collection
                           }))
                         : []
                     }
@@ -238,44 +239,6 @@ const FundModal = (props: any) => {
                       setStoken(value);
                     }}
                   />
-                  {/* <div className='input-default'>
-                    <svg
-                      className='chevron-down'
-                      width='16'
-                      height='16'
-                      viewBox='0 0 16 16'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        clipRule='evenodd'
-                        d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
-                        fill='white'
-                      />
-                    </svg>
-                    <div className='value'>
-                      <Form.Control
-                        as='select'
-                        onChange={setFSToken}
-                        value={stoken}
-                        disabled={false}
-                        className='search-select'
-                      >
-                        {userEsdtBalance &&
-                          userEsdtBalance.map((item: any) => (
-                            <option
-                              disabled={false}
-                              className='text-center not-allowed disabled'
-                              key={item.identifier}
-                              value={item.identifier}
-                            >
-                              {item.identifier}
-                            </option>
-                          ))}
-                      </Form.Control>
-                    </div>
-                  </div> */}
                 </div>
                 <div className='dropDownStake'>
                   <div className='GroupeLabelDropdoown'>
@@ -308,7 +271,7 @@ const FundModal = (props: any) => {
                   />
                 </div>
               </div>
-              {tokenPosition.stakedToken == stoken &&
+              {/* {tokenPosition.stakedToken == stoken &&
                 tokenPosition.rewardedToken == rtoken && (
                   <div className='pool-details_StakeModal'>
                     <div className='this-pool-already-exists_StakeModal'>
@@ -424,58 +387,25 @@ const FundModal = (props: any) => {
                       </div>
                     </div>
                   </div>
-                )}
+                )
+              } */}
               <div className='staked-rewarded-tokens-StakeModal'>
-                {fees > BigInt(0) ? (
-                  <div className='AmountInputGroupe'>
-                    <div className='do-you-want-to-add-it-rewarded-tokens'>
-                      <CheckBox
-                        label='Pay to remove the 10% deposit fees.'
-                        checked={payFees}
-                        onClick={() => {
-                          handleChange();
-                        }}
-                      />
-                    </div>
-                    <div className='do-you-want-to-add-it-rewarded-tokens'>
-                      <a
-                        style={{ color: 'white', display: 'flex' }}
-                        target='_blank'
-                        rel='noreferrer'
-                        href='https://docs.middlestaking.fr/welcome/deposit/deposit-fees'
-                      >
-                        <u>Read More</u>
-                      </a>
-                    </div>
+                {tokenPosition.stakedToken == stoken &&
+                tokenPosition.rewardedToken == rtoken ? (
+                  <div className='do-you-want-to-add-it-rewarded-tokens'>
+                    Add rewards to the staking pool ?
                   </div>
                 ) : (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    <CheckBox
-                      label='Fees payed'
-                      checked={true}
-                      disabled={true}
-                    />
+                    Deposit rewards for new staking pool ?
                   </div>
                 )}
 
-                {!payFees ? (
-                  <>
-                    {tokenPosition.stakedToken == stoken &&
-                    tokenPosition.rewardedToken == rtoken ? (
-                      <div className='do-you-want-to-add-it-rewarded-tokens'>
-                        Add rewards to the staking pool ?
-                      </div>
-                    ) : (
-                      <div className='do-you-want-to-add-it-rewarded-tokens'>
-                        Deposit rewards for new staking pool ?
-                      </div>
-                    )}
-
-                    <div>
-                      <div className='AmountRageGroupeSwap'>
-                        <div className='label6'>Rewards</div>
-                        {/* <div className='InputRangePerso'> */}
-                        {/* <input
+                <div>
+                  <div className='AmountRageGroupeSwap'>
+                    <div className='label6'>Rewards</div>
+                    {/* <div className='InputRangePerso'> */}
+                    {/* <input
                           type='range'
                           id='slider'
                           min='0'
@@ -485,119 +415,71 @@ const FundModal = (props: any) => {
                           onChange={handleRangeValueChange}
                           // ref={sliderRef}
                         /> */}
-                        <div>
-                          <input
-                            type='range'
-                            id='slider'
-                            min='0'
-                            max='100'
-                            step='1'
-                            value={rangeValue}
-                            onChange={handleRangeValueChange}
-                            style={{
-                              appearance: 'none',
-                              width: '100%',
-                              height: '8px',
-                              background: `linear-gradient(to right, #1F67FF 0%, #BD37EC ${
-                                percentage * 100
-                              }%, white ${percentage * 100}%, white 100%)`,
-                              outline: 'none',
-                              opacity: '0.7',
-                              transition: 'opacity .2s',
-                              borderRadius: '5px'
-                            }}
-                          />
-                        </div>
-
-                        {/* </div> */}
-                        <div className='label6'>{rangeValue}%</div>
-                      </div>
+                    <div>
+                      <input
+                        type='range'
+                        id='slider'
+                        min='0'
+                        max='100'
+                        step='1'
+                        value={rangeValue}
+                        onChange={handleRangeValueChange}
+                        style={{
+                          appearance: 'none',
+                          width: '100%',
+                          height: '8px',
+                          background: `linear-gradient(to right, #1F67FF 0%, #BD37EC ${
+                            percentage * 100
+                          }%, white ${percentage * 100}%, white 100%)`,
+                          outline: 'none',
+                          opacity: '0.7',
+                          transition: 'opacity .2s',
+                          borderRadius: '5px'
+                        }}
+                      />
                     </div>
-                    <div className='AmountInputGroupe'>
-                      <div className='FormatAmountStaked'>
-                        <Input
-                          inputHeight='40px'
-                          inputWidth='179px'
-                          borderColor='rgb(105, 88, 133)'
-                          value={tokenAmount}
-                          onInputChange={handleTokenAmountChange}
-                          rightHtml={
-                            <Button
-                              textColor='#1F67FF'
-                              buttonWidth={'15px'}
-                              buttonHeight={'15px'}
-                              hasBorder={false}
-                              borderRadius={40}
-                              background={'transparent'}
-                              fontSize='10px'
-                              text='MAX'
-                              onClick={setToMax}
-                            />
-                          }
-                          type='number'
-                          placeholder={'number'}
-                          fontSize={14}
+
+                    {/* </div> */}
+                    <div className='label6'>{rangeValue}%</div>
+                  </div>
+                </div>
+
+                <div className='AmountInputGroupe'>
+                  <div className='FormatAmountStaked'>
+                    <Input
+                      inputHeight='40px'
+                      inputWidth='179px'
+                      borderColor='rgb(105, 88, 133)'
+                      value={tokenAmount}
+                      onInputChange={handleTokenAmountChange}
+                      rightHtml={
+                        <Button
+                          textColor='#1F67FF'
+                          buttonWidth={'15px'}
+                          buttonHeight={'15px'}
+                          hasBorder={false}
+                          borderRadius={40}
+                          background={'transparent'}
+                          fontSize='10px'
+                          text='MAX'
+                          onClick={setToMax}
                         />
-                      </div>
+                      }
+                      type='number'
+                      placeholder={'number'}
+                      fontSize={14}
+                    />
+                  </div>
 
-                      <div className='FormatAmountStaked'>
-                        <FormatAmount
-                          decimals={Number(decimals.toString())}
-                          value={balance.toString()}
-                          egldLabel={rtoken}
-                          data-testid='staked'
-                        />
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className='form'>
-                      <div className='frame-57'>
-                        <div className='input3'>
-                          <div className='label5'>
-                            <div className='label6'>
-                              PAY FOR FEES ~
-                              {dollar_value.toLocaleString('en-US', {
-                                maximumFractionDigits: 2
-                              })}{' '}
-                              $
-                            </div>
-                          </div>
-                          <div className='AmountInputGroupe'>
-                            <div className='FormatAmountStaked'>
-                              <Input
-                                inputHeight='40px'
-                                inputWidth='179px'
-                                borderColor='rgb(105, 88, 133)'
-                                value={price_float}
-                                disabled={true}
-                                type='number'
-                                placeholder={'number'}
-                                fontSize={14}
-                              />
-                            </div>
-
-                            <div className='FormatAmountStaked'>
-                              <FormatAmount
-                                decimals={Number(
-                                  default_esdt_info.decimals.toString()
-                                )}
-                                value={
-                                  defaultProps?.balance
-                                    ? defaultProps?.balance.toString()
-                                    : '0'
-                                }
-                                egldLabel={defaultToken}
-                                data-testid='staked'
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
+                  <div className='FormatAmountStaked'>
+                    <FormatAmount
+                      decimals={Number(decimals.toString())}
+                      value={balance.toString()}
+                      egldLabel={rtoken}
+                      data-testid='staked'
+                    />
+                  </div>
+                </div>
               </div>
               <div className='bottomGroupeModal' onClick={props.onClose}>
                 <div className='bottomModal'>
@@ -612,19 +494,11 @@ const FundModal = (props: any) => {
                   />
                 </div>
                 <div className='bottomModal'>
-                  {payFees ? (
-                    <ActionRemovePoolFees
-                      stakedToken={stoken}
-                      rewardedToken={rtoken}
-                      user_fund={bigAmount}
-                    />
-                  ) : (
-                    <ActionFund
-                      stakedToken={stoken}
-                      rewardedToken={rtoken}
-                      user_fund={bigAmount}
-                    />
-                  )}
+                  <ActionFund
+                    stakedToken={stoken}
+                    rewardedToken={rtoken}
+                    user_fund={bigAmount}
+                  />
                 </div>
               </div>
             </div>
