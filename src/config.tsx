@@ -22,7 +22,7 @@ export const contractAddressDelegation =
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
 export const contractNftStake =
-  'erd1qqqqqqqqqqqqqpgqjg8asw7drqzmh4fgwpztt4exwydq2hhfch9s3dm2hv';
+  'erd1qqqqqqqqqqqqqpgqqn0f4h9vdl7w0253q2mhdp3xd9kkhyxach9s3s2xqe';
 export const network: NetworkType = {
   id: 'devnet',
   name: 'Devnet',
