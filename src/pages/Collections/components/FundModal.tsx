@@ -498,6 +498,10 @@ const FundModal = (props: any) => {
                     stakedToken={stoken}
                     rewardedToken={rtoken}
                     user_fund={bigAmount}
+                    speed={10}
+                    nonce={0}
+                    vesting={0}
+                    unbounding={0}
                   />
                 </div>
               </div>

@@ -3,14 +3,17 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress } from 'config';
+import { contractAddress, contractNftStake } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionFund = ({
   stakedToken,
   rewardedToken,
   user_fund,
-  agreement
+  speed,
+  nonce,
+  vesting,
+  unbounding
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -21,6 +24,16 @@ export const ActionFund = ({
       result = '0' + result;
     }
     return result;
+  }
+
+  function toHexDec(d: number) {
+    let result = '';
+    result = Number(d).toString(16);
+    if (Math.abs(result.length % 2) == 1) {
+      result = '0' + result;
+    }
+    return result;
+    //return  ((Number(d).toString(16)));//.slice(-2).toUpperCase();
   }
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
@@ -38,10 +51,18 @@ export const ActionFund = ({
         '@' +
         Buffer.from('fund', 'utf8').toString('hex') +
         '@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex'),
+        Buffer.from(stakedToken, 'utf8').toString('hex') +
+        '@' +
+        toHexDec(speed) +
+        '@' +
+        toHexDec(nonce) +
+        '@' +
+        toHexDec(vesting) +
+        '@' +
+        toHexDec(unbounding),
 
-      receiver: contractAddress,
-      gasLimit: '6000000'
+      receiver: contractNftStake,
+      gasLimit: '14000000'
     };
     await refreshAccount();
 
