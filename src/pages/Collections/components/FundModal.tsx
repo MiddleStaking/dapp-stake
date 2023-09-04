@@ -195,7 +195,7 @@ const FundModal = (props: any) => {
         <div className='backgroundStakeModal'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
-              <div className='modalLabelStakeModal'>Add staking rewards</div>
+              <div className='modalLabelStakeModal'>Add collection rewards</div>
               <div className='logosStakeModal'>
                 <div className='logo2StakeModal'>
                   <div className='image_2StakeModal'>
@@ -212,7 +212,7 @@ const FundModal = (props: any) => {
               <div className='dropDownGroupeStakeModal'>
                 <div className='dropDownStake'>
                   <div className='GroupeLabelDropdoown'>
-                    <div className='LabelDropdoown'>Staked token</div>
+                    <div className='LabelDropdoown'>Staked collection</div>
                   </div>
 
                   <DropdownMenu
@@ -233,7 +233,7 @@ const FundModal = (props: any) => {
                           }))
                         : []
                     }
-                    defaultValue={stoken}
+                    defaultValue={'select collection'}
                     disableOption={false}
                     onSelect={function (value: any): void {
                       setStoken(value);
@@ -393,7 +393,7 @@ const FundModal = (props: any) => {
                 {tokenPosition.stakedToken == stoken &&
                 tokenPosition.rewardedToken == rtoken ? (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    Add rewards to the staking pool ?
+                    Add rewards for NFT/SFT collection ?
                   </div>
                 ) : (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
