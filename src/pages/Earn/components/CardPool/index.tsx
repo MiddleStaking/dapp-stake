@@ -368,7 +368,8 @@ const CardPool: FC<CardPoolrops> = ({
   return (
     <div
       style={{
-        width: WindowDimensions > 450 ? '300px' : '300px'
+        width: WindowDimensions > 450 ? '300px' : '300px',
+        margin: 'auto'
       }}
     >
       <div style={cardType}>
