@@ -44,7 +44,7 @@ export const network: NetworkType = {
 // export const contractPlay =
 //   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
 // export const contractNftStake =
-//   '?????';
+//   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
 // export const network: NetworkType = {
 //   id: 'mainnet',
 //   name: 'Mainnet',
