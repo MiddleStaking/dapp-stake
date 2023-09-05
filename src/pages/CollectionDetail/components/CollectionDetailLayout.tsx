@@ -36,7 +36,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
 
   const stakedCollections: string[] = useGetCollections();
 
-  const collectionRewards: string[] = useGetCollectionDetail(url ? url : '');
+  const collectionRewards = useGetCollectionDetail(url ? url : '');
   console.log(collectionRewards);
 
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
@@ -88,7 +88,17 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
           </div>
         )}
       </div>
-      <div className='col-12'>{url}</div>
+      <div className='col-12'>
+        {url} : {collectionRewards[0].identifier}
+        {collectionRewards[0].rewards.toString()}
+        {collectionRewards[0].total_staked.toString()}
+        {collectionRewards[0].total_rewarded.toString()}
+        {collectionRewards[0].last_fund_block.toString()}
+        {collectionRewards[0].paused.toString()}
+        {collectionRewards[0].blocks_to_max.toString()}
+        {collectionRewards[0].vesting.toString()}
+        {collectionRewards[0].unbounding.toString()}
+      </div>
     </div>
   );
 };
