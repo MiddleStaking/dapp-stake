@@ -100,11 +100,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     flex: 1,
-    position: 'relative',
-    height: '50px',
-    backgroundColor: '#FFFFFF',
-    border: '5px',
-    borderColor: '#00FF00'
+    position: 'relative'
   };
 
   const { network } = useGetNetworkConfig();
@@ -124,13 +120,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
       }}
     >
       <div style={cardType}>
-        <Link
-          to={routeNames.collections + `/${collectionIdentifier}`}
-          className='butLine bouton-visiter'
-          data-testid='loginBtn'
-        >
-          Stake {collectionIdentifier}
-        </Link>
+        {collectionIdentifier}
         {/* <TypeSection
           //   image1={image1}
           //   image2={image2}

@@ -11,3 +11,4 @@ export * from './Play';
 export * from './Swap';
 export * from './Liquid';
 export * from './Collections';
+export * from './CollectionDetail';
