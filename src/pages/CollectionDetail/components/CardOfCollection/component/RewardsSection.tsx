@@ -1,3 +1,4 @@
+//NOTE - après staké (piecette)
 import React, { CSSProperties, FC } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import {

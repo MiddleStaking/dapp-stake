@@ -10,3 +10,4 @@ export * from './useGetPoolPosition';
 export * from './useGetSwapedTokens';
 export * from './useGetUserNFT';
 export * from './useGetCollectionDetail';
+export * from './useGetRewardsPoolsID';

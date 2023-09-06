@@ -5,7 +5,7 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { defaultToken } from 'config';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetRewardedTokens } from './Actions/helpers';
+import { useGetRewardsPoolsID } from './Actions/helpers';
 import { useGetIsPaused } from './Actions/helpers';
 import {
   useGetCollections,
@@ -35,6 +35,8 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [url] = useState(param?.toString());
 
   const stakedCollections: string[] = useGetCollections();
+  const test: string[] = useGetRewardsPoolsID(url ? url : '');
+  console.log(test);
 
   const collectionRewards = useGetCollectionDetail(url ? url : '');
   console.log(collectionRewards);
@@ -89,15 +91,15 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         )}
       </div>
       <div className='col-12'>
-        {url} : {collectionRewards[0].identifier}
-        {collectionRewards[0].rewards.toString()}
-        {collectionRewards[0].total_staked.toString()}
-        {collectionRewards[0].total_rewarded.toString()}
-        {collectionRewards[0].last_fund_block.toString()}
-        {collectionRewards[0].paused.toString()}
-        {collectionRewards[0].blocks_to_max.toString()}
-        {collectionRewards[0].vesting.toString()}
-        {collectionRewards[0].unbounding.toString()}
+        {url} : {collectionRewards[1]?.identifier}
+        {collectionRewards[0]?.rewards.toString()}
+        {collectionRewards[0]?.total_staked.toString()}
+        {collectionRewards[0]?.total_rewarded.toString()}
+        {collectionRewards[0]?.last_fund_block.toString()}
+        {collectionRewards[0]?.paused.toString()}
+        {collectionRewards[0]?.blocks_to_max.toString()}
+        {collectionRewards[0]?.vesting.toString()}
+        {collectionRewards[0]?.unbounding.toString()}
       </div>
     </div>
   );
