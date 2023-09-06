@@ -1,3 +1,4 @@
+//NOTE - haut card
 import React, {
   CSSProperties,
   FC,

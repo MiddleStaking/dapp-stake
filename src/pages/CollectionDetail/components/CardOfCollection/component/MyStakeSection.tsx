@@ -1,3 +1,4 @@
+//NOTE - partie inferieure
 import React, { CSSProperties, FC, useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import { useNavigate } from 'react-router-dom';

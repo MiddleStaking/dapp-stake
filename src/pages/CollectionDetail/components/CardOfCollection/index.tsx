@@ -1,3 +1,4 @@
+//NOTE - collone vertébrale 
 import React, {
   CSSProperties,
   FC,

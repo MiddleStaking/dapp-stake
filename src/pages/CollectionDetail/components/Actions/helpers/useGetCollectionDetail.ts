@@ -29,9 +29,9 @@ export const useGetCollectionDetail = (stakedToken: string) => {
   const getStakedTokens = async () => {
     //using storage to reduce calls
     const expire_test = Number(
-      localStorage.getItem('collection_rewards_expire')
+      localStorage.getItem('collection_rewards_' + stakedToken + '_expire')
     );
-    const load: any = localStorage.getItem('collection_rewards');
+    const load: any = localStorage.getItem('collection_rewards_' + stakedToken);
     const storage = JSON.parse(load);
     setStakedTokens(storage ? storage : []);
     if (time.getTime() < expire_test) {
@@ -56,10 +56,13 @@ export const useGetCollectionDetail = (stakedToken: string) => {
         //storage of 15 minutes
         const expire = time.getTime() + 1000 * 60 * 15;
         localStorage.setItem(
-          'collection_rewards',
+          'collection_rewards_' + stakedToken,
           JSON.stringify(rewards?.valueOf())
         );
-        //localStorage.setItem('collection_rewards_expire', expire.toString());
+        localStorage.setItem(
+          'collection_rewards_' + stakedToken + '_expire',
+          expire.toString()
+        );
       }
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);
