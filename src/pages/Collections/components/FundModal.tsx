@@ -480,6 +480,60 @@ const FundModal = (props: any) => {
                     />
                   </div>
                 </div>
+
+                <div className='AmountInputGroupe'>
+                  <div className='FormatAmountStaked'>
+                    <Input
+                      inputHeight='40px'
+                      inputWidth='179px'
+                      borderColor='rgb(105, 88, 133)'
+                      value={tokenAmount}
+                      onInputChange={handleTokenAmountChange}
+                      rightHtml={
+                        <Button
+                          textColor='#1F67FF'
+                          buttonWidth={'15px'}
+                          buttonHeight={'15px'}
+                          hasBorder={false}
+                          borderRadius={40}
+                          background={'transparent'}
+                          fontSize='10px'
+                          text='MAX'
+                          onClick={setToMax}
+                        />
+                      }
+                      type='number'
+                      placeholder={'number'}
+                      fontSize={14}
+                    />
+                  </div>
+
+                  <div className='FormatAmountStaked'>
+                    <Input
+                      inputHeight='40px'
+                      inputWidth='179px'
+                      borderColor='rgb(105, 88, 133)'
+                      value={tokenAmount}
+                      onInputChange={handleTokenAmountChange}
+                      rightHtml={
+                        <Button
+                          textColor='#1F67FF'
+                          buttonWidth={'15px'}
+                          buttonHeight={'15px'}
+                          hasBorder={false}
+                          borderRadius={40}
+                          background={'transparent'}
+                          fontSize='10px'
+                          text='MAX'
+                          onClick={setToMax}
+                        />
+                      }
+                      type='number'
+                      placeholder={'number'}
+                      fontSize={14}
+                    />
+                  </div>
+                </div>
               </div>
               <div className='bottomGroupeModal' onClick={props.onClose}>
                 <div className='bottomModal'>

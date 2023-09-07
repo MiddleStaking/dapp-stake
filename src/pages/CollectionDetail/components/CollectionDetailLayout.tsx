@@ -90,8 +90,8 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
           </div>
         )}
       </div>
-      <div className='col-12'>
-        {url} : {collectionRewards[1]?.identifier}
+      {/* <div className='col-12 text-white'>
+        {url} : <br /> <h1> {collectionRewards[0]?.identifier}</h1>
         {collectionRewards[0]?.rewards.toString()}
         {collectionRewards[0]?.total_staked.toString()}
         {collectionRewards[0]?.total_rewarded.toString()}
@@ -100,7 +100,22 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         {collectionRewards[0]?.blocks_to_max.toString()}
         {collectionRewards[0]?.vesting.toString()}
         {collectionRewards[0]?.unbounding.toString()}
-      </div>
+      </div> */}
+      <br />
+      {collectionRewards &&
+        collectionRewards.map((item, key) => (
+          <div
+            className='col-12 text-white'
+            key={key}
+            style={{ backgroundColor: 'red', margin: '3px' }}
+          >
+            key:{key} <br />
+            {item?.identifier} <br />
+            vesting:{item?.vesting.toString()} <br />
+            rewards:{item?.rewards.toString()}
+            <br />
+          </div>
+        ))}
     </div>
   );
 };
