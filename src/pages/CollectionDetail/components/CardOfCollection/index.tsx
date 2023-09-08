@@ -200,4 +200,22 @@ const CardOfCollection: FC<CardPoolrops> = ({
   );
 };
 
+// .search-bar {
+//   background: var(--neutral-black, #000000);
+//   border-radius: 100px;
+//   border-style: solid;
+//     border-color: var(--neutral-light, #695885);
+//     border-width: 1px;
+//     padding: 16px 16px 16px 16px;
+//     display: flex;
+//     flex-direction: row;
+//     gap: 10px;
+//     align-items: center;
+//     justify-content: flex-start;
+//     flex-shrink: 0;
+//     width: 260px;
+//     position: relative;
+//   height: 40px;
+//   }
+
 export default CardOfCollection;

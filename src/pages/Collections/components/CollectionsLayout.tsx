@@ -1,3 +1,5 @@
+// NOTE : mep card
+
 import React, { useState, useEffect } from 'react';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
@@ -45,46 +47,87 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         }}
       />
       <div className='col-12'>
-        {address && (
-          <div
-            className='button-icon-border  cursor-pointer'
-            onClick={() => {
-              setShowFund(true), setHeaderMenu(false);
-            }}
-          >
-            <div className='button-icon'>
-              <svg
-                className='plus'
-                width='20'
-                height='20'
-                viewBox='0 0 32 32'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  fillRule='evenodd'
-                  clipRule='evenodd'
-                  d='M17.3334 6.66683C17.3334 5.93045 16.7364 5.3335 16 5.3335C15.2637 5.3335 14.6667 5.93045 14.6667 6.66683V14.6668H6.66671C5.93033 14.6668 5.33337 15.2638 5.33337 16.0002C5.33337 16.7365 5.93033 17.3335 6.66671 17.3335H14.6667V25.3335C14.6667 26.0699 15.2637 26.6668 16 26.6668C16.7364 26.6668 17.3334 26.0699 17.3334 25.3335V17.3335H25.3334C26.0698 17.3335 26.6667 16.7365 26.6667 16.0002C26.6667 15.2638 26.0698 14.6668 25.3334 14.6668H17.3334V6.66683Z'
-                  fill='white'
-                />
-              </svg>
+        <Col
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={3}
+          xxl={3}
+          className='pb-4 center'
+        >
+          search
+        </Col>
+        <Col
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={3}
+          xxl={3}
+          className='pb-4 center'
+        >
+          {address && (
+            <div
+              className='button-icon-border  cursor-pointer'
+              onClick={() => {
+                setShowFund(true), setHeaderMenu(false);
+              }}
+            >
+              <div className='button-icon'>
+                <svg
+                  className='plus'
+                  width='20'
+                  height='20'
+                  viewBox='0 0 32 32'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    fillRule='evenodd'
+                    clipRule='evenodd'
+                    d='M17.3334 6.66683C17.3334 5.93045 16.7364 5.3335 16 5.3335C15.2637 5.3335 14.6667 5.93045 14.6667 6.66683V14.6668H6.66671C5.93033 14.6668 5.33337 15.2638 5.33337 16.0002C5.33337 16.7365 5.93033 17.3335 6.66671 17.3335H14.6667V25.3335C14.6667 26.0699 15.2637 26.6668 16 26.6668C16.7364 26.6668 17.3334 26.0699 17.3334 25.3335V17.3335H25.3334C26.0698 17.3335 26.6667 16.7365 26.6667 16.0002C26.6667 15.2638 26.0698 14.6668 25.3334 14.6668H17.3334V6.66683Z'
+                    fill='white'
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </Col>
       </div>
       <div className='col-12'>
-        {stakedCollections &&
-          stakedCollections.map((item) => (
-            <Col key={item}>
-              <CardOfCollection
-                height={heightComponentTypeSection}
-                WindowDimensions={width}
-                textColor='#ffffff'
-                fontFamily='sans-serif'
-                collectionIdentifier={item}
-              />
-            </Col>
-          ))}
+        <Row className=''>
+          {stakedCollections &&
+            stakedCollections.map((item) => (
+              <Col
+                xs={12}
+                sm={12}
+                md={6}
+                lg={4}
+                xl={3}
+                xxl={3}
+                key={item}
+                className='pb-4 center'
+              >
+                <CardOfCollection
+                  height={heightComponentTypeSection}
+                  WindowDimensions={width}
+                  textColor='#ffffff'
+                  fontFamily='sans-serif'
+                  collectionIdentifier={item}
+                />
+              </Col>
+            ))}
+          <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
+            <div className='card-type'></div>
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
+            <div className='card-type'></div>
+          </Col>{' '}
+          <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
+            <div className='card-type'></div>
+          </Col>
+        </Row>
       </div>
     </div>
   );

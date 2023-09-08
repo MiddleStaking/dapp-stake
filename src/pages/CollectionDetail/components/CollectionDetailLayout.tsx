@@ -114,6 +114,10 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
             vesting:{item?.vesting.toString()} <br />
             rewards:{item?.rewards.toString()}
             <br />
+            unbounding:{item?.unbounding.toString()}
+            <br />
+            speed:{item?.blocks_to_max.toString()}
+            {/* <br /> nonce:{item?.nonce.toString()} //NOTE : UseGetCollectionDetail*/}
           </div>
         ))}
     </div>

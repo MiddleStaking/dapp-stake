@@ -101,7 +101,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
     justifyContent: 'flex-start',
     flex: 1,
     position: 'relative',
-    height: '50px',
+    height: '300px',
     backgroundColor: '#FFFFFF',
     border: '5px',
     borderColor: '#00FF00'
@@ -120,7 +120,8 @@ const CardOfCollection: FC<CardPoolrops> = ({
   return (
     <div
       style={{
-        width: WindowDimensions > 450 ? '300px' : '300px'
+        width: WindowDimensions > 450 ? '300px' : '300px',
+        margin: 'auto'
       }}
     >
       <div style={cardType}>
@@ -130,6 +131,10 @@ const CardOfCollection: FC<CardPoolrops> = ({
           data-testid='loginBtn'
         >
           Stake {collectionIdentifier}
+          <img
+            src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
+            alt='logo middle Staking'
+          />
         </Link>
         {/* <TypeSection
           //   image1={image1}
