@@ -27,7 +27,12 @@ const FundModal = (props: any) => {
   const tokenPosition = useGetTokenPosition(stoken, rtoken);
   const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
+  const [vestingTime, setVestingTime] = React.useState(0);
+  const [unboundingTime, setUnboundingTime] = React.useState(0);
+  const [speedNumber, setSpeedNumber] = React.useState(365);
+  const [nonceNumber, setNonceNumber] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
+
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
   const default_esdt_info = useGetESDTInformations(defaultToken);
@@ -147,6 +152,28 @@ const FundModal = (props: any) => {
     } else {
       setRangeValue(0);
     }
+  }
+
+  function handleVestingTimeChange(value: any) {
+    setVestingTime(value);
+  }
+
+  function handleUnboundingTimeChange(value: any) {
+    setUnboundingTime(value);
+  }
+
+  function handleSpeedChange(value: any) {
+    if (value == 0) {
+      setSpeedNumber(1);
+    } else if (value > 1000) {
+      setSpeedNumber(1000);
+    } else {
+      setSpeedNumber(value);
+    }
+  }
+
+  function handleNonceChange(value: any) {
+    setNonceNumber(value);
   }
 
   function toBigAmount(invalue: number, indec: number) {
@@ -487,8 +514,8 @@ const FundModal = (props: any) => {
                       inputHeight='40px'
                       inputWidth='179px'
                       borderColor='rgb(105, 88, 133)'
-                      value={tokenAmount}
-                      onInputChange={handleTokenAmountChange}
+                      value={vestingTime}
+                      onInputChange={handleVestingTimeChange}
                       rightHtml={
                         <Button
                           textColor='#1F67FF'
@@ -498,7 +525,7 @@ const FundModal = (props: any) => {
                           borderRadius={40}
                           background={'transparent'}
                           fontSize='10px'
-                          text='MAX'
+                          text='MAX V-DAY'
                           onClick={setToMax}
                         />
                       }
@@ -507,14 +534,15 @@ const FundModal = (props: any) => {
                       fontSize={14}
                     />
                   </div>
-
+                </div>
+                <div className='FormatInpuntGroupe'>
                   <div className='FormatAmountStaked'>
                     <Input
                       inputHeight='40px'
                       inputWidth='179px'
                       borderColor='rgb(105, 88, 133)'
-                      value={tokenAmount}
-                      onInputChange={handleTokenAmountChange}
+                      value={unboundingTime}
+                      onInputChange={handleUnboundingTimeChange}
                       rightHtml={
                         <Button
                           textColor='#1F67FF'
@@ -524,7 +552,62 @@ const FundModal = (props: any) => {
                           borderRadius={40}
                           background={'transparent'}
                           fontSize='10px'
-                          text='MAX'
+                          text='MAX U-DAY'
+                          onClick={setToMax}
+                        />
+                      }
+                      type='number'
+                      placeholder={'number'}
+                      fontSize={14}
+                    />
+                  </div>
+                </div>
+                <div className='AmountInputGroupe'>
+                  <div className='FormatAmountStaked'>
+                    <Input
+                      inputHeight='40px'
+                      inputWidth='179px'
+                      borderColor='rgb(105, 88, 133)'
+                      value={speedNumber}
+                      onInputChange={handleSpeedChange}
+                      rightHtml={
+                        <Button
+                          textColor='#1F67FF'
+                          buttonWidth={'15px'}
+                          buttonHeight={'15px'}
+                          hasBorder={false}
+                          borderRadius={40}
+                          background={'transparent'}
+                          fontSize='10px'
+                          text='MAX S-DAY'
+                          onClick={setToMax}
+                        />
+                      }
+                      type='number'
+                      placeholder={'number'}
+                      fontSize={14}
+                    />
+                  </div>
+                </div>
+
+                <div className='AmountInputGroupe'>
+                  <div className='FormatAmountStaked'>
+                    <Input
+                      inputHeight='40px'
+                      inputWidth='179px'
+                      borderColor='rgb(105, 88, 133)'
+                      value={nonceNumber}
+                      onInputChange={handleNonceChange}
+                      rightHtml={
+                        <Button
+                          textColor='#1F67FF'
+                          buttonWidth={'15px'}
+                          buttonHeight={'15px'}
+                          hasBorder={false}
+                          borderRadius={40}
+                          background={'transparent'}
+                          fontSize='10px'
+                          text='MAX N-DAY'
                           onClick={setToMax}
                         />
                       }
@@ -547,15 +630,16 @@ const FundModal = (props: any) => {
                     onClick={props.onClose}
                   />
                 </div>
+                {/* NOTE : lock Tocken button */}
                 <div className='bottomModal'>
                   <ActionFund
                     stakedToken={stoken}
                     rewardedToken={rtoken}
                     user_fund={bigAmount}
-                    speed={10}
-                    nonce={0}
-                    vesting={0}
-                    unbounding={0}
+                    speed={speedNumber}
+                    nonce={nonceNumber}
+                    vesting={vestingTime}
+                    unbounding={unboundingTime}
                   />
                 </div>
               </div>
