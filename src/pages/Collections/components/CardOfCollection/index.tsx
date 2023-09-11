@@ -20,11 +20,13 @@ import {
   useGetPoolPosition,
   useGetStakingPosition,
   useGetStakingPositionRewards,
-  useGetTokenPosition
+  useGetTokenPosition,
+  useGetCollectionInformations
 } from '../Actions/helpers';
 import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
+import ReactPlayer from 'react-player';
 
 interface CardPoolrops {
   height: string;
@@ -113,9 +115,10 @@ const CardOfCollection: FC<CardPoolrops> = ({
   const [showUnstake, setShowUnstake] = useState(false);
   const { hasPendingTransactions } = useGetPendingTransactions();
 
-  const staked_esdt_info = useGetESDTInformations(collectionIdentifier);
+  const collectionInfo = useGetCollectionInformations(collectionIdentifier);
 
   const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
+  console.log(collectionInfo);
 
   return (
     <div
@@ -131,10 +134,44 @@ const CardOfCollection: FC<CardPoolrops> = ({
           data-testid='loginBtn'
         >
           Stake {collectionIdentifier}
-          <img
-            src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
-            alt='logo middle Staking'
-          />
+          {/* {collectionInfo ? <>1</> : <>2</>}
+          {collectionInfo && <>1</>}
+          {!collectionInfo && <>2</>} */}
+          <div>
+            {/* NOTE : exagone */}
+            {collectionInfo ? (
+              <>
+                {collectionInfo[0]?.media[0].fileType == 'video/mp4' ? (
+                  <ReactPlayer
+                    width='150px'
+                    height='auto'
+                    playing={true}
+                    loop={true}
+                    volume={0}
+                    muted={true}
+                    url={collectionInfo[0]?.media[0].url}
+                  />
+                ) : (
+                  <div>
+                    <img
+                      style={{ width: '150px', height: 'auto' }}
+                      className=''
+                      src={
+                        collectionInfo[0]?.media[0].url
+                          ? collectionInfo[0]?.media[0].url
+                          : 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
+                      }
+                    />
+                  </div>
+                )}
+              </>
+            ) : (
+              <img
+                src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
+                alt='logo middle Staking'
+              />
+            )}
+          </div>
         </Link>
         {/* <TypeSection
           //   image1={image1}
