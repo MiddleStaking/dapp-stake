@@ -7,6 +7,8 @@ import React, {
 import SwowHideDetails from './SwowHideDetails';
 // import { IconFacebook } from "module";
 
+import ReactPlayer from 'react-player';
+
 interface TypeSectionProps {
   height: string;
   width?: string;
@@ -14,30 +16,8 @@ interface TypeSectionProps {
   gradientDirection?: string;
   borderRadius?: string;
   WindowDimensions: number;
-
-  swapedTokens: any;
-  stakedToken: any;
-  rewardedToken: any;
-  pool_apr: any;
-  rewarded_esdt_info: any;
-  staked_esdt_info: any;
-  image1: any;
-  image2: any;
-  tokenPosition: any;
-  rewarded_value: any;
-  staked_value: any;
-  speed: any;
-  tokens_extra_informations: any;
-
-  EarnTitle?: string;
-  StakeTile?: string;
-  Apr?: string;
-  Rewards?: string;
-  Rewards_value?: number;
-  Speed?: string;
-  Staked?: string;
-  Users?: string;
-  decimals?: number;
+  collectionIdentifier: string;
+  collectionInfo: any;
   textColor?: string;
   fontFamily?: string;
   socialNetwork?: [
@@ -55,30 +35,12 @@ const TypeSection: FC<TypeSectionProps> = ({
   background = 'linear-gradient(0deg, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)),linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%)',
   gradientDirection = 'to right',
   borderRadius = '8px 8px 0px 0px',
-  image1,
-  image2,
   WindowDimensions,
-  rewarded_value,
-  EarnTitle,
-  rewardedToken,
-  stakedToken,
-  tokenPosition,
-  pool_apr,
-  speed,
-  StakeTile,
-  Apr,
-  Rewards,
-  Rewards_value,
-  rewarded_esdt_info,
-  tokens_extra_informations,
-  Speed,
-  Staked,
-  staked_value,
-  Users,
   socialNetwork,
-  decimals = 0,
   textColor = '#ffffff',
-  fontFamily = 'sans-serif'
+  fontFamily = 'sans-serif',
+  collectionIdentifier,
+  collectionInfo
 }) => {
   const isGradient = (
     value: string | [string, string]
@@ -310,12 +272,14 @@ const TypeSection: FC<TypeSectionProps> = ({
       <div style={top}>
         <div style={left}>
           <div style={title}>
-            <div style={earnMex}>Earn {rewardedToken.split('-')[0]}</div>
+            <div style={earnMex}>Earn {collectionIdentifier.split('-')[0]}</div>
 
-            <div style={stakeMex}>Stake {stakedToken.split('-')[0]}</div>
+            <div style={stakeMex}>
+              Stake {collectionIdentifier.split('-')[0]}
+            </div>
           </div>
 
-          <div style={apr}>
+          {/* <div style={apr}>
             <div style={apr2}>APR</div>
             <div style={rate}>
               <div style={rateApr}>
@@ -327,10 +291,45 @@ const TypeSection: FC<TypeSectionProps> = ({
                 {pool_apr == 0 && 'N/A'}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
-        <div style={logos}>
+        <div className='imgCheminCard'>
+          {collectionInfo ? (
+            <>
+              {collectionInfo[0]?.media[0].fileType == 'video/mp4' ? (
+                <ReactPlayer
+                  width='150px'
+                  height='auto'
+                  playing={true}
+                  loop={true}
+                  volume={0}
+                  muted={true}
+                  url={collectionInfo[0]?.media[0].url}
+                />
+              ) : (
+                <div>
+                  <img
+                    style={{ width: '150px', height: 'auto' }}
+                    className=''
+                    src={
+                      collectionInfo[0]?.media[0].url
+                        ? collectionInfo[0]?.media[0].url
+                        : 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
+                    }
+                  />
+                </div>
+              )}
+            </>
+          ) : (
+            <img
+              src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
+              alt='logo middle Staking'
+            />
+          )}
+        </div>
+
+        {/* <div style={logos}>
           <div style={logo2}>
             <div style={image_2}>
               <img style={img_2} src={image2} />
@@ -342,7 +341,7 @@ const TypeSection: FC<TypeSectionProps> = ({
               <img style={img_1} src={image1} />
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* {!showDetails ? ( */}
       </div>
@@ -381,7 +380,7 @@ const TypeSection: FC<TypeSectionProps> = ({
         )}
       </div>
       <div style={{ display: !showDetails ? 'none' : 'block', width: '100%' }}>
-        <SwowHideDetails
+        {/* <SwowHideDetails
           rewarded_esdt_info={rewarded_esdt_info}
           decimals={Number(
             rewarded_esdt_info?.decimals ? rewarded_esdt_info?.decimals : 0
@@ -395,7 +394,7 @@ const TypeSection: FC<TypeSectionProps> = ({
           socialNetwork={tokens_extra_informations}
           textColor={textColor}
           fontFamily={fontFamily}
-        />
+        /> */}
       </div>
     </div>
   );
