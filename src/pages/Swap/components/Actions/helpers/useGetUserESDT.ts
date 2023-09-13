@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { network } from 'config';
 export const useGetUserESDT = () => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const [esdtBalance, setEsdtBalance] = useState([
     {
       type: '',

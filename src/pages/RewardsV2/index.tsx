@@ -82,14 +82,14 @@ const Rewards2 = () => {
   // console.log('tab');
   // console.log(tab !== null || undefined ? tab : '2021');
 
-  console.log(
-    points.points.map((item: string, index: number) =>
-      (tab !== null || undefined ? tab[0].year.toString() : '2021') ===
-      item.substr(0, 4).toString()
-        ? points.points[index]
-        : 'non'
-    )
-  );
+  // console.log(
+  //   points.points.map((item: string, index: number) =>
+  //     (tab !== null || undefined ? tab[0].year.toString() : '2021') ===
+  //     item.substr(0, 4).toString()
+  //       ? points.points[index]
+  //       : 'non'
+  //   )
+  // );
 
   return (
     <div className={'mx-auto ' + styles.dashboard}>

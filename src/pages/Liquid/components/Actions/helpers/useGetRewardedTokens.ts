@@ -9,11 +9,12 @@ import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 
 import { smartContract } from './smartContract';
 import { defaultPairs } from 'config';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetRewardedTokens = (stakedToken: string) => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const [rewardedTokens, setRewardedTokens] = useState<string[]>([]);
   const time = new Date();
 

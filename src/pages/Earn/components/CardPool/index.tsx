@@ -25,6 +25,7 @@ import {
 import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
+import { network } from 'config';
 
 interface CardPoolrops {
   height: string;
@@ -129,7 +130,7 @@ const CardPool: FC<CardPoolrops> = ({
     position: 'relative'
   };
 
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
@@ -277,8 +278,6 @@ const CardPool: FC<CardPoolrops> = ({
     firstPoolPosition.first_token_amount > 1 &&
     !isDual
   ) {
-    console.log('CALC ' + rewardedToken);
-
     //fake mid price
     const first_pooled_price = BigInt(10000000000000);
     //second token value
@@ -292,14 +291,12 @@ const CardPool: FC<CardPoolrops> = ({
         ? first_pooled_price * BigInt(tokenPosition.total_stake)
         : 1
     );
-    console.log(pooled_initial_value);
 
     let pooled_reward_value = BigInt(
       second_pooled_price > 0 && BigInt(tokenPosition.balance)
         ? second_pooled_price * BigInt(tokenPosition.balance)
         : 1
     );
-    console.log(pooled_reward_value);
 
     //Si mid en second on inverse
     if (rewardedToken == defaultToken) {
@@ -334,8 +331,6 @@ const CardPool: FC<CardPoolrops> = ({
     //         Number(speed ? speed : 1)
     //       ).toFixed()
     //     );
-    console.log(pooled_reward_value);
-    console.log(pooled_initial_value);
   }
 
   localStorage.setItem(

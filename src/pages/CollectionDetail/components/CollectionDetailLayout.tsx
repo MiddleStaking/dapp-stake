@@ -7,11 +7,7 @@ import { defaultToken } from 'config';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetRewardsPoolsID } from './Actions/helpers';
 import { useGetIsPaused } from './Actions/helpers';
-import {
-  useGetCollections,
-  useGetSwapedTokens,
-  useGetCollectionDetail
-} from './Actions/helpers';
+import { useGetCollections, useGetCollectionRewards } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import FundModal from '../../Collections/components/FundModal';
@@ -34,12 +30,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const { param } = useParams();
   const [url] = useState(param?.toString());
 
-  const stakedCollections: string[] = useGetCollections();
-  const test: string[] = useGetRewardsPoolsID(url ? url : '');
-  console.log(test);
-
-  const collectionRewards = useGetCollectionDetail(url ? url : '');
-  console.log(collectionRewards);
+  const collectionRewards = useGetCollectionRewards(url ? url : '');
 
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 

@@ -74,7 +74,6 @@ export const useGetPoolLpIdentifier = (
         endpointDefinition
       );
 
-      console.log(position);
       if (position) {
         setTokenPosition({
           first_token: stakedToken,

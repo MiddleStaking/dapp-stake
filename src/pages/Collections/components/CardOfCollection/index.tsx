@@ -5,8 +5,6 @@ import React, {
   ReactElement,
   useState
 } from 'react';
-import MyStakeSection from './component/MyStakeSection';
-import RewardsSection from './component/RewardsSection';
 import TypeSection from './component/TypeSection';
 import {
   useGetAccountInfo,
@@ -14,15 +12,7 @@ import {
   useGetPendingTransactions
 } from '@multiversx/sdk-dapp/hooks';
 import { defaultToken } from 'config';
-import {
-  useGetESDTCompute,
-  useGetESDTInformations,
-  useGetPoolPosition,
-  useGetStakingPosition,
-  useGetStakingPositionRewards,
-  useGetTokenPosition,
-  useGetCollectionInformations
-} from '../Actions/helpers';
+import { useGetCollectionInformations } from '../Actions/helpers';
 import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
@@ -108,7 +98,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
     // backgroundColor: '#FFFFFF'
   };
 
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);

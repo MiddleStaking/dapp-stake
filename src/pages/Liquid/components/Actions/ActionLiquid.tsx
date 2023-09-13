@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress, defaultToken } from 'config';
+import { contractSwap, defaultToken } from 'config';
 import { Button } from './../../../../components/Design';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
 import { Address, AddressValue } from '@multiversx/sdk-core/out';
@@ -30,8 +30,7 @@ export const ActionLiquid = ({
       string | null
     >(null);
   const { address } = useGetAccount();
-  const contract_address = new Address(contractAddress).hex();
-  console.log(address);
+  const contract_address = new Address(contractSwap).hex();
   //  const user_address = new AddressValue(new Address(address));
   /*
   mxpy contract call erd1h29t8znkdhz4ycc5p797qang79kxewv789c95ef7pv8wj9q55gcsa9z3l6 

@@ -19,11 +19,12 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import LiquidModal from './LiquidModal';
 import RemoveLpModal from './RemoveLpModal';
 import { useGetPoolLpIdentifier } from './Actions/helpers';
+import { network } from 'config';
 
 export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   const [showLiquid, setShowLiquid] = useState(false);
   const [showRemoveLP, setShowRemoveLP] = useState(false);
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
@@ -44,7 +45,6 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   const first_esdt_info = useGetESDTInformations(defaultToken);
   const second_esdt_info = useGetESDTInformations(second_token);
 
-  console.log(firstPoolPosition);
   const first_price = first_esdt_info.price
     ? BigInt((first_esdt_info.price * 1000000).toFixed())
     : BigInt(1000000);

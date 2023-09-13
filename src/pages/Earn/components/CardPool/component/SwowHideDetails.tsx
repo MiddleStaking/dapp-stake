@@ -38,8 +38,6 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
   fontFamily = 'sans-serif'
   //styleName: Text/12px/Light;
 }) => {
-  console.log(Rewards);
-
   const detailsRow: CSSProperties = {
     width: '100%',
     display: 'flex',

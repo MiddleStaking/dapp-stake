@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { contractPlay } from 'config';
+import { network } from 'config';
 
 export const TopInfo = () => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
 
   return (
     <div className='text-white' data-testid='topInfo'>

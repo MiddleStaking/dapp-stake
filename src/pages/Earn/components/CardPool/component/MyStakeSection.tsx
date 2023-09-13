@@ -213,7 +213,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   />
                 )}
               </div>
-              {(swapedTokens.includes(stakedToken) ||
+              {/* {(swapedTokens.includes(stakedToken) ||
                 swapedTokens.includes(rewardedToken)) &&
                 stakedToken != rewardedToken && (
                   <PoolSwapInfo
@@ -238,7 +238,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     firstPoolPosition={firstPoolPosition}
                     secondPoolPosition={secondPoolPosition}
                   />
-                )}
+                )} */}
             </div>
           ) : (
             <div
@@ -356,7 +356,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   />
                 </div>
               </div>
-              {(swapedTokens.includes(stakedToken) ||
+              {/* {(swapedTokens.includes(stakedToken) ||
                 swapedTokens.includes(rewardedToken)) &&
                 stakedToken != rewardedToken && (
                   <PoolSwapInfo
@@ -381,7 +381,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     firstPoolPosition={firstPoolPosition}
                     secondPoolPosition={secondPoolPosition}
                   />
-                )}
+                )} */}
             </div>
           )}
         </>

@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import { contractAddress } from 'config';
+import { contractStake } from 'config';
+import { network } from 'config';
 
 export const TopInfo = () => {
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
 
   return (
     <div className='text-white' data-testid='topInfo'>
@@ -12,11 +13,11 @@ export const TopInfo = () => {
         <span data-testid='contractAddress'>
           <a
             className='text-white'
-            href={network.explorerAddress + '/accounts/' + contractAddress}
+            href={network.explorerAddress + '/accounts/' + contractStake}
             target='_blank'
             rel='noreferrer'
           >
-            {contractAddress}
+            {contractStake}
           </a>
         </span>
       </div>

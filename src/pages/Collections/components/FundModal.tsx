@@ -3,10 +3,7 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 // import './../../../assets/Modal.css';
 import './StakeModal.scss';
-
-import { ActionRemovePoolFees, ActionStake } from './Actions';
 import { defaultToken } from 'config';
-import { useGetTokenPosition } from './Actions/helpers';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations, useGetUserNFT } from './Actions/helpers';
@@ -24,8 +21,7 @@ const FundModal = (props: any) => {
   const [balance, setBalance] = React.useState(BigInt(0));
 
   const [payFees, setPayFees] = React.useState(false);
-  const tokenPosition = useGetTokenPosition(stoken, rtoken);
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [vestingTime, setVestingTime] = React.useState(0);
   const [unboundingTime, setUnboundingTime] = React.useState(0);
@@ -92,34 +88,6 @@ const FundModal = (props: any) => {
   const image2 = rewarded_esdt_info?.assets?.svgUrl
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
-  const staked_value = staked_esdt_info?.price
-    ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
-      staked_esdt_info?.price
-    : 0;
-  const rewarded_value = rewarded_esdt_info?.price
-    ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
-      rewarded_esdt_info?.price
-    : 0;
-
-  let apr = BigInt(100);
-  if (tokenPosition.total_stake > BigInt(0)) {
-    apr =
-      (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
-  }
-
-  let fees = BigInt(10);
-  if (tokenPosition.fee_percentage) {
-    fees = BigInt(tokenPosition.fee_percentage) / BigInt(100);
-  }
-
-  if (stoken == defaultToken && rtoken == defaultToken) {
-    fees = BigInt(0);
-  }
-  const speed =
-    (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
-    BigInt(24) /
-    BigInt(60) /
-    BigInt(60);
 
   function handleTokenAmountChange(value: any) {
     const amount = BigInt(Number(value) * 10 ** sdecimals);
@@ -417,17 +385,9 @@ const FundModal = (props: any) => {
                 )
               } */}
               <div className='staked-rewarded-tokens-StakeModal'>
-                {tokenPosition.stakedToken == stoken &&
-                tokenPosition.rewardedToken == rtoken ? (
-                  <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    Add rewards for NFT/SFT collection ?
-                  </div>
-                ) : (
-                  <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    Deposit rewards for new staking pool ?
-                  </div>
-                )}
-
+                <div className='do-you-want-to-add-it-rewarded-tokens'>
+                  Add rewards for NFT/SFT collection ?
+                </div>
                 <div>
                   <div className='AmountRageGroupeSwap'>
                     <div className='label6'>Rewards</div>
