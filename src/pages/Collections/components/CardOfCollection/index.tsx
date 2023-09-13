@@ -27,6 +27,7 @@ import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import ReactPlayer from 'react-player';
+import './component/Hexa.scss';
 
 interface CardPoolrops {
   height: string;
@@ -96,17 +97,15 @@ const CardOfCollection: FC<CardPoolrops> = ({
 }) => {
   const cardType: CSSProperties = {
     width: '300px',
+    // height: '300px',
     display: 'flex',
     flexDirection: 'column',
     gap: '1px',
     alignItems: 'center',
     justifyContent: 'flex-start',
     flex: 1,
-    position: 'relative',
-    height: '300px',
-    backgroundColor: '#FFFFFF',
-    border: '5px',
-    borderColor: '#00FF00'
+    position: 'relative'
+    // backgroundColor: '#FFFFFF'
   };
 
   const { network } = useGetNetworkConfig();
@@ -117,99 +116,113 @@ const CardOfCollection: FC<CardPoolrops> = ({
 
   const collectionInfo = useGetCollectionInformations(collectionIdentifier);
 
-  const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
-  console.log(collectionInfo);
+  // const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
+  // console.log(collectionInfo);
 
   return (
-    <div
-      style={{
-        width: WindowDimensions > 450 ? '300px' : '300px',
-        margin: 'auto'
-      }}
-    >
-      <div style={cardType}>
-        <Link
-          to={routeNames.collections + `/${collectionIdentifier}`}
-          className='butLine bouton-visiter'
-          data-testid='loginBtn'
-        >
-          Stake {collectionIdentifier}
-          {/* {collectionInfo ? <>1</> : <>2</>}
-          {collectionInfo && <>1</>}
-          {!collectionInfo && <>2</>} */}
-          <div>
-            {/* NOTE : exagone */}
-            {collectionInfo ? (
-              <>
-                {collectionInfo[0]?.media[0].fileType == 'video/mp4' ? (
-                  <ReactPlayer
-                    width='150px'
-                    height='auto'
-                    playing={true}
-                    loop={true}
-                    volume={0}
-                    muted={true}
-                    url={collectionInfo[0]?.media[0].url}
-                  />
-                ) : (
-                  <div>
-                    <img
-                      style={{ width: '150px', height: 'auto' }}
-                      className=''
-                      src={
-                        collectionInfo[0]?.media[0].url
-                          ? collectionInfo[0]?.media[0].url
-                          : 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
-                      }
-                    />
-                  </div>
-                )}
-              </>
-            ) : (
-              <img
-                src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
-                alt='logo middle Staking'
-              />
-            )}
+    <div style={cardType}>
+      {/* ---- THE CARD ---- */}
+      <Link
+        to={routeNames.collections + `/${collectionIdentifier}`}
+        className='butLine bouton-visiter'
+        data-testid='loginBtn'
+      >
+        {/* ---- ENTÊTE CARD ---- */}
+        <div className='enteteCard'>
+          {/* ---- NFT CARD ---- */}
+          <div className='NFTInfo'>
+            <p>NFT</p>
+            <div>nbNFTxxxx</div>
+            <div>%NFTxxxx%</div>
           </div>
-        </Link>
-        {/* <TypeSection
-          //   image1={image1}
-          //   image2={image2}
-          //   StakeTile={StakeTile}
-          //   EarnTitle={EarnTitle}
-          //   Apr={Apr}
-          //   decimals={decimals}
-          //   Rewards={Rewards}
-          //   Rewards_value={Rewards_value}
-          //   Speed={Speed}
-          //   Staked={Staked}
-          //   Staked_value={Staked_value}
-          //   Users={Users}
-          //   socialNetwork={socialNetwork}
-          rewardedToken={rewardedToken}
-          stakedToken={stakedToken}
-          pool_apr={priced_apr}
-          rewarded_esdt_info={rewarded_esdt_info}
-          staked_esdt_info={staked_esdt_info}
-          image1={image1}
-          image2={image2}
-          tokenPosition={tokenPosition}
-          rewarded_value={rewarded_value}
-          staked_value={staked_value}
-          speed={speed}
-          tokens_extra_informations={tokens_extra_informations}
-          swapedTokens={swapedTokens}
-          width={width}
-          textColor={textColor}
-          fontFamily={fontFamily}
-          height={height}
-          WindowDimensions={WindowDimensions}
-          borderRadius={borderRadius}
-          gradientDirection={gradientDirection}
-          background={background}
-        /> */}
-        {/* <MyStakeSection
+          {/* ---- IMAGE CARD ---- */}
+          <div className='imgCard'>
+            <div className='imgShapeCard'>
+              {
+                <>
+                  {/* NOTE : exagone ici */}
+                  <div className={'hexagone'}>
+                    <div className={'hexagonemain'}>
+                      {collectionInfo ? (
+                        <>
+                          {collectionInfo[0]?.media[0].fileType ==
+                          'video/mp4' ? (
+                            <ReactPlayer
+                              width='150px'
+                              height='auto'
+                              playing={true}
+                              loop={true}
+                              volume={0}
+                              muted={true}
+                              url={collectionInfo[0]?.media[0].url}
+                            />
+                          ) : (
+                            <div>
+                              <img
+                                className=''
+                                src={
+                                  collectionInfo[0]?.media[0].url
+                                    ? collectionInfo[0]?.media[0].url
+                                    : 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
+                                }
+                              />
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <img
+                          src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
+                          alt='logo middle Staking'
+                        />
+                      )}
+                    </div>
+                  </div>{' '}
+                </>
+              }
+            </div>
+            {/* <div className='imgCheminCard'>
+
+            </div> */}
+          </div>
+        </div>
+        <div>icône blé xxxxxxx</div>
+        <div className='showDetails'>
+          <p>Show Details</p>
+        </div>
+        {/* ---- FOOT CARD ---- */}
+        <div className='footCard'>
+          <p>My Stake</p>
+          <button> Stake {collectionIdentifier}</button>
+          <button>Consult Contract</button>
+        </div>
+      </Link>
+      {/* => topCardPool */}
+      <TypeSection
+        //   image1={image1}
+        //   image2={image2}
+        //   StakeTile={StakeTile}
+        //   EarnTitle={EarnTitle}
+        //   Apr={Apr}
+        //   decimals={decimals}
+        //   Rewards={Rewards}
+        //   Rewards_value={Rewards_value}
+        //   Speed={Speed}
+        //   Staked={Staked}
+        //   Staked_value={Staked_value}
+        //   Users={Users}
+        //   socialNetwork={socialNetwork}
+        collectionIdentifier={collectionIdentifier}
+        collectionInfo={collectionInfo}
+        width={width}
+        textColor={textColor}
+        fontFamily={fontFamily}
+        height={height}
+        WindowDimensions={WindowDimensions}
+        borderRadius={borderRadius}
+        gradientDirection={gradientDirection}
+        background={background}
+      />
+      {/* <MyStakeSection
           address={address}
           swapedTokens={swapedTokens}
           userEsdtBalance={userEsdtBalance}
@@ -235,7 +248,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
           balanc={balance}
         /> */}
 
-        {/* {address && (
+      {/* {address && (
           <RewardsSection
             backgroundRewards={backgroundRewards}
             stakingPositionRewards={stakingPositionRewards}
@@ -246,7 +259,6 @@ const CardOfCollection: FC<CardPoolrops> = ({
             rewardedToken={rewardedToken}
           />
         )} */}
-      </div>
     </div>
   );
 };
