@@ -13,7 +13,6 @@ import {
   Home,
   Statistics,
   Earn,
-  Fund,
   Play,
   Swap,
   Liquidity,
@@ -103,12 +102,6 @@ export const routes: RouteWithTitleType[] = [
     title: 'Swap',
     component: Swap,
     authenticatedRoute: false
-  },
-  {
-    path: routeNames.fund,
-    title: 'Fund',
-    component: Fund,
-    authenticatedRoute: true
   },
   {
     path: routeNames.faucet,

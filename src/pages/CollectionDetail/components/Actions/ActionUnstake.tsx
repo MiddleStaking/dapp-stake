@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress } from 'config';
+import { contractNftStake } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionUnstake = ({
@@ -37,7 +37,7 @@ export const ActionUnstake = ({
         '@' +
         bigToHexDec(BigInt(user_fund)),
 
-      receiver: contractAddress,
+      receiver: contractNftStake,
       gasLimit: '6000000'
     };
     await refreshAccount();

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress, defaultToken } from 'config';
+import { contractStake, defaultToken } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionSwap = ({
@@ -45,7 +45,7 @@ export const ActionSwap = ({
         Buffer.from(second_token, 'utf8').toString('hex') +
         '@' +
         bigToHexDec(BigInt(min_out)),
-      receiver: contractAddress,
+      receiver: contractStake,
       gasLimit: '5200000'
     };
 
@@ -75,7 +75,7 @@ export const ActionSwap = ({
           ).toString('hex') +
           '@' +
           bigToHexDec(BigInt(0)),
-        receiver: contractAddress,
+        receiver: contractStake,
         gasLimit: '5200000'
       };
     }

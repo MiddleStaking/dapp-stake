@@ -30,9 +30,10 @@ import { CheckBox, ToggleSwitch } from './../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardPool from './CardPool';
 import { useWindowDimensions } from 'components/DimensionScreen';
+import { network } from 'config';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const [showFund, setShowFund] = useState(false);
   const [myPools, setMyPools] = React.useState(false);
   const [mySearch, setMySearch] = React.useState('');
@@ -214,9 +215,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
 
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
-
-  console.log(showStake);
-  console.log(showUnstake);
 
   const { width } = useWindowDimensions();
   const heightComponentTypeSection = width > 450 ? '162px' : '114px';

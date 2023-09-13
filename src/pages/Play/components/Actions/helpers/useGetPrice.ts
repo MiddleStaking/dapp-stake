@@ -7,11 +7,12 @@ import {
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { smartContract } from './smartContract';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetPrice = (tokenPay: string) => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const [rewardedTokens, setRewardedTokens] = useState<string>('0');
   const time = new Date();
 

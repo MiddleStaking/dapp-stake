@@ -3,11 +3,12 @@ import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { smartContract } from './smartContract';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetTokenList = () => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const [tokens, setTokens] = useState<string[]>([]);
   const time = new Date();
 

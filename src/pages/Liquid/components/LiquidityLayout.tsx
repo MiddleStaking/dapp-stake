@@ -14,9 +14,10 @@ import { LiquidInfo } from './LiquidInfo';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { ToggleSwitch } from './../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+import { network } from 'config';
 
 export const LiquidityLayout = ({ children }: React.PropsWithChildren) => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const swapedTokens: string[] = useGetSwapedTokens();
   const navigate = useNavigate();
   const isLoggedIn = useGetIsLoggedIn();

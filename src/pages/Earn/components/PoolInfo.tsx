@@ -15,6 +15,7 @@ import { PoolTopInfo } from './PoolInfo/PoolTopInfo';
 import { PoolStakeInfo } from './PoolInfo/PoolStakeInfo';
 import { defaultToken } from 'config';
 import { useGetPoolPosition } from './Actions/helpers';
+import { network } from 'config';
 
 export const PoolInfo = ({
   myPools,
@@ -27,7 +28,7 @@ export const PoolInfo = ({
   userEsdtBalance,
   swapedTokens
 }: any) => {
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
@@ -251,8 +252,6 @@ export const PoolInfo = ({
     firstPoolPosition.first_token_amount > 1 &&
     !isDual
   ) {
-    console.log('CALC ' + rewardedToken);
-
     //fake mid price
     const first_pooled_price = BigInt(10000000000000);
     //second token value
@@ -266,14 +265,12 @@ export const PoolInfo = ({
         ? first_pooled_price * BigInt(tokenPosition.total_stake)
         : 1
     );
-    console.log(pooled_initial_value);
 
     let pooled_reward_value = BigInt(
       second_pooled_price > 0 && BigInt(tokenPosition.balance)
         ? second_pooled_price * BigInt(tokenPosition.balance)
         : 1
     );
-    console.log(pooled_reward_value);
 
     //Si mid en second on inverse
     if (rewardedToken == defaultToken) {
@@ -308,8 +305,6 @@ export const PoolInfo = ({
     //         Number(speed ? speed : 1)
     //       ).toFixed()
     //     );
-    console.log(pooled_reward_value);
-    console.log(pooled_initial_value);
   }
 
   localStorage.setItem(

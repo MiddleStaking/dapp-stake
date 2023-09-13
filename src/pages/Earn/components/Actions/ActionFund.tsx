@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress } from 'config';
+import { contractStake } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionFund = ({
@@ -40,7 +40,7 @@ export const ActionFund = ({
         '@' +
         Buffer.from(stakedToken, 'utf8').toString('hex'),
 
-      receiver: contractAddress,
+      receiver: contractStake,
       gasLimit: '6000000'
     };
     await refreshAccount();

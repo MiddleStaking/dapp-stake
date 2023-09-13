@@ -13,13 +13,14 @@ import { TransactionsTable, Loader, PageState } from '@multiversx/sdk-dapp/UI';
 import { faBan, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { AxiosError } from 'axios';
 
-import { apiTimeout, contractAddress, transactionSize } from 'config';
+import { apiTimeout, contractNftStake, transactionSize } from 'config';
 import { CollectionsLayout } from './components';
+import { network } from 'config';
 
 const CollectionDetailPage = ({ children }: React.PropsWithChildren) => {
-  const {
-    network: { apiAddress }
-  } = useGetNetworkConfig();
+  // const {
+  //   network: { apiAddress }
+  // } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const { success, fail } = useGetActiveTransactionsStatus();
 
@@ -31,9 +32,9 @@ const CollectionDetailPage = ({ children }: React.PropsWithChildren) => {
     try {
       setIsLoading(true);
       const { data } = await getTransactions({
-        apiAddress,
+        apiAddress: network.apiAddress,
         sender: address,
-        receiver: contractAddress,
+        receiver: contractNftStake,
         condition: 'must',
         transactionSize,
         apiTimeout

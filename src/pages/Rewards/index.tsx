@@ -8,9 +8,10 @@ import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
 import { defaultToken } from 'config';
 import styles from './rewards.module.scss';
+import { network } from 'config';
 
 const Rewards = () => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
 
   //New mid rewards

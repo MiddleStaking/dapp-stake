@@ -24,10 +24,11 @@ import { Link } from 'react-router-dom';
 import { defaultToken } from 'config';
 import { routeNames } from 'routes';
 import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
+import { network } from 'config';
 
 export const MyNavbar = () => {
   const isLoggedIn = useGetIsLoggedIn();
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const handleLogout = () => {
     logout(`${window.location.origin}/unlock`);
   };

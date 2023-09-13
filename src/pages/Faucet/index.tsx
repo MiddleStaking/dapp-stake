@@ -3,10 +3,11 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import axios from 'axios';
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import { network } from 'config';
 
 const Faucet = () => {
   const address = useGetAccountInfo().address;
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const [faddress, setAddress] = React.useState(
     address === null ? '' : address
   );

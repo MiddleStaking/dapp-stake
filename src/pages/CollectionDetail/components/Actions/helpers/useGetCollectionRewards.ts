@@ -10,7 +10,7 @@ import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
-export const useGetCollectionDetail = (stakedToken: string) => {
+export const useGetCollectionRewards = (stakedToken: string) => {
   const [stakedTokens, setStakedTokens] = useState([
     {
       identifier: stakedToken,

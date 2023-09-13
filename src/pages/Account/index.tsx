@@ -17,6 +17,7 @@ import styles from './account.module.scss';
 import WrapModal from './components/WrapModal';
 import UnwrapModal from './components/UnwrapModal';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
+import { network } from 'config';
 
 const Account = () => {
   const { account, address } = useGetAccountInfo();
@@ -38,7 +39,7 @@ const Account = () => {
   const handleNavigate = (path: any) => {
     navigate(path);
   };
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   // const [
   //   ,
   //   // faddress

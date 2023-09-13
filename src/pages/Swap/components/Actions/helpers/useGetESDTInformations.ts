@@ -3,7 +3,7 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import axios from 'axios';
 import { network } from 'config';
 export const useGetESDTInformations = (identifier: string) => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const time = new Date();
   const [esdtInfo, setEsdtInfo] = useState<any>({});
   // {

@@ -1,5 +1,5 @@
 import { AbiRegistry, SmartContract, Address } from '@multiversx/sdk-core/out';
-import { contractAddress } from 'config';
+import { contractStake } from 'config';
 import json from 'staking-contract.abi.json';
 
 // const abiRegistry = AbiRegistry.create(json);
@@ -7,6 +7,6 @@ import json from 'staking-contract.abi.json';
 const abi = AbiRegistry.create(json);
 
 export const smartContract = new SmartContract({
-  address: new Address(contractAddress),
+  address: new Address(contractStake),
   abi
 });

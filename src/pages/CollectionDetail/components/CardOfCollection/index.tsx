@@ -15,14 +15,7 @@ import {
   useGetPendingTransactions
 } from '@multiversx/sdk-dapp/hooks';
 import { defaultToken } from 'config';
-import {
-  useGetESDTCompute,
-  useGetESDTInformations,
-  useGetPoolPosition,
-  useGetStakingPosition,
-  useGetStakingPositionRewards,
-  useGetTokenPosition
-} from '../Actions/helpers';
+import { useGetESDTInformations } from '../Actions/helpers';
 import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
@@ -104,7 +97,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
     position: 'relative'
   };
 
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);

@@ -8,11 +8,12 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 
 import { smartContract } from './smartContract';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetIsPaused = () => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const [isPaused, setIsPaused] = useState<string[]>([]);
   const time = new Date();
 

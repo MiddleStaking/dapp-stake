@@ -4,6 +4,7 @@ import eCompass from './../../../../assets/img/ecompass.svg';
 import jexchange from './../../../../assets/img/jexchange.svg';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../../assets/img/notfoundc.svg';
+import { network } from 'config';
 
 export const PoolTopInfo = ({
   stakedToken,
@@ -23,7 +24,7 @@ export const PoolTopInfo = ({
   const handleChange = () => {
     setShowDetails(!showDetails);
   };
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
 
   return (
     <div className='type-section'>

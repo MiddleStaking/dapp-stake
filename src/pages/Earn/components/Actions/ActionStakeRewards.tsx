@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress } from 'config';
+import { contractStake } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
@@ -17,7 +17,7 @@ export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
     const stakeRewardsTransaction = {
       value: 0,
       data: 'stakeRewards@' + Buffer.from(stakedToken, 'utf8').toString('hex'),
-      receiver: contractAddress,
+      receiver: contractStake,
       gasLimit: '4000000'
     };
     await refreshAccount();

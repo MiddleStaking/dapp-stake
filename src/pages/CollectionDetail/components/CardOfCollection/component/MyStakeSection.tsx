@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { defaultToken } from 'config';
 import { routeNames } from 'routes';
 import { Button } from 'components/Design';
-import { PoolSwapInfo } from '../../PoolInfo/PoolSwapInfo';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import UnstakeModal from '../../UnstakeModal';
 import StakeModal from '../../StakeModal';
@@ -214,32 +213,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   />
                 )}
               </div>
-              {(swapedTokens.includes(stakedToken) ||
-                swapedTokens.includes(rewardedToken)) &&
-                stakedToken != rewardedToken && (
-                  <PoolSwapInfo
-                    buttonHeight={'31px'}
-                    address={address}
-                    stakedToken={
-                      swapedTokens.includes(stakedToken) &&
-                      swapedTokens.includes(rewardedToken)
-                        ? stakedToken
-                        : defaultToken
-                    }
-                    rewardedToken={
-                      swapedTokens.includes(stakedToken) &&
-                      swapedTokens.includes(rewardedToken)
-                        ? rewardedToken
-                        : swapedTokens.includes(stakedToken)
-                        ? stakedToken
-                        : rewardedToken
-                    }
-                    userEsdtBalance={userEsdtBalance}
-                    isDual={isDual}
-                    firstPoolPosition={firstPoolPosition}
-                    secondPoolPosition={secondPoolPosition}
-                  />
-                )}
             </div>
           ) : (
             <div
@@ -357,32 +330,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   />
                 </div>
               </div>
-              {(swapedTokens.includes(stakedToken) ||
-                swapedTokens.includes(rewardedToken)) &&
-                stakedToken != rewardedToken && (
-                  <PoolSwapInfo
-                    buttonHeight={'31px'}
-                    address={address}
-                    stakedToken={
-                      swapedTokens.includes(stakedToken) &&
-                      swapedTokens.includes(rewardedToken)
-                        ? stakedToken
-                        : defaultToken
-                    }
-                    rewardedToken={
-                      swapedTokens.includes(stakedToken) &&
-                      swapedTokens.includes(rewardedToken)
-                        ? rewardedToken
-                        : swapedTokens.includes(stakedToken)
-                        ? stakedToken
-                        : rewardedToken
-                    }
-                    userEsdtBalance={userEsdtBalance}
-                    isDual={isDual}
-                    firstPoolPosition={firstPoolPosition}
-                    secondPoolPosition={secondPoolPosition}
-                  />
-                )}
             </div>
           )}
         </>

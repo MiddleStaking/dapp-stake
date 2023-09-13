@@ -10,13 +10,14 @@ import {
 import { ServerTransactionType } from '@multiversx/sdk-dapp/types';
 import { TransactionsTable, Loader, PageState } from '@multiversx/sdk-dapp/UI';
 import { AxiosError } from 'axios';
-import { apiTimeout, contractAddress, transactionSize } from 'config';
+import { apiTimeout, contractPlay, transactionSize } from 'config';
 import { PlayLayout } from './components';
+import { network } from 'config';
 
 const PlayPage = ({ children }: React.PropsWithChildren) => {
-  const {
-    network: { apiAddress }
-  } = useGetNetworkConfig();
+  // const {
+  //   network: { apiAddress }
+  // } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const { success, fail } = useGetActiveTransactionsStatus();
 
@@ -28,9 +29,9 @@ const PlayPage = ({ children }: React.PropsWithChildren) => {
     try {
       setIsLoading(true);
       const { data } = await getTransactions({
-        apiAddress,
+        apiAddress: network.apiAddress,
         sender: address,
-        receiver: contractAddress,
+        receiver: contractPlay,
         condition: 'must',
         transactionSize,
         apiTimeout

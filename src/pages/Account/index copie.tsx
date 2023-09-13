@@ -18,6 +18,7 @@ import { useGetUserESDT } from './../Earn/components/Actions/helpers/useGetUserE
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import WrapModal from './components/WrapModal';
 import UnwrapModal from './components/UnwrapModal';
+import { network } from 'config';
 
 const Account = () => {
   const { account, address } = useGetAccountInfo();
@@ -44,7 +45,7 @@ const Account = () => {
   };
   const accountInfo = useGetAccountInfo();
   //  const address = accountInfo.address;
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const [faddress, setAddress] = React.useState(
     address === null ? '' : address
   );
