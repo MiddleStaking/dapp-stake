@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import ReactPlayer from 'react-player';
 import './component/Hexa.scss';
+import HexagoneNFT from '../hexagoneNFT';
 
 interface CardPoolrops {
   height: string;
@@ -127,49 +128,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
           </div>
           {/* ---- IMAGE CARD ---- */}
           <div className='imgCard'>
-            <div className='imgShapeCard'>
-              {
-                <>
-                  {/* NOTE : exagone ici */}
-                  <div className={'hexagone'}>
-                    <div className={'hexagonemain'}>
-                      {collectionInfo ? (
-                        <>
-                          {collectionInfo[0]?.media[0].fileType ==
-                          'video/mp4' ? (
-                            <ReactPlayer
-                              width='150px'
-                              height='auto'
-                              playing={true}
-                              loop={true}
-                              volume={0}
-                              muted={true}
-                              url={collectionInfo[0]?.media[0].url}
-                            />
-                          ) : (
-                            <div>
-                              <img
-                                className=''
-                                src={
-                                  collectionInfo[0]?.media[0].url
-                                    ? collectionInfo[0]?.media[0].url
-                                    : 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
-                                }
-                              />
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <img
-                          src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
-                          alt='logo middle Staking'
-                        />
-                      )}
-                    </div>
-                  </div>{' '}
-                </>
-              }
-            </div>
+            <div className='imgShapeCard'></div>
             {/* <div className='imgCheminCard'>
 
             </div> */}

@@ -8,6 +8,7 @@ import SwowHideDetails from './SwowHideDetails';
 // import { IconFacebook } from "module";
 
 import ReactPlayer from 'react-player';
+import HexagoneNFT from '../../hexagoneNFT';
 
 interface TypeSectionProps {
   height: string;
@@ -295,7 +296,7 @@ const TypeSection: FC<TypeSectionProps> = ({
         </div>
 
         <div className='imgCheminCard'>
-          {collectionInfo ? (
+          {/* {collectionInfo ? (
             <>
               {collectionInfo[0]?.media[0].fileType == 'video/mp4' ? (
                 <ReactPlayer
@@ -326,7 +327,19 @@ const TypeSection: FC<TypeSectionProps> = ({
               src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
               alt='logo middle Staking'
             />
-          )}
+          )} */}
+          {/* composant HexagoneNFT permet de mettre en hexagone les image/vidoMP4 */}
+          <HexagoneNFT
+            format={
+              collectionInfo[0]?.media[0].fileType == 'video/mp4'
+                ? 'video/mp4'
+                : 'image'
+            }
+            url={collectionInfo[0]?.media[0].url}
+            width={100}
+            border={false}
+            borderWidth={5}
+          />
         </div>
 
         {/* <div style={logos}>
