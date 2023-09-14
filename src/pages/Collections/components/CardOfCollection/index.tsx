@@ -27,6 +27,7 @@ import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import ReactPlayer from 'react-player';
+import HexagoneNFT from '../hexagoneNFT';
 
 interface CardPoolrops {
   height: string;
@@ -139,7 +140,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
           {!collectionInfo && <>2</>} */}
           <div>
             {/* NOTE : exagone */}
-            {collectionInfo ? (
+            {/* {collectionInfo ? (
               <>
                 {collectionInfo[0]?.media[0].fileType == 'video/mp4' ? (
                   <ReactPlayer
@@ -170,7 +171,18 @@ const CardOfCollection: FC<CardPoolrops> = ({
                 src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
                 alt='logo middle Staking'
               />
-            )}
+            )} */}
+            <HexagoneNFT
+              format={
+                collectionInfo[0]?.media[0].fileType == 'video/mp4'
+                  ? 'video/mp4'
+                  : 'image'
+              }
+              url={collectionInfo[0]?.media[0].url}
+              width={200}
+              border={true}
+              borderWidth={5}
+            />
           </div>
         </Link>
         {/* <TypeSection

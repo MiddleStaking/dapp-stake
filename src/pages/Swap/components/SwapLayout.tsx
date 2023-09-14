@@ -312,8 +312,8 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   setHeaderMenu(true);
   return (
     <div className='center'>
-      <div className='centerSwapModal'>
-        <div className='backgroundStakeModal'>
+      <div className='centerSwapModalLayout'>
+        <div className='backgroundStakeModalLayout'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
               <div className='modalLabelStakeModal'>Swap tokens</div>

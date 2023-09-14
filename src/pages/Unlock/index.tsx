@@ -15,6 +15,8 @@ import legerImage from '../../assets/legerImage.png';
 import imagePartalConnexion from '../../assets/multiversxPortal.png';
 import imageWalletDefi from '../../assets/téléchargement.png';
 import styles from './styles.module.scss';
+import ReactPlayer from 'react-player';
+import HexagoneNFT from '../Collections/components/hexagoneNFT';
 
 // multiversxPortal
 
@@ -122,7 +124,52 @@ const Unlock: FC = () => {
         <div className={styles.description}>
           {'Login with your favorite wallet'}
         </div>
+        {/* <div className={styles.hexagone}>
+          <div className={styles.hexagonemain}>
+            <img
+              src='https://devnet-media.elrond.com/nfts/asset/QmQBDMhbKXgjvYPseofSvsycN21bRvvV6iT216fxtAG7Ff'
+              alt='Hexagon Image'
+            />
+          </div>
+        </div> */}
 
+        <HexagoneNFT
+          format={'image'}
+          url={
+            'https://devnet-media.elrond.com/nfts/asset/QmQBDMhbKXgjvYPseofSvsycN21bRvvV6iT216fxtAG7Ff'
+          }
+          width={100}
+        />
+
+        <HexagoneNFT
+          format={'video/mp4'}
+          url={
+            'https://devnet-media.elrond.com/nfts/asset/QmPfrAUWLh6K7psudfqGjMkpryMYuGNMdw4nXbKUZBAgPi'
+          }
+          width={60}
+        />
+
+        {/* <div className={styles.hex}>
+          <div className={styles.hexbackground}>
+            <img src='https://devnet-media.elrond.com/nfts/asset/QmQBDMhbKXgjvYPseofSvsycN21bRvvV6iT216fxtAG7Ff' />
+          </div>
+        </div>
+
+        <div className={styles.hex}>
+          <div className={styles.hexbackground}>
+            <ReactPlayer
+              width={'100%'}
+              height={'100%'}
+              playing={true}
+              loop={true}
+              volume={0}
+              muted={true}
+              url={
+                'https://devnet-media.elrond.com/nfts/asset/QmPfrAUWLh6K7psudfqGjMkpryMYuGNMdw4nXbKUZBAgPi'
+              }
+            />
+          </div>
+        </div> */}
         <div className={styles.connects}>
           {connects.map((connect: ConnectionType) => (
             <connect.component

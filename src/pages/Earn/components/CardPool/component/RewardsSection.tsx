@@ -44,7 +44,8 @@ const RewardsSection: FC<RewardsSectionProps> = ({
     alignSelf: 'stretch',
     flexShrink: 0,
     position: 'relative',
-    marginTop: '8px'
+    marginTop: '8px',
+    height: '242px'
   };
 
   const top5: CSSProperties = {

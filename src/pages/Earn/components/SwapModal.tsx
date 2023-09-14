@@ -9,7 +9,10 @@ import { Button } from './../../../components/Design';
 import { defaultToken } from 'config';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowRight,
+  faArrowsLeftRight
+} from '@fortawesome/free-solid-svg-icons';
 import Input from 'components/Design/Input';
 
 const SwapModal = (props: any) => {
@@ -293,7 +296,7 @@ const SwapModal = (props: any) => {
             <div className='contentStakeModal'>
               <div className='modalLabelStakeModal'>Swap tokens</div>
 
-              <div className='logosStakeModal'>
+              {/* <div className='logosStakeModal'>
                 <div className='logo2StakeModal'>
                   <div className='image_2StakeModal'>
                     <img className='img_2StakeModal' src={second_image} />
@@ -303,6 +306,26 @@ const SwapModal = (props: any) => {
                 <div className='logo1StakeModal'>
                   <div className='image_1StakeModal'>
                     <img className='img_1StakeModal' src={first_image} />
+                  </div>
+                </div>
+              </div> */}
+              <div className='logosStakeModal'>
+                <div className='LogoStakeModalGroupe'>
+                  <div className='LogoStake'>
+                    <img src={second_image} />
+                  </div>
+                  <div className='LogoArrow'>
+                    <div className='LogoInverseArrow'>
+                      <FontAwesomeIcon
+                        icon={faArrowRight}
+                        style={{
+                          fontSize: '20px'
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className='LogoEarn'>
+                    <img src={first_image} />
                   </div>
                 </div>
               </div>

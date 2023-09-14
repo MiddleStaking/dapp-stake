@@ -207,7 +207,11 @@ const FooterDekstop: FC<any> = ({}) => {
       </div>
 
       <div
-        onClick={() => navigate(routeNames.account)}
+        onClick={
+          isLoggedIn
+            ? () => navigate(routeNames.account)
+            : () => navigate(routeNames.unlock)
+        }
         style={{
           ...iconStyle,
           ...(firstSegment === routeNames.account

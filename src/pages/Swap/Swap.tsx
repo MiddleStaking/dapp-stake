@@ -98,12 +98,14 @@ export const Swap = () => {
   const userEsdtBalance = useGetUserESDT();
   const swapedTokens: string[] = useGetSwapedTokens();
   return (
-    <SwapLayout
-      userEsdtBalance={userEsdtBalance}
-      swapedTokens={swapedTokens}
-      firstToken={'WEGLD-bd4d79'}
-      secondToken={defaultToken}
-      defaultToken={defaultToken}
-    />
+    <div>
+      <SwapLayout
+        userEsdtBalance={userEsdtBalance}
+        swapedTokens={swapedTokens}
+        firstToken={'WEGLD-bd4d79'}
+        secondToken={defaultToken}
+        defaultToken={defaultToken}
+      />
+    </div>
   );
 };
