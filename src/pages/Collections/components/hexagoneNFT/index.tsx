@@ -40,16 +40,13 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   };
 
   const hexbackgroundBorder: CSSProperties = {
-    backgroundColor: borderColor,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
   };
   const hexbackground: CSSProperties = {
-    position: 'absolute',
-    backgroundColor: 'transparent' /*color of the main-background*/,
     width: '100%',
-    height: '100%' /* width * 0.866 */
+    height: '100%'
   };
 
   if (!url) {
