@@ -17,7 +17,6 @@ import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import ReactPlayer from 'react-player';
-import './component/Hexa.scss';
 import HexagoneNFT from '../hexagoneNFT';
 
 interface CardPoolrops {
@@ -113,38 +112,6 @@ const CardOfCollection: FC<CardPoolrops> = ({
   return (
     <div style={cardType}>
       {/* ---- THE CARD ---- */}
-      <Link
-        to={routeNames.collections + `/${collectionIdentifier}`}
-        className='butLine bouton-visiter'
-        data-testid='loginBtn'
-      >
-        {/* ---- ENTÊTE CARD ---- */}
-        <div className='enteteCard'>
-          {/* ---- NFT CARD ---- */}
-          <div className='NFTInfo'>
-            <p>NFT</p>
-            <div>nbNFTxxxx</div>
-            <div>%NFTxxxx%</div>
-          </div>
-          {/* ---- IMAGE CARD ---- */}
-          <div className='imgCard'>
-            <div className='imgShapeCard'></div>
-            {/* <div className='imgCheminCard'>
-
-            </div> */}
-          </div>
-        </div>
-        <div>icône blé xxxxxxx</div>
-        <div className='showDetails'>
-          <p>Show Details</p>
-        </div>
-        {/* ---- FOOT CARD ---- */}
-        <div className='footCard'>
-          <p>My Stake</p>
-          <button> Stake {collectionIdentifier}</button>
-          <button>Consult Contract</button>
-        </div>
-      </Link>
       {/* => topCardPool */}
       <TypeSection
         //   image1={image1}

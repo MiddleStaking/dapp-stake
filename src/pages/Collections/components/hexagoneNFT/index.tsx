@@ -15,7 +15,7 @@ interface TypeSectionProps {
   width: number;
   borderColor?: string;
   borderWidth?: number;
-  border?: boolean;
+  withBorder?: boolean;
 }
 
 // heightComponentTypeSection
@@ -23,7 +23,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   format,
   url,
   width,
-  border = false,
+  withBorder = false,
   borderWidth = 0,
   borderColor = 'black'
 }) => {
@@ -31,22 +31,27 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
     display: 'block',
     margin: '0 auto',
     position: 'relative',
-    padding: border ? borderWidth : '0px',
+    padding: withBorder ? borderWidth : '0px',
     width: width + 'px',
     height: width * 0.866 + 'px' /* width * 0.866 */,
-    background: border ? borderColor : 'transparent',
-    boxSizing: 'border-box'
-    // border: `5px solid ${borderColor}`
+    background: withBorder ? borderColor : 'transparent',
+    boxSizing: 'border-box',
+    borderRadius: '0px' // NOTE: border radius
   };
 
   const hexbackgroundBorder: CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius: 'inherit'
   };
   const hexbackground: CSSProperties = {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    borderRadius: 'inherit'
+  };
+  const hexImage: CSSProperties = {
+    borderRadius: 'inherit'
   };
 
   if (!url) {
@@ -54,7 +59,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
       <div className={styles.hex} style={hex}>
         <div className={styles.hexbackgroundBorder} style={hexbackgroundBorder}>
           <div style={hexbackground} className={styles.hexbackground}>
-            <img src={notfoundNft} alt='Not Found' />
+            <img style={hexImage} src={notfoundNft} alt='Not Found' />
           </div>
         </div>
       </div>
@@ -91,7 +96,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
             style={hexbackgroundBorder}
           >
             <div style={hexbackground} className={styles.hexbackground}>
-              <img src={url} />
+              <img style={hexImage} src={url} />
             </div>
           </div>
         </div>
