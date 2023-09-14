@@ -132,23 +132,6 @@ const Unlock: FC = () => {
             />
           </div>
         </div> */}
-
-        <HexagoneNFT
-          format={'image'}
-          url={
-            'https://devnet-media.elrond.com/nfts/asset/QmQBDMhbKXgjvYPseofSvsycN21bRvvV6iT216fxtAG7Ff'
-          }
-          width={100}
-        />
-
-        <HexagoneNFT
-          format={'video/mp4'}
-          url={
-            'https://devnet-media.elrond.com/nfts/asset/QmPfrAUWLh6K7psudfqGjMkpryMYuGNMdw4nXbKUZBAgPi'
-          }
-          width={60}
-        />
-
         {/* <div className={styles.hex}>
           <div className={styles.hexbackground}>
             <img src='https://devnet-media.elrond.com/nfts/asset/QmQBDMhbKXgjvYPseofSvsycN21bRvvV6iT216fxtAG7Ff' />

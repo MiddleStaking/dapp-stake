@@ -25,7 +25,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   width,
   border = false,
   borderWidth = 0,
-  borderColor = 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)'
+  borderColor = 'black'
 }) => {
   const hex: CSSProperties = {
     display: 'block',
@@ -100,7 +100,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
         </div>
       );
     default:
-      return null;
+      return <p>{format} non géré</p>;
   }
 };
 

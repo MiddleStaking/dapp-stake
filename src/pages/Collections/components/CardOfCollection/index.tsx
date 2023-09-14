@@ -179,8 +179,8 @@ const CardOfCollection: FC<CardPoolrops> = ({
                   : 'image'
               }
               url={collectionInfo[0]?.media[0].url}
-              width={200}
-              border={true}
+              width={100}
+              border={false}
               borderWidth={5}
             />
           </div>
