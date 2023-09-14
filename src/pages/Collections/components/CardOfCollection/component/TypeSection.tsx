@@ -163,7 +163,6 @@ const TypeSection: FC<TypeSectionProps> = ({
     padding: '4px 8px',
     display: 'flex',
     flexDirection: 'row',
-    gap: '2px',
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
@@ -268,6 +267,23 @@ const TypeSection: FC<TypeSectionProps> = ({
     color: 'white'
   };
 
+  const NFTInfo: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    // justifyContent: 'space-between',
+    alignSelf: 'stretch',
+    flexShrink: 0,
+    position: 'relative',
+    cursor: 'pointer',
+    color: 'white',
+    gap: '10px',
+    marginTop: '10px'
+  };
+
+  {
+    /* ---- ENTÊTE CARD ---- */
+  }
   return (
     <div style={TypeSectionStyle}>
       <div style={top}>
@@ -277,6 +293,34 @@ const TypeSection: FC<TypeSectionProps> = ({
 
             <div style={stakeMex}>
               Stake {collectionIdentifier.split('-')[0]}
+            </div>
+
+            {/* ---- NFT CARD ---- */}
+            <div style={NFTInfo}>
+              <div>NFT</div>
+              <div style={rate}>10000</div>
+              <div style={rate}>10%</div>
+            </div>
+            <div
+              onClick={() =>
+                (window.location.href = `/collections/${collectionIdentifier}`)
+              }
+              className='butLine bouton-visiter'
+              data-testid='loginBtn'
+            >
+              {/* <div className='enteteCard'> */}
+
+              {/* </div> 
+              <div>icône blé xxxxxxx</div>
+              <div className='showDetails'>
+                <p>Show Details</p>
+              </div> */}
+              {/* ---- FOOT CARD ---- */}
+              {/* <div className='footCard'>
+                <p>My Stake</p>
+                <button> Stake {collectionIdentifier}</button>
+                <button>Consult Contract</button>
+              </div>*/}
             </div>
           </div>
 
@@ -294,41 +338,8 @@ const TypeSection: FC<TypeSectionProps> = ({
             </div>
           </div> */}
         </div>
-
+        {/* ---- IMAGE CARD ---- */}
         <div className='imgCheminCard'>
-          {/* {collectionInfo ? (
-            <>
-              {collectionInfo[0]?.media[0].fileType == 'video/mp4' ? (
-                <ReactPlayer
-                  width='150px'
-                  height='auto'
-                  playing={true}
-                  loop={true}
-                  volume={0}
-                  muted={true}
-                  url={collectionInfo[0]?.media[0].url}
-                />
-              ) : (
-                <div>
-                  <img
-                    style={{ width: '150px', height: 'auto' }}
-                    className=''
-                    src={
-                      collectionInfo[0]?.media[0].url
-                        ? collectionInfo[0]?.media[0].url
-                        : 'https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
-                    }
-                  />
-                </div>
-              )}
-            </>
-          ) : (
-            <img
-              src='https://media.elrond.com/tokens/asset/MID-ecb7bf/logo.svg'
-              alt='logo middle Staking'
-            />
-          )} */}
-          {/* composant HexagoneNFT permet de mettre en hexagone les image/vidoMP4 */}
           <HexagoneNFT
             format={
               collectionInfo[0]?.media[0].fileType == 'video/mp4'
@@ -337,10 +348,24 @@ const TypeSection: FC<TypeSectionProps> = ({
             }
             url={collectionInfo[0]?.media[0].url}
             width={100}
-            border={false}
-            borderWidth={5}
+            withBorder={true}
+            borderWidth={2.5}
+            borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
           />
         </div>
+
+        <HexagoneNFT
+          format={
+            collectionInfo[1]?.media[0].fileType == 'video/mp4'
+              ? 'video/mp4'
+              : 'image'
+          }
+          url={collectionInfo[1]?.media[0].url}
+          width={100}
+          withBorder={true}
+          borderWidth={2.5}
+          borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+        />
 
         {/* <div style={logos}>
           <div style={logo2}>
