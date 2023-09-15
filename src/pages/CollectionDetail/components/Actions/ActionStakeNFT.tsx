@@ -4,13 +4,15 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
-import { Button } from './../../../../components/Design';
+import { Button } from '../../../../components/Design';
+import { Address } from '@multiversx/sdk-core/out';
 
 export const ActionStake = ({
-  stakedToken,
-  rewardedToken,
+  stakedNFT,
   user_fund,
-  name
+  pool_id,
+  address,
+  nft_nonce
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -27,21 +29,26 @@ export const ActionStake = ({
       string | null
     >(null);
 
+  const addressTobech32 = new Address(contractNftStake);
   const sendStakeTransaction = async () => {
     const stakeTransaction = {
       value: 0,
       data:
-        'ESDTTransfer@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
+        'ESDTNFTTransfer@' +
+        Buffer.from(stakedNFT, 'utf8').toString('hex') +
+        '@' +
+        bigToHexDec(BigInt(nft_nonce)) +
         '@' +
         bigToHexDec(BigInt(user_fund)) +
         '@' +
+        addressTobech32.hex() +
+        '@' +
         Buffer.from('stake', 'utf8').toString('hex') +
         '@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex'),
+        bigToHexDec(BigInt(pool_id)),
 
-      receiver: contractNftStake,
-      gasLimit: '5200000'
+      receiver: address,
+      gasLimit: '7000000'
     };
     await refreshAccount();
 

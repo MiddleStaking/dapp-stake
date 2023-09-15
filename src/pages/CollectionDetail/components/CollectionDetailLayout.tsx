@@ -12,12 +12,16 @@ import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import FundModal from '../../Collections/components/FundModal';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { ToggleSwitch } from '../../../components/Design';
+import { Button, ToggleSwitch } from '../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardOfCollection from './CardOfCollection';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
+import { ActionStake } from './Actions/ActionStakeNFT';
+import { ActionClaimRewards } from './Actions/ActionClaimRewards';
+import { useGetUserStakedNft } from './Actions/helpers/useGetUserStakedNft';
+import { ActionUnstakeNFT } from './Actions';
 
 export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [showFund, setShowFund] = useState(false);
@@ -31,6 +35,10 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [url] = useState(param?.toString());
 
   const collectionRewards = useGetCollectionRewards(url ? url : '');
+
+  const userStakedNft = useGetUserStakedNft(address);
+
+  console.log(userStakedNft);
 
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
@@ -94,21 +102,31 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
       </div> */}
       <br />
       {collectionRewards &&
-        collectionRewards.map((item, key) => (
+        collectionRewards.map((item) => (
           <div
             className='col-12 text-white'
-            key={key}
+            key={item.pool_id}
             style={{ backgroundColor: 'red', margin: '3px' }}
           >
-            key:{key} <br />
+            pool_id: {item?.pool_id.toString()} <br />
             {item?.identifier} <br />
-            vesting:{item?.vesting.toString()} <br />
-            rewards:{item?.rewards.toString()}
+            vesting: {item?.vesting.toString()} <br />
+            rewards: {item?.rewards.toString()}
             <br />
-            unbounding:{item?.unbounding.toString()}
+            unbounding: {item?.unbounding.toString()}
             <br />
-            speed:{item?.blocks_to_max.toString()}
-            {/* <br /> nonce:{item?.nonce.toString()} //NOTE : UseGetCollectionDetail*/}
+            speed: {item?.blocks_to_max.toString()}
+            <br /> nonce: {item?.nonce.toString()}
+            <ActionStake
+              address={address}
+              stakedNFT={url}
+              user_fund={1}
+              pool_id={item?.pool_id}
+              nft_nonce={1}
+            />
+            <br />
+            <ActionClaimRewards rewardsAmount={1} pool_id={item?.pool_id} />
+            <ActionUnstakeNFT nft_id={userStakedNft[0]?.nft_id} />
           </div>
         ))}
     </div>

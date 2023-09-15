@@ -554,8 +554,8 @@ const SwapModal = (props: any) => {
                   </div>
                   <DropdownMenu
                     BoxShadowActive={true}
-                    BoxShadowActiveColor='0 0 24px 0 rgba(182,57,237,.64)'
-                    BoxShadowColor='0 0 24px 0 rgba(182,57,237,.64)'
+                    BoxShadowActiveColor='none'
+                    BoxShadowColor='none'
                     inputHeight={'40px'}
                     inputWidth='179px'
                     borderRadius='54'

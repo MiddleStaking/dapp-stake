@@ -1,3 +1,3 @@
 export * from './ActionClaimRewards';
-export * from './ActionStake';
-export * from './ActionUnstake';
+export * from './ActionStakeNFT';
+export * from './ActionUnstakeNFT';

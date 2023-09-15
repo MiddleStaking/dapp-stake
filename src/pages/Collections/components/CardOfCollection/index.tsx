@@ -137,6 +137,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
         borderRadius={borderRadius}
         gradientDirection={gradientDirection}
         background={background}
+        address={address}
       />
       {/* <MyStakeSection
           address={address}
