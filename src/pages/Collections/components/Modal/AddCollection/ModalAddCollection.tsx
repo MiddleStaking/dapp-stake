@@ -369,10 +369,7 @@ const ModalAddCollection = (props: any) => {
                 </div>
               </div>
               <div className='pool-details_StakeModal_black_Collection'>
-                <div
-                  style={{ padding: '6px 24px;' }}
-                  className='GroupeDetails_StakeModal_black_input_Collection'
-                >
+                <div className='GroupeDetails_StakeModal_black_input_Collection'>
                   <div className='PoolDetails_StakeModal_black_Collection'>
                     <div className='DetailsInfo_black_Collection'>
                       <div className='LabelDetailsInfo_black_Collection'>
@@ -514,7 +511,7 @@ const ModalAddCollection = (props: any) => {
                             minWidth: '30px'
                           }}
                         >
-                          {Math.round(percentagevestingTime)}%
+                          {Math.round(percentageunbundingTime)}%
                         </div>
                       </div>
                     </div>
