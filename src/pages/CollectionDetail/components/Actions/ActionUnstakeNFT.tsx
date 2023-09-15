@@ -4,9 +4,9 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
-import { Button } from './../../../../components/Design';
+import { Button } from '../../../../components/Design';
 
-export const ActionClaimRewards = ({ pool_id, rewardsAmount }: any) => {
+export const ActionUnstakeNFT = ({ nft_id }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   function bigToHexDec(d: bigint) {
@@ -25,7 +25,7 @@ export const ActionClaimRewards = ({ pool_id, rewardsAmount }: any) => {
   const sendClaimTransaction = async () => {
     const claimTransaction = {
       value: 0,
-      data: 'claimRewards@' + bigToHexDec(BigInt(pool_id)),
+      data: 'unstake@' + bigToHexDec(BigInt(nft_id)),
       receiver: contractNftStake,
       gasLimit: '5000000'
     };
@@ -45,39 +45,34 @@ export const ActionClaimRewards = ({ pool_id, rewardsAmount }: any) => {
     }
   };
 
-  const claimAllowed = rewardsAmount != '0' && !hasPendingTransactions;
-  const notAllowedClass = claimAllowed ? '' : 'not-allowed disabled';
-
   return (
     <div className='center' style={{ width: '100%' }}>
-      {rewardsAmount !== undefined && rewardsAmount > 0 && (
-        <>
-          {!hasPendingTransactions ? (
-            <>
-              <Button
-                buttonWidth='100%'
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text='Claim my rewards'
-                onClick={sendClaimTransaction}
-              />
-            </>
-          ) : (
-            <>
-              {' '}
-              <Button
-                buttonWidth='100%'
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text='Processing'
-                disabled={true}
-              />
-            </>
-          )}
-        </>
-      )}
+      <>
+        {!hasPendingTransactions ? (
+          <>
+            <Button
+              buttonWidth='100%'
+              borderRadius={40}
+              background={['#BD37EC', '#1F67FF']}
+              borderColor={'black'}
+              text='Unstake'
+              onClick={sendClaimTransaction}
+            />
+          </>
+        ) : (
+          <>
+            {' '}
+            <Button
+              buttonWidth='100%'
+              borderRadius={40}
+              background={['#BD37EC', '#1F67FF']}
+              borderColor={'black'}
+              text='Processing'
+              disabled={true}
+            />
+          </>
+        )}
+      </>
     </div>
   );
 };

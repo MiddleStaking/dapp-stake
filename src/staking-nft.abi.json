@@ -1,11 +1,11 @@
 {
     "buildInfo": {
         "rustc": {
-            "version": "1.68.0-nightly",
-            "commitHash": "52372f9c71d8ade4cb815524f179119656f0aa2e",
-            "commitDate": "2023-01-21",
+            "version": "1.71.0-nightly",
+            "commitHash": "a2b1646c597329d0a25efa3889b66650f65de1de",
+            "commitDate": "2023-05-25",
             "channel": "Nightly",
-            "short": "rustc 1.68.0-nightly (52372f9c7 2023-01-21)"
+            "short": "rustc 1.71.0-nightly (a2b1646c5 2023-05-25)"
         },
         "contractCrate": {
             "name": "staking-nft",
@@ -13,12 +13,21 @@
         },
         "framework": {
             "name": "multiversx-sc",
-            "version": "0.41.3"
+            "version": "0.43.3"
         }
     },
     "name": "StakingNft",
     "constructor": {
-        "inputs": [],
+        "inputs": [
+            {
+                "name": "def_staked_token",
+                "type": "TokenIdentifier"
+            },
+            {
+                "name": "sc_stake",
+                "type": "Address"
+            }
+        ],
         "outputs": []
     },
     "endpoints": [
@@ -67,6 +76,32 @@
             "outputs": []
         },
         {
+            "name": "jump",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "nft_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "unbound",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "nft_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
             "name": "unstake",
             "mutability": "mutable",
             "inputs": [
@@ -87,6 +122,32 @@
                 }
             ],
             "outputs": []
+        },
+        {
+            "name": "getRewardsCount",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getRewardsPoolsID",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staked_collection",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<u64>",
+                    "multi_result": true
+                }
+            ]
         },
         {
             "name": "getStakedNft",
@@ -209,6 +270,26 @@
                     "multi_result": true
                 }
             ]
+        },
+        {
+            "name": "getDefTokenIdentifier",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "getScStake",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
         }
     ],
     "events": [],
@@ -217,6 +298,10 @@
         "RewardPosition": {
             "type": "struct",
             "fields": [
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                },
                 {
                     "name": "identifier",
                     "type": "TokenIdentifier"
@@ -252,12 +337,20 @@
                 {
                     "name": "unbounding",
                     "type": "u64"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
                 }
             ]
         },
         "StakedNft": {
             "type": "struct",
             "fields": [
+                {
+                    "name": "nft_id",
+                    "type": "u64"
+                },
                 {
                     "name": "pool_id",
                     "type": "u64"
@@ -280,6 +373,10 @@
                 },
                 {
                     "name": "unbound",
+                    "type": "u64"
+                },
+                {
+                    "name": "jump_unbound",
                     "type": "u64"
                 }
             ]

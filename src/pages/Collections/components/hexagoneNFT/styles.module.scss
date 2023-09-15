@@ -1,30 +1,107 @@
 .hex {
-    -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-    -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-  }
-  .hexbackgroundBorder {
-    width: 100%; 
-    height: 100%; 
-    -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-    -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-  }
-  .hexbackground {
-    -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-    -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-  }
-  
-  .hex img {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover;
-    -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-    -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-  }
-  
-  .hex video {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover;
-    -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-    -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
-  }
+  -webkit-clip-path: polygon(
+    0% 50%,
+    25% 0%,
+    75% 0%,
+    100% 50%,
+    75% 100%,
+    25% 100%
+  );
+  -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+}
+.hexbackgroundBorder {
+  width: 100%;
+  height: 100%;
+  -webkit-clip-path: polygon(
+    0% 50%,
+    25% 0%,
+    75% 0%,
+    100% 50%,
+    75% 100%,
+    25% 100%
+  );
+  -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+}
+.hexbackground {
+  -webkit-clip-path: polygon(
+    0% 50%,
+    25% 0%,
+    75% 0%,
+    100% 50%,
+    75% 100%,
+    25% 100%
+  );
+  -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+}
+
+.hex img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-clip-path: polygon(
+    0% 50%,
+    25% 0%,
+    75% 0%,
+    100% 50%,
+    75% 100%,
+    25% 100%
+  );
+  -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+}
+
+.hex video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-clip-path: polygon(
+    0% 50%,
+    25% 0%,
+    75% 0%,
+    100% 50%,
+    75% 100%,
+    25% 100%
+  );
+  -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+}
+
+// .hex,
+// .hexbackgroundBorder,
+// .hexbackground {
+//   mask-image: url(hexagon.svg);
+//   -webkit-mask-image: url(hexagon.svg);
+// }
+
+// .hex {
+//   // -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+//   // -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+// }
+// .hexbackgroundBorder {
+//   width: 100%;
+//   height: 100%;
+//   // -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+//   // -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+// }
+// .hexbackground {
+//   // -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+//   // -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+// }
+
+// .hex img {
+//   mask-image: url(hexagon.svg);
+//   -webkit-mask-image: url(hexagon.svg);
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+//   // -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+//   // -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+// }
+
+// .hex video {
+//   mask-image: url(hexagon.svg);
+//   -webkit-mask-image: url(hexagon.svg);
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+//   // -webkit-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+//   // -moz-clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%);
+// }

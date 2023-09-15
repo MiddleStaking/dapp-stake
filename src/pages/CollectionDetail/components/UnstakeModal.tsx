@@ -5,7 +5,7 @@ import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
-import { ActionUnstake } from './Actions';
+import { ActionUnstakeNFT } from './Actions';
 import { useGetTokenPosition } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import './StakeModal.scss';
@@ -387,7 +387,7 @@ const StakeModal = (props: any) => {
                       />
                     </div>
                     <div className='bottomModal'>
-                      <ActionUnstake
+                      <ActionUnstakeNFT
                         stakedToken={stoken}
                         rewardedToken={rtoken}
                         user_fund={bigAmount}

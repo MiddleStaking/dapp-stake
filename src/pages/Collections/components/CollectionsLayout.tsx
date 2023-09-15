@@ -16,6 +16,7 @@ import { ToggleSwitch } from './../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardOfCollection from './CardOfCollection';
 import { useWindowDimensions } from 'components/DimensionScreen';
+import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
 
 export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [showFund, setShowFund] = useState(false);
@@ -25,6 +26,8 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const isPaused = useGetIsPaused();
 
   const stakedCollections: string[] = useGetCollections();
+
+  console.log(stakedCollections);
 
   const navigate = useNavigate();
   const { param } = useParams();
@@ -44,6 +47,13 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
           setHeaderMenu(true), setShowFund(false);
         }}
       />
+
+      <div>
+        <PoolAddCollection
+          userEsdtBalance={userEsdtBalance}
+          address={address}
+        />
+      </div>
       <div className='col-12'>
         <Col
           xs={12}

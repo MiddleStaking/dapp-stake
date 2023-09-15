@@ -1,9 +1,4 @@
-import React, {
-  CSSProperties,
-  FC,
-  JSXElementConstructor,
-  ReactElement
-} from 'react';
+import React, { CSSProperties, FC } from 'react';
 import styles from './styles.module.scss';
 import ReactPlayer from 'react-player';
 // import { IconFacebook } from "module";
@@ -16,6 +11,9 @@ interface TypeSectionProps {
   borderColor?: string;
   borderWidth?: number;
   withBorder?: boolean;
+  withShadow?: boolean;
+  ShadowDimeantion?: string;
+  shadowColor?: string;
 }
 
 // heightComponentTypeSection
@@ -25,7 +23,10 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   width,
   withBorder = false,
   borderWidth = 0,
-  borderColor = 'black'
+  borderColor = 'black',
+  withShadow = false,
+  ShadowDimeantion = '7px 0px 4px',
+  shadowColor = 'rgba(0, 0, 0, 1)'
 }) => {
   const hex: CSSProperties = {
     display: 'block',
@@ -56,10 +57,21 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
 
   if (!url) {
     return (
-      <div className={styles.hex} style={hex}>
-        <div className={styles.hexbackgroundBorder} style={hexbackgroundBorder}>
-          <div style={hexbackground} className={styles.hexbackground}>
-            <img style={hexImage} src={notfoundNft} alt='Not Found' />
+      <div
+        style={{
+          filter: withShadow
+            ? `drop-shadow(${shadowColor} ${ShadowDimeantion})`
+            : 'none'
+        }}
+      >
+        <div className={styles.hex} style={hex}>
+          <div
+            className={styles.hexbackgroundBorder}
+            style={hexbackgroundBorder}
+          >
+            <div style={hexbackground} className={styles.hexbackground}>
+              <img style={hexImage} src={notfoundNft} alt='Not Found' />
+            </div>
           </div>
         </div>
       </div>
@@ -69,34 +81,51 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   switch (format) {
     case 'video/mp4':
       return (
-        <div className={styles.hex} style={hex}>
-          <div
-            className={styles.hexbackgroundBorder}
-            style={hexbackgroundBorder}
-          >
-            <div style={hexbackground} className={styles.hexbackground}>
-              <ReactPlayer
-                width={'100%'}
-                height={'100%'}
-                playing={true}
-                loop={true}
-                volume={0}
-                muted={true}
-                url={url}
-              />
+        <div
+          style={{
+            filter: withShadow
+              ? `drop-shadow(${shadowColor} ${ShadowDimeantion})`
+              : 'none'
+          }}
+        >
+          <div className={styles.hex} style={hex}>
+            <div
+              className={styles.hexbackgroundBorder}
+              style={hexbackgroundBorder}
+            >
+              <div style={hexbackground} className={styles.hexbackground}>
+                <ReactPlayer
+                  width={'100%'}
+                  height={'100%'}
+                  playing={true}
+                  loop={true}
+                  volume={0}
+                  muted={true}
+                  url={url}
+                  playsInline={false}
+                />
+              </div>
             </div>
           </div>
         </div>
       );
     case 'image':
       return (
-        <div className={styles.hex} style={hex}>
-          <div
-            className={styles.hexbackgroundBorder}
-            style={hexbackgroundBorder}
-          >
-            <div style={hexbackground} className={styles.hexbackground}>
-              <img style={hexImage} src={url} />
+        <div
+          style={{
+            filter: withShadow
+              ? `drop-shadow(${shadowColor} ${ShadowDimeantion})`
+              : 'none'
+          }}
+        >
+          <div className={styles.hex} style={hex}>
+            <div
+              className={styles.hexbackgroundBorder}
+              style={hexbackgroundBorder}
+            >
+              <div style={hexbackground} className={styles.hexbackground}>
+                <img style={hexImage} src={url} />
+              </div>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import SwowHideDetails from './SwowHideDetails';
 
 import ReactPlayer from 'react-player';
 import HexagoneNFT from '../../hexagoneNFT';
+import { PoolAddCollection } from '../../Modal/AddCollection/PoolAddCollection';
 
 interface TypeSectionProps {
   height: string;
@@ -20,6 +21,7 @@ interface TypeSectionProps {
   collectionIdentifier: string;
   collectionInfo: any;
   textColor?: string;
+  address: string;
   fontFamily?: string;
   socialNetwork?: [
     {
@@ -41,7 +43,8 @@ const TypeSection: FC<TypeSectionProps> = ({
   textColor = '#ffffff',
   fontFamily = 'sans-serif',
   collectionIdentifier,
-  collectionInfo
+  collectionInfo,
+  address
 }) => {
   const isGradient = (
     value: string | [string, string]
@@ -308,8 +311,8 @@ const TypeSection: FC<TypeSectionProps> = ({
               className='butLine bouton-visiter'
               data-testid='loginBtn'
             >
+              redirect
               {/* <div className='enteteCard'> */}
-
               {/* </div> 
               <div>icône blé xxxxxxx</div>
               <div className='showDetails'>
@@ -353,19 +356,6 @@ const TypeSection: FC<TypeSectionProps> = ({
             borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
           />
         </div>
-
-        <HexagoneNFT
-          format={
-            collectionInfo[1]?.media[0].fileType == 'video/mp4'
-              ? 'video/mp4'
-              : 'image'
-          }
-          url={collectionInfo[1]?.media[0].url}
-          width={100}
-          withBorder={true}
-          borderWidth={2.5}
-          borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-        />
 
         {/* <div style={logos}>
           <div style={logo2}>

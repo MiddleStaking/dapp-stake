@@ -59,7 +59,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   backgroundColor = '#220C3E',
   textColorSelect = '#2266FF',
 
-  BoxShadowActive = true,
+  BoxShadowActive = false,
   BoxShadowActiveColor = 'inset 0px 0px 44px rgba(142, 68, 235, 0.5)',
   BoxShadowColor = 'inset 0px 0px 44px rgba(142, 68, 235, 0.5)',
 
