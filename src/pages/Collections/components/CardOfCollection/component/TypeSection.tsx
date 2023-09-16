@@ -292,11 +292,11 @@ const TypeSection: FC<TypeSectionProps> = ({
       <div style={top}>
         <div style={left}>
           <div style={title}>
-            <div style={earnMex}>Earn {collectionIdentifier.split('-')[0]}</div>
-
-            <div style={stakeMex}>
+            <div style={earnMex}>
               Stake {collectionIdentifier.split('-')[0]}
             </div>
+
+            <div style={stakeMex}>Earn tokens</div>
 
             {/* ---- NFT CARD ---- */}
             <div style={NFTInfo}>
@@ -343,18 +343,20 @@ const TypeSection: FC<TypeSectionProps> = ({
         </div>
         {/* ---- IMAGE CARD ---- */}
         <div className='imgCheminCard'>
-          <HexagoneNFT
-            format={
-              collectionInfo[0]?.media[0].fileType == 'video/mp4'
-                ? 'video/mp4'
-                : 'image'
-            }
-            url={collectionInfo[0]?.media[0].url}
-            width={100}
-            withBorder={true}
-            borderWidth={2.5}
-            borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-          />
+          {collectionInfo && (
+            <HexagoneNFT
+              format={
+                collectionInfo[0]?.media[0]?.fileType == 'video/mp4'
+                  ? 'video/mp4'
+                  : 'image'
+              }
+              url={collectionInfo[0]?.media[0]?.url}
+              width={100}
+              withBorder={true}
+              borderWidth={2.5}
+              borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+            />
+          )}
         </div>
 
         {/* <div style={logos}>

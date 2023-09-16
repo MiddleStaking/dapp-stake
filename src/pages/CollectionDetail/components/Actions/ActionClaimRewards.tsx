@@ -50,6 +50,7 @@ export const ActionClaimRewards = ({ pool_id, rewardsAmount }: any) => {
 
   return (
     <div className='center' style={{ width: '100%' }}>
+      <> {rewardsAmount.toString()}</>
       {rewardsAmount !== undefined && rewardsAmount > 0 && (
         <>
           {!hasPendingTransactions ? (

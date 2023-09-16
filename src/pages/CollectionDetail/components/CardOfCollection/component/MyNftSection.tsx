@@ -12,13 +12,12 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { ActionStakeNft } from '../../Actions/ActionStakeNFT';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
-import { ActionUnstakeNFT } from '../../Actions';
 
-interface MyStakeSectionProps {
-  staked_balance: any[];
-  pool: number;
+interface MyNftSectionProps {
+  nft_balance: any[];
+  pool_id: number;
 }
-const MyNftSection: FC<MyStakeSectionProps> = ({ pool, staked_balance }) => {
+const MyNftSection: FC<MyNftSectionProps> = ({ pool_id, nft_balance }) => {
   const navigate = useNavigate();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
@@ -76,29 +75,37 @@ const MyNftSection: FC<MyStakeSectionProps> = ({ pool, staked_balance }) => {
   return (
     // <>
     <div style={sectionStyle}>
-      {staked_balance &&
-        staked_balance
-          .filter(({ pool_id }) => pool_id == pool)
-          .map((item, key) => (
-            <div
-              className='col-12 text-white'
-              key={key}
-              style={{ backgroundColor: 'red', margin: '3px' }}
-            >
-              <div className='imgCheminCard'>
-                <HexagoneNFT
-                  format={'image'}
-                  url={''}
-                  width={100}
-                  withBorder={true}
-                  borderWidth={2.5}
-                  borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                />
-              </div>
-              <ActionUnstakeNFT nft_id={item?.nft_id} />
-              <br />
+      {nft_balance &&
+        nft_balance.map((item, key) => (
+          <div
+            className='col-12 text-white'
+            key={key}
+            style={{ backgroundColor: 'red', margin: '3px' }}
+          >
+            <div className='imgCheminCard'>
+              <HexagoneNFT
+                format={
+                  item?.media[0]?.fileType == 'video/mp4'
+                    ? 'video/mp4'
+                    : 'image'
+                }
+                url={item?.media[0]?.url ? item?.media[0]?.url : ''}
+                width={100}
+                withBorder={true}
+                borderWidth={2.5}
+                borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+              />
             </div>
-          ))}
+            <ActionStakeNft
+              address={address}
+              stakedNFT={item?.collection}
+              user_fund={1}
+              pool_id={pool_id}
+              nft_nonce={item?.nonce}
+            />
+            <br />
+          </div>
+        ))}
     </div>
   );
 };

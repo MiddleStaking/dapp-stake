@@ -26,9 +26,6 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const isPaused = useGetIsPaused();
 
   const stakedCollections: string[] = useGetCollections();
-
-  console.log(stakedCollections);
-
   const navigate = useNavigate();
   const { param } = useParams();
   const [url] = useState(param ? param.toString() : defaultToken);

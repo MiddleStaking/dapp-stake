@@ -7,7 +7,7 @@ import { contractNftStake } from 'config';
 import { Button } from '../../../../components/Design';
 import { Address } from '@multiversx/sdk-core/out';
 
-export const ActionStake = ({
+export const ActionStakeNft = ({
   stakedNFT,
   user_fund,
   pool_id,
@@ -79,7 +79,7 @@ export const ActionStake = ({
                 buttonWidth='100%'
                 borderRadius={40}
                 background={['#BD37EC', '#1F67FF']}
-                text='Stake tokens'
+                text='Stake'
                 onClick={sendStakeTransaction}
                 disabled={user_fund == 0}
               />
