@@ -3,7 +3,8 @@ import {
   Address,
   AddressValue,
   ContractFunction,
-  ResultsParser
+  ResultsParser,
+  TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { smartContract } from './smartContract';
@@ -11,17 +12,11 @@ import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
-export const useGetUserStakedNft = (address: string) => {
+export const useGetUserRewards = (address: string, collection: string) => {
   const [stakedTokensNft, setStakedTokensNft] = useState([
     {
-      nft_id: 0,
       pool_id: 0,
-      nft_identifier: '',
-      nft_nonce: 0,
-      nft_qty: 1,
-      lock: 0,
-      unbound: 0,
-      jump_unbound: 0
+      rewards: ''
     }
   ]);
   const time = new Date();
@@ -40,13 +35,18 @@ export const useGetUserStakedNft = (address: string) => {
 
     try {
       const query = smartContract.createQuery({
-        func: new ContractFunction('getUserNfts'),
-        args: [new AddressValue(new Address(address))]
+        func: new ContractFunction('getAllRewardsForUser'),
+        args: [
+          new AddressValue(new Address(address)),
+          new TokenIdentifierValue(collection)
+        ]
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
       const proxy = new ProxyNetworkProvider(network.gatewayCached);
       const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getUserNfts');
+      const endpointDefinition = smartContract.getEndpoint(
+        'getAllRewardsForUser'
+      );
       const { firstValue: rewards } = resultsParser.parseQueryResponse(
         queryResponse,
         endpointDefinition

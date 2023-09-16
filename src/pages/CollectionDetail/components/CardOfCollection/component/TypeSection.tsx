@@ -311,9 +311,9 @@ const TypeSection: FC<TypeSectionProps> = ({
       <div style={top}>
         <div style={left}>
           <div style={title}>
-            <div style={earnMex}>Earn {rewardedToken.split('-')[0]}</div>
+            <div style={earnMex}>Stake {rewardedToken.split('-')[0]}</div>
 
-            <div style={stakeMex}>Stake {stakedToken.split('-')[0]}</div>
+            <div style={stakeMex}>Earn tokens</div>
           </div>
 
           <div style={apr}>

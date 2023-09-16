@@ -5,8 +5,7 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { defaultToken } from 'config';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetRewardsPoolsID } from './Actions/helpers';
-import { useGetIsPaused } from './Actions/helpers';
+import { useGetIsPaused, useGetUserRewards } from './Actions/helpers';
 import { useGetCollections, useGetCollectionRewards } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
@@ -18,10 +17,13 @@ import CardOfCollection from './CardOfCollection';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
-import { ActionStake } from './Actions/ActionStakeNFT';
+import { ActionStakeNft } from './Actions/ActionStakeNFT';
 import { ActionClaimRewards } from './Actions/ActionClaimRewards';
 import { useGetUserStakedNft } from './Actions/helpers/useGetUserStakedNft';
 import { ActionUnstakeNFT } from './Actions';
+import MyNftSection from './CardOfCollection/component/MyNftSection';
+import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
+import MyStakeSection from './CardOfCollection/component/MyStakeSection';
 
 export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [showFund, setShowFund] = useState(false);
@@ -35,16 +37,16 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [url] = useState(param?.toString());
 
   const collectionRewards = useGetCollectionRewards(url ? url : '');
-
+  const allRewardsForUser = useGetUserRewards(address, url ? url : '');
+  const userNftBalance = useGetUserNFT(url ? url : '');
   const userStakedNft = useGetUserStakedNft(address);
-
-  console.log(userStakedNft);
 
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
   const { width } = useWindowDimensions();
   const heightComponentTypeSection = width > 450 ? '162px' : '114px';
 
+  console.log(allRewardsForUser);
   return (
     <div className='center'>
       <FundModal
@@ -117,16 +119,34 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
             <br />
             speed: {item?.blocks_to_max.toString()}
             <br /> nonce: {item?.nonce.toString()}
-            <ActionStake
-              address={address}
-              stakedNFT={url}
-              user_fund={1}
-              pool_id={item?.pool_id}
-              nft_nonce={1}
-            />
+            {userNftBalance && (
+              <MyNftSection
+                pool_id={item?.pool_id}
+                nft_balance={userNftBalance}
+              />
+            )}
+            {userStakedNft && (
+              <MyStakeSection
+                pool={item?.pool_id}
+                staked_balance={userStakedNft}
+              />
+            )}
             <br />
-            <ActionClaimRewards rewardsAmount={1} pool_id={item?.pool_id} />
-            <ActionUnstakeNFT nft_id={userStakedNft[0]?.nft_id} />
+            {allRewardsForUser &&
+              allRewardsForUser
+                .filter(({ pool_id }) => pool_id == item?.pool_id)
+                .map((rew, key) => (
+                  <div
+                    className='col-12 text-white'
+                    key={key}
+                    style={{ backgroundColor: 'red', margin: '3px' }}
+                  >
+                    <ActionClaimRewards
+                      rewardsAmount={rew?.rewards}
+                      pool_id={rew?.pool_id}
+                    />
+                  </div>
+                ))}
           </div>
         ))}
     </div>

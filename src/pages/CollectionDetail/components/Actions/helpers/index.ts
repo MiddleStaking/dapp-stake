@@ -7,3 +7,4 @@ export * from './useGetIsPaused';
 export * from './useGetUserNFT';
 export * from './useGetCollectionRewards';
 export * from './useGetRewardsPoolsID';
+export * from './useGetUserRewards';

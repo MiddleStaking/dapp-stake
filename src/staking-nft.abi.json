@@ -237,6 +237,25 @@
             ]
         },
         {
+            "name": "getAllRewardsForUser",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                },
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<AllRewardsForUser>"
+                }
+            ]
+        },
+        {
             "name": "isPaused",
             "mutability": "readonly",
             "inputs": [],
@@ -295,6 +314,19 @@
     "events": [],
     "hasCallback": false,
     "types": {
+        "AllRewardsForUser": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "rewards",
+                    "type": "BigUint"
+                }
+            ]
+        },
         "RewardPosition": {
             "type": "struct",
             "fields": [

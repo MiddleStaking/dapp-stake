@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './StakeModal.scss';
-import { ActionStake } from './Actions';
+import { ActionStakeNft } from './Actions';
 import { useGetTokenPosition } from './Actions/helpers';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
@@ -394,13 +394,13 @@ const StakeModal = (props: any) => {
                         onClick={props.onClose}
                       />
                     </div>
-                    <div className='bottomModal'>
-                      <ActionStake
+                    {/* <div className='bottomModal'>
+                      <ActionStakeNft
                         stakedToken={stoken}
                         rewardedToken={rtoken}
                         user_fund={bigAmount}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

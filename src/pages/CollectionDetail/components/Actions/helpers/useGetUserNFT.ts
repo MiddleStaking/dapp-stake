@@ -3,29 +3,12 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import axios from 'axios';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { network } from 'config';
-export const useGetUserNFT = () => {
+export const useGetUserNFT = (search: string) => {
   // const { network } = useGetNetworkConfig();
-  const [esdtBalance, setNftBalance] = useState([
-    {
-      type: '',
-      collection: '',
-      name: '',
-      ticker: '',
-      owner: '',
-      timestamp: 1693581858,
-      canFreeze: true,
-      canWipe: true,
-      canPause: true,
-      canTransferNftCreateRole: false,
-      canChangeOwner: true,
-      canUpgrade: true,
-      canAddSpecialRoles: true,
-      count: BigInt(1)
-    }
-  ]);
+  const [esdtBalance, setNftBalance] = useState([]);
   const address = useGetAccountInfo().address;
 
-  const url = '/accounts/' + address + '/collections?excludeMetaESDT=true';
+  const url = '/accounts/' + address + '/nfts?from=0&size=100&search=' + search;
   const getUserNFT = async () => {
     if (address != '') {
       try {
