@@ -313,10 +313,10 @@
 .accordion-content::before {
   content: '';
   display: block;
+
   height: 1px; /* Hauteur du trait */
   width: 100%; /* Largeur du trait */
   background: transparent; /* Couleur transparente par défaut */
-  margin-bottom: 10px; /* Espacement entre le trait et le contenu de l'accordéon */
   visibility: hidden; /* Caché par défaut */
   position: relative;
   z-index: 1;
