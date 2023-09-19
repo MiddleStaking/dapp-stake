@@ -2,13 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import ModalAddCollection from './ModalAddCollection';
-import { Button } from 'components/Design';
 
-export const PoolAddCollection = ({
-  address,
-  userEsdtBalance,
-  buttonHeight
-}: any) => {
+export const PoolAddCollection = ({ address, userEsdtBalance }: any) => {
   const [showStake, setShowStake] = useState(false);
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
