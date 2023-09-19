@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import SwowHideDetails from './SwowHideDetails';
 // import { IconFacebook } from "module";
+import { BigNumber } from 'bignumber.js';
 
 interface TypeSectionProps {
   height: string;
@@ -23,7 +24,7 @@ interface TypeSectionProps {
   staked_esdt_info: any;
   image1: any;
   image2: any;
-  tokenPosition: any;
+  token_position: any;
   rewarded_value: any;
   staked_value: any;
   speed: any;
@@ -32,7 +33,7 @@ interface TypeSectionProps {
   EarnTitle?: string;
   StakeTile?: string;
   Apr?: string;
-  Rewards?: string;
+  Rewards?: BigNumber;
   Rewards_value?: number;
   Speed?: string;
   Staked?: string;
@@ -62,12 +63,12 @@ const TypeSection: FC<TypeSectionProps> = ({
   EarnTitle,
   rewardedToken,
   stakedToken,
-  tokenPosition,
+  token_position,
   pool_apr,
   speed,
   StakeTile,
   Apr,
-  Rewards,
+  Rewards = BigNumber('0'),
   Rewards_value,
   rewarded_esdt_info,
   tokens_extra_informations,
@@ -319,7 +320,7 @@ const TypeSection: FC<TypeSectionProps> = ({
             <div style={apr2}>APR</div>
             <div style={rate}>
               <div style={rateApr}>
-                {tokenPosition.paused == 1
+                {token_position.paused == 1
                   ? 'Paused'
                   : pool_apr > 0
                   ? pool_apr.toString() + ' %'
@@ -386,14 +387,16 @@ const TypeSection: FC<TypeSectionProps> = ({
           decimals={Number(
             rewarded_esdt_info?.decimals ? rewarded_esdt_info?.decimals : 0
           )}
-          Rewards={tokenPosition.balance ? tokenPosition.balance.toString() : 0}
+          Rewards={Rewards}
           Rewards_value={rewarded_value}
           Speed={speed.toString()}
           Staked={
-            tokenPosition.total_stake ? tokenPosition.total_stake.toString() : 0
+            token_position.total_stake
+              ? token_position.total_stake.toFixed()
+              : 0
           }
           Staked_value={staked_value}
-          Users={tokenPosition.users ? tokenPosition.users.toString() : '0'}
+          Users={token_position.users ? token_position.users.toString() : '0'}
           socialNetwork={tokens_extra_informations}
           textColor={textColor}
           fontFamily={fontFamily}

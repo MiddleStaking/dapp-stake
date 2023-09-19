@@ -9,9 +9,10 @@ import notFound from './../../../../../assets/img/notfoundc.svg';
 import eCompass from './../../../../../assets/img/ecompass.svg';
 import jexchange from './../../../../../assets/img/jexchange.svg';
 import { network } from 'config';
+import { BigNumber } from 'bignumber.js';
 
 interface TypeSectionProps {
-  Rewards: string;
+  Rewards: BigNumber;
   Rewards_value?: number;
   Speed?: string;
   Staked?: string;
@@ -92,7 +93,7 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
           <div>Rewards</div>
           <div style={detailsRowResult}>
             <FormatAmount
-              value={Rewards}
+              value={Rewards.toFixed()}
               decimals={decimals}
               egldLabel={' '}
               data-testid='balance'
