@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './StakeModal.scss';
 import { ActionStake } from './Actions';
-import { useGetTokenPosition } from './Actions/helpers';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';
 import { Button } from './../../../components/Design';
@@ -14,7 +13,8 @@ const StakeModal = (props: any) => {
   const [rtoken, setRtoken] = React.useState(props.rewardedToken);
   const userEsdtBalance = props.userEsdtBalance;
   const [balance, setBalance] = React.useState(BigInt(0));
-  const tokenPosition = useGetTokenPosition(stoken, rtoken);
+  // const tokenPosition = useGetTokenPosition(stoken, rtoken);
+  const tokenPosition = props.token_position;
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
@@ -40,20 +40,21 @@ const StakeModal = (props: any) => {
   const image2 = rewarded_esdt_info?.assets?.svgUrl
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
-  const staked_value = staked_esdt_info?.price
-    ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
-      staked_esdt_info?.price
-    : 0;
-  const rewarded_value = rewarded_esdt_info?.price
-    ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
-      rewarded_esdt_info?.price
-    : 0;
-
-  let apr = BigInt(100);
-  if (tokenPosition.total_stake > BigInt(0)) {
-    apr =
-      (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
-  }
+  // const staked_value = staked_esdt_info?.price
+  //   ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
+  //     staked_esdt_info?.price
+  //   : 0;
+  const staked_value = 0;
+  // const rewarded_value = rewarded_esdt_info?.price
+  //   ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
+  //     rewarded_esdt_info?.price
+  //   : 0;
+  const rewarded_value = 0;
+  const apr = BigInt(100);
+  // if (tokenPosition.total_stake > BigInt(0)) {
+  //   apr =
+  //     (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
+  // }
 
   const speed =
     (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /

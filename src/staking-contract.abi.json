@@ -1,11 +1,11 @@
 {
     "buildInfo": {
         "rustc": {
-            "version": "1.68.0-nightly",
-            "commitHash": "52372f9c71d8ade4cb815524f179119656f0aa2e",
-            "commitDate": "2023-01-21",
+            "version": "1.71.0-nightly",
+            "commitHash": "a2b1646c597329d0a25efa3889b66650f65de1de",
+            "commitDate": "2023-05-25",
             "channel": "Nightly",
-            "short": "rustc 1.68.0-nightly (52372f9c7 2023-01-21)"
+            "short": "rustc 1.71.0-nightly (a2b1646c5 2023-05-25)"
         },
         "contractCrate": {
             "name": "staking-contract",
@@ -13,7 +13,7 @@
         },
         "framework": {
             "name": "multiversx-sc",
-            "version": "0.39.8"
+            "version": "0.43.3"
         }
     },
     "name": "StakingContract",
@@ -34,6 +34,10 @@
             {
                 "name": "remove_fees_price",
                 "type": "BigUint"
+            },
+            {
+                "name": "fee_percent",
+                "type": "u64"
             }
         ],
         "outputs": []
@@ -180,6 +184,10 @@
                 {
                     "name": "remove_fees_price",
                     "type": "BigUint"
+                },
+                {
+                    "name": "fee_percent",
+                    "type": "u64"
                 }
             ],
             "outputs": []
@@ -256,6 +264,21 @@
             ]
         },
         {
+            "name": "getAllTokenPosition",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<TokenPositionView>"
+                }
+            ]
+        },
+        {
             "name": "getStakingPosition",
             "mutability": "readonly",
             "inputs": [
@@ -302,54 +325,19 @@
             ]
         },
         {
-            "name": "issueLpToken",
+            "name": "transferOwner",
             "onlyOwner": true,
             "mutability": "mutable",
-            "payableInTokens": [
-                "EGLD"
-            ],
             "inputs": [
                 {
-                    "name": "first_token",
+                    "name": "token_identifier",
                     "type": "TokenIdentifier"
                 },
                 {
-                    "name": "second_token",
-                    "type": "TokenIdentifier"
-                },
-                {
-                    "name": "token_display_name",
-                    "type": "bytes"
-                },
-                {
-                    "name": "token_ticker",
-                    "type": "bytes"
+                    "name": "new_owner",
+                    "type": "Address"
                 }
             ],
-            "outputs": []
-        },
-        {
-            "name": "setLocalRoles",
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "first_token",
-                    "type": "TokenIdentifier"
-                },
-                {
-                    "name": "second_token",
-                    "type": "TokenIdentifier"
-                }
-            ],
-            "outputs": []
-        },
-        {
-            "name": "addLp",
-            "mutability": "mutable",
-            "payableInTokens": [
-                "*"
-            ],
-            "inputs": [],
             "outputs": []
         },
         {
@@ -366,29 +354,6 @@
                 {
                     "name": "second_token",
                     "type": "TokenIdentifier"
-                }
-            ],
-            "outputs": []
-        },
-        {
-            "name": "swap",
-            "mutability": "mutable",
-            "payableInTokens": [
-                "*"
-            ],
-            "inputs": [
-                {
-                    "name": "first_token",
-                    "type": "TokenIdentifier"
-                },
-                {
-                    "name": "second_token",
-                    "type": "TokenIdentifier"
-                },
-                {
-                    "name": "opt_min_out",
-                    "type": "optional<BigUint>",
-                    "multi_arg": true
                 }
             ],
             "outputs": []
@@ -486,6 +451,16 @@
             ]
         },
         {
+            "name": "getFeePercent",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
             "name": "getRemoveFeesPrice",
             "mutability": "readonly",
             "inputs": [],
@@ -555,6 +530,61 @@
         }
     ],
     "events": [],
-    "hasCallback": true,
-    "types": {}
+    "hasCallback": false,
+    "types": {
+        "TokenPosition": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "fee_percentage",
+                    "type": "u64"
+                },
+                {
+                    "name": "burn_percentage",
+                    "type": "u64"
+                },
+                {
+                    "name": "balance",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "total_stake",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "total_rewarded",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "last_fund_block",
+                    "type": "u64"
+                },
+                {
+                    "name": "paused",
+                    "type": "bool"
+                },
+                {
+                    "name": "blocks_to_max",
+                    "type": "u64"
+                }
+            ]
+        },
+        "TokenPositionView": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_position",
+                    "type": "TokenPosition"
+                },
+                {
+                    "name": "staked_addresses",
+                    "type": "u32"
+                }
+            ]
+        }
+    }
 }
