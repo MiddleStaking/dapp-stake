@@ -8,16 +8,17 @@ import { PoolSwapInfo } from '../../PoolInfo/PoolSwapInfo';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import UnstakeModal from '../../UnstakeModal';
 import StakeModal from '../../StakeModal';
+import { BigNumber } from 'bignumber.js';
 
 interface MyStakeSectionProps {
   address: any;
   stakedToken: any;
-  stakingPosition: any;
+  staking_position: any;
   staked_esdt_info: any;
   my_staked_value: any;
   rest: any;
   token_position: any;
-  rewardedToken: any;
+  rewarded_token: any;
   swapedTokens: any;
   userEsdtBalance: any;
   isDual: any;
@@ -38,9 +39,9 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   address,
   stakedToken,
   secondPoolPosition,
-  rewardedToken,
+  rewarded_token,
   token_position,
-  stakingPosition,
+  staking_position,
   staked_esdt_info,
   rewarded_esdt_info,
   my_staked_value,
@@ -116,7 +117,9 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
     <div style={sectionStyle}>
       <StakeModal
         userEsdtBalance={userEsdtBalance}
-        rewardedToken={rewardedToken}
+        staked_esdt_info={staked_esdt_info}
+        rewarded_esdt_info={rewarded_esdt_info}
+        rewarded_token={rewarded_token}
         stakedToken={stakedToken}
         balance={balance}
         decimals={sdecimals}
@@ -130,9 +133,11 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
       />
       <UnstakeModal
         userEsdtBalance={userEsdtBalance}
-        rewardedToken={rewardedToken}
+        rewarded_token={rewarded_token}
         stakedToken={stakedToken}
-        balance={stakingPosition.stake_amount}
+        staked_esdt_info={staked_esdt_info}
+        rewarded_esdt_info={rewarded_esdt_info}
+        balance={staking_position.stake_amount}
         decimals={sdecimals}
         onClose={() => {
           setHeaderMenu(true), setShowUnstake(false);
@@ -169,7 +174,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
         </div>
       ) : (
         <>
-          {stakingPosition.stake_amount < 1 ? (
+          {staking_position.stake_amount == 0 ? (
             <div style={MyStackedContentStyle}>
               <div
                 style={{
@@ -281,7 +286,9 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   >
                     <div className='_18-853-74'>
                       <FormatAmount
-                        value={stakingPosition.stake_amount.toString()}
+                        value={BigNumber(
+                          staking_position.stake_amount
+                        ).toFixed()}
                         decimals={Number(
                           staked_esdt_info?.decimals
                             ? staked_esdt_info?.decimals

@@ -1,6 +1,7 @@
 export * from './useGetStakedTokens';
 export * from './useGetRewardedTokens';
 export * from './useGetAllTokenPosition';
+export * from './useGetAllStakingPosition';
 export * from './useGetTokenPosition';
 export * from './useGetStakingPosition';
 export * from './useGetStakingPositionRewards';

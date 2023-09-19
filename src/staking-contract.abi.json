@@ -279,6 +279,25 @@
             ]
         },
         {
+            "name": "getAllStakingPosition",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                },
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<StakingPositionView>"
+                }
+            ]
+        },
+        {
             "name": "getStakingPosition",
             "mutability": "readonly",
             "inputs": [
@@ -532,6 +551,32 @@
     "events": [],
     "hasCallback": false,
     "types": {
+        "StakingPosition": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "stake_amount",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "last_action_block",
+                    "type": "u64"
+                }
+            ]
+        },
+        "StakingPositionView": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "staking_position",
+                    "type": "StakingPosition"
+                }
+            ]
+        },
         "TokenPosition": {
             "type": "struct",
             "fields": [
