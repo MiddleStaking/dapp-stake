@@ -386,10 +386,12 @@ const TypeSection: FC<TypeSectionProps> = ({
           decimals={Number(
             rewarded_esdt_info?.decimals ? rewarded_esdt_info?.decimals : 0
           )}
-          Rewards={tokenPosition.balance.toString()}
+          Rewards={tokenPosition.balance ? tokenPosition.balance.toString() : 0}
           Rewards_value={rewarded_value}
           Speed={speed.toString()}
-          Staked={tokenPosition.total_stake.toString()}
+          Staked={
+            tokenPosition.total_stake ? tokenPosition.total_stake.toString() : 0
+          }
           Staked_value={staked_value}
           Users={tokenPosition.users ? tokenPosition.users.toString() : '0'}
           socialNetwork={tokens_extra_informations}

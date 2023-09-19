@@ -46,7 +46,6 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const { width } = useWindowDimensions();
   const heightComponentTypeSection = width > 450 ? '162px' : '114px';
 
-  console.log(allRewardsForUser);
   return (
     <div className='center'>
       <FundModal

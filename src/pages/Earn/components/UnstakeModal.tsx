@@ -6,7 +6,6 @@ import Input from 'components/Design/Input';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionUnstake } from './Actions';
-import { useGetTokenPosition } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import './StakeModal.scss';
 
@@ -14,7 +13,7 @@ const StakeModal = (props: any) => {
   const [stoken, setStoken] = React.useState(props.stakedToken);
   const [rtoken, setRtoken] = React.useState(props.rewardedToken);
   const [balance, setBalance] = React.useState(BigInt(0));
-  const tokenPosition = useGetTokenPosition(stoken, rtoken);
+  const tokenPosition = props.token_position;
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
@@ -40,10 +39,11 @@ const StakeModal = (props: any) => {
     ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
       staked_esdt_info?.price
     : 0;
-  const rewarded_value = rewarded_esdt_info?.price
-    ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
-      rewarded_esdt_info?.price
-    : 0;
+  // const rewarded_value = rewarded_esdt_info?.price
+  // ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
+  //   rewarded_esdt_info?.price
+  // : 0;
+  const rewarded_value = 0;
 
   const speed =
     (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /

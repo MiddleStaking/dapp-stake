@@ -16,7 +16,7 @@ interface MyStakeSectionProps {
   staked_esdt_info: any;
   my_staked_value: any;
   rest: any;
-  tokenPosition: any;
+  token_position: any;
   rewardedToken: any;
   swapedTokens: any;
   userEsdtBalance: any;
@@ -39,7 +39,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   stakedToken,
   secondPoolPosition,
   rewardedToken,
-  tokenPosition,
+  token_position,
   stakingPosition,
   staked_esdt_info,
   rewarded_esdt_info,
@@ -126,6 +126,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
         show={showStake}
         image1={image1}
         image2={image2}
+        token_position={token_position}
       />
       <UnstakeModal
         userEsdtBalance={userEsdtBalance}
@@ -137,6 +138,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
           setHeaderMenu(true), setShowUnstake(false);
         }}
         show={showUnstake}
+        token_position={token_position}
       />
 
       {!address ? (
@@ -188,7 +190,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   justifyContent: 'center'
                 }}
               >
-                {tokenPosition.paused == 1 ? (
+                {token_position.paused == 1 ? (
                   <Button
                     borderRadius={40}
                     buttonHeight='31px'
