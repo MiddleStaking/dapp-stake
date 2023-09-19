@@ -404,7 +404,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       <div className='col-12'>
         <Row className='pt-4'>
           {allTokenPosition &&
-            orderedTokens.map((rtoken, key) => (
+            allTokenPosition.map((rtoken, key) => (
               // CardPool
               <>
                 <Col

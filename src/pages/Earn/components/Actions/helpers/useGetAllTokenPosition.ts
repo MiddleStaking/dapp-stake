@@ -6,57 +6,28 @@ import {
 } from '@multiversx/sdk-core/out';
 import { network } from 'config';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-
 import { smartContract } from './smartContract';
+import { BigNumber } from 'bignumber.js';
 
 const resultsParser = new ResultsParser();
 
 export const useGetAllTokenPosition = (stakedToken: any) => {
-  const [tokenPosition, setTokenPosition] = useState(<any>[]);
-  const renderJson = (object: any) => {
-    return JSON.stringify(object, (key, value) => {
-      switch (typeof value) {
-        case 'bigint':
-          return {
-            $T$: 'bigint', // type
-            $V$: value.toString() // value
-          };
-        // Put more cases here ...
-        default:
-          return value;
-      }
-    });
-  };
-
-  const pareseJson = (json: any) => {
-    return JSON.parse(json, (key, value) => {
-      if (typeof value === 'object') {
-        switch (value?.$T$) {
-          case 'bigint': // warpper
-            return BigInt(value.$V$);
-          // Put more cases here ...
-          default:
-            return value;
-        }
-      } else {
-        return value;
-      }
-    });
-  };
-  // {
-  //   rewarded_token: '',
-  //   token_position: {
-  //     balance: BigInt(0),
-  //     blocks_to_max: BigInt(1),
-  //     burn_percentage: 0,
-  //     fee_percentage: 0,
-  //     last_fund_block: 0,
-  //     paused: false,
-  //     total_rewarded: BigInt(0),
-  //     total_stake: BigInt(0)
-  //   },
-  //   staked_addresses: 0
-  // }
+  const [tokenPosition, setTokenPosition] = useState([
+    {
+      rewarded_token: '',
+      token_position: {
+        balance: BigNumber(0),
+        blocks_to_max: BigInt(1),
+        burn_percentage: 0,
+        fee_percentage: 0,
+        last_fund_block: 0,
+        paused: false,
+        total_rewarded: BigInt(0),
+        total_stake: BigInt(0)
+      },
+      staked_addresses: 0
+    }
+  ]);
 
   const time = new Date();
 
@@ -90,18 +61,23 @@ export const useGetAllTokenPosition = (stakedToken: any) => {
         queryResponse,
         endpointDefinition
       );
-      console.log(position?.valueOf());
-      console.log(position?.valueOf()[0].token_position.balance);
+      // console.log(position?.valueOf());
+      // console.log(position?.valueOf()[0].token_position.balance);
+      // console.log(position?.valueOf()[0].token_position.balance.toString());
+
+      // const test = new BigNumber(position?.valueOf()[0].token_position.balance);
+
+      // console.log(test);
+      // console.log(test.toString());
       setTokenPosition(position?.valueOf());
 
       const expire = time.getTime() + 1000 * 60 * 1;
 
-      console.log(renderJson(position?.valueOf()));
-
-      localStorage.setItem(
-        'all_token_position_' + stakedToken,
-        renderJson(position?.valueOf())
-      );
+      // console.log(renderJson(position?.valueOf()));
+      // localStorage.setItem(
+      //   'all_token_position_' + stakedToken,
+      //   renderJson(position?.valueOf())
+      // );
       localStorage.setItem(
         'all_token_position_' + stakedToken + '_expire',
         expire.toString()

@@ -6,6 +6,8 @@ import React, {
   ReactElement
 } from 'react';
 import SwowHideDetails from './SwowHideDetails';
+import { BigNumber } from 'bignumber.js';
+
 // import { IconFacebook } from "module";
 
 interface TypeSectionProps {
@@ -33,7 +35,7 @@ interface TypeSectionProps {
   EarnTitle?: string;
   StakeTile?: string;
   Apr?: string;
-  Rewards?: string;
+  Rewards?: BigNumber;
   Rewards_value?: number;
   Speed?: string;
   Staked?: string;
@@ -68,7 +70,7 @@ const TypeSection: FC<TypeSectionProps> = ({
   speed,
   StakeTile,
   Apr,
-  Rewards,
+  Rewards = BigInt(0),
   Rewards_value,
   rewarded_esdt_info,
   tokens_extra_informations,
@@ -387,7 +389,7 @@ const TypeSection: FC<TypeSectionProps> = ({
           decimals={Number(
             rewarded_esdt_info?.decimals ? rewarded_esdt_info?.decimals : 0
           )}
-          Rewards={tokenPosition.balance.toString()}
+          Rewards={Rewards.toString()}
           Rewards_value={rewarded_value}
           Speed={speed.toString()}
           Staked={tokenPosition.total_stake.toString()}

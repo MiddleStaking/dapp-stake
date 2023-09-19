@@ -24,10 +24,11 @@ import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 import { network } from 'config';
+import { BigNumber } from 'bignumber.js';
 
 interface CardPoolrops {
   token_position: {
-    balance: bigint;
+    balance: BigNumber;
     total_stake: bigint;
     blocks_to_max: bigint;
   };
@@ -236,7 +237,7 @@ const CardPool: FC<CardPoolrops> = ({
     (staked_esdt_info?.price > 0 || stakedCompute?.price > 0) &&
     rewarded_esdt_info?.price > 0 &&
     token_position.total_stake > BigInt(1) &&
-    token_position.balance > BigInt(0)
+    token_position.balance > BigNumber(0)
   ) {
     const price_fixed1 = BigInt(
       stakedCompute?.price > 0
@@ -257,12 +258,12 @@ const CardPool: FC<CardPoolrops> = ({
         ? price_fixed1 * BigInt(token_position.total_stake)
         : 1
     );
-    const reward_value = BigInt(
-      price_fixed2 > 0 && BigInt(token_position.balance)
-        ? price_fixed2 * BigInt(token_position.balance)
-        : 1
-    );
-
+    // const reward_value = BigInt(
+    //   price_fixed2 > 0 && BigInt(token_position.balance)
+    //     ? price_fixed2 * BigInt(token_position.balance)
+    //     : 1
+    // );
+    const reward_value = BigInt(0);
     priced_apr = BigInt(
       (
         ((Number(reward_value) / Number(initial_value)) * 100 * 365) /
@@ -387,7 +388,7 @@ const CardPool: FC<CardPoolrops> = ({
           //   EarnTitle={EarnTitle}
           //   Apr={Apr}
           //   decimals={decimals}
-          //   Rewards={Rewards}
+          Rewards={token_position.balance}
           //   Rewards_value={Rewards_value}
           //   Speed={Speed}
           //   Staked={Staked}
@@ -401,7 +402,7 @@ const CardPool: FC<CardPoolrops> = ({
           staked_esdt_info={staked_esdt_info}
           image1={image1}
           image2={image2}
-          tokenPosition={token_position}
+          token_position={token_position}
           rewarded_value={rewarded_value}
           staked_value={staked_value}
           speed={speed}
