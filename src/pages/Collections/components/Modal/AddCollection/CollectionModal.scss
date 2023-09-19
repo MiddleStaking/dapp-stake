@@ -209,16 +209,18 @@
 }
 
 .GroupeDetails_StakeModal_black_Collection {
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 15px;
   width: 100%;
   background-color: black;
   border-radius: 8px;
-  padding: 12px 24px;
+  padding: 9px 24px;
 }
 
 .GroupeDetails_StakeModal_black_input_Collection {
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -290,4 +292,54 @@
       }
     }
   }
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  margin: 0;
+  padding: 0;
+
+  &.open {
+    max-height: 100px; // ou toute autre valeur qui convient à votre contenu
+  }
+}
+
+.svgAccordeons {
+  cursor: pointer;
+}
+
+.accordion-content::before {
+  content: '';
+  display: block;
+  height: 1px; /* Hauteur du trait */
+  width: 100%; /* Largeur du trait */
+  background: transparent; /* Couleur transparente par défaut */
+  margin-bottom: 10px; /* Espacement entre le trait et le contenu de l'accordéon */
+  visibility: hidden; /* Caché par défaut */
+  position: relative;
+  z-index: 1;
+}
+
+// .accordion-content.open::before {
+//   background: #3e2977; /* Couleur semi-transparente pour voir le background en dessous. À adapter selon vos besoins. */
+//   visibility: visible; /* Afficher le trait lorsque l'accordéon est ouvert */
+//   margin: 3px 0px;
+// }
+
+.accordion-content.open::before {
+  content: '';
+  position: absolute; /* Utilisation du positionnement absolu */
+  left: 0; /* Positionnement à gauche de l'élément parent */
+  right: 0; /* Étendre jusqu'au bord droit de l'élément parent */
+  height: 1px; /* Hauteur du trait */
+  background: linear-gradient(
+    156.86deg,
+    rgba(189, 55, 236, 0.26) 12.97%,
+    rgba(31, 103, 255, 0) 71.91%
+  ),
+  rgba(99, 74, 203, 0.32);
+  visibility: visible; 
+  z-index: 1; /* Éventuellement, pour s'assurer qu'il est au-dessus d'autres éléments imbriqués */
 }
