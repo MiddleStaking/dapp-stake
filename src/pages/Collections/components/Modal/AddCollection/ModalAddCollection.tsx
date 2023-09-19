@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../../../assets/Modal.css';
 import './CollectionModal.scss';
@@ -18,6 +18,14 @@ import { ActionFund } from '../../Actions';
 const ModalAddCollection = (props: any) => {
   const userNFTBalance = useGetUserNFT();
   const userEsdtBalance = props.userEsdtBalance;
+  const [openAccordions, setOpenAccordions] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ]);
   const [stoken, setStoken] = React.useState(defaultToken);
   const [rtoken, setRtoken] = React.useState(defaultToken);
   const [decimals, setDecimals] = React.useState(18);
@@ -217,6 +225,12 @@ const ModalAddCollection = (props: any) => {
   const percentagevestingTime = (vestingTime / 365) * 100;
   const percentageunbundingTime = (unboundingTime / 500) * 100;
 
+  const toggleAccordion = (index: number) => {
+    const newOpenAccordions = [...openAccordions];
+    newOpenAccordions[index] = !newOpenAccordions[index];
+    setOpenAccordions(newOpenAccordions);
+  };
+
   return (
     <>
       <div className='centerStakeModal_Collection'>
@@ -271,6 +285,42 @@ const ModalAddCollection = (props: any) => {
                           }}
                         />
                       </div>
+                      <div
+                        className='svgAccordeons'
+                        onClick={() => toggleAccordion(0)}
+                      >
+                        <svg
+                          width={'16px'}
+                          height={'16px'}
+                          viewBox='0 0 16 16'
+                          fill='none'
+                          xmlns='http://www.w3.org/2000/svg'
+                          style={{
+                            transform: openAccordions[0]
+                              ? 'rotate(180deg)'
+                              : 'none',
+                            transition: 'transform 0.3s ease'
+                          }}
+                        >
+                          <path
+                            fillRule='evenodd'
+                            clipRule='evenodd'
+                            d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
+                            fill={openAccordions[0] ? 'green' : '#fff'}
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      className={`accordion-content ${
+                        openAccordions[0] ? 'open' : ''
+                      }`}
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Sit, expedita magnam velit quidem fugiat nulla
+                      voluptatibus, quisquam vel at doloribus reiciendis
+                      tenetur! Ea quas consequuntur ipsam modi natus saepe
+                      obcaecati?
                     </div>
                   </div>
                 </div>
@@ -308,6 +358,42 @@ const ModalAddCollection = (props: any) => {
                           }}
                         />
                       </div>
+                      <div
+                        className='svgAccordeons'
+                        onClick={() => toggleAccordion(1)}
+                      >
+                        <svg
+                          width={'16px'}
+                          height={'16px'}
+                          viewBox='0 0 16 16'
+                          fill='none'
+                          xmlns='http://www.w3.org/2000/svg'
+                          style={{
+                            transform: openAccordions[1]
+                              ? 'rotate(180deg)'
+                              : 'none',
+                            transition: 'transform 0.3s ease'
+                          }}
+                        >
+                          <path
+                            fillRule='evenodd'
+                            clipRule='evenodd'
+                            d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
+                            fill={openAccordions[1] ? 'green' : '#fff'}
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      className={`accordion-content ${
+                        openAccordions[1] ? 'open' : ''
+                      }`}
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Sit, expedita magnam velit quidem fugiat nulla
+                      voluptatibus, quisquam vel at doloribus reiciendis
+                      tenetur! Ea quas consequuntur ipsam modi natus saepe
+                      obcaecati?
                     </div>
                   </div>
                 </div>
@@ -363,7 +449,43 @@ const ModalAddCollection = (props: any) => {
                         >
                           {Math.round(percentage)}%
                         </div>
+                        <div
+                          className='svgAccordeons'
+                          onClick={() => toggleAccordion(2)}
+                        >
+                          <svg
+                            width={'16px'}
+                            height={'16px'}
+                            viewBox='0 0 16 16'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'
+                            style={{
+                              transform: openAccordions[2]
+                                ? 'rotate(180deg)'
+                                : 'none',
+                              transition: 'transform 0.3s ease'
+                            }}
+                          >
+                            <path
+                              fillRule='evenodd'
+                              clipRule='evenodd'
+                              d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
+                              fill={openAccordions[2] ? 'green' : '#fff'}
+                            />
+                          </svg>
+                        </div>
                       </div>
+                    </div>
+                    <div
+                      className={`accordion-content ${
+                        openAccordions[2] ? 'open' : ''
+                      }`}
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Sit, expedita magnam velit quidem fugiat nulla
+                      voluptatibus, quisquam vel at doloribus reiciendis
+                      tenetur! Ea quas consequuntur ipsam modi natus saepe
+                      obcaecati?
                     </div>
                   </div>
                 </div>
@@ -404,6 +526,42 @@ const ModalAddCollection = (props: any) => {
                           fontSize={14}
                         />
                       </div>
+                      <div
+                        className='svgAccordeons'
+                        onClick={() => toggleAccordion(3)}
+                      >
+                        <svg
+                          width={'16px'}
+                          height={'16px'}
+                          viewBox='0 0 16 16'
+                          fill='none'
+                          xmlns='http://www.w3.org/2000/svg'
+                          style={{
+                            transform: openAccordions[3]
+                              ? 'rotate(180deg)'
+                              : 'none',
+                            transition: 'transform 0.3s ease'
+                          }}
+                        >
+                          <path
+                            fillRule='evenodd'
+                            clipRule='evenodd'
+                            d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
+                            fill={openAccordions[3] ? 'green' : '#fff'}
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      className={`accordion-content ${
+                        openAccordions[3] ? 'open' : ''
+                      }`}
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Sit, expedita magnam velit quidem fugiat nulla
+                      voluptatibus, quisquam vel at doloribus reiciendis
+                      tenetur! Ea quas consequuntur ipsam modi natus saepe
+                      obcaecati?
                     </div>
                   </div>
                 </div>
@@ -459,6 +617,42 @@ const ModalAddCollection = (props: any) => {
                           {Math.round(percentagevestingTime)}%
                         </div>
                       </div>
+                      <div
+                        className='svgAccordeons'
+                        onClick={() => toggleAccordion(4)}
+                      >
+                        <svg
+                          width={'16px'}
+                          height={'16px'}
+                          viewBox='0 0 16 16'
+                          fill='none'
+                          xmlns='http://www.w3.org/2000/svg'
+                          style={{
+                            transform: openAccordions[4]
+                              ? 'rotate(180deg)'
+                              : 'none',
+                            transition: 'transform 0.3s ease'
+                          }}
+                        >
+                          <path
+                            fillRule='evenodd'
+                            clipRule='evenodd'
+                            d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
+                            fill={openAccordions[4] ? 'green' : '#fff'}
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      className={`accordion-content ${
+                        openAccordions[4] ? 'open' : ''
+                      }`}
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Sit, expedita magnam velit quidem fugiat nulla
+                      voluptatibus, quisquam vel at doloribus reiciendis
+                      tenetur! Ea quas consequuntur ipsam modi natus saepe
+                      obcaecati?
                     </div>
                   </div>
                 </div>
@@ -513,7 +707,43 @@ const ModalAddCollection = (props: any) => {
                         >
                           {Math.round(percentageunbundingTime)}%
                         </div>
+                        <div
+                          className='svgAccordeons'
+                          onClick={() => toggleAccordion(5)}
+                        >
+                          <svg
+                            width={'16px'}
+                            height={'16px'}
+                            viewBox='0 0 16 16'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'
+                            style={{
+                              transform: openAccordions[5]
+                                ? 'rotate(180deg)'
+                                : 'none',
+                              transition: 'transform 0.3s ease'
+                            }}
+                          >
+                            <path
+                              fillRule='evenodd'
+                              clipRule='evenodd'
+                              d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
+                              fill={openAccordions[5] ? 'green' : '#fff'}
+                            />
+                          </svg>
+                        </div>
                       </div>
+                    </div>
+                    <div
+                      className={`accordion-content ${
+                        openAccordions[5] ? 'open' : ''
+                      }`}
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Sit, expedita magnam velit quidem fugiat nulla
+                      voluptatibus, quisquam vel at doloribus reiciendis
+                      tenetur! Ea quas consequuntur ipsam modi natus saepe
+                      obcaecati?
                     </div>
                   </div>
                 </div>
