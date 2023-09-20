@@ -66,8 +66,10 @@ const TypeSection: FC<TypeSectionProps> = ({
   speed,
   StakeTile,
   Apr,
+
   rewards_amount = BigNumber('0'),
   rewards_value = 0,
+
   rewarded_esdt_info,
   tokens_extra_informations,
   Speed,
