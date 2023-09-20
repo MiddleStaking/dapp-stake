@@ -8,7 +8,7 @@ import { Button } from './../../../../components/Design';
 
 export const ActionStake = ({
   stakedToken,
-  rewardedToken,
+  rewarded_token,
   user_fund,
   name
 }: any) => {
@@ -38,7 +38,7 @@ export const ActionStake = ({
         '@' +
         Buffer.from('stake', 'utf8').toString('hex') +
         '@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex'),
+        Buffer.from(rewarded_token, 'utf8').toString('hex'),
 
       receiver: contractStake,
       gasLimit: '5200000'

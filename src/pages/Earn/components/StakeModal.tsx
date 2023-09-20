@@ -10,7 +10,7 @@ import DropdownMenu from 'components/Design/DropdownMenu';
 
 const StakeModal = (props: any) => {
   const [stoken, setStoken] = React.useState(props.stakedToken);
-  const [rtoken, setRtoken] = React.useState(props.rewardedToken);
+  const [rtoken, setRtoken] = React.useState(props.rewarded_token);
   const userEsdtBalance = props.userEsdtBalance;
   const [balance, setBalance] = React.useState(BigInt(0));
   // const tokenPosition = useGetTokenPosition(stoken, rtoken);
@@ -27,8 +27,8 @@ const StakeModal = (props: any) => {
     setBalance(stakedProps?.balance ? stakedProps?.balance : BigInt(0));
   }, [stakedProps]);
 
-  const staked_esdt_info = useGetESDTInformations(stoken);
-  const rewarded_esdt_info = useGetESDTInformations(rtoken);
+  const staked_esdt_info = props.staked_esdt_info;
+  const rewarded_esdt_info = props.rewarded_esdt_info;
   const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
   const rdecimals = rewarded_esdt_info?.decimals
     ? rewarded_esdt_info?.decimals
@@ -172,8 +172,10 @@ const StakeModal = (props: any) => {
                     hasBorder={true}
                     borderColor='#695885'
                     borderRadiusOptions='5px'
-                    options={[{ text: stoken, value: stoken }]}
-                    defaultValue={stoken}
+                    options={[
+                      { text: props.stakedToken, value: props.stakedToken }
+                    ]}
+                    defaultValue={props.stakedToken}
                     disableOption={true}
                     onSelect={function (value: any): void {
                       throw new Error('Function not implemented.');
@@ -194,8 +196,13 @@ const StakeModal = (props: any) => {
                     hasBorder={true}
                     borderRadiusOptions='5px'
                     borderColor='#695885'
-                    options={[{ text: rtoken, value: rtoken }]}
-                    defaultValue={rtoken}
+                    options={[
+                      {
+                        text: props.rewarded_token,
+                        value: props.rewarded_token
+                      }
+                    ]}
+                    defaultValue={props.rewarded_token}
                     disableOption={true}
                     onSelect={function (value: any): void {
                       throw new Error('Function not implemented.');
@@ -397,8 +404,8 @@ const StakeModal = (props: any) => {
                     </div>
                     <div className='bottomModal'>
                       <ActionStake
-                        stakedToken={stoken}
-                        rewardedToken={rtoken}
+                        stakedToken={props.stakedToken}
+                        rewarded_token={props.rewarded_token}
                         user_fund={bigAmount}
                       />
                     </div>

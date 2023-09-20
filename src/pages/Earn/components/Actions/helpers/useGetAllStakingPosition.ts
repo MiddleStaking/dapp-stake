@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
+  Address,
+  AddressValue,
   ContractFunction,
   ResultsParser,
   TokenIdentifierValue
@@ -8,30 +10,29 @@ import { network } from 'config';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import { smartContract } from './smartContract';
 import { BigNumber } from 'bignumber.js';
+import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
 
 const resultsParser = new ResultsParser();
 
-export const useGetAllTokenPosition = (stakedToken: any) => {
+export const useGetAllStakingPosition = (stakedToken: any) => {
   const [tokenPosition, setTokenPosition] = useState([
     {
       rewarded_token: '',
-      token_position: {
-        balance: BigNumber(0),
-        blocks_to_max: BigNumber(1),
-        burn_percentage: 0,
-        fee_percentage: 0,
-        last_fund_block: 0,
-        paused: false,
-        total_rewarded: BigNumber(0),
-        total_stake: BigNumber(0)
-      },
-      staked_addresses: 0
+      staking_position: {
+        stake_amount: BigNumber(0),
+        last_action_block: BigNumber(1)
+      }
     }
   ]);
+  const { address } = useGetAccount();
 
   const time = new Date();
 
-  const getAllTokenPosition = async () => {
+  const getAllStakingPosition = async () => {
+    if (!address) {
+      setTokenPosition([]);
+      return;
+    }
     // const expire_test = Number(
     //   localStorage.getItem('all_token_position_' + stakedToken + '_expire')
     // );
@@ -47,15 +48,18 @@ export const useGetAllTokenPosition = (stakedToken: any) => {
 
     try {
       const query = smartContract.createQuery({
-        func: new ContractFunction('getAllTokenPosition'),
-        args: [new TokenIdentifierValue(stakedToken)]
+        func: new ContractFunction('getAllStakingPosition'),
+        args: [
+          new AddressValue(new Address(address)),
+          new TokenIdentifierValue(stakedToken)
+        ]
       });
 
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
+      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
 
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint(
-        'getAllTokenPosition'
+        'getAllStakingPosition'
       );
       const { firstValue: position } = resultsParser.parseQueryResponse(
         queryResponse,
@@ -78,17 +82,17 @@ export const useGetAllTokenPosition = (stakedToken: any) => {
       //   'all_token_position_' + stakedToken,
       //   renderJson(position?.valueOf())
       // );
-      localStorage.setItem(
-        'all_token_position_' + stakedToken + '_expire',
-        expire.toString()
-      );
+      // localStorage.setItem(
+      //   'all_token_position_' + stakedToken + '_expire',
+      //   expire.toString()
+      // );
     } catch (err) {
-      console.error('Unable to call getTokenPosition', err);
+      console.error('Unable to call getStakingPosition', err);
     }
   };
 
   useEffect(() => {
-    getAllTokenPosition();
+    getAllStakingPosition();
   }, [stakedToken]);
 
   return tokenPosition;

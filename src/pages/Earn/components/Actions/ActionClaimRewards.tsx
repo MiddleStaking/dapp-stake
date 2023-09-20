@@ -8,7 +8,7 @@ import { Button } from './../../../../components/Design';
 
 export const ActionClaimRewards = ({
   stakedToken,
-  rewardedToken,
+  rewarded_token,
   rewardsAmount
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
@@ -24,7 +24,7 @@ export const ActionClaimRewards = ({
         'claimRewards@' +
         Buffer.from(stakedToken, 'utf8').toString('hex') +
         '@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex'),
+        Buffer.from(rewarded_token, 'utf8').toString('hex'),
       receiver: contractStake,
       gasLimit: '5000000'
     };

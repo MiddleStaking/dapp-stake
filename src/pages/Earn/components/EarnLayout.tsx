@@ -5,6 +5,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { defaultToken } from 'config';
 import notFound from './../../../assets/img/notfoundc.svg';
 import {
+  useGetAllStakingPosition,
   useGetAllTokenPosition,
   useGetRewardedTokens
 } from './Actions/helpers';
@@ -19,6 +20,7 @@ import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardPool from './CardPool';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { network } from 'config';
+import { BigNumber } from 'bignumber.js';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   // const { network } = useGetNetworkConfig();
@@ -58,8 +60,8 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const userEsdtBalance = useGetUserESDT();
   const [stoken, setStoken] = React.useState(url);
   const allTokenPosition = useGetAllTokenPosition(stoken);
+  const allStakingPosition = useGetAllStakingPosition(stoken);
   //  const rewardedTokens = useGetRewardedTokens(stoken);
-  const rewardedTokens = '';
   const orderedTokens = [];
 
   const esdt_info = useGetESDTInformations(stoken);
@@ -419,6 +421,12 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                 >
                   {rtoken && (
                     <CardPool
+                      staked_token={stoken}
+                      staked_esdt_info={esdt_info}
+                      rewarded_token={rtoken?.rewarded_token}
+                      token_position={rtoken?.token_position}
+                      all_staking_position={allStakingPosition}
+                      users={rtoken?.staked_addresses}
                       height={heightComponentTypeSection}
                       WindowDimensions={width}
                       textColor='#ffffff'
@@ -426,9 +434,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                       userEsdtBalance={userEsdtBalance}
                       swapedTokens={swapedTokens}
                       myPools={myPools}
-                      stakedToken={stoken}
-                      token_position={rtoken?.token_position}
-                      rewardedToken={rtoken?.rewarded_token}
                       balance={balance}
                       isPaused={isPaused}
                       canBeStaked={
