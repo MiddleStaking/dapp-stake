@@ -57,8 +57,6 @@ const Account = () => {
     setAddress(address === null ? '' : address);
   }, [address]);
 
-  // console.log(accountInfo);
-  // console.log(userEsdtBalance);
   const explorer =
     network.id == 'devnet'
       ? 'https://devnet-explorer.multiversx.com/accounts/'

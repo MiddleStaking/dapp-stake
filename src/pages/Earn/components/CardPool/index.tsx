@@ -35,6 +35,7 @@ interface CardPoolrops {
     blocks_to_max: BigNumber;
   };
   all_staking_position: any;
+  all_user_rewards: any;
   staking_position?: {
     stake_amount: BigNumber;
     last_action_block: BigNumber;
@@ -90,6 +91,7 @@ const CardPool: FC<CardPoolrops> = ({
   rewarded_token,
   token_position,
   all_staking_position,
+  all_user_rewards,
   users,
   height,
   width = '100%',
@@ -188,6 +190,17 @@ const CardPool: FC<CardPoolrops> = ({
       staking_position = foundPosition.staking_position;
     }
   }
+  let rewards_position = BigNumber(0);
+
+  if (all_user_rewards) {
+    const foundPosition = all_user_rewards.find((position: any) => {
+      return position.rewarded_token === rewarded_token;
+    });
+    if (foundPosition) {
+      console.log(foundPosition);
+      rewards_position = foundPosition.rewards;
+    }
+  }
 
   // const stakingPosition = useGetStakingPosition(
   //   staked_token,
@@ -203,14 +216,14 @@ const CardPool: FC<CardPoolrops> = ({
   //   hasPendingTransactions
   // );
   //Information de rewards pour l'utilisateur à condenser
-  const stakingPositionRewards = useGetStakingPositionRewards(
-    staked_token,
-    rewarded_token,
-    staking_position.stake_amount
-      ? BigInt(staking_position.stake_amount.toFixed())
-      : BigInt(0),
-    hasPendingTransactions
-  );
+  // const stakingPositionRewards = useGetStakingPositionRewards(
+  //   staked_token,
+  //   rewarded_token,
+  //   staking_position.stake_amount
+  //     ? BigInt(staking_position.stake_amount.toFixed())
+  //     : BigInt(0),
+  //   hasPendingTransactions
+  // );
 
   const speed =
     (BigInt(token_position?.blocks_to_max.toFixed()) * BigInt(6)) /
@@ -241,7 +254,7 @@ const CardPool: FC<CardPoolrops> = ({
   //Montant user
   const my_rewards_value = rewarded_esdt_info?.price
     ? Number(
-        (BigInt(stakingPositionRewards) *
+        (BigInt(rewards_position.toFixed()) *
           BigInt((rewarded_esdt_info.price * 10000000).toFixed())) /
           BigInt(10 ** rdecimals)
       ) / 10000000
@@ -458,7 +471,6 @@ const CardPool: FC<CardPoolrops> = ({
           image2={image2}
           sdecimals={sdecimals}
           rdecimals={rdecimals}
-          stakingPositionRewards={stakingPositionRewards}
           my_rewards_value={my_rewards_value}
           canBeStaked={canBeStaked}
           isDual={isDual}
@@ -470,7 +482,7 @@ const CardPool: FC<CardPoolrops> = ({
         {address && (
           <RewardsSection
             backgroundRewards={backgroundRewards}
-            stakingPositionRewards={stakingPositionRewards}
+            stakingPositionRewards={BigInt(rewards_position.toFixed())}
             rdecimals={rdecimals}
             rewarded_esdt_info={rewarded_esdt_info}
             my_rewards_value={my_rewards_value}

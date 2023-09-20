@@ -6,10 +6,11 @@ import {
 } from 'pages/Earn/components/Actions';
 import illustrationSvg from '../../../../../assets/img/Illustration.svg';
 import { useWindowDimensions } from 'components/DimensionScreen';
+import { BigNumber } from 'bignumber.js';
 
 interface RewardsSectionProps {
   rdecimals: any;
-  stakingPositionRewards: any;
+  stakingPositionRewards: bigint;
   rewarded_esdt_info: any;
   my_rewards_value: any;
   staked_token: any;
@@ -78,7 +79,7 @@ const RewardsSection: FC<RewardsSectionProps> = ({
   };
   return (
     <>
-      {stakingPositionRewards > 0 && (
+      {stakingPositionRewards > BigInt(0) && (
         <div style={rewardsSection}>
           <div style={top5}>
             <div style={availabledRewards}>Available rewards</div>

@@ -298,6 +298,25 @@
             ]
         },
         {
+            "name": "getAllUserRewards",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                },
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<RewardsView>"
+                }
+            ]
+        },
+        {
             "name": "getStakingPosition",
             "mutability": "readonly",
             "inputs": [
@@ -551,6 +570,19 @@
     "events": [],
     "hasCallback": false,
     "types": {
+        "RewardsView": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "rewarded_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewards",
+                    "type": "BigUint"
+                }
+            ]
+        },
         "StakingPosition": {
             "type": "struct",
             "fields": [

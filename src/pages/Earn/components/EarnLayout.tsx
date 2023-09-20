@@ -7,7 +7,7 @@ import notFound from './../../../assets/img/notfoundc.svg';
 import {
   useGetAllStakingPosition,
   useGetAllTokenPosition,
-  useGetRewardedTokens
+  useGetAllUserRewards
 } from './Actions/helpers';
 import { useGetIsPaused } from './Actions/helpers';
 import { useGetStakedTokens, useGetSwapedTokens } from './Actions/helpers';
@@ -61,6 +61,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const [stoken, setStoken] = React.useState(url);
   const allTokenPosition = useGetAllTokenPosition(stoken);
   const allStakingPosition = useGetAllStakingPosition(stoken);
+  const allUserRewards = useGetAllUserRewards(stoken);
   //  const rewardedTokens = useGetRewardedTokens(stoken);
   const orderedTokens = [];
 
@@ -426,6 +427,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                       rewarded_token={rtoken?.rewarded_token}
                       token_position={rtoken?.token_position}
                       all_staking_position={allStakingPosition}
+                      all_user_rewards={allUserRewards}
                       users={rtoken?.staked_addresses}
                       height={heightComponentTypeSection}
                       WindowDimensions={width}

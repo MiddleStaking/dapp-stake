@@ -31,7 +31,6 @@ interface MyStakeSectionProps {
   sdecimals: any;
   rdecimals: any;
   balance: any;
-  stakingPositionRewards: any;
   my_rewards_value: any;
   canBeStaked: any;
 }
@@ -51,7 +50,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   image2,
   sdecimals,
   rdecimals,
-  stakingPositionRewards,
   my_rewards_value,
   canBeStaked,
   userEsdtBalance,
