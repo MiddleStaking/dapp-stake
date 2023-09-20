@@ -16,7 +16,7 @@ export const useGetAllTokenPosition = (stakedToken: any) => {
     {
       rewarded_token: '',
       token_position: {
-        balance: BigNumber(0),
+        balance: new BigNumber(0),
         blocks_to_max: BigInt(1),
         burn_percentage: 0,
         fee_percentage: 0,

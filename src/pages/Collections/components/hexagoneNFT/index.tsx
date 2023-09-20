@@ -109,7 +109,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
           </div>
         </div>
       );
-    case 'image':
+    default:
       return (
         <div
           style={{
@@ -130,8 +130,6 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
           </div>
         </div>
       );
-    default:
-      return <p>{format} non géré</p>;
   }
 };
 

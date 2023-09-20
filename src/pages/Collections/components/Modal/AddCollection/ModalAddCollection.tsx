@@ -14,6 +14,8 @@ import {
 import notFound from '../../../../../assets/img/notfoundc.svg';
 import Input from 'components/Design/Input';
 import { ActionFund } from '../../Actions';
+import { useGetNft } from '../../Actions/helpers/useGetNft';
+import HexagoneNFT from '../../hexagoneNFT';
 
 const ModalAddCollection = (props: any) => {
   const userNFTBalance = useGetUserNFT();
@@ -39,6 +41,8 @@ const ModalAddCollection = (props: any) => {
   const [speedNumber, setSpeedNumber] = React.useState(365);
   const [nonceNumber, setNonceNumber] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
+
+  const nft: any = useGetNft(stoken, nonceNumber);
 
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
@@ -230,7 +234,6 @@ const ModalAddCollection = (props: any) => {
     newOpenAccordions[index] = !newOpenAccordions[index];
     setOpenAccordions(newOpenAccordions);
   };
-
   return (
     <>
       <div className='centerStakeModal_Collection'>
@@ -249,7 +252,39 @@ const ModalAddCollection = (props: any) => {
                   margin: '30px 0px'
                 }}
               >
-                <HexagoneGroupe collectionInfo={getCollectionInformations} />
+                {/* <HexagoneGroupe collectionInfo={getCollectionInformations} /> */}
+
+                {nft.media ? (
+                  <HexagoneNFT
+                    format={
+                      nft?.media[0]?.fileType == 'video/mp4'
+                        ? 'video/mp4'
+                        : 'image'
+                    }
+                    url={nft?.media[0]?.url}
+                    width={100}
+                    withBorder={true}
+                    borderWidth={2.5}
+                    borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                    withShadow={true}
+                  />
+                ) : (
+                  <HexagoneGroupe collectionInfo={getCollectionInformations} />
+                )}
+
+                {/* <HexagoneNFT
+                format={
+                  collectionInfo.media[0].fileType == 'video/mp4'
+                    ? 'video/mp4'
+                    : 'image'
+                }
+                url={collectionInfo.media[0].url}
+                width={100}
+                withBorder={true}
+                borderWidth={2.5}
+                borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                withShadow={true}
+              /> */}
               </div>
 
               <div className='pool-details_StakeModal_black_Collection'>
