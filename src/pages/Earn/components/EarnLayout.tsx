@@ -89,7 +89,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       identifier: tok,
       rewarded_token: tok.rewarded_token,
       token_position: tok.token_position,
-      users: tok?.staked_addresses ? tok?.staked_addresses : 0,
+      staked_addresses: tok?.staked_addresses ? tok?.staked_addresses : 0,
       balance: tok.token_position.balance,
       staked: tok?.token_position?.total_stake
         ? Number(tok?.token_position?.total_stake)
@@ -100,7 +100,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   }
 
   if (orderBy == 'users') {
-    orderedTokens.sort((a, b) => b.users - a.users);
+    orderedTokens.sort((a, b) => b.staked_addresses - a.staked_addresses);
   } else if (orderBy == 'yields') {
     orderedTokens.sort((a, b) => b.apr - a.apr);
   } else if (orderBy == 'rvalue') {
@@ -406,7 +406,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       <div className='col-12'>
         <Row className='pt-4'>
           {allTokenPosition &&
-            allTokenPosition.map((rtoken, key) => (
+            orderedTokens.map((rtoken, key) => (
               // CardPool
               <>
                 <Col
@@ -419,7 +419,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                   key={key}
                   className='pb-4'
                 >
-                  {rtoken && (
+                  {rtoken && allTokenPosition[0]?.rewarded_token != '' && (
                     <CardPool
                       staked_token={stoken}
                       staked_esdt_info={esdt_info}

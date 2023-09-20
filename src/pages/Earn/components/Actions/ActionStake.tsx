@@ -7,10 +7,9 @@ import { contractStake } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionStake = ({
-  stakedToken,
+  staked_token,
   rewarded_token,
-  user_fund,
-  name
+  user_fund
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -32,9 +31,9 @@ export const ActionStake = ({
       value: 0,
       data:
         'ESDTTransfer@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
+        Buffer.from(staked_token, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(user_fund)) +
+        bigToHexDec(user_fund) +
         '@' +
         Buffer.from('stake', 'utf8').toString('hex') +
         '@' +

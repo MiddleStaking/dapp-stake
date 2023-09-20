@@ -7,8 +7,8 @@ import { contractStake } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionUnstake = ({
-  stakedToken,
-  rewardedToken,
+  staked_token,
+  rewarded_token,
   user_fund
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
@@ -31,11 +31,11 @@ export const ActionUnstake = ({
       value: 0,
       data:
         'unstake@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
+        Buffer.from(staked_token, 'utf8').toString('hex') +
         '@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex') +
+        Buffer.from(rewarded_token, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(user_fund)),
+        bigToHexDec(user_fund),
 
       receiver: contractStake,
       gasLimit: '6000000'

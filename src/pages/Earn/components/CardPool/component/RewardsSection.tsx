@@ -12,7 +12,7 @@ interface RewardsSectionProps {
   stakingPositionRewards: any;
   rewarded_esdt_info: any;
   my_rewards_value: any;
-  stakedToken: any;
+  staked_token: any;
   rewarded_token: any;
   backgroundRewards: string;
 }
@@ -22,7 +22,7 @@ const RewardsSection: FC<RewardsSectionProps> = ({
   rdecimals,
   rewarded_esdt_info,
   my_rewards_value,
-  stakedToken,
+  staked_token,
   rewarded_token,
   backgroundRewards
 }) => {
@@ -133,13 +133,13 @@ const RewardsSection: FC<RewardsSectionProps> = ({
             <img src={illustrationSvg} />
           </div>
           <ActionClaimRewards
-            stakedToken={stakedToken}
+            staked_token={staked_token}
             rewarded_token={rewarded_token}
             rewardsAmount={stakingPositionRewards}
           />{' '}
-          {stakedToken == rewarded_token && (
+          {staked_token == rewarded_token && (
             <ActionStakeRewards
-              stakedToken={stakedToken}
+              staked_token={staked_token}
               rewardsAmount={stakingPositionRewards}
             />
           )}

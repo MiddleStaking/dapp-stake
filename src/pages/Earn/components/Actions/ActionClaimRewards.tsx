@@ -7,7 +7,7 @@ import { contractStake } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionClaimRewards = ({
-  stakedToken,
+  staked_token,
   rewarded_token,
   rewardsAmount
 }: any) => {
@@ -22,7 +22,7 @@ export const ActionClaimRewards = ({
       value: 0,
       data:
         'claimRewards@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
+        Buffer.from(staked_token, 'utf8').toString('hex') +
         '@' +
         Buffer.from(rewarded_token, 'utf8').toString('hex'),
       receiver: contractStake,
