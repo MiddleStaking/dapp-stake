@@ -6,7 +6,7 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractStake } from 'config';
 import { Button } from './../../../../components/Design';
 
-export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
+export const ActionStakeRewards = ({ staked_token, rewardsAmount }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
@@ -16,7 +16,7 @@ export const ActionStakeRewards = ({ stakedToken, rewardsAmount }: any) => {
   const sendStakeRewardsTransaction = async () => {
     const stakeRewardsTransaction = {
       value: 0,
-      data: 'stakeRewards@' + Buffer.from(stakedToken, 'utf8').toString('hex'),
+      data: 'stakeRewards@' + Buffer.from(staked_token, 'utf8').toString('hex'),
       receiver: contractStake,
       gasLimit: '4000000'
     };

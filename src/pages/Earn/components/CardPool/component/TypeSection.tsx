@@ -17,7 +17,7 @@ interface TypeSectionProps {
   WindowDimensions: number;
 
   swapedTokens: any;
-  stakedToken: any;
+  staked_token: any;
   rewarded_token: any;
   pool_apr: any;
   rewarded_esdt_info: any;
@@ -60,7 +60,7 @@ const TypeSection: FC<TypeSectionProps> = ({
   WindowDimensions,
   EarnTitle,
   rewarded_token,
-  stakedToken,
+  staked_token,
   token_position,
   pool_apr,
   speed,
@@ -311,7 +311,7 @@ const TypeSection: FC<TypeSectionProps> = ({
           <div style={title}>
             <div style={earnMex}>Earn {rewarded_token.split('-')[0]}</div>
 
-            <div style={stakeMex}>Stake {stakedToken.split('-')[0]}</div>
+            <div style={stakeMex}>Stake {staked_token.split('-')[0]}</div>
           </div>
 
           <div style={apr}>

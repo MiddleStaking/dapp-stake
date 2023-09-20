@@ -27,6 +27,7 @@ import { network } from 'config';
 import { BigNumber } from 'bignumber.js';
 
 interface CardPoolrops {
+  staked_token?: any;
   rewarded_token: string;
   token_position: {
     balance: BigNumber;
@@ -76,7 +77,6 @@ interface CardPoolrops {
   rewarded_esdt_info?: any;
   my_rewards_value?: any;
   myPools?: any;
-  staked_token?: any;
   balance?: any;
   canBeStaked?: any;
   isPaused?: any;
@@ -421,7 +421,7 @@ const CardPool: FC<CardPoolrops> = ({
           //   Staked_value={Staked_value}
           //   socialNetwork={socialNetwork}
           rewarded_token={rewarded_token}
-          stakedToken={staked_token}
+          staked_token={staked_token}
           pool_apr={n_apr ? n_apr.toFixed(2) : priced_apr}
           rewarded_esdt_info={rewarded_esdt_info}
           staked_esdt_info={staked_esdt_info}
@@ -445,7 +445,7 @@ const CardPool: FC<CardPoolrops> = ({
           address={address}
           swapedTokens={swapedTokens}
           userEsdtBalance={userEsdtBalance}
-          stakedToken={staked_token}
+          staked_token={staked_token}
           rewarded_token={rewarded_token}
           token_position={token_position}
           staking_position={staking_position}
@@ -474,7 +474,7 @@ const CardPool: FC<CardPoolrops> = ({
             rdecimals={rdecimals}
             rewarded_esdt_info={rewarded_esdt_info}
             my_rewards_value={my_rewards_value}
-            stakedToken={staked_token}
+            staked_token={staked_token}
             rewarded_token={rewarded_token}
           />
         )}

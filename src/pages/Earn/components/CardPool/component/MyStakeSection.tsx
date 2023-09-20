@@ -12,7 +12,7 @@ import { BigNumber } from 'bignumber.js';
 
 interface MyStakeSectionProps {
   address: any;
-  stakedToken: any;
+  staked_token: any;
   staking_position: any;
   staked_esdt_info: any;
   my_staked_value: any;
@@ -37,7 +37,7 @@ interface MyStakeSectionProps {
 }
 const MyStakeSection: FC<MyStakeSectionProps> = ({
   address,
-  stakedToken,
+  staked_token,
   secondPoolPosition,
   rewarded_token,
   token_position,
@@ -120,7 +120,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
         staked_esdt_info={staked_esdt_info}
         rewarded_esdt_info={rewarded_esdt_info}
         rewarded_token={rewarded_token}
-        stakedToken={stakedToken}
+        staked_token={staked_token}
         balance={balance}
         decimals={sdecimals}
         onClose={() => {
@@ -134,7 +134,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
       <UnstakeModal
         userEsdtBalance={userEsdtBalance}
         rewarded_token={rewarded_token}
-        stakedToken={stakedToken}
+        staked_token={staked_token}
         staked_esdt_info={staked_esdt_info}
         rewarded_esdt_info={rewarded_esdt_info}
         balance={staking_position.stake_amount}
@@ -165,7 +165,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
               navigate(
                 routeNames.unlock +
                   `/stake/${
-                    stakedToken !== undefined ? stakedToken : defaultToken
+                    staked_token !== undefined ? staked_token : defaultToken
                   }`
               )
             }
@@ -184,7 +184,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
               >
                 <div style={MyStackedStyle}>My Stake</div>
 
-                <div style={Content}>Stake now to earn {stakedToken}</div>
+                <div style={Content}>Stake now to earn {staked_token}</div>
               </div>
 
               <div
@@ -216,7 +216,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                       setHeaderMenu(false);
                       setShowStake(true);
                     }}
-                    text={`Stake ${stakedToken}`}
+                    text={`Stake ${staked_token}`}
                   />
                 )}
               </div>
