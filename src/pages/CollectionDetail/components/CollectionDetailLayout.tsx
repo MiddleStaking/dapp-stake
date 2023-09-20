@@ -25,6 +25,7 @@ import MyNftSection from './CardOfCollection/component/MyNftSection';
 import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
 import MyStakeSection from './CardOfCollection/component/MyStakeSection';
 import { PoolAddCollection } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollection';
+import AccordionWrap from './AccordionWrap';
 
 export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [showFund, setShowFund] = useState(false);
@@ -48,7 +49,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const heightComponentTypeSection = width > 450 ? '162px' : '114px';
 
   return (
-    <div className='center'>
+    <div>
       {/* <FundModal
         userEsdtBalance={userEsdtBalance}
         show={showFund}
@@ -58,12 +59,14 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
       /> */}
       <Link
         to={routeNames.collections}
-        className='butLine bouton-visiter'
+        // className='butLine bouton-visiter'
         data-testid='loginBtn'
       >
         Back to Collections
       </Link>
-      <div className='col-12'>
+      <div
+      //  className='col-12'
+      >
         {address && (
           <PoolAddCollection
             userEsdtBalance={userEsdtBalance}
@@ -83,7 +86,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         {collectionRewards[0]?.unbounding.toString()}
       </div> */}
       <br />
-      {collectionRewards &&
+      {/* {collectionRewards &&
         collectionRewards.map((item) => (
           <div
             className='col-12 text-white'
@@ -128,7 +131,14 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
                   </div>
                 ))}
           </div>
-        ))}
+        ))} */}
+
+      <AccordionWrap
+        allRewardsForUser={allRewardsForUser}
+        collectionRewards={collectionRewards}
+        userNftBalance={userNftBalance}
+        userStakedNft={userStakedNft}
+      />
     </div>
   );
 };

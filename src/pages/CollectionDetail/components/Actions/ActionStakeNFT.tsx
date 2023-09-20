@@ -25,6 +25,8 @@ export const ActionStakeNft = ({
     return result;
   }
 
+  console.log(stakedNFT, user_fund, pool_id, address, nft_nonce);
+
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);

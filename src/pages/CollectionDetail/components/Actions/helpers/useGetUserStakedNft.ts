@@ -14,14 +14,17 @@ const resultsParser = new ResultsParser();
 export const useGetUserStakedNft = (address: string) => {
   const [stakedTokensNft, setStakedTokensNft] = useState([
     {
-      nft_id: 0,
-      pool_id: 0,
-      nft_identifier: '',
-      nft_nonce: 0,
-      nft_qty: 1,
-      lock: 0,
-      unbound: 0,
-      jump_unbound: 0
+      staked_nft: {
+        nft_id: 0,
+        pool_id: 0,
+        nft_identifier: '',
+        nft_nonce: 0,
+        nft_qty: 1,
+        lock: 0,
+        unbound: 0,
+        jump_unbound: 0
+      },
+      current_block: 0
     }
   ]);
   const time = new Date();

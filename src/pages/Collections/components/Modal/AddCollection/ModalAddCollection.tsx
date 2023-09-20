@@ -149,11 +149,11 @@ const ModalAddCollection = (props: any) => {
 
   function handleUnboundingTimeChange(value: any) {
     if (value == 0) {
-      setSpeedNumber(1);
+      setUnboundingTime(1);
     } else if (value > 500) {
-      setSpeedNumber(500);
+      setUnboundingTime(500);
     } else {
-      setSpeedNumber(value);
+      setUnboundingTime(value);
     }
     setUnboundingTime(value);
   }
