@@ -197,7 +197,6 @@ const CardPool: FC<CardPoolrops> = ({
       return position.rewarded_token === rewarded_token;
     });
     if (foundPosition) {
-      console.log(foundPosition);
       rewards_position = foundPosition.rewards;
     }
   }
@@ -207,7 +206,6 @@ const CardPool: FC<CardPoolrops> = ({
   //   rewarded_token,
   //   hasPendingTransactions
   // );
-  // console.log(stakingPosition);
 
   //Information de staking pour l'utilisateur à condenser
   // const stakingPosition = useGetStakingPosition(
