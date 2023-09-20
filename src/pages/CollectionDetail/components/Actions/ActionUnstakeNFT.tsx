@@ -6,7 +6,7 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
 import { Button } from '../../../../components/Design';
 
-export const ActionUnstakeNFT = ({ nft_id }: any) => {
+export const ActionUnstakeNFT = ({ nft_id, text, disabled }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   function bigToHexDec(d: bigint) {
@@ -55,7 +55,8 @@ export const ActionUnstakeNFT = ({ nft_id }: any) => {
               borderRadius={40}
               background={['#BD37EC', '#1F67FF']}
               borderColor={'black'}
-              text='Unstake'
+              text={text}
+              disabled={disabled}
               onClick={sendClaimTransaction}
             />
           </>
