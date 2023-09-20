@@ -19,11 +19,11 @@ const StakeModal = (props: any) => {
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
   useEffect(() => {
-    setBalance(props?.balance ? props?.balance : BigInt(0));
+    setBalance(props?.balance ? props?.balance.toFixed() : BigInt(0));
   }, [props.balance]);
 
-  const staked_esdt_info = useGetESDTInformations(stoken);
-  const rewarded_esdt_info = useGetESDTInformations(rtoken);
+  const staked_esdt_info = props.staked_esdt_info;
+  const rewarded_esdt_info = props.rewarded_esdt_info;
   const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
   const rdecimals = rewarded_esdt_info?.decimals
     ? rewarded_esdt_info?.decimals
@@ -36,8 +36,9 @@ const StakeModal = (props: any) => {
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
   const staked_value = staked_esdt_info?.price
-    ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
-      staked_esdt_info?.price
+    ? Number(
+        BigInt(tokenPosition.total_stake.toFixed()) / BigInt(10 ** sdecimals)
+      ) * staked_esdt_info?.price
     : 0;
   // const rewarded_value = rewarded_esdt_info?.price
   // ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
