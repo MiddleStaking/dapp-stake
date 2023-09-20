@@ -194,7 +194,7 @@
             ],
             "outputs": [
                 {
-                    "type": "List<StakedNft>"
+                    "type": "List<StakedNftView>"
                 }
             ]
         },
@@ -410,6 +410,19 @@
                 {
                     "name": "jump_unbound",
                     "type": "u64"
+                }
+            ]
+        },
+        "StakedNftView": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "current_block",
+                    "type": "u64"
+                },
+                {
+                    "name": "staked_nft",
+                    "type": "StakedNft"
                 }
             ]
         }
