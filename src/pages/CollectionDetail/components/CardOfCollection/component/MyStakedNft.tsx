@@ -22,19 +22,23 @@ interface MyStakeSectionProps {
 const MyStakedNft: FC<any> = ({ nft_identifier, nft_nonce }) => {
   const nft: any = useGetNft(nft_identifier, nft_nonce);
 
-  console.log(nft_identifier);
-  console.log(nft_nonce);
-  console.log(nft);
+  //   console.log(nft_identifier);
+  //   console.log(nft_nonce);
+  //   console.log(nft);
 
   return (
-    <HexagoneNFT
-      format={nft?.media[0]?.fileType}
-      url={nft?.media[0]?.url}
-      width={100}
-      withBorder={true}
-      borderWidth={2.5}
-      borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-    />
+    <>
+      {nft?.media && (
+        <HexagoneNFT
+          format={nft?.media[0]?.fileType}
+          url={nft?.media[0]?.url}
+          width={100}
+          withBorder={true}
+          borderWidth={2.5}
+          borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+        />
+      )}
+    </>
   );
 };
 
