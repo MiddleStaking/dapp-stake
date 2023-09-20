@@ -28,19 +28,16 @@ export const useGetAllTokenPosition = (stakedToken: any) => {
       staked_addresses: 0
     }
   ]);
-
   const time = new Date();
 
   const getAllTokenPosition = async () => {
     // const expire_test = Number(
     //   localStorage.getItem('all_token_position_' + stakedToken + '_expire')
     // );
-    // const load: any = localStorage.getItem('all_token_position_' + stakedToken);
-    // const storage = pareseJson(load);
-    // if (load) {
-    //   console.log(storage);
-    //   setTokenPosition(storage);
-    // }
+    // const storage = JSON.parse(
+    //   localStorage.getItem('all_token_position_' + stakedToken) as string
+    // );
+    // setTokenPosition(storage);
     // if (time.getTime() < expire_test) {
     //   return;
     // }
@@ -61,23 +58,13 @@ export const useGetAllTokenPosition = (stakedToken: any) => {
         queryResponse,
         endpointDefinition
       );
-      // console.log(position?.valueOf());
-      // console.log(position?.valueOf()[0].token_position.balance);
-      // console.log(position?.valueOf()[0].token_position.balance.toString());
 
-      // const test = new BigNumber(position?.valueOf()[0].token_position.balance);
-
-      // console.log(test);
-      // console.log(test.toString());
       setTokenPosition(position?.valueOf());
-
       const expire = time.getTime() + 1000 * 60 * 1;
-
-      // console.log(renderJson(position?.valueOf()));
-      // localStorage.setItem(
-      //   'all_token_position_' + stakedToken,
-      //   renderJson(position?.valueOf())
-      // );
+      localStorage.setItem(
+        'all_token_position_' + stakedToken,
+        JSON.stringify(position?.valueOf())
+      );
       localStorage.setItem(
         'all_token_position_' + stakedToken + '_expire',
         expire.toString()
