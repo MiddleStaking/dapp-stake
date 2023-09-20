@@ -13,6 +13,7 @@ import { ActionStakeNft } from '../../Actions/ActionStakeNFT';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import { ActionUnstakeNFT } from '../../Actions';
+import MyStakedNft from './MyStakedNft';
 
 interface MyStakeSectionProps {
   staked_balance: any[];
@@ -72,6 +73,10 @@ const MyNftSection: FC<MyStakeSectionProps> = ({ pool, staked_balance }) => {
     gap: '16px',
     width: '100%'
   };
+  // console.log(staked_balance);
+
+  // nft_identifier
+  // nft_nonce
 
   return (
     // <>
@@ -86,14 +91,12 @@ const MyNftSection: FC<MyStakeSectionProps> = ({ pool, staked_balance }) => {
               style={{ backgroundColor: 'red', margin: '3px' }}
             >
               <div className='imgCheminCard'>
-                <HexagoneNFT
-                  format={'image'}
-                  url={''}
-                  width={100}
-                  withBorder={true}
-                  borderWidth={2.5}
-                  borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                />
+                {item.nft_identifier && (
+                  <MyStakedNft
+                    nft_identifier={item.nft_identifier}
+                    nft_nonce={item.nft_nonce}
+                  />
+                )}
               </div>
               <ActionUnstakeNFT nft_id={item?.nft_id} />
               <br />

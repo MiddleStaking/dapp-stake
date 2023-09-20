@@ -237,7 +237,7 @@ const CardPool: FC<CardPoolrops> = ({
     (staked_esdt_info?.price > 0 || stakedCompute?.price > 0) &&
     rewarded_esdt_info?.price > 0 &&
     token_position.total_stake > BigInt(1) &&
-    token_position.balance > BigNumber(0)
+    token_position.balance > new BigNumber(0)
   ) {
     const price_fixed1 = BigInt(
       stakedCompute?.price > 0
