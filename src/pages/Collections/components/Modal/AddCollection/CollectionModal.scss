@@ -13,6 +13,10 @@
   color: var(--neutral-white, #fff);
 }
 
+.modalStakeModal_Collection,
+.backgroundStakeModal_Collection {
+  flex: 1;
+}
 .backgroundStakeModal_Collection {
   z-index: 100;
   border-radius: 32px;
@@ -103,7 +107,7 @@
   flex-shrink: 0;
   //   width: 618px;
 
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .closeStakeModal_Collection {
@@ -335,11 +339,11 @@
   right: 0; /* Étendre jusqu'au bord droit de l'élément parent */
   height: 1px; /* Hauteur du trait */
   background: linear-gradient(
-    156.86deg,
-    rgba(189, 55, 236, 0.26) 12.97%,
-    rgba(31, 103, 255, 0) 71.91%
-  ),
-  rgba(99, 74, 203, 0.32);
-  visibility: visible; 
+      156.86deg,
+      rgba(189, 55, 236, 0.26) 12.97%,
+      rgba(31, 103, 255, 0) 71.91%
+    ),
+    rgba(99, 74, 203, 0.32);
+  visibility: visible;
   z-index: 1; /* Éventuellement, pour s'assurer qu'il est au-dessus d'autres éléments imbriqués */
 }

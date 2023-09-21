@@ -31,7 +31,7 @@ const Countdown: React.FC<CountdownProps> = ({ totalSeconds }) => {
 
     const seconds = remaining;
 
-    if (days > 0) return `${days} ${days === 1 ? 'day' : 'days'}`;
+    if (days > 0) return `${days} d ${hours} h `;
     if (hours > 0) {
       return `${hours} h ${minutes}`;
     }
