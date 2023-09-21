@@ -25,8 +25,6 @@ const MyNftSection: FC<MyNftSectionProps> = ({
 }) => {
   const { address } = useGetAccountInfo();
 
-  console.log(nft_balance);
-
   return (
     <div
       style={{

@@ -26,6 +26,8 @@ import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers
 import MyStakeSection from './CardOfCollection/component/MyStakeSection';
 import { PoolAddCollection } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollection';
 import AccordionWrap from './AccordionWrap';
+import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
+import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 
 export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [showFund, setShowFund] = useState(false);
@@ -42,11 +44,11 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const allRewardsForUser = useGetUserRewards(address, url ? url : '');
   const userNftBalance = useGetUserNFT(url ? url : '');
   const userStakedNft = useGetUserStakedNft(address);
-
-  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
+  const getCollectionInformations = useGetCollectionInformations(
+    url ? url : ''
+  );
 
   const { width } = useWindowDimensions();
-  const heightComponentTypeSection = width > 450 ? '162px' : '114px';
 
   return (
     <div>
@@ -64,75 +66,62 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
       >
         Back to Collections
       </Link>
-      <div
-      //  className='col-12'
-      >
-        {address && (
-          <PoolAddCollection
-            userEsdtBalance={userEsdtBalance}
-            address={address}
-          />
-        )}
-      </div>
-      {/* <div className='col-12 text-white'>
-        {url} : <br /> <h1> {collectionRewards[0]?.identifier}</h1>
-        {collectionRewards[0]?.rewards.toString()}
-        {collectionRewards[0]?.total_staked.toString()}
-        {collectionRewards[0]?.total_rewarded.toString()}
-        {collectionRewards[0]?.last_fund_block.toString()}
-        {collectionRewards[0]?.paused.toString()}
-        {collectionRewards[0]?.blocks_to_max.toString()}
-        {collectionRewards[0]?.vesting.toString()}
-        {collectionRewards[0]?.unbounding.toString()}
-      </div> */}
-      <br />
-      {/* {collectionRewards &&
-        collectionRewards.map((item) => (
-          <div
-            className='col-12 text-white'
-            key={item.pool_id}
-            style={{ backgroundColor: 'red', margin: '3px' }}
-          >
-            pool_id: {item?.pool_id.toString()} <br />
-            {item?.identifier} <br />
-            vesting: {item?.vesting.toString()} <br />
-            rewards: {item?.rewards.toString()}
-            <br />
-            unbounding: {item?.unbounding.toString()}
-            <br />
-            speed: {item?.blocks_to_max.toString()}
-            <br /> nonce: {item?.nonce.toString()}
-            {userNftBalance && (
-              <MyNftSection
-                pool_id={item?.pool_id}
-                nft_balance={userNftBalance}
-              />
-            )}
-            {userStakedNft && (
-              <MyStakeSection
-                pool={item?.pool_id}
-                staked_balance={userStakedNft}
-              />
-            )}
-            <br />
-            {allRewardsForUser &&
-              allRewardsForUser
-                .filter(({ pool_id }) => pool_id == item?.pool_id)
-                .map((rew, key) => (
-                  <div
-                    className='col-12 text-white'
-                    key={key}
-                    style={{ backgroundColor: 'red', margin: '3px' }}
-                  >
-                    <ActionClaimRewards
-                      rewardsAmount={rew?.rewards}
-                      pool_id={rew?.pool_id}
-                    />
-                  </div>
-                ))}
-          </div>
-        ))} */}
 
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '9px 24px',
+          alignItems: 'center',
+          width: '100%'
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            padding: '9px 24px',
+            alignItems: 'center',
+            width: '100%',
+            gap: '10px'
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '10px',
+              color: 'white'
+            }}
+          >
+            <div>
+              {getCollectionInformations.length > 0 && (
+                <HexagoneGroupe
+                  orientationEscalier={'reverse'}
+                  width={width > 450 ? 80 : 60}
+                  collectionInfo={getCollectionInformations}
+                />
+              )}
+            </div>
+            <div>{url ? url : ''}</div>
+          </div>
+
+          <div
+            //  className='col-12'
+            style={{ width: '44px' }}
+          >
+            {address && (
+              <PoolAddCollection
+                userEsdtBalance={userEsdtBalance}
+                address={address}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      <br />
       <AccordionWrap
         allRewardsForUser={allRewardsForUser}
         collectionRewards={collectionRewards}

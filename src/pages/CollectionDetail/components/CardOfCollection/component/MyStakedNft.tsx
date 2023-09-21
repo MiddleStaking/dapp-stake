@@ -24,7 +24,6 @@ const MyStakedNft: FC<any> = ({ nft_identifier, nft_nonce }) => {
 
   //   console.log(nft_identifier);
   //   console.log(nft_nonce);
-  //   console.log(nft);
 
   return (
     <>

@@ -3,12 +3,21 @@ import React, { FC } from 'react';
 import { ActionUnstakeNFT } from '../../Actions';
 import MyStakedNft from './MyStakedNft';
 import Countdown from '../../CountDown';
+import { Actionfinalize } from '../../Actions/Actionfinalize';
+import { ActionUnbound } from '../../Actions/ActionUnbound';
 
 interface MyStakeSectionProps {
   staked_balance: any[];
   pool: number;
+  unbounding: any;
 }
-const MyNftSection: FC<MyStakeSectionProps> = ({ pool, staked_balance }) => {
+const MyNftSection: FC<MyStakeSectionProps> = ({
+  pool,
+  staked_balance,
+  unbounding
+}) => {
+  console.log(unbounding);
+
   return (
     <div
       style={{
@@ -39,25 +48,71 @@ const MyNftSection: FC<MyStakeSectionProps> = ({ pool, staked_balance }) => {
                   />
                 )}
               </div>
-              <ActionUnstakeNFT
-                text={
-                  item?.current_block < item?.staked_nft?.lock
-                    ? 'Vesting'
-                    : 'Unstake'
-                }
-                disabled={item?.current_block < item?.staked_nft?.lock}
-                nft_id={item?.staked_nft.nft_id}
-              />
-
-              {item?.current_block < item?.staked_nft?.lock && (
-                <Countdown
-                  totalSeconds={
-                    (item?.staked_nft?.lock - item?.current_block) * 6
-                  }
-                />
+              {item?.staked_nft?.jump_unbound == 0 && unbounding == 0 ? (
+                <>
+                  <ActionUnstakeNFT
+                    text={
+                      item?.current_block < item?.staked_nft?.lock
+                        ? 'Vesting'
+                        : 'Unstake'
+                    }
+                    disabled={item?.current_block < item?.staked_nft?.lock}
+                    nft_id={item?.staked_nft.nft_id}
+                  />
+                  <Countdown
+                    totalSeconds={
+                      (item?.staked_nft?.lock - item?.current_block) * 6
+                    }
+                  />
+                </>
+              ) : (
+                <>
+                  {item?.staked_nft.unbound == 0 ? (
+                    <>
+                      <button
+                        onClick={() =>
+                          console.log(item.staked_nft.unbound.toString())
+                        }
+                      >
+                        {' '}
+                        item
+                      </button>
+                      <ActionUnbound
+                        text={
+                          item?.current_block < item?.staked_nft?.lock
+                            ? 'Vesting'
+                            : 'Unbound'
+                        }
+                        disabled={item?.current_block < item?.staked_nft?.lock}
+                        nft_id={item?.staked_nft.nft_id}
+                      />
+                      {item?.staked_nft?.unbound > 0 && (
+                        <Countdown
+                          totalSeconds={
+                            (item?.staked_nft?.unbound - item?.current_block) *
+                            6
+                          }
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <Actionfinalize
+                        text={'Finalize'}
+                        disabled={
+                          item?.current_block < item?.staked_nft?.unbound
+                        }
+                        nft_id={item?.staked_nft.nft_id}
+                      />
+                      <Countdown
+                        totalSeconds={
+                          (item?.staked_nft?.unbound - item?.current_block) * 6
+                        }
+                      />
+                    </>
+                  )}
+                </>
               )}
-
-              <br />
             </div>
           ))}
     </div>
