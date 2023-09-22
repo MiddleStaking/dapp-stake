@@ -26,6 +26,13 @@ const Accordion: FC<CardPoolrops> = ({
   const [nFtCanStake, setNFtCanStake] = useState([]);
   const [showMoal, setShowMoal] = useState(false);
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleAccordion = () => {
+    closeAccordion(!openAccordion);
+    setIsOpen(!isOpen);
+  };
+
   console.log(collectionReward);
 
   return (
@@ -40,9 +47,7 @@ const Accordion: FC<CardPoolrops> = ({
         />
       )}
       <div className='pool-details_Collection'>
-        <div
-          className={`Groupe_Details_Collection ${openAccordion ? 'open' : ''}`}
-        >
+        <div className={`Groupe_Details_Collection ${isOpen ? 'open' : ''}`}>
           <div className='Pool_Details_Collection'>
             <div className='Details_Collection'>
               <div className='Label_Details_Collection'>
@@ -52,10 +57,7 @@ const Accordion: FC<CardPoolrops> = ({
                 Vesting : {collectionReward?.vesting.toString()} Days &
                 Unbonding : {collectionReward?.unbounding.toString()} Days
               </div>
-              <div
-                className='svgAccordeons'
-                onClick={() => closeAccordion(!openAccordion)}
-              >
+              <div className='svgAccordeons' onClick={toggleAccordion}>
                 ~ 1,5/NFT/Day{' '}
                 <svg
                   width={'16px'}
@@ -79,7 +81,8 @@ const Accordion: FC<CardPoolrops> = ({
             </div>
           </div>
         </div>
-        <div className={`accord-content ${openAccordion ? 'open' : ''}`}>
+        <div className={`accordion-contents ${isOpen ? 'open' : ''}`}>
+          {/* <div className={`accord-contents ${openAccordion ? 'open' : ''}`}> */}
           <div className={'NftWrapContent'}>
             {userNftBalance && userNftBalance.length > 0 && (
               <MyNftSection
@@ -95,23 +98,9 @@ const Accordion: FC<CardPoolrops> = ({
                 staked_balance={userStakedNft}
               />
             )}
-            {/*  {allRewardsForUser &&
-          allRewardsForUser
-            .filter(({ pool_id }) => pool_id == collectionReward?.pool_id)
-            .map((rew, key) => (
-              <div
-                className='col-12 text-white'
-                key={key}
-                style={{ backgroundColor: 'red', margin: '3px' }}
-              >
-                <ActionClaimRewards
-                  rewardsAmount={rew?.rewards}
-                  pool_id={rew?.pool_id}
-                />
-              </div>
-            ))} */}
           </div>
           <div
+            className='accordion-contents-buttons'
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -151,6 +140,7 @@ const Accordion: FC<CardPoolrops> = ({
             />
           </div>
         </div>
+        {/* </div> */}
       </div>
     </>
   );
