@@ -3,10 +3,10 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import './accordion.scss';
 import MyStakeSection from 'pages/CollectionDetail/components/CardOfCollection/component/MyStakeSection';
 import MyNftSection from 'pages/CollectionDetail/components/CardOfCollection/component/MyNftSection';
-import { ActionClaimRewards } from 'pages/CollectionDetail/components/Actions';
 import Countdown from 'pages/CollectionDetail/components/CountDown';
 import { Button } from 'components/Design';
 import { ModalStakeNft } from 'pages/CollectionDetail/components/Modal';
+import { ActionClaimRewards } from 'pages/CollectionDetail/components/Actions';
 
 interface CardPoolrops {
   collectionReward: any;
@@ -32,8 +32,6 @@ const Accordion: FC<CardPoolrops> = ({
     closeAccordion(!openAccordion);
     setIsOpen(!isOpen);
   };
-
-  console.log(collectionReward);
 
   return (
     <>
@@ -130,13 +128,17 @@ const Accordion: FC<CardPoolrops> = ({
                 setShowMoal(true);
               }}
             />
-            <Button
+            {/* <Button
               fontSize='10px'
               buttonWidth='100px'
               borderRadius={40}
               background={['#BD37EC', '#1F67FF']}
               text='CLAIM REWARD'
               buttonHeight='35px'
+            /> */}
+            <ActionClaimRewards
+              rewardsAmount={allRewardsForUser}
+              pool_id={collectionReward?.pool_id}
             />
           </div>
         </div>

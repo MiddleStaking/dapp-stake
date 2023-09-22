@@ -16,8 +16,6 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
   staked_balance,
   unbounding
 }) => {
-  console.log(unbounding);
-
   return (
     <div
       style={{
