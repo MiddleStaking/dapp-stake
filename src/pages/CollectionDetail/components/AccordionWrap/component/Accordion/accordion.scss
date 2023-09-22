@@ -23,11 +23,10 @@
       gap: 2px;
       .Details_Collection {
         display: flex;
-        justify-content: space-between; // Nouvelle ligne
+        justify-content: space-between; 
         align-items: center;
         flex-direction: row;
         .Label_Details_Collection {
-          // float: left; // Supprimée
           font: 300 12px '', sans-serif;
         }
         .ValueDetailsInfo_black_Collection {
@@ -46,39 +45,49 @@
     }
   }
 
-  .accord-content {
-    margin-top: 0px !important;
+  .accordion-contents {
+    margin-top: 0px;
+    padding: 0px 0px;
     max-height: 0;
     overflow: hidden;
-    padding: 0px 0px;
-    background-color: transparent;
-    border: 1px solid transparent;
-    transition: max-height 0.3s ease-in-out, margin-top 0.3s ease-in-out,
-      padding 0.3s ease-in-out, border 0.3s ease-in-out,
-      background-color 0.4s ease-in-out;
-
-    border-radius: 0px 0px 8px 8px;
-    will-change: max-height;
+    transition: max-height 0.5s ease-in-out, margin-top 0.5s ease-in-out,
+      border-radius 0.5s ease-in-out, border 0.5s ease-in-out,
+      background-color 0.5s ease-in-out;
     margin: 0;
     padding: 0;
-
     display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0px 0px 0px 0px;
+
     .NftWrapContent {
       display: 'flex';
       flex-wrap: 'wrap';
       gap: '10px';
       justify-content: 'center';
-      width: calc(100% - 100px)
-    }
-    &.open {
+      width: calc(100% - 100px);
       padding: 9px 9px;
-      max-height: 400px; // ou toute autre valeur qui convient à votre contenu
-      //   padding: 9px 24px;
-      margin-top: 3px !important;
-      background-color: black;
-      border: 1px solid #695885;
-      overflow: hidden;
     }
+    .accordion-contents-buttons {
+      padding: 9px 9px;
+      display: 'flex';
+      flex-direction: 'column';
+      gap: '10px';
+    }
+
+    &.open {
+      border: 1px solid #695885;
+      background-color: black;
+      border-radius: 0px 0px 8px 8px;
+      margin-top: 5px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  }
+
+  .svgAccordeons {
+    cursor: pointer;
   }
 
   .svgAccordeons {
