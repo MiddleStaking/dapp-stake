@@ -48,7 +48,6 @@ export const ActionClaimRewards = ({ pool_id, rewardsAmount }: any) => {
   const claimAllowed = rewardsAmount != '0' && !hasPendingTransactions;
   const notAllowedClass = claimAllowed ? '' : 'not-allowed disabled';
 
-
   return (
     <div className='center' style={{ width: '100%' }}>
       {/* <> {rewardsAmount.toString()}</> */}
