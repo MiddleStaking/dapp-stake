@@ -407,51 +407,59 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       <div className='col-12'>
         <Row className='pt-4'>
           {allTokenPosition &&
-            orderedTokens.map((rtoken, key) => (
-              // CardPool
-              <>
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  lg={4}
-                  xl={3}
-                  xxl={3}
-                  key={key}
-                  className='pb-4'
-                >
-                  {rtoken && allTokenPosition[0]?.rewarded_token != '' && (
-                    <CardPool
-                      staked_token={stoken}
-                      staked_esdt_info={esdt_info}
-                      rewarded_token={rtoken?.rewarded_token}
-                      token_position={rtoken?.token_position}
-                      all_staking_position={allStakingPosition}
-                      all_user_rewards={allUserRewards}
-                      users={rtoken?.staked_addresses}
-                      height={heightComponentTypeSection}
-                      WindowDimensions={width}
-                      textColor='#ffffff'
-                      fontFamily='sans-serif'
-                      userEsdtBalance={userEsdtBalance}
-                      swapedTokens={swapedTokens}
-                      myPools={myPools}
-                      balance={balance}
-                      isPaused={isPaused}
-                      canBeStaked={
-                        stakedTokens.includes(rtoken.rewarded_token) &&
-                        stoken != rtoken.rewarded_token
-                      }
-                      tokens_extra_informations={tokens_extra_informations
-                        .filter((token) => {
-                          return token.identifier === rtoken.rewarded_token;
-                        })
-                        .map((token) => (token.identifier ? token : ''))}
-                    />
-                  )}
-                </Col>
-              </>
-            ))}
+            orderedTokens
+              .filter((token) => {
+                return (
+                  token.rewarded_token
+                    .toLowerCase()
+                    .includes(mySearch.toLowerCase()) || mySearch == ''
+                );
+              })
+              .map((rtoken, key) => (
+                // CardPool
+                <>
+                  <Col
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    lg={4}
+                    xl={3}
+                    xxl={3}
+                    key={key}
+                    className='pb-4'
+                  >
+                    {rtoken && allTokenPosition[0]?.rewarded_token != '' && (
+                      <CardPool
+                        staked_token={stoken}
+                        staked_esdt_info={esdt_info}
+                        rewarded_token={rtoken?.rewarded_token}
+                        token_position={rtoken?.token_position}
+                        all_staking_position={allStakingPosition}
+                        all_user_rewards={allUserRewards}
+                        users={rtoken?.staked_addresses}
+                        height={heightComponentTypeSection}
+                        WindowDimensions={width}
+                        textColor='#ffffff'
+                        fontFamily='sans-serif'
+                        userEsdtBalance={userEsdtBalance}
+                        swapedTokens={swapedTokens}
+                        myPools={myPools}
+                        balance={balance}
+                        isPaused={isPaused}
+                        canBeStaked={
+                          stakedTokens.includes(rtoken.rewarded_token) &&
+                          stoken != rtoken.rewarded_token
+                        }
+                        tokens_extra_informations={tokens_extra_informations
+                          .filter((token) => {
+                            return token.identifier === rtoken.rewarded_token;
+                          })
+                          .map((token) => (token.identifier ? token : ''))}
+                      />
+                    )}
+                  </Col>
+                </>
+              ))}
           <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
             <div className='card-type'></div>
           </Col>
