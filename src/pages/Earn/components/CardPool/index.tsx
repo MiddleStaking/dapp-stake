@@ -404,10 +404,9 @@ const CardPool: FC<CardPoolrops> = ({
   //       BigInt(100)
   //   );
   // }
-  let opacity = '';
 
   if (myPools && BigInt(staking_position.stake_amount.toFixed()) == BigInt(0)) {
-    opacity = 'card ghost';
+    return <></>;
   }
   return (
     <div
