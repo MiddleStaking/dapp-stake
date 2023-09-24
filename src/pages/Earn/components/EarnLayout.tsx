@@ -7,7 +7,8 @@ import notFound from './../../../assets/img/notfoundc.svg';
 import {
   useGetAllStakingPosition,
   useGetAllTokenPosition,
-  useGetAllUserRewards
+  useGetAllUserRewards,
+  useGetAllLp
 } from './Actions/helpers';
 import { useGetIsPaused } from './Actions/helpers';
 import { useGetStakedTokens, useGetSwapedTokens } from './Actions/helpers';
@@ -62,7 +63,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const allTokenPosition = useGetAllTokenPosition(stoken);
   const allStakingPosition = useGetAllStakingPosition(stoken);
   const allUserRewards = useGetAllUserRewards(stoken);
-  //  const rewardedTokens = useGetRewardedTokens(stoken);
+  const allLp = useGetAllLp();
   const orderedTokens = [];
 
   const esdt_info = useGetESDTInformations(stoken);
@@ -71,7 +72,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
       'token_position_' + stoken + '_' + tok
     );
     const rinfo = JSON.parse(localStorage.getItem('esdt_' + tok) as string);
-    const sinfo = JSON.parse(localStorage.getItem('esdt_' + stoken) as string);
+    // const sinfo = JSON.parse(localStorage.getItem('esdt_' + stoken) as string);
     const storage = JSON.parse(load);
 
     const load_apr: any = localStorage.getItem('apr_' + stoken + '_' + tok);
@@ -436,6 +437,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                         token_position={rtoken?.token_position}
                         all_staking_position={allStakingPosition}
                         all_user_rewards={allUserRewards}
+                        all_lp={allLp}
                         users={rtoken?.staked_addresses}
                         height={heightComponentTypeSection}
                         WindowDimensions={width}

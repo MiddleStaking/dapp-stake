@@ -3,7 +3,7 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import './StakeModal.scss';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { ActionLiquid } from './Actions';
+import { ActionLiquid, ActionLiquidRemove } from './Actions';
 import { Button } from './../../../components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
@@ -12,6 +12,8 @@ const RemoveLPModal = (props: any) => {
   const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
   const [second_token, setSecondToken] = React.useState(props.second_esdt_info);
   const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
+  const [lp_token, setLpToken] = React.useState(props.lp_token);
+
   //const [lp_token, setLpToken] = React.useState('');
 
   React.useEffect(() => {
@@ -30,6 +32,7 @@ const RemoveLPModal = (props: any) => {
 
   const [firstBalance, setFirstBalance] = React.useState(BigInt(0));
   const [secondBalance, setSecondBalance] = React.useState(BigInt(0));
+  const [lpBalance, setLpBalance] = React.useState(BigInt(0));
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [firstBig, setFirstBig] = React.useState(BigInt(0));
@@ -42,16 +45,21 @@ const RemoveLPModal = (props: any) => {
     const second_balance = user_balance.find(
       (item: any) => item.identifier === second_token.identifier
     );
+    const lp_balance = user_balance.find(
+      (item: any) => item.identifier === props.lp_token
+    );
     setFirstBalance(
       first_balance?.balance ? first_balance?.balance : BigInt(0)
     );
     setSecondBalance(
       second_balance?.balance ? second_balance?.balance : BigInt(0)
     );
+    setLpBalance(lp_balance?.balance ? lp_balance?.balance : BigInt(0));
   }, [props.first_esdt_info, props.second_esdt_info, user_balance]);
 
   const first_decimals = first_token?.decimals ? first_token?.decimals : 0;
   const second_decimals = second_token?.decimals ? second_token?.decimals : 0;
+  const lp_decimals = 0;
 
   const first_image = first_token?.assets?.svgUrl
     ? first_token?.assets?.svgUrl
@@ -61,10 +69,15 @@ const RemoveLPModal = (props: any) => {
     : notFound;
 
   const taux =
-    (BigInt(first_pool.second_token_amount) * BigInt(1000000000)) /
-    BigInt(first_pool.first_token_amount);
+    (BigInt(
+      first_pool.second_token_amount > 0 ? first_pool.second_token_amount : 1
+    ) *
+      BigInt(1000000000)) /
+    BigInt(
+      first_pool.first_token_amount > 0 ? first_pool.first_token_amount : 1
+    );
   const second_amount = Number(
-    (BigInt(firstBig) * BigInt(taux)) / BigInt(1000000000)
+    (BigInt(firstBig ? firstBig : 1) * BigInt(taux)) / BigInt(1000000000)
   );
 
   function handleTokenAmountChange(value: any) {
@@ -133,9 +146,9 @@ const RemoveLPModal = (props: any) => {
 
   function setToMax() {
     setTokenAmount(
-      Number(BigInt(firstBalance)) / Number(BigInt(10 ** first_decimals))
+      Number(BigInt(lpBalance)) / Number(BigInt(10 ** lp_decimals))
     );
-    setFirstBig(firstBalance);
+    setFirstBig(lpBalance);
     setRangeValue(100);
   }
 
@@ -569,13 +582,11 @@ const RemoveLPModal = (props: any) => {
                   />
                 </div>
                 <div className='bottomModal'>
-                  <ActionLiquid
+                  <ActionLiquidRemove
                     first_token={first_token.identifier}
                     second_token={second_token.identifier}
-                    first_amount={firstBig}
-                    second_amount={secondBig}
-                    first_balance={firstBalance}
-                    second_balance={secondBalance}
+                    lp_token={props.lp_token}
+                    lp_amount={firstBig}
                   />
                 </div>
               </div>

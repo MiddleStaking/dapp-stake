@@ -81,6 +81,7 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
           firstPoolPosition={firstPoolPosition}
           first_esdt_info={first_esdt_info}
           second_esdt_info={second_esdt_info}
+          lp_token={lp_token.token_identifier}
           show={showRemoveLP}
           onClose={() => {
             setShowRemoveLP(false);
