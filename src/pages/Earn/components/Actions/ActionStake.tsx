@@ -5,6 +5,7 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractStake } from 'config';
 import { Button } from './../../../../components/Design';
+import bigToHex from 'helpers/bigToHex';
 
 export const ActionStake = ({
   staked_token,
@@ -12,15 +13,6 @@ export const ActionStake = ({
   user_fund
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
@@ -33,7 +25,7 @@ export const ActionStake = ({
         'ESDTTransfer@' +
         Buffer.from(staked_token, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(user_fund) +
+        bigToHex(user_fund) +
         '@' +
         Buffer.from('stake', 'utf8').toString('hex') +
         '@' +
@@ -58,7 +50,7 @@ export const ActionStake = ({
     }
   };
 
-  const stakeAllowed = user_fund != '0' && !hasPendingTransactions;
+  const stakeAllowed = user_fund > 0 && !hasPendingTransactions;
   const notAllowedClass = stakeAllowed ? '' : 'not-allowed disabled';
 
   return (
@@ -73,7 +65,7 @@ export const ActionStake = ({
                 background={['#BD37EC', '#1F67FF']}
                 text='Stake tokens'
                 onClick={sendStakeTransaction}
-                disabled={user_fund == 0}
+                disabled={user_fund == BigInt(0)}
               />
             </>
           ) : (

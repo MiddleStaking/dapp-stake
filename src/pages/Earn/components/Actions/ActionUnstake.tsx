@@ -5,6 +5,7 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractStake } from 'config';
 import { Button } from './../../../../components/Design';
+import bigToHex from 'helpers/bigToHex';
 
 export const ActionUnstake = ({
   staked_token,
@@ -12,15 +13,6 @@ export const ActionUnstake = ({
   user_fund
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
@@ -35,7 +27,7 @@ export const ActionUnstake = ({
         '@' +
         Buffer.from(rewarded_token, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(user_fund),
+        bigToHex(user_fund),
 
       receiver: contractStake,
       gasLimit: '6000000'
