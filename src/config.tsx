@@ -14,9 +14,13 @@
 //   { s: 'VITAL-058fd5', r: 'VITAL-058fd5' },
 //   { s: 'USDC-8d4068', r: 'VITAL-058fd5' }
 // ];
-// export const contractAddress =
+// export const contractStake =
 //   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
-// //'erd1qqqqqqqqqqqqqpgqf63utxdnjxlklutavl5sqamjgsmf5565ch9sdxj750';
+// export const contractSwap =
+//   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
+// export const contractNftStake =
+//   'erd1qqqqqqqqqqqqqpgqn2lylt4vzaxrsklfd0afnxjt04d4xlk7ch9s7wc54y';
+
 // export const contractAddressDelegation =
 //   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 // export const contractPlay =
@@ -24,19 +28,54 @@
 
 // export const network: NetworkType = {
 //   id: 'devnet',
+//   chainId: 'D',
 //   name: 'Devnet',
 //   egldLabel: 'xEGLD',
 //   walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
 //   apiAddress: 'https://devnet-api.multiversx.com',
 //   gatewayAddress: 'https://devnet-gateway.multiversx.com',
+//   gatewayCached: 'https://devnet-gateway.multiversx.com',
 //   explorerAddress: 'http://devnet-explorer.multiversx.com',
+//   delegationContract: contractAddressDelegation
+// };
+//DEVNET 2:
+// export const defaultToken = 'MID-00c2c9';
+// export const defaultPairs = [{ s: 'MID-00c2c9', r: 'MID-00c2c9' }];
+// export const contractStake =
+//   'erd1qqqqqqqqqqqqqpgqnhdcg9ugyall5xyxa8xayz80hp5d3d6gch9s2kragz';
+// export const contractSwap =
+//   'erd1qqqqqqqqqqqqqpgq0dr0a8ag4y59q4nd66leux69vaeg6j9nch9swrxd82';
+// export const contractNftStake =
+//   'erd1qqqqqqqqqqqqqpgq0dr0a8ag4y59q4nd66leux69vaeg6j9nch9swrxd82';
+
+// export const contractAddressDelegation =
+//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
+// export const contractPlay =
+//   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
+
+// export const network: NetworkType = {
+//   id: 'devnet',
+//   chainId: 'D',
+//   name: 'Devnet',
+//   egldLabel: 'xEGLD',
+//   walletAddress: 'https://devnet2-wallet.multiversx.com/dapp/init',
+//   apiAddress: 'https://devnet2-api.multiversx.com',
+//   gatewayAddress: 'https://devnet2-gateway.multiversx.com',
+//   gatewayCached: 'https://devnet2-gateway.multiversx.com',
+//   explorerAddress: 'http://devnet2-explorer.multiversx.com',
 //   delegationContract: contractAddressDelegation
 // };
 
 //MAINNET :
 export const defaultToken = 'MID-ecb7bf';
-export const contractAddress =
+
+export const contractStake =
   'erd1qqqqqqqqqqqqqpgqgdf6vk43c2jxk4a6nw2adv8vmnpqagegtxfqmf8et2';
+export const contractSwap =
+  'erd1qqqqqqqqqqqqqpgqw0tp0z2evzvdgmreavvszfwkncnxnsejtxfql7w9tu';
+export const contractNftStake =
+  'erd1qqqqqqqqqqqqqpgqgdf6vk43c2jxk4a6nw2adv8vmnpqagegtxfqmf8et2';
+
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 export const contractPlay =
@@ -44,6 +83,7 @@ export const contractPlay =
 
 export const network: NetworkType = {
   id: 'mainnet',
+  chainId: '1',
   name: 'Mainnet',
   egldLabel: 'EGLD',
   walletAddress: 'https://wallet.multiversx.com/dapp/init',
@@ -53,22 +93,11 @@ export const network: NetworkType = {
   explorerAddress: 'http://explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };
-// export const network: NetworkType = {
-//   id: 'mainnet',
-//   name: 'Mainnet',
-//   egldLabel: 'EGLD',
-//   walletAddress: 'https://wallet.multiversx.com/dapp/init',
-//   apiAddress: 'https://mvx-api.e-compass.io',
-//   gatewayAddress: 'https://mvx-proxy.e-compass.io',
-//   gatewayCached: 'https://mvx-proxy.e-compass.io',
-//   explorerAddress: 'http://explorer.multiversx.com',
-//   delegationContract: contractAddressDelegation
-// };
-
 export const defaultPairs = [
   { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
   { s: 'MID-ecb7bf', r: 'MEX-455c57' },
   { s: 'MID-ecb7bf', r: 'VITAL-ab7917' },
+  { s: 'MID-ecb7bf', r: 'XTW-78700a' },
   { s: 'MIDUSDC-3d93f4', r: 'MID-ecb7bf' },
   { s: 'MEX-455c57', r: 'MID-ecb7bf' },
   { s: 'VITAL-ab7917', r: 'MID-ecb7bf' }
@@ -115,6 +144,7 @@ export const yearSettings = [
 
 interface NetworkType {
   id: 'devnet' | 'testnet' | 'mainnet';
+  chainId: string;
   name: string;
   egldLabel: string;
   walletAddress: string;

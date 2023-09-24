@@ -6,14 +6,15 @@ import {
 } from 'pages/Earn/components/Actions';
 import illustrationSvg from '../../../../../assets/img/Illustration.svg';
 import { useWindowDimensions } from 'components/DimensionScreen';
+import { BigNumber } from 'bignumber.js';
 
 interface RewardsSectionProps {
   rdecimals: any;
-  stakingPositionRewards: any;
+  stakingPositionRewards: bigint;
   rewarded_esdt_info: any;
   my_rewards_value: any;
-  stakedToken: any;
-  rewardedToken: any;
+  staked_token: any;
+  rewarded_token: any;
   backgroundRewards: string;
 }
 
@@ -22,8 +23,8 @@ const RewardsSection: FC<RewardsSectionProps> = ({
   rdecimals,
   rewarded_esdt_info,
   my_rewards_value,
-  stakedToken,
-  rewardedToken,
+  staked_token,
+  rewarded_token,
   backgroundRewards
 }) => {
   // const navigate = useNavigate();
@@ -78,7 +79,7 @@ const RewardsSection: FC<RewardsSectionProps> = ({
   };
   return (
     <>
-      {stakingPositionRewards > 0 && (
+      {stakingPositionRewards > BigInt(0) && (
         <div style={rewardsSection}>
           <div style={top5}>
             <div style={availabledRewards}>Available rewards</div>
@@ -133,14 +134,13 @@ const RewardsSection: FC<RewardsSectionProps> = ({
             <img src={illustrationSvg} />
           </div>
           <ActionClaimRewards
-            stakedToken={stakedToken}
-            rewardedToken={rewardedToken}
+            staked_token={staked_token}
+            rewarded_token={rewarded_token}
             rewardsAmount={stakingPositionRewards}
           />{' '}
-          {stakedToken == rewardedToken && (
+          {staked_token == rewarded_token && (
             <ActionStakeRewards
-              stakedToken={stakedToken}
-              rewardedToken={rewardedToken}
+              staked_token={staked_token}
               rewardsAmount={stakingPositionRewards}
             />
           )}

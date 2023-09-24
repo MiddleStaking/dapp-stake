@@ -9,37 +9,36 @@ import notFound from './../../../../../assets/img/notfoundc.svg';
 import eCompass from './../../../../../assets/img/ecompass.svg';
 import jexchange from './../../../../../assets/img/jexchange.svg';
 import { network } from 'config';
+import { BigNumber } from 'bignumber.js';
 
 interface TypeSectionProps {
-  Rewards: string;
-  Rewards_value?: number;
-  Speed?: string;
-  Staked?: string;
-  Staked_value?: number;
-  Users?: string;
+  rewards_amount: BigNumber;
+  rewards_value: number;
+  speed?: string;
+  staked_amount?: string;
+  staked_value: number;
+  users?: number;
+  rewarded_esdt_info: any;
   decimals?: number;
   textColor?: string;
   fontFamily?: string;
   socialNetwork?: any;
-  rewarded_esdt_info: any;
 }
 
 const SwowHideDetails: FC<TypeSectionProps> = ({
-  Rewards,
-  Rewards_value,
-  Speed,
-  Staked,
-  Staked_value,
-  Users,
+  rewards_amount,
+  rewards_value = 0,
+  speed,
+  staked_amount,
+  staked_value = 0,
+  users,
+  rewarded_esdt_info,
   socialNetwork,
   decimals = 0,
   textColor = '#ffffff',
-  rewarded_esdt_info,
   fontFamily = 'sans-serif'
   //styleName: Text/12px/Light;
 }) => {
-  console.log(Rewards);
-
   const detailsRow: CSSProperties = {
     width: '100%',
     display: 'flex',
@@ -94,7 +93,7 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
           <div>Rewards</div>
           <div style={detailsRowResult}>
             <FormatAmount
-              value={Rewards}
+              value={rewards_amount.toFixed()}
               decimals={decimals}
               egldLabel={' '}
               data-testid='balance'
@@ -102,34 +101,33 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
             />
           </div>
         </div>
-
-        {Rewards_value && (
+        {rewards_value > 0 && (
           <div style={detailsRow}>
             <div>Rewards value</div>
 
             <div style={detailsRowResult}>
-              {Rewards_value.toLocaleString('en-US', {
+              {rewards_value.toLocaleString('en-US', {
                 maximumFractionDigits: 2
               })}{' '}
               $
             </div>
           </div>
         )}
-        {Speed && (
+
+        {speed && (
           <div style={detailsRow}>
             <div>Speed</div>
 
-            <div style={detailsRowResult}>{Speed.toString()} days</div>
+            <div style={detailsRowResult}>{speed.toString()} days</div>
           </div>
         )}
-
-        {Staked && (
+        {staked_amount && (
           <div style={detailsRow}>
             <div>Staked</div>
 
             <div style={detailsRowResult}>
               <FormatAmount
-                value={Staked}
+                value={staked_amount}
                 decimals={decimals}
                 egldLabel={' '}
                 data-testid='staked'
@@ -138,27 +136,25 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
             </div>
           </div>
         )}
-
-        {Staked_value && (
+        {staked_value > 0 && (
           <div style={detailsRow}>
             <div>Staked value</div>
 
             <div style={detailsRowResult}>
-              {Staked_value.toLocaleString('en-US', {
+              {staked_value.toLocaleString('en-US', {
                 maximumFractionDigits: 2
               })}{' '}
               $
             </div>
           </div>
         )}
-
-        {Users && (
+        {users && (
           <div style={detailsRow}>
             <div>Users</div>
 
             <div style={detailsRowResult}>
               <FormatAmount
-                value={Users}
+                value={users.toString()}
                 decimals={Number(0)}
                 egldLabel={' '}
                 data-testid='staked'

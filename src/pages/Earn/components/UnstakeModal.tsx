@@ -6,25 +6,24 @@ import Input from 'components/Design/Input';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionUnstake } from './Actions';
-import { useGetTokenPosition } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import './StakeModal.scss';
 
 const StakeModal = (props: any) => {
-  const [stoken, setStoken] = React.useState(props.stakedToken);
-  const [rtoken, setRtoken] = React.useState(props.rewardedToken);
+  const [stoken, setStoken] = React.useState(props.staked_token);
+  const [rtoken, setRtoken] = React.useState(props.rewarded_token);
   const [balance, setBalance] = React.useState(BigInt(0));
-  const tokenPosition = useGetTokenPosition(stoken, rtoken);
+  const tokenPosition = props.token_position;
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
   useEffect(() => {
-    setBalance(props?.balance ? props?.balance : BigInt(0));
+    setBalance(props?.balance ? props?.balance.toFixed() : BigInt(0));
   }, [props.balance]);
 
-  const staked_esdt_info = useGetESDTInformations(stoken);
-  const rewarded_esdt_info = useGetESDTInformations(rtoken);
+  const staked_esdt_info = props.staked_esdt_info;
+  const rewarded_esdt_info = props.rewarded_esdt_info;
   const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
   const rdecimals = rewarded_esdt_info?.decimals
     ? rewarded_esdt_info?.decimals
@@ -37,13 +36,15 @@ const StakeModal = (props: any) => {
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
   const staked_value = staked_esdt_info?.price
-    ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
-      staked_esdt_info?.price
+    ? Number(
+        BigInt(tokenPosition.total_stake.toFixed()) / BigInt(10 ** sdecimals)
+      ) * staked_esdt_info?.price
     : 0;
-  const rewarded_value = rewarded_esdt_info?.price
-    ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
-      rewarded_esdt_info?.price
-    : 0;
+  // const rewarded_value = rewarded_esdt_info?.price
+  // ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
+  //   rewarded_esdt_info?.price
+  // : 0;
+  const rewarded_value = 0;
 
   const speed =
     (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
@@ -185,8 +186,13 @@ const StakeModal = (props: any) => {
                     hasBorder={true}
                     borderRadiusOptions='5px'
                     borderColor='#695885'
-                    options={[{ text: rtoken, value: rtoken }]}
-                    defaultValue={rtoken}
+                    options={[
+                      {
+                        text: props.rewarded_token,
+                        value: props.rewarded_token
+                      }
+                    ]}
+                    defaultValue={props.rewarded_token}
                     disableOption={true}
                     onSelect={function (value: any): void {
                       throw new Error('Function not implemented.');
@@ -194,8 +200,8 @@ const StakeModal = (props: any) => {
                   />
                 </div>
               </div>
-              {tokenPosition.stakedToken == stoken &&
-                tokenPosition.rewardedToken == rtoken && (
+              {tokenPosition.staked_token == stoken &&
+                tokenPosition.rewarded_token == rtoken && (
                   <div className='pool-details_StakeModal'>
                     <div className='this-pool-already-exists_StakeModal'>
                       Staking pool informations
@@ -388,8 +394,8 @@ const StakeModal = (props: any) => {
                     </div>
                     <div className='bottomModal'>
                       <ActionUnstake
-                        stakedToken={stoken}
-                        rewardedToken={rtoken}
+                        staked_token={props.staked_token}
+                        rewarded_token={props.rewarded_token}
                         user_fund={bigAmount}
                       />
                     </div>

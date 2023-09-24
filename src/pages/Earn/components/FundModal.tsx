@@ -14,6 +14,7 @@ import { ActionFund } from './Actions';
 import { CheckBox, Button } from './../../../components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
+import { network } from 'config';
 
 const FundModal = (props: any) => {
   const userEsdtBalance = props.userEsdtBalance;
@@ -24,7 +25,7 @@ const FundModal = (props: any) => {
 
   const [payFees, setPayFees] = React.useState(false);
   const tokenPosition = useGetTokenPosition(stoken, rtoken);
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));

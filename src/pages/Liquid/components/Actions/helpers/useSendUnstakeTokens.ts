@@ -11,11 +11,12 @@ import {
 } from '@multiversx/sdk-core/out';
 import { smartContract } from './smartContract';
 import { defaultToken } from 'config';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const [stakedAmount, setStakedAmount] = useState<bigint>(BigInt(1));
 

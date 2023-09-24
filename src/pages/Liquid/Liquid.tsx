@@ -9,13 +9,14 @@ import { ServerTransactionType } from '@multiversx/sdk-dapp/types';
 import { TransactionsTable, Loader, PageState } from '@multiversx/sdk-dapp/UI';
 import { faBan, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { AxiosError } from 'axios';
-import { apiTimeout, contractAddress, transactionSize } from 'config';
+import { apiTimeout, contractSwap, transactionSize } from 'config';
 import { LiquidityLayout } from './components';
+import { network } from 'config';
 
 const LiquidityPage = ({ children }: React.PropsWithChildren) => {
-  const {
-    network: { apiAddress }
-  } = useGetNetworkConfig();
+  // const {
+  //   network: { apiAddress }
+  // } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const { success, fail } = useGetActiveTransactionsStatus();
 
@@ -27,9 +28,9 @@ const LiquidityPage = ({ children }: React.PropsWithChildren) => {
     try {
       setIsLoading(true);
       const { data } = await getTransactions({
-        apiAddress,
+        apiAddress: network.apiAddress,
         sender: address,
-        receiver: contractAddress,
+        receiver: contractSwap,
         condition: 'must',
         transactionSize,
         apiTimeout

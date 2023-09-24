@@ -13,10 +13,11 @@ import {
   Home,
   Statistics,
   Earn,
-  Fund,
   Play,
   Swap,
-  Liquidity
+  Liquidity,
+  Collections,
+  CollectionDetail
 } from './pages';
 
 export const routeNames = {
@@ -35,6 +36,7 @@ export const routeNames = {
   rewards2: '/rewards2',
   play: '/play',
   liquidity: '/liquidity',
+  collections: '/collections',
   admin: '/admin'
 };
 
@@ -78,6 +80,18 @@ export const routes: RouteWithTitleType[] = [
     authenticatedRoute: false
   },
   {
+    path: routeNames.collections + '/:param',
+    title: 'Collections',
+    component: CollectionDetail,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.collections,
+    title: 'Collections',
+    component: Collections,
+    authenticatedRoute: false
+  },
+  {
     path: routeNames.liquidity,
     title: 'Liquidity',
     component: Liquidity,
@@ -88,12 +102,6 @@ export const routes: RouteWithTitleType[] = [
     title: 'Swap',
     component: Swap,
     authenticatedRoute: false
-  },
-  {
-    path: routeNames.fund,
-    title: 'Fund',
-    component: Fund,
-    authenticatedRoute: true
   },
   {
     path: routeNames.faucet,

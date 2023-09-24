@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import SwowHideDetails from './SwowHideDetails';
 // import { IconFacebook } from "module";
+import { BigNumber } from 'bignumber.js';
 
 interface TypeSectionProps {
   height: string;
@@ -16,15 +17,14 @@ interface TypeSectionProps {
   WindowDimensions: number;
 
   swapedTokens: any;
-  stakedToken: any;
-  rewardedToken: any;
+  staked_token: any;
+  rewarded_token: any;
   pool_apr: any;
   rewarded_esdt_info: any;
   staked_esdt_info: any;
   image1: any;
   image2: any;
-  tokenPosition: any;
-  rewarded_value: any;
+  token_position: any;
   staked_value: any;
   speed: any;
   tokens_extra_informations: any;
@@ -32,11 +32,11 @@ interface TypeSectionProps {
   EarnTitle?: string;
   StakeTile?: string;
   Apr?: string;
-  Rewards?: string;
-  Rewards_value?: number;
+  rewards_amount?: BigNumber;
+  rewards_value?: number;
   Speed?: string;
   Staked?: string;
-  Users?: string;
+  users?: number;
   decimals?: number;
   textColor?: string;
   fontFamily?: string;
@@ -58,23 +58,24 @@ const TypeSection: FC<TypeSectionProps> = ({
   image1,
   image2,
   WindowDimensions,
-  rewarded_value,
   EarnTitle,
-  rewardedToken,
-  stakedToken,
-  tokenPosition,
+  rewarded_token,
+  staked_token,
+  token_position,
   pool_apr,
   speed,
   StakeTile,
   Apr,
-  Rewards,
-  Rewards_value,
+
+  rewards_amount = BigNumber('0'),
+  rewards_value = 0,
+
   rewarded_esdt_info,
   tokens_extra_informations,
   Speed,
   Staked,
   staked_value,
-  Users,
+  users,
   socialNetwork,
   decimals = 0,
   textColor = '#ffffff',
@@ -310,16 +311,16 @@ const TypeSection: FC<TypeSectionProps> = ({
       <div style={top}>
         <div style={left}>
           <div style={title}>
-            <div style={earnMex}>Earn {rewardedToken.split('-')[0]}</div>
+            <div style={earnMex}>Earn {rewarded_token.split('-')[0]}</div>
 
-            <div style={stakeMex}>Stake {stakedToken.split('-')[0]}</div>
+            <div style={stakeMex}>Stake {staked_token.split('-')[0]}</div>
           </div>
 
           <div style={apr}>
             <div style={apr2}>APR</div>
             <div style={rate}>
               <div style={rateApr}>
-                {tokenPosition.paused == 1
+                {token_position.paused == 1
                   ? 'Paused'
                   : pool_apr > 0
                   ? pool_apr.toString() + ' %'
@@ -386,12 +387,16 @@ const TypeSection: FC<TypeSectionProps> = ({
           decimals={Number(
             rewarded_esdt_info?.decimals ? rewarded_esdt_info?.decimals : 0
           )}
-          Rewards={tokenPosition.balance.toString()}
-          Rewards_value={rewarded_value}
-          Speed={speed.toString()}
-          Staked={tokenPosition.total_stake.toString()}
-          Staked_value={staked_value}
-          Users={tokenPosition.users ? tokenPosition.users.toString() : '0'}
+          rewards_amount={rewards_amount}
+          rewards_value={rewards_value}
+          speed={speed.toString()}
+          staked_amount={
+            token_position.total_stake
+              ? token_position.total_stake.toFixed()
+              : 0
+          }
+          staked_value={staked_value}
+          users={users ? users : 0}
           socialNetwork={tokens_extra_informations}
           textColor={textColor}
           fontFamily={fontFamily}
