@@ -2,10 +2,7 @@ import React, { useState, useEffect, FC } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 // import { defaultToken } from 'config';
-import { useGetSwapedTokens } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
-import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { useGetPoolPosition } from './Actions/helpers';
@@ -26,14 +23,14 @@ interface SwapLayoutProps {
   secondToken: string;
   defaultToken: string;
   userEsdtBalance: Array<any>;
-  swapedTokens: string[];
+  all_lp: any[];
 }
 export const SwapLayout: FC<SwapLayoutProps> = ({
   firstToken = 'WEGLD-bd4d79',
   secondToken,
   defaultToken,
   userEsdtBalance,
-  swapedTokens
+  all_lp
 }) => {
   const [first_token, setFirstToken] = React.useState(firstToken);
   const [second_token, setSecondToken] = React.useState(secondToken);
@@ -50,6 +47,22 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   let out_fees = BigInt(0);
   let price_impact = 0;
   let dual_price_impact = 0;
+
+  const token_list = all_lp;
+
+  //append MID to swappable array
+  const find = token_list.find((element) => {
+    return element.swaped_token === defaultToken;
+  });
+  if (!find) {
+    token_list.push({ swaped_token: defaultToken });
+  }
+
+  token_list.sort(function (a, b) {
+    if (a.swaped_token.toLowerCase() < b.swaped_token.toLowerCase()) return -1;
+    if (a.swaped_token.toLowerCase() > b.swaped_token.toLowerCase()) return 1;
+    return 0;
+  });
 
   const isLoggedIn = useGetIsLoggedIn();
   const in_esdt_info = useGetESDTInformations(in_token);
@@ -293,7 +306,6 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
 
   //Slippage :
   const min_out = ((out_amount - out_fees) * BigInt(99)) / BigInt(100);
-  //console.log('in_stake : ' + in_stake + ' out_mid : ' + out_mid);
 
   const percentage = rangeValue / 100;
 
@@ -610,10 +622,10 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     borderColor='#695885'
                     borderRadiusOptions='5px'
                     options={
-                      swapedTokens
-                        ? swapedTokens.map((item: any) => ({
-                            text: item,
-                            value: item
+                      all_lp
+                        ? token_list.map((item: any) => ({
+                            text: item.swaped_token,
+                            value: item.swaped_token
                           }))
                         : [{ text: in_token, value: in_token }]
                     }
@@ -658,10 +670,10 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     borderRadiusOptions='5px'
                     borderColor='#695885'
                     options={
-                      swapedTokens
-                        ? swapedTokens.map((item: any) => ({
-                            text: item,
-                            value: item
+                      all_lp
+                        ? token_list.map((item: any) => ({
+                            text: item.swaped_token,
+                            value: item.swaped_token
                           }))
                         : [{ text: out_token, value: out_token }]
                     }
@@ -790,7 +802,8 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                       out_token == defaultToken ? in_token : out_token
                     }
                     in_token={in_token}
-                    user_fund={bigAmount}
+                    in_balance={inBalance}
+                    swap_amount={bigAmount}
                     min_out={min_out}
                     price_impact={
                       price_impact > dual_price_impact

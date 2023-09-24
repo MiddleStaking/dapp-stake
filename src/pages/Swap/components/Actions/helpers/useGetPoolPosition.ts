@@ -33,24 +33,23 @@ export const useGetPoolPosition = (
   const time = new Date();
 
   const getTokenPosition = async () => {
-    //using storage to reduce calls do not load if pending tx
     if (stakedToken == rewardedToken || hasPendingTransactions || !isDual) {
       return;
     }
 
-    setTokenPosition({
-      first_token: stakedToken,
-      second_token: rewardedToken,
-      isDual: isDual,
-      has_roles: 0,
-      first_token_amount: BigInt(1),
-      second_token_amount: BigInt(1),
-      lp_supply: BigInt(1),
-      first_fee: BigInt(1),
-      second_fee: BigInt(1)
-    });
+    // setTokenPosition({
+    //   first_token: stakedToken,
+    //   second_token: rewardedToken,
+    //   isDual: isDual,
+    //   has_roles: 0,
+    //   first_token_amount: BigInt(1),
+    //   second_token_amount: BigInt(1),
+    //   lp_supply: BigInt(1),
+    //   first_fee: BigInt(1),
+    //   second_fee: BigInt(1)
+    // });
 
-    //Do not refresh if modal is closed
+    //Do not refresh if modal is closed using storage
     if (showStake == false) {
       const expire_test = Number(
         localStorage.getItem(

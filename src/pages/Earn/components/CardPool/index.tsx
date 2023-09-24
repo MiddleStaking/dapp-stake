@@ -221,9 +221,6 @@ const CardPool: FC<CardPoolrops> = ({
       second_lp_position = foundLp;
     }
   }
-
-  console.log(first_lp_position);
-  console.log(second_lp_position);
   // const stakingPosition = useGetStakingPosition(
   //   staked_token,
   //   rewarded_token,

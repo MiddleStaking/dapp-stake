@@ -265,7 +265,6 @@ const SwapModal = (props: any) => {
 
   //Slippage :
   const min_out = ((out_amount - out_fees) * BigInt(99)) / BigInt(100);
-  //console.log('in_stake : ' + in_stake + ' out_mid : ' + out_mid);
 
   if (!props.show) {
     return null;
