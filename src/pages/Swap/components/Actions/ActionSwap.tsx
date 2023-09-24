@@ -11,7 +11,8 @@ export const ActionSwap = ({
   first_token,
   second_token,
   in_token,
-  user_fund,
+  swap_amount,
+  in_balance,
   min_out,
   price_impact,
   name
@@ -37,7 +38,7 @@ export const ActionSwap = ({
         'ESDTTransfer@' +
         Buffer.from(in_token, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(user_fund)) +
+        bigToHexDec(BigInt(swap_amount)) +
         '@' +
         Buffer.from('swap', 'utf8').toString('hex') +
         '@' +
@@ -61,7 +62,7 @@ export const ActionSwap = ({
           'ESDTTransfer@' +
           Buffer.from(in_token, 'utf8').toString('hex') +
           '@' +
-          bigToHexDec(BigInt(user_fund)) +
+          bigToHexDec(BigInt(swap_amount)) +
           '@' +
           Buffer.from('dualSwap', 'utf8').toString('hex') +
           '@' +
@@ -97,12 +98,12 @@ export const ActionSwap = ({
     }
   };
 
-  const stakeAllowed = user_fund != '0' && !hasPendingTransactions;
+  const stakeAllowed = swap_amount != '0' && !hasPendingTransactions;
   const notAllowedClass = stakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <>
-      {user_fund !== undefined && isLoggedIn && (
+      {swap_amount !== undefined && isLoggedIn && (
         <>
           {!hasPendingTransactions ? (
             <>
@@ -112,19 +113,36 @@ export const ActionSwap = ({
                   borderRadius={40}
                   background={['rgb(236 55 55)', 'rgb(236 55 55)']}
                   borderColor={'black'}
-                  text='LOW LIQUIDITY'
+                  text={
+                    in_balance < swap_amount
+                      ? 'Low balance & low liquidity'
+                      : 'LOW LIQUIDITY'
+                  }
                   onClick={sendStakeTransaction}
-                  disabled={false}
+                  disabled={in_balance < swap_amount}
                 />
               ) : (
-                <Button
-                  buttonWidth='100%'
-                  borderRadius={40}
-                  background={['#BD37EC', '#1F67FF']}
-                  text='Swap tokens'
-                  onClick={sendStakeTransaction}
-                  disabled={user_fund == 0}
-                />
+                <>
+                  {in_balance < swap_amount ? (
+                    <Button
+                      buttonWidth='100%'
+                      borderRadius={40}
+                      background={['#BD37EC', '#1F67FF']}
+                      text='Low balance'
+                      onClick={sendStakeTransaction}
+                      disabled={true}
+                    />
+                  ) : (
+                    <Button
+                      buttonWidth='100%'
+                      borderRadius={40}
+                      background={['#BD37EC', '#1F67FF']}
+                      text='Swap tokens'
+                      onClick={sendStakeTransaction}
+                      disabled={swap_amount == 0}
+                    />
+                  )}
+                </>
               )}
             </>
           ) : (

@@ -6,7 +6,7 @@ import {
 } from '@multiversx/sdk-core/out';
 import { network } from 'config';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-import { smartContract } from './../../../../Swap/components/Actions/helpers/smartContract';
+import { smartContract } from './smartContract';
 import { BigNumber } from 'bignumber.js';
 
 const resultsParser = new ResultsParser();
