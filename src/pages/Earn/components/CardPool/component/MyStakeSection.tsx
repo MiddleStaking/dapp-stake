@@ -8,16 +8,17 @@ import { PoolSwapInfo } from '../../PoolInfo/PoolSwapInfo';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import UnstakeModal from '../../UnstakeModal';
 import StakeModal from '../../StakeModal';
+import { BigNumber } from 'bignumber.js';
 
 interface MyStakeSectionProps {
   address: any;
-  stakedToken: any;
-  stakingPosition: any;
+  staked_token: any;
+  staking_position: any;
   staked_esdt_info: any;
   my_staked_value: any;
   rest: any;
-  tokenPosition: any;
-  rewardedToken: any;
+  token_position: any;
+  rewarded_token: any;
   swapedTokens: any;
   userEsdtBalance: any;
   isDual: any;
@@ -30,17 +31,16 @@ interface MyStakeSectionProps {
   sdecimals: any;
   rdecimals: any;
   balance: any;
-  stakingPositionRewards: any;
   my_rewards_value: any;
   canBeStaked: any;
 }
 const MyStakeSection: FC<MyStakeSectionProps> = ({
   address,
-  stakedToken,
+  staked_token,
   secondPoolPosition,
-  rewardedToken,
-  tokenPosition,
-  stakingPosition,
+  rewarded_token,
+  token_position,
+  staking_position,
   staked_esdt_info,
   rewarded_esdt_info,
   my_staked_value,
@@ -50,7 +50,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   image2,
   sdecimals,
   rdecimals,
-  stakingPositionRewards,
   my_rewards_value,
   canBeStaked,
   userEsdtBalance,
@@ -116,8 +115,10 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
     <div style={sectionStyle}>
       <StakeModal
         userEsdtBalance={userEsdtBalance}
-        rewardedToken={rewardedToken}
-        stakedToken={stakedToken}
+        staked_esdt_info={staked_esdt_info}
+        rewarded_esdt_info={rewarded_esdt_info}
+        rewarded_token={rewarded_token}
+        staked_token={staked_token}
         balance={balance}
         decimals={sdecimals}
         onClose={() => {
@@ -126,17 +127,21 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
         show={showStake}
         image1={image1}
         image2={image2}
+        token_position={token_position}
       />
       <UnstakeModal
         userEsdtBalance={userEsdtBalance}
-        rewardedToken={rewardedToken}
-        stakedToken={stakedToken}
-        balance={stakingPosition.stake_amount}
+        rewarded_token={rewarded_token}
+        staked_token={staked_token}
+        staked_esdt_info={staked_esdt_info}
+        rewarded_esdt_info={rewarded_esdt_info}
+        balance={staking_position.stake_amount}
         decimals={sdecimals}
         onClose={() => {
           setHeaderMenu(true), setShowUnstake(false);
         }}
         show={showUnstake}
+        token_position={token_position}
       />
 
       {!address ? (
@@ -158,7 +163,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
               navigate(
                 routeNames.unlock +
                   `/stake/${
-                    stakedToken !== undefined ? stakedToken : defaultToken
+                    staked_token !== undefined ? staked_token : defaultToken
                   }`
               )
             }
@@ -167,7 +172,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
         </div>
       ) : (
         <>
-          {stakingPosition.stake_amount < 1 ? (
+          {staking_position.stake_amount == 0 ? (
             <div style={MyStackedContentStyle}>
               <div
                 style={{
@@ -177,7 +182,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
               >
                 <div style={MyStackedStyle}>My Stake</div>
 
-                <div style={Content}>Stake now to earn {stakedToken}</div>
+                <div style={Content}>Stake now to earn {staked_token}</div>
               </div>
 
               <div
@@ -188,7 +193,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   justifyContent: 'center'
                 }}
               >
-                {tokenPosition.paused == 1 ? (
+                {token_position.paused == 1 ? (
                   <Button
                     borderRadius={40}
                     buttonHeight='31px'
@@ -209,11 +214,11 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                       setHeaderMenu(false);
                       setShowStake(true);
                     }}
-                    text={`Stake ${stakedToken}`}
+                    text={`Stake ${staked_token}`}
                   />
                 )}
               </div>
-              {(swapedTokens.includes(stakedToken) ||
+              {/* {(swapedTokens.includes(stakedToken) ||
                 swapedTokens.includes(rewardedToken)) &&
                 stakedToken != rewardedToken && (
                   <PoolSwapInfo
@@ -238,7 +243,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     firstPoolPosition={firstPoolPosition}
                     secondPoolPosition={secondPoolPosition}
                   />
-                )}
+                )} */}
             </div>
           ) : (
             <div
@@ -279,7 +284,9 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   >
                     <div className='_18-853-74'>
                       <FormatAmount
-                        value={stakingPosition.stake_amount.toString()}
+                        value={BigNumber(
+                          staking_position.stake_amount
+                        ).toFixed()}
                         decimals={Number(
                           staked_esdt_info?.decimals
                             ? staked_esdt_info?.decimals
@@ -356,7 +363,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   />
                 </div>
               </div>
-              {(swapedTokens.includes(stakedToken) ||
+              {/* {(swapedTokens.includes(stakedToken) ||
                 swapedTokens.includes(rewardedToken)) &&
                 stakedToken != rewardedToken && (
                   <PoolSwapInfo
@@ -381,7 +388,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     firstPoolPosition={firstPoolPosition}
                     secondPoolPosition={secondPoolPosition}
                   />
-                )}
+                )} */}
             </div>
           )}
         </>

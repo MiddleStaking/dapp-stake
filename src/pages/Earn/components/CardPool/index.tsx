@@ -17,16 +17,31 @@ import { defaultToken } from 'config';
 import {
   useGetESDTCompute,
   useGetESDTInformations,
-  useGetPoolPosition,
   useGetStakingPosition,
-  useGetStakingPositionRewards,
-  useGetTokenPosition
+  useGetStakingPositionRewards
 } from '../Actions/helpers';
 import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
+import { network } from 'config';
+import { BigNumber } from 'bignumber.js';
 
 interface CardPoolrops {
+  staked_token?: any;
+  rewarded_token: string;
+  token_position: {
+    balance: BigNumber;
+    total_stake: BigNumber;
+    blocks_to_max: BigNumber;
+  };
+  all_staking_position: any;
+  all_user_rewards: any;
+  all_lp: any;
+  staking_position?: {
+    stake_amount: BigNumber;
+    last_action_block: BigNumber;
+  };
+  users: number;
   height: string;
   WindowDimensions: number;
   backgroundRewards?: string;
@@ -39,17 +54,15 @@ interface CardPoolrops {
   EarnTitle?: string;
   StakeTile?: string;
   Apr?: string;
-  Rewards?: string;
-  Rewards_value?: number;
+  rewards_amount?: string;
+  rewards_value?: number;
   Speed?: string;
   Staked?: string;
   Staked_value?: number;
-  Users?: string;
   decimals?: number;
   textColor?: string;
   fontFamily?: string;
   address?: any;
-  stakingPosition?: any;
   staked_esdt_info?: any;
   my_staked_value?: any;
   rest?: any;
@@ -65,9 +78,7 @@ interface CardPoolrops {
   stakingPositionRewards?: any;
   rewarded_esdt_info?: any;
   my_rewards_value?: any;
-  rewardedToken?: any;
   myPools?: any;
-  stakedToken?: any;
   balance?: any;
   canBeStaked?: any;
   isPaused?: any;
@@ -77,6 +88,13 @@ interface CardPoolrops {
 }
 
 const CardPool: FC<CardPoolrops> = ({
+  staked_esdt_info,
+  rewarded_token,
+  token_position,
+  all_staking_position,
+  all_user_rewards,
+  all_lp,
+  users,
   height,
   width = '100%',
   background = 'linear-gradient(0deg, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)),linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%)',
@@ -88,12 +106,11 @@ const CardPool: FC<CardPoolrops> = ({
   EarnTitle,
   StakeTile,
   Apr,
-  Rewards,
-  Rewards_value,
+  rewards_amount,
+  rewards_value,
   Speed,
   Staked,
   Staked_value,
-  Users,
   socialNetwork,
   myPools,
   canBeStaked,
@@ -101,21 +118,11 @@ const CardPool: FC<CardPoolrops> = ({
   textColor = '#ffffff',
   fontFamily = 'sans-serif',
   //   address,
-  stakedToken,
+  staked_token,
   tokens_extra_informations,
   swapedTokens,
   userEsdtBalance,
   balance,
-  //   setShowStake,
-  //   setShowUnstake,
-  //   stakingPosition,
-  //   staked_esdt_info,
-  //   my_staked_value,
-  //   stakingPositionRewards,
-  //   rdecimals,
-  //   rewarded_esdt_info,
-  //   my_rewards_value,
-  rewardedToken,
   backgroundRewards = 'var(--linear-primary-light, linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 0%, rgba(31, 103, 255, 0.00) 100%), linear-gradient(to left, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)))'
 }) => {
   const cardType: CSSProperties = {
@@ -129,36 +136,35 @@ const CardPool: FC<CardPoolrops> = ({
     position: 'relative'
   };
 
-  const { network } = useGetNetworkConfig();
+  // const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
   const [showStake, setShowStake] = useState(false);
   const [showUnstake, setShowUnstake] = useState(false);
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   let isDual = false;
-  if (stakedToken != defaultToken && rewardedToken != defaultToken) {
+  if (staked_token != defaultToken && rewarded_token != defaultToken) {
     isDual = true;
   }
 
-  const firstPoolPosition = useGetPoolPosition(
-    defaultToken,
-    rewardedToken == defaultToken ? stakedToken : rewardedToken,
-    showStake,
-    hasPendingTransactions,
-    true
-  );
-  const secondPoolPosition = useGetPoolPosition(
-    defaultToken,
-    stakedToken,
-    showStake,
-    hasPendingTransactions,
-    isDual
-  );
+  // const firstPoolPosition = useGetPoolPosition(
+  //   defaultToken,
+  //   rewardedToken == defaultToken ? stakedToken : rewardedToken,
+  //   showStake,
+  //   hasPendingTransactions,
+  //   true
+  // );
+  // const secondPoolPosition = useGetPoolPosition(
+  //   defaultToken,
+  //   stakedToken,
+  //   showStake,
+  //   hasPendingTransactions,
+  //   isDual
+  // );
 
-  const staked_esdt_info = useGetESDTInformations(stakedToken);
-  const stakedCompute = useGetESDTCompute(stakedToken);
+  const stakedCompute = useGetESDTCompute(staked_token);
 
-  const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
+  const rewarded_esdt_info = useGetESDTInformations(rewarded_token);
 
   const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
   const rdecimals = rewarded_esdt_info?.decimals
@@ -172,63 +178,131 @@ const CardPool: FC<CardPoolrops> = ({
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
 
-  const tokenPosition = useGetTokenPosition(stakedToken, rewardedToken);
+  //const tokenPosition = useGetTokenPosition(stakedToken, rewardedToken);
+  let staking_position = {
+    stake_amount: BigNumber(0),
+    last_action_block: BigNumber(1)
+  };
 
-  const stakingPosition = useGetStakingPosition(
-    stakedToken,
-    rewardedToken,
-    hasPendingTransactions
-  );
-  const stakingPositionRewards = useGetStakingPositionRewards(
-    stakedToken,
-    rewardedToken,
-    stakingPosition.stake_amount,
-    hasPendingTransactions
-  );
+  if (all_staking_position) {
+    const foundPosition = all_staking_position.find((position: any) => {
+      return position.rewarded_token === rewarded_token;
+    });
+    if (foundPosition) {
+      staking_position = foundPosition.staking_position;
+    }
+  }
+  let rewards_position = BigNumber(0);
+
+  if (all_user_rewards) {
+    const foundPosition = all_user_rewards.find((position: any) => {
+      return position.rewarded_token === rewarded_token;
+    });
+    if (foundPosition) {
+      rewards_position = foundPosition.rewards;
+    }
+  }
+
+  //GET LP FROM OWN SWAP CONTRACT
+  let first_lp_position: any = {};
+  let second_lp_position: any = {};
+  if (all_lp) {
+    let foundLp = all_lp.find((position: any) => {
+      return position.swaped_token === rewarded_token;
+    });
+    if (foundLp) {
+      first_lp_position = foundLp;
+    }
+
+    foundLp = all_lp.find((position: any) => {
+      return position.swaped_token === staked_token;
+    });
+    if (foundLp) {
+      second_lp_position = foundLp;
+    }
+  }
+  // const stakingPosition = useGetStakingPosition(
+  //   staked_token,
+  //   rewarded_token,
+  //   hasPendingTransactions
+  // );
+
+  //Information de staking pour l'utilisateur à condenser
+  // const stakingPosition = useGetStakingPosition(
+  //   stakedToken,
+  //   rewarded_token,
+  //   hasPendingTransactions
+  // );
+  //Information de rewards pour l'utilisateur à condenser
+  // const stakingPositionRewards = useGetStakingPositionRewards(
+  //   staked_token,
+  //   rewarded_token,
+  //   staking_position.stake_amount
+  //     ? BigInt(staking_position.stake_amount.toFixed())
+  //     : BigInt(0),
+  //   hasPendingTransactions
+  // );
 
   const speed =
-    (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
+    (BigInt(token_position?.blocks_to_max.toFixed()) * BigInt(6)) /
     BigInt(24) /
     BigInt(60) /
     BigInt(60);
   const staked_value =
     stakedCompute?.price > 0
-      ? Number(BigInt(tokenPosition.total_stake)) * stakedCompute?.price
+      ? Number(BigInt(token_position.total_stake.toFixed())) *
+        stakedCompute?.price
       : staked_esdt_info?.price > 0
-      ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
-        staked_esdt_info?.price
+      ? Number(
+          BigInt(token_position.total_stake.toFixed()) / BigInt(10 ** sdecimals)
+        ) * staked_esdt_info?.price
       : 0;
 
   const my_staked_value =
     stakedCompute?.price > 0
-      ? Number(BigInt(stakingPosition.stake_amount)) * stakedCompute?.price
+      ? Number(BigInt(staking_position.stake_amount.toFixed())) *
+        stakedCompute?.price
       : staked_esdt_info?.price > 0
-      ? Number(BigInt(stakingPosition.stake_amount) / BigInt(10 ** sdecimals)) *
-        staked_esdt_info?.price
+      ? Number(
+          BigInt(staking_position.stake_amount.toFixed()) /
+            BigInt(10 ** sdecimals)
+        ) * staked_esdt_info?.price
       : 0;
 
   //Montant user
   const my_rewards_value = rewarded_esdt_info?.price
     ? Number(
-        (BigInt(stakingPositionRewards) *
+        (BigInt(rewards_position.toFixed()) *
           BigInt((rewarded_esdt_info.price * 10000000).toFixed())) /
           BigInt(10 ** rdecimals)
       ) / 10000000
     : 0;
 
-  //montant global
-  const rewarded_value = rewarded_esdt_info?.price
-    ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
-      rewarded_esdt_info?.price
-    : 0;
+  const rewarded_value =
+    rewarded_esdt_info?.price && token_position.balance
+      ? Number(
+          BigInt(token_position.balance.toFixed()) / BigInt(10 ** sdecimals)
+        ) * rewarded_esdt_info?.price
+      : 0;
 
   // (valeur finale - valeur initial) / valeur initiale * 100
+  // rewards Value / initial value * 100 * 365 / speed
   let priced_apr = BigInt(0);
-  if (
+  let n_apr = 0;
+  const fixed_speed = speed > 0 ? Number(speed) : 1;
+  const vi = Number(
+    BigInt(token_position.total_stake.toFixed()) / BigInt(10 ** sdecimals)
+  );
+  const rw = Number(
+    BigInt(token_position.balance.toFixed()) / BigInt(10 ** sdecimals)
+  );
+  if (staked_token == rewarded_token) {
+    n_apr = ((rw / vi) * 100 * 365) / fixed_speed;
+  } else if (
     (staked_esdt_info?.price > 0 || stakedCompute?.price > 0) &&
     rewarded_esdt_info?.price > 0 &&
-    tokenPosition?.total_stake > BigInt(1) &&
-    tokenPosition?.balance > BigInt(0)
+    BigInt(token_position.total_stake.toFixed()) > BigInt(1) &&
+    token_position.balance > BigNumber(0)
   ) {
     const price_fixed1 = BigInt(
       stakedCompute?.price > 0
@@ -245,72 +319,59 @@ const CardPool: FC<CardPoolrops> = ({
     );
 
     const initial_value = BigInt(
-      price_fixed1 > 0 && BigInt(tokenPosition.total_stake)
-        ? price_fixed1 * BigInt(tokenPosition.total_stake)
+      price_fixed1 > 0 && BigInt(token_position.total_stake.toFixed())
+        ? price_fixed1 * BigInt(token_position.total_stake.toFixed())
         : 1
     );
-    const reward_value = BigInt(
-      price_fixed2 > 0 && BigInt(tokenPosition.balance)
-        ? price_fixed2 * BigInt(tokenPosition.balance)
+    const rewards_value = BigInt(
+      price_fixed2 > 0 && BigInt(token_position.balance.toFixed())
+        ? price_fixed2 * BigInt(token_position.balance.toFixed())
         : 1
     );
-
     priced_apr = BigInt(
       (
-        ((Number(reward_value) / Number(initial_value)) * 100 * 365) /
+        ((Number(rewards_value) / Number(initial_value)) * 100 * 365) /
         Number(speed)
       ).toFixed()
     );
-  } else if (stakedToken == rewardedToken) {
-    const fixed_speed = speed > 0 ? speed : BigInt(1);
-    priced_apr =
-      (((BigInt(tokenPosition.balance > 0 ? tokenPosition.balance : 1) *
-        BigInt(10 ** sdecimals) *
-        BigInt(100)) /
-        (BigInt(tokenPosition.total_stake > 0 ? tokenPosition.total_stake : 1) *
-          BigInt(10 ** rdecimals))) *
-        BigInt(365)) /
-      fixed_speed;
   }
+
   if (
     Number(priced_apr) == 0 &&
-    firstPoolPosition.first_token_amount > 1 &&
+    first_lp_position?.first_token_amount > 1 &&
     !isDual
   ) {
-    console.log('CALC ' + rewardedToken);
-
     //fake mid price
     const first_pooled_price = BigInt(10000000000000);
     //second token value
     const second_pooled_price = BigInt(
-      (BigInt(firstPoolPosition.first_token_amount) * BigInt(10000000000000)) /
-        BigInt(firstPoolPosition.second_token_amount)
+      (BigInt(BigNumber(first_lp_position.first_token_amount).toFixed()) *
+        BigInt(10000000000000)) /
+        BigInt(BigNumber(first_lp_position.second_token_amount).toFixed())
     );
 
     let pooled_initial_value = BigInt(
-      first_pooled_price > 0 && BigInt(tokenPosition.total_stake)
-        ? first_pooled_price * BigInt(tokenPosition.total_stake)
+      first_pooled_price > 0 && BigInt(token_position.total_stake.toFixed())
+        ? first_pooled_price * BigInt(token_position.total_stake.toFixed())
         : 1
     );
-    console.log(pooled_initial_value);
 
     let pooled_reward_value = BigInt(
-      second_pooled_price > 0 && BigInt(tokenPosition.balance)
-        ? second_pooled_price * BigInt(tokenPosition.balance)
+      second_pooled_price > 0 && BigInt(token_position.balance.toFixed())
+        ? second_pooled_price * BigInt(token_position.balance.toFixed())
         : 1
     );
-    console.log(pooled_reward_value);
 
     //Si mid en second on inverse
-    if (rewardedToken == defaultToken) {
+    if (rewarded_token == defaultToken) {
       pooled_initial_value = BigInt(
-        first_pooled_price > 0 && BigInt(tokenPosition.balance)
-          ? first_pooled_price * BigInt(tokenPosition.balance)
+        first_pooled_price > 0 && BigInt(token_position.balance.toFixed())
+          ? first_pooled_price * BigInt(token_position.balance.toFixed())
           : 1
       );
       pooled_reward_value = BigInt(
-        second_pooled_price > 0 && BigInt(tokenPosition.total_stake)
-          ? second_pooled_price * BigInt(tokenPosition.total_stake)
+        second_pooled_price > 0 && BigInt(token_position.total_stake.toFixed())
+          ? second_pooled_price * BigInt(token_position.total_stake.toFixed())
           : 1
       );
     }
@@ -323,31 +384,23 @@ const CardPool: FC<CardPoolrops> = ({
         Number(speed)
       ).toFixed()
     );
-
-    // priced_apr = tokenPosition.paused
-    //   ? BigInt(0)
-    //   : BigInt(
-    //       (
-    //         ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
-    //           100 *
-    //           365) /
-    //         Number(speed ? speed : 1)
-    //       ).toFixed()
-    //     );
-    console.log(pooled_reward_value);
-    console.log(pooled_initial_value);
   }
 
   localStorage.setItem(
-    'apr_' + stakedToken + '_' + rewardedToken,
+    'apr_' + staked_token + '_' + rewarded_token,
     priced_apr.toString()
   );
 
   let share = BigInt(10000);
-  if (tokenPosition.total_stake > BigInt(0)) {
+  if (BigInt(token_position.total_stake.toFixed()) > BigInt(0)) {
     share =
-      (BigInt(stakingPosition.stake_amount) * share) /
-      BigInt(tokenPosition.total_stake);
+      (BigInt(
+        staking_position.stake_amount
+          ? staking_position.stake_amount.toFixed()
+          : 0
+      ) *
+        share) /
+      BigInt(token_position.total_stake.toFixed());
   }
   const rest = Number(share) / Number(100);
 
@@ -360,41 +413,40 @@ const CardPool: FC<CardPoolrops> = ({
   //       BigInt(100)
   //   );
   // }
-  let opacity = '';
 
-  if (myPools && stakingPosition.stake_amount == BigInt(0)) {
-    opacity = 'card ghost';
+  if (myPools && BigInt(staking_position.stake_amount.toFixed()) == BigInt(0)) {
+    return <></>;
   }
   return (
     <div
       style={{
-        width: WindowDimensions > 450 ? '300px' : '300px'
+        width: WindowDimensions > 450 ? '300px' : '300px',
+        margin: 'auto'
       }}
     >
       <div style={cardType}>
         <TypeSection
+          users={users}
           //   image1={image1}
           //   image2={image2}
           //   StakeTile={StakeTile}
           //   EarnTitle={EarnTitle}
           //   Apr={Apr}
           //   decimals={decimals}
-          //   Rewards={Rewards}
-          //   Rewards_value={Rewards_value}
+          rewards_amount={token_position.balance}
+          rewards_value={rewards_value}
           //   Speed={Speed}
           //   Staked={Staked}
           //   Staked_value={Staked_value}
-          //   Users={Users}
           //   socialNetwork={socialNetwork}
-          rewardedToken={rewardedToken}
-          stakedToken={stakedToken}
-          pool_apr={priced_apr}
+          rewarded_token={rewarded_token}
+          staked_token={staked_token}
+          pool_apr={n_apr ? n_apr.toFixed(2) : priced_apr}
           rewarded_esdt_info={rewarded_esdt_info}
           staked_esdt_info={staked_esdt_info}
           image1={image1}
           image2={image2}
-          tokenPosition={tokenPosition}
-          rewarded_value={rewarded_value}
+          token_position={token_position}
           staked_value={staked_value}
           speed={speed}
           tokens_extra_informations={tokens_extra_informations}
@@ -412,10 +464,10 @@ const CardPool: FC<CardPoolrops> = ({
           address={address}
           swapedTokens={swapedTokens}
           userEsdtBalance={userEsdtBalance}
-          stakedToken={stakedToken}
-          rewardedToken={rewardedToken}
-          tokenPosition={tokenPosition}
-          stakingPosition={stakingPosition}
+          staked_token={staked_token}
+          rewarded_token={rewarded_token}
+          token_position={token_position}
+          staking_position={staking_position}
           staked_esdt_info={staked_esdt_info}
           rewarded_esdt_info={rewarded_esdt_info}
           my_staked_value={my_staked_value}
@@ -425,35 +477,34 @@ const CardPool: FC<CardPoolrops> = ({
           image2={image2}
           sdecimals={sdecimals}
           rdecimals={rdecimals}
-          stakingPositionRewards={stakingPositionRewards}
           my_rewards_value={my_rewards_value}
           canBeStaked={canBeStaked}
           isDual={isDual}
-          firstPoolPosition={firstPoolPosition}
-          secondPoolPosition={secondPoolPosition}
+          firstPoolPosition={'firstPoolPosition'}
+          secondPoolPosition={'secondPoolPosition'}
           balanc={balance}
         />
 
         {address && (
           <RewardsSection
             backgroundRewards={backgroundRewards}
-            stakingPositionRewards={stakingPositionRewards}
+            stakingPositionRewards={BigInt(rewards_position.toFixed())}
             rdecimals={rdecimals}
             rewarded_esdt_info={rewarded_esdt_info}
             my_rewards_value={my_rewards_value}
-            stakedToken={stakedToken}
-            rewardedToken={rewardedToken}
+            staked_token={staked_token}
+            rewarded_token={rewarded_token}
           />
         )}
         {canBeStaked && (
           <>
             {' '}
             <Link
-              to={routeNames.stake + `/${rewardedToken}`}
+              to={routeNames.stake + `/${rewarded_token}`}
               className='butLine bouton-visiter'
               data-testid='loginBtn'
             >
-              Stake {rewardedToken}
+              Stake {rewarded_token}
             </Link>
           </>
         )}

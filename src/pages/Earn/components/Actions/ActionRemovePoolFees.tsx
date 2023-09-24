@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress, defaultToken } from 'config';
+import { contractStake, defaultToken } from 'config';
 import { useGetUserESDT } from './../Actions/helpers/useGetUserESDT';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
@@ -64,7 +64,7 @@ export const ActionRemovePoolFees = ({ stakedToken, rewardedToken }: any) => {
         '@' +
         Buffer.from(rewardedToken, 'utf8').toString('hex'),
 
-      receiver: contractAddress,
+      receiver: contractStake,
       gasLimit: '7000000'
     };
     await refreshAccount();

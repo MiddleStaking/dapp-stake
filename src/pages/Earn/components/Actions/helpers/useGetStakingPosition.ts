@@ -9,7 +9,7 @@ import {
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import { smartContract } from './smartContract';
-import { network } from 'config';
+import { defaultToken, network } from 'config';
 
 const resultsParser = new ResultsParser();
 
@@ -25,7 +25,11 @@ export const useGetStakingPosition = (
   });
 
   const getStakingPosition = async () => {
-    if (hasPendingTransactions == true || address == '') {
+    if (
+      hasPendingTransactions == true ||
+      address == '' ||
+      rewardedToken != stakedToken
+    ) {
       return;
     }
     try {

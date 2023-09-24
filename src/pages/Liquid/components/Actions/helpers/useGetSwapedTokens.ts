@@ -4,11 +4,12 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { smartContract } from './smartContract';
 import { defaultToken } from 'config';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetSwapedTokens = () => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const [swapedTokens, setSwapedTokens] = useState<string[]>([]);
   const time = new Date();
 

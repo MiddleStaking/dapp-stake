@@ -13,13 +13,14 @@ import { TransactionsTable, Loader, PageState } from '@multiversx/sdk-dapp/UI';
 import { faBan, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { AxiosError } from 'axios';
 
-import { apiTimeout, contractAddress, transactionSize } from 'config';
+import { apiTimeout, contractStake, transactionSize } from 'config';
 import { EarnLayout } from './components';
+import { network } from 'config';
 
 const EarnPage = ({ children }: React.PropsWithChildren) => {
-  const {
-    network: { apiAddress }
-  } = useGetNetworkConfig();
+  // const {
+  //   network: { apiAddress }
+  // } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const { success, fail } = useGetActiveTransactionsStatus();
 
@@ -31,9 +32,9 @@ const EarnPage = ({ children }: React.PropsWithChildren) => {
     try {
       setIsLoading(true);
       const { data } = await getTransactions({
-        apiAddress,
+        apiAddress: network.apiAddress,
         sender: address,
-        receiver: contractAddress,
+        receiver: contractStake,
         condition: 'must',
         transactionSize,
         apiTimeout

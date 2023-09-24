@@ -15,20 +15,22 @@ import { AxiosError } from 'axios';
 
 import {
   apiTimeout,
-  contractAddress,
+  contractSwap,
   defaultToken,
   transactionSize
 } from 'config';
 import { SwapLayout } from './components';
 import { useGetUserESDT } from './components/Actions/helpers/useGetUserESDT';
-import { useGetSwapedTokens } from './components/Actions/helpers';
+import { useGetAllLp, useGetSwapedTokens } from './components/Actions/helpers';
+import { network } from 'config';
 
 const SwapPage = ({ children }: React.PropsWithChildren) => {
-  const {
-    network: { apiAddress }
-  } = useGetNetworkConfig();
+  // const {
+  //   network: { apiAddress }
+  // } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const { success, fail } = useGetActiveTransactionsStatus();
+  const allLp = useGetAllLp();
 
   const [transactions, setTransactions] = useState<ServerTransactionType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,9 +40,9 @@ const SwapPage = ({ children }: React.PropsWithChildren) => {
     try {
       setIsLoading(true);
       const { data } = await getTransactions({
-        apiAddress,
+        apiAddress: network.apiAddress,
         sender: address,
-        receiver: contractAddress,
+        receiver: contractSwap,
         condition: 'must',
         transactionSize,
         apiTimeout
@@ -96,11 +98,11 @@ const SwapPage = ({ children }: React.PropsWithChildren) => {
 
 export const Swap = () => {
   const userEsdtBalance = useGetUserESDT();
-  const swapedTokens: string[] = useGetSwapedTokens();
+  const all_lp: any[] = useGetAllLp();
   return (
     <SwapLayout
       userEsdtBalance={userEsdtBalance}
-      swapedTokens={swapedTokens}
+      all_lp={all_lp}
       firstToken={'WEGLD-bd4d79'}
       secondToken={defaultToken}
       defaultToken={defaultToken}

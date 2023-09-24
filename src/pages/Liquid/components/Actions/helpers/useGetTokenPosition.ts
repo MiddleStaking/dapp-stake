@@ -8,11 +8,12 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
 import { smartContract } from './smartContract';
+import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
   const [tokenPosition, setTokenPosition] = useState({
     stakedToken: '',
     rewardedToken: '',

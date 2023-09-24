@@ -1,0 +1,430 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.71.0-nightly",
+            "commitHash": "a2b1646c597329d0a25efa3889b66650f65de1de",
+            "commitDate": "2023-05-25",
+            "channel": "Nightly",
+            "short": "rustc 1.71.0-nightly (a2b1646c5 2023-05-25)"
+        },
+        "contractCrate": {
+            "name": "staking-nft",
+            "version": "0.0.1"
+        },
+        "framework": {
+            "name": "multiversx-sc",
+            "version": "0.43.3"
+        }
+    },
+    "name": "StakingNft",
+    "constructor": {
+        "inputs": [
+            {
+                "name": "def_staked_token",
+                "type": "TokenIdentifier"
+            },
+            {
+                "name": "sc_stake",
+                "type": "Address"
+            }
+        ],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "fund",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "staked_nft",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "speed",
+                    "type": "u64"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "vesting",
+                    "type": "u64"
+                },
+                {
+                    "name": "unbounding",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "stake",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "jump",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "nft_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "unbound",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "nft_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "unstake",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "nft_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "claimRewards",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getRewardsCount",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getRewardsPoolsID",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staked_collection",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<u64>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getStakedNft",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "nft_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "StakedNft"
+                }
+            ]
+        },
+        {
+            "name": "getRewards",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<RewardPosition>"
+                }
+            ]
+        },
+        {
+            "name": "getUserNfts",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<StakedNftView>"
+                }
+            ]
+        },
+        {
+            "name": "getStakingPosition",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                },
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<BigUint>"
+                }
+            ]
+        },
+        {
+            "name": "calculateRewardsForUser",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                },
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getAllRewardsForUser",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                },
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<AllRewardsForUser>"
+                }
+            ]
+        },
+        {
+            "name": "isPaused",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "pause",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "unpause",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "getStakedNfts",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<TokenIdentifier>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getDefTokenIdentifier",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "getScStake",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        }
+    ],
+    "events": [],
+    "hasCallback": false,
+    "types": {
+        "AllRewardsForUser": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "rewards",
+                    "type": "BigUint"
+                }
+            ]
+        },
+        "RewardPosition": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "rewards",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "total_staked",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "total_rewarded",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "last_fund_block",
+                    "type": "u64"
+                },
+                {
+                    "name": "paused",
+                    "type": "bool"
+                },
+                {
+                    "name": "blocks_to_max",
+                    "type": "u64"
+                },
+                {
+                    "name": "vesting",
+                    "type": "u64"
+                },
+                {
+                    "name": "unbounding",
+                    "type": "u64"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ]
+        },
+        "StakedNft": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "nft_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "pool_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "nft_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nft_nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "nft_qty",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "lock",
+                    "type": "u64"
+                },
+                {
+                    "name": "unbound",
+                    "type": "u64"
+                },
+                {
+                    "name": "jump_unbound",
+                    "type": "u64"
+                }
+            ]
+        },
+        "StakedNftView": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "current_block",
+                    "type": "u64"
+                },
+                {
+                    "name": "staked_nft",
+                    "type": "StakedNft"
+                }
+            ]
+        }
+    }
+}

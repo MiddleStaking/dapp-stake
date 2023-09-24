@@ -265,7 +265,6 @@ const SwapModal = (props: any) => {
 
   //Slippage :
   const min_out = ((out_amount - out_fees) * BigInt(99)) / BigInt(100);
-  //console.log('in_stake : ' + in_stake + ' out_mid : ' + out_mid);
 
   if (!props.show) {
     return null;
@@ -554,8 +553,8 @@ const SwapModal = (props: any) => {
                   </div>
                   <DropdownMenu
                     BoxShadowActive={true}
-                    BoxShadowActiveColor='0 0 24px 0 rgba(182,57,237,.64)'
-                    BoxShadowColor='0 0 24px 0 rgba(182,57,237,.64)'
+                    BoxShadowActiveColor='none'
+                    BoxShadowColor='none'
                     inputHeight={'40px'}
                     inputWidth='179px'
                     borderRadius='54'

@@ -3,14 +3,13 @@ import { useEffect, useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractAddress } from 'config';
+import { contractStake } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionStake = ({
-  stakedToken,
-  rewardedToken,
-  user_fund,
-  name
+  staked_token,
+  rewarded_token,
+  user_fund
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -32,15 +31,15 @@ export const ActionStake = ({
       value: 0,
       data:
         'ESDTTransfer@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
+        Buffer.from(staked_token, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(user_fund)) +
+        bigToHexDec(user_fund) +
         '@' +
         Buffer.from('stake', 'utf8').toString('hex') +
         '@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex'),
+        Buffer.from(rewarded_token, 'utf8').toString('hex'),
 
-      receiver: contractAddress,
+      receiver: contractStake,
       gasLimit: '5200000'
     };
     await refreshAccount();

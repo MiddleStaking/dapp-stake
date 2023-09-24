@@ -23,8 +23,10 @@ import {
   useGetPayment,
   useGetPrice
 } from './Actions/helpers';
+import { network } from 'config';
+
 export const PlayLayout = ({ children }: React.PropsWithChildren) => {
-  const { network } = useGetNetworkConfig();
+  //const { network } = useGetNetworkConfig();
 
   const address = useGetAccountInfo().address;
   const last_user = useGetWinner();

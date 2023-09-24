@@ -18,7 +18,6 @@ export const ActionWrap = ({ user_fund, account }: any) => {
   }
 
   const { hasPendingTransactions } = useGetPendingTransactions();
-  console.log(account);
   function bigToHexDec(d: bigint) {
     let result = '';
     result = d.toString(16);
