@@ -36,6 +36,7 @@ interface CardPoolrops {
   };
   all_staking_position: any;
   all_user_rewards: any;
+  all_lp: any;
   staking_position?: {
     stake_amount: BigNumber;
     last_action_block: BigNumber;
@@ -92,6 +93,7 @@ const CardPool: FC<CardPoolrops> = ({
   token_position,
   all_staking_position,
   all_user_rewards,
+  all_lp,
   users,
   height,
   width = '100%',
@@ -201,6 +203,27 @@ const CardPool: FC<CardPoolrops> = ({
     }
   }
 
+  //GET LP FROM OWN SWAP CONTRACT
+  let first_lp_position: any = {};
+  let second_lp_position: any = {};
+  if (all_lp) {
+    let foundLp = all_lp.find((position: any) => {
+      return position.swaped_token === rewarded_token;
+    });
+    if (foundLp) {
+      first_lp_position = foundLp;
+    }
+
+    foundLp = all_lp.find((position: any) => {
+      return position.swaped_token === staked_token;
+    });
+    if (foundLp) {
+      second_lp_position = foundLp;
+    }
+  }
+
+  console.log(first_lp_position);
+  console.log(second_lp_position);
   // const stakingPosition = useGetStakingPosition(
   //   staked_token,
   //   rewarded_token,
@@ -316,66 +339,55 @@ const CardPool: FC<CardPoolrops> = ({
     );
   }
 
-  // if (
-  //   Number(priced_apr) == 0 &&
-  //   firstPoolPosition.first_token_amount > 1 &&
-  //   !isDual
-  // ) {
-  //   //fake mid price
-  //   const first_pooled_price = BigInt(10000000000000);
-  //   //second token value
-  //   const second_pooled_price = BigInt(
-  //     (BigInt(firstPoolPosition.first_token_amount) * BigInt(10000000000000)) /
-  //       BigInt(firstPoolPosition.second_token_amount)
-  //   );
+  if (
+    Number(priced_apr) == 0 &&
+    first_lp_position?.first_token_amount > 1 &&
+    !isDual
+  ) {
+    //fake mid price
+    const first_pooled_price = BigInt(10000000000000);
+    //second token value
+    const second_pooled_price = BigInt(
+      (BigInt(BigNumber(first_lp_position.first_token_amount).toFixed()) *
+        BigInt(10000000000000)) /
+        BigInt(BigNumber(first_lp_position.second_token_amount).toFixed())
+    );
 
-  //   let pooled_initial_value = BigInt(
-  //     first_pooled_price > 0 && BigInt(token_position.total_stake)
-  //       ? first_pooled_price * BigInt(token_position.total_stake)
-  //       : 1
-  //   );
+    let pooled_initial_value = BigInt(
+      first_pooled_price > 0 && BigInt(token_position.total_stake.toFixed())
+        ? first_pooled_price * BigInt(token_position.total_stake.toFixed())
+        : 1
+    );
 
-  //   // let pooled_reward_value = BigInt(
-  //   //   second_pooled_price > 0 && BigInt(token_position.balance)
-  //   //     ? second_pooled_price * BigInt(token_position.balance)
-  //   //     : 1
-  //   // );
-  //   let pooled_reward_value = BigInt(0);
+    let pooled_reward_value = BigInt(
+      second_pooled_price > 0 && BigInt(token_position.balance.toFixed())
+        ? second_pooled_price * BigInt(token_position.balance.toFixed())
+        : 1
+    );
 
-  //   //Si mid en second on inverse
-  //   if (rewardedToken == defaultToken) {
-  //     pooled_initial_value = BigInt(
-  //       first_pooled_price > 0 && BigInt(token_position.balance)
-  //         ? first_pooled_price * BigInt(token_position.balance)
-  //         : 1
-  //     );
-  //     pooled_reward_value = BigInt(
-  //       second_pooled_price > 0 && BigInt(token_position.total_stake)
-  //         ? second_pooled_price * BigInt(token_position.total_stake)
-  //         : 1
-  //     );
-  //   }
+    //Si mid en second on inverse
+    if (rewarded_token == defaultToken) {
+      pooled_initial_value = BigInt(
+        first_pooled_price > 0 && BigInt(token_position.balance.toFixed())
+          ? first_pooled_price * BigInt(token_position.balance.toFixed())
+          : 1
+      );
+      pooled_reward_value = BigInt(
+        second_pooled_price > 0 && BigInt(token_position.total_stake.toFixed())
+          ? second_pooled_price * BigInt(token_position.total_stake.toFixed())
+          : 1
+      );
+    }
 
-  //   priced_apr = BigInt(
-  //     (
-  //       ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
-  //         100 *
-  //         365) /
-  //       Number(speed)
-  //     ).toFixed()
-  //   );
-
-  //   // priced_apr = tokenPosition.paused
-  //   //   ? BigInt(0)
-  //   //   : BigInt(
-  //   //       (
-  //   //         ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
-  //   //           100 *
-  //   //           365) /
-  //   //         Number(speed ? speed : 1)
-  //   //       ).toFixed()
-  //   //     );
-  // }
+    priced_apr = BigInt(
+      (
+        ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
+          100 *
+          365) /
+        Number(speed)
+      ).toFixed()
+    );
+  }
 
   localStorage.setItem(
     'apr_' + staked_token + '_' + rewarded_token,

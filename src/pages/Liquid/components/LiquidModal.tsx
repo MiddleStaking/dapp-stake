@@ -61,15 +61,22 @@ const LiquidModal = (props: any) => {
     : notFound;
 
   const taux =
-    (BigInt(first_pool.second_token_amount) * BigInt(1000000000)) /
-    BigInt(first_pool.first_token_amount);
+    (BigInt(
+      first_pool.second_token_amount > 0 ? first_pool.second_token_amount : 1
+    ) *
+      BigInt(1000000000)) /
+    BigInt(
+      first_pool.first_token_amount > 0 ? first_pool.first_token_amount : 1
+    );
   const second_amount = Number(
     (BigInt(firstBig) * BigInt(taux)) / BigInt(1000000000)
   );
 
   function handleTokenAmountChange(value: any) {
     const amount = BigInt(Number(value) * 10 ** first_decimals);
-    const second_amount = (BigInt(amount) * BigInt(taux)) / BigInt(1000000000);
+    const second_amount =
+      (BigInt(amount ? amount : 1) * BigInt(taux ? taux : 1)) /
+      BigInt(1000000000);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setFirstBig(BigInt(0));

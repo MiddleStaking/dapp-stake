@@ -3,6 +3,7 @@ export * from './useGetRewardedTokens';
 export * from './useGetAllTokenPosition';
 export * from './useGetAllStakingPosition';
 export * from './useGetAllUserRewards';
+export * from './useGetAllLp';
 export * from './useGetTokenPosition';
 export * from './useGetStakingPosition';
 export * from './useGetStakingPositionRewards';
