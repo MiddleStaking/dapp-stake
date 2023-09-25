@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import {
+  useGetIsLoggedIn,
+  useGetPendingTransactions
+} from '@multiversx/sdk-dapp/hooks';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { defaultToken } from 'config';
@@ -57,6 +60,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   // const [test, setTest] = useState(
   //   stakedTokens.includes(url) ? url : defaultToken + ':' + url + ':'
   // );
+  const { hasPendingTransactions } = useGetPendingTransactions();
 
   const userEsdtBalance = useGetUserESDT();
   const [stoken, setStoken] = React.useState(url);

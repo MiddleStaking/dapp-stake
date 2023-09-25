@@ -10,11 +10,16 @@ import { network } from 'config';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import { smartContract } from './smartContract';
 import { BigNumber } from 'bignumber.js';
-import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
+import {
+  useGetAccount,
+  useGetPendingTransactions
+} from '@multiversx/sdk-dapp/hooks';
 
 const resultsParser = new ResultsParser();
 
 export const useGetAllStakingPosition = (stakedToken: any) => {
+  const { hasPendingTransactions } = useGetPendingTransactions();
+
   const [tokenPosition, setTokenPosition] = useState([
     {
       rewarded_token: '',
@@ -31,6 +36,9 @@ export const useGetAllStakingPosition = (stakedToken: any) => {
   const getAllStakingPosition = async () => {
     if (!address) {
       setTokenPosition([]);
+      return;
+    }
+    if (hasPendingTransactions == true) {
       return;
     }
     // const expire_test = Number(
@@ -93,7 +101,7 @@ export const useGetAllStakingPosition = (stakedToken: any) => {
 
   useEffect(() => {
     getAllStakingPosition();
-  }, [stakedToken]);
+  }, [stakedToken, hasPendingTransactions]);
 
   return tokenPosition;
 };
