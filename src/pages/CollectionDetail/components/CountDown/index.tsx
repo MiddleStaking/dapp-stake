@@ -41,6 +41,10 @@ const Countdown: React.FC<CountdownProps> = ({ totalSeconds }) => {
     return `${seconds} ${seconds === 1 ? 'second' : 'seconds'}`;
   };
 
+  if (totalSeconds <= 0) {
+    return <></>;
+  }
+
   return (
     <div
       style={{
