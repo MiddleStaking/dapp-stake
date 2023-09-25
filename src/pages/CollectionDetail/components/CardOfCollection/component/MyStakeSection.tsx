@@ -67,14 +67,6 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                 <>
                   {item?.staked_nft.unbound == 0 ? (
                     <>
-                      <button
-                        onClick={() =>
-                          console.log(item.staked_nft.unbound.toString())
-                        }
-                      >
-                        {' '}
-                        item
-                      </button>
                       <ActionUnbound
                         text={
                           item?.current_block < item?.staked_nft?.lock

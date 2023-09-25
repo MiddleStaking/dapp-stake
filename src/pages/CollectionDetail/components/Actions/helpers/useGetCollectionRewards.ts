@@ -14,7 +14,7 @@ export const useGetCollectionRewards = (stakedToken: string) => {
   const [stakedTokens, setStakedTokens] = useState([
     {
       pool_id: 0,
-      identifier: stakedToken,
+      identifier: '',
       rewards: BigInt(0),
       total_staked: BigInt(0),
       total_rewarded: BigInt(0),
@@ -73,7 +73,7 @@ export const useGetCollectionRewards = (stakedToken: string) => {
 
   useEffect(() => {
     getStakedTokens();
-  }, []);
+  }, [stakedToken]);
 
   return stakedTokens;
 };

@@ -5,8 +5,15 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
 import { Button } from './../../../../components/Design';
+import BigNumber from 'bignumber.js';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { useGetESDTInformations } from './helpers/useGetESDTInformations';
 
-export const ActionClaimRewards = ({ pool_id, rewardsAmount }: any) => {
+export const ActionClaimRewards = ({
+  pool_id,
+  rewardsAmount,
+  identifier
+}: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   function bigToHexDec(d: bigint) {
@@ -48,14 +55,43 @@ export const ActionClaimRewards = ({ pool_id, rewardsAmount }: any) => {
   const claimAllowed = rewardsAmount != '0' && !hasPendingTransactions;
   const notAllowedClass = claimAllowed ? '' : 'not-allowed disabled';
 
+  const filteredData = rewardsAmount
+    .filter((item: any) => item.pool_id.toString() == pool_id)
+    .map((item: any) => item.rewards.toString());
+
+  const rewarded_esdt_info = useGetESDTInformations(identifier.identifier);
+
+  const rdecimals = rewarded_esdt_info?.decimals
+    ? rewarded_esdt_info?.decimals
+    : 0;
+
   return (
-    <div className='center' style={{ width: '100%' }}>
-      {/* <> {rewardsAmount.toString()}</> */}
-      {rewardsAmount !== undefined && rewardsAmount > 0 && (
+    <div
+      className='center'
+      style={{
+        width: '100%',
+        fontSize: '10px',
+        textAlign: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        gap: '5px'
+      }}
+    >
+      {filteredData !== undefined && filteredData > 0 && (
         <>
+          <FormatAmount
+            value={filteredData.toString()}
+            decimals={Number(rdecimals)}
+            egldLabel={rewarded_esdt_info.name}
+            data-testid='balance'
+            digits={2}
+          />
           {!hasPendingTransactions ? (
             <>
               <Button
+                fontSize='10px'
+                buttonHeight='33px'
                 buttonWidth='100%'
                 borderRadius={40}
                 background={['#BD37EC', '#1F67FF']}

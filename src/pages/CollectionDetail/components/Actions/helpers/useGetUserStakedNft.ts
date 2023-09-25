@@ -6,12 +6,14 @@ import {
   ResultsParser
 } from '@multiversx/sdk-core/out';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
 import { smartContract } from './smartContract';
 import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetUserStakedNft = (address: string) => {
+  const { hasPendingTransactions } = useGetPendingTransactions();
   const [stakedTokensNft, setStakedTokensNft] = useState([
     {
       staked_nft: {
@@ -30,6 +32,9 @@ export const useGetUserStakedNft = (address: string) => {
   const time = new Date();
 
   const getUserStakedNft = async () => {
+    if (hasPendingTransactions == true || address == '') {
+      return;
+    }
     //using storage to reduce calls
     // const expire_test = Number(
     //     localStorage.getItem('collection_rewards_' + stakedToken + '_expire')
@@ -74,7 +79,7 @@ export const useGetUserStakedNft = (address: string) => {
 
   useEffect(() => {
     getUserStakedNft();
-  }, []);
+  }, [hasPendingTransactions]);
 
   return stakedTokensNft;
 };

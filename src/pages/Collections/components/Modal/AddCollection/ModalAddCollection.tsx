@@ -16,6 +16,7 @@ import Input from 'components/Design/Input';
 import { ActionFund } from '../../Actions';
 import { useGetNft } from '../../Actions/helpers/useGetNft';
 import HexagoneNFT from '../../hexagoneNFT';
+import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actions/helpers';
 
 const ModalAddCollection = (props: any) => {
   const userNFTBalance = useGetUserNFT();
@@ -29,9 +30,13 @@ const ModalAddCollection = (props: any) => {
     false
   ]);
   const [stoken, setStoken] = React.useState(defaultToken);
+  const testgetStakedTokens = useGetCollectionRewards(stoken);
   const [rtoken, setRtoken] = React.useState(defaultToken);
   const [decimals, setDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
+  const maxVesting = 40;
+  const maxSpeed = 1000;
+  const maxUnbound = 10;
 
   const [payFees, setPayFees] = React.useState(false);
   // const { network } = useGetNetworkConfig();
@@ -45,14 +50,6 @@ const ModalAddCollection = (props: any) => {
   const nft: any = useGetNft(stoken, nonceNumber);
 
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
-
-  const default_esdt_info = useGetESDTInformations(defaultToken);
-  const price = BigInt('5000000000000000000000');
-  const price_float = '5000.00';
-  const dollar_value = default_esdt_info?.price
-    ? Number(BigInt(price) / BigInt(10 ** default_esdt_info.decimals)) *
-      default_esdt_info?.price
-    : 0;
 
   const tokenProps = userEsdtBalance.find(
     (item: any) => item.identifier === rtoken
@@ -90,22 +87,18 @@ const ModalAddCollection = (props: any) => {
     setPayFees(false);
   }
 
-  const staked_esdt_info = useGetESDTInformations(stoken);
   const rewarded_esdt_info = useGetESDTInformations(rtoken);
-  const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
+
   const rdecimals = rewarded_esdt_info?.decimals
     ? rewarded_esdt_info?.decimals
     : 0;
 
-  const image1 = staked_esdt_info?.assets?.svgUrl
-    ? staked_esdt_info?.assets?.svgUrl
-    : notFound;
   const image2 = rewarded_esdt_info?.assets?.svgUrl
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
 
   function handleTokenAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** sdecimals);
+    const amount = BigInt(Number(value) * 10 ** rdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
@@ -129,7 +122,7 @@ const ModalAddCollection = (props: any) => {
         (BigInt(balance) * BigInt(percentage)) / BigInt(100)
       );
       setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
+        Number(BigInt(big_amount)) / Number(BigInt(10 ** rdecimals))
       );
       setBigAmount(big_amount);
     } else {
@@ -138,31 +131,30 @@ const ModalAddCollection = (props: any) => {
   }
 
   function handleVestingTimeChange(value: any) {
-    if (value == 0) {
-      setVestingTime(1);
-    } else if (value > 365) {
-      setVestingTime(365);
+    if (value <= 0) {
+      setVestingTime(0);
+    } else if (value > maxVesting) {
+      setVestingTime(maxVesting);
     } else {
       setVestingTime(value);
     }
   }
 
   function handleUnboundingTimeChange(value: any) {
-    if (value == 0) {
-      setUnboundingTime(1);
-    } else if (value > 500) {
-      setUnboundingTime(500);
+    if (value <= 0) {
+      setUnboundingTime(0);
+    } else if (value > maxUnbound) {
+      setUnboundingTime(maxUnbound);
     } else {
       setUnboundingTime(value);
     }
-    setUnboundingTime(value);
   }
 
   function handleSpeedChange(value: any) {
-    if (value == 0) {
+    if (value < 1) {
       setSpeedNumber(1);
-    } else if (value > 1000) {
-      setSpeedNumber(1000);
+    } else if (value > maxSpeed) {
+      setSpeedNumber(maxSpeed);
     } else {
       setSpeedNumber(value);
     }
@@ -172,13 +164,31 @@ const ModalAddCollection = (props: any) => {
   }
 
   function handleRangeSpeedValueChange(e: React.ChangeEvent<any>) {
-    setSpeedNumber(e.target.value);
+    if (e.target.value < 1) {
+      setSpeedNumber(1);
+    } else if (e.target.value > maxSpeed) {
+      setSpeedNumber(maxSpeed);
+    } else {
+      setSpeedNumber(e.target.value);
+    }
   }
   function handleRangeVestingValueChange(e: React.ChangeEvent<any>) {
-    setVestingTime(e.target.value);
+    if (e.target.value < 0) {
+      setVestingTime(0);
+    } else if (e.target.value > maxVesting) {
+      setVestingTime(maxVesting);
+    } else {
+      setVestingTime(e.target.value);
+    }
   }
   function handleRangeUnboundingValueChange(e: React.ChangeEvent<any>) {
-    setUnboundingTime(e.target.value);
+    if (e.target.value < 0) {
+      setUnboundingTime(0);
+    } else if (e.target.value > maxUnbound) {
+      setUnboundingTime(maxUnbound);
+    } else {
+      setUnboundingTime(e.target.value);
+    }
   }
 
   function handleNonceChange(value: any) {
@@ -225,15 +235,35 @@ const ModalAddCollection = (props: any) => {
     return null;
   }
 
-  const percentage = (speedNumber / 1000) * 100;
-  const percentagevestingTime = (vestingTime / 365) * 100;
-  const percentageunbundingTime = (unboundingTime / 500) * 100;
+  console.log(
+    testgetStakedTokens.filter(
+      (pool) =>
+        pool.identifier === rtoken &&
+        pool.blocks_to_max == (speedNumber * 60 * 60 * 24) / 6 &&
+        pool.nonce == nonceNumber &&
+        pool.vesting == vestingTime &&
+        pool.unbounding == unboundingTime
+    )
+  );
+
+  const percentage = (speedNumber / maxSpeed) * 100;
+  const percentagevestingTime = (vestingTime / maxVesting) * 100;
+  const percentageunbundingTime = (unboundingTime / maxUnbound) * 100;
 
   const toggleAccordion = (index: number) => {
     const newOpenAccordions = [...openAccordions];
     newOpenAccordions[index] = !newOpenAccordions[index];
     setOpenAccordions(newOpenAccordions);
   };
+
+  const test = testgetStakedTokens.filter(
+    (pool) =>
+      pool.identifier === rtoken &&
+      pool.blocks_to_max == (speedNumber * 60 * 60 * 24) / 6 &&
+      pool.nonce == nonceNumber &&
+      pool.vesting == vestingTime &&
+      pool.unbounding == unboundingTime
+  );
   return (
     <>
       <div className='centerStakeModal_Collection'>
@@ -462,7 +492,7 @@ const ModalAddCollection = (props: any) => {
                           type='range'
                           id='slider'
                           min='0'
-                          max='1000'
+                          max={maxSpeed}
                           step='1'
                           value={speedNumber}
                           onChange={handleRangeSpeedValueChange}
@@ -543,19 +573,6 @@ const ModalAddCollection = (props: any) => {
                           background={'transparent'}
                           value={nonceNumber}
                           onInputChange={handleNonceChange}
-                          rightHtml={
-                            <Button
-                              textColor='#1F67FF'
-                              buttonWidth={'15px'}
-                              buttonHeight={'15px'}
-                              hasBorder={false}
-                              borderRadius={14}
-                              background={'transparent'}
-                              fontSize='6px'
-                              text='MAX NONCE'
-                              onClick={setToMax}
-                            />
-                          }
                           type='number'
                           placeholder={'number'}
                           fontSize={14}
@@ -629,7 +646,7 @@ const ModalAddCollection = (props: any) => {
                           type='range'
                           id='slider'
                           min='0'
-                          max='365'
+                          max={maxVesting}
                           step='1'
                           value={vestingTime}
                           onChange={handleRangeVestingValueChange}
@@ -720,7 +737,7 @@ const ModalAddCollection = (props: any) => {
                           type='range'
                           id='slider'
                           min='0'
-                          max='500'
+                          max={maxUnbound}
                           step='1'
                           value={unboundingTime}
                           onChange={handleRangeUnboundingValueChange}
@@ -783,78 +800,107 @@ const ModalAddCollection = (props: any) => {
                   </div>
                 </div>
               </div>
-              <div className='pool-details_StakeModal_Collection'>
-                <div className='GroupeDetails_StakeModal_Collection'>
-                  <div className='PoolDetails_StakeModal_Collection'>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>Rewards</div>
-                      <div className='ValueDetailsInfo_Collection'>
-                        <FormatAmount
-                          value={'10000'}
-                          decimals={2}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
+
+              {testgetStakedTokens &&
+                testgetStakedTokens
+                  .filter(
+                    (pool) =>
+                      pool.identifier === rtoken &&
+                      pool.blocks_to_max == (speedNumber * 60 * 60 * 24) / 6 &&
+                      pool.nonce == nonceNumber &&
+                      pool.vesting == vestingTime &&
+                      pool.unbounding == unboundingTime
+                  )
+                  .map((item, key) => (
+                    <div
+                      key={key}
+                      className='pool-details_StakeModal_Collection'
+                    >
+                      <div className='GroupeDetails_StakeModal_Collection'>
+                        <div className='PoolDetails_StakeModal_Collection'>
+                          <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Rewards
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              <FormatAmount
+                                value={item.rewards.toString()}
+                                decimals={rdecimals}
+                                egldLabel={' '}
+                                data-testid='balance'
+                                digits={2}
+                              />
+                            </div>
+                          </div>
+                          {/* <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Value
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              700$
+                            </div>
+                          </div> */}
+                          <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              All time rewarded
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              <FormatAmount
+                                value={item.total_rewarded.toString()}
+                                decimals={rdecimals}
+                                egldLabel={' '}
+                                data-testid='balance'
+                                digits={2}
+                              />
+                            </div>
+                          </div>
+                          <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Staked NFT
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              <FormatAmount
+                                value={item.total_staked.toString()}
+                                decimals={0}
+                                egldLabel={' '}
+                                data-testid='balance'
+                                digits={0}
+                              />
+                            </div>
+                          </div>
+                          {/* <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Total value
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              <FormatAmount
+                                value={item.total_staked.toString()}
+                                decimals={0}
+                                egldLabel={' '}
+                                data-testid='balance'
+                                digits={0}
+                              />
+                            </div>
+                          </div> */}
+                          <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Speed
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              {(item.blocks_to_max / 60 / 60 / 24) * 6} day
+                            </div>
+                          </div>
+                          {/* <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Users
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>6</div>
+                          </div> */}
+                        </div>
                       </div>
                     </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>Value</div>
-                      <div className='ValueDetailsInfo_Collection'>700$</div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>
-                        All time rewarded
-                      </div>
-                      <div className='ValueDetailsInfo_Collection'>
-                        <FormatAmount
-                          value={'100000'}
-                          decimals={2}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
-                      </div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>Speed</div>
-                      <div className='ValueDetailsInfo_Collection'>365 day</div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>
-                        Total staked
-                      </div>
-                      <div className='ValueDetailsInfo_Collection'>
-                        <FormatAmount
-                          value={'16752702629'}
-                          decimals={2}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
-                      </div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>
-                        Total value
-                      </div>
-                      <div className='ValueDetailsInfo_Collection'>
-                        <FormatAmount
-                          value={'16752702629'}
-                          decimals={2}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
-                      </div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>Users</div>
-                      <div className='ValueDetailsInfo_Collection'>6</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  ))}
+
               <div>Do you want to add it rewarded amount ?</div>
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
