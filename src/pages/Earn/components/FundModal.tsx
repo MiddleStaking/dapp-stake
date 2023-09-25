@@ -31,8 +31,8 @@ const FundModal = (props: any) => {
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
   const default_esdt_info = useGetESDTInformations(defaultToken);
-  const price = BigInt('5000000000000000000000');
-  const price_float = '5000.00';
+  const price = BigInt('2500000000000000000000');
+  const price_float = '2500.00';
   const dollar_value = default_esdt_info?.price
     ? Number(BigInt(price) / BigInt(10 ** default_esdt_info.decimals)) *
       default_esdt_info?.price
@@ -431,7 +431,7 @@ const FundModal = (props: any) => {
                   <div className='AmountInputGroupe'>
                     <div className='do-you-want-to-add-it-rewarded-tokens'>
                       <CheckBox
-                        label='Pay to remove the 10% deposit fees.'
+                        label='Pay to remove the 5% deposit fees.'
                         checked={payFees}
                         onClick={() => {
                           handleChange();

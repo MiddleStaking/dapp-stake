@@ -23,9 +23,11 @@ export const useGetAllUserRewards = (stakedToken: any) => {
       }
     }
   ]);
+  const [time, setTime] = useState(new Date());
+
   const { address } = useGetAccount();
 
-  const time = new Date();
+  const exp = new Date();
 
   const getAllUserRewards = async () => {
     if (!address) {
@@ -72,7 +74,7 @@ export const useGetAllUserRewards = (stakedToken: any) => {
       // console.log(test.toString());
       setTokenPosition(position?.valueOf());
 
-      const expire = time.getTime() + 1000 * 60 * 1;
+      const expire = exp.getTime() + 1000 * 60 * 1;
 
       // console.log(renderJson(position?.valueOf()));
       // localStorage.setItem(
@@ -90,7 +92,11 @@ export const useGetAllUserRewards = (stakedToken: any) => {
 
   useEffect(() => {
     getAllUserRewards();
-  }, [stakedToken]);
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [stakedToken, time]);
 
   return tokenPosition;
 };

@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import axios from 'axios';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import {
+  useGetAccountInfo,
+  useGetPendingTransactions
+} from '@multiversx/sdk-dapp/hooks';
 import { network } from 'config';
 export const useGetUserESDT = () => {
   //const { network } = useGetNetworkConfig();
@@ -27,9 +30,14 @@ export const useGetUserESDT = () => {
     }
   ]);
   const address = useGetAccountInfo().address;
+  const { hasPendingTransactions } = useGetPendingTransactions();
 
   const url = '/accounts/' + address + '/tokens?size=1000';
   const getUserESDT = async () => {
+    if (hasPendingTransactions == true) {
+      return;
+    }
+
     if (address != '') {
       try {
         const { data } = await axios.get<[]>(url, {
@@ -46,7 +54,7 @@ export const useGetUserESDT = () => {
 
   useEffect(() => {
     getUserESDT();
-  }, []);
+  }, [hasPendingTransactions]);
 
   return esdtBalance;
 };
