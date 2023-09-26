@@ -13,13 +13,15 @@ interface CardPoolrops {
   allRewardsForUser: any[];
   userNftBalance: any;
   userStakedNft: any[];
+  address: string;
 }
 
 const Accordion: FC<CardPoolrops> = ({
   collectionReward,
   allRewardsForUser,
   userNftBalance,
-  userStakedNft
+  userStakedNft,
+  address
 }) => {
   const [nFtCanStake, setNFtCanStake] = useState([]);
   const [showMoal, setShowMoal] = useState(false);
@@ -116,29 +118,32 @@ const Accordion: FC<CardPoolrops> = ({
               alignItems: 'center'
             }}
           >
-            <Button
-              fontSize='10px'
-              buttonWidth='100px'
-              hasBorder={true}
-              borderRadius={40}
-              background={'black'}
-              borderColor={['#BD37EC', '#1F67FF']}
-              text='Stake NFT'
-              boxShadow='0px 0px 20px 0px #8E44EB80 inset'
-              buttonHeight='33px'
-              onClick={() => {
-                const nFtCanStake = userNftBalance
-                  .filter(
-                    (item: any) =>
-                      item.nonce == collectionReward?.nonce ||
-                      collectionReward?.nonce == BigInt(0)
-                  )
-                  .map((item: any) => item);
+            {address && (
+              <Button
+                fontSize='10px'
+                buttonWidth='100px'
+                hasBorder={true}
+                borderRadius={40}
+                background={'black'}
+                borderColor={['#BD37EC', '#1F67FF']}
+                text='Stake NFT'
+                boxShadow='0px 0px 20px 0px #8E44EB80 inset'
+                buttonHeight='33px'
+                onClick={() => {
+                  const nFtCanStake = userNftBalance
+                    .filter(
+                      (item: any) =>
+                        item.nonce == collectionReward?.nonce ||
+                        collectionReward?.nonce == BigInt(0)
+                    )
+                    .map((item: any) => item);
 
-                setNFtCanStake(nFtCanStake);
-                setShowMoal(true);
-              }}
-            />
+                  setNFtCanStake(nFtCanStake);
+                  setShowMoal(true);
+                }}
+              />
+            )}
+
             {/* <Button
               fontSize='10px'
               buttonWidth='100px'

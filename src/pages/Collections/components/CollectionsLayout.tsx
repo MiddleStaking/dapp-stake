@@ -35,6 +35,8 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const { width } = useWindowDimensions();
   const heightComponentTypeSection = width > 450 ? '162px' : '114px';
 
+  console.log(stakedCollections);
+
   return (
     <div className='center'>
       <FundModal
@@ -45,7 +47,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         }}
       />
       <div className='col-12'>
-        <Col
+        {/* <Col
           xs={12}
           sm={12}
           md={6}
@@ -55,7 +57,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
           className='pb-4 center'
         >
           search
-        </Col>
+        </Col> */}
         <Col
           xs={12}
           sm={12}
@@ -113,6 +115,13 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
                 xxl={3}
                 key={item}
                 className='pb-4 center'
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexGrow: 1,
+                  flexBasis: '100px'
+                }}
               >
                 <CardOfCollection
                   height={heightComponentTypeSection}

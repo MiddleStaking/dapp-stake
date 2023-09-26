@@ -91,7 +91,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
             }}
           >
             <div>
-              {getCollectionInformations.length > 0 && (
+              {getCollectionInformations?.length > 0 && (
                 <HexagoneGroupe
                   orientationEscalier={'reverse'}
                   width={width > 450 ? 80 : 60}
@@ -118,6 +118,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
 
       <br />
       <AccordionWrap
+        address={address}
         allRewardsForUser={allRewardsForUser}
         collectionRewards={collectionRewards}
         userNftBalance={userNftBalance}

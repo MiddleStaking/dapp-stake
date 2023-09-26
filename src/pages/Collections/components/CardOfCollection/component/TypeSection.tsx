@@ -292,9 +292,7 @@ const TypeSection: FC<TypeSectionProps> = ({
       <div style={top}>
         <div style={left}>
           <div style={title}>
-            <div style={earnMex}>
-              Stake {collectionIdentifier.split('-')[0]}
-            </div>
+            <div style={earnMex}>{collectionIdentifier.split('-')[0]}</div>
 
             <div style={stakeMex}>Earn tokens</div>
 
