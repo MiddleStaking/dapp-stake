@@ -37,6 +37,30 @@ const HexagoneGroupe = (props: any) => {
                   />
                 </div>
               ))}
+          {props.logoToken && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0, // Positionne cette div en bas de la div parente
+                right: -30, // Positionne cette div à gauche de la div parente
+                borderRadius: '50px',
+                width: '28px',
+                height: '28px',
+                background: 'black',
+                zIndex: 30
+              }}
+            >
+              <img
+                style={{
+                  borderRadius: '50px',
+                  width: '28px',
+                  height: '28px'
+                }}
+                src={props.logoToken}
+                alt=''
+              />
+            </div>
+          )}
         </div>
       );
     default:
@@ -71,6 +95,30 @@ const HexagoneGroupe = (props: any) => {
                   />
                 </div>
               ))}
+          {props.logoToken && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0, // Positionne cette div en bas de la div parente
+                left: 0, // Positionne cette div à gauche de la div parente
+                borderRadius: '50px',
+                width: '28px',
+                height: '28px',
+                background: 'black',
+                zIndex: 30
+              }}
+            >
+              <img
+                style={{
+                  borderRadius: '50px',
+                  width: '28px',
+                  height: '28px'
+                }}
+                src={props.logoToken}
+                alt=''
+              />
+            </div>
+          )}
         </div>
       );
   }

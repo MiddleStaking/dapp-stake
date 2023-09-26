@@ -29,9 +29,9 @@ const ModalAddCollection = (props: any) => {
     false,
     false
   ]);
-  const [stoken, setStoken] = React.useState(defaultToken);
+  const [stoken, setStoken] = React.useState('');
   const testgetStakedTokens = useGetCollectionRewards(stoken);
-  const [rtoken, setRtoken] = React.useState(defaultToken);
+  const [rtoken, setRtoken] = React.useState('');
   const [decimals, setDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
   const maxVesting = 40;
@@ -191,11 +191,13 @@ const ModalAddCollection = (props: any) => {
     }
   }
 
-  function handleNonceChange(value: any) {
-    setNonceNumber(value);
-  }
-
   const getCollectionInformations = useGetCollectionInformations(stoken);
+
+  function handleNonceChange(value: any) {
+    if (value >= 0) {
+      setNonceNumber(value);
+    }
+  }
 
   function toBigAmount(invalue: number, indec: number) {
     let fixed = '';
@@ -234,18 +236,6 @@ const ModalAddCollection = (props: any) => {
   if (!props.show) {
     return null;
   }
-
-  console.log(
-    testgetStakedTokens.filter(
-      (pool) =>
-        pool.identifier === rtoken &&
-        pool.blocks_to_max == (speedNumber * 60 * 60 * 24) / 6 &&
-        pool.nonce == nonceNumber &&
-        pool.vesting == vestingTime &&
-        pool.unbounding == unboundingTime
-    )
-  );
-
   const percentage = (speedNumber / maxSpeed) * 100;
   const percentagevestingTime = (vestingTime / maxVesting) * 100;
   const percentageunbundingTime = (unboundingTime / maxUnbound) * 100;
@@ -256,14 +246,6 @@ const ModalAddCollection = (props: any) => {
     setOpenAccordions(newOpenAccordions);
   };
 
-  const test = testgetStakedTokens.filter(
-    (pool) =>
-      pool.identifier === rtoken &&
-      pool.blocks_to_max == (speedNumber * 60 * 60 * 24) / 6 &&
-      pool.nonce == nonceNumber &&
-      pool.vesting == vestingTime &&
-      pool.unbounding == unboundingTime
-  );
   return (
     <>
       <div className='centerStakeModal_Collection'>
@@ -285,36 +267,63 @@ const ModalAddCollection = (props: any) => {
                 {/* <HexagoneGroupe collectionInfo={getCollectionInformations} /> */}
 
                 {nft.media ? (
-                  <HexagoneNFT
-                    format={
-                      nft?.media[0]?.fileType == 'video/mp4'
-                        ? 'video/mp4'
-                        : 'image'
-                    }
-                    url={nft?.media[0]?.url}
-                    width={100}
-                    withBorder={true}
-                    borderWidth={2.5}
-                    borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                    withShadow={true}
-                  />
+                  <div
+                    style={{
+                      position: 'relative'
+                    }}
+                  >
+                    <HexagoneNFT
+                      format={
+                        nft?.media[0]?.fileType == 'video/mp4'
+                          ? 'video/mp4'
+                          : 'image'
+                      }
+                      url={nft?.media[0]?.url}
+                      width={100}
+                      withBorder={true}
+                      borderWidth={2.5}
+                      borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                      withShadow={true}
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: 0, // Positionne cette div en bas de la div parente
+                        left: 0, // Positionne cette div à gauche de la div parente
+                        borderRadius: '50px',
+                        width: '28px',
+                        height: '28px',
+                        background: 'black'
+                      }}
+                    >
+                      <img
+                        style={{
+                          borderRadius: '50px',
+                          width: '28px',
+                          height: '28px'
+                        }}
+                        src={
+                          rewarded_esdt_info?.assets?.svgUrl
+                            ? rewarded_esdt_info.assets.svgUrl
+                            : notFound
+                        }
+                        alt=''
+                      />
+                    </div>
+                  </div>
                 ) : (
-                  <HexagoneGroupe collectionInfo={getCollectionInformations} />
+                  getCollectionInformations &&
+                  Object.keys(getCollectionInformations).length > 0 && (
+                    <HexagoneGroupe
+                      logoToken={
+                        rewarded_esdt_info?.assets?.svgUrl
+                          ? rewarded_esdt_info.assets.svgUrl
+                          : notFound
+                      }
+                      collectionInfo={getCollectionInformations}
+                    />
+                  )
                 )}
-
-                {/* <HexagoneNFT
-                format={
-                  collectionInfo.media[0].fileType == 'video/mp4'
-                    ? 'video/mp4'
-                    : 'image'
-                }
-                url={collectionInfo.media[0].url}
-                width={100}
-                withBorder={true}
-                borderWidth={2.5}
-                borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                withShadow={true}
-              /> */}
               </div>
 
               <div className='pool-details_StakeModal_black_Collection'>
@@ -346,7 +355,9 @@ const ModalAddCollection = (props: any) => {
                           defaultValue={'select collection'}
                           disableOption={false}
                           onSelect={function (value: any): void {
+                            setTokenAmount(0);
                             setStoken(value);
+                            setBigAmount(BigInt(0));
                           }}
                         />
                       </div>
@@ -416,10 +427,15 @@ const ModalAddCollection = (props: any) => {
                                 }))
                               : []
                           }
-                          defaultValue={rtoken}
+                          defaultValue={'select collection'}
                           disableOption={false}
                           onSelect={function (value: any): void {
-                            setRtoken(value);
+                            if (rtoken !== value) {
+                              setRtoken(value);
+                              setTokenAmount(0);
+                              setBigAmount(BigInt(0));
+                              setRangeValue(100);
+                            }
                           }}
                         />
                       </div>
@@ -560,7 +576,7 @@ const ModalAddCollection = (props: any) => {
                   <div className='PoolDetails_StakeModal_black_Collection'>
                     <div className='DetailsInfo_black_Collection'>
                       <div className='LabelDetailsInfo_black_Collection'>
-                        nonce :
+                        Nonce :
                       </div>
                       <div>
                         <Input

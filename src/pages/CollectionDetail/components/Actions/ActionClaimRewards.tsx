@@ -83,7 +83,7 @@ export const ActionClaimRewards = ({
           <FormatAmount
             value={filteredData.toString()}
             decimals={Number(rdecimals)}
-            egldLabel={rewarded_esdt_info.name}
+            egldLabel={rewarded_esdt_info?.name}
             data-testid='balance'
             digits={2}
           />
