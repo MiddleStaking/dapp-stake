@@ -7,6 +7,8 @@ import Countdown from 'pages/CollectionDetail/components/CountDown';
 import { Button } from 'components/Design';
 import { ModalStakeNft } from 'pages/CollectionDetail/components/Modal';
 import { ActionClaimRewards } from 'pages/CollectionDetail/components/Actions';
+import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
+import { useWindowDimensions } from 'components/DimensionScreen';
 
 interface CardPoolrops {
   collectionReward: any;
@@ -42,7 +44,19 @@ const Accordion: FC<CardPoolrops> = ({
     setIsOpen(!isOpen);
   };
 
-  // console.log(collectionReward);
+  const rewarded_esdt_info = useGetESDTInformations(
+    collectionReward?.identifier
+  );
+
+  const rdecimals = rewarded_esdt_info?.decimals
+    ? rewarded_esdt_info?.decimals
+    : 0;
+
+  const filteredData = allRewardsForUser
+    .filter((item: any) => item.pool_id.toString() == collectionReward?.pool_id)
+    .map((item: any) => item.rewards.toString());
+
+  const { width } = useWindowDimensions();
 
   return (
     <>
@@ -60,7 +74,7 @@ const Accordion: FC<CardPoolrops> = ({
           <div className='Pool_Details_Collection'>
             <div className='Details_Collection'>
               <div className='Label_Details_Collection'>
-                earn : {collectionReward.identifier}
+                earn : {collectionReward?.identifier}
               </div>
               <div>
                 Vesting : {collectionReward?.vesting.toString()} Days &
@@ -91,6 +105,140 @@ const Accordion: FC<CardPoolrops> = ({
           </div>
         </div>
         <div className={`accordion-contents ${isOpen ? 'open' : ''}`}>
+          <div
+            className='accordion-contents-buttons'
+            style={{
+              padding: '10px 5%',
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '10px',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: width > 855 ? 'row' : 'column',
+                gap: '10px',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                textAlign: 'start'
+              }}
+            >
+              {address && (
+                <div
+                  style={{
+                    width: '100%',
+                    textAlign: 'start'
+                  }}
+                >
+                  my rewards :{' '}
+                  <FormatAmount
+                    value={filteredData ? filteredData.toString() : ''}
+                    decimals={Number(rdecimals)}
+                    egldLabel={rewarded_esdt_info?.name}
+                    data-testid='balance'
+                    digits={2}
+                  />
+                </div>
+              )}
+              <div
+                style={{
+                  width: '100%',
+                  textAlign: 'start'
+                }}
+              >
+                total staked :{' '}
+                {collectionReward?.total_staked
+                  ? collectionReward?.total_staked.toString()
+                  : '...'}
+              </div>
+              <div
+                style={{
+                  width: '100%',
+                  textAlign: 'start'
+                }}
+              >
+                rewards :{' '}
+                <FormatAmount
+                  value={collectionReward?.rewards.toString()}
+                  decimals={Number(rdecimals)}
+                  egldLabel={rewarded_esdt_info?.name}
+                  data-testid='balance'
+                  digits={2}
+                />
+              </div>
+              <div
+                style={{
+                  width: '100%',
+                  textAlign: 'start'
+                }}
+              >
+                total_rewarded :{' '}
+                <FormatAmount
+                  value={collectionReward?.total_rewarded.toString()}
+                  decimals={Number(rdecimals)}
+                  egldLabel={rewarded_esdt_info?.name}
+                  data-testid='balance'
+                  digits={2}
+                />
+              </div>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: width > 855 ? 'row' : 'column',
+                gap: '10px'
+              }}
+            >
+              {address && (
+                <Button
+                  fontSize='10px'
+                  buttonWidth='100px'
+                  hasBorder={true}
+                  borderRadius={40}
+                  background={'black'}
+                  borderColor={['#BD37EC', '#1F67FF']}
+                  text='Stake NFT'
+                  boxShadow='0px 0px 20px 0px #8E44EB80 inset'
+                  buttonHeight='33px'
+                  onClick={() => {
+                    const nFtCanStake = userNftBalance
+                      .filter(
+                        (item: any) =>
+                          item.nonce == collectionReward?.nonce ||
+                          collectionReward?.nonce == BigInt(0)
+                      )
+                      .map((item: any) => item);
+
+                    setNFtCanStake(nFtCanStake);
+                    setShowMoal(true);
+                  }}
+                />
+              )}
+              <ActionClaimRewards
+                buttonWidth={'104px'}
+                bottomHeight={'33px'}
+                identifier={collectionReward}
+                rewardsAmount={allRewardsForUser}
+                filteredData={filteredData}
+                pool_id={collectionReward?.pool_id}
+              />
+            </div>
+          </div>
+
+          <hr
+            style={{
+              width: '90%',
+              height: '0px',
+              marginTop: 0,
+              marginBottom: 0,
+              border: ' 1px solid #634ACB99'
+            }}
+          />
           {/* <div className={`accord-contents ${openAccordion ? 'open' : ''}`}> */}
           <div className={'NftWrapContent'}>
             {/* {userNftBalance && userNftBalance.length > 0 && (
@@ -107,56 +255,6 @@ const Accordion: FC<CardPoolrops> = ({
                 staked_balance={userStakedNft}
               />
             )}
-          </div>
-          <div
-            className='accordion-contents-buttons'
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              justifyContent: 'start',
-              alignItems: 'center'
-            }}
-          >
-            {address && (
-              <Button
-                fontSize='10px'
-                buttonWidth='100px'
-                hasBorder={true}
-                borderRadius={40}
-                background={'black'}
-                borderColor={['#BD37EC', '#1F67FF']}
-                text='Stake NFT'
-                boxShadow='0px 0px 20px 0px #8E44EB80 inset'
-                buttonHeight='33px'
-                onClick={() => {
-                  const nFtCanStake = userNftBalance
-                    .filter(
-                      (item: any) =>
-                        item.nonce == collectionReward?.nonce ||
-                        collectionReward?.nonce == BigInt(0)
-                    )
-                    .map((item: any) => item);
-
-                  setNFtCanStake(nFtCanStake);
-                  setShowMoal(true);
-                }}
-              />
-            )}
-
-            {/* <Button
-              fontSize='10px'
-              buttonWidth='100px'
-              borderRadius={40}
-              background={['#BD37EC', '#1F67FF']}
-              text='CLAIM REWARD'
-              buttonHeight='35px'
-            /> */}
-            <ActionClaimRewards
-              identifier={collectionReward}
-              rewardsAmount={allRewardsForUser}
-              pool_id={collectionReward?.pool_id}
-            />
           </div>
         </div>
         {/* </div> */}

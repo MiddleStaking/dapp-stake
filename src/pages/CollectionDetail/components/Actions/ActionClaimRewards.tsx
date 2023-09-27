@@ -12,7 +12,10 @@ import { useGetESDTInformations } from './helpers/useGetESDTInformations';
 export const ActionClaimRewards = ({
   pool_id,
   rewardsAmount,
-  identifier
+  identifier,
+  buttonWidth,
+  bottomHeight,
+  filteredData
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -54,22 +57,21 @@ export const ActionClaimRewards = ({
 
   const claimAllowed = rewardsAmount != '0' && !hasPendingTransactions;
   const notAllowedClass = claimAllowed ? '' : 'not-allowed disabled';
+  // const rewarded_esdt_info = useGetESDTInformations(identifier.identifier);
 
-  const filteredData = rewardsAmount
-    .filter((item: any) => item.pool_id.toString() == pool_id)
-    .map((item: any) => item.rewards.toString());
+  // const rdecimals = rewarded_esdt_info?.decimals
+  //   ? rewarded_esdt_info?.decimals
+  //   : 0;
 
-  const rewarded_esdt_info = useGetESDTInformations(identifier.identifier);
-
-  const rdecimals = rewarded_esdt_info?.decimals
-    ? rewarded_esdt_info?.decimals
-    : 0;
+  // console.log(filteredData[0]);
 
   return (
     <div
-      className='center'
       style={{
-        width: '100%',
+        width:
+          filteredData !== undefined && filteredData[0] > 0
+            ? buttonWidth
+            : '0px',
         fontSize: '10px',
         textAlign: 'center',
         display: 'flex',
@@ -78,21 +80,21 @@ export const ActionClaimRewards = ({
         gap: '5px'
       }}
     >
-      {filteredData !== undefined && filteredData > 0 && (
+      {filteredData !== undefined && filteredData[0] > 0 && (
         <>
-          <FormatAmount
+          {/* <FormatAmount
             value={filteredData.toString()}
             decimals={Number(rdecimals)}
             egldLabel={rewarded_esdt_info?.name}
             data-testid='balance'
             digits={2}
-          />
+          /> */}
           {!hasPendingTransactions ? (
             <>
               <Button
                 fontSize='10px'
-                buttonHeight='33px'
-                buttonWidth='100%'
+                buttonHeight={bottomHeight}
+                buttonWidth={buttonWidth}
                 borderRadius={40}
                 background={['#BD37EC', '#1F67FF']}
                 borderColor={'black'}
@@ -104,7 +106,9 @@ export const ActionClaimRewards = ({
             <>
               {' '}
               <Button
-                buttonWidth='100%'
+                fontSize='10px'
+                buttonHeight={bottomHeight}
+                buttonWidth={buttonWidth}
                 borderRadius={40}
                 background={['#BD37EC', '#1F67FF']}
                 borderColor={'black'}
