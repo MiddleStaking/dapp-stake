@@ -27,6 +27,7 @@ export const ModalStakeNft = (props: any) => {
     setOpenAccordions(newOpenAccordions);
   };
 
+  console.log(stoken);
   return (
     <div className='centerStakeModal_Collection'>
       <div
@@ -97,7 +98,7 @@ export const ModalStakeNft = (props: any) => {
                         defaultValue={
                           props.userNFTBalance.length == 1
                             ? stoken[0]?.identifier
-                            : 'select collection'
+                            : 'select nft'
                         }
                         disableOption={false}
                         onSelect={function (value: any): void {
@@ -168,22 +169,24 @@ export const ModalStakeNft = (props: any) => {
                         {stoken[0]?.nonce}
                       </div>
                     </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>tags</div>
-                      <div className='ValueDetailsInfo_Collection'>
-                        {stoken[0]?.tags[0] == '' &&
-                        stoken[0]?.tags?.length == 1
-                          ? 'no tags'
-                          : stoken[0]?.tags
-                              ?.slice(
-                                0,
-                                stoken[0]?.tags?.length < 3
-                                  ? stoken[0]?.tags?.length
-                                  : 3
-                              )
-                              .map((tag: string) => tag + ' ')}
+                    {stoken[0]?.tags && (
+                      <div className='DetailsInfo_Collection'>
+                        <div className='LabelDetailsInfo_Collection'>tags</div>
+                        <div className='ValueDetailsInfo_Collection'>
+                          {stoken[0]?.tags[0]?.length == 1 &&
+                          stoken[0]?.tags[0] == ''
+                            ? 'no tags'
+                            : stoken[0]?.tags
+                                ?.slice(
+                                  0,
+                                  stoken[0]?.tags?.length < 3
+                                    ? stoken[0]?.tags?.length
+                                    : 3
+                                )
+                                .map((tag: string) => tag + ' ')}
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className='DetailsInfo_Collection'>
                       <div className='LabelDetailsInfo_Collection'>type</div>
                       <div className='ValueDetailsInfo_Collection'>
