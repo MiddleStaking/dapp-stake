@@ -27,7 +27,9 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
     >
       {staked_balance &&
         staked_balance
-          .filter((item) => item.staked_nft.pool_id == pool)
+          .filter(
+            (item) => item?.staked_nft?.pool_id?.toString() === pool?.toString()
+          )
           .map((item, key) => (
             <div
               key={key}

@@ -55,7 +55,7 @@ export const useGetCollectionRewards = (stakedToken: string) => {
       );
       if (queryResponse.returnCode == 'ok') {
         setStakedTokens(rewards?.valueOf());
-        //storage of 15 minutes
+        //storage of 1 minutes
         const expire = time.getTime() + 1000 * 60 * 1;
         localStorage.setItem(
           'collection_rewards_' + stakedToken,

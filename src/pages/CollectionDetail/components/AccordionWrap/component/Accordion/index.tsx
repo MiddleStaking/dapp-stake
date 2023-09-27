@@ -33,7 +33,9 @@ const Accordion: FC<CardPoolrops> = ({
   useEffect(() => {
     if (
       userStakedNft.filter(
-        (item) => item.staked_nft.pool_id == collectionReward?.pool_id
+        (item) =>
+          item.staked_nft.pool_id.toString() ==
+          collectionReward?.pool_id.toString()
       ).length > 0
     ) {
       setIsOpen(true);
@@ -53,7 +55,10 @@ const Accordion: FC<CardPoolrops> = ({
     : 0;
 
   const filteredData = allRewardsForUser
-    .filter((item: any) => item.pool_id.toString() == collectionReward?.pool_id)
+    .filter(
+      (item: any) =>
+        item.pool_id.toString() == collectionReward?.pool_id.toString()
+    )
     .map((item: any) => item.rewards.toString());
 
   const { width } = useWindowDimensions();
@@ -137,7 +142,7 @@ const Accordion: FC<CardPoolrops> = ({
                   <FormatAmount
                     value={filteredData ? filteredData.toString() : ''}
                     decimals={Number(rdecimals)}
-                    egldLabel={rewarded_esdt_info?.name}
+                    egldLabel={' '}
                     data-testid='balance'
                     digits={2}
                   />
@@ -149,7 +154,7 @@ const Accordion: FC<CardPoolrops> = ({
                   textAlign: 'start'
                 }}
               >
-                total staked :{' '}
+                total staked : les miens/
                 {collectionReward?.total_staked
                   ? collectionReward?.total_staked.toString()
                   : '...'}
@@ -164,7 +169,7 @@ const Accordion: FC<CardPoolrops> = ({
                 <FormatAmount
                   value={collectionReward?.rewards.toString()}
                   decimals={Number(rdecimals)}
-                  egldLabel={rewarded_esdt_info?.name}
+                  egldLabel={' '}
                   data-testid='balance'
                   digits={2}
                 />
@@ -179,7 +184,7 @@ const Accordion: FC<CardPoolrops> = ({
                 <FormatAmount
                   value={collectionReward?.total_rewarded.toString()}
                   decimals={Number(rdecimals)}
-                  egldLabel={rewarded_esdt_info?.name}
+                  egldLabel={' '}
                   data-testid='balance'
                   digits={2}
                 />
