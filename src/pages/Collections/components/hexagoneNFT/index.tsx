@@ -49,8 +49,11 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   const hexbackground: CSSProperties = {
     width: '100%',
     height: '100%',
-    borderRadius: 'inherit',
-    background: `url(${url}) no-repeat center center / cover`
+    borderRadius: 'inherit'
+    // backgroundImage: `url(${url})`,
+    // backgroundPosition: 'center',
+    // backgroundRepeat: 'no-repeat',
+    // backgroundSize: 'cover'
   };
   const hexImage: CSSProperties = {
     // borderRadius: 'inherit'
@@ -125,7 +128,15 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
               style={hexbackgroundBorder}
             >
               <div style={hexbackground} className={styles.hexbackground}>
-                {/* <img style={hexImage} src={url} loading='lazy' /> */}
+                <img style={hexImage} src={url} loading='lazy' />
+                <img
+                  style={hexImage}
+                  src={url}
+                  srcSet='
+  image@2x.jpg 2x,
+  image@3x.jpg 3x,
+  image.jpg 1x'
+                />
               </div>
             </div>
           </div>

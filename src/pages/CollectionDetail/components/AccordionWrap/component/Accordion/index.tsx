@@ -27,6 +27,7 @@ const Accordion: FC<CardPoolrops> = ({
 }) => {
   const [nFtCanStake, setNFtCanStake] = useState([]);
   const [showMoal, setShowMoal] = useState(false);
+  const [Chargement, setChargement] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
 

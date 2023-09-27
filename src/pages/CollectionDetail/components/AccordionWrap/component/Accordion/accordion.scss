@@ -11,7 +11,7 @@
     border-radius: 8px;
     border: 1px solid #695885;
     padding: 9px 24px;
-    transition: border-radius 1s ease-in-out;
+    // transition: border-radius 1s ease-in-out;
     &.open {
       border-radius: 8px 8px 0px 0px;
     }
@@ -50,9 +50,9 @@
     padding: 0px 0px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 1s ease-in-out, margin-top 1s ease-in-out,
-      border-radius 1s ease-in-out, border 1s ease-in-out,
-      background-color 1s ease-in-out;
+    // transition: max-height 1s ease-in-out, margin-top 1s ease-in-out,
+    //   border-radius 1s ease-in-out, border 1s ease-in-out,
+    //   background-color 1s ease-in-out;
     margin: 0;
     padding: 0;
     display: flex;
