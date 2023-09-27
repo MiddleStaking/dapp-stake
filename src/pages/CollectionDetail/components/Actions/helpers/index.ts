@@ -1,7 +1,6 @@
 export * from './useGetCollections';
 export * from './useGetTokenPosition';
 export * from './useGetStakingPosition';
-export * from './useGetStakingPositionRewards';
 export * from './useGetESDTInformations';
 export * from './useGetIsPaused';
 export * from './useGetUserNFT';

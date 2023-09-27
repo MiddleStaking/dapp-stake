@@ -21,8 +21,6 @@ export const ModalStakeNft = (props: any) => {
     }
   }, []);
 
-  console.log(stoken);
-
   const toggleAccordion = (index: number) => {
     const newOpenAccordions = [...openAccordions];
     newOpenAccordions[index] = !newOpenAccordions[index];
@@ -173,10 +171,16 @@ export const ModalStakeNft = (props: any) => {
                     <div className='DetailsInfo_Collection'>
                       <div className='LabelDetailsInfo_Collection'>tags</div>
                       <div className='ValueDetailsInfo_Collection'>
-                        {stoken[0]?.tags[0] == '' && stoken[0]?.tags.length == 1
+                        {stoken[0]?.tags[0] == '' &&
+                        stoken[0]?.tags?.length == 1
                           ? 'no tags'
                           : stoken[0]?.tags
-                              .slice(0, 3)
+                              ?.slice(
+                                0,
+                                stoken[0]?.tags?.length < 3
+                                  ? stoken[0]?.tags?.length
+                                  : 3
+                              )
                               .map((tag: string) => tag + ' ')}
                       </div>
                     </div>

@@ -39,7 +39,7 @@ export const useGetNft = (collection: string, nonce: number) => {
         identifier + '-' + noncetoHex,
         JSON.stringify({
           media: data?.media,
-          expire: time.getTime() + 1000 * 60 * 15
+          expire: time.getTime() + 1000 * 60 * 60 * 24 * 30
         })
       );
     } catch (err) {

@@ -36,15 +36,15 @@ export const useGetUserStakedNft = (address: string) => {
       return;
     }
     //using storage to reduce calls
-    // const expire_test = Number(
-    //     localStorage.getItem('collection_rewards_' + stakedToken + '_expire')
-    // );
-    // const load: any = localStorage.getItem('collection_rewards_' + stakedToken);
-    // const storage = JSON.parse(load);
-    // setStakedTokens(storage ? storage : []);
-    // if (time.getTime() < expire_test) {
-    //     return;
-    // }
+    const expire_test = Number(
+      localStorage.getItem('useGetUserStakedNft_expire')
+    );
+    const load: any = localStorage.getItem('useGetUserStakedNft');
+    const storage = JSON.parse(load);
+    setStakedTokensNft(storage ? storage : []);
+    if (time.getTime() < expire_test) {
+      return;
+    }
 
     try {
       const query = smartContract.createQuery({
@@ -61,16 +61,13 @@ export const useGetUserStakedNft = (address: string) => {
       );
       if (queryResponse.returnCode == 'ok') {
         setStakedTokensNft(rewards?.valueOf());
-        //storage of 15 minutes
-        // const expire = time.getTime() + 1000 * 60 * 15;
-        // localStorage.setItem(
-        //     'collection_rewards_' + stakedToken,
-        //     JSON.stringify(rewards?.valueOf())
-        // );
-        // localStorage.setItem(
-        //     'collection_rewards_' + stakedToken + '_expire',
-        //     expire.toString()
-        // );
+        //storage of 3 secondes
+        const expire = time.getTime() + 1000 * 3;
+        localStorage.setItem(
+          'useGetUserStakedNft',
+          JSON.stringify(rewards?.valueOf())
+        );
+        localStorage.setItem('useGetUserStakedNft_expire', expire.toString());
       }
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);
