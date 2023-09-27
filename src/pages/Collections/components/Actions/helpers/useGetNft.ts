@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { network } from 'config';
-export const useGetNft = (collection: string, nonce: number) => {
+export const useGetNft = (
+  collection: string,
+  nonce: number,
+  isOpen: boolean
+) => {
   function toHexDec(d: number) {
     let result = '';
     result = Number(d).toString(16);
@@ -18,6 +22,9 @@ export const useGetNft = (collection: string, nonce: number) => {
   const time = new Date();
 
   const getNft = async () => {
+    if (!isOpen) {
+      return;
+    }
     if (time.getTime() < storage?.expire) {
       const load: any = localStorage.getItem(identifier + '-' + noncetoHex);
       const storage = JSON.parse(load);
@@ -50,7 +57,7 @@ export const useGetNft = (collection: string, nonce: number) => {
 
   useEffect(() => {
     getNft();
-  }, [nonce, collection]);
+  }, [nonce, collection, isOpen]);
 
   return nft;
 };

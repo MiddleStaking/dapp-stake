@@ -34,9 +34,9 @@ export const ActionUnbound = ({ nft_id, text, disabled }: any) => {
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: claimTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing claimRewards transaction',
-        errorMessage: 'An error has occured claimRewards transaction',
-        successMessage: 'claimRewards transaction successful'
+        processingMessage: 'Processing Unbound transaction',
+        errorMessage: 'An error has occured Unbound transaction',
+        successMessage: 'Unbound transaction successful'
       },
       redirectAfterSign: false
     });
