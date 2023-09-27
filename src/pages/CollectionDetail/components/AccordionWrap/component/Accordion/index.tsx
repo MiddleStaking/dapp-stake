@@ -27,21 +27,20 @@ const Accordion: FC<CardPoolrops> = ({
 }) => {
   const [nFtCanStake, setNFtCanStake] = useState([]);
   const [showMoal, setShowMoal] = useState(false);
-  const [Chargement, setChargement] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (
-      userStakedNft.filter(
-        (item) =>
-          item.staked_nft.pool_id.toString() ==
-          collectionReward?.pool_id.toString()
-      ).length > 0
-    ) {
-      setIsOpen(true);
-    }
-  }, [userStakedNft]);
+  // useEffect(() => {
+  //   if (
+  //     userStakedNft.filter(
+  //       (item) =>
+  //         item.staked_nft.pool_id.toString() ==
+  //         collectionReward?.pool_id.toString()
+  //     ).length > 0
+  //   ) {
+  //     setIsOpen(true);
+  //   }
+  // }, [userStakedNft]);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -256,6 +255,7 @@ const Accordion: FC<CardPoolrops> = ({
             )} */}
             {userStakedNft && userStakedNft.length > 0 && (
               <MyStakeSection
+                isOpen={isOpen}
                 pool={collectionReward?.pool_id}
                 unbounding={collectionReward?.unbounding}
                 staked_balance={userStakedNft}

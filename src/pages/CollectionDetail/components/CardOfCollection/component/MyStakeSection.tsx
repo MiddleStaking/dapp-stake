@@ -10,11 +10,13 @@ interface MyStakeSectionProps {
   staked_balance: any[];
   pool: number;
   unbounding: any;
+  isOpen: boolean;
 }
 const MyNftSection: FC<MyStakeSectionProps> = ({
   pool,
   staked_balance,
-  unbounding
+  unbounding,
+  isOpen
 }) => {
   return (
     <div
@@ -43,6 +45,7 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
               <div className='imgCheminCard'>
                 {item.staked_nft.nft_identifier && (
                   <MyStakedNft
+                    isOpen={isOpen}
                     nft_identifier={item.staked_nft.nft_identifier}
                     nft_nonce={item.staked_nft.nft_nonce}
                   />
@@ -78,14 +81,17 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                         disabled={item?.current_block < item?.staked_nft?.lock}
                         nft_id={item?.staked_nft.nft_id}
                       />
-                      {item?.staked_nft?.unbound > 0 && (
-                        <Countdown
-                          totalSeconds={
-                            (item?.staked_nft?.unbound - item?.current_block) *
-                            6
-                          }
-                        />
-                      )}
+                      <Countdown
+                        totalSeconds={
+                          (item?.staked_nft?.unbound - item?.current_block) * 6
+                        }
+                      />
+
+                      <Countdown
+                        totalSeconds={
+                          (item?.staked_nft?.lock - item?.current_block) * 6
+                        }
+                      />
                     </>
                   ) : (
                     <>

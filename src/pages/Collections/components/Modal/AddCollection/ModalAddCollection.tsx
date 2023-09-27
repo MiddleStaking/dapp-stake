@@ -47,7 +47,7 @@ const ModalAddCollection = (props: any) => {
   const [nonceNumber, setNonceNumber] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
 
-  const nft: any = useGetNft(stoken, nonceNumber);
+  const nft: any = useGetNft(stoken, nonceNumber, true);
 
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
