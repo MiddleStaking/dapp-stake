@@ -5,7 +5,11 @@ import React, {
   ReactElement,
   useState
 } from 'react';
-import TypeSection from './component/TypeSection';
+// import TypeSection from './component/TypeSection';
+// import ButtonSection from './component/ButtonSection';
+
+import { TypeSection, ButtonSection } from './component';
+
 import {
   useGetAccountInfo,
   useGetNetworkConfig,
@@ -107,12 +111,13 @@ const CardOfCollection: FC<CardPoolrops> = ({
   const collectionInfo = useGetCollectionInformations(collectionIdentifier);
 
   // const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
-  // console.log(collectionInfo);
+  console.log(collectionInfo);
 
   return (
     <div style={cardType}>
       {/* ---- THE CARD ---- */}
       {/* => topCardPool */}
+      dfghkkkkkkkkkkkkkkk
       <TypeSection
         //   image1={image1}
         //   image2={image2}
@@ -139,6 +144,32 @@ const CardOfCollection: FC<CardPoolrops> = ({
         background={background}
         address={address}
       />
+      <ButtonSection
+        //   image1={image1}
+        //   image2={image2}
+        //   StakeTile={StakeTile}
+        //   EarnTitle={EarnTitle}
+        //   Apr={Apr}
+        //   decimals={decimals}
+        //   Rewards={Rewards}
+        //   Rewards_value={Rewards_value}
+        //   Speed={Speed}
+        //   Staked={Staked}
+        //   Staked_value={Staked_value}
+        //   Users={Users}
+        //   socialNetwork={socialNetwork}
+        collectionIdentifier={collectionIdentifier}
+        collectionInfo={collectionInfo}
+        width={width}
+        textColor={textColor}
+        fontFamily={fontFamily}
+        height={height}
+        WindowDimensions={WindowDimensions}
+        gradientDirection={gradientDirection}
+        background={background}
+        address={address}
+      />
+      dfgvbhn
       {/* <MyStakeSection
           address={address}
           swapedTokens={swapedTokens}
@@ -164,7 +195,6 @@ const CardOfCollection: FC<CardPoolrops> = ({
           secondPoolPosition={secondPoolPosition}
           balanc={balance}
         /> */}
-
       {/* {address && (
           <RewardsSection
             backgroundRewards={backgroundRewards}

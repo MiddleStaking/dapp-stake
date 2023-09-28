@@ -1,3 +1,5 @@
+// NOTE : MEP de la CARD + récup' données de BDD
+
 import React, {
   CSSProperties,
   FC,
@@ -10,10 +12,12 @@ import SwowHideDetails from './SwowHideDetails';
 import ReactPlayer from 'react-player';
 import HexagoneNFT from '../../hexagoneNFT';
 import { PoolAddCollection } from '../../Modal/AddCollection/PoolAddCollection';
+import HexFormSvgNft from '../../HexFormSvgNft';
+import { string } from 'yup';
 
 interface TypeSectionProps {
   height: string;
-  width?: string;
+  width: string;
   background?: string | [string, string];
   gradientDirection?: string;
   borderRadius?: string;
@@ -32,7 +36,7 @@ interface TypeSectionProps {
 }
 
 // heightComponentTypeSection
-const TypeSection: FC<TypeSectionProps> = ({
+export const TypeSection: FC<TypeSectionProps> = ({
   height,
   width = '100%',
   background = 'linear-gradient(0deg, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)),linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%)',
@@ -72,14 +76,16 @@ const TypeSection: FC<TypeSectionProps> = ({
     padding: WindowDimensions > 450 ? '24px 24px 12px 24px' : '16px 16px 10px',
     display: 'flex',
     flexDirection: 'column',
-    gap: WindowDimensions > 450 ? '18px' : '14px',
+    gap: WindowDimensions > 450 ? '20px' : '14px',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     alignSelf: 'stretch',
     flexShrink: 0,
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'hidden',
     // marginTop: '15px'
+    paddingLeft: '24px',
+    paddingRight: '24px'
   };
 
   const top: CSSProperties = {
@@ -95,36 +101,34 @@ const TypeSection: FC<TypeSectionProps> = ({
   const left: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '16px',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    alignSelf: 'stretch',
     flexShrink: 0,
     position: 'relative'
   };
 
+  //=> DIV BLOC => TEXT INFO :
   const title: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     gap: '2px',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-star',
-    flexShrink: 0,
-    position: 'relative'
+    position: 'relative',
+    width: '140px'
   };
 
+  //=> TITRE NAME :
   const earnMex: CSSProperties = {
     color: textColor,
     textAlign: 'left',
     fontFamily: fontFamily,
     fontWeight: 700,
     fontSize: WindowDimensions > 450 ? '22px' : '14px',
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start'
+    // position: 'relative',
+    // display: 'flex',
+    // alignItems: 'center',
+    alignItems: 'flex-start'
+    // justifyContent: 'flex-start'
   };
 
+  //=> EARN TOCKENS :
   const stakeMex: CSSProperties = {
     color: textColor,
     textAlign: 'left',
@@ -137,28 +141,7 @@ const TypeSection: FC<TypeSectionProps> = ({
     justifyContent: 'flex-start'
   };
 
-  const apr: CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '8px',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexShrink: 0,
-    position: 'relative'
-  };
-
-  const apr2: CSSProperties = {
-    color: textColor,
-    textAlign: 'left',
-    fontFamily: fontFamily,
-    fontWeight: 400,
-    fontSize: '11px',
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start'
-  };
-
+  //=> NFT + Blés :
   const rate: CSSProperties = {
     background:
       'linear-gradient(-90deg, rgba(92, 76, 241, 1.00) 0%, rgba(150, 64, 203, 1.00) 100%)',
@@ -172,92 +155,7 @@ const TypeSection: FC<TypeSectionProps> = ({
     position: 'relative'
   };
 
-  const rateApr: CSSProperties = {
-    color: textColor,
-    textAlign: 'center',
-    fontFamily: fontFamily,
-    fontWeight: 500,
-    fontSize: '12px',
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  };
-
-  const logos: CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '0px',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexShrink: 0,
-    position: 'relative'
-  };
-
-  const image_2: CSSProperties = {
-    background: 'none',
-    borderRadius: '132.6px',
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '13.26px',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    width: '72px',
-    height: '72px',
-    position: 'relative'
-  };
-
-  const logo2: CSSProperties = {
-    flexShrink: 0,
-    width: '70px',
-    height: '70px',
-    position: 'relative'
-  };
-
-  const img_2: CSSProperties = {
-    width: '70px',
-    height: '70px',
-    position: 'absolute',
-    left: '0px',
-    top: '0px'
-  };
-
-  const logo1: CSSProperties = {
-    background: 'none',
-    borderRadius: '44.2px',
-    borderStyle: 'solid',
-    borderColor: 'var(--neutral-light, #695885)',
-    borderWidth: '1px',
-    padding: '8.84px',
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '4.42px',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    width: '32px',
-    height: '32px',
-    position: 'absolute',
-    left: '-15.98px',
-    top: '52px'
-  };
-
-  const image_1: CSSProperties = {
-    flexShrink: 0,
-    width: '30px',
-    height: '30px',
-    position: 'relative'
-  };
-
-  const img_1: CSSProperties = {
-    width: '30px',
-    height: '30px',
-    position: 'absolute',
-    left: '0px',
-    top: '0px'
-  };
-
+  //=> SHOW DETAIL :
   const detailsStyle: CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
@@ -267,7 +165,9 @@ const TypeSection: FC<TypeSectionProps> = ({
     flexShrink: 0,
     position: 'relative',
     cursor: 'pointer',
-    color: 'white'
+    color: 'white',
+    textTransform: 'uppercase',
+    marginTop: '15px' // pour laisser de la place si titre sur 2 lignes.
   };
 
   const NFTInfo: CSSProperties = {
@@ -278,105 +178,113 @@ const TypeSection: FC<TypeSectionProps> = ({
     alignSelf: 'stretch',
     flexShrink: 0,
     position: 'relative',
-    cursor: 'pointer',
+    // cursor: 'pointer',
     color: 'white',
     gap: '10px',
     marginTop: '10px'
   };
 
-  {
-    /* ---- ENTÊTE CARD ---- */
-  }
+  const textTestColor: CSSProperties = {
+    color: 'yellow'
+  };
+
+  console.log(collectionInfo[0]);
+  // ---------- CARD Données ---------- //
   return (
     <div style={TypeSectionStyle}>
+      {/* Bloc de Tête + héxagone */}
       <div style={top}>
+        {/* TITRE + Donné info de tête */}
         <div style={left}>
           <div style={title}>
-            <div style={earnMex}>
-              Stake {collectionIdentifier.split('-')[0]}
-            </div>
+            <div style={earnMex}>{collectionIdentifier.split('-')[0]}</div>
 
             <div style={stakeMex}>Earn tokens</div>
 
-            {/* ---- NFT CARD ---- */}
+            {/* ---- NFT + 2 blocs% ---- */}
             <div style={NFTInfo}>
               <div>NFT</div>
               <div style={rate}>10000</div>
               <div style={rate}>10%</div>
             </div>
-            <div
-              onClick={() =>
-                (window.location.href = `/collections/${collectionIdentifier}`)
-              }
-              className='butLine bouton-visiter'
-              data-testid='loginBtn'
-            >
-              redirect
-              {/* <div className='enteteCard'> */}
-              {/* </div> 
-              <div>icône blé xxxxxxx</div>
-              <div className='showDetails'>
-                <p>Show Details</p>
-              </div> */}
-              {/* ---- FOOT CARD ---- */}
-              {/* <div className='footCard'>
-                <p>My Stake</p>
-                <button> Stake {collectionIdentifier}</button>
-                <button>Consult Contract</button>
-              </div>*/}
-            </div>
           </div>
-
-          {/* <div style={apr}>
-            <div style={apr2}>APR</div>
-            <div style={rate}>
-              <div style={rateApr}>
-                {tokenPosition.paused == 1
-                  ? 'Paused'
-                  : pool_apr > 0
-                  ? pool_apr.toString() + ' %'
-                  : ''}
-                {pool_apr == 0 && 'N/A'}
-              </div>
-            </div>
-          </div> */}
         </div>
-        {/* ---- IMAGE CARD ---- */}
-        <div className='imgCheminCard'>
+        {/* ---- IMAGE CARD : FORME Hexagone ---- */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row-reverse',
+            width: '5%'
+            // backgroundColor: 'yellow'
+          }}
+        >
           {collectionInfo && (
-            <HexagoneNFT
-              format={
-                collectionInfo[0]?.media[0]?.fileType == 'video/mp4'
-                  ? 'video/mp4'
-                  : 'image'
-              }
+            <HexFormSvgNft
+              widthSvg={108}
+              format={collectionInfo[0]?.media[0]?.fileType}
               url={collectionInfo[0]?.media[0]?.url}
-              width={100}
-              withBorder={true}
-              borderWidth={2.5}
-              borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
             />
           )}
         </div>
-
-        {/* <div style={logos}>
-          <div style={logo2}>
-            <div style={image_2}>
-              <img style={img_2} src={image2} />
-            </div>
-          </div>
-
-          <div style={logo1}>
-            <div style={image_1}>
-              <img style={img_1} src={image1} />
-            </div>
-          </div>
-        </div> */}
-
-        {/* {!showDetails ? ( */}
       </div>
+
+      {/* ---- Blés ---- */}
+      <div
+        style={{
+          display: 'flex',
+          gap: '6px'
+        }}
+      >
+        <img
+          style={{ height: '30px', width: '30px' }}
+          src='https://raw.githubusercontent.com/ElrondNetwork/assets/master/devnet/tokens/MID-7f1d59/logo.svg'
+          alt='image de ble-1'
+        />
+        <img
+          style={{ height: '30px', width: '30px' }}
+          src='https://raw.githubusercontent.com/ElrondNetwork/assets/master/devnet/tokens/MEX-dc289c/logo.svg'
+          alt='image de ble-2'
+        />
+        <img
+          style={{ height: '30px', width: '30px' }}
+          src='http://localhost:3000/static/media/notfoundc.f9c5d18b9c1c271391259cdb05721746.svg'
+          alt='image de ble-1'
+        />{' '}
+        <img
+          style={{
+            borderRadius: '50%',
+            overflow: 'hidden',
+            height: '30px',
+            width: '30px'
+          }}
+          src='https://raw.githubusercontent.com/ElrondNetwork/assets/master/devnet/tokens/KTON-c44673/logo.svg'
+          alt='image de ble-3'
+        />
+        <img
+          style={{ height: '30px', width: '30px' }}
+          src='https://raw.githubusercontent.com/ElrondNetwork/assets/master/devnet/tokens/ASH-4ce444/logo.svg'
+          alt='image de ble-3'
+        />
+        <img
+          style={{ height: '30px', width: '30px' }}
+          src='https://raw.githubusercontent.com/ElrondNetwork/assets/master/devnet/tokens/ATS-e57f90/logo.svg'
+          alt='image de ble-3'
+        />
+        <img
+          style={{
+            borderRadius: '50%',
+            height: '30px',
+            width: '30px',
+            backgroundColor: 'white'
+          }}
+          src='https://raw.githubusercontent.com/ElrondNetwork/assets/master/devnet/tokens/EFOO-8e80a5/logo.svg'
+          alt='image de ble-3'
+        />
+      </div>
+
+      {/* ---- Show Details ---- */}
       <div style={detailsStyle} onClick={handleChange}>
-        <div style={{ fontSize: '10px' }}>
+        <div style={{ fontSize: '10px', fontWeight: 'lighter', height: '0px' }}>
           {!showDetails ? 'Show details' : 'Hide details'}
         </div>
         {!showDetails ? (
@@ -384,7 +292,7 @@ const TypeSection: FC<TypeSectionProps> = ({
             className='chevron-down3'
             width='24'
             height='24'
-            viewBox='0 0 24 24'
+            viewBox='0 0 24 10'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'
           >
@@ -398,7 +306,7 @@ const TypeSection: FC<TypeSectionProps> = ({
             className='chevron-up'
             width='24'
             height='24'
-            viewBox='0 0 24 24'
+            viewBox='0 0 24 10'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'
           >
@@ -410,21 +318,21 @@ const TypeSection: FC<TypeSectionProps> = ({
         )}
       </div>
       <div style={{ display: !showDetails ? 'none' : 'block', width: '100%' }}>
-        {/* <SwowHideDetails
-          rewarded_esdt_info={rewarded_esdt_info}
-          decimals={Number(
-            rewarded_esdt_info?.decimals ? rewarded_esdt_info?.decimals : 0
-          )}
-          Rewards={tokenPosition.balance.toString()}
-          Rewards_value={rewarded_value}
-          Speed={speed.toString()}
-          Staked={tokenPosition.total_stake.toString()}
-          Staked_value={staked_value}
-          Users={tokenPosition.users ? tokenPosition.users.toString() : '0'}
-          socialNetwork={tokens_extra_informations}
-          textColor={textColor}
-          fontFamily={fontFamily}
-        /> */}
+        <p
+          style={{
+            // color: '#EEEEEE',
+            color: '#dddddd',
+            // fontStyle: 'italic',
+            // fontWeight: 'lighter',
+            // fontFamily: fontFamily,
+            fontSize: '11px'
+          }}
+        >
+          Cupcake ipsum dolor sit amet dragée. Lemon drops dragée topping lemon
+          drops muffin fruitcake. Cake cake I love oat cake I love I love dragée
+          sweet roll carrot cake. Sweet roll lollipop gummies topping I love
+          tart ice cream dessert.
+        </p>
       </div>
     </div>
   );

@@ -1,0 +1,123 @@
+// NOTE : style des 2 héxagones => définition l'un sur l'autre
+
+//-----------------------
+
+//=> Contenant Vidéo :
+.hexVideo video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-clip-path: polygon(
+    24.5% 3%,
+    26.5% 1%,
+    28.5% 0%,
+
+    70.5% 0%,
+    74.5% 1%,
+    76.5% 3%,
+
+    97% 39%,
+    98% 43%,
+    97% 47%,
+
+    76.5% 82.5%,
+    74.5% 85%,
+    70.5% 86.25%,
+
+    31% 86.25%,
+    27% 85%,
+    24% 82.5%,
+
+    3.5% 47%,
+    2.5% 43%,
+    3.5% 39%
+  );
+  .hexcontenuImageDefault {
+    display: none;
+  }
+}
+
+//-----------------------
+
+//=> Contenant Image :
+.hexImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-clip-path: polygon(
+    26% 0%,
+    75% 0%,
+    99% 54%,
+    75% 100%,
+    26% 100%,
+    2% 54%
+  );
+  .hexcontenuImageDefault {
+    display: none;
+  }
+}
+
+//=> Contenu Image :
+.contenuImage {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; // Redimensionne image pour couvrir le conteneur
+  z-index: 1; // Met l'image au-dessus du fond
+  .hexcontenuImageDefault {
+    display: none;
+  }
+}
+
+//-----------------------
+
+//=> Contenant image par Défault :
+.hexcontenuImageDefault {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-clip-path: polygon(
+    24% 3%,
+    26% 1%,
+    28% 0%,
+
+    70.5% 0%,
+    74.5% 1%,
+    76.5% 3%,
+
+    97.5% 45.5%,
+    98.5% 50.5%,
+    97.5% 53.5%,
+
+    76.5% 96%,
+    74.5% 97.5%,
+    70.5% 99%,
+
+    28% 99%,
+    26% 97.5%,
+    24% 96%,
+
+    2.5% 53.5%,
+    2% 50.5%,
+    2.5% 45.5%
+  );
+}
+
+//-----------------------
+
+//=> SUPERPOSITION : SVG-Dégradé
+.wrapHexaSvg .SvgContenu {
+  position: absolute;
+  top: 2.5px;
+  left: 146.5px;
+}
+
+//-----------------------
+// .hexcontenuImageDefault {
+//   display: none;
+// }
+
+// circleContainer.style.display = 'flex';
+// circleContainer.style.alignItems = 'center';
+// circleContainer.style.justifyContent = 'center';
