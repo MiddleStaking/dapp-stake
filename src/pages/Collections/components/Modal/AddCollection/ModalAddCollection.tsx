@@ -392,11 +392,9 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[0] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      This is the NFT/SFT collection that users will have to
+                      stake to be able to harvest rewards. <br />
+                      (interface load your NFT/SFT wallet balance)
                     </div>
                   </div>
                 </div>
@@ -470,11 +468,9 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[1] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      Choose the token you want to distribute as staking reward.
+                      <br />
+                      (interface load your ESDT wallet balance)
                     </div>
                   </div>
                 </div>
@@ -562,11 +558,12 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[2] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      The speed define how long an NFT/SFT have to be staked to
+                      get a full share of the rewards left in pool. <br />
+                      e.g: If the speed is 10 days and the user own 100% of the
+                      staked nft, he can wait 10 days to claim all the rewards
+                      or claim 20% after 2 days. Time spent in pool is reseted
+                      after every claim.
                     </div>
                   </div>
                 </div>
@@ -625,11 +622,10 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[3] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      If the nonce is set to 0, any NFT/SFT of the collection
+                      can participate into staking. If the nonce is set to a
+                      specific number, only the specified nonce will be able to
+                      stake.
                     </div>
                   </div>
                 </div>
@@ -716,11 +712,10 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[4] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      Vesting define the minimal time an NFT has to stay in
+                      staking. While in vesting, the NFT stay eligible to
+                      rewards. Once vesting expire, the nft can be unstaked (or
+                      unbounded).
                     </div>
                   </div>
                 </div>
@@ -807,11 +802,13 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[5] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      Unbounding define the number of days a user will have to
+                      wait to get back his NFT/SFT.
+                      <br />
+                      Once unbounded, the nft will not earn any rewards
+                      <br />
+                      When unbounding period end, users will have to finalize
+                      withdrawing.
                     </div>
                   </div>
                 </div>
@@ -917,7 +914,7 @@ const ModalAddCollection = (props: any) => {
                     </div>
                   ))}
 
-              <div>Do you want to add it rewarded amount ?</div>
+              <div>Do you want to add rewards ?</div>
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <Input
