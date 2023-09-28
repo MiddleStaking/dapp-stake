@@ -7,12 +7,13 @@ import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import React, { useState, useEffect } from 'react';
 import { ActionStakeNft } from '../../Actions';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
+import Input from 'components/Design/Input';
 
 export const ModalStakeNft = (props: any) => {
+  const [qty, setQty] = React.useState(1);
+
   const [openAccordions, setOpenAccordions] = useState([false]);
   const { address } = useGetAccountInfo();
-
-  console.log(props.userNFTBalance);
 
   const [stoken, setStoken] = React.useState<any>([]);
   useEffect(() => {
@@ -27,7 +28,15 @@ export const ModalStakeNft = (props: any) => {
     setOpenAccordions(newOpenAccordions);
   };
 
-  console.log(stoken);
+  function handleQtyChange(value: any) {
+    const max = Number(stoken[0]?.balance);
+    if (value > 0 && value < max + 1) {
+      setQty(value);
+    }
+    if (value > max) {
+      setQty(max);
+    }
+  }
   return (
     <div className='centerStakeModal_Collection'>
       <div
@@ -106,6 +115,7 @@ export const ModalStakeNft = (props: any) => {
                         }}
                       />
                     </div>
+
                     <div
                       className='svgAccordeons'
                       onClick={() => toggleAccordion(0)}
@@ -144,6 +154,72 @@ export const ModalStakeNft = (props: any) => {
                   </div>
                 </div>
               </div>
+
+              {stoken[0]?.balance > 1 && (
+                <div className='pool-details_StakeModal_black_Collection'>
+                  <div className='GroupeDetails_StakeModal_black_input_Collection'>
+                    <div className='PoolDetails_StakeModal_black_Collection'>
+                      <div className='DetailsInfo_black_Collection'>
+                        <div className='LabelDetailsInfo_black_Collection'>
+                          Quantity :
+                        </div>
+                        <div>
+                          <Input
+                            inputHeight='25px'
+                            inputWidth='179px'
+                            borderRadius={6}
+                            hasBorder={true}
+                            BoxShadowActive={false}
+                            hasBorderActive={true}
+                            background={'transparent'}
+                            value={qty}
+                            onInputChange={handleQtyChange}
+                            type='number'
+                            placeholder={'number'}
+                            fontSize={14}
+                          />
+                        </div>
+                        <div
+                          className='svgAccordeons'
+                          onClick={() => toggleAccordion(3)}
+                        >
+                          <svg
+                            width={'16px'}
+                            height={'16px'}
+                            viewBox='0 0 16 16'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'
+                            style={{
+                              transform: openAccordions[3]
+                                ? 'rotate(180deg)'
+                                : 'none',
+                              transition: 'transform 0.3s ease'
+                            }}
+                          >
+                            <path
+                              fillRule='evenodd'
+                              clipRule='evenodd'
+                              d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
+                              fill={openAccordions[3] ? 'green' : '#fff'}
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        className={`accordion-content ${
+                          openAccordions[3] ? 'open' : ''
+                        }`}
+                      >
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Sit, expedita magnam velit quidem fugiat nulla
+                        voluptatibus, quisquam vel at doloribus reiciendis
+                        tenetur! Ea quas consequuntur ipsam modi natus saepe
+                        obcaecati?
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className='pool-details_StakeModal_Collection'>
               <div className='GroupeDetails_StakeModal_Collection'>
@@ -223,7 +299,7 @@ export const ModalStakeNft = (props: any) => {
                 <ActionStakeNft
                   address={address}
                   stakedNFT={stoken[0]?.collection}
-                  user_fund={1}
+                  user_fund={qty}
                   pool_id={props.pool_id}
                   nft_nonce={stoken[0]?.nonce}
                 />
