@@ -311,7 +311,6 @@ const TypeSection: FC<TypeSectionProps> = ({
               className='butLine bouton-visiter'
               data-testid='loginBtn'
             >
-              redirect sqd
               {/* <div className='enteteCard'> */}
               {/* </div> 
               <div>icône blé xxxxxxx</div>
