@@ -8,6 +8,8 @@ import { Button } from 'components/Design/Button';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
 import { routeNames } from 'routes';
+import { useLocation } from 'react-router';
+import { first } from 'lodash';
 // import Logo from 'assets/Logo';
 // import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
 // import { ReactComponent as MiddleLogo } from '../../assets/img/ms.svg';
@@ -97,6 +99,26 @@ const HeaderDesktop = () => {
     navigate(path);
   };
 
+  const path = useLocation().pathname;
+  const firstSegment = '/' + path.split('/')[1];
+  console.log(firstSegment);
+
+  const backGroundActive: React.CSSProperties = {
+    backgroundColor: '#9541CC',
+    opacity: '50%',
+    width: '45px',
+    height: '4px',
+    margin: 'auto',
+    marginTop: '-9px'
+  };
+  const notBackGround: React.CSSProperties = {
+    background: 'transparent',
+    width: '45px',
+    height: '4px',
+    margin: 'auto',
+    marginTop: '-9px'
+  };
+
   return width > 450 ? (
     <div style={styles.header}>
       <div
@@ -108,23 +130,64 @@ const HeaderDesktop = () => {
       <div style={styles.headerMenu}>
         <div style={styles.styleGauche}>
           <div style={styles.styleDroit}>
-            <Button
-              {...defaultButtonProps}
-              text='Stake'
-              onClick={() =>
-                handleNavigate(routeNames.stake + '/' + defaultToken)
-              }
-            />
-            <Button
-              {...defaultButtonProps}
-              text='Delegate'
-              onClick={() => handleNavigate(routeNames.dashboard)}
-            />
-            <Button
-              {...defaultButtonProps}
-              text='Swap'
-              onClick={() => handleNavigate(routeNames.swap)}
-            />
+            <div>
+              <Button
+                {...defaultButtonProps}
+                text='Collections'
+                onClick={() => handleNavigate(routeNames.collections)}
+              />
+              <div
+                style={
+                  firstSegment === routeNames.collections
+                    ? backGroundActive
+                    : notBackGround
+                }
+              ></div>
+            </div>
+            <div>
+              <Button
+                {...defaultButtonProps}
+                text='Stake'
+                onClick={() =>
+                  handleNavigate(routeNames.stake + '/' + defaultToken)
+                }
+              />
+              <div
+                style={
+                  firstSegment === routeNames.stake
+                    ? backGroundActive
+                    : notBackGround
+                }
+              ></div>
+            </div>
+            <div>
+              <Button
+                {...defaultButtonProps}
+                text='Delegate'
+                onClick={() => handleNavigate(routeNames.dashboard)}
+              />{' '}
+              <div
+                style={
+                  firstSegment === routeNames.dashboard
+                    ? backGroundActive
+                    : notBackGround
+                }
+              ></div>
+            </div>
+            <div>
+              <Button
+                {...defaultButtonProps}
+                text='Swap'
+                onClick={() => handleNavigate(routeNames.swap)}
+              />
+              <div
+                style={
+                  firstSegment === routeNames.swap
+                    ? backGroundActive
+                    : notBackGround
+                }
+              ></div>
+            </div>
             <Button
               boxShadow='0px 0px 44px 0px #8E44EB80 inset'
               borderWidth='2px'

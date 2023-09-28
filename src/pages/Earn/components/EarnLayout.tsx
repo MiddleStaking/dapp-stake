@@ -451,8 +451,10 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                           stoken != rtoken.rewarded_token
                         }
                         tokens_extra_informations={tokens_extra_informations
-                          .filter((token) => {
-                            return token.identifier === rtoken.rewarded_token;
+                          .filter((tokenabc) => {
+                            return (
+                              tokenabc.identifier === rtoken.rewarded_token
+                            );
                           })
                           .map((token) => (token.identifier ? token : ''))}
                       />
