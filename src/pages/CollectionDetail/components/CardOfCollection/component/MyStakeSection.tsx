@@ -18,6 +18,8 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
   unbounding,
   isOpen
 }) => {
+  console.log(staked_balance);
+
   return (
     <div
       style={{
@@ -56,12 +58,12 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                   <ActionUnstakeNFT
                     text={
                       item?.current_block < item?.staked_nft?.lock
-                        ? 'Vesting'
-                        : 'Unstake'
+                        ? 'Vesting ' + item?.staked_nft?.nft_qty?.toString()
+                        : 'Unstake ' + item?.staked_nft?.nft_qty?.toString()
                     }
                     disabled={item?.current_block < item?.staked_nft?.lock}
                     nft_id={item?.staked_nft.nft_id}
-                  />
+                  />{' '}
                   <Countdown
                     totalSeconds={
                       (item?.staked_nft?.lock - item?.current_block) * 6
@@ -75,8 +77,8 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                       <ActionUnbound
                         text={
                           item?.current_block < item?.staked_nft?.lock
-                            ? 'Vesting'
-                            : 'Unbound'
+                            ? 'Vesting ' + item?.staked_nft?.nft_qty?.toString()
+                            : 'Unbound ' + item?.staked_nft?.nft_qty?.toString()
                         }
                         disabled={item?.current_block < item?.staked_nft?.lock}
                         nft_id={item?.staked_nft.nft_id}
@@ -96,7 +98,9 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                   ) : (
                     <>
                       <Actionfinalize
-                        text={'Finalize'}
+                        text={
+                          'Finalize ' + item?.staked_nft?.nft_qty?.toString()
+                        }
                         disabled={
                           item?.current_block < item?.staked_nft?.unbound
                         }
