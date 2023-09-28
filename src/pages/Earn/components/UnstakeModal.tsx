@@ -19,8 +19,11 @@ const StakeModal = (props: any) => {
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
   useEffect(() => {
+    setBigAmount(BigInt(0));
+    setTokenAmount(0);
+    setStoken(props.staked_token);
     setBalance(props?.balance ? props?.balance.toFixed() : BigInt(0));
-  }, [props.balance]);
+  }, [props.balance, props.staked_token]);
 
   const staked_esdt_info = props.staked_esdt_info;
   const rewarded_esdt_info = props.rewarded_esdt_info;
