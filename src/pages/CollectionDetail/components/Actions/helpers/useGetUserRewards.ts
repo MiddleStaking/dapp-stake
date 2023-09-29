@@ -51,8 +51,8 @@ export const useGetUserRewards = (address: string, collection: string) => {
       );
       if (queryResponse.returnCode == 'ok') {
         setStakedTokensNft(rewards?.valueOf());
-        //storage of 1 minutes
-        const expire = time.getTime() + 1000 * 60 * 1;
+        //storage of 10 secondes
+        const expire = time.getTime() + 1000 * 10 * 1;
         localStorage.setItem(
           'user_rewards_nft',
           JSON.stringify(rewards?.valueOf())
