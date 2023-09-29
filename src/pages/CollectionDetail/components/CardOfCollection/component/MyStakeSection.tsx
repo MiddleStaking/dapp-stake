@@ -18,8 +18,6 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
   unbounding,
   isOpen
 }) => {
-  console.log(staked_balance);
-
   return (
     <div
       style={{
@@ -107,6 +105,7 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                         nft_id={item?.staked_nft.nft_id}
                       />
                       <Countdown
+                        id_pool={pool}
                         totalSeconds={
                           (item?.staked_nft?.unbound - item?.current_block) * 6
                         }

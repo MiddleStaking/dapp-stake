@@ -100,7 +100,12 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
               color: 'white'
             }}
           >
-            <div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
               {getCollectionInformations?.length > 0 && (
                 <HexagoneGroupe
                   orientationEscalier={'reverse'}
@@ -108,8 +113,16 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
                   collectionInfo={getCollectionInformations}
                 />
               )}
+              <div>
+                {'Nfts staked in this collection: '}
+                {collectionRewards
+                  ? collectionRewards
+                      .map((item) => Number(item.total_staked))
+                      .reduce((prev, curr) => prev + curr, 0)
+                  : '...'}
+              </div>
             </div>
-            <div>{url ? url : ''}</div>
+            <div>{url ? url : ''}</div>{' '}
           </div>
 
           <div

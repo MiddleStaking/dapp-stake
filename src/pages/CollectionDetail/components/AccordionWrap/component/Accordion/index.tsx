@@ -7,8 +7,10 @@ import Countdown from 'pages/CollectionDetail/components/CountDown';
 import { Button } from 'components/Design';
 import { ModalStakeNft } from 'pages/CollectionDetail/components/Modal';
 import { ActionClaimRewards } from 'pages/CollectionDetail/components/Actions';
-import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
+import notFound from '../../../../../../assets/img/notfoundc.svg';
+
 import { useWindowDimensions } from 'components/DimensionScreen';
+import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 
 interface CardPoolrops {
   collectionReward: any;
@@ -27,6 +29,7 @@ const Accordion: FC<CardPoolrops> = ({
 }) => {
   const [nFtCanStake, setNFtCanStake] = useState([]);
   const [showMoal, setShowMoal] = useState(false);
+  const [myTokenStakedNumber, setMyTokenStakedNumber] = useState(0);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,6 +45,18 @@ const Accordion: FC<CardPoolrops> = ({
   //   }
   // }, [userStakedNft]);
 
+  // const rewarded_esdt_info = useGetESDTInformations(rtoken);
+
+  useEffect(() => {
+    const my_token_staked_number = userStakedNft.filter(
+      (item: any) =>
+        item?.staked_nft?.pool_id?.toString() ==
+          collectionReward?.pool_id?.toString() &&
+        item?.staked_nft?.unbound?.toString() == '0'
+    ).length;
+    setMyTokenStakedNumber(my_token_staked_number);
+  });
+
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
@@ -54,12 +69,32 @@ const Accordion: FC<CardPoolrops> = ({
     ? rewarded_esdt_info?.decimals
     : 0;
 
-  const filteredData = allRewardsForUser
+  const Availablerewards = allRewardsForUser
     .filter(
       (item: any) =>
         item.pool_id.toString() == collectionReward?.pool_id.toString()
     )
     .map((item: any) => item.rewards.toString());
+
+  // const my_token_staked_number = userStakedNft.filter(
+  //   (item: any) =>
+  //     item?.staked_nft?.pool_id.toString() ==
+  //     collectionReward?.pool_id.toString()
+  // ).length;
+
+  // in collectionReward : {
+  // block_to_max
+  // identifier : token rewards
+  // last_fund_block : ne sert a rien
+  // nonce : all nfts if token == 0 else nonce token == nonce
+  // paused : false ou true (empeche les personnes de staked)
+  // pool_id : id unique de la pool
+  // rewards : nombre de token qui en attente de destribution
+  // total_rewarded : nombre de token destrib
+  // total_staked : nombre de nft au total stake dans la pool
+  // unbounding
+  // vesting
+  //}
 
   const { width } = useWindowDimensions();
 
@@ -78,12 +113,182 @@ const Accordion: FC<CardPoolrops> = ({
         <div className={`Groupe_Details_Collection ${isOpen ? 'open' : ''}`}>
           <div className='Pool_Details_Collection'>
             <div className='Details_Collection'>
-              <div className='Label_Details_Collection'>
-                earn : {collectionReward?.identifier}
-              </div>
-              <div>
-                Vesting : {collectionReward?.vesting.toString()} Days &
-                Unbonding : {collectionReward?.unbounding.toString()} Days
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: width > 855 ? 'calc(100% - 10px)' : '100%',
+                  gap: '10px',
+                  textAlign: 'center'
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: width > 855 ? 'row' : 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    fontSize: '12px',
+                    gap: '10px'
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '10px'
+                    }}
+                    className='Label_Details_Collection'
+                  >
+                    <div
+                      style={{
+                        borderRadius: '50px',
+                        width: '28px',
+                        height: '28px',
+                        background: 'black'
+                      }}
+                    >
+                      <img
+                        style={{
+                          borderRadius: '50px',
+                          width: '28px',
+                          height: '28px'
+                        }}
+                        src={
+                          rewarded_esdt_info?.assets?.svgUrl
+                            ? rewarded_esdt_info.assets.svgUrl
+                            : notFound
+                        }
+                        alt=''
+                      />
+                    </div>
+                    earn : {collectionReward?.identifier}
+                  </div>
+                  <div>
+                    Vesting : {collectionReward?.vesting.toString()} Days
+                  </div>
+
+                  <div>
+                    Unbonding : {collectionReward?.unbounding.toString()} Days
+                  </div>
+                  <div>
+                    Speed :{' '}
+                    {(Number(collectionReward?.blocks_to_max) / 24 / 60 / 60) *
+                      6}{' '}
+                    days
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: width > 855 ? 'row' : 'row',
+                      gap: '10px'
+                    }}
+                  >
+                    {address && (
+                      <Button
+                        fontSize='10px'
+                        buttonWidth='100px'
+                        hasBorder={true}
+                        borderRadius={40}
+                        background={'black'}
+                        borderColor={['#BD37EC', '#1F67FF']}
+                        text='Stake NFT'
+                        boxShadow='0px 0px 20px 0px #8E44EB80 inset'
+                        buttonHeight='31px'
+                        onClick={() => {
+                          const nFtCanStake = userNftBalance
+                            .filter(
+                              (item: any) =>
+                                item.nonce == collectionReward?.nonce ||
+                                collectionReward?.nonce == BigInt(0)
+                            )
+                            .map((item: any) => item);
+
+                          setNFtCanStake(nFtCanStake);
+                          setShowMoal(true);
+                        }}
+                      />
+                    )}
+                    <ActionClaimRewards
+                      buttonWidth={'104px'}
+                      bottomHeight={'30px'}
+                      identifier={collectionReward}
+                      rewardsAmount={allRewardsForUser}
+                      Availablerewards={Availablerewards}
+                      pool_id={collectionReward?.pool_id}
+                    />
+                  </div>
+                </div>
+                <hr
+                  style={{
+                    margin: '5px 0 ',
+                    width: '100%',
+                    height: '0px',
+                    marginTop: 0,
+                    marginBottom: 0,
+                    border: ' 1px solid #634ACB99'
+                  }}
+                />
+                <div
+                  className='accordion-contents-buttons'
+                  style={{
+                    display: 'flex',
+                    flexDirection: width > 855 ? 'row' : 'column',
+                    gap: '10px',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '100%',
+                      textAlign: width > 855 ? 'start' : 'center'
+                    }}
+                  >
+                    rewards :{' '}
+                    <FormatAmount
+                      value={collectionReward?.rewards.toString()}
+                      decimals={Number(rdecimals)}
+                      egldLabel={' '}
+                      data-testid='balance'
+                      digits={2}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      width: '100%',
+                      textAlign: width > 855 ? 'center' : 'center'
+                    }}
+                  >
+                    total staked : {myTokenStakedNumber}/
+                    {collectionReward?.total_staked
+                      ? collectionReward?.total_staked.toString()
+                      : '...'}
+                  </div>
+                  {address && (
+                    <div
+                      style={{
+                        width: '100%',
+                        textAlign: width > 855 ? 'end' : 'center'
+                      }}
+                    >
+                      my rewards :{' '}
+                      <FormatAmount
+                        value={
+                          Availablerewards ? Availablerewards.toString() : ''
+                        }
+                        decimals={Number(rdecimals)}
+                        egldLabel={' '}
+                        data-testid='balance'
+                        digits={2}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
               <div className='svgAccordeons' onClick={toggleAccordion}>
                 {/* ~ 1,5/NFT/Day{' '} */}
@@ -110,140 +315,6 @@ const Accordion: FC<CardPoolrops> = ({
           </div>
         </div>
         <div className={`accordion-contents ${isOpen ? 'open' : ''}`}>
-          <div
-            className='accordion-contents-buttons'
-            style={{
-              padding: '10px 5%',
-              display: 'flex',
-              flexDirection: 'row',
-              gap: '10px',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: width > 855 ? 'row' : 'column',
-                gap: '10px',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                textAlign: 'start'
-              }}
-            >
-              {address && (
-                <div
-                  style={{
-                    width: '100%',
-                    textAlign: 'start'
-                  }}
-                >
-                  my rewards :{' '}
-                  <FormatAmount
-                    value={filteredData ? filteredData.toString() : ''}
-                    decimals={Number(rdecimals)}
-                    egldLabel={' '}
-                    data-testid='balance'
-                    digits={2}
-                  />
-                </div>
-              )}
-              <div
-                style={{
-                  width: '100%',
-                  textAlign: 'start'
-                }}
-              >
-                total staked : les miens/
-                {collectionReward?.total_staked
-                  ? collectionReward?.total_staked.toString()
-                  : '...'}
-              </div>
-              <div
-                style={{
-                  width: '100%',
-                  textAlign: 'start'
-                }}
-              >
-                rewards :{' '}
-                <FormatAmount
-                  value={collectionReward?.rewards.toString()}
-                  decimals={Number(rdecimals)}
-                  egldLabel={' '}
-                  data-testid='balance'
-                  digits={2}
-                />
-              </div>
-              <div
-                style={{
-                  width: '100%',
-                  textAlign: 'start'
-                }}
-              >
-                total_rewarded :{' '}
-                <FormatAmount
-                  value={collectionReward?.total_rewarded.toString()}
-                  decimals={Number(rdecimals)}
-                  egldLabel={' '}
-                  data-testid='balance'
-                  digits={2}
-                />
-              </div>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: width > 855 ? 'row' : 'column',
-                gap: '10px'
-              }}
-            >
-              {address && (
-                <Button
-                  fontSize='10px'
-                  buttonWidth='100px'
-                  hasBorder={true}
-                  borderRadius={40}
-                  background={'black'}
-                  borderColor={['#BD37EC', '#1F67FF']}
-                  text='Stake NFT'
-                  boxShadow='0px 0px 20px 0px #8E44EB80 inset'
-                  buttonHeight='33px'
-                  onClick={() => {
-                    const nFtCanStake = userNftBalance
-                      .filter(
-                        (item: any) =>
-                          item.nonce == collectionReward?.nonce ||
-                          collectionReward?.nonce == BigInt(0)
-                      )
-                      .map((item: any) => item);
-
-                    setNFtCanStake(nFtCanStake);
-                    setShowMoal(true);
-                  }}
-                />
-              )}
-              <ActionClaimRewards
-                buttonWidth={'104px'}
-                bottomHeight={'33px'}
-                identifier={collectionReward}
-                rewardsAmount={allRewardsForUser}
-                filteredData={filteredData}
-                pool_id={collectionReward?.pool_id}
-              />
-            </div>
-          </div>
-
-          <hr
-            style={{
-              width: '90%',
-              height: '0px',
-              marginTop: 0,
-              marginBottom: 0,
-              border: ' 1px solid #634ACB99'
-            }}
-          />
           {/* <div className={`accord-contents ${openAccordion ? 'open' : ''}`}> */}
           <div className={'NftWrapContent'}>
             {/* {userNftBalance && userNftBalance.length > 0 && (

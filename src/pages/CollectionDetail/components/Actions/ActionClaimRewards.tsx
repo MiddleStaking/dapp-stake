@@ -15,7 +15,7 @@ export const ActionClaimRewards = ({
   identifier,
   buttonWidth,
   bottomHeight,
-  filteredData
+  Availablerewards
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -63,15 +63,11 @@ export const ActionClaimRewards = ({
   //   ? rewarded_esdt_info?.decimals
   //   : 0;
 
-  // console.log(filteredData[0]);
-
   return (
     <div
       style={{
-        width:
-          filteredData !== undefined && filteredData[0] > 0
-            ? buttonWidth
-            : '0px',
+        width: buttonWidth,
+
         fontSize: '10px',
         textAlign: 'center',
         display: 'flex',
@@ -80,45 +76,48 @@ export const ActionClaimRewards = ({
         gap: '5px'
       }}
     >
-      {filteredData !== undefined && filteredData[0] > 0 && (
-        <>
-          {/* <FormatAmount
+      {/* {filteredData !== undefined && filteredData[0] > 0 && ( */}
+      <>
+        {/* <FormatAmount
             value={filteredData.toString()}
             decimals={Number(rdecimals)}
             egldLabel={rewarded_esdt_info?.name}
             data-testid='balance'
             digits={2}
           /> */}
-          {!hasPendingTransactions ? (
-            <>
-              <Button
-                fontSize='10px'
-                buttonHeight={bottomHeight}
-                buttonWidth={buttonWidth}
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text='Claim my rewards'
-                onClick={sendClaimTransaction}
-              />
-            </>
-          ) : (
-            <>
-              {' '}
-              <Button
-                fontSize='10px'
-                buttonHeight={bottomHeight}
-                buttonWidth={buttonWidth}
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text='Processing'
-                disabled={true}
-              />
-            </>
-          )}
-        </>
-      )}
+        {!hasPendingTransactions ? (
+          <>
+            <Button
+              fontSize='10px'
+              buttonHeight={bottomHeight}
+              disabled={
+                Availablerewards[0] == undefined || Availablerewards[0] == 0
+              }
+              buttonWidth={buttonWidth}
+              borderRadius={40}
+              background={['#BD37EC', '#1F67FF']}
+              borderColor={'black'}
+              text='Claim my rewards'
+              onClick={sendClaimTransaction}
+            />
+          </>
+        ) : (
+          <>
+            {' '}
+            <Button
+              fontSize='10px'
+              buttonHeight={bottomHeight}
+              buttonWidth={buttonWidth}
+              borderRadius={40}
+              background={['#BD37EC', '#1F67FF']}
+              borderColor={'black'}
+              text='Processing'
+              disabled={true}
+            />
+          </>
+        )}
+      </>
+      {/* )} */}
     </div>
   );
 };
