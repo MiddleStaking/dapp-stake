@@ -8,9 +8,9 @@ import { Button } from 'components/Design';
 import { ModalStakeNft } from 'pages/CollectionDetail/components/Modal';
 import { ActionClaimRewards } from 'pages/CollectionDetail/components/Actions';
 import notFound from '../../../../../../assets/img/notfoundc.svg';
-
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
+import { BigNumber } from 'bignumber.js';
 
 interface CardPoolrops {
   collectionReward: any;
@@ -48,12 +48,24 @@ const Accordion: FC<CardPoolrops> = ({
   // const rewarded_esdt_info = useGetESDTInformations(rtoken);
 
   useEffect(() => {
-    const my_token_staked_number = userStakedNft.filter(
-      (item: any) =>
-        item?.staked_nft?.pool_id?.toString() ==
-          collectionReward?.pool_id?.toString() &&
-        item?.staked_nft?.unbound?.toString() == '0'
-    ).length;
+    // const my_token_staked_number = userStakedNft.filter(
+    //   (item: any) =>
+    //     item?.staked_nft?.pool_id?.toString() ==
+    //       collectionReward?.pool_id?.toString() &&
+    //     item?.staked_nft?.unbound?.toString() == '0'
+    // ).length;
+    const my_token_staked_number = userStakedNft
+      ? userStakedNft
+          .filter(
+            (item: any) =>
+              item?.staked_nft?.pool_id?.toString() ==
+                collectionReward?.pool_id?.toString() &&
+              item?.staked_nft?.unbound?.toString() == '0'
+          )
+          .map((item) => Number(item.staked_nft.nft_qty))
+          .reduce((prev, curr) => prev + curr, 0)
+      : 0;
+
     setMyTokenStakedNumber(my_token_staked_number);
   });
 
@@ -71,10 +83,10 @@ const Accordion: FC<CardPoolrops> = ({
 
   const Availablerewards = allRewardsForUser
     .filter(
-      (item: any) =>
-        item.pool_id.toString() == collectionReward?.pool_id.toString()
+      (item) => item.pool_id.toString() == collectionReward?.pool_id.toString()
     )
-    .map((item: any) => item.rewards.toString());
+    .map((item: any) => item?.rewards)
+    .toString();
 
   // const my_token_staked_number = userStakedNft.filter(
   //   (item: any) =>
@@ -251,7 +263,7 @@ const Accordion: FC<CardPoolrops> = ({
                   >
                     rewards :{' '}
                     <FormatAmount
-                      value={collectionReward?.rewards.toString()}
+                      value={BigNumber(collectionReward?.rewards).toFixed()}
                       decimals={Number(rdecimals)}
                       egldLabel={' '}
                       data-testid='balance'
@@ -264,10 +276,21 @@ const Accordion: FC<CardPoolrops> = ({
                       textAlign: width > 855 ? 'center' : 'center'
                     }}
                   >
-                    total staked : {myTokenStakedNumber}/
-                    {collectionReward?.total_staked
-                      ? collectionReward?.total_staked.toString()
-                      : '...'}
+                    {address ? (
+                      <>
+                        your stake : {myTokenStakedNumber}/
+                        {collectionReward?.total_staked
+                          ? collectionReward?.total_staked.toString()
+                          : '...'}
+                      </>
+                    ) : (
+                      <>
+                        total staked :{' '}
+                        {collectionReward?.total_staked
+                          ? collectionReward?.total_staked.toString()
+                          : '...'}
+                      </>
+                    )}
                   </div>
                   {address && (
                     <div
@@ -279,7 +302,9 @@ const Accordion: FC<CardPoolrops> = ({
                       my rewards :{' '}
                       <FormatAmount
                         value={
-                          Availablerewards ? Availablerewards.toString() : ''
+                          Availablerewards
+                            ? BigNumber(Availablerewards).toString()
+                            : ''
                         }
                         decimals={Number(rdecimals)}
                         egldLabel={' '}

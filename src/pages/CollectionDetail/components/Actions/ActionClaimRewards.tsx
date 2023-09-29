@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
@@ -8,7 +7,10 @@ import { Button } from './../../../../components/Design';
 import BigNumber from 'bignumber.js';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { useGetESDTInformations } from './helpers/useGetESDTInformations';
-
+import {
+  useGetAccountInfo,
+  useGetPendingTransactions
+} from '@multiversx/sdk-dapp/hooks';
 export const ActionClaimRewards = ({
   pool_id,
   rewardsAmount,
@@ -18,6 +20,7 @@ export const ActionClaimRewards = ({
   Availablerewards
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
+  const { address } = useGetAccountInfo();
 
   function bigToHexDec(d: bigint) {
     let result = '';
@@ -87,19 +90,21 @@ export const ActionClaimRewards = ({
           /> */}
         {!hasPendingTransactions ? (
           <>
-            <Button
-              fontSize='10px'
-              buttonHeight={bottomHeight}
-              disabled={
-                Availablerewards[0] == undefined || Availablerewards[0] == 0
-              }
-              buttonWidth={buttonWidth}
-              borderRadius={40}
-              background={['#BD37EC', '#1F67FF']}
-              borderColor={'black'}
-              text='Claim my rewards'
-              onClick={sendClaimTransaction}
-            />
+            {address && (
+              <Button
+                fontSize='10px'
+                buttonHeight={bottomHeight}
+                disabled={
+                  Availablerewards == undefined || Availablerewards == 0
+                }
+                buttonWidth={buttonWidth}
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                borderColor={'black'}
+                text='Claim my rewards'
+                onClick={sendClaimTransaction}
+              />
+            )}
           </>
         ) : (
           <>
