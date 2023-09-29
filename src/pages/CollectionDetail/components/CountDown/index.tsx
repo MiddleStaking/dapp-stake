@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import SandClock from '../AccordionWrap/component/SandClock';
 
 interface CountdownProps {
   totalSeconds: number;
+  id_pool?: any;
 }
 
-const Countdown: React.FC<CountdownProps> = ({ totalSeconds }) => {
-  const [secondsRemaining, setSecondsRemaining] = useState(totalSeconds);
+const Countdown: React.FC<CountdownProps> = ({ totalSeconds, id_pool }) => {
+  const [secondsRemaining, setSecondsRemaining] = useState(0);
+
+  useEffect(() => {
+    setSecondsRemaining(totalSeconds);
+  }, [totalSeconds]);
 
   useEffect(() => {
     if (secondsRemaining > 0) {
@@ -31,14 +37,20 @@ const Countdown: React.FC<CountdownProps> = ({ totalSeconds }) => {
 
     const seconds = remaining;
 
-    if (days > 0) return `${days} d ${hours} h `;
+    if (days > 0) return `${days} D ${hours.toString().padStart(2, '0')} h `;
     if (hours > 0) {
-      return `${hours} h ${minutes}`;
+      return `${hours.toString().padStart(2, '0')} h ${minutes
+        .toString()
+        .padStart(2, '0')}`;
     }
 
     if (minutes > 0)
-      return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`;
-    return `${seconds} ${seconds === 1 ? 'second' : 'seconds'}`;
+      return `${minutes.toString().padStart(2, '0')} ${
+        minutes === 1 ? 'minute' : 'minutes'
+      }`;
+    return `${seconds.toString().padStart(2, '0')} ${
+      seconds === 1 ? 'second' : 'seconds'
+    }`;
   };
 
   if (totalSeconds <= 0) {
@@ -48,9 +60,14 @@ const Countdown: React.FC<CountdownProps> = ({ totalSeconds }) => {
   return (
     <div
       style={{
-        textAlign: 'center'
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: '5px'
       }}
     >
+      <SandClock />
       {computeTime()}
     </div>
   );

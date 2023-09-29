@@ -8,7 +8,6 @@ import DropdownMenu from 'components/Design/DropdownMenu';
 import { defaultToken } from 'config';
 import {
   useGetCollectionInformations,
-  useGetESDTInformations,
   useGetUserNFT
 } from '../../Actions/helpers';
 import notFound from '../../../../../assets/img/notfoundc.svg';
@@ -17,6 +16,7 @@ import { ActionFund } from '../../Actions';
 import { useGetNft } from '../../Actions/helpers/useGetNft';
 import HexagoneNFT from '../../hexagoneNFT';
 import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actions/helpers';
+import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 
 const ModalAddCollection = (props: any) => {
   const userNFTBalance = useGetUserNFT();
