@@ -11,6 +11,7 @@ import notFound from '../../../../../../assets/img/notfoundc.svg';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import { BigNumber } from 'bignumber.js';
+import SandClock from 'pages/CollectionDetail/components/AccordionWrap/component/SandClock';
 
 interface CardPoolrops {
   collectionReward: any;
@@ -122,6 +123,43 @@ const Accordion: FC<CardPoolrops> = ({
         />
       )}
       <div className='pool-details_Collection'>
+        {userStakedNft
+          .filter(
+            (item: any) =>
+              item?.staked_nft?.pool_id?.toString() ==
+                collectionReward?.pool_id?.toString() &&
+              item?.staked_nft?.unbound > 0
+          )
+          .map((item) => Number(item.staked_nft.unbound)).length > 0 && (
+          <div
+            style={{
+              position: 'relative',
+              width: '120px',
+              backgroundColor: 'black',
+              borderRadius: '8px',
+              border: '1px solid #695885',
+              height: '32px',
+              marginBottom: '-10px',
+              marginLeft: '10px',
+              paddingLeft: '11px'
+            }}
+          >
+            Unbounding{' '}
+            {userStakedNft
+              .filter(
+                (item: any) =>
+                  item?.staked_nft?.pool_id?.toString() ==
+                    collectionReward?.pool_id?.toString() &&
+                  item?.staked_nft?.unbound < item?.current_block
+              )
+              .map((item) => Number(item.staked_nft.unbound)).length > 0 ? (
+              <>✅</>
+            ) : (
+              <SandClock />
+            )}
+          </div>
+        )}
+
         <div className={`Groupe_Details_Collection ${isOpen ? 'open' : ''}`}>
           <div className='Pool_Details_Collection'>
             <div className='Details_Collection'>

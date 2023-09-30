@@ -36,7 +36,6 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [url] = useState(param?.toString());
 
   const collectionRewards = useGetCollectionRewards(url ? url : '');
-  console.log(collectionRewards);
   const allRewardsForUser = useGetUserRewards(address, url ? url : '');
   const userNftBalance = useGetUserNFT(url ? url : '');
   const userStakedNft = useGetUserStakedNft(address);

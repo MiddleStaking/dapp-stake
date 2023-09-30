@@ -18,7 +18,7 @@ const SandClock: React.FC<SandClockProps> = ({ width = 100, height = 100 }) => {
     return () => clearTimeout(timer);
   }, [deg]);
   return (
-    <div style={{ transform: `rotate(${deg}deg)` }}>
+    <div style={{ transform: `rotate(${deg}deg)`, display: 'inline-block' }}>
       <FontAwesomeIcon size='xs' icon={faHourglassStart} />
       {/* <FontAwesomeIcon size='lg' icon={faHourglassEnd} /> */}
     </div>
