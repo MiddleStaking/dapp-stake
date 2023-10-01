@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import './accordeons.scss';
 import Accordion from './component/Accordion';
+import { BigNumber } from 'bignumber.js';
+import AccordionEmpty from './component/AccordionEmpty';
 
 interface CardPoolrops {
   collectionRewards: any[];
@@ -9,6 +11,7 @@ interface CardPoolrops {
   userNftBalance: any;
   userStakedNft: any;
   address: string;
+  collection_identifier: string;
 }
 
 const AccordionWrap: FC<CardPoolrops> = ({
@@ -16,8 +19,15 @@ const AccordionWrap: FC<CardPoolrops> = ({
   allRewardsForUser,
   userNftBalance,
   userStakedNft,
-  address
+  address,
+  collection_identifier
 }) => {
+  const pools_id: any[] = [];
+  for (const pools of collectionRewards) {
+    pools_id.push(BigNumber(pools.pool_id).toFixed());
+  }
+
+  console.log(pools_id);
   return (
     <div className='AccordeonsCards'>
       <div className='backgroundAccordeonsCards'>
@@ -33,6 +43,28 @@ const AccordionWrap: FC<CardPoolrops> = ({
                 width: '100%'
               }}
             >
+              {/* View Orphans pools_id inside collection to show unboundable nfts */}
+              {userStakedNft &&
+                userStakedNft
+                  .filter(
+                    (obj: any) =>
+                      obj?.staked_nft?.nft_identifier ==
+                        collection_identifier &&
+                      !pools_id.includes(
+                        BigNumber(obj?.staked_nft?.pool_id).toFixed()
+                      )
+                  )
+                  .map((item: any) => (
+                    <div style={{ width: '100%' }} key={item.pool_id}>
+                      <AccordionEmpty
+                        address={address}
+                        userStakedNft={userStakedNft}
+                        collection_identifier={collection_identifier}
+                        pool_id={item.staked_nft.pool_id}
+                      />
+                    </div>
+                  ))}
+              {/* View all pools still active  */}
               {collectionRewards &&
                 collectionRewards.map((item) => (
                   // <>

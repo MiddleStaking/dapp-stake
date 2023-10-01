@@ -141,6 +141,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
 
       <br />
       <AccordionWrap
+        collection_identifier={url ? url : ''}
         address={address}
         allRewardsForUser={allRewardsForUser}
         collectionRewards={collectionRewards}
