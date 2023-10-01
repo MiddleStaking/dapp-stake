@@ -50,7 +50,7 @@ const AccordionWrap: FC<CardPoolrops> = ({
                     (obj: any) =>
                       obj?.staked_nft?.nft_identifier ==
                         collection_identifier &&
-                      pools_id.includes(
+                      !pools_id.includes(
                         BigNumber(obj?.staked_nft?.pool_id).toFixed()
                       )
                   )
