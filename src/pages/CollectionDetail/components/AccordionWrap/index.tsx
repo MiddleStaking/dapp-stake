@@ -50,10 +50,20 @@ const AccordionWrap: FC<CardPoolrops> = ({
                     (obj: any) =>
                       obj?.staked_nft?.nft_identifier ==
                         collection_identifier &&
-                      !pools_id.includes(
+                      pools_id.includes(
                         BigNumber(obj?.staked_nft?.pool_id).toFixed()
                       )
                   )
+                  .filter((obj: any, index: any, arr: any[]) => {
+                    if (
+                      !arr.includes(
+                        BigNumber(obj?.staked_nft?.pool_id).toFixed()
+                      )
+                    ) {
+                      arr.push(BigNumber(obj?.staked_nft?.pool_id).toFixed());
+                      return true;
+                    }
+                  })
                   .map((item: any) => (
                     <div style={{ width: '100%' }} key={item.pool_id}>
                       <AccordionEmpty
