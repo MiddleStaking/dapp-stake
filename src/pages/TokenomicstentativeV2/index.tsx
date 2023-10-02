@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
@@ -85,14 +85,13 @@ const TokenomicsV2 = () => {
     // }, 60000);
     // return () => clearInterval(interval);
   }, [setContracts]);
-  const [showIci, setShowIci] = useState(false);
   const contractRef = useRef<HTMLSpanElement>(null);
 
   const checkOverflow = () => {
     if (contractRef.current) {
       const isOverflowing =
         contractRef.current.offsetWidth < contractRef.current.scrollWidth;
-      setShowIci(isOverflowing);
+      return isOverflowing;
     }
   };
   useEffect(() => {
