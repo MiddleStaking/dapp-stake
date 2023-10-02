@@ -8,7 +8,6 @@ import DropdownMenu from 'components/Design/DropdownMenu';
 import { defaultToken } from 'config';
 import {
   useGetCollectionInformations,
-  useGetESDTInformations,
   useGetUserNFT
 } from '../../Actions/helpers';
 import notFound from '../../../../../assets/img/notfoundc.svg';
@@ -16,6 +15,8 @@ import Input from 'components/Design/Input';
 import { ActionFund } from '../../Actions';
 import { useGetNft } from '../../Actions/helpers/useGetNft';
 import HexagoneNFT from '../../hexagoneNFT';
+import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actions/helpers';
+import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 
 const ModalAddCollection = (props: any) => {
   const userNFTBalance = useGetUserNFT();
@@ -28,10 +29,14 @@ const ModalAddCollection = (props: any) => {
     false,
     false
   ]);
-  const [stoken, setStoken] = React.useState(defaultToken);
-  const [rtoken, setRtoken] = React.useState(defaultToken);
+  const [stoken, setStoken] = React.useState('');
+  const testgetStakedTokens = useGetCollectionRewards(stoken);
+  const [rtoken, setRtoken] = React.useState('');
   const [decimals, setDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
+  const maxVesting = 40;
+  const maxSpeed = 1000;
+  const maxUnbound = 10;
 
   const [payFees, setPayFees] = React.useState(false);
   // const { network } = useGetNetworkConfig();
@@ -42,17 +47,9 @@ const ModalAddCollection = (props: any) => {
   const [nonceNumber, setNonceNumber] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
 
-  const nft: any = useGetNft(stoken, nonceNumber);
+  const nft: any = useGetNft(stoken, nonceNumber, true);
 
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
-
-  const default_esdt_info = useGetESDTInformations(defaultToken);
-  const price = BigInt('5000000000000000000000');
-  const price_float = '5000.00';
-  const dollar_value = default_esdt_info?.price
-    ? Number(BigInt(price) / BigInt(10 ** default_esdt_info.decimals)) *
-      default_esdt_info?.price
-    : 0;
 
   const tokenProps = userEsdtBalance.find(
     (item: any) => item.identifier === rtoken
@@ -90,22 +87,18 @@ const ModalAddCollection = (props: any) => {
     setPayFees(false);
   }
 
-  const staked_esdt_info = useGetESDTInformations(stoken);
   const rewarded_esdt_info = useGetESDTInformations(rtoken);
-  const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
+
   const rdecimals = rewarded_esdt_info?.decimals
     ? rewarded_esdt_info?.decimals
     : 0;
 
-  const image1 = staked_esdt_info?.assets?.svgUrl
-    ? staked_esdt_info?.assets?.svgUrl
-    : notFound;
   const image2 = rewarded_esdt_info?.assets?.svgUrl
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
 
   function handleTokenAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** sdecimals);
+    const amount = BigInt(Number(value) * 10 ** rdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
@@ -129,7 +122,7 @@ const ModalAddCollection = (props: any) => {
         (BigInt(balance) * BigInt(percentage)) / BigInt(100)
       );
       setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
+        Number(BigInt(big_amount)) / Number(BigInt(10 ** rdecimals))
       );
       setBigAmount(big_amount);
     } else {
@@ -138,31 +131,30 @@ const ModalAddCollection = (props: any) => {
   }
 
   function handleVestingTimeChange(value: any) {
-    if (value == 0) {
-      setVestingTime(1);
-    } else if (value > 365) {
-      setVestingTime(365);
+    if (value <= 0) {
+      setVestingTime(0);
+    } else if (value > maxVesting) {
+      setVestingTime(maxVesting);
     } else {
       setVestingTime(value);
     }
   }
 
   function handleUnboundingTimeChange(value: any) {
-    if (value == 0) {
-      setSpeedNumber(1);
-    } else if (value > 500) {
-      setSpeedNumber(500);
+    if (value <= 0) {
+      setUnboundingTime(0);
+    } else if (value > maxUnbound) {
+      setUnboundingTime(maxUnbound);
     } else {
-      setSpeedNumber(value);
+      setUnboundingTime(value);
     }
-    setUnboundingTime(value);
   }
 
   function handleSpeedChange(value: any) {
-    if (value == 0) {
+    if (value < 1) {
       setSpeedNumber(1);
-    } else if (value > 1000) {
-      setSpeedNumber(1000);
+    } else if (value > maxSpeed) {
+      setSpeedNumber(maxSpeed);
     } else {
       setSpeedNumber(value);
     }
@@ -172,20 +164,40 @@ const ModalAddCollection = (props: any) => {
   }
 
   function handleRangeSpeedValueChange(e: React.ChangeEvent<any>) {
-    setSpeedNumber(e.target.value);
+    if (e.target.value < 1) {
+      setSpeedNumber(1);
+    } else if (e.target.value > maxSpeed) {
+      setSpeedNumber(maxSpeed);
+    } else {
+      setSpeedNumber(e.target.value);
+    }
   }
   function handleRangeVestingValueChange(e: React.ChangeEvent<any>) {
-    setVestingTime(e.target.value);
+    if (e.target.value < 0) {
+      setVestingTime(0);
+    } else if (e.target.value > maxVesting) {
+      setVestingTime(maxVesting);
+    } else {
+      setVestingTime(e.target.value);
+    }
   }
   function handleRangeUnboundingValueChange(e: React.ChangeEvent<any>) {
-    setUnboundingTime(e.target.value);
-  }
-
-  function handleNonceChange(value: any) {
-    setNonceNumber(value);
+    if (e.target.value < 0) {
+      setUnboundingTime(0);
+    } else if (e.target.value > maxUnbound) {
+      setUnboundingTime(maxUnbound);
+    } else {
+      setUnboundingTime(e.target.value);
+    }
   }
 
   const getCollectionInformations = useGetCollectionInformations(stoken);
+
+  function handleNonceChange(value: any) {
+    if (value >= 0) {
+      setNonceNumber(value);
+    }
+  }
 
   function toBigAmount(invalue: number, indec: number) {
     let fixed = '';
@@ -224,16 +236,16 @@ const ModalAddCollection = (props: any) => {
   if (!props.show) {
     return null;
   }
-
-  const percentage = (speedNumber / 1000) * 100;
-  const percentagevestingTime = (vestingTime / 365) * 100;
-  const percentageunbundingTime = (unboundingTime / 500) * 100;
+  const percentage = (speedNumber / maxSpeed) * 100;
+  const percentagevestingTime = (vestingTime / maxVesting) * 100;
+  const percentageunbundingTime = (unboundingTime / maxUnbound) * 100;
 
   const toggleAccordion = (index: number) => {
     const newOpenAccordions = [...openAccordions];
     newOpenAccordions[index] = !newOpenAccordions[index];
     setOpenAccordions(newOpenAccordions);
   };
+
   return (
     <>
       <div className='centerStakeModal_Collection'>
@@ -255,36 +267,63 @@ const ModalAddCollection = (props: any) => {
                 {/* <HexagoneGroupe collectionInfo={getCollectionInformations} /> */}
 
                 {nft.media ? (
-                  <HexagoneNFT
-                    format={
-                      nft?.media[0]?.fileType == 'video/mp4'
-                        ? 'video/mp4'
-                        : 'image'
-                    }
-                    url={nft?.media[0]?.url}
-                    width={100}
-                    withBorder={true}
-                    borderWidth={2.5}
-                    borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                    withShadow={true}
-                  />
+                  <div
+                    style={{
+                      position: 'relative'
+                    }}
+                  >
+                    <HexagoneNFT
+                      format={
+                        nft?.media[0]?.fileType == 'video/mp4'
+                          ? 'video/mp4'
+                          : 'image'
+                      }
+                      url={nft?.media[0]?.url}
+                      width={100}
+                      withBorder={true}
+                      borderWidth={2.5}
+                      borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                      withShadow={true}
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: 0, // Positionne cette div en bas de la div parente
+                        left: 0, // Positionne cette div à gauche de la div parente
+                        borderRadius: '50px',
+                        width: '28px',
+                        height: '28px',
+                        background: 'black'
+                      }}
+                    >
+                      <img
+                        style={{
+                          borderRadius: '50px',
+                          width: '28px',
+                          height: '28px'
+                        }}
+                        src={
+                          rewarded_esdt_info?.assets?.svgUrl
+                            ? rewarded_esdt_info.assets.svgUrl
+                            : notFound
+                        }
+                        alt=''
+                      />
+                    </div>
+                  </div>
                 ) : (
-                  <HexagoneGroupe collectionInfo={getCollectionInformations} />
+                  getCollectionInformations &&
+                  Object.keys(getCollectionInformations).length > 0 && (
+                    <HexagoneGroupe
+                      logoToken={
+                        rewarded_esdt_info?.assets?.svgUrl
+                          ? rewarded_esdt_info.assets.svgUrl
+                          : notFound
+                      }
+                      collectionInfo={getCollectionInformations}
+                    />
+                  )
                 )}
-
-                {/* <HexagoneNFT
-                format={
-                  collectionInfo.media[0].fileType == 'video/mp4'
-                    ? 'video/mp4'
-                    : 'image'
-                }
-                url={collectionInfo.media[0].url}
-                width={100}
-                withBorder={true}
-                borderWidth={2.5}
-                borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                withShadow={true}
-              /> */}
               </div>
 
               <div className='pool-details_StakeModal_black_Collection'>
@@ -316,7 +355,9 @@ const ModalAddCollection = (props: any) => {
                           defaultValue={'select collection'}
                           disableOption={false}
                           onSelect={function (value: any): void {
+                            setTokenAmount(0);
                             setStoken(value);
+                            setBigAmount(BigInt(0));
                           }}
                         />
                       </div>
@@ -351,11 +392,9 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[0] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      This is the NFT/SFT collection that users will have to
+                      stake to be able to harvest rewards. <br />
+                      (interface load your NFT/SFT wallet balance)
                     </div>
                   </div>
                 </div>
@@ -386,10 +425,15 @@ const ModalAddCollection = (props: any) => {
                                 }))
                               : []
                           }
-                          defaultValue={rtoken}
+                          defaultValue={'select collection'}
                           disableOption={false}
                           onSelect={function (value: any): void {
-                            setRtoken(value);
+                            if (rtoken !== value) {
+                              setRtoken(value);
+                              setTokenAmount(0);
+                              setBigAmount(BigInt(0));
+                              setRangeValue(100);
+                            }
                           }}
                         />
                       </div>
@@ -424,11 +468,9 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[1] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      Choose the token you want to distribute as staking reward.
+                      <br />
+                      (interface load your ESDT wallet balance)
                     </div>
                   </div>
                 </div>
@@ -462,7 +504,7 @@ const ModalAddCollection = (props: any) => {
                           type='range'
                           id='slider'
                           min='0'
-                          max='1000'
+                          max={maxSpeed}
                           step='1'
                           value={speedNumber}
                           onChange={handleRangeSpeedValueChange}
@@ -516,11 +558,12 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[2] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      The speed define how long an NFT/SFT have to be staked to
+                      get a full share of the rewards left in pool. <br />
+                      e.g: If the speed is 10 days and the user own 100% of the
+                      staked nft, he can wait 10 days to claim all the rewards
+                      or claim 20% after 2 days. Time spent in pool is reseted
+                      after every claim.
                     </div>
                   </div>
                 </div>
@@ -530,7 +573,7 @@ const ModalAddCollection = (props: any) => {
                   <div className='PoolDetails_StakeModal_black_Collection'>
                     <div className='DetailsInfo_black_Collection'>
                       <div className='LabelDetailsInfo_black_Collection'>
-                        nonce :
+                        Nonce :
                       </div>
                       <div>
                         <Input
@@ -543,19 +586,6 @@ const ModalAddCollection = (props: any) => {
                           background={'transparent'}
                           value={nonceNumber}
                           onInputChange={handleNonceChange}
-                          rightHtml={
-                            <Button
-                              textColor='#1F67FF'
-                              buttonWidth={'15px'}
-                              buttonHeight={'15px'}
-                              hasBorder={false}
-                              borderRadius={14}
-                              background={'transparent'}
-                              fontSize='6px'
-                              text='MAX NONCE'
-                              onClick={setToMax}
-                            />
-                          }
                           type='number'
                           placeholder={'number'}
                           fontSize={14}
@@ -592,11 +622,10 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[3] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      If the nonce is set to 0, any NFT/SFT of the collection
+                      can participate into staking. If the nonce is set to a
+                      specific number, only the specified nonce will be able to
+                      stake.
                     </div>
                   </div>
                 </div>
@@ -629,7 +658,7 @@ const ModalAddCollection = (props: any) => {
                           type='range'
                           id='slider'
                           min='0'
-                          max='365'
+                          max={maxVesting}
                           step='1'
                           value={vestingTime}
                           onChange={handleRangeVestingValueChange}
@@ -683,11 +712,10 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[4] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      Vesting define the minimal time an NFT has to stay in
+                      staking. While in vesting, the NFT stay eligible to
+                      rewards. Once vesting expire, the nft can be unstaked (or
+                      unbounded).
                     </div>
                   </div>
                 </div>
@@ -720,7 +748,7 @@ const ModalAddCollection = (props: any) => {
                           type='range'
                           id='slider'
                           min='0'
-                          max='500'
+                          max={maxUnbound}
                           step='1'
                           value={unboundingTime}
                           onChange={handleRangeUnboundingValueChange}
@@ -774,88 +802,119 @@ const ModalAddCollection = (props: any) => {
                         openAccordions[5] ? 'open' : ''
                       }`}
                     >
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Sit, expedita magnam velit quidem fugiat nulla
-                      voluptatibus, quisquam vel at doloribus reiciendis
-                      tenetur! Ea quas consequuntur ipsam modi natus saepe
-                      obcaecati?
+                      Unbounding define the number of days a user will have to
+                      wait to get back his NFT/SFT.
+                      <br />
+                      Once unbounded, the nft will not earn any rewards
+                      <br />
+                      When unbounding period end, users will have to finalize
+                      withdrawing.
                     </div>
                   </div>
                 </div>
               </div>
-              <div className='pool-details_StakeModal_Collection'>
-                <div className='GroupeDetails_StakeModal_Collection'>
-                  <div className='PoolDetails_StakeModal_Collection'>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>Rewards</div>
-                      <div className='ValueDetailsInfo_Collection'>
-                        <FormatAmount
-                          value={'10000'}
-                          decimals={2}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
+
+              {testgetStakedTokens &&
+                testgetStakedTokens
+                  .filter(
+                    (pool) =>
+                      pool.identifier === rtoken &&
+                      pool.blocks_to_max == (speedNumber * 60 * 60 * 24) / 6 &&
+                      pool.nonce == nonceNumber &&
+                      pool.vesting == vestingTime &&
+                      pool.unbounding == unboundingTime
+                  )
+                  .map((item, key) => (
+                    <div
+                      key={key}
+                      className='pool-details_StakeModal_Collection'
+                    >
+                      <div className='GroupeDetails_StakeModal_Collection'>
+                        <div className='PoolDetails_StakeModal_Collection'>
+                          <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Rewards
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              <FormatAmount
+                                value={item.rewards.toString()}
+                                decimals={rdecimals}
+                                egldLabel={' '}
+                                data-testid='balance'
+                                digits={2}
+                              />
+                            </div>
+                          </div>
+                          {/* <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Value
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              700$
+                            </div>
+                          </div> */}
+                          <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              All time rewarded
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              <FormatAmount
+                                value={item.total_rewarded.toString()}
+                                decimals={rdecimals}
+                                egldLabel={' '}
+                                data-testid='balance'
+                                digits={2}
+                              />
+                            </div>
+                          </div>
+                          <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Staked NFT
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              <FormatAmount
+                                value={item.total_staked.toString()}
+                                decimals={0}
+                                egldLabel={' '}
+                                data-testid='balance'
+                                digits={0}
+                              />
+                            </div>
+                          </div>
+                          {/* <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Total value
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              <FormatAmount
+                                value={item.total_staked.toString()}
+                                decimals={0}
+                                egldLabel={' '}
+                                data-testid='balance'
+                                digits={0}
+                              />
+                            </div>
+                          </div> */}
+                          <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Speed
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              {(item.blocks_to_max / 60 / 60 / 24) * 6} day
+                            </div>
+                          </div>
+                          {/* <div className='DetailsInfo_Collection'>
+                            <div className='LabelDetailsInfo_Collection'>
+                              Users
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>6</div>
+                          </div> */}
+                        </div>
                       </div>
                     </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>Value</div>
-                      <div className='ValueDetailsInfo_Collection'>700$</div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>
-                        All time rewarded
-                      </div>
-                      <div className='ValueDetailsInfo_Collection'>
-                        <FormatAmount
-                          value={'100000'}
-                          decimals={2}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
-                      </div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>Speed</div>
-                      <div className='ValueDetailsInfo_Collection'>365 day</div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>
-                        Total staked
-                      </div>
-                      <div className='ValueDetailsInfo_Collection'>
-                        <FormatAmount
-                          value={'16752702629'}
-                          decimals={2}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
-                      </div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>
-                        Total value
-                      </div>
-                      <div className='ValueDetailsInfo_Collection'>
-                        <FormatAmount
-                          value={'16752702629'}
-                          decimals={2}
-                          egldLabel={' '}
-                          data-testid='balance'
-                          digits={2}
-                        />
-                      </div>
-                    </div>
-                    <div className='DetailsInfo_Collection'>
-                      <div className='LabelDetailsInfo_Collection'>Users</div>
-                      <div className='ValueDetailsInfo_Collection'>6</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>Do you want to add it rewarded amount ?</div>
+                  ))}
+
+              <div>Do you want to add rewards ?</div>
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <Input

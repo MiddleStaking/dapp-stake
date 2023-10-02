@@ -14,7 +14,7 @@ export const useGetCollectionRewards = (stakedToken: string) => {
   const [stakedTokens, setStakedTokens] = useState([
     {
       pool_id: 0,
-      identifier: stakedToken,
+      identifier: '',
       rewards: BigInt(0),
       total_staked: BigInt(0),
       total_rewarded: BigInt(0),
@@ -55,8 +55,8 @@ export const useGetCollectionRewards = (stakedToken: string) => {
       );
       if (queryResponse.returnCode == 'ok') {
         setStakedTokens(rewards?.valueOf());
-        //storage of 15 minutes
-        const expire = time.getTime() + 1000 * 60 * 15;
+        //storage of 1 minutes
+        const expire = time.getTime() + 1000 * 60 * 1;
         localStorage.setItem(
           'collection_rewards_' + stakedToken,
           JSON.stringify(rewards?.valueOf())
@@ -73,7 +73,7 @@ export const useGetCollectionRewards = (stakedToken: string) => {
 
   useEffect(() => {
     getStakedTokens();
-  }, []);
+  }, [stakedToken]);
 
   return stakedTokens;
 };

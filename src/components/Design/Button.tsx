@@ -61,7 +61,7 @@ export const Button: FC<ButtonProps> = ({
     width: '100%',
     height: '100%',
     color: textColor,
-    cursor: 'pointer',
+    cursor: disabled ? 'not-allowed' : 'pointer',
     fontFamily,
     fontSize,
     // padding: hasBorder

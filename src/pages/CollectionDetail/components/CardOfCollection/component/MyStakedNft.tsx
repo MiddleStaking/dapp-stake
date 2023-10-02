@@ -19,12 +19,11 @@ interface MyStakeSectionProps {
   staked_balance: any[];
   pool: number;
 }
-const MyStakedNft: FC<any> = ({ nft_identifier, nft_nonce }) => {
-  const nft: any = useGetNft(nft_identifier, nft_nonce);
+const MyStakedNft: FC<any> = ({ nft_identifier, nft_nonce, isOpen }) => {
+  const nft: any = useGetNft(nft_identifier, nft_nonce, isOpen);
 
   //   console.log(nft_identifier);
   //   console.log(nft_nonce);
-  //   console.log(nft);
 
   return (
     <>
