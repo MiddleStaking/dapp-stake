@@ -6,37 +6,45 @@ import {
   ResultsParser
 } from '@multiversx/sdk-core/out';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
 import { smartContract } from './smartContract';
 import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetUserStakedNft = (address: string) => {
+  const { hasPendingTransactions } = useGetPendingTransactions();
   const [stakedTokensNft, setStakedTokensNft] = useState([
     {
-      nft_id: 0,
-      pool_id: 0,
-      nft_identifier: '',
-      nft_nonce: 0,
-      nft_qty: 1,
-      lock: 0,
-      unbound: 0,
-      jump_unbound: 0
+      staked_nft: {
+        nft_id: 0,
+        pool_id: 0,
+        nft_identifier: '',
+        nft_nonce: 0,
+        nft_qty: 1,
+        lock: 0,
+        unbound: 0,
+        jump_unbound: 0
+      },
+      current_block: 0
     }
   ]);
   const time = new Date();
 
   const getUserStakedNft = async () => {
+    if (hasPendingTransactions == true || address == '') {
+      return;
+    }
     //using storage to reduce calls
-    // const expire_test = Number(
-    //     localStorage.getItem('collection_rewards_' + stakedToken + '_expire')
-    // );
-    // const load: any = localStorage.getItem('collection_rewards_' + stakedToken);
-    // const storage = JSON.parse(load);
-    // setStakedTokens(storage ? storage : []);
-    // if (time.getTime() < expire_test) {
-    //     return;
-    // }
+    const expire_test = Number(
+      localStorage.getItem('useGetUserStakedNft_expire')
+    );
+    const load: any = localStorage.getItem('useGetUserStakedNft');
+    const storage = JSON.parse(load);
+    setStakedTokensNft(storage ? storage : []);
+    if (time.getTime() < expire_test) {
+      return;
+    }
 
     try {
       const query = smartContract.createQuery({
@@ -53,16 +61,13 @@ export const useGetUserStakedNft = (address: string) => {
       );
       if (queryResponse.returnCode == 'ok') {
         setStakedTokensNft(rewards?.valueOf());
-        //storage of 15 minutes
-        // const expire = time.getTime() + 1000 * 60 * 15;
-        // localStorage.setItem(
-        //     'collection_rewards_' + stakedToken,
-        //     JSON.stringify(rewards?.valueOf())
-        // );
-        // localStorage.setItem(
-        //     'collection_rewards_' + stakedToken + '_expire',
-        //     expire.toString()
-        // );
+        //storage of 3 secondes
+        const expire = time.getTime() + 1000 * 3;
+        localStorage.setItem(
+          'useGetUserStakedNft',
+          JSON.stringify(rewards?.valueOf())
+        );
+        localStorage.setItem('useGetUserStakedNft_expire', expire.toString());
       }
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);
@@ -71,7 +76,7 @@ export const useGetUserStakedNft = (address: string) => {
 
   useEffect(() => {
     getUserStakedNft();
-  }, []);
+  }, [hasPendingTransactions]);
 
   return stakedTokensNft;
 };

@@ -10,6 +10,7 @@ import SwowHideDetails from './SwowHideDetails';
 import ReactPlayer from 'react-player';
 import HexagoneNFT from '../../hexagoneNFT';
 import { PoolAddCollection } from '../../Modal/AddCollection/PoolAddCollection';
+import { Button } from 'components/Design';
 
 interface TypeSectionProps {
   height: string;
@@ -292,9 +293,7 @@ const TypeSection: FC<TypeSectionProps> = ({
       <div style={top}>
         <div style={left}>
           <div style={title}>
-            <div style={earnMex}>
-              Stake {collectionIdentifier.split('-')[0]}
-            </div>
+            <div style={earnMex}>{collectionIdentifier.split('-')[0]}</div>
 
             <div style={stakeMex}>Earn tokens</div>
 
@@ -304,6 +303,7 @@ const TypeSection: FC<TypeSectionProps> = ({
               <div style={rate}>10000</div>
               <div style={rate}>10%</div>
             </div>
+
             <div
               onClick={() =>
                 (window.location.href = `/collections/${collectionIdentifier}`)
@@ -311,7 +311,6 @@ const TypeSection: FC<TypeSectionProps> = ({
               className='butLine bouton-visiter'
               data-testid='loginBtn'
             >
-              redirect
               {/* <div className='enteteCard'> */}
               {/* </div> 
               <div>icône blé xxxxxxx</div>
@@ -375,6 +374,19 @@ const TypeSection: FC<TypeSectionProps> = ({
 
         {/* {!showDetails ? ( */}
       </div>
+      <div style={{ margin: 'auto' }}>
+        <Button
+          borderRadius={40}
+          buttonHeight='31px'
+          // buttonWidth='240px'
+          textColor='#ffffff'
+          background={'#000000'}
+          onClick={() =>
+            (window.location.href = `/collections/${collectionIdentifier}`)
+          }
+          text={'Rewards'}
+        />
+      </div>
       <div style={detailsStyle} onClick={handleChange}>
         <div style={{ fontSize: '10px' }}>
           {!showDetails ? 'Show details' : 'Hide details'}
@@ -409,6 +421,7 @@ const TypeSection: FC<TypeSectionProps> = ({
           </svg>
         )}
       </div>
+
       <div style={{ display: !showDetails ? 'none' : 'block', width: '100%' }}>
         {/* <SwowHideDetails
           rewarded_esdt_info={rewarded_esdt_info}

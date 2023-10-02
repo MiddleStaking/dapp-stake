@@ -1,0 +1,107 @@
+.pool-details_Collection {
+  width: 100%;
+
+  .Groupe_Details_Collection {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    background-color: black;
+    border-radius: 8px;
+    border: 1px solid #695885;
+    padding: 9px 24px;
+    // transition: border-radius 1s ease-in-out;
+    &.open {
+      border-radius: 8px 8px 0px 0px;
+    }
+
+    .Pool_Details_Collection {
+      display: flex;
+      flex: 2;
+      flex-direction: column;
+      gap: 2px;
+      .Details_Collection {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        gap: 10px;
+        .Label_Details_Collection {
+          font: 300 12px '', sans-serif;
+        }
+        .ValueDetailsInfo_black_Collection {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 15px;
+          // float: right; // Supprimée
+          font: 600 12px '', sans-serif;
+
+          .pourcentage {
+            width: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  .accordion-contents {
+    margin-top: 0px;
+    padding: 0px 0px;
+    max-height: 0;
+    overflow: hidden;
+    // transition: max-height 1s ease-in-out, margin-top 1s ease-in-out,
+    //   border-radius 1s ease-in-out, border 1s ease-in-out,
+    //   background-color 1s ease-in-out;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0px 0px 0px 0px;
+
+    .NftWrapContent {
+      display: 'flex';
+      flex-wrap: 'wrap';
+      gap: '10px';
+      justify-content: 'center';
+      width: 100%;
+      padding: 9px 9px;
+    }
+    .accordion-contents-buttons {
+      padding: 9px 9px;
+      display: 'flex';
+      flex-direction: 'column';
+      gap: '10px';
+    }
+
+    &.open {
+      border: 1px solid #695885;
+      background-color: black;
+      border-radius: 0px 0px 8px 8px;
+      margin-top: -1px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  }
+
+  .svgAccordeons {
+    cursor: pointer;
+  }
+
+  .svgAccordeons {
+    cursor: pointer;
+  }
+  @media (max-width: 761px) {
+    font-size: smaller;
+    .Groupe_Details_Collection {
+      .Pool_Details_Collection {
+        .Details_Collection {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}

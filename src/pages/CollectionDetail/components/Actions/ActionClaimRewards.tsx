@@ -1,13 +1,26 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
 import { Button } from './../../../../components/Design';
-
-export const ActionClaimRewards = ({ pool_id, rewardsAmount }: any) => {
+import BigNumber from 'bignumber.js';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { useGetESDTInformations } from './helpers/useGetESDTInformations';
+import {
+  useGetAccountInfo,
+  useGetPendingTransactions
+} from '@multiversx/sdk-dapp/hooks';
+export const ActionClaimRewards = ({
+  pool_id,
+  rewardsAmount,
+  identifier,
+  buttonWidth,
+  bottomHeight,
+  Availablerewards
+}: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
+  const { address } = useGetAccountInfo();
 
   function bigToHexDec(d: bigint) {
     let result = '';
@@ -47,38 +60,69 @@ export const ActionClaimRewards = ({ pool_id, rewardsAmount }: any) => {
 
   const claimAllowed = rewardsAmount != '0' && !hasPendingTransactions;
   const notAllowedClass = claimAllowed ? '' : 'not-allowed disabled';
+  // const rewarded_esdt_info = useGetESDTInformations(identifier.identifier);
+
+  // const rdecimals = rewarded_esdt_info?.decimals
+  //   ? rewarded_esdt_info?.decimals
+  //   : 0;
 
   return (
-    <div className='center' style={{ width: '100%' }}>
-      <> {rewardsAmount.toString()}</>
-      {rewardsAmount !== undefined && rewardsAmount > 0 && (
-        <>
-          {!hasPendingTransactions ? (
-            <>
+    <div
+      style={{
+        width: buttonWidth,
+
+        fontSize: '10px',
+        textAlign: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        gap: '5px'
+      }}
+    >
+      {/* {filteredData !== undefined && filteredData[0] > 0 && ( */}
+      <>
+        {/* <FormatAmount
+            value={filteredData.toString()}
+            decimals={Number(rdecimals)}
+            egldLabel={rewarded_esdt_info?.name}
+            data-testid='balance'
+            digits={2}
+          /> */}
+        {!hasPendingTransactions ? (
+          <>
+            {address && (
               <Button
-                buttonWidth='100%'
+                fontSize='10px'
+                buttonHeight={bottomHeight}
+                disabled={
+                  Availablerewards == undefined || Availablerewards == 0
+                }
+                buttonWidth={buttonWidth}
                 borderRadius={40}
                 background={['#BD37EC', '#1F67FF']}
                 borderColor={'black'}
                 text='Claim my rewards'
                 onClick={sendClaimTransaction}
               />
-            </>
-          ) : (
-            <>
-              {' '}
-              <Button
-                buttonWidth='100%'
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text='Processing'
-                disabled={true}
-              />
-            </>
-          )}
-        </>
-      )}
+            )}
+          </>
+        ) : (
+          <>
+            {' '}
+            <Button
+              fontSize='10px'
+              buttonHeight={bottomHeight}
+              buttonWidth={buttonWidth}
+              borderRadius={40}
+              background={['#BD37EC', '#1F67FF']}
+              borderColor={'black'}
+              text='Processing'
+              disabled={true}
+            />
+          </>
+        )}
+      </>
+      {/* )} */}
     </div>
   );
 };

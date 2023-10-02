@@ -96,7 +96,7 @@ export const ActionFund = ({
                 background={['#BD37EC', '#1F67FF']}
                 text='Lock tokens'
                 onClick={sendFundTransaction}
-                disabled={user_fund == 0}
+                disabled={user_fund == 0 || stakedToken === ''}
               />
             </>
           ) : (

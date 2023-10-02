@@ -45,7 +45,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         }}
       />
       <div className='col-12'>
-        <Col
+        {/* <Col
           xs={12}
           sm={12}
           md={6}
@@ -55,7 +55,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
           className='pb-4 center'
         >
           search
-        </Col>
+        </Col> */}
         <Col
           xs={12}
           sm={12}
@@ -113,6 +113,12 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
                 xxl={3}
                 key={item}
                 className='pb-4 center'
+                style={{
+                  display: 'flex',
+                  flex: '1 1 200px',
+                  width: '300px',
+                  maxWidth: '300px'
+                }}
               >
                 <CardOfCollection
                   height={heightComponentTypeSection}
@@ -123,14 +129,43 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
                 />
               </Col>
             ))}
-          <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
-            <div className='card-type'></div>
+          <Col
+            style={{
+              display: 'flex',
+              flex: '1 1 200px'
+            }}
+            xs={12}
+            sm={12}
+            md={6}
+            lg={4}
+            xl={3}
+            xxl={3}
+          >
+            <div
+              style={{
+                width: '300px',
+                maxWidth: '300px'
+              }}
+              className='card-type'
+            ></div>
           </Col>
           <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
-            <div className='card-type'></div>
+            <div
+              style={{
+                width: '300px',
+                maxWidth: '300px'
+              }}
+              className='card-type'
+            ></div>
           </Col>{' '}
           <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
-            <div className='card-type'></div>
+            <div
+              style={{
+                width: '300px',
+                maxWidth: '300px'
+              }}
+              className='card-type'
+            ></div>
           </Col>
         </Row>
       </div>

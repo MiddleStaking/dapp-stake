@@ -6,7 +6,7 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
 import { Button } from '../../../../components/Design';
 
-export const ActionUnstakeNFT = ({ nft_id, text, disabled }: any) => {
+export const ActionUnbound = ({ nft_id, text, disabled }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   function bigToHexDec(d: bigint) {
@@ -25,18 +25,18 @@ export const ActionUnstakeNFT = ({ nft_id, text, disabled }: any) => {
   const sendClaimTransaction = async () => {
     const claimTransaction = {
       value: 0,
-      data: 'unstake@' + bigToHexDec(BigInt(nft_id)),
+      data: 'unbound@' + bigToHexDec(BigInt(nft_id)),
       receiver: contractNftStake,
-      gasLimit: '6000000'
+      gasLimit: '5000000'
     };
     await refreshAccount();
 
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: claimTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing claimRewards transaction',
-        errorMessage: 'An error has occured claimRewards transaction',
-        successMessage: 'claimRewards transaction successful'
+        processingMessage: 'Processing Unbound transaction',
+        errorMessage: 'An error has occured Unbound transaction',
+        successMessage: 'Unbound transaction successful'
       },
       redirectAfterSign: false
     });
