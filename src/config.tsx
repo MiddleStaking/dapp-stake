@@ -19,7 +19,8 @@ export const contractStake =
 export const contractSwap =
   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
 export const contractNftStake =
-  'erd1qqqqqqqqqqqqqpgqn2lylt4vzaxrsklfd0afnxjt04d4xlk7ch9s7wc54y';
+  'erd1qqqqqqqqqqqqqpgq56t249qv4ancy8e0xr70a70wpszs9vdgch9sqt473c';
+// 'erd1qqqqqqqqqqqqqpgqn2lylt4vzaxrsklfd0afnxjt04d4xlk7ch9s7wc54y';
 
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';

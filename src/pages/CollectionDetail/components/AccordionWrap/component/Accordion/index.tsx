@@ -48,6 +48,8 @@ const Accordion: FC<CardPoolrops> = ({
 
   // const rewarded_esdt_info = useGetESDTInformations(rtoken);
 
+  console.log(userStakedNft);
+
   useEffect(() => {
     // const my_token_staked_number = userStakedNft.filter(
     //   (item: any) =>
@@ -63,12 +65,12 @@ const Accordion: FC<CardPoolrops> = ({
                 collectionReward?.pool_id?.toString() &&
               item?.staked_nft?.unbound?.toString() == '0'
           )
-          .map((item) => Number(item.staked_nft.nft_qty))
+          .map((item) => Number(item.staked_nft.qty))
           .reduce((prev, curr) => prev + curr, 0)
       : 0;
 
     setMyTokenStakedNumber(my_token_staked_number);
-  });
+  }, []);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -86,8 +88,7 @@ const Accordion: FC<CardPoolrops> = ({
     .filter(
       (item) => item.pool_id.toString() == collectionReward?.pool_id.toString()
     )
-    .map((item: any) => item?.rewards)
-    .toString();
+    .map((item: any) => item?.rewards);
 
   // const my_token_staked_number = userStakedNft.filter(
   //   (item: any) =>
@@ -111,6 +112,29 @@ const Accordion: FC<CardPoolrops> = ({
 
   const { width } = useWindowDimensions();
 
+  // console.log('collectionReward');
+  // if (
+  //   collectionReward &&
+  //   collectionReward.total_staked &&
+  //   collectionReward.blocks_to_max &&
+  //   Number(collectionReward.blocks_to_max) !== 0
+  // ) {
+  //   console.log(
+  //     ((BigInt(collectionReward?.total_staked) * BigInt(myTokenStakedNumber)) /
+  //       BigInt(
+  //         Math.round(Number(collectionReward?.blocks_to_max) / 24 / 60 / 60)
+  //       )) *
+  //       BigInt(7)
+  //   );
+  // } else {
+  //   console.log(
+  //     (BigInt(collectionReward.total_staked) * BigInt(1)) /
+  //       BigInt(
+  //         Math.round(Number(collectionReward?.blocks_to_max) / 24 / 60 / 60)
+  //       )
+  //   );
+  // }
+
   return (
     <>
       {showMoal && (
@@ -123,6 +147,36 @@ const Accordion: FC<CardPoolrops> = ({
         />
       )}
       <div className='pool-details_Collection'>
+        <p>{collectionReward?.pool_id.toString()}</p>
+
+        <div>
+          {collectionReward &&
+          collectionReward.total_staked &&
+          collectionReward.blocks_to_max &&
+          Number(collectionReward.total_staked) !== 0 &&
+          Number(collectionReward.blocks_to_max) !== 0 ? (
+            <p>
+              {(
+                (BigInt(collectionReward.total_staked) * BigInt(1)) /
+                BigInt(
+                  Math.round(
+                    Number(collectionReward.blocks_to_max) / (24 * 60 * 60)
+                  )
+                )
+              ).toString()}
+            </p>
+          ) : (
+            <p>
+              {collectionReward && collectionReward.total_staked
+                ? (
+                    (BigInt(collectionReward.total_staked) * BigInt(3)) /
+                    BigInt(7)
+                  ).toString()
+                : 'Unavailable'}
+            </p>
+          )}
+        </div>
+
         {userStakedNft
           .filter(
             (item: any) =>
@@ -224,9 +278,7 @@ const Accordion: FC<CardPoolrops> = ({
                     Unbonding : {collectionReward?.unbounding.toString()} Days
                   </div>
                   <div>
-                    Speed :{' '}
-                    {(Number(collectionReward?.blocks_to_max) / 24 / 60 / 60) *
-                      6}{' '}
+                    Speed : {collectionReward?.speed?.toString() + ' '}
                     days
                   </div>
                   <div
@@ -341,7 +393,7 @@ const Accordion: FC<CardPoolrops> = ({
                       <FormatAmount
                         value={
                           Availablerewards
-                            ? BigNumber(Availablerewards).toString()
+                            ? BigNumber(Availablerewards[0])?.toFixed()
                             : ''
                         }
                         decimals={Number(rdecimals)}
@@ -387,6 +439,7 @@ const Accordion: FC<CardPoolrops> = ({
                 nft_balance={userNftBalance}
               />
             )} */}
+
             {userStakedNft && userStakedNft.length > 0 && (
               <MyStakeSection
                 isOpen={isOpen}

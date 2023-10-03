@@ -13,35 +13,44 @@ const resultsParser = new ResultsParser();
 
 export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
   const [tokenPosition, setTokenPosition] = useState({
-    stakedToken: '',
-    rewardedToken: '',
-    balance: BigInt(1),
-    total_stake: BigInt(1),
-    total_rewards: BigInt(1),
-    fee_percentage: BigInt(1),
-    burn_percentage: BigInt(1),
+    stakedToken: stakedToken,
+    rewardedToken: rewardedToken,
+    pool_id: BigInt(0),
+    collection: '',
+    total_staked: BigInt(1),
+    identifier: '',
+    rewards: BigInt(1),
+    total_rewarded: BigInt(1),
     last_fund_block: BigInt(1),
-    paused: 0,
-    blocks_to_max: BigInt(1),
-    users: BigInt(0)
+    speed: BigInt(1),
+    vesting: BigInt(0),
+    unbounding: BigInt(0),
+    nonce: BigInt(0)
   });
+
   const time = new Date();
+
+  // burn_percentage: tab[4].toFixed(),
+  // paused: tab[6].toFixed(),
+  // users: tab[8].toFixed()
 
   const getTokenPosition = async () => {
     //using storage to reduce calls
 
     setTokenPosition({
+      pool_id: BigInt(0),
+      collection: '',
       stakedToken: '',
       rewardedToken: '',
-      balance: BigInt(0),
-      total_stake: BigInt(0),
-      total_rewards: BigInt(0),
-      fee_percentage: BigInt(1000),
-      burn_percentage: BigInt(0),
+      rewards: BigInt(0),
+      total_staked: BigInt(0),
+      identifier: '',
+      total_rewarded: BigInt(0),
       last_fund_block: BigInt(0),
-      paused: 0,
-      blocks_to_max: BigInt(0),
-      users: BigInt(0)
+      speed: BigInt(0),
+      vesting: BigInt(0),
+      nonce: BigInt(0),
+      unbounding: BigInt(0)
     });
 
     const expire_test = Number(
@@ -88,15 +97,17 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
         setTokenPosition({
           stakedToken: stakedToken,
           rewardedToken: rewardedToken,
-          balance: tab[0].toFixed(),
-          total_stake: tab[1].toFixed(),
-          total_rewards: tab[2].toFixed(),
-          fee_percentage: tab[3].toFixed(),
-          burn_percentage: tab[4].toFixed(),
-          last_fund_block: tab[5].toFixed(),
-          paused: tab[6].toFixed(),
-          blocks_to_max: tab[7].toFixed(),
-          users: tab[8].toFixed()
+          pool_id: tab[0].toFixed(),
+          collection: tab[1].toFixed(),
+          total_staked: tab[2].toFixed(),
+          identifier: tab[3].toFixed(),
+          rewards: tab[4].toFixed(),
+          total_rewarded: tab[5].toFixed(),
+          last_fund_block: tab[6].toFixed(),
+          speed: tab[7].toFixed(),
+          vesting: tab[8].toFixed(),
+          unbounding: tab[9].toFixed(),
+          nonce: tab[10].toFixed()
         });
 
         //storage of 1 minutes
@@ -107,15 +118,17 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
           JSON.stringify({
             stakedToken: stakedToken,
             rewardedToken: rewardedToken,
-            balance: tab[0].toFixed(),
-            total_stake: tab[1].toFixed(),
-            total_rewards: tab[2].toFixed(),
-            fee_percentage: tab[3].toFixed(),
-            burn_percentage: tab[4].toFixed(),
-            last_fund_block: tab[5].toFixed(),
-            paused: tab[6].toFixed(),
-            blocks_to_max: tab[7].toFixed(),
-            users: tab[8].toFixed()
+            pool_id: tab[0].toFixed(),
+            collection: tab[1].toFixed(),
+            total_staked: tab[2].toFixed(),
+            identifier: tab[3].toFixed(),
+            rewards: tab[4].toFixed(),
+            total_rewarded: tab[5].toFixed(),
+            last_fund_block: tab[6].toFixed(),
+            speed: tab[7].toFixed(),
+            vesting: tab[8].toFixed(),
+            unbounding: tab[9].toFixed(),
+            nonce: tab[10].toFixed()
           })
         );
         localStorage.setItem(

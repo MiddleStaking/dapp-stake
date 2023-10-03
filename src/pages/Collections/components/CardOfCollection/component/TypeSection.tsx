@@ -38,7 +38,7 @@ const TypeSection: FC<TypeSectionProps> = ({
   width = '100%',
   background = 'linear-gradient(0deg, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)),linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%)',
   gradientDirection = 'to right',
-  borderRadius = '8px 8px 0px 0px',
+  borderRadius = '8px 8px 8px 8px',
   WindowDimensions,
   socialNetwork,
   textColor = '#ffffff',
@@ -298,11 +298,11 @@ const TypeSection: FC<TypeSectionProps> = ({
             <div style={stakeMex}>Earn tokens</div>
 
             {/* ---- NFT CARD ---- */}
-            <div style={NFTInfo}>
+            {/* <div style={NFTInfo}>
               <div>NFT</div>
               <div style={rate}>10000</div>
               <div style={rate}>10%</div>
-            </div>
+            </div> */}
 
             <div
               onClick={() =>
@@ -387,7 +387,7 @@ const TypeSection: FC<TypeSectionProps> = ({
           text={'Rewards'}
         />
       </div>
-      <div style={detailsStyle} onClick={handleChange}>
+      {/* <div style={detailsStyle} onClick={handleChange}>
         <div style={{ fontSize: '10px' }}>
           {!showDetails ? 'Show details' : 'Hide details'}
         </div>
@@ -420,10 +420,10 @@ const TypeSection: FC<TypeSectionProps> = ({
             />
           </svg>
         )}
-      </div>
+      </div> */}
 
-      <div style={{ display: !showDetails ? 'none' : 'block', width: '100%' }}>
-        {/* <SwowHideDetails
+      {/* <div style={{ display: !showDetails ? 'none' : 'block', width: '100%' }}> */}
+      {/* <SwowHideDetails
           rewarded_esdt_info={rewarded_esdt_info}
           decimals={Number(
             rewarded_esdt_info?.decimals ? rewarded_esdt_info?.decimals : 0
@@ -438,7 +438,7 @@ const TypeSection: FC<TypeSectionProps> = ({
           textColor={textColor}
           fontFamily={fontFamily}
         /> */}
-      </div>
+      {/* </div> */}
     </div>
   );
 };
