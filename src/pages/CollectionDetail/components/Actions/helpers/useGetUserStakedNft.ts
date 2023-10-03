@@ -17,11 +17,11 @@ export const useGetUserStakedNft = (address: string) => {
   const [stakedTokensNft, setStakedTokensNft] = useState([
     {
       staked_nft: {
-        nft_id: 0,
+        id: 0,
         pool_id: 0,
-        nft_identifier: '',
-        nft_nonce: 0,
-        nft_qty: 1,
+        identifier: '',
+        nonce: 0,
+        qty: 1,
         lock: 0,
         unbound: 0,
         jump_unbound: 0
@@ -36,9 +36,7 @@ export const useGetUserStakedNft = (address: string) => {
       return;
     }
     //using storage to reduce calls
-    const expire_test = Number(
-      localStorage.getItem('useGetUserStakedNft_expire')
-    );
+    const expire_test = Number(localStorage.getItem('useGetUserStakedexpire'));
     const load: any = localStorage.getItem('useGetUserStakedNft');
     const storage = JSON.parse(load);
     setStakedTokensNft(storage ? storage : []);
@@ -67,7 +65,7 @@ export const useGetUserStakedNft = (address: string) => {
           'useGetUserStakedNft',
           JSON.stringify(rewards?.valueOf())
         );
-        localStorage.setItem('useGetUserStakedNft_expire', expire.toString());
+        localStorage.setItem('useGetUserStakedexpire', expire.toString());
       }
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);

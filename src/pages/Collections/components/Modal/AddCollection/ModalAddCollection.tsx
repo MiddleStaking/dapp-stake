@@ -47,6 +47,10 @@ const ModalAddCollection = (props: any) => {
   const [nonceNumber, setNonceNumber] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
 
+  console.log(vestingTime);
+  console.log(unboundingTime);
+  console.log(speedNumber);
+
   const nft: any = useGetNft(stoken, nonceNumber, true);
 
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
@@ -819,10 +823,10 @@ const ModalAddCollection = (props: any) => {
                   .filter(
                     (pool) =>
                       pool.identifier === rtoken &&
-                      pool.blocks_to_max == (speedNumber * 60 * 60 * 24) / 6 &&
-                      pool.nonce == nonceNumber &&
-                      pool.vesting == vestingTime &&
-                      pool.unbounding == unboundingTime
+                      pool.speed == BigInt(speedNumber) &&
+                      pool.nonce == BigInt(nonceNumber) &&
+                      pool.vesting == BigInt(vestingTime) &&
+                      pool.unbounding == BigInt(unboundingTime)
                   )
                   .map((item, key) => (
                     <div
@@ -900,7 +904,7 @@ const ModalAddCollection = (props: any) => {
                               Speed
                             </div>
                             <div className='ValueDetailsInfo_Collection'>
-                              {(item.blocks_to_max / 60 / 60 / 24) * 6} day
+                              {item?.speed.toString()} day
                             </div>
                           </div>
                           {/* <div className='DetailsInfo_Collection'>

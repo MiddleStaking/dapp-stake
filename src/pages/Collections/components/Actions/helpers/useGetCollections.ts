@@ -37,7 +37,7 @@ export const useGetCollections = () => {
       if (queryResponse.returnCode == 'ok') {
         setStakedTokens(tokens?.valueOf()?.toString(10).split(','));
         //storage of 15 minutes
-        const expire = time.getTime() + 1000 * 60 * 15;
+        const expire = time.getTime() + 1000 * 60 * 1;
         //const expire = time.getTime() + 1000 * 60 * 15;
         localStorage.setItem(
           'staked_collections',
