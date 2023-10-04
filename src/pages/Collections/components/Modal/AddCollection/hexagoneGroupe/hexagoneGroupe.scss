@@ -1,13 +1,14 @@
 .hexagoeChevaucheModal {
-    display: flex;
-    flex-direction: row;
-    gap: 0px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    position: relative;
-    margin-right: 30px;
-    .hexagoeChevauche {
-      margin-right: -30px; /* ajustez cette valeur selon le degré de chevauchement souhaité */
-    }
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  margin-right: 30px;
+  z-index: 0;
+  .hexagoeChevauche {
+    margin-right: -30px; /* ajustez cette valeur selon le degré de chevauchement souhaité */
   }
+}

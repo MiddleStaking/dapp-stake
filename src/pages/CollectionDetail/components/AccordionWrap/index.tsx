@@ -27,7 +27,6 @@ const AccordionWrap: FC<CardPoolrops> = ({
     pools_id.push(BigNumber(pools.pool_id).toFixed());
   }
 
-  console.log(pools_id);
   return (
     <div className='AccordeonsCards'>
       <div className='backgroundAccordeonsCards'>

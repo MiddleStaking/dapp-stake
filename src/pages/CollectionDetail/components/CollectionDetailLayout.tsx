@@ -43,8 +43,6 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
     url ? url : ''
   );
 
-  console.log(collectionRewards);
-
   const { width } = useWindowDimensions();
 
   return (
