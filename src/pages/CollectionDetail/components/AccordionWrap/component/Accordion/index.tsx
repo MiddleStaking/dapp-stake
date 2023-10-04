@@ -48,8 +48,6 @@ const Accordion: FC<CardPoolrops> = ({
 
   // const rewarded_esdt_info = useGetESDTInformations(rtoken);
 
-  console.log(userStakedNft);
-
   useEffect(() => {
     // const my_token_staked_number = userStakedNft.filter(
     //   (item: any) =>
@@ -124,7 +122,6 @@ const Accordion: FC<CardPoolrops> = ({
         />
       )}
       <div className='pool-details_Collection'>
-        <p>{collectionReward?.pool_id.toString()}</p>
         {userStakedNft
           .filter(
             (item: any) =>
@@ -301,7 +298,7 @@ const Accordion: FC<CardPoolrops> = ({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      flexDirection: width > 855 ? 'row' : 'row',
+                      flexDirection: width > 450 ? 'row' : 'column',
                       gap: '10px'
                     }}
                   >
