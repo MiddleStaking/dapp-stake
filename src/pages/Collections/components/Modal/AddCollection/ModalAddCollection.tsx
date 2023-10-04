@@ -98,6 +98,11 @@ const ModalAddCollection = (props: any) => {
     : notFound;
 
   function handleTokenAmountChange(value: any) {
+    console.log(value);
+
+    if (rtoken == '') {
+      return;
+    }
     const amount = BigInt(Number(value) * 10 ** rdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
@@ -113,6 +118,8 @@ const ModalAddCollection = (props: any) => {
     const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
     setRangeValue(percentage);
   }
+
+  console.log(tokenAmount);
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
     if (balance > BigInt(0)) {
@@ -921,7 +928,7 @@ const ModalAddCollection = (props: any) => {
                     inputHeight='40px'
                     inputWidth='179px'
                     borderColor='rgb(105, 88, 133)'
-                    value={tokenAmount}
+                    value={tokenAmount.toString().replace(/^0+(?=[^.])/, '')}
                     onInputChange={handleTokenAmountChange}
                     rightHtml={
                       <Button
@@ -937,7 +944,7 @@ const ModalAddCollection = (props: any) => {
                       />
                     }
                     type='number'
-                    placeholder={'number'}
+                    placeholder={''}
                     fontSize={14}
                   />
                 </div>

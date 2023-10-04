@@ -110,6 +110,16 @@ const Accordion: FC<CardPoolrops> = ({
 
   const { width } = useWindowDimensions();
 
+  console.log(
+    (
+      BigInt(collectionReward?.rewards) /
+      (BigInt(collectionReward.total_staked) > BigInt(0)
+        ? BigInt(collectionReward.total_staked)
+        : BigInt(1)) /
+      BigInt(collectionReward.speed)
+    ).toString().length
+  );
+
   return (
     <>
       {showMoal && (
@@ -253,7 +263,27 @@ const Accordion: FC<CardPoolrops> = ({
                               collectionReward?.identifier.split('-')[0]
                             } / NFT / DAY`}
                             data-testid='balance'
-                            digits={2}
+                            digits={
+                              (
+                                BigInt(collectionReward?.rewards) /
+                                (BigInt(collectionReward.total_staked) >
+                                BigInt(0)
+                                  ? BigInt(collectionReward.total_staked)
+                                  : BigInt(1)) /
+                                BigInt(collectionReward.speed)
+                              ).toString().length >= rdecimals
+                                ? 2
+                                : rdecimals -
+                                  (
+                                    BigInt(collectionReward?.rewards) /
+                                    (BigInt(collectionReward.total_staked) >
+                                    BigInt(0)
+                                      ? BigInt(collectionReward.total_staked)
+                                      : BigInt(1)) /
+                                    BigInt(collectionReward.speed)
+                                  ).toString().length +
+                                  1
+                            }
                           />
                         ) : (
                           <p>probleme</p>
