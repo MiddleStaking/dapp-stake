@@ -112,29 +112,6 @@ const Accordion: FC<CardPoolrops> = ({
 
   const { width } = useWindowDimensions();
 
-  // console.log('collectionReward');
-  // if (
-  //   collectionReward &&
-  //   collectionReward.total_staked &&
-  //   collectionReward.blocks_to_max &&
-  //   Number(collectionReward.blocks_to_max) !== 0
-  // ) {
-  //   console.log(
-  //     ((BigInt(collectionReward?.total_staked) * BigInt(myTokenStakedNumber)) /
-  //       BigInt(
-  //         Math.round(Number(collectionReward?.blocks_to_max) / 24 / 60 / 60)
-  //       )) *
-  //       BigInt(7)
-  //   );
-  // } else {
-  //   console.log(
-  //     (BigInt(collectionReward.total_staked) * BigInt(1)) /
-  //       BigInt(
-  //         Math.round(Number(collectionReward?.blocks_to_max) / 24 / 60 / 60)
-  //       )
-  //   );
-  // }
-
   return (
     <>
       {showMoal && (
@@ -148,35 +125,6 @@ const Accordion: FC<CardPoolrops> = ({
       )}
       <div className='pool-details_Collection'>
         <p>{collectionReward?.pool_id.toString()}</p>
-
-        <div>
-          {collectionReward &&
-          collectionReward.total_staked &&
-          collectionReward.blocks_to_max &&
-          Number(collectionReward.total_staked) !== 0 &&
-          Number(collectionReward.blocks_to_max) !== 0 ? (
-            <p>
-              {(
-                (BigInt(collectionReward.total_staked) * BigInt(1)) /
-                BigInt(
-                  Math.round(
-                    Number(collectionReward.blocks_to_max) / (24 * 60 * 60)
-                  )
-                )
-              ).toString()}
-            </p>
-          ) : (
-            <p>
-              {collectionReward && collectionReward.total_staked
-                ? (
-                    (BigInt(collectionReward.total_staked) * BigInt(3)) /
-                    BigInt(7)
-                  ).toString()
-                : 'Unavailable'}
-            </p>
-          )}
-        </div>
-
         {userStakedNft
           .filter(
             (item: any) =>
@@ -251,7 +199,10 @@ const Accordion: FC<CardPoolrops> = ({
                         borderRadius: '50px',
                         width: '28px',
                         height: '28px',
-                        background: 'black'
+                        background: 'black',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
                     >
                       <img
@@ -268,7 +219,71 @@ const Accordion: FC<CardPoolrops> = ({
                         alt=''
                       />
                     </div>
-                    earn : {collectionReward?.identifier}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '10px'
+                      }}
+                      className='Label_Details_Collection'
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: width > 855 ? 'row' : 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '2px'
+                        }}
+                        className='Label_Details_Collection'
+                      >
+                        earn :
+                        {collectionReward &&
+                        collectionReward.total_staked &&
+                        Number(collectionReward.blocks_to_max) !== 0 ? (
+                          <FormatAmount
+                            value={(
+                              BigInt(collectionReward?.rewards) /
+                              (BigInt(collectionReward.total_staked) > BigInt(0)
+                                ? BigInt(collectionReward.total_staked)
+                                : BigInt(1)) /
+                              BigInt(collectionReward.speed)
+                            ).toString()}
+                            decimals={Number(rdecimals)}
+                            egldLabel={`${
+                              collectionReward?.identifier.split('-')[0]
+                            } / NFT / DAY`}
+                            data-testid='balance'
+                            digits={2}
+                          />
+                        ) : (
+                          <p>probleme</p>
+                        )}
+                      </div>
+                      {/* <div>
+                        {collectionReward &&
+                        collectionReward.total_staked &&
+                        Number(collectionReward.blocks_to_max) !== 0 ? (
+                          <FormatAmount
+                            value={(
+                              BigInt(collectionReward?.rewards) /
+                              (BigInt(collectionReward.total_staked) > BigInt(0)
+                                ? BigInt(collectionReward.total_staked)
+                                : BigInt(1)) /
+                              BigInt(collectionReward.speed)
+                            ).toString()}
+                            decimals={Number(rdecimals)}
+                            egldLabel={' / NFT / DAY'}
+                            data-testid='balance'
+                            digits={2}
+                          />
+                        ) : (
+                          <p>probleme</p>
+                        )}
+                      </div> */}
+                    </div>
                   </div>
                   <div>
                     Vesting : {collectionReward?.vesting.toString()} Days
