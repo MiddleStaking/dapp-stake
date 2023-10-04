@@ -61,17 +61,6 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
       >
         Back to Collections
       </Link> */}
-
-      <Button
-        borderRadius={40}
-        buttonHeight='31px'
-        // buttonWidth='240px'
-        textColor='#ffffff'
-        background={'#000000'}
-        onClick={() => (window.location.href = '/collections/')}
-        text={'Back to Collections'}
-      />
-
       <div
         style={{
           display: 'flex',
