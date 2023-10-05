@@ -30,6 +30,19 @@ const AccordionWrap: FC<CardPoolrops> = ({
   return (
     <div className='AccordeonsCards'>
       <div className='backgroundAccordeonsCards'>
+        <div
+          style={{
+            padding: '0px 44px'
+          }}
+        >
+          {'Nfts staked in this collection: '}
+          {collectionRewards
+            ? collectionRewards
+                .map((item) => Number(item.total_staked))
+                .reduce((prev, curr) => prev + curr, 0)
+            : '...'}
+        </div>
+
         <div className='AccordeonsCardStake'>
           <div className='contentStakeModal_Collection'>
             <div
