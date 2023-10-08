@@ -12,6 +12,8 @@ import { useWindowDimensions } from 'components/DimensionScreen';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import { BigNumber } from 'bignumber.js';
 import SandClock from 'pages/CollectionDetail/components/AccordionWrap/component/SandClock';
+import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNft';
+import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 
 interface CardPoolrops {
   collectionReward: any;
@@ -63,12 +65,12 @@ const Accordion: FC<CardPoolrops> = ({
                 collectionReward?.pool_id?.toString() &&
               item?.staked_nft?.unbound?.toString() == '0'
           )
-          .map((item) => Number(item.staked_nft.nft_qty))
+          .map((item) => Number(item.staked_nft.qty))
           .reduce((prev, curr) => prev + curr, 0)
       : 0;
 
     setMyTokenStakedNumber(my_token_staked_number);
-  });
+  }, []);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -86,8 +88,7 @@ const Accordion: FC<CardPoolrops> = ({
     .filter(
       (item) => item.pool_id.toString() == collectionReward?.pool_id.toString()
     )
-    .map((item: any) => item?.rewards)
-    .toString();
+    .map((item: any) => item?.rewards);
 
   // const my_token_staked_number = userStakedNft.filter(
   //   (item: any) =>
@@ -110,6 +111,12 @@ const Accordion: FC<CardPoolrops> = ({
   //}
 
   const { width } = useWindowDimensions();
+
+  const nft = useGetNft(
+    collectionReward.collection.toString(),
+    Number(collectionReward.nonce),
+    true
+  );
 
   return (
     <>
@@ -197,7 +204,10 @@ const Accordion: FC<CardPoolrops> = ({
                         borderRadius: '50px',
                         width: '28px',
                         height: '28px',
-                        background: 'black'
+                        background: 'black',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
                     >
                       <img
@@ -214,7 +224,91 @@ const Accordion: FC<CardPoolrops> = ({
                         alt=''
                       />
                     </div>
-                    earn : {collectionReward?.identifier}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '10px'
+                      }}
+                      className='Label_Details_Collection'
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: width > 855 ? 'row' : 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '2px'
+                        }}
+                        className='Label_Details_Collection'
+                      >
+                        earn :
+                        {collectionReward &&
+                        collectionReward.total_staked &&
+                        Number(collectionReward.blocks_to_max) !== 0 ? (
+                          <FormatAmount
+                            value={(
+                              BigInt(collectionReward?.rewards) /
+                              (BigInt(collectionReward.total_staked) > BigInt(0)
+                                ? BigInt(collectionReward.total_staked)
+                                : BigInt(1)) /
+                              BigInt(collectionReward.speed)
+                            ).toString()}
+                            decimals={Number(rdecimals)}
+                            egldLabel={`${
+                              collectionReward?.identifier.split('-')[0]
+                            } / NFT / DAY`}
+                            data-testid='balance'
+                            digits={
+                              (
+                                BigInt(collectionReward?.rewards) /
+                                (BigInt(collectionReward.total_staked) >
+                                BigInt(0)
+                                  ? BigInt(collectionReward.total_staked)
+                                  : BigInt(1)) /
+                                BigInt(collectionReward.speed)
+                              ).toString().length >= rdecimals
+                                ? 2
+                                : rdecimals -
+                                  (
+                                    BigInt(collectionReward?.rewards) /
+                                    (BigInt(collectionReward.total_staked) >
+                                    BigInt(0)
+                                      ? BigInt(collectionReward.total_staked)
+                                      : BigInt(1)) /
+                                    BigInt(collectionReward.speed)
+                                  ).toString().length +
+                                  2
+                            }
+                          />
+                        ) : (
+                          <p>probleme</p>
+                        )}
+                      </div>
+                      {/* <div>
+                        {collectionReward &&
+                        collectionReward.total_staked &&
+                        Number(collectionReward.blocks_to_max) !== 0 ? (
+                          <FormatAmount
+                            value={(
+                              BigInt(collectionReward?.rewards) /
+                              (BigInt(collectionReward.total_staked) > BigInt(0)
+                                ? BigInt(collectionReward.total_staked)
+                                : BigInt(1)) /
+                              BigInt(collectionReward.speed)
+                            ).toString()}
+                            decimals={Number(rdecimals)}
+                            egldLabel={' / NFT / DAY'}
+                            data-testid='balance'
+                            digits={2}
+                          />
+                        ) : (
+                          <p>probleme</p>
+                        )}
+                      </div> */}
+                    </div>
                   </div>
                   <div>
                     Vesting : {collectionReward?.vesting.toString()} Days
@@ -224,9 +318,7 @@ const Accordion: FC<CardPoolrops> = ({
                     Unbonding : {collectionReward?.unbounding.toString()} Days
                   </div>
                   <div>
-                    Speed :{' '}
-                    {(Number(collectionReward?.blocks_to_max) / 24 / 60 / 60) *
-                      6}{' '}
+                    Speed : {collectionReward?.speed?.toString() + ' '}
                     days
                   </div>
                   <div
@@ -234,14 +326,31 @@ const Accordion: FC<CardPoolrops> = ({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      flexDirection: width > 855 ? 'row' : 'row',
+                      flexDirection: width > 450 ? 'row' : 'column',
                       gap: '10px'
                     }}
                   >
+                    {/* {nft?.media && (
+                      <div
+                        style={{
+                          width: '100%',
+                          textAlign: width > 855 ? 'center' : 'center'
+                        }}
+                      >
+                        <HexagoneNFT
+                          format={nft?.media[0]?.fileType}
+                          url={nft?.media[0]?.url}
+                          width={35}
+                          withBorder={true}
+                          borderWidth={1}
+                          borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                        />
+                      </div>
+                    )} */}
                     {address && (
                       <Button
                         fontSize='10px'
-                        buttonWidth='100px'
+                        buttonWidth='120px'
                         hasBorder={true}
                         borderRadius={40}
                         background={'black'}
@@ -261,10 +370,22 @@ const Accordion: FC<CardPoolrops> = ({
                           setNFtCanStake(nFtCanStake);
                           setShowMoal(true);
                         }}
+                        rightHtml={
+                          nft?.media && (
+                            <HexagoneNFT
+                              format={nft?.media[0]?.fileType}
+                              url={nft?.media[0]?.url}
+                              width={30}
+                              withBorder={true}
+                              borderWidth={1}
+                              borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                            />
+                          )
+                        }
                       />
                     )}
                     <ActionClaimRewards
-                      buttonWidth={'104px'}
+                      buttonWidth='120px'
                       bottomHeight={'30px'}
                       identifier={collectionReward}
                       rewardsAmount={allRewardsForUser}
@@ -341,13 +462,21 @@ const Accordion: FC<CardPoolrops> = ({
                       <FormatAmount
                         value={
                           Availablerewards
-                            ? BigNumber(Availablerewards).toString()
+                            ? BigNumber(Availablerewards[0])?.toFixed()
                             : ''
                         }
                         decimals={Number(rdecimals)}
                         egldLabel={' '}
                         data-testid='balance'
-                        digits={2}
+                        // digits={2}
+                        digits={
+                          BigNumber(Availablerewards[0])?.toFixed().length >=
+                          rdecimals
+                            ? 2
+                            : rdecimals -
+                              BigNumber(Availablerewards[0])?.toFixed().length +
+                              2
+                        }
                       />
                     </div>
                   )}
@@ -387,6 +516,7 @@ const Accordion: FC<CardPoolrops> = ({
                 nft_balance={userNftBalance}
               />
             )} */}
+
             {userStakedNft && userStakedNft.length > 0 && (
               <MyStakeSection
                 isOpen={isOpen}

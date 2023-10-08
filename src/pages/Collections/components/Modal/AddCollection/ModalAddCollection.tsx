@@ -35,7 +35,7 @@ const ModalAddCollection = (props: any) => {
   const [decimals, setDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
   const maxVesting = 40;
-  const maxSpeed = 1000;
+  const maxSpeed = 365;
   const maxUnbound = 10;
 
   const [payFees, setPayFees] = React.useState(false);
@@ -43,7 +43,7 @@ const ModalAddCollection = (props: any) => {
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [vestingTime, setVestingTime] = React.useState(0);
   const [unboundingTime, setUnboundingTime] = React.useState(0);
-  const [speedNumber, setSpeedNumber] = React.useState(365);
+  const [speedNumber, setSpeedNumber] = React.useState(180);
   const [nonceNumber, setNonceNumber] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
 
@@ -98,6 +98,11 @@ const ModalAddCollection = (props: any) => {
     : notFound;
 
   function handleTokenAmountChange(value: any) {
+    console.log(value);
+
+    if (rtoken == '') {
+      return;
+    }
     const amount = BigInt(Number(value) * 10 ** rdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
@@ -113,6 +118,8 @@ const ModalAddCollection = (props: any) => {
     const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
     setRangeValue(percentage);
   }
+
+  console.log(tokenAmount);
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
     if (balance > BigInt(0)) {
@@ -491,7 +498,9 @@ const ModalAddCollection = (props: any) => {
                           hasBorder={false}
                           BoxShadowActive={false}
                           hasBorderActive={false}
-                          value={speedNumber}
+                          value={speedNumber
+                            .toString()
+                            .replace(/^0+(?=\d)/, '')}
                           background={'rgb(51 39 102)'}
                           onInputChange={handleSpeedChange}
                           type='number'
@@ -584,7 +593,9 @@ const ModalAddCollection = (props: any) => {
                           BoxShadowActive={false}
                           hasBorderActive={true}
                           background={'transparent'}
-                          value={nonceNumber}
+                          value={nonceNumber
+                            .toString()
+                            .replace(/^0+(?=\d)/, '')}
                           onInputChange={handleNonceChange}
                           type='number'
                           placeholder={'number'}
@@ -645,7 +656,9 @@ const ModalAddCollection = (props: any) => {
                           hasBorder={false}
                           BoxShadowActive={false}
                           hasBorderActive={false}
-                          value={vestingTime}
+                          value={vestingTime
+                            .toString()
+                            .replace(/^0+(?=\d)/, '')}
                           background={'rgb(51 39 102)'}
                           onInputChange={handleVestingTimeChange}
                           type='number'
@@ -735,7 +748,9 @@ const ModalAddCollection = (props: any) => {
                           hasBorder={false}
                           BoxShadowActive={false}
                           hasBorderActive={false}
-                          value={unboundingTime}
+                          value={unboundingTime
+                            .toString()
+                            .replace(/^0+(?=\d)/, '')}
                           background={'rgb(51 39 102)'}
                           onInputChange={handleUnboundingTimeChange}
                           type='number'
@@ -819,10 +834,10 @@ const ModalAddCollection = (props: any) => {
                   .filter(
                     (pool) =>
                       pool.identifier === rtoken &&
-                      pool.blocks_to_max == (speedNumber * 60 * 60 * 24) / 6 &&
-                      pool.nonce == nonceNumber &&
-                      pool.vesting == vestingTime &&
-                      pool.unbounding == unboundingTime
+                      pool.speed == BigInt(speedNumber) &&
+                      pool.nonce == BigInt(nonceNumber) &&
+                      pool.vesting == BigInt(vestingTime) &&
+                      pool.unbounding == BigInt(unboundingTime)
                   )
                   .map((item, key) => (
                     <div
@@ -900,7 +915,7 @@ const ModalAddCollection = (props: any) => {
                               Speed
                             </div>
                             <div className='ValueDetailsInfo_Collection'>
-                              {(item.blocks_to_max / 60 / 60 / 24) * 6} day
+                              {item?.speed.toString()} day
                             </div>
                           </div>
                           {/* <div className='DetailsInfo_Collection'>
@@ -921,7 +936,7 @@ const ModalAddCollection = (props: any) => {
                     inputHeight='40px'
                     inputWidth='179px'
                     borderColor='rgb(105, 88, 133)'
-                    value={tokenAmount}
+                    value={tokenAmount.toString().replace(/^0+(?=[^.])/, '')}
                     onInputChange={handleTokenAmountChange}
                     rightHtml={
                       <Button
@@ -937,7 +952,7 @@ const ModalAddCollection = (props: any) => {
                       />
                     }
                     type='number'
-                    placeholder={'number'}
+                    placeholder={''}
                     fontSize={14}
                   />
                 </div>

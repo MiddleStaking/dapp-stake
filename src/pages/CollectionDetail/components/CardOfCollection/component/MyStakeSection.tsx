@@ -43,11 +43,12 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
               }}
             >
               <div className='imgCheminCard'>
-                {item.staked_nft.nft_identifier && (
+                {item?.staked_nft?.identifier && (
                   <MyStakedNft
                     isOpen={isOpen}
-                    nft_identifier={item.staked_nft.nft_identifier}
-                    nft_nonce={item.staked_nft.nft_nonce}
+                    nft_identifier={item?.staked_nft.identifier}
+                    nft_nonce={item?.staked_nft?.nonce}
+                    nft_qty={item?.staked_nft?.qty?.toString()}
                   />
                 )}
               </div>
@@ -56,11 +57,11 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                   <ActionUnstakeNFT
                     text={
                       item?.current_block < item?.staked_nft?.lock
-                        ? 'Vesting ' + item?.staked_nft?.nft_qty?.toString()
-                        : 'Unstake ' + item?.staked_nft?.nft_qty?.toString()
+                        ? 'Vesting '
+                        : 'Unstake '
                     }
                     disabled={item?.current_block < item?.staked_nft?.lock}
-                    nft_id={item?.staked_nft.nft_id}
+                    nft_id={item?.staked_nft.id}
                   />{' '}
                   <Countdown
                     totalSeconds={
@@ -75,11 +76,11 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                       <ActionUnbound
                         text={
                           item?.current_block < item?.staked_nft?.lock
-                            ? 'Vesting ' + item?.staked_nft?.nft_qty?.toString()
-                            : 'Unbound ' + item?.staked_nft?.nft_qty?.toString()
+                            ? 'Vesting '
+                            : 'Unbound '
                         }
                         disabled={item?.current_block < item?.staked_nft?.lock}
-                        nft_id={item?.staked_nft.nft_id}
+                        nft_id={item?.staked_nft.id}
                       />
                       <Countdown
                         totalSeconds={
@@ -96,13 +97,11 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                   ) : (
                     <>
                       <Actionfinalize
-                        text={
-                          'Finalize ' + item?.staked_nft?.nft_qty?.toString()
-                        }
+                        text={'Finalize '}
                         disabled={
                           item?.current_block < item?.staked_nft?.unbound
                         }
-                        nft_id={item?.staked_nft.nft_id}
+                        nft_id={item?.staked_nft.id}
                       />
                       <Countdown
                         id_pool={pool}

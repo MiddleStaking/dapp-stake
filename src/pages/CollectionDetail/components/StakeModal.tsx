@@ -41,25 +41,22 @@ const StakeModal = (props: any) => {
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
   const staked_value = staked_esdt_info?.price
-    ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
+    ? Number(BigInt(tokenPosition.total_staked) / BigInt(10 ** sdecimals)) *
       staked_esdt_info?.price
     : 0;
   const rewarded_value = rewarded_esdt_info?.price
-    ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
+    ? Number(BigInt(tokenPosition.rewards) / BigInt(10 ** sdecimals)) *
       rewarded_esdt_info?.price
     : 0;
 
   let apr = BigInt(100);
-  if (tokenPosition.total_stake > BigInt(0)) {
+  if (tokenPosition.total_staked > BigInt(0)) {
     apr =
-      (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
+      (BigInt(tokenPosition.rewards) * apr) /
+      BigInt(tokenPosition.total_staked);
   }
 
-  const speed =
-    (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
-    BigInt(24) /
-    BigInt(60) /
-    BigInt(60);
+  const speed = tokenPosition?.speed;
 
   function handleTokenAmountChange(value: any) {
     const amount = BigInt(Number(value) * 10 ** sdecimals);
@@ -229,7 +226,7 @@ const StakeModal = (props: any) => {
                           <div className='LabelDetailsInfo'>Rewards</div>
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
-                              value={tokenPosition.balance.toString()}
+                              value={tokenPosition.rewards.toString()}
                               decimals={Number(rdecimals)}
                               egldLabel={' '}
                               data-testid='balance'
@@ -252,7 +249,7 @@ const StakeModal = (props: any) => {
                           </div>
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
-                              value={tokenPosition.total_rewards.toString()}
+                              value={tokenPosition.total_rewarded.toString()}
                               decimals={Number(rdecimals)}
                               egldLabel={' '}
                               data-testid='balance'
@@ -270,7 +267,7 @@ const StakeModal = (props: any) => {
                           <div className='LabelDetailsInfo'>Staked </div>
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
-                              value={tokenPosition.total_stake.toString()}
+                              value={tokenPosition.total_staked.toString()}
                               decimals={Number(sdecimals)}
                               egldLabel={' '}
                               data-testid='staked'
@@ -287,7 +284,7 @@ const StakeModal = (props: any) => {
                             $
                           </div>
                         </div>
-                        <div className='DetailsInfo'>
+                        {/* <div className='DetailsInfo'>
                           <div className='LabelDetailsInfo'>Users</div>
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
@@ -302,7 +299,7 @@ const StakeModal = (props: any) => {
                               digits={0}
                             />
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

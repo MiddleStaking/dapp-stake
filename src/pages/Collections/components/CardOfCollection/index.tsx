@@ -73,7 +73,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
   width = '100%',
   background = 'linear-gradient(0deg, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)),linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%)',
   gradientDirection = 'to right',
-  borderRadius = '8px 8px 0px 0px',
+  borderRadius = '8px 8px 8px 8px',
   WindowDimensions,
   textColor = '#ffffff',
   fontFamily = 'sans-serif',

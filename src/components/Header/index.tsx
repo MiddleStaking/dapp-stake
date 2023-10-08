@@ -81,20 +81,21 @@ const styles = {
   }
 };
 
-const defaultButtonProps = {
-  background: 'transparent',
-  fontFamily: '',
-  buttonHeight: '52px',
-  fontSize: '16px'
-};
 const HeaderDesktop = () => {
   const isLoggedIn = useGetIsLoggedIn();
-
   const { width } = useWindowDimensions();
+
   const navigate = useNavigate();
 
   const handleNavigate = (path: any) => {
     navigate(path);
+  };
+
+  const defaultButtonProps = {
+    background: 'transparent',
+    fontFamily: '',
+    buttonHeight: '52px',
+    fontSize: width > 579 ? '16px' : '12px'
   };
 
   return width > 450 ? (
@@ -114,6 +115,11 @@ const HeaderDesktop = () => {
               onClick={() =>
                 handleNavigate(routeNames.stake + '/' + defaultToken)
               }
+            />
+            <Button
+              {...defaultButtonProps}
+              text='Collections'
+              onClick={() => handleNavigate(routeNames.collections)}
             />
             <Button
               {...defaultButtonProps}
@@ -139,8 +145,8 @@ const HeaderDesktop = () => {
                   : () => handleNavigate(routeNames.unlock)
               }
               fontFamily=''
-              buttonHeight='52px'
-              fontSize='20px'
+              buttonHeight={width > 579 ? '52px' : '40px'}
+              fontSize={width > 579 ? '20px' : '15px'}
             />
           </div>
         </div>

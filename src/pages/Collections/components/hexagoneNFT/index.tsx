@@ -14,6 +14,7 @@ interface TypeSectionProps {
   withShadow?: boolean;
   ShadowDimeantion?: string;
   shadowColor?: string;
+  nft_qty?: number;
 }
 
 // heightComponentTypeSection
@@ -26,7 +27,8 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   borderColor = 'black',
   withShadow = false,
   ShadowDimeantion = '7px 0px 4px',
-  shadowColor = 'rgba(0, 0, 0, 1)'
+  shadowColor = 'rgba(0, 0, 0, 1)',
+  nft_qty = 0
 }) => {
   const hex: CSSProperties = {
     display: 'block',
@@ -63,6 +65,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
     return (
       <div
         style={{
+          position: 'relative',
           filter: withShadow
             ? `drop-shadow(${shadowColor} ${ShadowDimeantion})`
             : 'none'
@@ -78,6 +81,25 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
             </div>
           </div>
         </div>
+        {nft_qty > 0 && (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0, // Positionne cette div en bas de la div parente
+              right: 0, // Positionne cette div à gauche de la div parente
+              borderRadius: '50px',
+              width: '28px',
+              height: '28px',
+              background: borderColor,
+              zIndex: 40,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <div>{nft_qty}</div>
+          </div>
+        )}
       </div>
     );
   }
@@ -87,6 +109,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
       return (
         <div
           style={{
+            position: 'relative',
             filter: withShadow
               ? `drop-shadow(${shadowColor} ${ShadowDimeantion})`
               : 'none'
@@ -111,12 +134,32 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
               </div>
             </div>
           </div>
+          {nft_qty > 0 && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0, // Positionne cette div en bas de la div parente
+                right: 0, // Positionne cette div à gauche de la div parente
+                borderRadius: '50px',
+                minWidth: '28px',
+                minHeight: '28px',
+                background: borderColor,
+                zIndex: 40,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <div>{nft_qty}</div>
+            </div>
+          )}
         </div>
       );
     default:
       return (
         <div
           style={{
+            position: 'relative',
             filter: withShadow
               ? `drop-shadow(${shadowColor} ${ShadowDimeantion})`
               : 'none'
@@ -129,17 +172,28 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
             >
               <div style={hexbackground} className={styles.hexbackground}>
                 <img style={hexImage} src={url} loading='lazy' />
-                <img
-                  style={hexImage}
-                  src={url}
-                  srcSet='
-  image@2x.jpg 2x,
-  image@3x.jpg 3x,
-  image.jpg 1x'
-                />
               </div>
             </div>
           </div>
+          {nft_qty > 0 && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0, // Positionne cette div en bas de la div parente
+                right: 0, // Positionne cette div à gauche de la div parente
+                borderRadius: '50px',
+                minWidth: '28px',
+                minHeight: '28px',
+                background: borderColor,
+                zIndex: 40,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <div>{nft_qty}</div>
+            </div>
+          )}
         </div>
       );
   }

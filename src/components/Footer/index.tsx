@@ -168,6 +168,25 @@ const FooterDekstop: FC<any> = ({}) => {
         </p>
       </div>
       <div
+        onClick={() => navigate(routeNames.collections)}
+        style={{
+          ...iconStyle,
+          ...(firstSegment === routeNames.collections
+            ? backGroundActive
+            : backGround)
+        }}
+      >
+        <NFTSvg select={firstSegment === routeNames.collections} />
+        <p
+          style={
+            // firstSegment === routeNames.stake ? gradientStyle :
+            labelIconStyle
+          }
+        >
+          Collections
+        </p>
+      </div>
+      <div
         onClick={() => navigate(routeNames.dashboard)}
         style={{
           ...iconStyle,
@@ -345,6 +364,29 @@ const UserSvg: FC<SvgProps> = () => {
           // select ? 'url(#myGradient)' :
           '#ffffff'
         }
+      />
+    </svg>
+  );
+};
+
+const NFTSvg: FC<SvgProps> = () => {
+  return (
+    <svg xmlns='http://www.w3.org/2000/svg' width={24} height={24}>
+      <path
+        d='M64 1.348a13.02 13.02 0 0 0-6.5 1.732l-43 24.83C10.49 30.23 8 34.54 8 39.17v49.65c0 4.63 2.49 8.94 6.5 11.26l43 24.83c2 1.16 4.25 1.74 6.5 1.74s4.5-.58 6.5-1.74l43-24.83c4.01-2.31 6.5-6.62 6.5-11.25V39.17c0-4.63-2.49-8.94-6.5-11.26l-43-24.83A13.02 13.02 0 0 0 64 1.348zm0 5.994c1.21 0 2.42.312 3.5.937l43 24.83a7.022 7.022 0 0 1 3.5 6.06V88.82c0 2.5-1.34 4.82-3.5 6.07l-43 24.83a7.002 7.002 0 0 1-7 0l-43-24.83a7.022 7.022 0 0 1-3.5-6.06V39.17a7.01 7.01 0 0 1 3.5-6.06l43-24.83a6.986 6.986 0 0 1 3.5-.938zm0 8.623a3.009 3.009 0 0 0-3 3.006v90.068c0 1.66 1.34 3 3 3s3-1.34 3-3V67h12c1.66 0 3-1.34 3-3s-1.34-3-3-3H67V24.16l25.04 14.46c-.02.13-.04.25-.04.38v50c0 1.66 1.34 3 3 3s3-1.34 3-3V42.06l5.5 3.18c1.44.83 3.27.34 4.1-1.1.83-1.44.33-3.27-1.1-4.1l-41-23.67a2.983 2.983 0 0 0-1.5-.405zM47 31c-1.66 0-3 1.34-3 3v45.73L27.75 42.79a2.995 2.995 0 0 0-3.36-1.73c-1.4.3-2.39 1.52-2.39 2.94v40c0 1.66 1.34 3 3 3s3-1.34 3-3V58.27l16.25 36.94a3.017 3.017 0 0 0 3.37 1.73C49.01 96.64 50 95.42 50 94V34c0-1.66-1.34-3-3-3z'
+        style={{
+          stroke: 'none',
+          strokeWidth: 1,
+          strokeDasharray: 'none',
+          strokeLinecap: 'butt',
+          strokeDashoffset: 0,
+          strokeLinejoin: 'miter',
+          strokeMiterlimit: 4,
+          fill: '#ffffff',
+          fillRule: 'nonzero',
+          opacity: 1
+        }}
+        transform='matrix(.16 0 0 .16 1.76 1.76)'
       />
     </svg>
   );
