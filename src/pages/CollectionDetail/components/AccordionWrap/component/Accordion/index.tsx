@@ -14,7 +14,6 @@ import { BigNumber } from 'bignumber.js';
 import SandClock from 'pages/CollectionDetail/components/AccordionWrap/component/SandClock';
 import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNft';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
-
 interface CardPoolrops {
   collectionReward: any;
   allRewardsForUser: any[];
@@ -250,7 +249,9 @@ const Accordion: FC<CardPoolrops> = ({
                         Number(collectionReward.blocks_to_max) !== 0 ? (
                           <FormatAmount
                             value={(
-                              BigInt(collectionReward?.rewards) /
+                              BigInt(
+                                BigNumber(collectionReward?.rewards).toFixed()
+                              ) /
                               (BigInt(collectionReward.total_staked) > BigInt(0)
                                 ? BigInt(collectionReward.total_staked)
                                 : BigInt(1)) /
@@ -263,7 +264,9 @@ const Accordion: FC<CardPoolrops> = ({
                             data-testid='balance'
                             digits={
                               (
-                                BigInt(collectionReward?.rewards) /
+                                BigInt(
+                                  BigNumber(collectionReward?.rewards).toFixed()
+                                ) /
                                 (BigInt(collectionReward.total_staked) >
                                 BigInt(0)
                                   ? BigInt(collectionReward.total_staked)
@@ -273,7 +276,11 @@ const Accordion: FC<CardPoolrops> = ({
                                 ? 2
                                 : rdecimals -
                                   (
-                                    BigInt(collectionReward?.rewards) /
+                                    BigInt(
+                                      BigNumber(
+                                        collectionReward?.rewards
+                                      ).toFixed()
+                                    ) /
                                     (BigInt(collectionReward.total_staked) >
                                     BigInt(0)
                                       ? BigInt(collectionReward.total_staked)

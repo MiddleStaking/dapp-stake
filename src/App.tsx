@@ -15,7 +15,8 @@ import { Layout } from 'components';
 import {
   apiTimeout,
   walletConnectV2ProjectId,
-  sampleAuthenticatedDomains
+  sampleAuthenticatedDomains,
+  network
 } from 'config';
 import { ContextProvider } from 'context';
 import { HeaderMenuProvider } from 'context/Header/HeaderMenuProvider';
@@ -36,7 +37,11 @@ export const App = () => {
             customNetworkConfig={{
               name: 'customConfig',
               apiTimeout,
-              walletConnectV2ProjectId
+              walletConnectV2ProjectId,
+              walletAddress: network.walletAddress,
+              apiAddress: network.apiAddress,
+              gatewayAddress: network.gatewayAddress,
+              explorerAddress: network.explorerAddress
             }}
           >
             {' '}
