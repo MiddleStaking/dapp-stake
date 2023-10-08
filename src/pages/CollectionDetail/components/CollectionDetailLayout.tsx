@@ -61,17 +61,6 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
       >
         Back to Collections
       </Link> */}
-
-      <Button
-        borderRadius={40}
-        buttonHeight='31px'
-        // buttonWidth='240px'
-        textColor='#ffffff'
-        background={'#000000'}
-        onClick={() => (window.location.href = '/collections/')}
-        text={'Back to Collections'}
-      />
-
       <div
         style={{
           display: 'flex',
@@ -113,16 +102,14 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
                   collectionInfo={getCollectionInformations}
                 />
               )}
-              <div>
-                {'Nfts staked in this collection: '}
-                {collectionRewards
-                  ? collectionRewards
-                      .map((item) => Number(item.total_staked))
-                      .reduce((prev, curr) => prev + curr, 0)
-                  : '...'}
-              </div>
+              <div
+                style={{
+                  textAlign: 'center'
+                }}
+              >
+                {url ? url : ''}
+              </div>{' '}
             </div>
-            <div>{url ? url : ''}</div>{' '}
           </div>
 
           <div

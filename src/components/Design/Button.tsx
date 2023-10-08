@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, MouseEventHandler } from 'react';
+import React, { FC, CSSProperties, MouseEventHandler, ReactNode } from 'react';
 
 interface ButtonProps {
   text?: React.ReactNode;
@@ -19,6 +19,8 @@ interface ButtonProps {
   disabled?: boolean;
   grayscale?: string;
   boxShadow?: string;
+  LeftHtml?: ReactNode;
+  rightHtml?: ReactNode;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -39,7 +41,9 @@ export const Button: FC<ButtonProps> = ({
   text = 'Texte a difinir',
   gradientDirection = 'to right',
   borederGradientDirection = 'to right',
-  boxShadow = ''
+  boxShadow = '',
+  LeftHtml = <div />,
+  rightHtml = <div />
 }) => {
   const isGradient = (
     value: string | [string, string]
@@ -49,6 +53,7 @@ export const Button: FC<ButtonProps> = ({
 
   const buttonStyle: CSSProperties = {
     boxShadow: boxShadow,
+
     display: 'flex',
     justifyContent: 'center',
     filter: disabled ? `grayscale(${grayscale})` : 'none',
@@ -90,10 +95,25 @@ export const Button: FC<ButtonProps> = ({
     padding: hasBorder ? borderWidth : 0
   };
 
+  const HtmlLeftSvgStyle: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: '5px'
+  };
+  const HtmlRightSvgStyle: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: '5px'
+  };
+
   return (
     <div style={wrapperStyle}>
       <button disabled={disabled} style={buttonStyle} onClick={onClick}>
+        <div style={HtmlLeftSvgStyle}>{LeftHtml}</div>
         {text}
+        <div style={HtmlRightSvgStyle}>{rightHtml}</div>
       </button>
     </div>
   );

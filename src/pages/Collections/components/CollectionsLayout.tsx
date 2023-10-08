@@ -22,6 +22,8 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [showFund, setShowFund] = useState(false);
   const { address } = useGetAccountInfo();
   const userEsdtBalance = useGetUserESDT();
+  const [mySearch, setMySearch] = React.useState('');
+
   const isLoggedIn = useGetIsLoggedIn();
   const isPaused = useGetIsPaused();
 
@@ -35,8 +37,19 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const { width } = useWindowDimensions();
   const heightComponentTypeSection = width > 450 ? '162px' : '114px';
 
+  const handleMySearch = (e: any) => {
+    setMySearch(e.target.value);
+  };
+
   return (
-    <div className='center'>
+    <div
+      style={{
+        padding: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px'
+      }}
+    >
       <FundModal
         userEsdtBalance={userEsdtBalance}
         show={showFund}
@@ -44,7 +57,8 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
           setHeaderMenu(true), setShowFund(false);
         }}
       />
-      <div className='col-12'>
+
+      <div>
         {/* <Col
           xs={12}
           sm={12}
@@ -56,67 +70,69 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         >
           search
         </Col> */}
-        <Col
-          xs={12}
-          sm={12}
-          md={6}
-          lg={4}
-          xl={3}
-          xxl={3}
-          className='pb-4 center'
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center'
+          }}
         >
-          {/* ---- bouton + ---- */}
+          <div className='search-bar'>
+            <svg
+              className='search'
+              width='16'
+              height='16'
+              viewBox='0 0 16 16'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M14.2716 13.1684L11.3313 10.2281C12.0391 9.28573 12.4213 8.13865 12.42 6.96C12.42 3.94938 9.97063 1.5 6.96 1.5C3.94938 1.5 1.5 3.94938 1.5 6.96C1.5 9.97063 3.94938 12.42 6.96 12.42C8.13865 12.4213 9.28573 12.0391 10.2281 11.3313L13.1684 14.2716C13.3173 14.4046 13.5114 14.4756 13.711 14.47C13.9105 14.4645 14.1004 14.3827 14.2415 14.2415C14.3827 14.1004 14.4645 13.9105 14.47 13.711C14.4756 13.5114 14.4046 13.3173 14.2716 13.1684V13.1684ZM3.06 6.96C3.06 6.18865 3.28873 5.43463 3.71727 4.79328C4.14581 4.15192 4.7549 3.65205 5.46754 3.35687C6.18017 3.06169 6.96433 2.98446 7.72085 3.13494C8.47738 3.28542 9.17229 3.65686 9.71772 4.20228C10.2631 4.74771 10.6346 5.44262 10.7851 6.19915C10.9355 6.95567 10.8583 7.73983 10.5631 8.45247C10.2679 9.1651 9.76808 9.77419 9.12673 10.2027C8.48537 10.6313 7.73135 10.86 6.96 10.86C5.92604 10.8588 4.93478 10.4475 4.20365 9.71635C3.47253 8.98522 3.06124 7.99396 3.06 6.96V6.96Z'
+                fill='white'
+              />
+            </svg>
+            <input
+              className='search-input'
+              value={mySearch}
+              onChange={handleMySearch}
+              type='input'
+              placeholder='Search pool'
+            />
+          </div>
           <div style={{ width: '44px' }} className='centered-element'>
             {address && (
-              // <div
-              //   className='button-icon-border  cursor-pointer'
-              //   onClick={() => {
-              //     setShowFund(true), setHeaderMenu(false);
-              //   }}
-              // >
-              //   <div className='button-icon'>
-              //     <svg
-              //       className='plus'
-              //       width='20'
-              //       height='20'
-              //       viewBox='0 0 32 32'
-              //       fill='none'
-              //       xmlns='http://www.w3.org/2000/svg'
-              //     >
-              //       <path
-              //         fillRule='evenodd'
-              //         clipRule='evenodd'
-              //         d='M17.3334 6.66683C17.3334 5.93045 16.7364 5.3335 16 5.3335C15.2637 5.3335 14.6667 5.93045 14.6667 6.66683V14.6668H6.66671C5.93033 14.6668 5.33337 15.2638 5.33337 16.0002C5.33337 16.7365 5.93033 17.3335 6.66671 17.3335H14.6667V25.3335C14.6667 26.0699 15.2637 26.6668 16 26.6668C16.7364 26.6668 17.3334 26.0699 17.3334 25.3335V17.3335H25.3334C26.0698 17.3335 26.6667 16.7365 26.6667 16.0002C26.6667 15.2638 26.0698 14.6668 25.3334 14.6668H17.3334V6.66683Z'
-              //         fill='white'
-              //       />
-              //     </svg>
-              //   </div>
-              // </div>
               <PoolAddCollection
                 userEsdtBalance={userEsdtBalance}
                 address={address}
               />
             )}
           </div>
-        </Col>
+        </div>
       </div>
-      <div className='col-12'>
-        <Row className=''>
-          {stakedCollections &&
-            stakedCollections.map((item) => (
-              <Col
-                xs={12}
-                sm={12}
-                md={6}
-                lg={4}
-                xl={3}
-                xxl={3}
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: '10px',
+          placeItems: 'start center'
+        }}
+      >
+        {stakedCollections &&
+          stakedCollections
+            .filter((token) => {
+              return (
+                token.toLowerCase().includes(mySearch.toLowerCase()) ||
+                mySearch == ''
+              );
+            })
+            .map((item) => (
+              <div
                 key={item}
-                className='pb-4 center'
                 style={{
                   display: 'flex',
-                  flex: '1 1 200px',
-                  width: '300px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   maxWidth: '300px'
                 }}
               >
@@ -127,47 +143,8 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
                   fontFamily='sans-serif'
                   collectionIdentifier={item}
                 />
-              </Col>
+              </div>
             ))}
-          <Col
-            style={{
-              display: 'flex',
-              flex: '1 1 200px'
-            }}
-            xs={12}
-            sm={12}
-            md={6}
-            lg={4}
-            xl={3}
-            xxl={3}
-          >
-            <div
-              style={{
-                width: '300px',
-                maxWidth: '300px'
-              }}
-              className='card-type'
-            ></div>
-          </Col>
-          <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
-            <div
-              style={{
-                width: '300px',
-                maxWidth: '300px'
-              }}
-              className='card-type'
-            ></div>
-          </Col>{' '}
-          <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
-            <div
-              style={{
-                width: '300px',
-                maxWidth: '300px'
-              }}
-              className='card-type'
-            ></div>
-          </Col>
-        </Row>
       </div>
     </div>
   );

@@ -24,8 +24,12 @@ export const useGetAllLp = () => {
 
   const getAllLp = async () => {
     const expire_test = Number(localStorage.getItem('all_lp_expire'));
-    const storage = JSON.parse(localStorage.getItem('all_lp') as string);
-    setTokenPosition(storage);
+    const item = localStorage.getItem('all_lp');
+    const storage = item && item !== 'undefined' ? JSON.parse(item) : null;
+
+    if (storage) {
+      setTokenPosition(storage);
+    }
     if (time.getTime() < expire_test) {
       return;
     }
@@ -44,11 +48,12 @@ export const useGetAllLp = () => {
         queryResponse,
         endpointDefinition
       );
-
-      setTokenPosition(position?.valueOf());
-      const expire = time.getTime() + 1000 * 60 * 15;
-      localStorage.setItem('all_lp', JSON.stringify(position?.valueOf()));
-      localStorage.setItem('all_lp_expire', expire.toString());
+      if (queryResponse.returnCode == 'ok') {
+        setTokenPosition(position?.valueOf());
+        const expire = time.getTime() + 1000 * 60 * 15;
+        localStorage.setItem('all_lp', JSON.stringify(position?.valueOf()));
+        localStorage.setItem('all_lp_expire', expire.toString());
+      }
     } catch (err) {
       console.error('Unable to call getAllLp', err);
     }

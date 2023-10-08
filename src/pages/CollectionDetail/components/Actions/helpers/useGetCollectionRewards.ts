@@ -13,19 +13,20 @@ const resultsParser = new ResultsParser();
 export const useGetCollectionRewards = (stakedToken: string) => {
   const [stakedTokens, setStakedTokens] = useState([
     {
-      pool_id: 0,
+      pool_id: BigInt(0),
+      collection: '',
+      total_staked: BigInt(1),
       identifier: '',
-      rewards: BigInt(0),
-      total_staked: BigInt(0),
-      total_rewarded: BigInt(0),
-      last_fund_block: 0,
-      paused: 0,
-      blocks_to_max: 0,
-      vesting: 0,
-      unbounding: 0,
-      nonce: 0
+      rewards: BigInt(1),
+      total_rewarded: BigInt(1),
+      last_fund_block: BigInt(1),
+      speed: BigInt(1),
+      vesting: BigInt(0),
+      unbounding: BigInt(0),
+      nonce: BigInt(0)
     }
   ]);
+
   const time = new Date();
 
   const getStakedTokens = async () => {

@@ -76,6 +76,17 @@
             "outputs": []
         },
         {
+            "name": "unstake",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "nft_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
             "name": "jump",
             "mutability": "mutable",
             "inputs": [
@@ -102,7 +113,7 @@
             "outputs": []
         },
         {
-            "name": "unstake",
+            "name": "finalize",
             "mutability": "mutable",
             "inputs": [
                 {
@@ -335,15 +346,19 @@
                     "type": "u64"
                 },
                 {
+                    "name": "collection",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "total_staked",
+                    "type": "BigUint"
+                },
+                {
                     "name": "identifier",
                     "type": "TokenIdentifier"
                 },
                 {
                     "name": "rewards",
-                    "type": "BigUint"
-                },
-                {
-                    "name": "total_staked",
                     "type": "BigUint"
                 },
                 {
@@ -355,11 +370,7 @@
                     "type": "u64"
                 },
                 {
-                    "name": "paused",
-                    "type": "bool"
-                },
-                {
-                    "name": "blocks_to_max",
+                    "name": "speed",
                     "type": "u64"
                 },
                 {
@@ -380,7 +391,7 @@
             "type": "struct",
             "fields": [
                 {
-                    "name": "nft_id",
+                    "name": "id",
                     "type": "u64"
                 },
                 {
@@ -388,15 +399,15 @@
                     "type": "u64"
                 },
                 {
-                    "name": "nft_identifier",
+                    "name": "identifier",
                     "type": "TokenIdentifier"
                 },
                 {
-                    "name": "nft_nonce",
+                    "name": "nonce",
                     "type": "u64"
                 },
                 {
-                    "name": "nft_qty",
+                    "name": "qty",
                     "type": "BigUint"
                 },
                 {

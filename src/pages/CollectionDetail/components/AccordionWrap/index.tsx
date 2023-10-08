@@ -27,10 +27,22 @@ const AccordionWrap: FC<CardPoolrops> = ({
     pools_id.push(BigNumber(pools.pool_id).toFixed());
   }
 
-  console.log(pools_id);
   return (
     <div className='AccordeonsCards'>
       <div className='backgroundAccordeonsCards'>
+        <div
+          style={{
+            padding: '0px 44px'
+          }}
+        >
+          {'Nfts staked in this collection: '}
+          {collectionRewards
+            ? collectionRewards
+                .map((item) => Number(item.total_staked))
+                .reduce((prev, curr) => prev + curr, 0)
+            : '...'}
+        </div>
+
         <div className='AccordeonsCardStake'>
           <div className='contentStakeModal_Collection'>
             <div
@@ -48,8 +60,7 @@ const AccordionWrap: FC<CardPoolrops> = ({
                 userStakedNft
                   .filter(
                     (obj: any) =>
-                      obj?.staked_nft?.nft_identifier ==
-                        collection_identifier &&
+                      obj?.staked_nft?.identifier == collection_identifier &&
                       !pools_id.includes(
                         BigNumber(obj?.staked_nft?.pool_id).toFixed()
                       )
