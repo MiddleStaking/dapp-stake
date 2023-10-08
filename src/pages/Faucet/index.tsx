@@ -23,11 +23,13 @@ const Faucet = () => {
   const [state, setState] = React.useState({
     urls: [
       { network: 'T', explorer: 'https://testnet-explorer.elrond.com/' },
-      { network: 'D', explorer: 'https://devnet-explorer.elrond.com/' }
+      { network: 'D', explorer: 'https://devnet-explorer.elrond.com/' },
+      { network: 'D2', explorer: 'https://devnet2-explorer.elrond.com/' }
     ],
     tokens: [
       { id: '1', identifier: 'xEGLD', network: 'T', balance: 0, decimals: 18 },
-      { id: '2', identifier: 'dEGLD', network: 'D', balance: 0, decimals: 18 }
+      { id: '2', identifier: 'dEGLD', network: 'D', balance: 0, decimals: 18 },
+      { id: '3', identifier: 'dEGLD', network: 'D2', balance: 0, decimals: 18 }
     ],
     transactions: [
       {
@@ -39,8 +41,8 @@ const Faucet = () => {
         tx_result: ''
       }
     ],
-    network: 'D',
-    token_id: '2'
+    network: 'D2',
+    token_id: '3'
   });
   //Tableau des tokens du faucet
   const [tokens, setTokens] = React.useState({
@@ -57,6 +59,14 @@ const Faucet = () => {
         id: '2',
         identifier: 'dEGLD',
         network: 'D',
+        balance: 0,
+        decimals: 18,
+        max: 1
+      },
+      {
+        id: '3',
+        identifier: 'dEGLD',
+        network: 'D2',
         balance: 0,
         decimals: 18,
         max: 1
@@ -80,12 +90,12 @@ const Faucet = () => {
   });
   //Network selectionné
   const [cnetwork, setNetwork] = React.useState({
-    network: network?.chainId ? network?.chainId : 'T'
+    network: network?.chainId ? network?.chainId : 'D2'
   });
 
   //Token selectionné
   const [ctoken, setToken] = React.useState({
-    token_id: '2',
+    token_id: '3',
     token_index: 0
   });
 
@@ -110,6 +120,8 @@ const Faucet = () => {
       tmp = '1';
     } else if (e.target.value === 'D') {
       tmp = '2';
+    } else if (e.target.value === 'D2') {
+      tmp = '3';
     }
     const index = tokens.tokens
       .filter(({ network }) => network === e.target.value)
@@ -245,6 +257,7 @@ const Faucet = () => {
             >
               <option value='T'>Testnet</option>
               <option value='D'>Devnet</option>
+              <option value='D2'>Devnet2</option>
             </Form.Control>
           </Form.Group>
 
@@ -325,7 +338,7 @@ const Faucet = () => {
               required
               type='number'
               placeholder=''
-              defaultValue='1'
+              defaultValue='3'
               value={amount}
             />
           </Form.Group>

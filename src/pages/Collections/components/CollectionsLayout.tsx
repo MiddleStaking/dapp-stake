@@ -12,14 +12,15 @@ import { useGetCollections } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import FundModal from './FundModal';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { ToggleSwitch } from './../../../components/Design';
+import { Button, ToggleSwitch } from './../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardOfCollection from './CardOfCollection';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
-
+import MintModal from '../../../pages/Mint/components/MintModal';
 export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [showFund, setShowFund] = useState(false);
+  const [showMint, setShowMint] = useState(false);
   const { address } = useGetAccountInfo();
   const userEsdtBalance = useGetUserESDT();
   const [mySearch, setMySearch] = React.useState('');
@@ -57,7 +58,14 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
           setHeaderMenu(true), setShowFund(false);
         }}
       />
-
+      <MintModal
+        userEsdtBalance={userEsdtBalance}
+        userEgldBalance={'1000000000000000000'}
+        show={showMint}
+        onClose={() => {
+          setHeaderMenu(true), setShowMint(false);
+        }}
+      />
       <div>
         {/* <Col
           xs={12}
@@ -106,6 +114,20 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
                 address={address}
               />
             )}
+          </div>
+          <div style={{ width: '44px' }} className='centered-element'>
+            <Button
+              fontSize='16px'
+              buttonHeight={'44px'}
+              buttonWidth={'90px'}
+              borderRadius={40}
+              background={['#BD37EC', '#1F67FF']}
+              borderColor={'black'}
+              text='Mint SFT'
+              onClick={() => {
+                setHeaderMenu(false), setShowMint(true);
+              }}
+            />
           </div>
         </div>
       </div>
