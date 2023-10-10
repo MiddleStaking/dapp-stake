@@ -40,6 +40,9 @@ export const useGetCollectionRewards = (stakedToken: string) => {
     if (time.getTime() < expire_test) {
       return;
     }
+    if (!stakedToken) {
+      return;
+    }
 
     try {
       const query = smartContract.createQuery({

@@ -31,6 +31,10 @@ export const useGetUserRewards = (address: string, collection: string) => {
       return;
     }
 
+    if (!address) {
+      return;
+    }
+
     try {
       const query = smartContract.createQuery({
         func: new ContractFunction('getAllRewardsForUser'),

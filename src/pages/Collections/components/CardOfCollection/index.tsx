@@ -100,9 +100,6 @@ const CardOfCollection: FC<CardPoolrops> = ({
 
   // const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
-  const [showStake, setShowStake] = useState(false);
-  const [showUnstake, setShowUnstake] = useState(false);
-  const { hasPendingTransactions } = useGetPendingTransactions();
 
   const collectionInfo = useGetCollectionInformations(collectionIdentifier);
 
