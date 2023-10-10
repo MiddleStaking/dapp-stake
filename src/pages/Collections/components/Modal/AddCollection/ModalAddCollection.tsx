@@ -98,9 +98,7 @@ const ModalAddCollection = (props: any) => {
     : notFound;
 
   function handleTokenAmountChange(value: any) {
-    console.log(value);
-
-    if (rtoken == '') {
+    if (!rtoken) {
       return;
     }
     const amount = BigInt(Number(value) * 10 ** rdecimals);
@@ -118,8 +116,6 @@ const ModalAddCollection = (props: any) => {
     const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
     setRangeValue(percentage);
   }
-
-  console.log(tokenAmount);
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
     if (balance > BigInt(0)) {
@@ -201,6 +197,9 @@ const ModalAddCollection = (props: any) => {
   const getCollectionInformations = useGetCollectionInformations(stoken);
 
   function handleNonceChange(value: any) {
+    if (!stoken) {
+      return;
+    }
     if (value >= 0) {
       setNonceNumber(value);
     }

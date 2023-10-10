@@ -23,8 +23,7 @@ const MintModal = (props: any) => {
   const nft: any = useGetNft(sftCollection, 1, true);
   const getCollectionInformations = useGetCollectionInformations(sftCollection);
 
-  const nonces = useGetNonces();
-  console.log(nonces);
+  // const nonces = useGetNonces();
   useEffect(() => {
     setBigAmount(BigInt('10000000000000000'));
     setTokenAmount(0.01);

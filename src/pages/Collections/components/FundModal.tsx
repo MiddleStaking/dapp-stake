@@ -75,52 +75,52 @@ const FundModal = (props: any) => {
     setPayFees(false);
   }
 
-  const staked_esdt_info = useGetESDTInformations(stoken);
+  // const staked_esdt_info = useGetESDTInformations(stoken);
   const rewarded_esdt_info = useGetESDTInformations(rtoken);
-  const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
+  // const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
   const rdecimals = rewarded_esdt_info?.decimals
     ? rewarded_esdt_info?.decimals
     : 0;
 
-  const image1 = staked_esdt_info?.assets?.svgUrl
-    ? staked_esdt_info?.assets?.svgUrl
-    : notFound;
+  // const image1 = staked_esdt_info?.assets?.svgUrl
+  //   ? staked_esdt_info?.assets?.svgUrl
+  //   : notFound;
   const image2 = rewarded_esdt_info?.assets?.svgUrl
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
 
-  function handleTokenAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** sdecimals);
-    if (amount < BigInt(0)) {
-      setTokenAmount(0);
-      setBigAmount(BigInt(0));
-    } else if (amount > balance) {
-      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
-      setBigAmount(balance);
-    } else {
-      setTokenAmount(Number(value));
-      const output = toBigAmount(Number(value), Number(decimals));
-      setBigAmount(BigInt(output));
-    }
-    const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
-    setRangeValue(percentage);
-  }
+  // function handleTokenAmountChange(value: any) {
+  //   const amount = BigInt(Number(value) * 10 ** sdecimals);
+  //   if (amount < BigInt(0)) {
+  //     setTokenAmount(0);
+  //     setBigAmount(BigInt(0));
+  //   } else if (amount > balance) {
+  //     setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
+  //     setBigAmount(balance);
+  //   } else {
+  //     setTokenAmount(Number(value));
+  //     const output = toBigAmount(Number(value), Number(decimals));
+  //     setBigAmount(BigInt(output));
+  //   }
+  //   const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
+  //   setRangeValue(percentage);
+  // }
 
-  function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (balance > BigInt(0)) {
-      setRangeValue(e.target.value);
-      const percentage = Number(e.target.value).toFixed();
-      const big_amount = BigInt(
-        (BigInt(balance) * BigInt(percentage)) / BigInt(100)
-      );
-      setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
-      );
-      setBigAmount(big_amount);
-    } else {
-      setRangeValue(0);
-    }
-  }
+  // function handleRangeValueChange(e: React.ChangeEvent<any>) {
+  //   if (balance > BigInt(0)) {
+  //     setRangeValue(e.target.value);
+  //     const percentage = Number(e.target.value).toFixed();
+  //     const big_amount = BigInt(
+  //       (BigInt(balance) * BigInt(percentage)) / BigInt(100)
+  //     );
+  //     setTokenAmount(
+  //       Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
+  //     );
+  //     setBigAmount(big_amount);
+  //   } else {
+  //     setRangeValue(0);
+  //   }
+  // }
 
   function handleVestingTimeChange(value: any) {
     setVestingTime(value);
@@ -198,11 +198,11 @@ const FundModal = (props: any) => {
                   </div>
                 </div>
 
-                <div className='logo1StakeModal'>
+                {/* <div className='logo1StakeModal'>
                   <div className='image_1StakeModal'>
                     <img className='img_1StakeModal' src={image1} />
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className='dropDownGroupeStakeModal'>
                 <div className='dropDownStake'>
@@ -410,7 +410,7 @@ const FundModal = (props: any) => {
                         max='100'
                         step='1'
                         value={rangeValue}
-                        onChange={handleRangeValueChange}
+                        // onChange={handleRangeValueChange}
                         style={{
                           appearance: 'none',
                           width: '100%',
@@ -438,7 +438,7 @@ const FundModal = (props: any) => {
                       inputWidth='179px'
                       borderColor='rgb(105, 88, 133)'
                       value={tokenAmount}
-                      onInputChange={handleTokenAmountChange}
+                      // onInputChange={handleTokenAmountChange}
                       rightHtml={
                         <Button
                           textColor='#1F67FF'
