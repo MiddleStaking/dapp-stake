@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import { Col, Form, Row } from 'react-bootstrap';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { defaultToken } from 'config';
 import notFound from './../../../assets/img/notfoundc.svg';
@@ -25,13 +24,13 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const userEsdtBalance = useGetUserESDT();
   const [mySearch, setMySearch] = React.useState('');
 
-  const isLoggedIn = useGetIsLoggedIn();
-  const isPaused = useGetIsPaused();
+  // const isLoggedIn = useGetIsLoggedIn();
+  // const isPaused = useGetIsPaused();
 
   const stakedCollections: string[] = useGetCollections();
   const navigate = useNavigate();
   const { param } = useParams();
-  const [url] = useState(param ? param.toString() : defaultToken);
+  // const [url] = useState(param ? param.toString() : defaultToken);
 
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
@@ -51,13 +50,6 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         gap: '10px'
       }}
     >
-      <FundModal
-        userEsdtBalance={userEsdtBalance}
-        show={showFund}
-        onClose={() => {
-          setHeaderMenu(true), setShowFund(false);
-        }}
-      />
       <MintModal
         userEsdtBalance={userEsdtBalance}
         userEgldBalance={'1000000000000000000'}
@@ -67,22 +59,13 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         }}
       />
       <div>
-        {/* <Col
-          xs={12}
-          sm={12}
-          md={6}
-          lg={4}
-          xl={3}
-          xxl={3}
-          className='pb-4 center'
-        >
-          search
-        </Col> */}
         <div
           style={{
             display: 'flex',
-            justifyContent: 'space-around',
-            alignItems: 'center'
+            justifyContent: width < 600 ? 'center' : 'space-around',
+            flexDirection: width < 600 ? 'column' : 'row',
+            alignItems: 'center',
+            gap: '10px'
           }}
         >
           <div className='search-bar'>
@@ -107,7 +90,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
               placeholder='Search pool'
             />
           </div>
-          <div style={{ width: '44px' }} className='centered-element'>
+          <div className='centered-element'>
             {address && (
               <PoolAddCollection
                 userEsdtBalance={userEsdtBalance}
@@ -115,7 +98,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
               />
             )}
           </div>
-          <div style={{ width: '44px' }} className='centered-element'>
+          <div className='centered-element'>
             <Button
               fontSize='16px'
               buttonHeight={'44px'}
