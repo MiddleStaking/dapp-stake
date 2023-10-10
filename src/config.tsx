@@ -1,5 +1,6 @@
 //DEVNET :
 export const defaultToken = 'MID-7f1d59';
+export const sftCollection = 'TOKENTICKE-5909b2';
 export const defaultPairs = [
   { s: 'MID-7f1d59', r: 'MID-7f1d59' },
   { s: 'MID-7f1d59', r: 'ATS-e57f90' },
@@ -21,6 +22,8 @@ export const contractSwap =
 export const contractNftStake =
   'erd1qqqqqqqqqqqqqpgq56t249qv4ancy8e0xr70a70wpszs9vdgch9sqt473c';
 // 'erd1qqqqqqqqqqqqqpgqn2lylt4vzaxrsklfd0afnxjt04d4xlk7ch9s7wc54y';
+export const contractMint =
+  'erd1qqqqqqqqqqqqqpgqz8s3d4grypaq8kws6lrgjseljjtkw6etch9sltef2r';
 
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
@@ -40,15 +43,18 @@ export const network: NetworkType = {
   delegationContract: contractAddressDelegation
 };
 
-// DEVNET 2:
+// // DEVNET 2:
 // export const defaultToken = 'MID-00c2c9';
+// export const sftCollection = 'TOKENTICKE-38b075';
 // export const defaultPairs = [{ s: 'MID-00c2c9', r: 'MID-00c2c9' }];
 // export const contractStake =
 //   'erd1qqqqqqqqqqqqqpgqnhdcg9ugyall5xyxa8xayz80hp5d3d6gch9s2kragz';
 // export const contractSwap =
 //   'erd1qqqqqqqqqqqqqpgq0dr0a8ag4y59q4nd66leux69vaeg6j9nch9swrxd82';
 // export const contractNftStake =
-//   'erd1qqqqqqqqqqqqqpgq0dr0a8ag4y59q4nd66leux69vaeg6j9nch9swrxd82';
+//   'erd1qqqqqqqqqqqqqpgqq9va3mwdgzx5qzc7qnxu8k6ay0twry5jch9sz0ymrt';
+// export const contractMint =
+//   'erd1qqqqqqqqqqqqqpgq7zl9anenveu2vfz7z8m3kd4kcjlzq2wpch9sjgjyqh';
 
 // export const contractAddressDelegation =
 //   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
@@ -57,7 +63,7 @@ export const network: NetworkType = {
 
 // export const network: NetworkType = {
 //   id: 'devnet',
-//   chainId: 'D',
+//   chainId: 'D2',
 //   name: 'Devnet',
 //   egldLabel: 'xEGLD',
 //   walletAddress: 'https://devnet2-wallet.multiversx.com/dapp/init',
@@ -68,8 +74,7 @@ export const network: NetworkType = {
 //   delegationContract: contractAddressDelegation
 // };
 
-//MAINNET :
-// export const defaultToken = 'MID-ecb7bf';
+// MAINNET: export const defaultToken = 'MID-ecb7bf';
 
 // export const contractStake =
 //   'erd1qqqqqqqqqqqqqpgqgdf6vk43c2jxk4a6nw2adv8vmnpqagegtxfqmf8et2';
@@ -77,6 +82,8 @@ export const network: NetworkType = {
 //   'erd1qqqqqqqqqqqqqpgqw0tp0z2evzvdgmreavvszfwkncnxnsejtxfql7w9tu';
 // export const contractNftStake =
 //   'erd1qqqqqqqqqqqqqpgqgdf6vk43c2jxk4a6nw2adv8vmnpqagegtxfqmf8et2';
+// export const contractMint =
+//   'erd1qqqqqqqqqqqqqpgqz8s3d4grypaq8kws6lrgjseljjtkw6etch9sltef2r';
 
 // export const contractAddressDelegation =
 //   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
@@ -145,7 +152,7 @@ export const yearSettings = [
 ];
 
 interface NetworkType {
-  id: 'devnet' | 'testnet' | 'mainnet';
+  id: 'devnet' | 'devnet2' | 'testnet' | 'mainnet';
   chainId: string;
   name: string;
   egldLabel: string;

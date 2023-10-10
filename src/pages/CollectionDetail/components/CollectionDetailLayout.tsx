@@ -29,7 +29,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const { address } = useGetAccountInfo();
   const userEsdtBalance = useGetUserESDT();
   const isLoggedIn = useGetIsLoggedIn();
-  const isPaused = useGetIsPaused();
+  // const isPaused = useGetIsPaused();
 
   const navigate = useNavigate();
   const { param } = useParams();
@@ -47,20 +47,6 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
 
   return (
     <div>
-      {/* <FundModal
-        userEsdtBalance={userEsdtBalance}
-        show={showFund}
-        onClose={() => {
-          setHeaderMenu(true), setShowFund(false);
-        }}
-      /> */}
-      {/* <Link
-        to={routeNames.collections}
-        // className='butLine bouton-visiter'
-        data-testid='loginBtn'
-      >
-        Back to Collections
-      </Link> */}
       <div
         style={{
           display: 'flex',
