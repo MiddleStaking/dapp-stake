@@ -9,7 +9,6 @@ import { useGetIsPaused, useGetUserRewards } from './Actions/helpers';
 import { useGetCollections, useGetCollectionRewards } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
-import FundModal from '../../Collections/components/FundModal';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Button, ToggleSwitch } from '../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';

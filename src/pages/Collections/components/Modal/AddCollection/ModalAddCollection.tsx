@@ -17,6 +17,7 @@ import { useGetNft } from '../../Actions/helpers/useGetNft';
 import HexagoneNFT from '../../hexagoneNFT';
 import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actions/helpers';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
+import { CheckBox } from './../../../../../components/Design';
 
 const ModalAddCollection = (props: any) => {
   const userNFTBalance = useGetUserNFT();
@@ -38,7 +39,8 @@ const ModalAddCollection = (props: any) => {
   const maxSpeed = 365;
   const maxUnbound = 10;
 
-  const [payFees, setPayFees] = React.useState(false);
+  const [agreement, setaAgreement] = React.useState(false);
+  const [agreement2, setaAgreement2] = React.useState(true);
   // const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [vestingTime, setVestingTime] = React.useState(0);
@@ -58,8 +60,19 @@ const ModalAddCollection = (props: any) => {
     (item: any) => item.identifier === defaultToken
   );
   const handleChange = () => {
-    setPayFees(!payFees);
+    setaAgreement(!agreement);
   };
+  const handleChange2 = () => {
+    setaAgreement2(!agreement2);
+  };
+
+  useEffect(() => {
+    if (nonceNumber > 0 && !nft.media) {
+      setaAgreement2(false);
+    } else {
+      setaAgreement2(true);
+    }
+  }, [nonceNumber, nft]);
 
   useEffect(() => {
     if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
@@ -71,7 +84,6 @@ const ModalAddCollection = (props: any) => {
       .filter(({ identifier }: any) => identifier === identifier)
       .findIndex((tokens: any) => tokens.identifier === e.target.value);
     setStoken(e.target.value);
-    setPayFees(false);
   }
 
   function setFRtoken(e: React.ChangeEvent<any>) {
@@ -84,7 +96,6 @@ const ModalAddCollection = (props: any) => {
     if (tokenProps?.balance) setBalance(tokenProps.balance);
     setBigAmount(BigInt(0));
     setTokenAmount(0);
-    setPayFees(false);
   }
 
   const rewarded_esdt_info = useGetESDTInformations(rtoken);
@@ -259,9 +270,8 @@ const ModalAddCollection = (props: any) => {
           <div className='modalStakeModal_Collection'>
             <div className='contentStakeModal_Collection'>
               <div className='modalLabelStakeModal_Collection'>
-                Add Collection Reward
+                Deposit Rewards
               </div>
-
               <div
                 style={{
                   display: 'flex',
@@ -331,7 +341,6 @@ const ModalAddCollection = (props: any) => {
                   )
                 )}
               </div>
-
               <div className='pool-details_StakeModal_black_Collection'>
                 <div className='GroupeDetails_StakeModal_black_Collection'>
                   <div className='PoolDetails_StakeModal_black_Collection'>
@@ -431,7 +440,7 @@ const ModalAddCollection = (props: any) => {
                                 }))
                               : []
                           }
-                          defaultValue={'select collection'}
+                          defaultValue={'select token'}
                           disableOption={false}
                           onSelect={function (value: any): void {
                             if (rtoken !== value) {
@@ -481,7 +490,6 @@ const ModalAddCollection = (props: any) => {
                   </div>
                 </div>
               </div>
-
               <div className='pool-details_StakeModal_black_Collection'>
                 <div className='GroupeDetails_StakeModal_black_input_Collection'>
                   <div className='PoolDetails_StakeModal_black_Collection'>
@@ -599,6 +607,7 @@ const ModalAddCollection = (props: any) => {
                           type='number'
                           placeholder={'number'}
                           fontSize={14}
+                          disabled={stoken ? false : true}
                         />
                       </div>
                       <div
@@ -635,10 +644,25 @@ const ModalAddCollection = (props: any) => {
                       If the nonce is set to 0, any NFT/SFT of the collection
                       can participate into staking. If the nonce is set to a
                       specific number, only the specified nonce will be able to
-                      stake.
+                      stake. We cannot verify if the nonce exist in collection.
+                      Double check before finalize deposit.
                     </div>
                   </div>
-                </div>
+                </div>{' '}
+                {!nft.media && nonceNumber > 0 && (
+                  <div className='alert alert-warning'>
+                    We were not able to find a media related to this nonce in
+                    this collection. Maybe the nonce does not exist?
+                    <br /> Tokens could be lost!
+                    <CheckBox
+                      label='Continue anyway'
+                      checked={agreement2}
+                      onClick={() => {
+                        handleChange2();
+                      }}
+                    />
+                  </div>
+                )}
               </div>
               <div className='pool-details_StakeModal_black_Collection'>
                 <div className='GroupeDetails_StakeModal_black_input_Collection'>
@@ -827,7 +851,6 @@ const ModalAddCollection = (props: any) => {
                   </div>
                 </div>
               </div>
-
               {testgetStakedTokens &&
                 testgetStakedTokens
                   .filter(
@@ -927,8 +950,7 @@ const ModalAddCollection = (props: any) => {
                       </div>
                     </div>
                   ))}
-
-              <div>Do you want to add rewards ?</div>
+              <div>Do you want to deposit rewards ?</div>
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <Input
@@ -1000,6 +1022,7 @@ const ModalAddCollection = (props: any) => {
                     onClick={props.onClose}
                   />
                 </div>
+
                 {/* NOTE : lock Tocken button */}
                 <div className='bottomModal'>
                   <ActionFund
@@ -1010,10 +1033,31 @@ const ModalAddCollection = (props: any) => {
                     nonce={nonceNumber}
                     vesting={vestingTime}
                     unbounding={unboundingTime}
+                    agreement={agreement && agreement2}
                   />
                 </div>
               </div>
+              <div>
+                <CheckBox
+                  label='I understand that this operation is irreversible'
+                  checked={agreement}
+                  onClick={() => {
+                    handleChange();
+                  }}
+                />
+              </div>
+              <div>
+                <a
+                  style={{ color: 'white', display: 'flex' }}
+                  target='_blank'
+                  rel='noreferrer'
+                  href='https://docs.middlestaking.fr/contracts/nft-sft-staking-contract'
+                >
+                  <u>Read More</u>
+                </a>
+              </div>
             </div>
+
             <svg
               className='closeStakeModal'
               onClick={props.onClose}
