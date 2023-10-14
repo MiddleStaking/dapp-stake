@@ -74,6 +74,7 @@ const Accordion: FC<CardPoolrops> = ({
 
   return (
     <>
+      {/* ORPHAN NFT after pool deletion  */}
       <div className='pool-details_Collection'>
         {userStakedNft
           .filter((item: any) => item?.staked_nft?.unbound > 0)
@@ -94,7 +95,9 @@ const Accordion: FC<CardPoolrops> = ({
             Unbounding{' '}
             {userStakedNft
               .filter(
-                (item: any) => item?.staked_nft?.unbound < item?.current_block
+                (item: any) =>
+                  item?.staked_nft?.unbound < item?.current_block &&
+                  item?.staked_nft?.unbound > 0
               )
               .map((item) => Number(item.staked_nft.unbound)).length > 0 ? (
               <>✅</>
@@ -103,7 +106,6 @@ const Accordion: FC<CardPoolrops> = ({
             )}
           </div>
         )}
-
         <div className={`Groupe_Details_Collection ${isOpen ? 'open' : ''}`}>
           <div className='Pool_Details_Collection'>
             <div className='Details_Collection'>
@@ -116,83 +118,7 @@ const Accordion: FC<CardPoolrops> = ({
                   textAlign: 'center'
                 }}
               >
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: width > 855 ? 'row' : 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    fontSize: '12px',
-                    gap: '10px'
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '10px'
-                    }}
-                    className='Label_Details_Collection'
-                  >
-                    <div
-                      style={{
-                        borderRadius: '50px',
-                        width: '28px',
-                        height: '28px',
-                        background: 'black'
-                      }}
-                    >
-                      <img
-                        style={{
-                          borderRadius: '50px',
-                          width: '28px',
-                          height: '28px'
-                        }}
-                        src={notFound}
-                        alt=''
-                      />
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexDirection: width > 855 ? 'row' : 'row',
-                      gap: '10px'
-                    }}
-                  ></div>
-                </div>
-                <hr
-                  style={{
-                    margin: '5px 0 ',
-                    width: '100%',
-                    height: '0px',
-                    marginTop: 0,
-                    marginBottom: 0,
-                    border: ' 1px solid #634ACB99'
-                  }}
-                />
-                <div
-                  className='accordion-contents-buttons'
-                  style={{
-                    display: 'flex',
-                    flexDirection: width > 855 ? 'row' : 'column',
-                    gap: '10px',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '100%',
-                      textAlign: width > 855 ? 'center' : 'center'
-                    }}
-                  ></div>
-                </div>
+                Oprhan&apos;s NFT (no more pool&apos;s rewards)
               </div>
               <div className='svgAccordeons' onClick={toggleAccordion}>
                 {/* ~ 1,5/NFT/Day{' '} */}
