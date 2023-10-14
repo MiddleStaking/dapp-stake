@@ -11,8 +11,13 @@ import { routeNames } from 'routes';
 // import Logo from 'assets/Logo';
 // import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
 // import { ReactComponent as MiddleLogo } from '../../assets/img/ms.svg';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faExternalLinkAlt,
+  faArrowRight
+} from '@fortawesome/free-solid-svg-icons';
 // interface DropdownMenuProps {}
+import { network } from 'config';
 
 const styles = {
   header: {
@@ -150,6 +155,18 @@ const HeaderDesktop = () => {
             />
           </div>
         </div>
+        {network.id != 'mainnet' && (
+          <div className='text-white'>
+            <div>
+              <div onClick={() => handleNavigate(routeNames.faucet)}>
+                <span>Faucet</span> <FontAwesomeIcon icon={faArrowRight} />
+                <div>
+                  <p>Get some test tokens</p>
+                </div>{' '}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   ) : (
