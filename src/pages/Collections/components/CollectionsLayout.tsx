@@ -32,6 +32,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
 
   for (const userNft of userStakedNft) {
     stakedCollections.indexOf(userNft.staked_nft.identifier) === -1 &&
+      userNft.staked_nft.identifier != '' &&
       stakedCollections.push(userNft.staked_nft.identifier);
   }
   const navigate = useNavigate();

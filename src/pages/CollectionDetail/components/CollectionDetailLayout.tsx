@@ -119,6 +119,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
         collectionRewards={collectionRewards}
         userNftBalance={userNftBalance}
         userStakedNft={userStakedNft}
+        getCollectionInformations={getCollectionInformations}
       />
     </div>
   );

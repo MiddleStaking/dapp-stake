@@ -14,12 +14,14 @@ import { BigNumber } from 'bignumber.js';
 import SandClock from 'pages/CollectionDetail/components/AccordionWrap/component/SandClock';
 import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNft';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
+import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 interface CardPoolrops {
   collectionReward: any;
   allRewardsForUser: any[];
   userNftBalance: any;
   userStakedNft: any[];
   address: string;
+  getCollectionInformations: any;
 }
 
 const Accordion: FC<CardPoolrops> = ({
@@ -27,7 +29,8 @@ const Accordion: FC<CardPoolrops> = ({
   allRewardsForUser,
   userNftBalance,
   userStakedNft,
-  address
+  address,
+  getCollectionInformations
 }) => {
   const [nFtCanStake, setNFtCanStake] = useState([]);
   const [showMoal, setShowMoal] = useState(false);
@@ -116,6 +119,16 @@ const Accordion: FC<CardPoolrops> = ({
     Number(collectionReward.nonce),
     true
   );
+
+  function toHexDec(d: number) {
+    let result = '';
+    result = Number(d).toString(16);
+    if (Math.abs(result.length % 2) == 1) {
+      result = '0' + result;
+    }
+    return result;
+    //return  ((Number(d).toString(16)));//.slice(-2).toUpperCase();
+  }
 
   return (
     <>
@@ -293,7 +306,7 @@ const Accordion: FC<CardPoolrops> = ({
                             }
                           />
                         ) : (
-                          <p>probleme</p>
+                          <p>error</p>
                         )}
                       </div>
                       {/* <div>
@@ -401,6 +414,52 @@ const Accordion: FC<CardPoolrops> = ({
                       Availablerewards={Availablerewards}
                       pool_id={collectionReward?.pool_id}
                     />
+
+                    {!address && nft?.media ? (
+                      <a
+                        style={{ color: 'white', display: 'flex' }}
+                        target='_blank'
+                        rel='noreferrer'
+                        href={
+                          'https://www.frameit.gg/marketplace/nft/' +
+                          collectionReward.collection +
+                          '-' +
+                          toHexDec(collectionReward.nonce)
+                        }
+                      >
+                        <u>
+                          <HexagoneNFT
+                            format={nft?.media[0]?.fileType}
+                            url={nft?.media[0]?.url}
+                            width={35}
+                            withBorder={true}
+                            borderWidth={1}
+                            borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                          />{' '}
+                          {collectionReward.collection +
+                            '-' +
+                            toHexDec(collectionReward.nonce)}
+                        </u>
+                      </a>
+                    ) : (
+                      <a
+                        style={{ color: 'white', display: 'flex' }}
+                        target='_blank'
+                        rel='noreferrer'
+                        href={
+                          'https://www.frameit.gg/marketplace/' +
+                          collectionReward.collection
+                        }
+                      >
+                        <u>
+                          <HexagoneGroupe
+                            orientationEscalier={'reverse'}
+                            width={width > 450 ? 50 : 40}
+                            collectionInfo={getCollectionInformations}
+                          />
+                        </u>
+                      </a>
+                    )}
                   </div>
                 </div>
                 <hr
