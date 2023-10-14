@@ -31,7 +31,7 @@ export const useGetNft = (
       setNft(storage);
       return;
     }
-    if (nonce < 1) {
+    if (nonce < 1 || !identifier) {
       setNft([]);
       return;
     }

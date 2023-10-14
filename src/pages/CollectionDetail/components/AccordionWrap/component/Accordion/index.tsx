@@ -121,11 +121,13 @@ const Accordion: FC<CardPoolrops> = ({
     <>
       {showMoal && (
         <ModalStakeNft
+          collectionReward={collectionReward}
           userNFTBalance={nFtCanStake}
           pool_id={collectionReward?.pool_id}
           onClose={() => {
             setShowMoal(false);
           }}
+          nft={nft}
         />
       )}
       <div className='pool-details_Collection'>

@@ -22,6 +22,7 @@ export const ModalStakeNft = (props: any) => {
     }
   }, []);
 
+  console.log(props.collectionReward);
   const toggleAccordion = (index: number) => {
     const newOpenAccordions = [...openAccordions];
     newOpenAccordions[index] = !newOpenAccordions[index];
@@ -37,6 +38,17 @@ export const ModalStakeNft = (props: any) => {
       setQty(max);
     }
   }
+
+  function toHexDec(d: number) {
+    let result = '';
+    result = Number(d).toString(16);
+    if (Math.abs(result.length % 2) == 1) {
+      result = '0' + result;
+    }
+    return result;
+    //return  ((Number(d).toString(16)));//.slice(-2).toUpperCase();
+  }
+
   return (
     <div className='centerStakeModal_Collection'>
       <div
@@ -48,7 +60,6 @@ export const ModalStakeNft = (props: any) => {
         <div className='modalStakeModal_Collection'>
           <div className='contentStakeModal_Collection'>
             <div className='modalLabelStakeModal_Collection'>Stake Nft</div>
-
             <div
               style={{
                 display: 'flex',
@@ -67,7 +78,7 @@ export const ModalStakeNft = (props: any) => {
                       : 'image'
                   }
                   url={stoken[0]?.media[0]?.url}
-                  width={100}
+                  width={200}
                   withBorder={true}
                   borderWidth={2.5}
                   borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
@@ -77,6 +88,38 @@ export const ModalStakeNft = (props: any) => {
                 <HexagoneGroupe collectionInfo={props.userNFTBalance} />
               )}
             </div>
+
+            {props.collectionReward.nonce > 0 ? (
+              <a
+                style={{ color: 'white', display: 'flex' }}
+                target='_blank'
+                rel='noreferrer'
+                href={
+                  'https://www.frameit.gg/marketplace/nft/' +
+                  props.collectionReward.collection +
+                  '-' +
+                  toHexDec(props.collectionReward.nonce)
+                }
+              >
+                <u>
+                  {props.collectionReward.collection +
+                    '-' +
+                    toHexDec(props.collectionReward.nonce)}
+                </u>
+              </a>
+            ) : (
+              <a
+                style={{ color: 'white', display: 'flex' }}
+                target='_blank'
+                rel='noreferrer'
+                href={
+                  'https://www.frameit.gg/marketplace/' +
+                  props.collectionReward.collection
+                }
+              >
+                <u>{props.collectionReward.collection}</u>
+              </a>
+            )}
 
             <div className='pool-details_StakeModal_black_Collection'>
               <div className='GroupeDetails_StakeModal_black_Collection'>
@@ -147,10 +190,8 @@ export const ModalStakeNft = (props: any) => {
                       openAccordions[0] ? 'open' : ''
                     }`}
                   >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Sit, expedita magnam velit quidem fugiat nulla voluptatibus,
-                    quisquam vel at doloribus reiciendis tenetur! Ea quas
-                    consequuntur ipsam modi natus saepe obcaecati?
+                    You can select one of your SFT or NFT inside your wallet and
+                    stake it.
                   </div>
                 </div>
               </div>
@@ -210,11 +251,9 @@ export const ModalStakeNft = (props: any) => {
                           openAccordions[3] ? 'open' : ''
                         }`}
                       >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Sit, expedita magnam velit quidem fugiat nulla
-                        voluptatibus, quisquam vel at doloribus reiciendis
-                        tenetur! Ea quas consequuntur ipsam modi natus saepe
-                        obcaecati?
+                        Only for SFT. This is the Quantity you want to stake in
+                        one time. Keep in mind that it is not possible to do
+                        partial unstake at this time.
                       </div>
                     </div>
                   </div>
@@ -277,7 +316,17 @@ export const ModalStakeNft = (props: any) => {
                       textAlign: 'center'
                     }}
                   >
-                    aucun nft
+                    No matching NFT in wallet
+                    {props.collectionReward.nonce > 0 && props.nft?.media && (
+                      <HexagoneNFT
+                        format={props.nft?.media[0]?.fileType}
+                        url={props.nft?.media[0]?.url}
+                        width={200}
+                        withBorder={true}
+                        borderWidth={1}
+                        borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                      />
+                    )}
                   </div>
                 )}
               </div>
@@ -302,6 +351,7 @@ export const ModalStakeNft = (props: any) => {
                   user_fund={qty}
                   pool_id={props.pool_id}
                   nft_nonce={stoken[0]?.nonce}
+                  disabled={stoken.length < 1}
                 />
               </div>
             </div>

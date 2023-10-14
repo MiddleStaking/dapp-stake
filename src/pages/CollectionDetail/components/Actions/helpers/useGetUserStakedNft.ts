@@ -50,7 +50,7 @@ export const useGetUserStakedNft = (address: string) => {
         args: [new AddressValue(new Address(address))]
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
+      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getUserNfts');
       const { firstValue: rewards } = resultsParser.parseQueryResponse(

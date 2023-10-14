@@ -44,7 +44,7 @@ export const useGetUserRewards = (address: string, collection: string) => {
         ]
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
+      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint(
         'getAllRewardsForUser'

@@ -18,8 +18,13 @@ import HexagoneNFT from '../../hexagoneNFT';
 import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actions/helpers';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import { CheckBox } from './../../../../../components/Design';
+import { BigNumber } from 'bignumber.js';
+import { useParams } from 'react-router-dom';
 
 const ModalAddCollection = (props: any) => {
+  const { param } = useParams();
+  const [url] = useState(param?.toString());
+
   const userNFTBalance = useGetUserNFT();
   const userEsdtBalance = props.userEsdtBalance;
   const [openAccordions, setOpenAccordions] = useState([
@@ -30,7 +35,7 @@ const ModalAddCollection = (props: any) => {
     false,
     false
   ]);
-  const [stoken, setStoken] = React.useState('');
+  const [stoken, setStoken] = React.useState(url ? url : '');
   const testgetStakedTokens = useGetCollectionRewards(stoken);
   const [rtoken, setRtoken] = React.useState('');
   const [decimals, setDecimals] = React.useState(18);
@@ -295,7 +300,7 @@ const ModalAddCollection = (props: any) => {
                           : 'image'
                       }
                       url={nft?.media[0]?.url}
-                      width={100}
+                      width={200}
                       withBorder={true}
                       borderWidth={2.5}
                       borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
@@ -307,16 +312,16 @@ const ModalAddCollection = (props: any) => {
                         bottom: 0, // Positionne cette div en bas de la div parente
                         left: 0, // Positionne cette div à gauche de la div parente
                         borderRadius: '50px',
-                        width: '28px',
-                        height: '28px',
+                        width: '50px',
+                        height: '50px',
                         background: 'black'
                       }}
                     >
                       <img
                         style={{
                           borderRadius: '50px',
-                          width: '28px',
-                          height: '28px'
+                          width: '50px',
+                          height: '50px'
                         }}
                         src={
                           rewarded_esdt_info?.assets?.svgUrl
@@ -367,7 +372,7 @@ const ModalAddCollection = (props: any) => {
                                 }))
                               : []
                           }
-                          defaultValue={'select collection'}
+                          defaultValue={url ? url : 'select collection'}
                           disableOption={false}
                           onSelect={function (value: any): void {
                             setTokenAmount(0);
@@ -977,15 +982,54 @@ const ModalAddCollection = (props: any) => {
                     fontSize={14}
                   />
                 </div>
-
                 <div className='FormatAmountStaked'>
                   <FormatAmount
                     decimals={Number(decimals.toString())}
                     value={balance.toString()}
                     egldLabel={rtoken}
                     data-testid='staked'
+                    digits={
+                      balance.toString().length >= decimals
+                        ? 2
+                        : decimals -
+                          BigNumber(balance.toString()).toFixed().length +
+                          2
+                    }
                   />
                 </div>
+              </div>{' '}
+              1% fees deposit to $MID staking contract
+              <div className='' style={{ width: '20px;' }}>
+                <FormatAmount
+                  decimals={Number(decimals.toString())}
+                  value={(BigInt(bigAmount) / BigInt(100)).toString()}
+                  egldLabel={' fees '}
+                  data-testid='staked'
+                  digits={
+                    balance.toString().length >= decimals
+                      ? 2
+                      : decimals -
+                        BigNumber(balance.toString()).toFixed().length +
+                        2
+                  }
+                />{' '}
+                and{' '}
+                <FormatAmount
+                  decimals={Number(decimals.toString())}
+                  value={(
+                    (BigInt(bigAmount) * BigInt(99)) /
+                    BigInt(100)
+                  ).toString()}
+                  egldLabel={' locked'}
+                  data-testid='staked'
+                  digits={
+                    balance.toString().length >= decimals
+                      ? 2
+                      : decimals -
+                        BigNumber(balance.toString()).toFixed().length +
+                        2
+                  }
+                />
               </div>
               {/* <div className='bottomGroupeModal' onClick={props.onClose}>
                 <div className='bottomModal'>
