@@ -323,8 +323,23 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
   setHeaderMenu(true);
   return (
-    <div className='center'>
-      <div className='centerSwapModal'>
+    <div
+      style={{
+        marginTop: '20px',
+        marginBottom: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <div
+        style={{
+          position: 'relative',
+          backgroundColor: 'transparent',
+          borderRadius: '32px',
+          color: 'var(--neutral-white, #fff)'
+        }}
+      >
         <div className='backgroundStakeModal'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
@@ -814,7 +829,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                 </div>
               </div>
             </div>
-            <div className='neon-border-stack'></div>
+            <div style={{ zIndex: 0 }} className='neon-border-stack'></div>
           </div>
         </div>
       </div>
