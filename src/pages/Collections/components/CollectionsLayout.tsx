@@ -9,7 +9,6 @@ import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetIsPaused } from './Actions/helpers';
 import { useGetCollections } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
-import FundModal from './FundModal';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Button, ToggleSwitch } from './../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
