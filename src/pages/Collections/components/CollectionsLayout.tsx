@@ -16,6 +16,7 @@ import CardOfCollection from './CardOfCollection';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
 import MintModal from '../../../pages/Mint/components/MintModal';
+import { useGetUserStakedNft } from 'pages/CollectionDetail/components/Actions/helpers/useGetUserStakedNft';
 export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   const [showFund, setShowFund] = useState(false);
   const [showMint, setShowMint] = useState(false);
@@ -27,6 +28,12 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   // const isPaused = useGetIsPaused();
 
   const stakedCollections: string[] = useGetCollections();
+  const userStakedNft = useGetUserStakedNft(address);
+
+  for (const userNft of userStakedNft) {
+    stakedCollections.indexOf(userNft.staked_nft.identifier) === -1 &&
+      stakedCollections.push(userNft.staked_nft.identifier);
+  }
   const navigate = useNavigate();
   const { param } = useParams();
   // const [url] = useState(param ? param.toString() : defaultToken);
