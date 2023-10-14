@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { defaultToken } from 'config';
+import { defaultToken, network } from 'config';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetIsPaused } from './Actions/helpers';
 import { useGetCollections } from './Actions/helpers';
@@ -97,20 +97,22 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
               />
             )}
           </div>
-          <div className='centered-element'>
-            <Button
-              fontSize='16px'
-              buttonHeight={'44px'}
-              buttonWidth={'90px'}
-              borderRadius={40}
-              background={['#BD37EC', '#1F67FF']}
-              borderColor={'black'}
-              text='Mint SFT'
-              onClick={() => {
-                setHeaderMenu(false), setShowMint(true);
-              }}
-            />
-          </div>
+          {network.id != 'mainnet' && (
+            <div className='centered-element'>
+              <Button
+                fontSize='16px'
+                buttonHeight={'44px'}
+                buttonWidth={'90px'}
+                borderRadius={40}
+                background={['#BD37EC', '#1F67FF']}
+                borderColor={'black'}
+                text='Mint SFT'
+                onClick={() => {
+                  setHeaderMenu(false), setShowMint(true);
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
 

@@ -50,7 +50,7 @@ export const useGetCollectionRewards = (stakedToken: string) => {
         args: [new TokenIdentifierValue(stakedToken)]
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
+      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getRewards');
       const { firstValue: rewards } = resultsParser.parseQueryResponse(

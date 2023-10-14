@@ -27,7 +27,7 @@ export const useGetCollections = () => {
         func: new ContractFunction('getStakedNfts')
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
+      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
       const queryResponse = await proxy.queryContract(query);
       const endpointDefinition = smartContract.getEndpoint('getStakedNfts');
       const { firstValue: tokens } = resultsParser.parseQueryResponse(

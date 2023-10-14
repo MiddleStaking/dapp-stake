@@ -12,7 +12,8 @@ export const ActionStakeNft = ({
   user_fund,
   pool_id,
   address,
-  nft_nonce
+  nft_nonce,
+  disabled
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -81,7 +82,7 @@ export const ActionStakeNft = ({
                 background={['#BD37EC', '#1F67FF']}
                 text='Stake'
                 onClick={sendStakeTransaction}
-                disabled={user_fund == 0}
+                disabled={user_fund == 0 || disabled}
               />
             </>
           ) : (
