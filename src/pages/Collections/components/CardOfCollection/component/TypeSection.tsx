@@ -6,12 +6,16 @@ import React, {
 } from 'react';
 import SwowHideDetails from './SwowHideDetails';
 // import { IconFacebook } from "module";
-
 import ReactPlayer from 'react-player';
 import HexagoneNFT from '../../hexagoneNFT';
 import { PoolAddCollection } from '../../Modal/AddCollection/PoolAddCollection';
 import { Button } from 'components/Design';
-
+import { verified } from 'verified-collections';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCertificate,
+  faSkullCrossbones
+} from '@fortawesome/free-solid-svg-icons';
 interface TypeSectionProps {
   height: string;
   width?: string;
@@ -142,7 +146,33 @@ const TypeSection: FC<TypeSectionProps> = ({
       <div style={top}>
         <div style={left}>
           <div style={title}>
-            <div style={earnMex}>{collectionIdentifier.split('-')[0]}</div>
+            <div style={earnMex}>
+              {collectionIdentifier.split('-')[0]}
+              {verified
+                .filter((a) => {
+                  return a.c === collectionIdentifier && a.s === 'verified';
+                })
+                .map((a, key) => (
+                  <FontAwesomeIcon
+                    key={key}
+                    icon={faCertificate}
+                    style={{ color: '#66bf1d' }}
+                    size={'sm'}
+                  />
+                ))}{' '}
+              {verified
+                .filter((a) => {
+                  return a.c === collectionIdentifier && a.s === 'scam';
+                })
+                .map((a, key) => (
+                  <FontAwesomeIcon
+                    key={key}
+                    icon={faSkullCrossbones}
+                    style={{ color: 'red' }}
+                    size={'sm'}
+                  />
+                ))}
+            </div>
 
             <div style={stakeMex}>Earn tokens</div>
 
@@ -206,7 +236,6 @@ const TypeSection: FC<TypeSectionProps> = ({
             />
           )}
         </div>
-
         {/* <div style={logos}>
           <div style={logo2}>
             <div style={image_2}>
@@ -220,7 +249,6 @@ const TypeSection: FC<TypeSectionProps> = ({
             </div>
           </div>
         </div> */}
-
         {/* {!showDetails ? ( */}
       </div>
       <div style={{ margin: 'auto' }}>

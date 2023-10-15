@@ -258,7 +258,6 @@ const Accordion: FC<CardPoolrops> = ({
                         }}
                         className='Label_Details_Collection'
                       >
-                        earn :
                         {collectionReward &&
                         collectionReward.total_staked &&
                         Number(collectionReward.blocks_to_max) !== 0 ? (
@@ -273,9 +272,12 @@ const Accordion: FC<CardPoolrops> = ({
                               BigInt(collectionReward.speed)
                             ).toString()}
                             decimals={Number(rdecimals)}
-                            egldLabel={`${
-                              collectionReward?.identifier.split('-')[0]
-                            } / NFT / DAY`}
+                            egldLabel={
+                              '$' +
+                              `${
+                                collectionReward?.identifier.split('-')[0]
+                              } / NFT / DAY`
+                            }
                             data-testid='balance'
                             digits={
                               (
@@ -369,6 +371,50 @@ const Accordion: FC<CardPoolrops> = ({
                         />
                       </div>
                     )} */}
+
+                    {nft?.media ? (
+                      <a
+                        style={{ color: 'white', display: 'flex' }}
+                        target='_blank'
+                        rel='noreferrer'
+                        href={
+                          'https://www.frameit.gg/marketplace/nft/' +
+                          collectionReward.collection +
+                          '-' +
+                          toHexDec(collectionReward.nonce)
+                        }
+                      >
+                        <u>
+                          <HexagoneNFT
+                            format={nft?.media[0]?.fileType}
+                            url={nft?.media[0]?.url}
+                            width={35}
+                            withBorder={true}
+                            borderWidth={1}
+                            borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                          />{' '}
+                          {/* {toHexDec(collectionReward.nonce)} */}
+                        </u>
+                      </a>
+                    ) : (
+                      <a
+                        style={{ color: 'white', display: 'flex' }}
+                        target='_blank'
+                        rel='noreferrer'
+                        href={
+                          'https://www.frameit.gg/marketplace/' +
+                          collectionReward.collection
+                        }
+                      >
+                        <u>
+                          <HexagoneGroupe
+                            orientationEscalier={'reverse'}
+                            width={width > 450 ? 50 : 40}
+                            collectionInfo={getCollectionInformations}
+                          />
+                        </u>
+                      </a>
+                    )}
                     {address && (
                       <Button
                         fontSize='10px'
@@ -392,18 +438,18 @@ const Accordion: FC<CardPoolrops> = ({
                           setNFtCanStake(nFtCanStake);
                           setShowMoal(true);
                         }}
-                        rightHtml={
-                          nft?.media && (
-                            <HexagoneNFT
-                              format={nft?.media[0]?.fileType}
-                              url={nft?.media[0]?.url}
-                              width={30}
-                              withBorder={true}
-                              borderWidth={1}
-                              borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                            />
-                          )
-                        }
+                        // rightHtml={
+                        //   nft?.media && (
+                        //     <HexagoneNFT
+                        //       format={nft?.media[0]?.fileType}
+                        //       url={nft?.media[0]?.url}
+                        //       width={30}
+                        //       withBorder={true}
+                        //       borderWidth={1}
+                        //       borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                        //     />
+                        //   )
+                        // }
                       />
                     )}
                     <ActionClaimRewards
@@ -414,52 +460,6 @@ const Accordion: FC<CardPoolrops> = ({
                       Availablerewards={Availablerewards}
                       pool_id={collectionReward?.pool_id}
                     />
-
-                    {!address && nft?.media ? (
-                      <a
-                        style={{ color: 'white', display: 'flex' }}
-                        target='_blank'
-                        rel='noreferrer'
-                        href={
-                          'https://www.frameit.gg/marketplace/nft/' +
-                          collectionReward.collection +
-                          '-' +
-                          toHexDec(collectionReward.nonce)
-                        }
-                      >
-                        <u>
-                          <HexagoneNFT
-                            format={nft?.media[0]?.fileType}
-                            url={nft?.media[0]?.url}
-                            width={35}
-                            withBorder={true}
-                            borderWidth={1}
-                            borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                          />{' '}
-                          {collectionReward.collection +
-                            '-' +
-                            toHexDec(collectionReward.nonce)}
-                        </u>
-                      </a>
-                    ) : (
-                      <a
-                        style={{ color: 'white', display: 'flex' }}
-                        target='_blank'
-                        rel='noreferrer'
-                        href={
-                          'https://www.frameit.gg/marketplace/' +
-                          collectionReward.collection
-                        }
-                      >
-                        <u>
-                          <HexagoneGroupe
-                            orientationEscalier={'reverse'}
-                            width={width > 450 ? 50 : 40}
-                            collectionInfo={getCollectionInformations}
-                          />
-                        </u>
-                      </a>
-                    )}
                   </div>
                 </div>
                 <hr
