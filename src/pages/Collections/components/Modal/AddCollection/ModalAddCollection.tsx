@@ -254,6 +254,15 @@ const ModalAddCollection = (props: any) => {
     setBigAmount(balance);
     setRangeValue(100);
   }
+  function toHexDec(d: number) {
+    let result = '';
+    result = Number(d).toString(16);
+    if (Math.abs(result.length % 2) == 1) {
+      result = '0' + result;
+    }
+    return result;
+    //return  ((Number(d).toString(16)));//.slice(-2).toUpperCase();
+  }
 
   if (!props.show) {
     return null;
@@ -378,6 +387,7 @@ const ModalAddCollection = (props: any) => {
                             setTokenAmount(0);
                             setStoken(value);
                             setBigAmount(BigInt(0));
+                            setNonceNumber(0);
                           }}
                         />
                       </div>
@@ -657,8 +667,23 @@ const ModalAddCollection = (props: any) => {
                 {!nft.media && nonceNumber > 0 && (
                   <div className='alert alert-warning'>
                     We were not able to find a media related to this nonce in
-                    this collection. Maybe the nonce does not exist?
-                    <br /> Tokens could be lost!
+                    this collection. Maybe the nonce does not exist or the api
+                    is overloaded ? <br /> Tokens could be lost!{' '}
+                    <a
+                      style={{ color: 'black' }}
+                      target='_blank'
+                      rel='noreferrer'
+                      href={
+                        'https://explorer.multiversx.com/nfts/' +
+                        stoken +
+                        '-' +
+                        toHexDec(nonceNumber)
+                      }
+                    >
+                      <u>
+                        Open explorer : {stoken + '-' + toHexDec(nonceNumber)}
+                      </u>
+                    </a>
                     <CheckBox
                       label='Continue anyway'
                       checked={agreement2}

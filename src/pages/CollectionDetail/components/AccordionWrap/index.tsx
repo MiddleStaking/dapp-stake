@@ -120,6 +120,16 @@ const AccordionWrap: FC<CardPoolrops> = ({
                     />
                   </div>
                 ))}
+              {collectionRewards.length == 0 && (
+                <>
+                  We found no rewards for this collection. Try to refresh the
+                  page or deposit some token to be harvested by NFT&apos;s
+                  owners.
+                  {!address && (
+                    <div>Rewards deposit only availaible after login.</div>
+                  )}
+                </>
+              )}
             </div>
           </div>
           <div className='neon-border-AccordeonsCard'></div>

@@ -42,6 +42,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
     url ? url : ''
   );
 
+  // console.log(getCollectionInformations);
   const { width } = useWindowDimensions();
 
   return (
@@ -81,19 +82,36 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
               }}
             >
               {getCollectionInformations?.length > 0 && (
-                <HexagoneGroupe
-                  orientationEscalier={'reverse'}
-                  width={width > 450 ? 80 : 60}
-                  collectionInfo={getCollectionInformations}
-                />
+                <>
+                  <HexagoneGroupe
+                    orientationEscalier={'reverse'}
+                    width={width > 450 ? 80 : 60}
+                    collectionInfo={getCollectionInformations}
+                  />
+
+                  <div
+                    style={{
+                      textAlign: 'center'
+                    }}
+                  >
+                    <a
+                      style={{ color: 'white' }}
+                      target='_blank'
+                      rel='noreferrer'
+                      href={
+                        'https://www.frameit.gg/marketplace/' +
+                        getCollectionInformations[0]?.collection
+                      }
+                    >
+                      <u>
+                        {getCollectionInformations[0]?.collection
+                          ? getCollectionInformations[0]?.collection
+                          : ''}
+                      </u>
+                    </a>
+                  </div>
+                </>
               )}
-              <div
-                style={{
-                  textAlign: 'center'
-                }}
-              >
-                {url ? url : ''}
-              </div>{' '}
             </div>
           </div>
 
@@ -110,17 +128,30 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
           </div>
         </div>
       </div>
-
       <br />
-      <AccordionWrap
-        collection_identifier={url ? url : ''}
-        address={address}
-        allRewardsForUser={allRewardsForUser}
-        collectionRewards={collectionRewards}
-        userNftBalance={userNftBalance}
-        userStakedNft={userStakedNft}
-        getCollectionInformations={getCollectionInformations}
-      />
+      {getCollectionInformations?.length > 0 ? (
+        <AccordionWrap
+          collection_identifier={
+            getCollectionInformations[0]?.collection
+              ? getCollectionInformations[0]?.collection
+              : ''
+          }
+          address={address}
+          allRewardsForUser={allRewardsForUser}
+          collectionRewards={collectionRewards}
+          userNftBalance={userNftBalance}
+          userStakedNft={userStakedNft}
+          getCollectionInformations={getCollectionInformations}
+        />
+      ) : (
+        <div
+          className='text-white'
+          style={{ margin: '0', width: '100%', textAlign: 'center' }}
+        >
+          Could not load collection informations. Try to reload the page and
+          check url
+        </div>
+      )}
     </div>
   );
 };

@@ -316,7 +316,10 @@ export const ModalStakeNft = (props: any) => {
                       textAlign: 'center'
                     }}
                   >
-                    No matching NFT in wallet
+                    {props.collectionReward.nonce > 0 && (
+                      <> No matching NFT in wallet</>
+                    )}
+
                     {props.collectionReward.nonce > 0 && props.nft?.media && (
                       <HexagoneNFT
                         format={props.nft?.media[0]?.fileType}
