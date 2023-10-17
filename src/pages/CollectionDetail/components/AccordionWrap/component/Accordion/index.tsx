@@ -15,6 +15,8 @@ import SandClock from 'pages/CollectionDetail/components/AccordionWrap/component
 import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNft';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+
 interface CardPoolrops {
   collectionReward: any;
   allRewardsForUser: any[];
@@ -92,6 +94,8 @@ const Accordion: FC<CardPoolrops> = ({
     )
     .map((item: any) => item?.rewards);
 
+  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
+
   // const my_token_staked_number = userStakedNft.filter(
   //   (item: any) =>
   //     item?.staked_nft?.pool_id.toString() ==
@@ -138,7 +142,7 @@ const Accordion: FC<CardPoolrops> = ({
           userNFTBalance={nFtCanStake}
           pool_id={collectionReward?.pool_id}
           onClose={() => {
-            setShowMoal(false);
+            setHeaderMenu(true), setShowMoal(false);
           }}
           nft={nft}
         />
@@ -437,6 +441,7 @@ const Accordion: FC<CardPoolrops> = ({
 
                           setNFtCanStake(nFtCanStake);
                           setShowMoal(true);
+                          setHeaderMenu(false);
                         }}
                         // rightHtml={
                         //   nft?.media && (
@@ -600,5 +605,4 @@ const Accordion: FC<CardPoolrops> = ({
     </>
   );
 };
-
 export default Accordion;
