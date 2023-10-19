@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+// import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { contractStake } from 'config';
 import { network } from 'config';
 

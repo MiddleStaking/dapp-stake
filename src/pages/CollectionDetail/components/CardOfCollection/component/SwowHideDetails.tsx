@@ -1,12 +1,6 @@
-
 //NOTE - checron
 
-import React, {
-  CSSProperties,
-  FC,
-  JSXElementConstructor,
-  ReactElement
-} from 'react';
+import React, { CSSProperties, FC } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import notFound from './../../../../../assets/img/notfoundc.svg';
 import eCompass from './../../../../../assets/img/ecompass.svg';

@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
 import { Button } from './../../../../components/Design';
-import BigNumber from 'bignumber.js';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { useGetESDTInformations } from './helpers/useGetESDTInformations';
+// import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+// import { useGetESDTInformations } from './helpers/useGetESDTInformations';
 import {
   useGetAccountInfo,
   useGetPendingTransactions

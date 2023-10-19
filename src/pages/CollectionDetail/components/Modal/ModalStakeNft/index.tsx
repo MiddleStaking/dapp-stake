@@ -1,12 +1,10 @@
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Button } from 'components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
-import { defaultToken } from 'config';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import React, { useState, useEffect } from 'react';
 import { ActionStakeNft } from '../../Actions';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import Input from 'components/Design/Input';
 
 export const ModalStakeNft = (props: any) => {

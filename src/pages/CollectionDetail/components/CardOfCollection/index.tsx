@@ -1,24 +1,24 @@
-//NOTE - collone vertébrale 
+//NOTE - collone vertébrale
 import React, {
   CSSProperties,
   FC,
   JSXElementConstructor,
-  ReactElement,
-  useState
+  ReactElement
+  // useState
 } from 'react';
-import MyStakeSection from './component/MyStakeSection';
-import RewardsSection from './component/RewardsSection';
-import TypeSection from './component/TypeSection';
-import {
-  useGetAccountInfo,
-  useGetNetworkConfig,
-  useGetPendingTransactions
-} from '@multiversx/sdk-dapp/hooks';
-import { defaultToken } from 'config';
-import { useGetESDTInformations } from '../Actions/helpers';
-import notFound from './../../../../assets/img/notfoundc.svg';
-import { Link } from 'react-router-dom';
-import { routeNames } from 'routes';
+// import MyStakeSection from './component/MyStakeSection';
+// import RewardsSection from './component/RewardsSection';
+// import TypeSection from './component/TypeSection';
+// import {
+//   useGetAccountInfo,
+//   useGetNetworkConfig,
+//   useGetPendingTransactions
+// } from '@multiversx/sdk-dapp/hooks';
+// import { defaultToken } from 'config';
+// import { useGetESDTInformations } from '../Actions/helpers';
+// import notFound from './../../../../assets/img/notfoundc.svg';
+// import { Link } from 'react-router-dom';
+// import { routeNames } from 'routes';
 
 interface CardPoolrops {
   height: string;
@@ -98,14 +98,14 @@ const CardOfCollection: FC<CardPoolrops> = ({
   };
 
   // const { network } = useGetNetworkConfig();
-  const { address } = useGetAccountInfo();
-  const [showStake, setShowStake] = useState(false);
-  const [showUnstake, setShowUnstake] = useState(false);
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  // const { address } = useGetAccountInfo();
+  // const [showStake, setShowStake] = useState(false);
+  // const [showUnstake, setShowUnstake] = useState(false);
+  // const { hasPendingTransactions } = useGetPendingTransactions();
 
-  const staked_esdt_info = useGetESDTInformations(collectionIdentifier);
+  // const staked_esdt_info = useGetESDTInformations(collectionIdentifier);
 
-  const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
+  // const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
 
   return (
     <div

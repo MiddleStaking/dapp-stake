@@ -2,14 +2,12 @@ import React, {
   CSSProperties,
   FC,
   JSXElementConstructor,
-  ReactElement,
-  useState
+  ReactElement
 } from 'react';
 import TypeSection from './component/TypeSection';
 import {
-  useGetAccountInfo,
-  useGetNetworkConfig,
-  useGetPendingTransactions
+  useGetAccountInfo
+  // useGetNetworkConfig
 } from '@multiversx/sdk-dapp/hooks';
 import { defaultToken } from 'config';
 import { useGetCollectionInformations } from '../Actions/helpers';

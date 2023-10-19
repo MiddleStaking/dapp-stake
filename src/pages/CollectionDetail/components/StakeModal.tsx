@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './StakeModal.scss';
-import { ActionStakeNft } from './Actions';
+// import { ActionStakeNft } from './Actions';
 import { useGetTokenPosition } from './Actions/helpers';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations } from './Actions/helpers';

@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 // import './../../../assets/Modal.css';
 import './StakeModal.scss';
 import { defaultToken } from 'config';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+// import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { useGetESDTInformations, useGetUserNFT } from './Actions/helpers';
 import { ActionFund } from './Actions';
-import { CheckBox, Button } from './../../../components/Design';
+import { Button } from './../../../components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
 
@@ -78,9 +77,9 @@ const FundModal = (props: any) => {
   // const staked_esdt_info = useGetESDTInformations(stoken);
   const rewarded_esdt_info = useGetESDTInformations(rtoken);
   // const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
-  const rdecimals = rewarded_esdt_info?.decimals
-    ? rewarded_esdt_info?.decimals
-    : 0;
+  // const rdecimals = rewarded_esdt_info?.decimals
+  //   ? rewarded_esdt_info?.decimals
+  //   : 0;
 
   // const image1 = staked_esdt_info?.assets?.svgUrl
   //   ? staked_esdt_info?.assets?.svgUrl

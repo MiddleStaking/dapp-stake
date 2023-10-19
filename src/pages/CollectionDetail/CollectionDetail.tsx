@@ -4,8 +4,8 @@ import { getTransactions } from '@multiversx/sdk-dapp/apiCalls';
 
 import {
   useGetAccount,
-  useGetActiveTransactionsStatus,
-  useGetNetworkConfig
+  useGetActiveTransactionsStatus
+  // useGetNetworkConfig
 } from '@multiversx/sdk-dapp/hooks';
 
 import { ServerTransactionType } from '@multiversx/sdk-dapp/types';

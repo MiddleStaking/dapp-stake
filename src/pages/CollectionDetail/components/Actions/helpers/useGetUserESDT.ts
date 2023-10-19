@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+// import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import axios from 'axios';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { network } from 'config';

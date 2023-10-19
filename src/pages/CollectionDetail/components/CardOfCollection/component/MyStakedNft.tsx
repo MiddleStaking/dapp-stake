@@ -11,9 +11,6 @@ const MyStakedNft: FC<any> = ({
 }) => {
   const nft: any = useGetNft(nft_identifier, nft_nonce, isOpen);
 
-  //   console.log(nft_identifier);
-  //   console.log(nft_nonce);
-
   return (
     <>
       {nft?.media && (

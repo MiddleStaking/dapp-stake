@@ -7,7 +7,7 @@ import {
 import { network } from 'config';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { smartContract } from './smartContract';
-import { defaultPairs } from 'config';
+// import { defaultPairs } from 'config';
 
 const resultsParser = new ResultsParser();
 

@@ -1,24 +1,20 @@
 // NOTE : mep card
 
-import React, { useState, useEffect } from 'react';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { defaultToken } from 'config';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetIsPaused } from './Actions/helpers';
+import React, { useState } from 'react';
+// import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+// import { useParams } from 'react-router-dom';
+// import { useGetIsPaused } from './Actions/helpers';
 import { useGetCollections } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
-import FundModal from './FundModal';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { Button, ToggleSwitch } from './../../../components/Design';
+import { Button } from './../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardOfCollection from './CardOfCollection';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
 import MintModal from '../../../pages/Mint/components/MintModal';
+
 export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
-  const [showFund, setShowFund] = useState(false);
   const [showMint, setShowMint] = useState(false);
   const { address } = useGetAccountInfo();
   const userEsdtBalance = useGetUserESDT();
@@ -28,8 +24,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
   // const isPaused = useGetIsPaused();
 
   const stakedCollections: string[] = useGetCollections();
-  const navigate = useNavigate();
-  const { param } = useParams();
+  // const { param } = useParams();
   // const [url] = useState(param ? param.toString() : defaultToken);
 
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);

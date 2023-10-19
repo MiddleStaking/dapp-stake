@@ -38,7 +38,7 @@ const ModalAddCollection = (props: any) => {
   const maxSpeed = 365;
   const maxUnbound = 10;
 
-  const [payFees, setPayFees] = React.useState(false);
+  // const [payFees, setPayFees] = React.useState(false);
   // const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [vestingTime, setVestingTime] = React.useState(0);
@@ -57,35 +57,35 @@ const ModalAddCollection = (props: any) => {
   const defaultProps = userEsdtBalance.find(
     (item: any) => item.identifier === defaultToken
   );
-  const handleChange = () => {
-    setPayFees(!payFees);
-  };
+  // const handleChange = () => {
+  //   setPayFees(!payFees);
+  // };
 
   useEffect(() => {
     if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
     if (tokenProps?.balance) setBalance(tokenProps.balance);
   }, [tokenProps]);
 
-  function setFSToken(e: React.ChangeEvent<any>) {
-    const index = userEsdtBalance
-      .filter(({ identifier }: any) => identifier === identifier)
-      .findIndex((tokens: any) => tokens.identifier === e.target.value);
-    setStoken(e.target.value);
-    setPayFees(false);
-  }
+  // function setFSToken(e: React.ChangeEvent<any>) {
+  //   const index = userEsdtBalance
+  //     .filter(({ identifier }: any) => identifier === identifier)
+  //     .findIndex((tokens: any) => tokens.identifier === e.target.value);
+  //   setStoken(e.target.value);
+  //   setPayFees(false);
+  // }
 
-  function setFRtoken(e: React.ChangeEvent<any>) {
-    const index = userEsdtBalance
-      .filter(({ identifier }: any) => identifier === identifier)
-      .findIndex((tokens: any) => tokens.identifier === e.target.value);
-    setRtoken(e.target.value);
+  // function setFRtoken(e: React.ChangeEvent<any>) {
+  //   const index = userEsdtBalance
+  //     .filter(({ identifier }: any) => identifier === identifier)
+  //     .findIndex((tokens: any) => tokens.identifier === e.target.value);
+  //   setRtoken(e.target.value);
 
-    if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
-    if (tokenProps?.balance) setBalance(tokenProps.balance);
-    setBigAmount(BigInt(0));
-    setTokenAmount(0);
-    setPayFees(false);
-  }
+  //   if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
+  //   if (tokenProps?.balance) setBalance(tokenProps.balance);
+  //   setBigAmount(BigInt(0));
+  //   setTokenAmount(0);
+  //   setPayFees(false);
+  // }
 
   const rewarded_esdt_info = useGetESDTInformations(rtoken);
 
@@ -117,21 +117,21 @@ const ModalAddCollection = (props: any) => {
     setRangeValue(percentage);
   }
 
-  function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (balance > BigInt(0)) {
-      setRangeValue(e.target.value);
-      const percentage = Number(e.target.value).toFixed();
-      const big_amount = BigInt(
-        (BigInt(balance) * BigInt(percentage)) / BigInt(100)
-      );
-      setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** rdecimals))
-      );
-      setBigAmount(big_amount);
-    } else {
-      setRangeValue(0);
-    }
-  }
+  // function handleRangeValueChange(e: React.ChangeEvent<any>) {
+  //   if (balance > BigInt(0)) {
+  //     setRangeValue(e.target.value);
+  //     const percentage = Number(e.target.value).toFixed();
+  //     const big_amount = BigInt(
+  //       (BigInt(balance) * BigInt(percentage)) / BigInt(100)
+  //     );
+  //     setTokenAmount(
+  //       Number(BigInt(big_amount)) / Number(BigInt(10 ** rdecimals))
+  //     );
+  //     setBigAmount(big_amount);
+  //   } else {
+  //     setRangeValue(0);
+  //   }
+  // }
 
   function handleVestingTimeChange(value: any) {
     if (value <= 0) {

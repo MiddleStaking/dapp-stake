@@ -1,7 +1,6 @@
 import React, { CSSProperties, FC } from 'react';
 import styles from './styles.module.scss';
 import ReactPlayer from 'react-player';
-// import { IconFacebook } from "module";
 import notfoundNft from '../../../../assets/img/notfoundnft.png';
 
 interface TypeSectionProps {
