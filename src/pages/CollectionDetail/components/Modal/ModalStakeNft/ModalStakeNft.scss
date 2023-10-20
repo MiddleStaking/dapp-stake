@@ -1,0 +1,41 @@
+.wrapperTT {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    width: 120px;
+    height: 30px;
+    cursor: pointer;
+    background: white;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+
+    background: linear-gradient(
+      to bottom,
+      #1f67ff,
+      #5e5ffe,
+      #8356fa,
+      #a249f4,
+      #bd37ec
+    );
+  }
+
+  .arrow-before {
+    left: -90px;
+    transform: translateY(-50%) rotate(270deg);
+  }
+
+  .arrow-after {
+    right: -90px;
+    transform: translateY(-50%) rotate(90deg);
+  }
+
+  @media (min-width: 671px) {
+    .arrow {
+      display: none;
+    }
+  }
+}
