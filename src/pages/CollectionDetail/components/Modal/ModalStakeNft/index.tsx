@@ -29,7 +29,6 @@ export const ModalStakeNft = (props: any) => {
     }
   }, [width]);
 
-  // console.log(props.userNFTBalance[0]);
   const toggleAccordion = (index: number) => {
     const newOpenAccordions = [...openAccordions];
     newOpenAccordions[index] = !newOpenAccordions[index];

@@ -616,7 +616,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                 <div className='dropDownStake'>
                   <div className='GroupeLabelDropdoownFormatAmount'>
                     <div className='LabelDropdoown'>Send</div>
-                    <div className='LabelDropdoownFormatAmount'>
+                    {/* <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
                         decimals={Number(first_decimals.toString())}
@@ -624,7 +624,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                         egldLabel={' '}
                         data-testid='staked'
                       />
-                    </div>
+                    </div> */}
                   </div>
                   <DropdownMenu
                     BoxShadowActive={true}
@@ -664,7 +664,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                 <div className='dropDownEarn'>
                   <div className='GroupeLabelDropdoownFormatAmount'>
                     <div className='LabelDropdoown'>Receive</div>
-                    <div className='LabelDropdoownFormatAmount'>
+                    {/* <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
                         decimals={Number(out_decimals.toString())}
@@ -672,7 +672,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                         egldLabel={' '}
                         data-testid='staked'
                       />
-                    </div>
+                    </div> */}
                   </div>
                   <DropdownMenu
                     BoxShadowActive={false}
@@ -742,19 +742,29 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                 </div>
                 {!isDual ? (
                   <div className='label6'>
-                    price_impact {price_impact.toString()}
+                    price_impact {price_impact.toFixed(2).toString()}%
                   </div>
                 ) : (
                   <div className='label6'>
-                    price_impact 1 {price_impact.toString()}
+                    price_impact 1 {price_impact.toFixed(2).toString()}%
                     <br />
-                    price_impact 2 {dual_price_impact.toString()}
+                    price_impact 2 {dual_price_impact.toFixed(2).toString()}%
                   </div>
                 )}
               </div>
 
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
+                  <div className='LabelDropdoownFormatAmount'>
+                    <FormatAmount
+                      className='label2'
+                      decimals={Number(first_decimals.toString())}
+                      value={inBalance.toString()}
+                      egldLabel={' '}
+                      data-testid='staked'
+                    />{' '}
+                    {in_token}
+                  </div>
                   <Input
                     inputHeight='40px'
                     inputWidth='100%'
@@ -777,9 +787,19 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     type='number'
                     placeholder={'number'}
                     fontSize={14}
-                  />
+                  />{' '}
                 </div>
                 <div className='FormatAmountStaked'>
+                  <div className='LabelDropdoownFormatAmount'>
+                    <FormatAmount
+                      className='label2'
+                      decimals={Number(second_decimals.toString())}
+                      value={outBalance.toString()}
+                      egldLabel={' '}
+                      data-testid='staked'
+                    />{' '}
+                    {out_token}
+                  </div>
                   <Input
                     inputHeight='40px'
                     inputWidth='100%'
@@ -794,13 +814,16 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     fontSize={14}
                   />
                 </div>{' '}
-                <FormatAmount
-                  className='label2'
-                  decimals={Number(out_decimals.toString())}
-                  value={min_out.toString()}
-                  egldLabel={' '}
-                  data-testid='staked'
-                />
+                <div>
+                  <div className='LabelDropdoownFormatAmount'>Slippage(1%)</div>
+                  <FormatAmount
+                    className='label2'
+                    decimals={Number(out_decimals.toString())}
+                    value={min_out.toString()}
+                    egldLabel={' '}
+                    data-testid='staked'
+                  />
+                </div>
               </div>
               <div className='bottomGroupeModal'>
                 <div className='bottomModal'>
