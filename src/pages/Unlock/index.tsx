@@ -11,6 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { walletConnectV2ProjectId } from 'config';
 import { routeNames } from 'routes';
 import logoMS from '../../assets/img/ms.svg';
+import logoXalias from '../../assets/img/xalias.svg';
 import legerImage from '../../assets/legerImage.png';
 import imagePartalConnexion from '../../assets/multiversxPortal.png';
 import imageWalletDefi from '../../assets/téléchargement.png';
@@ -29,19 +30,25 @@ interface ConnectionType {
 const Unlock: FC = () => {
   const { address } = useGetAccountInfo();
   const route = useParams();
-
   const navigate = useNavigate();
+  //      name: 'MultiversX Web Wallet',
+
   const connects: Array<ConnectionType> = [
     {
       title: 'Desktop',
-      name: 'MultiversX Web Wallet',
+      name: 'xAlias',
       background: '#000000',
       image: (
         <div className={styles.logos}>
           <span>
-            <img
+            {/* <img
               className={styles.img}
               src={imagePartalConnexion}
+              alt='Grapefruit slice atop a pile of other slices'
+            ></img> */}
+            <img
+              className={styles.img}
+              src={logoXalias}
               alt='Grapefruit slice atop a pile of other slices'
             ></img>
           </span>

@@ -48,6 +48,13 @@ const AccordionWrap: FC<CardPoolrops> = ({
           {'Nfts staked in this collection: '}
           {nftNumberStakePool}
         </div>
+        {collection_identifier == 'DINOVOX-cb2297' && (
+          <p className='alert alert-dark'>
+            Dino&apos;s staking in this app is not official. Rewards are for
+            fun. Staking dinos may disqualify your nft for later rewards based
+            on holding time.
+          </p>
+        )}
 
         <div className='AccordeonsCardStake'>
           <div className='contentStakeModal_Collection'>

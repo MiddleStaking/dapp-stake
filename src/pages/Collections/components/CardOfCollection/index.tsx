@@ -16,7 +16,6 @@ import { useGetCollectionInformations } from '../Actions/helpers';
 import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
-import ReactPlayer from 'react-player';
 import HexagoneNFT from '../hexagoneNFT';
 
 interface CardPoolrops {

@@ -15,7 +15,7 @@ export const ActionRemovePoolFees = ({ stakedToken, rewardedToken }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
   const userEsdtBalance = useGetUserESDT();
   const default_esdt_info = useGetESDTInformations(defaultToken);
-  const price = BigInt('5000000000000000000000');
+  const price = BigInt('2000000000000000000000');
 
   const dollar_value = default_esdt_info?.price
     ? Number(BigInt(price) / BigInt(10 ** default_esdt_info.decimals)) *
