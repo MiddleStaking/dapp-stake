@@ -24,6 +24,7 @@ import {
   useGetPrice
 } from './Actions/helpers';
 import { network } from 'config';
+import { isMobileEnvironment } from '@multiversx/sdk-dapp/utils';
 
 export const PlayLayout = ({ children }: React.PropsWithChildren) => {
   //const { network } = useGetNetworkConfig();
@@ -192,7 +193,7 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
                           <ReactPlayer
                             width='auto'
                             height='400px'
-                            playing={true}
+                            playing={!isMobileEnvironment()}
                             loop={true}
                             volume={0}
                             muted={true}

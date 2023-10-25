@@ -25,7 +25,8 @@ export const useGetUserNFT = () => {
   ]);
   const address = useGetAccountInfo().address;
 
-  const url = '/accounts/' + address + '/collections?excludeMetaESDT=true';
+  const url =
+    '/accounts/' + address + '/collections?excludeMetaESDT=true&size=500';
   const getUserNFT = async () => {
     if (address != '') {
       try {

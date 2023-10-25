@@ -91,13 +91,13 @@ export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
-
+//  walletAddress: 'https://wallet.multiversx.com/dapp/init',
 export const network: NetworkType = {
   id: 'mainnet',
   chainId: '1',
   name: 'Mainnet',
   egldLabel: 'EGLD',
-  walletAddress: 'https://wallet.multiversx.com/dapp/init',
+  walletAddress: 'https://xalias.com',
   apiAddress: 'https://api.multiversx.com',
   gatewayAddress: 'https://gateway.multiversx.com',
   gatewayCached: 'https://api.middlestaking.fr/mainnet',
