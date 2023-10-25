@@ -7,11 +7,11 @@
   .arrow {
     position: absolute;
     top: 50%;
-    width: 120px;
-    height: 30px;
+    width: 90px;
+    height: 175px;
     cursor: pointer;
     background: white;
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    clip-path: polygon(0% 0%, 30% 0%, 90% 50%, 30% 100%, 0% 100%, 60% 50%);
 
     background: linear-gradient(
       to bottom,
@@ -24,18 +24,18 @@
   }
 
   .arrow-before {
-    left: -90px;
-    transform: translateY(-50%) rotate(270deg);
+    left: -50px;
+    transform: translateY(-50%) rotate(180deg);
   }
 
   .arrow-after {
-    right: -90px;
-    transform: translateY(-50%) rotate(90deg);
+    right: -50px;
+    transform: translateY(-50%) rotate(0deg);
   }
 
-  @media (min-width: 671px) {
-    .arrow {
-      display: none;
-    }
-  }
+  // @media (min-width: 671px) {
+  //   .arrow {
+  //     display: none;
+  //   }
+  // }
 }

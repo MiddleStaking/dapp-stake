@@ -142,7 +142,12 @@ const TypeSection: FC<TypeSectionProps> = ({
     /* ---- ENTÊTE CARD ---- */
   }
   return (
-    <div style={TypeSectionStyle}>
+    <div
+      onClick={() =>
+        (window.location.href = `/collections/${collectionIdentifier}`)
+      }
+      style={TypeSectionStyle}
+    >
       <div style={top}>
         <div style={left}>
           <div style={title}>

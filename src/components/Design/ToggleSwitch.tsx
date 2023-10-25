@@ -88,7 +88,8 @@ export const ToggleSwitch: FC<ToggleSwitchProps> = ({
 
   const inputStyle: CSSProperties = {
     width: 0,
-    height: 0
+    height: 0,
+    display: 'none'
   };
 
   return (

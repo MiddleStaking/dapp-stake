@@ -131,6 +131,7 @@ export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
       <br />
       {getCollectionInformations?.length > 0 ? (
         <AccordionWrap
+          userEsdtBalance={userEsdtBalance}
           collection_identifier={
             getCollectionInformations[0]?.collection
               ? getCollectionInformations[0]?.collection
