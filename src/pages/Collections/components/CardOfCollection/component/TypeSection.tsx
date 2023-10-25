@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import SwowHideDetails from './SwowHideDetails';
 // import { IconFacebook } from "module";
-import ReactPlayer from 'react-player';
 import HexagoneNFT from '../../hexagoneNFT';
 import { PoolAddCollection } from '../../Modal/AddCollection/PoolAddCollection';
 import { Button } from 'components/Design';

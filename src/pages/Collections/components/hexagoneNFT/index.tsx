@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import ReactPlayer from 'react-player';
 // import { IconFacebook } from "module";
 import notfoundNft from '../../../../assets/img/notfoundnft.png';
+import { isMobileEnvironment } from '@multiversx/sdk-dapp/utils';
 
 interface TypeSectionProps {
   format: 'video/mp4' | 'image';
@@ -124,7 +125,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
                 <ReactPlayer
                   width={'100%'}
                   height={'100%'}
-                  playing={true}
+                  playing={!isMobileEnvironment() && width > 40}
                   loop={true}
                   volume={0}
                   muted={true}
