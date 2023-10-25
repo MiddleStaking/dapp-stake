@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../../../assets/Modal.css';
 import './CollectionModal.scss';
@@ -21,7 +21,18 @@ import { CheckBox } from './../../../../../components/Design';
 import { BigNumber } from 'bignumber.js';
 import { useParams } from 'react-router-dom';
 
-const ModalAddCollection = (props: any) => {
+interface ModalProps {
+  userEsdtBalance: any;
+  show: boolean;
+  onClose: MouseEventHandler<any>;
+  Speed?: number;
+  Nonce?: number;
+  Vesting?: number;
+  Unbounding?: number;
+  SelectReward?: string;
+}
+
+const ModalAddCollection = (props: ModalProps) => {
   const { param } = useParams();
   const [url] = useState(param?.toString());
 
@@ -37,7 +48,9 @@ const ModalAddCollection = (props: any) => {
   ]);
   const [stoken, setStoken] = React.useState(url ? url : '');
   const testgetStakedTokens = useGetCollectionRewards(stoken);
-  const [rtoken, setRtoken] = React.useState('');
+  const [rtoken, setRtoken] = React.useState(
+    props.SelectReward ? props.SelectReward : ''
+  );
   const [decimals, setDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
   const maxVesting = 40;
@@ -48,10 +61,18 @@ const ModalAddCollection = (props: any) => {
   const [agreement2, setaAgreement2] = React.useState(true);
   // const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
-  const [vestingTime, setVestingTime] = React.useState(0);
-  const [unboundingTime, setUnboundingTime] = React.useState(0);
-  const [speedNumber, setSpeedNumber] = React.useState(180);
-  const [nonceNumber, setNonceNumber] = React.useState(0);
+  const [vestingTime, setVestingTime] = React.useState(
+    props.Vesting ? props.Vesting : 0
+  );
+  const [unboundingTime, setUnboundingTime] = React.useState(
+    props.Unbounding ? props.Unbounding : 0
+  );
+  const [speedNumber, setSpeedNumber] = React.useState(
+    props.Speed ? props.Speed : 180
+  );
+  const [nonceNumber, setNonceNumber] = React.useState(
+    props.Nonce ? props.Nonce : 0
+  );
   const [rangeValue, setRangeValue] = React.useState(0);
 
   const nft: any = useGetNft(stoken, nonceNumber, true);
@@ -455,7 +476,11 @@ const ModalAddCollection = (props: any) => {
                                 }))
                               : []
                           }
-                          defaultValue={'select token'}
+                          defaultValue={
+                            rtoken !== '' && rtoken !== null
+                              ? rtoken
+                              : 'select token'
+                          }
                           disableOption={false}
                           onSelect={function (value: any): void {
                             if (rtoken !== value) {
@@ -663,37 +688,37 @@ const ModalAddCollection = (props: any) => {
                       Double check before finalize deposit.
                     </div>
                   </div>
-                </div>{' '}
-                {!nft.media && nonceNumber > 0 && (
-                  <div className='alert alert-warning'>
-                    We were not able to find a media related to this nonce in
-                    this collection. Maybe the nonce does not exist or the api
-                    is overloaded ? <br /> Tokens could be lost!{' '}
-                    <a
-                      style={{ color: 'black' }}
-                      target='_blank'
-                      rel='noreferrer'
-                      href={
-                        'https://explorer.multiversx.com/nfts/' +
-                        stoken +
-                        '-' +
-                        toHexDec(nonceNumber)
-                      }
-                    >
-                      <u>
-                        Open explorer : {stoken + '-' + toHexDec(nonceNumber)}
-                      </u>
-                    </a>
-                    <CheckBox
-                      label='Continue anyway'
-                      checked={agreement2}
-                      onClick={() => {
-                        handleChange2();
-                      }}
-                    />
-                  </div>
-                )}
+                </div>
               </div>
+              {!nft.media && nonceNumber > 0 && (
+                <div className='alert alert-warning'>
+                  We were not able to find a media related to this nonce in this
+                  collection. Maybe the nonce does not exist or the api is
+                  overloaded ? <br /> Tokens could be lost!{' '}
+                  <a
+                    style={{ color: 'black' }}
+                    target='_blank'
+                    rel='noreferrer'
+                    href={
+                      'https://explorer.multiversx.com/nfts/' +
+                      stoken +
+                      '-' +
+                      toHexDec(nonceNumber)
+                    }
+                  >
+                    <u>
+                      Open explorer : {stoken + '-' + toHexDec(nonceNumber)}
+                    </u>
+                  </a>
+                  <CheckBox
+                    label='Continue anyway'
+                    checked={agreement2}
+                    onClick={() => {
+                      handleChange2();
+                    }}
+                  />
+                </div>
+              )}
               <div className='pool-details_StakeModal_black_Collection'>
                 <div className='GroupeDetails_StakeModal_black_input_Collection'>
                   <div className='PoolDetails_StakeModal_black_Collection'>
@@ -1024,7 +1049,7 @@ const ModalAddCollection = (props: any) => {
                 </div>
               </div>{' '}
               1% fees deposit to $MID staking contract
-              <div className='' style={{ width: '20px;' }}>
+              <div>
                 <FormatAmount
                   decimals={Number(decimals.toString())}
                   value={(BigInt(bigAmount) / BigInt(100)).toString()}

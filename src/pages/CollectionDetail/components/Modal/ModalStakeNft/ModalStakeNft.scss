@@ -1,0 +1,41 @@
+.wrapperTT {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    width: 90px;
+    height: 175px;
+    cursor: pointer;
+    background: white;
+    clip-path: polygon(0% 0%, 30% 0%, 90% 50%, 30% 100%, 0% 100%, 60% 50%);
+
+    background: linear-gradient(
+      to bottom,
+      #1f67ff,
+      #5e5ffe,
+      #8356fa,
+      #a249f4,
+      #bd37ec
+    );
+  }
+
+  .arrow-before {
+    left: -50px;
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .arrow-after {
+    right: -50px;
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  // @media (min-width: 671px) {
+  //   .arrow {
+  //     display: none;
+  //   }
+  // }
+}

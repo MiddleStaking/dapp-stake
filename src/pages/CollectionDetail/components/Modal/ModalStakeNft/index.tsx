@@ -8,19 +8,26 @@ import React, { useState, useEffect } from 'react';
 import { ActionStakeNft } from '../../Actions';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import Input from 'components/Design/Input';
+import './ModalStakeNft.scss';
+import { useWindowDimensions } from 'components/DimensionScreen';
 
 export const ModalStakeNft = (props: any) => {
   const [qty, setQty] = React.useState(1);
-
+  const [currentIndex, setCurrentIndex] = React.useState<number>(0);
   const [openAccordions, setOpenAccordions] = useState([false]);
   const { address } = useGetAccountInfo();
 
   const [stoken, setStoken] = React.useState<any>([]);
+  const { width } = useWindowDimensions();
+
   useEffect(() => {
-    if (props.userNFTBalance.length == 1) {
-      setStoken(props.userNFTBalance);
+    if (width <= 670) {
+      setStoken([props.userNFTBalance[0]]);
     }
-  }, []);
+    if (props.userNFTBalance.length == 1) {
+      setStoken([props.userNFTBalance[0]]);
+    }
+  }, [width]);
 
   const toggleAccordion = (index: number) => {
     const newOpenAccordions = [...openAccordions];
@@ -48,6 +55,32 @@ export const ModalStakeNft = (props: any) => {
     //return  ((Number(d).toString(16)));//.slice(-2).toUpperCase();
   }
 
+  const handleBeforeClick = () => {
+    const currentIndex = props.userNFTBalance.findIndex(
+      (item: any) => item.identifier === stoken[0]?.identifier
+    );
+
+    if (currentIndex > 0) {
+      const previousItem = props.userNFTBalance[currentIndex - 1];
+      setCurrentIndex(currentIndex - 1);
+      setStoken([previousItem]);
+    }
+  };
+
+  const handleAfterClick = () => {
+    const currentIndex = props.userNFTBalance.findIndex(
+      (item: any) => item.identifier === stoken[0]?.identifier
+    );
+
+    if (currentIndex < props.userNFTBalance.length - 1) {
+      const previousItem = props.userNFTBalance[currentIndex + 1];
+      setCurrentIndex(currentIndex + 1);
+      setStoken([previousItem]);
+    }
+  };
+
+  console.log(props.userNFTBalance);
+
   return (
     <div className='centerStakeModal_Collection'>
       <div
@@ -59,35 +92,75 @@ export const ModalStakeNft = (props: any) => {
         <div className='modalStakeModal_Collection'>
           <div className='contentStakeModal_Collection'>
             <div className='modalLabelStakeModal_Collection'>Stake Nft</div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '30px 0px'
-              }}
-            >
-              {/* <HexagoneGroupe collectionInfo={getCollectionInformations} /> */}
+            <div className='wrapperTT'>
+              <div
+                className='arrow arrow-before'
+                onClick={handleBeforeClick}
+                style={{
+                  cursor: currentIndex > 0 ? 'pointer' : 'default',
+                  filter: currentIndex <= 0 ? 'grayscale(0.80)' : 'none'
+                }}
+              ></div>
 
-              {stoken[0]?.media && stoken.length == 1 ? (
-                <HexagoneNFT
-                  format={
-                    stoken[0]?.media[0]?.fileType == 'video/mp4'
-                      ? 'video/mp4'
-                      : 'image'
-                  }
-                  url={stoken[0]?.media[0]?.url}
-                  width={200}
-                  withBorder={true}
-                  borderWidth={2.5}
-                  borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                  withShadow={true}
-                />
-              ) : (
-                <HexagoneGroupe collectionInfo={props.userNFTBalance} />
-              )}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '30px 0px'
+                }}
+              >
+                {stoken[0]?.media && stoken.length == 1 ? (
+                  <HexagoneNFT
+                    format={
+                      stoken[0]?.media[0]?.fileType == 'video/mp4'
+                        ? 'video/mp4'
+                        : 'image'
+                    }
+                    url={
+                      props.userNFTBalance.length != 0
+                        ? stoken[0]?.media[0]?.url
+                        : ''
+                    }
+                    width={200}
+                    withBorder={true}
+                    borderWidth={2.5}
+                    borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                    withShadow={true}
+                  />
+                ) : props.userNFTBalance.length != 0 ? (
+                  <HexagoneGroupe collectionInfo={props.userNFTBalance} />
+                ) : (
+                  <HexagoneNFT
+                    format={
+                      stoken[0]?.media[0]?.fileType == 'video/mp4'
+                        ? 'video/mp4'
+                        : 'image'
+                    }
+                    url={''}
+                    width={200}
+                    withBorder={true}
+                    borderWidth={2.5}
+                    borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                    withShadow={true}
+                  />
+                )}
+              </div>
+              <div
+                className='arrow arrow-after'
+                onClick={handleAfterClick}
+                style={{
+                  cursor:
+                    currentIndex < props.userNFTBalance.length - 1
+                      ? 'pointer'
+                      : 'default',
+                  filter:
+                    currentIndex >= props.userNFTBalance.length - 1
+                      ? 'grayscale(0.80)'
+                      : 'none'
+                }}
+              ></div>
             </div>
-
             {props.collectionReward.nonce > 0 ? (
               <a
                 style={{ color: 'white', display: 'flex' }}
@@ -133,7 +206,7 @@ export const ModalStakeNft = (props: any) => {
                         BoxShadowColor='transparent'
                         BoxShadowActiveColor='0 0 24px 0 '
                         inputHeight={'15px'}
-                        inputWidth='179px'
+                        inputWidth='200px'
                         borderRadius='54'
                         hasBorder={false}
                         borderColor='#695885'
@@ -147,13 +220,18 @@ export const ModalStakeNft = (props: any) => {
                             : []
                         }
                         defaultValue={
-                          props.userNFTBalance.length == 1
+                          props.userNFTBalance.length == 1 ||
+                          stoken[0]?.identifier
                             ? stoken[0]?.identifier
                             : 'select nft'
                         }
                         disableOption={false}
                         onSelect={function (value: any): void {
                           setStoken([value]);
+                          const newIndex = props.userNFTBalance.findIndex(
+                            (item: any) => item.identifier === value.identifier
+                          );
+                          setCurrentIndex(newIndex);
                         }}
                       />
                     </div>
