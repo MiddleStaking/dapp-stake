@@ -16,6 +16,7 @@ import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNf
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+import { PoolAddCollection } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollection';
 
 interface CardPoolrops {
   collectionReward: any;
@@ -24,6 +25,7 @@ interface CardPoolrops {
   userStakedNft: any[];
   address: string;
   getCollectionInformations: any;
+  userEsdtBalance: any;
 }
 
 const Accordion: FC<CardPoolrops> = ({
@@ -31,6 +33,7 @@ const Accordion: FC<CardPoolrops> = ({
   allRewardsForUser,
   userNftBalance,
   userStakedNft,
+  userEsdtBalance,
   address,
   getCollectionInformations
 }) => {
@@ -490,7 +493,10 @@ const Accordion: FC<CardPoolrops> = ({
                   <div
                     style={{
                       width: '100%',
-                      textAlign: width > 855 ? 'start' : 'center'
+                      textAlign: width > 855 ? 'start' : 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px'
                     }}
                   >
                     rewards :{' '}
@@ -501,6 +507,30 @@ const Accordion: FC<CardPoolrops> = ({
                       data-testid='balance'
                       digits={2}
                     />
+                    {address && (
+                      <PoolAddCollection
+                        border={false}
+                        widthSvg={10}
+                        paddingAroundSvg={'1px 1px 1px 1px'}
+                        userEsdtBalance={userEsdtBalance}
+                        address={address}
+                        Vesting={Number(collectionReward?.vesting.toString())}
+                        Unbounding={Number(
+                          collectionReward?.unbounding.toString()
+                        )}
+                        Speed={Number(collectionReward?.speed?.toString())}
+                        Nonce={
+                          collectionReward.nonce
+                            ? Number(collectionReward.nonce)
+                            : 0
+                        }
+                        SelectReward={
+                          collectionReward?.identifier
+                            ? collectionReward?.identifier
+                            : ''
+                        }
+                      />
+                    )}
                   </div>
                   <div
                     style={{

@@ -80,6 +80,8 @@ export const ModalStakeNft = (props: any) => {
     }
   };
 
+  console.log(props.userNFTBalance);
+
   return (
     <div className='centerStakeModal_Collection'>
       <div
@@ -116,15 +118,33 @@ export const ModalStakeNft = (props: any) => {
                         ? 'video/mp4'
                         : 'image'
                     }
-                    url={stoken[0]?.media[0]?.url}
+                    url={
+                      props.userNFTBalance.length != 0
+                        ? stoken[0]?.media[0]?.url
+                        : ''
+                    }
                     width={200}
                     withBorder={true}
                     borderWidth={2.5}
                     borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
                     withShadow={true}
                   />
-                ) : (
+                ) : props.userNFTBalance.length != 0 ? (
                   <HexagoneGroupe collectionInfo={props.userNFTBalance} />
+                ) : (
+                  <HexagoneNFT
+                    format={
+                      stoken[0]?.media[0]?.fileType == 'video/mp4'
+                        ? 'video/mp4'
+                        : 'image'
+                    }
+                    url={''}
+                    width={200}
+                    withBorder={true}
+                    borderWidth={2.5}
+                    borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                    withShadow={true}
+                  />
                 )}
               </div>
               <div
