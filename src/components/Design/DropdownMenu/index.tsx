@@ -256,6 +256,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
             value={searchValue}
             style={{
               flexGrow: 1,
+              // width: `calc(${inputWidth} - 10px)`,
               width: '100%',
               border: 'none',
               outline: 'none',

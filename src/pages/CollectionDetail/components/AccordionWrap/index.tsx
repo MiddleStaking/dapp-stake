@@ -13,11 +13,13 @@ interface CardPoolrops {
   address: string;
   collection_identifier: string;
   getCollectionInformations: any;
+  userEsdtBalance: any;
 }
 
 const AccordionWrap: FC<CardPoolrops> = ({
   collectionRewards,
   allRewardsForUser,
+  userEsdtBalance,
   userNftBalance,
   userStakedNft,
   address,
@@ -119,6 +121,7 @@ const AccordionWrap: FC<CardPoolrops> = ({
                   <div style={{ width: '100%' }} key={item.pool_id}>
                     <Accordion
                       address={address}
+                      userEsdtBalance={userEsdtBalance}
                       allRewardsForUser={allRewardsForUser}
                       userNftBalance={userNftBalance}
                       collectionReward={item}

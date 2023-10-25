@@ -3,7 +3,18 @@ import { useState } from 'react';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import ModalAddCollection from './ModalAddCollection';
 
-export const PoolAddCollection = ({ address, userEsdtBalance }: any) => {
+export const PoolAddCollection = ({
+  address,
+  userEsdtBalance,
+  paddingAroundSvg,
+  widthSvg,
+  Speed,
+  Nonce,
+  Vesting,
+  Unbounding,
+  SelectReward,
+  border = true
+}: any) => {
   const [showStake, setShowStake] = useState(false);
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
@@ -16,21 +27,31 @@ export const PoolAddCollection = ({ address, userEsdtBalance }: any) => {
           }}
           show={showStake}
           userEsdtBalance={userEsdtBalance}
+          Vesting={Vesting ? Vesting : 0}
+          Unbounding={Unbounding ? Unbounding : 0}
+          Speed={Speed ? Speed : 180}
+          Nonce={Nonce ? Nonce : 0}
+          SelectReward={SelectReward ? SelectReward : ''}
         />
       )}
 
       {address && (
         <div
-          className='button-icon-border  cursor-pointer'
+          className={border ? 'button-icon-border' : '' + 'cursor-pointer'}
           onClick={() => {
             setHeaderMenu(false), setShowStake(true);
           }}
         >
-          <div className='button-icon'>
+          <div
+            style={{
+              padding: paddingAroundSvg ? paddingAroundSvg : '9px 9px 9px 9px'
+            }}
+            className='button-icon'
+          >
             <svg
               className='plus'
-              width='20'
-              height='20'
+              width={widthSvg ? widthSvg : 20}
+              height={widthSvg ? widthSvg : 20}
               viewBox='0 0 32 32'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
