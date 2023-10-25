@@ -25,6 +25,7 @@ export const PoolAddCollection = ({
           onClose={() => {
             setHeaderMenu(true), setShowStake(false);
           }}
+          setShow={setShowStake}
           show={showStake}
           userEsdtBalance={userEsdtBalance}
           Vesting={Vesting ? Vesting : 0}

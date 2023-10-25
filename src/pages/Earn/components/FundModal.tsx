@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 // import './../../../assets/Modal.css';
@@ -47,6 +47,28 @@ const FundModal = (props: any) => {
   const handleChange = () => {
     setPayFees(!payFees);
   };
+
+  const ModalRef: any = useRef(null);
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      // Si le menu est ouvert et le clic est en dehors du menu, fermez-le
+      if (
+        props.show &&
+        ModalRef.current &&
+        !ModalRef.current.contains(e.target)
+      ) {
+        props.setShow(false);
+      }
+    };
+
+    document.addEventListener('mousedown', checkIfClickedOutside);
+
+    return () => {
+      // Nettoyez l'écouteur lorsque le composant se démonte
+      document.removeEventListener('mousedown', checkIfClickedOutside);
+    };
+  }, [props.show]);
 
   useEffect(() => {
     if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
@@ -192,7 +214,7 @@ const FundModal = (props: any) => {
   return (
     <>
       <div className='centerStakeModal'>
-        <div className='backgroundStakeModal'>
+        <div ref={ModalRef} className='backgroundStakeModal'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
               <div className='modalLabelStakeModal'>Add staking rewards</div>

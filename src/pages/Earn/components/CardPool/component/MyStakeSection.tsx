@@ -125,6 +125,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
           setHeaderMenu(true), setShowStake(false);
         }}
         show={showStake}
+        setShow={setShowStake}
         image1={image1}
         image2={image2}
         token_position={token_position}
@@ -141,6 +142,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
           setHeaderMenu(true), setShowUnstake(false);
         }}
         show={showUnstake}
+        setShow={setShowUnstake}
         token_position={token_position}
       />
 

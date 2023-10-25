@@ -36,7 +36,7 @@ interface InputProps {
   colorSvg?: string;
   LeftHtml?: ReactNode;
   rightHtml?: ReactNode;
-  value: string | number;
+  value: string | number | undefined;
   placeholderColor?: string;
   type:
     | 'button'

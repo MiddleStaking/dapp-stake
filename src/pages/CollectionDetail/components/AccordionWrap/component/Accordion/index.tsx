@@ -147,6 +147,8 @@ const Accordion: FC<CardPoolrops> = ({
           onClose={() => {
             setHeaderMenu(true), setShowMoal(false);
           }}
+          showMoal={showMoal}
+          setShowMoal={setShowMoal}
           nft={nft}
         />
       )}
