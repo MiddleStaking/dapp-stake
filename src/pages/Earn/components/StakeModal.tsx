@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './StakeModal.scss';
 import { ActionStake } from './Actions';
@@ -7,6 +7,7 @@ import { useGetESDTInformations } from './Actions/helpers';
 import { Button } from './../../../components/Design';
 import Input from 'components/Design/Input';
 import DropdownMenu from 'components/Design/DropdownMenu';
+import inputNumbers from 'helpers/inputNumbers';
 
 const StakeModal = (props: any) => {
   const [stoken, setStoken] = React.useState(props.staked_token);
@@ -15,19 +16,42 @@ const StakeModal = (props: any) => {
   const [balance, setBalance] = React.useState(BigInt(0));
   // const tokenPosition = useGetTokenPosition(stoken, rtoken);
   const tokenPosition = props.token_position;
-  const [tokenAmount, setTokenAmount] = React.useState(0);
+  const [tokenAmount, setTokenAmount] = React.useState<
+    number | undefined | string
+  >('');
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
   const stakedProps = userEsdtBalance.find(
     (item: any) => item.identifier === stoken
   );
+  const ModalRef: any = useRef(null);
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      // Si le menu est ouvert et le clic est en dehors du menu, fermez-le
+      if (
+        props.show &&
+        ModalRef.current &&
+        !ModalRef.current.contains(e.target)
+      ) {
+        props.setShow(false);
+      }
+    };
+
+    document.addEventListener('mousedown', checkIfClickedOutside);
+
+    return () => {
+      // Nettoyez l'écouteur lorsque le composant se démonte
+      document.removeEventListener('mousedown', checkIfClickedOutside);
+    };
+  }, [props.show]);
 
   useEffect(() => {
     setStoken(props.staked_token);
     setBalance(stakedProps?.balance ? stakedProps?.balance : BigInt(0));
     setBigAmount(BigInt(0));
-    setTokenAmount(0);
+    setTokenAmount(undefined);
   }, [stakedProps, props.staked_token]);
 
   const staked_esdt_info = props.staked_esdt_info;
@@ -66,23 +90,35 @@ const StakeModal = (props: any) => {
     BigInt(60);
 
   function handleTokenAmountChange(value: any) {
+    if (!rtoken) {
+      return;
+    }
+    let percentage = Number(0);
+
     const amount = BigInt(Number(value) * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
+      percentage = Number(0);
     } else if (amount > balance) {
       setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
+      percentage = Number(100);
       setBigAmount(balance);
     } else {
       setTokenAmount(Number(value));
       const output = toBigAmount(Number(value), Number(sdecimals));
       setBigAmount(BigInt(output));
+      if (amount > BigInt(0)) {
+        percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
+      }
     }
-    const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
     setRangeValue(percentage);
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
+    if (!rtoken) {
+      return;
+    }
     if (balance > BigInt(0)) {
       setRangeValue(e.target.value);
       const percentage = Number(e.target.value).toFixed();
@@ -141,7 +177,7 @@ const StakeModal = (props: any) => {
   return (
     <>
       <div className='centerStakeModal'>
-        <div className='backgroundStakeModal'>
+        <div ref={ModalRef} className='backgroundStakeModal'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
               <div className='modalLabelStakeModal'>Stake tokens</div>
@@ -381,7 +417,7 @@ const StakeModal = (props: any) => {
                         />
                       }
                       type='number'
-                      placeholder={'number'}
+                      placeholder={''}
                       fontSize={14}
                     />
                     <div className='FormatAmountStaked'>

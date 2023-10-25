@@ -41,7 +41,7 @@ export const PoolStakeInfo = ({
 
   return (
     <>
-      <StakeModal
+      {/* <StakeModal
         userEsdtBalance={userEsdtBalance}
         rewardedToken={rewardedToken}
         stakedToken={stakedToken}
@@ -64,7 +64,7 @@ export const PoolStakeInfo = ({
           setHeaderMenu(true), setShowUnstake(false);
         }}
         show={showUnstake}
-      />
+      /> */}
 
       {!address ? (
         <div className='my-stake-section3 '>

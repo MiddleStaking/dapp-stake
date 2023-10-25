@@ -190,6 +190,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     <div className='center'>
       <FundModal
         userEsdtBalance={userEsdtBalance}
+        setShow={setShowFund}
         show={showFund}
         onClose={() => {
           setHeaderMenu(true), setShowFund(false);

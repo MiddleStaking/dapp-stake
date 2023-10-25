@@ -4,7 +4,7 @@ import DropdownMenu from 'components/Design/DropdownMenu';
 import { defaultToken } from 'config';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ActionStakeNft } from '../../Actions';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import Input from 'components/Design/Input';
@@ -16,6 +16,28 @@ export const ModalStakeNft = (props: any) => {
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
   const [openAccordions, setOpenAccordions] = useState([false]);
   const { address } = useGetAccountInfo();
+
+  const ModalRef: any = useRef(null);
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      // Si le menu est ouvert et le clic est en dehors du menu, fermez-le
+      if (
+        props.showMoal &&
+        ModalRef.current &&
+        !ModalRef.current.contains(e.target)
+      ) {
+        props.setShowMoal(false);
+      }
+    };
+
+    document.addEventListener('mousedown', checkIfClickedOutside);
+
+    return () => {
+      // Nettoyez l'écouteur lorsque le composant se démonte
+      document.removeEventListener('mousedown', checkIfClickedOutside);
+    };
+  }, [props.showMoal]);
 
   const [stoken, setStoken] = React.useState<any>([]);
   const { width } = useWindowDimensions();
@@ -79,14 +101,13 @@ export const ModalStakeNft = (props: any) => {
     }
   };
 
-  console.log(props.userNFTBalance);
-
   return (
     <div className='centerStakeModal_Collection'>
       <div
         // style={{
         //   minHeight: '470px'
         // }}
+        ref={ModalRef}
         className='backgroundStakeModal_Collection'
       >
         <div className='modalStakeModal_Collection'>

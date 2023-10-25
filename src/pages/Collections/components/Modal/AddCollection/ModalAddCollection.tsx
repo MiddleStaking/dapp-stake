@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../../../assets/Modal.css';
 import './CollectionModal.scss';
@@ -24,6 +24,7 @@ import { useParams } from 'react-router-dom';
 interface ModalProps {
   userEsdtBalance: any;
   show: boolean;
+  setShow: any;
   onClose: MouseEventHandler<any>;
   Speed?: number;
   Nonce?: number;
@@ -35,6 +36,28 @@ interface ModalProps {
 const ModalAddCollection = (props: ModalProps) => {
   const { param } = useParams();
   const [url] = useState(param?.toString());
+
+  const ModalRef: any = useRef(null);
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      // Si le menu est ouvert et le clic est en dehors du menu, fermez-le
+      if (
+        props.show &&
+        ModalRef.current &&
+        !ModalRef.current.contains(e.target)
+      ) {
+        props.setShow(false);
+      }
+    };
+
+    document.addEventListener('mousedown', checkIfClickedOutside);
+
+    return () => {
+      // Nettoyez l'écouteur lorsque le composant se démonte
+      document.removeEventListener('mousedown', checkIfClickedOutside);
+    };
+  }, [props.show]);
 
   const userNFTBalance = useGetUserNFT();
   const userEsdtBalance = props.userEsdtBalance;
@@ -301,7 +324,7 @@ const ModalAddCollection = (props: ModalProps) => {
   return (
     <>
       <div className='centerStakeModal_Collection'>
-        <div className='backgroundStakeModal_Collection'>
+        <div ref={ModalRef} className='backgroundStakeModal_Collection'>
           <div className='modalStakeModal_Collection'>
             <div className='contentStakeModal_Collection'>
               <div className='modalLabelStakeModal_Collection'>

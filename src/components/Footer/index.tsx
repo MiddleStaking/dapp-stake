@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWindowDimensions } from 'components/DimensionScreen';
@@ -195,7 +195,12 @@ const FooterDekstop: FC<any> = ({}) => {
             : backGround)
         }}
       >
-        <LayoutSvg select={firstSegment === routeNames.dashboard} />
+        {/* <LayoutSvg select={firstSegment === routeNames.dashboard} /> */}
+        <FontAwesomeIcon
+          style={{ color: '#fff' }}
+          size='lg'
+          icon={faHandHoldingDollar}
+        />
         <p
           style={
             // firstSegment === routeNames.dashboard
@@ -203,7 +208,7 @@ const FooterDekstop: FC<any> = ({}) => {
             labelIconStyle
           }
         >
-          Dashboard
+          Delegate
         </p>
       </div>
 
