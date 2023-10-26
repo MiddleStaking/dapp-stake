@@ -50,9 +50,8 @@ const AccordionWrap: FC<CardPoolrops> = ({
         </div>
         {collection_identifier == 'DINOVOX-cb2297' && (
           <p className='alert alert-dark'>
-            Dino&apos;s staking in this app is not official. Rewards are for
-            fun. Staking dinos may disqualify your nft for later rewards based
-            on holding time.
+            Dino&apos;s staking in this app is not official. Staking dinos may
+            disqualify your nft for later rewards based on holding time.
           </p>
         )}
 

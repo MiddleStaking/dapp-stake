@@ -66,7 +66,7 @@
 //   chainId: 'D2',
 //   name: 'Devnet',
 //   egldLabel: 'xEGLD',
-//   walletAddress: 'https://devnet2-wallet.multiversx.com/dapp/init',
+//   walletAddress: 'https://xalias.com',
 //   apiAddress: 'https://devnet2-api.multiversx.com',
 //   gatewayAddress: 'https://devnet2-gateway.multiversx.com',
 //   gatewayCached: 'https://devnet2-gateway.multiversx.com',
