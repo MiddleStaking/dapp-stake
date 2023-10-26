@@ -36,21 +36,22 @@ const Unlock: FC = () => {
   const connects: Array<ConnectionType> = [
     {
       title: 'Desktop',
-      name: 'xAlias (read only) do not deposit egld or tokens on mainnet ⏳',
+      name: 'MultiversX Wallet. Will be replaced by xAlias',
+      //name: 'xAlias (read only) do not deposit egld or tokens on mainnet ⏳',
       background: '#000000',
       image: (
         <div className={styles.logos}>
           <span>
-            {/* <img
+            <img
               className={styles.img}
               src={imagePartalConnexion}
               alt='Grapefruit slice atop a pile of other slices'
-            ></img> */}
-            <img
+            ></img>
+            {/* <img
               className={styles.img}
               src={logoXalias}
               alt='Grapefruit slice atop a pile of other slices'
-            ></img>
+            ></img> */}
           </span>
         </div>
       ),
