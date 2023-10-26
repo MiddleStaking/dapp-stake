@@ -55,7 +55,7 @@ const Account = () => {
 
   const explorer =
     network.id == 'devnet'
-      ? 'https://devnet-explorer.multiversx.com/accounts/'
+      ? 'https://devnet2-explorer.multiversx.com/accounts/'
       : 'https://explorer.multiversx.com/accounts/';
 
   React.useEffect(() => {

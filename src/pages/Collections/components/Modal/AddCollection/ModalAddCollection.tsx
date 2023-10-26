@@ -1028,7 +1028,6 @@ const ModalAddCollection = (props: ModalProps) => {
                       </div>
                     </div>
                   ))}
-              <div>Do you want to deposit rewards ?</div>
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <Input
@@ -1153,7 +1152,8 @@ const ModalAddCollection = (props: ModalProps) => {
                     agreement={agreement && agreement2}
                   />
                 </div>
-              </div>
+              </div>{' '}
+              <div>Give away rewards to the collection?</div>
               <div>
                 <CheckBox
                   label='I understand that this operation is irreversible'

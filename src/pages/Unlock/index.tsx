@@ -36,7 +36,7 @@ const Unlock: FC = () => {
   const connects: Array<ConnectionType> = [
     {
       title: 'Desktop',
-      name: 'xAlias',
+      name: 'xAlias (read only) do not deposit egld or tokens on mainnet ⏳',
       background: '#000000',
       image: (
         <div className={styles.logos}>
