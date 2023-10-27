@@ -20,7 +20,6 @@ import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import { CheckBox } from './../../../../../components/Design';
 import { BigNumber } from 'bignumber.js';
 import { useParams } from 'react-router-dom';
-
 interface ModalProps {
   userEsdtBalance: any;
   show: boolean;
@@ -36,9 +35,11 @@ interface ModalProps {
 const ModalAddCollection = (props: ModalProps) => {
   const { param } = useParams();
   const [url] = useState(param?.toString());
-
+  const [credits, setCredits] = useState(BigNumber(0));
+  const [buyCredits, setBuyCredits] = useState(false);
   const ModalRef: any = useRef(null);
 
+  const user_credits = 25;
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
       // Si le menu est ouvert et le clic est en dehors du menu, fermez-le
@@ -75,7 +76,10 @@ const ModalAddCollection = (props: ModalProps) => {
     props.SelectReward ? props.SelectReward : ''
   );
   const [decimals, setDecimals] = React.useState(18);
+  const [midDecimals, setMidDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
+  const [midBalance, setMidBalance] = React.useState(BigInt(0));
+
   const maxVesting = 40;
   const maxSpeed = 365;
   const maxUnbound = 10;
@@ -84,6 +88,8 @@ const ModalAddCollection = (props: ModalProps) => {
   const [agreement2, setaAgreement2] = React.useState(true);
   // const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
+  const [buyAmount, setBuyAmount] = React.useState(0);
+
   const [vestingTime, setVestingTime] = React.useState(
     props.Vesting ? props.Vesting : 0
   );
@@ -101,6 +107,7 @@ const ModalAddCollection = (props: ModalProps) => {
   const nft: any = useGetNft(stoken, nonceNumber, true);
 
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
+  const [bigBuyAmount, setBigBuyAmount] = React.useState(BigInt(0));
 
   const tokenProps = userEsdtBalance.find(
     (item: any) => item.identifier === rtoken
@@ -128,6 +135,10 @@ const ModalAddCollection = (props: ModalProps) => {
     if (tokenProps?.balance) setBalance(tokenProps.balance);
   }, [tokenProps]);
 
+  useEffect(() => {
+    if (defaultProps?.decimals) setMidDecimals(defaultProps.decimals);
+    if (defaultProps?.balance) setMidBalance(defaultProps.balance);
+  }, [defaultProps]);
   function setFSToken(e: React.ChangeEvent<any>) {
     const index = userEsdtBalance
       .filter(({ identifier }: any) => identifier === identifier)
@@ -175,6 +186,23 @@ const ModalAddCollection = (props: ModalProps) => {
     }
     const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
     setRangeValue(percentage);
+  }
+
+  function handleBuyAmountChange(value: any) {
+    const amount = BigInt(Number(value) * 10 ** midDecimals);
+    if (amount < BigInt(0)) {
+      setBuyAmount(0);
+      setBigBuyAmount(BigInt(0));
+    } else if (amount > midBalance) {
+      setBuyAmount(
+        Number(BigInt(midBalance)) / Number(BigInt(10 ** midDecimals))
+      );
+      setBigBuyAmount(midBalance);
+    } else {
+      setBuyAmount(Number(value));
+      const output = toBigAmount(Number(value), Number(decimals));
+      setBigBuyAmount(BigInt(output));
+    }
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
@@ -307,6 +335,21 @@ const ModalAddCollection = (props: ModalProps) => {
     return result;
     //return  ((Number(d).toString(16)));//.slice(-2).toUpperCase();
   }
+
+  //refactor credits value
+  useEffect(() => {
+    let credits = 0;
+    if (speedNumber > 31) {
+      credits = speedNumber - 31;
+    }
+    if (vestingTime > 0) {
+      credits += vestingTime * 2;
+    }
+    if (unboundingTime > 0) {
+      credits += unboundingTime * 3;
+    }
+    setCredits(BigNumber(credits));
+  }, [speedNumber, vestingTime, unboundingTime]);
 
   if (!props.show) {
     return null;
@@ -1028,6 +1071,77 @@ const ModalAddCollection = (props: ModalProps) => {
                       </div>
                     </div>
                   ))}
+              {testgetStakedTokens &&
+                testgetStakedTokens.filter(
+                  (pool) =>
+                    pool.identifier === rtoken &&
+                    pool.speed == BigInt(speedNumber) &&
+                    pool.nonce == BigInt(nonceNumber) &&
+                    pool.vesting == BigInt(vestingTime) &&
+                    pool.unbounding == BigInt(unboundingTime)
+                ).length === 0 && (
+                  <p>
+                    Creating this pool will cost you{' '}
+                    <FormatAmount
+                      decimals={Number(0)}
+                      value={credits.toFixed()}
+                      egldLabel={'credits'}
+                      data-testid='staked'
+                      digits={0}
+                    />
+                    .
+                    <br />
+                    You have {user_credits} credits left.{' '}
+                    <a
+                      className='text-white'
+                      href='#'
+                      onClick={() => setBuyCredits(!buyCredits)}
+                    >
+                      <u>Buy more credits with $MID</u>
+                    </a>
+                    {buyCredits && (
+                      <div style={{ border: 'solid', padding: '20px' }}>
+                        {' '}
+                        <FormatAmount
+                          decimals={Number(midDecimals.toString())}
+                          value={midBalance.toString()}
+                          egldLabel={defaultToken}
+                          data-testid='staked'
+                          digits={
+                            balance.toString().length >= decimals
+                              ? 2
+                              : decimals -
+                                BigNumber(balance.toString()).toFixed().length +
+                                2
+                          }
+                        />
+                        <Input
+                          inputHeight='40px'
+                          inputWidth='179px'
+                          borderColor='rgb(105, 88, 133)'
+                          value={buyAmount
+                            .toString()
+                            .replace(/^0+(?=[^.])/, '')}
+                          onInputChange={handleBuyAmountChange}
+                          type='number'
+                          placeholder={''}
+                          fontSize={14}
+                        />{' '}
+                        == 1 credits
+                        <ActionFund
+                          stakedToken={stoken}
+                          rewardedToken={rtoken}
+                          user_fund={bigAmount}
+                          speed={speedNumber}
+                          nonce={nonceNumber}
+                          vesting={vestingTime}
+                          unbounding={unboundingTime}
+                          agreement={agreement && agreement2}
+                        />{' '}
+                      </div>
+                    )}
+                  </p>
+                )}
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <Input

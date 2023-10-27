@@ -30,7 +30,7 @@ export const PoolAddCollection = ({
           userEsdtBalance={userEsdtBalance}
           Vesting={Vesting ? Vesting : 0}
           Unbounding={Unbounding ? Unbounding : 0}
-          Speed={Speed ? Speed : 180}
+          Speed={Speed ? Speed : 31}
           Nonce={Nonce ? Nonce : 0}
           SelectReward={SelectReward ? SelectReward : ''}
         />
