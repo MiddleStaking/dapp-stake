@@ -5,7 +5,8 @@ import {
   LedgerLoginButton,
   OperaWalletLoginButton,
   WalletConnectLoginButton,
-  WebWalletLoginButton
+  WebWalletLoginButton,
+  XaliasLoginButton
 } from '@multiversx/sdk-dapp/UI';
 import { useNavigate, useParams } from 'react-router-dom';
 import { walletConnectV2ProjectId } from 'config';
@@ -36,26 +37,29 @@ const Unlock: FC = () => {
   const connects: Array<ConnectionType> = [
     {
       title: 'Desktop',
-      name: 'MultiversX Wallet. Will be replaced by xAlias',
-      //name: 'xAlias (read only) do not deposit egld or tokens on mainnet ⏳',
+      name: 'MultiversX Wallet.',
       background: '#000000',
       image: (
         <div className={styles.logos}>
           <span>
-            <img
-              className={styles.img}
-              src={imagePartalConnexion}
-              alt='Grapefruit slice atop a pile of other slices'
-            ></img>
-            {/* <img
-              className={styles.img}
-              src={logoXalias}
-              alt='Grapefruit slice atop a pile of other slices'
-            ></img> */}
+            <img className={styles.img} src={imagePartalConnexion} alt=''></img>
           </span>
         </div>
       ),
       component: WebWalletLoginButton
+    },
+    {
+      title: 'xAlias',
+      name: 'Google Login.',
+      background: '#000000',
+      image: (
+        <div className={styles.logos}>
+          <span>
+            <img className={styles.img} src={logoXalias}></img>
+          </span>
+        </div>
+      ),
+      component: XaliasLoginButton
     },
     {
       title: 'Hardware',
@@ -146,7 +150,7 @@ const Unlock: FC = () => {
                 <span className={styles.title}>{connect.title}</span>
 
                 <span className={styles.icon}>
-                  {connect.title === 'Desktop' ? (
+                  {connect.title === 'Desktop' || connect.title === 'xAlias' ? (
                     connect.image
                   ) : (
                     <img
