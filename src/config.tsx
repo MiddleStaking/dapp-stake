@@ -120,8 +120,10 @@ export const stakingContract =
 
 export const dAppName = 'Middle Staking';
 // Generate your own WalletConnect 2 ProjectId here: https://cloud.walletconnect.com/app
-export const walletConnectV2ProjectId = '9b1a9564f91cb659ffe21b73d5c4e2d8';
+// export const walletConnectV2ProjectId = '9b1a9564f91cb659ffe21b73d5c4e2d8';
 //export const walletConnectV2ProjectId = '1837c732028bec8c26507a308ae4af5e';
+// export const walletConnectV2ProjectId = '1837c732028bec8c26507a308ae4af5e';
+export const walletConnectV2ProjectId = '47d072804da2e2809c16ea08eea608b9';
 
 export const apiTimeout = 6000;
 export const transactionSize = 15;
@@ -154,7 +156,7 @@ export const yearSettings = [
 ];
 
 interface NetworkType {
-  id: 'devnet' | 'devnet2' | 'testnet' | 'mainnet';
+  id: 'devnet' | 'testnet' | 'mainnet';
   chainId: string;
   name: string;
   egldLabel: string;
