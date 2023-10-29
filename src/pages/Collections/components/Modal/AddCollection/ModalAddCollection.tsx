@@ -221,9 +221,6 @@ const ModalAddCollection = (props: ModalProps) => {
     } else {
       setSpeedNumber(value);
     }
-
-    // const percentage = (Number(value) * 100) / 365;
-    // setRangeValue(percentage);
   }
 
   function handleRangeSpeedValueChange(e: React.ChangeEvent<any>) {
@@ -305,7 +302,6 @@ const ModalAddCollection = (props: ModalProps) => {
       result = '0' + result;
     }
     return result;
-    //return  ((Number(d).toString(16)));//.slice(-2).toUpperCase();
   }
 
   if (!props.show) {
@@ -338,8 +334,6 @@ const ModalAddCollection = (props: ModalProps) => {
                   margin: '30px 0px'
                 }}
               >
-                {/* <HexagoneGroupe collectionInfo={getCollectionInformations} /> */}
-
                 {nft.media ? (
                   <div
                     style={{
@@ -996,20 +990,6 @@ const ModalAddCollection = (props: ModalProps) => {
                               />
                             </div>
                           </div>
-                          {/* <div className='DetailsInfo_Collection'>
-                            <div className='LabelDetailsInfo_Collection'>
-                              Total value
-                            </div>
-                            <div className='ValueDetailsInfo_Collection'>
-                              <FormatAmount
-                                value={item.total_staked.toString()}
-                                decimals={0}
-                                egldLabel={' '}
-                                data-testid='balance'
-                                digits={0}
-                              />
-                            </div>
-                          </div> */}
                           <div className='DetailsInfo_Collection'>
                             <div className='LabelDetailsInfo_Collection'>
                               Speed
@@ -1018,12 +998,6 @@ const ModalAddCollection = (props: ModalProps) => {
                               {item?.speed.toString()} day
                             </div>
                           </div>
-                          {/* <div className='DetailsInfo_Collection'>
-                            <div className='LabelDetailsInfo_Collection'>
-                              Users
-                            </div>
-                            <div className='ValueDetailsInfo_Collection'>6</div>
-                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -1103,29 +1077,6 @@ const ModalAddCollection = (props: ModalProps) => {
                   }
                 />
               </div>
-              {/* <div className='bottomGroupeModal' onClick={props.onClose}>
-                <div className='bottomModal'>
-                  <Button
-                    buttonWidth='100%'
-                    hasBorder={true}
-                    borderRadius={40}
-                    background={'black'}
-                    borderColor={['#BD37EC', '#1F67FF']}
-                    text='Cancel'
-                    onClick={props.onClose}
-                  />
-                </div> */}
-              {/* <div className='bottomModal'>
-                  <ActionSwap
-                    first_token={first_token}
-                    second_token={second_token}
-                    in_token={in_token}
-                    user_fund={bigAmount}
-                    min_out={min_out}
-                    price_impact={price_impact}
-                  />
-                </div> */}
-              {/* </div> */}
               <div className='bottomGroupeModal' onClick={props.onClose}>
                 <div className='bottomModal'>
                   <Button
@@ -1138,8 +1089,6 @@ const ModalAddCollection = (props: ModalProps) => {
                     onClick={props.onClose}
                   />
                 </div>
-
-                {/* NOTE : lock Tocken button */}
                 <div className='bottomModal'>
                   <ActionFund
                     stakedToken={stoken}

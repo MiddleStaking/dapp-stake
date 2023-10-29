@@ -128,6 +128,7 @@ export const walletConnectV2ProjectId = '47d072804da2e2809c16ea08eea608b9';
 export const apiTimeout = 6000;
 export const transactionSize = 15;
 export const TOOLS_API_URL = 'https://tools.multiversx.com';
+
 /**
  * Calls to these domains will use `nativeAuth` Baerer token
  */

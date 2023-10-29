@@ -49,9 +49,9 @@ export const ActionUnwrap = ({ user_fund, account }: any) => {
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: stakeTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Stake transaction',
-        errorMessage: 'An error has occured Stake',
-        successMessage: 'Stake transaction successful'
+        processingMessage: 'Processing Unwrap transaction',
+        errorMessage: 'An error has occured Unwrap',
+        successMessage: 'Unwrap transaction successful'
       },
       redirectAfterSign: false
     });
