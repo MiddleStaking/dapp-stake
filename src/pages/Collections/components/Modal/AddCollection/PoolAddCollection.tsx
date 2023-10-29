@@ -15,18 +15,18 @@ export const PoolAddCollection = ({
   SelectReward,
   border = true
 }: any) => {
-  const [showStake, setShowStake] = useState(false);
+  const [showFund, setShowStakfund] = useState(false);
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
   return (
     <>
-      {showStake && (
+      {showFund && (
         <ModalAddCollection
           onClose={() => {
-            setHeaderMenu(true), setShowStake(false);
+            setHeaderMenu(true), setShowStakfund(false);
           }}
-          setShow={setShowStake}
-          show={showStake}
+          setShow={setShowStakfund}
+          show={showFund}
           userEsdtBalance={userEsdtBalance}
           Vesting={Vesting ? Vesting : 0}
           Unbounding={Unbounding ? Unbounding : 0}
@@ -40,7 +40,7 @@ export const PoolAddCollection = ({
         <div
           className={border ? 'button-icon-border' : '' + 'cursor-pointer'}
           onClick={() => {
-            setHeaderMenu(false), setShowStake(true);
+            setHeaderMenu(false), setShowStakfund(true);
           }}
         >
           <div

@@ -1,16 +1,10 @@
-// NOTE : mep card
-
-import React, { useState, useEffect } from 'react';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import React, { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { defaultToken, network } from 'config';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetIsPaused } from './Actions/helpers';
+import { network } from 'config';
 import { useGetCollections } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { Button, ToggleSwitch } from './../../../components/Design';
+import { Button } from './../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardOfCollection from './CardOfCollection';
 import { useWindowDimensions } from 'components/DimensionScreen';
@@ -18,28 +12,20 @@ import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
 import MintModal from '../../../pages/Mint/components/MintModal';
 import { useGetUserStakedNft } from 'pages/CollectionDetail/components/Actions/helpers/useGetUserStakedNft';
 export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
-  const [showFund, setShowFund] = useState(false);
+  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
+  const [mySearch, setMySearch] = React.useState('');
   const [showMint, setShowMint] = useState(false);
   const { address } = useGetAccountInfo();
   const userEsdtBalance = useGetUserESDT();
-  const [mySearch, setMySearch] = React.useState('');
-
-  // const isLoggedIn = useGetIsLoggedIn();
-  // const isPaused = useGetIsPaused();
-
   const stakedCollections: string[] = useGetCollections();
   const userStakedNft = useGetUserStakedNft(address);
 
+  //for unbond nft with no more pool in array
   for (const userNft of userStakedNft) {
     stakedCollections.indexOf(userNft.staked_nft.identifier) === -1 &&
       userNft.staked_nft.identifier != '' &&
       stakedCollections.push(userNft.staked_nft.identifier);
   }
-  const navigate = useNavigate();
-  const { param } = useParams();
-  // const [url] = useState(param ? param.toString() : defaultToken);
-
-  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
   const { width } = useWindowDimensions();
   const heightComponentTypeSection = width > 450 ? '162px' : '114px';
