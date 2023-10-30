@@ -1,22 +1,21 @@
 import React, { FC, useEffect, useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import './accordion.scss';
-import MyStakeSection from 'pages/CollectionDetail/components/CardOfCollection/component/MyStakeSection';
-import MyNftSection from 'pages/CollectionDetail/components/CardOfCollection/component/MyNftSection';
-import Countdown from 'pages/CollectionDetail/components/CountDown';
-import { Button } from 'components/Design';
-import { ModalStakeNft } from 'pages/CollectionDetail/components/Modal';
-import { ActionClaimRewards } from 'pages/CollectionDetail/components/Actions';
-import notFound from '../../../../../../assets/img/notfoundc.svg';
-import { useWindowDimensions } from 'components/DimensionScreen';
-import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import { BigNumber } from 'bignumber.js';
+import { Button } from 'components/Design';
+import { useWindowDimensions } from 'components/DimensionScreen';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+import toHex from 'helpers/toHex';
 import SandClock from 'pages/CollectionDetail/components/AccordionWrap/component/SandClock';
+import { ActionClaimRewards } from 'pages/CollectionDetail/components/Actions';
+import MyStakeSection from 'pages/CollectionDetail/components/CardOfCollection/component/MyStakeSection';
+import { ModalStakeNft } from 'pages/CollectionDetail/components/Modal';
 import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNft';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { PoolAddCollection } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollection';
+import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
+import notFound from '../../../../../../assets/img/notfoundc.svg';
 
 interface CardPoolrops {
   collectionReward: any;
@@ -126,16 +125,6 @@ const Accordion: FC<CardPoolrops> = ({
     Number(collectionReward.nonce),
     true
   );
-
-  function toHexDec(d: number) {
-    let result = '';
-    result = Number(d).toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-    //return  ((Number(d).toString(16)));//.slice(-2).toUpperCase();
-  }
 
   return (
     <>
@@ -390,7 +379,7 @@ const Accordion: FC<CardPoolrops> = ({
                           'https://www.frameit.gg/marketplace/nft/' +
                           collectionReward.collection +
                           '-' +
-                          toHexDec(collectionReward.nonce)
+                          toHex(collectionReward.nonce)
                         }
                       >
                         <u>
@@ -402,7 +391,6 @@ const Accordion: FC<CardPoolrops> = ({
                             borderWidth={1}
                             borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
                           />{' '}
-                          {/* {toHexDec(collectionReward.nonce)} */}
                         </u>
                       </a>
                     ) : (
@@ -436,7 +424,7 @@ const Accordion: FC<CardPoolrops> = ({
                         boxShadow='0px 0px 20px 0px #8E44EB80 inset'
                         buttonHeight='31px'
                         onClick={() => {
-                          const nFtCanStake = userNftBalance
+                          const canStake = userNftBalance
                             .filter(
                               (item: any) =>
                                 item.nonce == collectionReward?.nonce ||
@@ -444,7 +432,7 @@ const Accordion: FC<CardPoolrops> = ({
                             )
                             .map((item: any) => item);
 
-                          setNFtCanStake(nFtCanStake);
+                          setNFtCanStake(canStake);
                           setShowMoal(true);
                           setHeaderMenu(false);
                         }}

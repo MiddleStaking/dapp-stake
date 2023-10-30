@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Address } from '@multiversx/sdk-core/out';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
+import bigToHex from 'helpers/bigToHex';
 import { Button } from '../../../../components/Design';
-import { Address } from '@multiversx/sdk-core/out';
 
 export const ActionStakeNft = ({
   stakedNFT,
@@ -16,15 +17,6 @@ export const ActionStakeNft = ({
   disabled
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
@@ -38,15 +30,15 @@ export const ActionStakeNft = ({
         'ESDTNFTTransfer@' +
         Buffer.from(stakedNFT, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(nft_nonce)) +
+        bigToHex(BigInt(nft_nonce)) +
         '@' +
-        bigToHexDec(BigInt(user_fund)) +
+        bigToHex(BigInt(user_fund)) +
         '@' +
         addressTobech32.hex() +
         '@' +
         Buffer.from('stake', 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(pool_id)),
+        bigToHex(BigInt(pool_id)),
 
       receiver: address,
       gasLimit: '7000000'
@@ -66,9 +58,6 @@ export const ActionStakeNft = ({
       setTransactionSessionId(sessionId);
     }
   };
-
-  const stakeAllowed = user_fund != '0' && !hasPendingTransactions;
-  const notAllowedClass = stakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <>

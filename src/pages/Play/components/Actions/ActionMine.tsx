@@ -6,11 +6,12 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useNavigate } from 'react-router-dom';
 import { contractPlay } from 'config';
+import bigToHex from 'helpers/bigToHex';
+import { routeNames } from 'routes';
 import { Button } from './../../../../components/Design';
 import { useGetUserESDT } from './../../../../pages/Earn/components/Actions/helpers/useGetUserESDT';
-import { routeNames } from 'routes';
-import { useNavigate } from 'react-router-dom';
 
 export const ActionMine = ({ payment_esdt_info, price }: any) => {
   const navigate = useNavigate();
@@ -29,15 +30,6 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
       .map((token) => token.balance)
       .toString()
   );
-
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
 
   const dollar_price_fixed = BigInt(
     payment_esdt_info?.price
@@ -58,7 +50,7 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
         'ESDTTransfer@' +
         Buffer.from(payment_esdt_info?.identifier, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(price)) +
+        bigToHex(BigInt(price)) +
         '@' +
         Buffer.from('mine', 'utf8').toString('hex'),
 

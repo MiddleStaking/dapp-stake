@@ -1,22 +1,14 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
+import bigToHex from 'helpers/bigToHex';
 import { Button } from '../../../../components/Design';
 
 export const ActionUnbound = ({ nft_id, text, disabled }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
@@ -25,7 +17,7 @@ export const ActionUnbound = ({ nft_id, text, disabled }: any) => {
   const sendClaimTransaction = async () => {
     const claimTransaction = {
       value: 0,
-      data: 'unbound@' + bigToHexDec(BigInt(nft_id)),
+      data: 'unbound@' + bigToHex(BigInt(nft_id)),
       receiver: contractNftStake,
       gasLimit: '6000000'
     };

@@ -2,24 +2,25 @@ import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../../../assets/Modal.css';
 import './CollectionModal.scss';
+import { BigNumber } from 'bignumber.js';
+import { useParams } from 'react-router-dom';
 import { Button } from 'components/Design';
-import HexagoneGroupe from './hexagoneGroupe';
 import DropdownMenu from 'components/Design/DropdownMenu';
-import { defaultToken } from 'config';
+import Input from 'components/Design/Input';
+import toBigAmount from 'helpers/toBigAmount';
+import toHex from 'helpers/toHex';
+import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actions/helpers';
+import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
+import notFound from '../../../../../assets/img/notfoundc.svg';
+import { ActionFund } from '../../Actions';
 import {
   useGetCollectionInformations,
   useGetUserNFT
 } from '../../Actions/helpers';
-import notFound from '../../../../../assets/img/notfoundc.svg';
-import Input from 'components/Design/Input';
-import { ActionFund } from '../../Actions';
 import { useGetNft } from '../../Actions/helpers/useGetNft';
 import HexagoneNFT from '../../hexagoneNFT';
-import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actions/helpers';
-import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import { CheckBox } from './../../../../../components/Design';
-import { BigNumber } from 'bignumber.js';
-import { useParams } from 'react-router-dom';
+import HexagoneGroupe from './hexagoneGroupe';
 
 interface ModalProps {
   userEsdtBalance: any;
@@ -96,17 +97,12 @@ const ModalAddCollection = (props: ModalProps) => {
   const [nonceNumber, setNonceNumber] = React.useState(
     props.Nonce ? props.Nonce : 0
   );
-  const [rangeValue, setRangeValue] = React.useState(0);
-
   const nft: any = useGetNft(stoken, nonceNumber, true);
 
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
   const tokenProps = userEsdtBalance.find(
     (item: any) => item.identifier === rtoken
-  );
-  const defaultProps = userEsdtBalance.find(
-    (item: any) => item.identifier === defaultToken
   );
   const handleChange = () => {
     setaAgreement(!agreement);
@@ -128,34 +124,11 @@ const ModalAddCollection = (props: ModalProps) => {
     if (tokenProps?.balance) setBalance(tokenProps.balance);
   }, [tokenProps]);
 
-  function setFSToken(e: React.ChangeEvent<any>) {
-    const index = userEsdtBalance
-      .filter(({ identifier }: any) => identifier === identifier)
-      .findIndex((tokens: any) => tokens.identifier === e.target.value);
-    setStoken(e.target.value);
-  }
-
-  function setFRtoken(e: React.ChangeEvent<any>) {
-    const index = userEsdtBalance
-      .filter(({ identifier }: any) => identifier === identifier)
-      .findIndex((tokens: any) => tokens.identifier === e.target.value);
-    setRtoken(e.target.value);
-
-    if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
-    if (tokenProps?.balance) setBalance(tokenProps.balance);
-    setBigAmount(BigInt(0));
-    setTokenAmount(0);
-  }
-
   const rewarded_esdt_info = useGetESDTInformations(rtoken);
 
   const rdecimals = rewarded_esdt_info?.decimals
     ? rewarded_esdt_info?.decimals
     : 0;
-
-  const image2 = rewarded_esdt_info?.assets?.svgUrl
-    ? rewarded_esdt_info?.assets?.svgUrl
-    : notFound;
 
   function handleTokenAmountChange(value: any) {
     if (!rtoken) {
@@ -172,24 +145,6 @@ const ModalAddCollection = (props: ModalProps) => {
       setTokenAmount(Number(value));
       const output = toBigAmount(Number(value), Number(decimals));
       setBigAmount(BigInt(output));
-    }
-    const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
-    setRangeValue(percentage);
-  }
-
-  function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (balance > BigInt(0)) {
-      setRangeValue(e.target.value);
-      const percentage = Number(e.target.value).toFixed();
-      const big_amount = BigInt(
-        (BigInt(balance) * BigInt(percentage)) / BigInt(100)
-      );
-      setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** rdecimals))
-      );
-      setBigAmount(big_amount);
-    } else {
-      setRangeValue(0);
     }
   }
 
@@ -262,48 +217,10 @@ const ModalAddCollection = (props: ModalProps) => {
     }
   }
 
-  function toBigAmount(invalue: number, indec: number) {
-    let fixed = '';
-    let dec = '';
-    let vir = false;
-    const sNumber = invalue.toString();
-    for (
-      let i = 0, len = sNumber.length;
-      i < len && (dec.length < indec || indec === 0);
-      i += 1
-    ) {
-      if (!vir) {
-        if (sNumber.charAt(i) === '.') {
-          vir = true;
-        } else {
-          fixed = fixed + sNumber.charAt(i);
-        }
-      } else if (indec > dec.length) {
-        dec = dec + sNumber.charAt(i);
-      }
-    }
-    let output = fixed + dec;
-    for (let i = 0; dec.length < indec; i += 1) {
-      output = output + '0';
-      dec = dec + '0';
-    }
-    return output;
-  }
-
   function setToMax() {
     setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
     setBigAmount(balance);
-    setRangeValue(100);
   }
-  function toHexDec(d: number) {
-    let result = '';
-    result = Number(d).toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
-
   if (!props.show) {
     return null;
   }
@@ -504,7 +421,6 @@ const ModalAddCollection = (props: ModalProps) => {
                               setRtoken(value);
                               setTokenAmount(0);
                               setBigAmount(BigInt(0));
-                              setRangeValue(100);
                             }
                           }}
                         />
@@ -720,12 +636,10 @@ const ModalAddCollection = (props: ModalProps) => {
                       'https://explorer.multiversx.com/nfts/' +
                       stoken +
                       '-' +
-                      toHexDec(nonceNumber)
+                      toHex(nonceNumber)
                     }
                   >
-                    <u>
-                      Open explorer : {stoken + '-' + toHexDec(nonceNumber)}
-                    </u>
+                    <u>Open explorer : {stoken + '-' + toHex(nonceNumber)}</u>
                   </a>
                   <CheckBox
                     label='Continue anyway'
