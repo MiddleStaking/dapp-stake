@@ -1,15 +1,14 @@
+import React, { useState, useEffect, useRef } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Button } from 'components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
-import { defaultToken } from 'config';
-import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
-import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
-import React, { useState, useEffect, useRef } from 'react';
-import { ActionStakeNft } from '../../Actions';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import Input from 'components/Design/Input';
-import './ModalStakeNft.scss';
 import { useWindowDimensions } from 'components/DimensionScreen';
+import toHex from 'helpers/toHex';
+import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
+import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
+import { ActionStakeNft } from '../../Actions';
+import './ModalStakeNft.scss';
 
 export const ModalStakeNft = (props: any) => {
   const [qty, setQty] = React.useState(1);
@@ -67,36 +66,26 @@ export const ModalStakeNft = (props: any) => {
     }
   }
 
-  function toHexDec(d: number) {
-    let result = '';
-    result = Number(d).toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-    //return  ((Number(d).toString(16)));//.slice(-2).toUpperCase();
-  }
-
   const handleBeforeClick = () => {
-    const currentIndex = props.userNFTBalance.findIndex(
+    const myCurrentIndex = props.userNFTBalance.findIndex(
       (item: any) => item.identifier === stoken[0]?.identifier
     );
 
-    if (currentIndex > 0) {
-      const previousItem = props.userNFTBalance[currentIndex - 1];
-      setCurrentIndex(currentIndex - 1);
+    if (myCurrentIndex > 0) {
+      const previousItem = props.userNFTBalance[myCurrentIndex - 1];
+      setCurrentIndex(myCurrentIndex - 1);
       setStoken([previousItem]);
     }
   };
 
   const handleAfterClick = () => {
-    const currentIndex = props.userNFTBalance.findIndex(
+    const myCurrentIndex = props.userNFTBalance.findIndex(
       (item: any) => item.identifier === stoken[0]?.identifier
     );
 
-    if (currentIndex < props.userNFTBalance.length - 1) {
-      const previousItem = props.userNFTBalance[currentIndex + 1];
-      setCurrentIndex(currentIndex + 1);
+    if (myCurrentIndex < props.userNFTBalance.length - 1) {
+      const previousItem = props.userNFTBalance[myCurrentIndex + 1];
+      setCurrentIndex(myCurrentIndex + 1);
       setStoken([previousItem]);
     }
   };
@@ -191,13 +180,13 @@ export const ModalStakeNft = (props: any) => {
                   'https://www.frameit.gg/marketplace/nft/' +
                   props.collectionReward.collection +
                   '-' +
-                  toHexDec(props.collectionReward.nonce)
+                  toHex(props.collectionReward.nonce)
                 }
               >
                 <u>
                   {props.collectionReward.collection +
                     '-' +
-                    toHexDec(props.collectionReward.nonce)}
+                    toHex(props.collectionReward.nonce)}
                 </u>
               </a>
             ) : (

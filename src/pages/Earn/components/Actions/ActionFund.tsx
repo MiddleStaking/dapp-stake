@@ -1,27 +1,14 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractStake } from 'config';
+import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
 
-export const ActionFund = ({
-  stakedToken,
-  rewardedToken,
-  user_fund,
-  agreement
-}: any) => {
+export const ActionFund = ({ stakedToken, rewardedToken, user_fund }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
@@ -34,7 +21,7 @@ export const ActionFund = ({
         'ESDTTransfer@' +
         Buffer.from(rewardedToken, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(user_fund)) +
+        bigToHex(BigInt(user_fund)) +
         '@' +
         Buffer.from('fund', 'utf8').toString('hex') +
         '@' +
@@ -58,10 +45,6 @@ export const ActionFund = ({
       setTransactionSessionId(sessionId);
     }
   };
-
-  const unstakeAllowed =
-    user_fund != '0' && user_fund > 0 && !hasPendingTransactions;
-  const notAllowedClass = unstakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <>
