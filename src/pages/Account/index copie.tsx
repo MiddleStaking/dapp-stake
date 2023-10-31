@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import {
   faExternalLinkAlt,
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import { Col, Form, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '@multiversx/sdk-dapp/utils';
-import { Button } from 'components/Design/Button';
 import { useNavigate } from 'react-router-dom';
 import { routeNames } from 'routes';
 import styles from './account.module.scss';
@@ -57,10 +53,7 @@ const Account = () => {
     setAddress(address === null ? '' : address);
   }, [address]);
 
-  const explorer =
-    network.id == 'devnet'
-      ? 'https://devnet2-explorer.multiversx.com/accounts/'
-      : 'https://explorer.multiversx.com/accounts/';
+  const explorer = network.explorerAddress + '/accounts/';
   return (
     <>
       <WrapModal

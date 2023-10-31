@@ -98,6 +98,7 @@ const Unlock: FC = () => {
 
   useEffect(redirectConditionally, [address]);
 
+  //native auth to TRUE does not work with defi wallet !?
   const commonProps = {
     callbackRoute:
       route?.param !== undefined
@@ -105,7 +106,7 @@ const Unlock: FC = () => {
         : route?.route !== undefined
         ? route?.route
         : routeNames.stake,
-    nativeAuth: true // optional
+    nativeAuth: false // optional
   };
 
   //   const commonProps = {
