@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import './hexagoneGroupe.scss';
 

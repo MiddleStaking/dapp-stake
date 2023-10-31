@@ -1,21 +1,21 @@
-import React, { useState, useEffect, FC } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-// import { defaultToken } from 'config';
-import { useGetESDTInformations } from './Actions/helpers';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { useGetPoolPosition } from './Actions/helpers';
-import DropdownMenu from 'components/Design/DropdownMenu';
+import React, { useEffect, FC } from 'react';
 import {
   faArrowsLeftRight,
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+import toBigAmount from 'helpers/toBigAmount';
+import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionSwap } from './Actions';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import { useGetESDTInformations } from './Actions/helpers';
+import { useGetPoolPosition } from './Actions/helpers';
 import './StakeModal.scss';
 
 interface SwapLayoutProps {
@@ -32,13 +32,13 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   userEsdtBalance,
   all_lp
 }) => {
-  const [first_token, setFirstToken] = React.useState(firstToken);
-  const [second_token, setSecondToken] = React.useState(secondToken);
+  // const [first_token, setFirstToken] = React.useState(firstToken);
+  // const [second_token, setSecondToken] = React.useState(secondToken);
   const { hasPendingTransactions } = useGetPendingTransactions();
   const [inBalance, setInBalance] = React.useState(BigInt(0));
   const [outBalance, setOutBalance] = React.useState(BigInt(0));
-  const [in_token, setInToken] = React.useState(first_token);
-  const [out_token, setOutToken] = React.useState(second_token);
+  const [in_token, setInToken] = React.useState(firstToken);
+  const [out_token, setOutToken] = React.useState(secondToken);
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
@@ -149,33 +149,6 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
     setRangeValue(percentage);
   }
 
-  function toBigAmount(invalue: number, indec: number) {
-    let fixed = '';
-    let dec = '';
-    let vir = false;
-    const sNumber = invalue.toString();
-    for (
-      let i = 0, len = sNumber.length;
-      i < len && (dec.length < indec || indec === 0);
-      i += 1
-    ) {
-      if (!vir) {
-        if (sNumber.charAt(i) === '.') {
-          vir = true;
-        } else {
-          fixed = fixed + sNumber.charAt(i);
-        }
-      } else if (indec > dec.length) {
-        dec = dec + sNumber.charAt(i);
-      }
-    }
-    let output = fixed + dec;
-    for (let i = 0; dec.length < indec; i += 1) {
-      output = output + '0';
-      dec = dec + '0';
-    }
-    return output;
-  }
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
     if (inBalance > BigInt(0)) {
       setRangeValue(e.target.value);
@@ -359,7 +332,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                 </div> */}
                 <div className='LogoStakeModalGroupe'>
                   <div className='LogoStake'>
-                    <img src={second_image} />
+                    <img src={first_image} />
                   </div>
                   <div className='LogoArrow'>
                     <div className='LogoInverseArrow'>
@@ -372,7 +345,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     </div>
                   </div>
                   <div className='LogoEarn'>
-                    <img src={first_image} />
+                    <img src={second_image} />
                   </div>
                 </div>
               </div>

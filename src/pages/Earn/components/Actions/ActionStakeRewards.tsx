@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
@@ -35,9 +35,6 @@ export const ActionStakeRewards = ({ staked_token, rewardsAmount }: any) => {
       setTransactionSessionId(sessionId);
     }
   };
-
-  const stakeRewardsAllowed = rewardsAmount != '0' && !hasPendingTransactions;
-  const notAllowedClass = stakeRewardsAllowed ? '' : 'not-allowed disabled';
 
   return (
     <div className='center' style={{ width: '100%' }}>

@@ -45,7 +45,7 @@ const Rewards2 = () => {
     }
   });
 
-  const [tab, setTab] = React.useState<any>(null);
+  // const [tab, setTab] = React.useState<any>(null);
 
   React.useEffect(() => {
     const fetchRewardsList = async () => {
@@ -65,7 +65,7 @@ const Rewards2 = () => {
 
       // console.log('data.rewards');
 
-      setTab(data.rewards);
+      // setTab(data.rewards);
 
       // console.log(data.points);
 
