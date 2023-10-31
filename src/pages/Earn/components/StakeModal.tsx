@@ -1,14 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './StakeModal.scss';
-import { ActionStake } from './Actions';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetESDTInformations } from './Actions/helpers';
-import { Button } from './../../../components/Design';
-import Input from 'components/Design/Input';
 import DropdownMenu from 'components/Design/DropdownMenu';
-import inputNumbers from 'helpers/inputNumbers';
+import Input from 'components/Design/Input';
 import toBigAmount from 'helpers/toBigAmount';
+import notFound from './../../../assets/img/notfoundc.svg';
+import { Button } from './../../../components/Design';
+import { ActionStake } from './Actions';
 
 const StakeModal = (props: any) => {
   const [stoken, setStoken] = React.useState(props.staked_token);
@@ -39,9 +37,7 @@ const StakeModal = (props: any) => {
         props.setShow(false);
       }
     };
-
     document.addEventListener('mousedown', checkIfClickedOutside);
-
     return () => {
       // Nettoyez l'écouteur lorsque le composant se démonte
       document.removeEventListener('mousedown', checkIfClickedOutside);
@@ -50,10 +46,11 @@ const StakeModal = (props: any) => {
 
   useEffect(() => {
     setStoken(props.staked_token);
+    setRtoken(props.rewarded_token);
     setBalance(stakedProps?.balance ? stakedProps?.balance : BigInt(0));
     setBigAmount(BigInt(0));
     setTokenAmount(undefined);
-  }, [stakedProps, props.staked_token]);
+  }, [stakedProps, props.staked_token, props.rewarded_token]);
 
   const staked_esdt_info = props.staked_esdt_info;
   const rewarded_esdt_info = props.rewarded_esdt_info;
@@ -78,7 +75,6 @@ const StakeModal = (props: any) => {
   //     rewarded_esdt_info?.price
   //   : 0;
   const rewarded_value = 0;
-  const apr = BigInt(100);
   // if (tokenPosition.total_stake > BigInt(0)) {
   //   apr =
   //     (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
@@ -189,7 +185,7 @@ const StakeModal = (props: any) => {
                     ]}
                     defaultValue={props.staked_token}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />
@@ -216,7 +212,7 @@ const StakeModal = (props: any) => {
                     ]}
                     defaultValue={props.rewarded_token}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />

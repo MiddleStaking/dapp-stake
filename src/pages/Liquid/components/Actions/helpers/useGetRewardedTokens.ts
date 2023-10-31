@@ -4,12 +4,9 @@ import {
   ResultsParser,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-
+import { defaultPairs, network } from 'config';
 import { smartContract } from './smartContract';
-import { defaultPairs } from 'config';
-import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
@@ -24,8 +21,8 @@ export const useGetRewardedTokens = (stakedToken: string) => {
       localStorage.getItem('rewarded_tokens_' + stakedToken + '_expire')
     );
     const storage = localStorage.getItem('rewarded_tokens_' + stakedToken);
-    const tokens = storage?.split(',');
-    setRewardedTokens(tokens ? tokens : []);
+    const tok = storage?.split(',');
+    setRewardedTokens(tok ? tok : []);
     const pairs =
       localStorage.getItem('pairs_') != null
         ? JSON.parse(localStorage.getItem('pairs_') as string)

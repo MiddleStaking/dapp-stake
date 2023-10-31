@@ -3,12 +3,11 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
+import toBigAmount from 'helpers/toBigAmount';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionUnstake } from './Actions';
-import { useGetESDTInformations } from './Actions/helpers';
 import './StakeModal.scss';
-import toBigAmount from 'helpers/toBigAmount';
 
 const StakeModal = (props: any) => {
   const [stoken, setStoken] = React.useState(props.staked_token);
@@ -25,8 +24,9 @@ const StakeModal = (props: any) => {
     setBigAmount(BigInt(0));
     setTokenAmount(undefined);
     setStoken(props.staked_token);
+    setRtoken(props.rewarded_token);
     setBalance(props?.balance ? props?.balance.toFixed() : BigInt(0));
-  }, [props.balance, props.staked_token]);
+  }, [props.balance, props.staked_token, props.rewarded_token]);
 
   const ModalRef: any = useRef(null);
 
@@ -180,7 +180,7 @@ const StakeModal = (props: any) => {
                     options={[{ text: stoken, value: stoken }]}
                     defaultValue={stoken}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />
@@ -207,7 +207,7 @@ const StakeModal = (props: any) => {
                     ]}
                     defaultValue={props.rewarded_token}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />

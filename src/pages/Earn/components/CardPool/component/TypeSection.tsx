@@ -4,9 +4,8 @@ import React, {
   JSXElementConstructor,
   ReactElement
 } from 'react';
-import SwowHideDetails from './SwowHideDetails';
-// import { IconFacebook } from "module";
 import { BigNumber } from 'bignumber.js';
+import SwowHideDetails from './SwowHideDetails';
 
 interface TypeSectionProps {
   height: string;
@@ -58,26 +57,17 @@ const TypeSection: FC<TypeSectionProps> = ({
   image1,
   image2,
   WindowDimensions,
-  EarnTitle,
   rewarded_token,
   staked_token,
   token_position,
   pool_apr,
   speed,
-  StakeTile,
-  Apr,
-
   rewards_amount = BigNumber('0'),
   rewards_value = 0,
-
   rewarded_esdt_info,
   tokens_extra_informations,
-  Speed,
-  Staked,
   staked_value,
   users,
-  socialNetwork,
-  decimals = 0,
   textColor = '#ffffff',
   fontFamily = 'sans-serif'
 }) => {

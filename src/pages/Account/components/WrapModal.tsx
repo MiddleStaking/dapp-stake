@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { ActionWrap } from './Actions';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { Button } from './../../../components/Design';
 import Input from 'components/Design/Input';
-import DropdownMenu from 'components/Design/DropdownMenu';
 import toBigAmount from 'helpers/toBigAmount';
+import { Button } from './../../../components/Design';
+import { ActionWrap } from './Actions';
 
 const WrapModal = (props: any) => {
   const [balance, setBalance] = React.useState(BigInt(props.balance));
   const [amount, setAmount] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
   const decimals = 18;
+
+  useEffect(() => {
+    setBalance(props.balance);
+  }, [props.balance]);
 
   function setToMax() {
     setAmount(
@@ -22,11 +24,11 @@ const WrapModal = (props: any) => {
   }
 
   function handleAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** decimals);
+    const amount_val = BigInt(Number(value) * 10 ** decimals);
     if (amount < BigInt(0)) {
       setAmount(0);
       setBigAmount(BigInt(0));
-    } else if (amount > balance - BigInt(10000000000000000)) {
+    } else if (amount_val > balance - BigInt(10000000000000000)) {
       setAmount(
         Number(BigInt(balance) - BigInt(10000000000000000)) /
           Number(BigInt(10 ** decimals))

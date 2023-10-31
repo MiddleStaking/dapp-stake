@@ -7,17 +7,16 @@ import {
 // import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import { logout } from '@multiversx/sdk-dapp/utils';
 // import { Button } from 'components/Design/Button';
 import { useNavigate } from 'react-router-dom';
+import { network } from 'config';
 import { routeNames } from 'routes';
 import { useGetUserESDT } from './../Earn/components/Actions/helpers/useGetUserESDT';
 import styles from './account.module.scss';
-import WrapModal from './components/WrapModal';
 import UnwrapModal from './components/UnwrapModal';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
-import { network } from 'config';
+import WrapModal from './components/WrapModal';
 
 const Account = () => {
   const { account, address } = useGetAccountInfo();

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
@@ -45,8 +45,6 @@ export const ActionWrap = ({ user_fund, account }: any) => {
       setTransactionSessionId(sessionId);
     }
   };
-
-  const stakeAllowed = user_fund != '0' && !hasPendingTransactions;
 
   return (
     <>

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHourglassStart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface SandClockProps {
   width?: number;
   height?: number;
 }
 
-const SandClock: React.FC<SandClockProps> = ({ width = 100, height = 100 }) => {
+const SandClock: React.FC<SandClockProps> = () => {
   const [deg, setDeg] = useState(0);
 
   useEffect(() => {

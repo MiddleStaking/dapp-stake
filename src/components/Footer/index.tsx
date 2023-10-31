@@ -1,6 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { faBook, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
@@ -8,7 +9,6 @@ import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { routeNames } from 'routes';
 import { ReactComponent as GitHub } from '../../assets/img/github.svg';
 import { ReactComponent as HeartIcon } from '../../assets/img/heart.svg';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 
 // interface DropdownMenuProps {}
 
@@ -292,49 +292,49 @@ const StakingSvg: FC<SvgProps> = () => {
   );
 };
 
-const LayoutSvg: FC<SvgProps> = () => {
-  return (
-    <svg
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M5.125 3.5C4.29657 3.5 3.625 4.17157 3.625 5V8.5H9.125H20.625V5C20.625 4.17157 19.9534 3.5 19.125 3.5H5.125ZM8.625 9.5H3.625V19C3.625 19.8284 4.29657 20.5 5.125 20.5H8.625V9.5ZM9.625 20.5V9.5H20.625V19C20.625 19.8284 19.9534 20.5 19.125 20.5H9.625ZM9.125 21.5H5.125C3.74429 21.5 2.625 20.3807 2.625 19V9V5C2.625 3.61929 3.74429 2.5 5.125 2.5H19.125C20.5057 2.5 21.625 3.61929 21.625 5V9V19C21.625 20.3807 20.5057 21.5 19.125 21.5H9.125Z'
-        fill={
-          // select ? 'url(#myGradient)' :
-          '#ffffff'
-        }
-      />
-    </svg>
-  );
-};
+// const LayoutSvg: FC<SvgProps> = () => {
+//   return (
+//     <svg
+//       width='24'
+//       height='24'
+//       viewBox='0 0 24 24'
+//       fill='none'
+//       xmlns='http://www.w3.org/2000/svg'
+//     >
+//       <path
+//         fillRule='evenodd'
+//         clipRule='evenodd'
+//         d='M5.125 3.5C4.29657 3.5 3.625 4.17157 3.625 5V8.5H9.125H20.625V5C20.625 4.17157 19.9534 3.5 19.125 3.5H5.125ZM8.625 9.5H3.625V19C3.625 19.8284 4.29657 20.5 5.125 20.5H8.625V9.5ZM9.625 20.5V9.5H20.625V19C20.625 19.8284 19.9534 20.5 19.125 20.5H9.625ZM9.125 21.5H5.125C3.74429 21.5 2.625 20.3807 2.625 19V9V5C2.625 3.61929 3.74429 2.5 5.125 2.5H19.125C20.5057 2.5 21.625 3.61929 21.625 5V9V19C21.625 20.3807 20.5057 21.5 19.125 21.5H9.125Z'
+//         fill={
+//           // select ? 'url(#myGradient)' :
+//           '#ffffff'
+//         }
+//       />
+//     </svg>
+//   );
+// };
 
-const PlayCircleSvg: FC<SvgProps> = () => {
-  return (
-    <svg
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M2.625 12C2.625 6.75329 6.87829 2.5 12.125 2.5C17.3717 2.5 21.625 6.75329 21.625 12C21.625 17.2467 17.3717 21.5 12.125 21.5C6.87829 21.5 2.625 17.2467 2.625 12ZM12.125 1.5C6.32601 1.5 1.625 6.20101 1.625 12C1.625 17.799 6.32601 22.5 12.125 22.5C17.924 22.5 22.625 17.799 22.625 12C22.625 6.20101 17.924 1.5 12.125 1.5ZM10.4024 7.58398C10.2489 7.48169 10.0517 7.47215 9.88907 7.55916C9.72649 7.64617 9.625 7.8156 9.625 8V16C9.625 16.1844 9.72649 16.3538 9.88907 16.4408C10.0517 16.5278 10.2489 16.5183 10.4024 16.416L16.4023 12.416C16.5414 12.3233 16.625 12.1672 16.625 12C16.625 11.8328 16.5414 11.6767 16.4023 11.584L10.4024 7.58398ZM15.2236 12L10.625 15.0657V8.93426L15.2236 12Z'
-        fill={
-          // select ? 'url(#myGradient)' :
-          '#ffffff'
-        }
-      />
-    </svg>
-  );
-};
+// const PlayCircleSvg: FC<SvgProps> = () => {
+//   return (
+//     <svg
+//       width='24'
+//       height='24'
+//       viewBox='0 0 24 24'
+//       fill='none'
+//       xmlns='http://www.w3.org/2000/svg'
+//     >
+//       <path
+//         fillRule='evenodd'
+//         clipRule='evenodd'
+//         d='M2.625 12C2.625 6.75329 6.87829 2.5 12.125 2.5C17.3717 2.5 21.625 6.75329 21.625 12C21.625 17.2467 17.3717 21.5 12.125 21.5C6.87829 21.5 2.625 17.2467 2.625 12ZM12.125 1.5C6.32601 1.5 1.625 6.20101 1.625 12C1.625 17.799 6.32601 22.5 12.125 22.5C17.924 22.5 22.625 17.799 22.625 12C22.625 6.20101 17.924 1.5 12.125 1.5ZM10.4024 7.58398C10.2489 7.48169 10.0517 7.47215 9.88907 7.55916C9.72649 7.64617 9.625 7.8156 9.625 8V16C9.625 16.1844 9.72649 16.3538 9.88907 16.4408C10.0517 16.5278 10.2489 16.5183 10.4024 16.416L16.4023 12.416C16.5414 12.3233 16.625 12.1672 16.625 12C16.625 11.8328 16.5414 11.6767 16.4023 11.584L10.4024 7.58398ZM15.2236 12L10.625 15.0657V8.93426L15.2236 12Z'
+//         fill={
+//           // select ? 'url(#myGradient)' :
+//           '#ffffff'
+//         }
+//       />
+//     </svg>
+//   );
+// };
 
 const SwapCircleSvg: FC<SvgProps> = () => {
   return (

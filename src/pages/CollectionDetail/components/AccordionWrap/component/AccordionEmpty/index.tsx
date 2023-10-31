@@ -1,17 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
+import React, { FC, useState } from 'react';
 import './accordionEmpty.scss';
-import MyStakeSection from 'pages/CollectionDetail/components/CardOfCollection/component/MyStakeSection';
-import MyNftSection from 'pages/CollectionDetail/components/CardOfCollection/component/MyNftSection';
-import Countdown from 'pages/CollectionDetail/components/CountDown';
-import { Button } from 'components/Design';
-import { ModalStakeNft } from 'pages/CollectionDetail/components/Modal';
-import { ActionClaimRewards } from 'pages/CollectionDetail/components/Actions';
-import notFound from '../../../../../../assets/img/notfoundc.svg';
 import { useWindowDimensions } from 'components/DimensionScreen';
-import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
-import { BigNumber } from 'bignumber.js';
 import SandClock from 'pages/CollectionDetail/components/AccordionWrap/component/SandClock';
+import MyStakeSection from 'pages/CollectionDetail/components/CardOfCollection/component/MyStakeSection';
 
 interface CardPoolrops {
   userStakedNft: any[];
@@ -20,16 +11,7 @@ interface CardPoolrops {
   pool_id: number;
 }
 
-const Accordion: FC<CardPoolrops> = ({
-  userStakedNft,
-  address,
-  collection_identifier,
-  pool_id
-}) => {
-  const [nFtCanStake, setNFtCanStake] = useState([]);
-  const [showMoal, setShowMoal] = useState(false);
-  const [myTokenStakedNumber, setMyTokenStakedNumber] = useState(0);
-
+const Accordion: FC<CardPoolrops> = ({ userStakedNft, pool_id }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   // useEffect(() => {

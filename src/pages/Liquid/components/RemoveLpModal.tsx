@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import './StakeModal.scss';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { ActionLiquid, ActionLiquidRemove } from './Actions';
-import { Button } from './../../../components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
 import toBigAmount from 'helpers/toBigAmount';
+import notFound from './../../../assets/img/notfoundc.svg';
+import { Button } from './../../../components/Design';
+import { ActionLiquidRemove } from './Actions';
+
 const RemoveLPModal = (props: any) => {
   const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
   const [first_token, setFirstToken] = React.useState(props.first_esdt_info);

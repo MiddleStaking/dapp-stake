@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import './accordeons.scss';
-import Accordion from './component/Accordion';
 import { BigNumber } from 'bignumber.js';
+import Accordion from './component/Accordion';
 import AccordionEmpty from './component/AccordionEmpty';
 
 interface CardPoolrops {

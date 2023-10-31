@@ -4,17 +4,16 @@ import React, {
   JSXElementConstructor,
   ReactElement
 } from 'react';
-import SwowHideDetails from './SwowHideDetails';
 // import { IconFacebook } from "module";
-import HexagoneNFT from '../../hexagoneNFT';
-import { PoolAddCollection } from '../../Modal/AddCollection/PoolAddCollection';
-import { Button } from 'components/Design';
-import { verified } from 'verified-collections';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCertificate,
   faSkullCrossbones
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from 'components/Design';
+import { verified } from 'verified-collections';
+import HexagoneNFT from '../../hexagoneNFT';
+
 interface TypeSectionProps {
   height: string;
   width?: string;
@@ -43,12 +42,10 @@ const TypeSection: FC<TypeSectionProps> = ({
   gradientDirection = 'to right',
   borderRadius = '8px 8px 8px 8px',
   WindowDimensions,
-  socialNetwork,
   textColor = '#ffffff',
   fontFamily = 'sans-serif',
   collectionIdentifier,
-  collectionInfo,
-  address
+  collectionInfo
 }) => {
   const isGradient = (
     value: string | [string, string]

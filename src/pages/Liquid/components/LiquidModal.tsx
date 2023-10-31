@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import './StakeModal.scss';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { ActionLiquid } from './Actions';
-import { Button } from './../../../components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
 import toBigAmount from 'helpers/toBigAmount';
+import notFound from './../../../assets/img/notfoundc.svg';
+import { Button } from './../../../components/Design';
+import { ActionLiquid } from './Actions';
 const LiquidModal = (props: any) => {
   const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
   const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
@@ -75,7 +75,7 @@ const LiquidModal = (props: any) => {
 
   function handleTokenAmountChange(value: any) {
     const amount = BigInt(Number(value) * 10 ** first_decimals);
-    const second_amount =
+    const second_a =
       (BigInt(amount ? amount : 1) * BigInt(taux ? taux : 1)) /
       BigInt(1000000000);
     if (amount < BigInt(0)) {
@@ -86,7 +86,7 @@ const LiquidModal = (props: any) => {
       setTokenAmount(Number(value));
       const output = toBigAmount(Number(value), Number(first_decimals));
       setFirstBig(BigInt(output));
-      setSecondBig(second_amount);
+      setSecondBig(second_a);
     }
     const percentage =
       firstBalance > 0
@@ -402,7 +402,7 @@ const LiquidModal = (props: any) => {
                     ]}
                     defaultValue={first_token.identifier}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />
@@ -439,7 +439,7 @@ const LiquidModal = (props: any) => {
                     ]}
                     defaultValue={second_token.identifier}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />

@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useWindowDimensions } from 'components/DimensionScreen';
 import { network } from 'config';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+import { useGetUserStakedNft } from 'pages/CollectionDetail/components/Actions/helpers/useGetUserStakedNft';
+import MintModal from '../../../pages/Mint/components/MintModal';
+import { Button } from './../../../components/Design';
 import { useGetCollections } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { Button } from './../../../components/Design';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardOfCollection from './CardOfCollection';
-import { useWindowDimensions } from 'components/DimensionScreen';
 import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
-import MintModal from '../../../pages/Mint/components/MintModal';
-import { useGetUserStakedNft } from 'pages/CollectionDetail/components/Actions/helpers/useGetUserStakedNft';
-export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
+export const CollectionsLayout = () => {
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
   const [mySearch, setMySearch] = React.useState('');
   const [showMint, setShowMint] = useState(false);

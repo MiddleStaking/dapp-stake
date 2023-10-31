@@ -10,84 +10,84 @@ import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
 // import classNames from 'classnames';
 // import { Formik, FormikProps } from 'formik';
-import { object, string } from 'yup';
+// import { object, string } from 'yup';
 
 // import { Submit } from 'components/Action';
 import { network } from 'config';
 
 import { useDispatch, useGlobalContext } from 'context';
-import useTransaction from 'helpers/useTransaction';
+// import useTransaction from 'helpers/useTransaction';
 
 // import styles from './styles.module.scss';
 
-interface FieldType {
-  [key: string]: any;
-  label: string;
-  name: string;
-}
+// interface FieldType {
+//   [key: string]: any;
+//   label: string;
+//   name: string;
+// }
 
-interface PayloadType {
-  [key: string]: any;
-  website?: string;
-  keybase?: string;
-  name?: string;
-}
+// interface PayloadType {
+//   [key: string]: any;
+//   website?: string;
+//   keybase?: string;
+//   name?: string;
+// }
 
 export const Identity = () => {
   const { agencyMetaData } = useGlobalContext();
-  const { sendTransaction } = useTransaction();
+  // const { sendTransaction } = useTransaction();
   const { hasSuccessfulTransactions, successfulTransactionsArray } =
     useGetSuccessfulTransactions();
 
   const dispatch = useDispatch();
-  const fields: FieldType[] = [
-    {
-      name: 'name',
-      label: 'Name'
-    },
-    {
-      name: 'website',
-      label: 'Website'
-    },
-    {
-      name: 'keybase',
-      label: 'Keybase'
-    }
-  ];
+  // const fields: FieldType[] = [
+  //   {
+  //     name: 'name',
+  //     label: 'Name'
+  //   },
+  //   {
+  //     name: 'website',
+  //     label: 'Website'
+  //   },
+  //   {
+  //     name: 'keybase',
+  //     label: 'Keybase'
+  //   }
+  // ];
 
-  const validationSchema = object().shape({
-    name: string().required('Name required.'),
-    keybase: string().required('Keybase required.'),
-    website: string()
-      .required('Website required.')
-      .test('URL', 'URL is not valid!', (value: any) => {
-        try {
-          return value && !value.includes('#') && Boolean(new URL(value || ''));
-        } catch (error) {
-          return false;
-        }
-      })
-  });
+  // const validationSchema = object().shape({
+  //   name: string().required('Name required.'),
+  //   keybase: string().required('Keybase required.'),
+  //   website: string()
+  //     .required('Website required.')
+  //     .test('URL', 'URL is not valid!', (value: any) => {
+  //       try {
+  //         return value && !value.includes('#') && Boolean(new URL(value || ''));
+  //       } catch (error) {
+  //         return false;
+  //       }
+  //     })
+  // });
 
-  const onSubmit = async (payload: PayloadType): Promise<void> => {
-    const { website, name, keybase }: PayloadType = Object.keys(payload).reduce(
-      (data, key) => ({
-        ...data,
-        [key]: Buffer.from(payload[key]).toString('hex')
-      }),
-      {}
-    );
+  // const onSubmit = async (payload: PayloadType): Promise<void> => {
+  //   const { website, name, keybase }: PayloadType = Object.keys(payload).reduce(
+  //     (data, key) => ({
+  //       ...data,
+  //       [key]: Buffer.from(payload[key]).toString('hex')
+  //     }),
+  //     {}
+  //   );
 
-    try {
-      await sendTransaction({
-        args: `${name}@${website}@${keybase}`,
-        type: 'setMetaData',
-        value: '0'
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //   try {
+  //     await sendTransaction({
+  //       args: `${name}@${website}@${keybase}`,
+  //       type: 'setMetaData',
+  //       value: '0'
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const getAgencyMetaData = async (): Promise<void> => {
     dispatch({

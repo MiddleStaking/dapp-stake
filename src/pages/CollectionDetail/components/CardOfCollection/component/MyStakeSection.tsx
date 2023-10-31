@@ -1,10 +1,10 @@
 //NOTE - partie inferieure
 import React, { FC } from 'react';
 import { ActionUnstakeNFT } from '../../Actions';
-import MyStakedNft from './MyStakedNft';
-import Countdown from '../../CountDown';
 import { Actionfinalize } from '../../Actions/Actionfinalize';
 import { ActionUnbound } from '../../Actions/ActionUnbound';
+import Countdown from '../../CountDown';
+import MyStakedNft from './MyStakedNft';
 
 interface MyStakeSectionProps {
   staked_balance: any[];

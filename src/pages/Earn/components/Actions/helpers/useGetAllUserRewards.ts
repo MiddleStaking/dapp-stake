@@ -6,11 +6,11 @@ import {
   ResultsParser,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { network } from 'config';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-import { smartContract } from './smartContract';
-import { BigNumber } from 'bignumber.js';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+import { BigNumber } from 'bignumber.js';
+import { network } from 'config';
+import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 
@@ -27,7 +27,7 @@ export const useGetAllUserRewards = (stakedToken: any) => {
 
   const { address } = useGetAccount();
 
-  const exp = new Date();
+  //const exp = new Date();
 
   const getAllUserRewards = async () => {
     if (!address) {
@@ -74,7 +74,7 @@ export const useGetAllUserRewards = (stakedToken: any) => {
       // console.log(test.toString());
       setTokenPosition(position?.valueOf());
 
-      const expire = exp.getTime() + 1000 * 60 * 1;
+      //const expire = exp.getTime() + 1000 * 60 * 1;
 
       // console.log(renderJson(position?.valueOf()));
       // localStorage.setItem(

@@ -1,12 +1,11 @@
 import React, { CSSProperties, FC } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
+import { useWindowDimensions } from 'components/DimensionScreen';
 import {
   ActionClaimRewards,
   ActionStakeRewards
 } from 'pages/Earn/components/Actions';
 import illustrationSvg from '../../../../../assets/img/Illustration.svg';
-import { useWindowDimensions } from 'components/DimensionScreen';
-import { BigNumber } from 'bignumber.js';
 
 interface RewardsSectionProps {
   rdecimals: any;
