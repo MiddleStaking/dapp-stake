@@ -7,24 +7,22 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { defaultToken } from 'config';
 import notFound from './../../../assets/img/notfoundc.svg';
+import { useGetAllLp } from './../../Swap/components/Actions/helpers';
 import {
   useGetAllStakingPosition,
   useGetAllTokenPosition,
   useGetAllUserRewards
 } from './Actions/helpers';
-import { useGetAllLp } from './../../Swap/components/Actions/helpers';
 import { useGetIsPaused } from './Actions/helpers';
-import { useGetStakedTokens, useGetSwapedTokens } from './Actions/helpers';
+import { useGetStakedTokens } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
-import FundModal from './FundModal';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { CheckBox, ToggleSwitch } from './../../../components/Design';
+import { ToggleSwitch } from './../../../components/Design';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardPool from './CardPool';
 import { useWindowDimensions } from 'components/DimensionScreen';
-import { network } from 'config';
-import { BigNumber } from 'bignumber.js';
+import FundModal from './FundModal';
 
 export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   // const { network } = useGetNetworkConfig();

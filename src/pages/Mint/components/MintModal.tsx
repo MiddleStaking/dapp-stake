@@ -1,26 +1,17 @@
 import React, { useEffect } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './StakeModal.scss';
-import { ActionMint } from './Actions';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { Button } from '../../../components/Design';
 import Input from 'components/Design/Input';
-import DropdownMenu from 'components/Design/DropdownMenu';
-import { useGetNonces } from './Actions/helpers';
-import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNft';
-import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
-import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
-import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
 import { sftCollection } from 'config';
+import toBigAmount from 'helpers/toBigAmount';
+import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
+import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
+import { Button } from '../../../components/Design';
+import { ActionMint } from './Actions';
+
 const MintModal = (props: any) => {
-  const userEsdtBalance = props.userEsdtBalance;
-  const [balance, setBalance] = React.useState(BigInt(0));
   // const tokenPosition = useGetTokenPosition(stoken, rtoken);
-  const tokenPosition = props.token_position;
   const [tokenAmount, setTokenAmount] = React.useState(0);
-  const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt('10000000000000000'));
-  const nft: any = useGetNft(sftCollection, 1, true);
   const getCollectionInformations = useGetCollectionInformations(sftCollection);
 
   // const nonces = useGetNonces();
@@ -34,65 +25,16 @@ const MintModal = (props: any) => {
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
-    } else if (amount > balance) {
-      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** 18)));
-      setBigAmount(balance);
     } else {
       setTokenAmount(Number(value));
       const output = toBigAmount(Number(value), Number(18));
       setBigAmount(BigInt(output));
     }
-    const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
-    setRangeValue(percentage);
-  }
-
-  function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (balance > BigInt(0)) {
-      setRangeValue(e.target.value);
-      const percentage = Number(e.target.value).toFixed();
-      const big_amount = BigInt(
-        (BigInt(balance) * BigInt(percentage)) / BigInt(100)
-      );
-      setTokenAmount(Number(BigInt(big_amount)) / Number(BigInt(10 ** 18)));
-      setBigAmount(big_amount);
-    } else {
-      setRangeValue(0);
-    }
-  }
-
-  function toBigAmount(invalue: number, indec: number) {
-    let fixed = '';
-    let dec = '';
-    let vir = false;
-    const sNumber = invalue.toString();
-    for (
-      let i = 0, len = sNumber.length;
-      i < len && (dec.length < indec || indec === 0);
-      i += 1
-    ) {
-      if (!vir) {
-        if (sNumber.charAt(i) === '.') {
-          vir = true;
-        } else {
-          fixed = fixed + sNumber.charAt(i);
-        }
-      } else if (indec > dec.length) {
-        dec = dec + sNumber.charAt(i);
-      }
-    }
-    let output = fixed + dec;
-    for (let i = 0; dec.length < indec; i += 1) {
-      output = output + '0';
-      dec = dec + '0';
-    }
-    return output;
   }
 
   if (!props.show) {
     return null;
   }
-
-  const percentage = rangeValue / 100;
 
   return (
     <>

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractStake } from 'config';
-import { Button } from './../../../../components/Design';
 import bigToHex from 'helpers/bigToHex';
+import { Button } from './../../../../components/Design';
 
 export const ActionStake = ({
   staked_token,
@@ -49,9 +49,6 @@ export const ActionStake = ({
       setTransactionSessionId(sessionId);
     }
   };
-
-  const stakeAllowed = user_fund > 0 && !hasPendingTransactions;
-  const notAllowedClass = stakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <>

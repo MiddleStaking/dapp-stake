@@ -8,6 +8,7 @@ import { useGetESDTInformations } from './Actions/helpers';
 import { Button } from './../../../components/Design';
 import Input from 'components/Design/Input';
 import DropdownMenu from 'components/Design/DropdownMenu';
+import toBigAmount from 'helpers/toBigAmount';
 
 const StakeModal = (props: any) => {
   const [stoken, setStoken] = React.useState(props.stakedToken);
@@ -89,34 +90,6 @@ const StakeModal = (props: any) => {
     } else {
       setRangeValue(0);
     }
-  }
-
-  function toBigAmount(invalue: number, indec: number) {
-    let fixed = '';
-    let dec = '';
-    let vir = false;
-    const sNumber = invalue.toString();
-    for (
-      let i = 0, len = sNumber.length;
-      i < len && (dec.length < indec || indec === 0);
-      i += 1
-    ) {
-      if (!vir) {
-        if (sNumber.charAt(i) === '.') {
-          vir = true;
-        } else {
-          fixed = fixed + sNumber.charAt(i);
-        }
-      } else if (indec > dec.length) {
-        dec = dec + sNumber.charAt(i);
-      }
-    }
-    let output = fixed + dec;
-    for (let i = 0; dec.length < indec; i += 1) {
-      output = output + '0';
-      dec = dec + '0';
-    }
-    return output;
   }
 
   function setToMax() {

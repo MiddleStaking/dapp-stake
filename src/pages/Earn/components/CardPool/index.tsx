@@ -10,20 +10,13 @@ import RewardsSection from './component/RewardsSection';
 import TypeSection from './component/TypeSection';
 import {
   useGetAccountInfo,
-  useGetNetworkConfig,
   useGetPendingTransactions
 } from '@multiversx/sdk-dapp/hooks';
 import { defaultToken } from 'config';
-import {
-  useGetESDTCompute,
-  useGetESDTInformations,
-  useGetStakingPosition,
-  useGetStakingPositionRewards
-} from '../Actions/helpers';
+import { useGetESDTCompute, useGetESDTInformations } from '../Actions/helpers';
 import notFound from './../../../../assets/img/notfoundc.svg';
 import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
-import { network } from 'config';
 import { BigNumber } from 'bignumber.js';
 
 interface CardPoolrops {

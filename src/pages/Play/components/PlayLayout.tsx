@@ -4,7 +4,6 @@ import {
   useGetIsLoggedIn,
   useGetAccountInfo
 } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
 import { contractPlay } from 'config';
