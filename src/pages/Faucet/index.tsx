@@ -21,9 +21,9 @@ const Faucet = () => {
   //States de l'application faucet (deprecié par moi )
   const [state, setState] = React.useState({
     urls: [
-      { network: 'T', explorer: 'https://testnet-explorer.elrond.com/' },
-      { network: 'D', explorer: 'https://devnet-explorer.elrond.com/' },
-      { network: 'D2', explorer: 'https://devnet2-explorer.elrond.com/' }
+      { network: 'T', explorer: 'https://testnet-multiversx.elrond.com/' },
+      { network: 'D', explorer: 'https://devnet-multiversx.elrond.com/' },
+      { network: 'D2', explorer: 'https://devnet2-multiversx.elrond.com/' }
     ],
     tokens: [
       { id: '1', identifier: 'xEGLD', network: 'T', balance: 0, decimals: 18 },
