@@ -52,11 +52,7 @@ const Account = () => {
   //   setAddress(address === null ? '' : address);
   // }, [address]);
 
-  const explorer =
-    network.id == 'devnet'
-      ? 'https://devnet2-explorer.multiversx.com/accounts/'
-      : 'https://explorer.multiversx.com/accounts/';
-
+  const explorer = network.explorerAddress + '/accounts/';
   React.useEffect(() => {
     const squares = document.querySelectorAll('.' + styles.square);
     squares.forEach((square) => {
