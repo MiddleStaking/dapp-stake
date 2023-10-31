@@ -32,12 +32,11 @@ const Unlock: FC = () => {
   const { address } = useGetAccountInfo();
   const route = useParams();
   const navigate = useNavigate();
-  //      name: 'MultiversX Web Wallet',
 
   const connects: Array<ConnectionType> = [
     {
       title: 'Desktop',
-      name: 'MultiversX Wallet.',
+      name: 'MultiversX Web Wallet',
       background: '#000000',
       image: (
         <div className={styles.logos}>
