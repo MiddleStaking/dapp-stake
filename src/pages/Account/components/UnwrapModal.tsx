@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { ActionUnwrap } from './Actions';
-import { Button } from './../../../components/Design';
 import Input from 'components/Design/Input';
 import toBigAmount from 'helpers/toBigAmount';
+import { Button } from './../../../components/Design';
+import { ActionUnwrap } from './Actions';
 
 const UnwrapModal = (props: any) => {
   const balance = props.balance;
@@ -17,11 +17,11 @@ const UnwrapModal = (props: any) => {
   }
 
   function handleAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** decimals);
-    if (amount < BigInt(0)) {
+    const amount_val = BigInt(Number(value) * 10 ** decimals);
+    if (amount_val < BigInt(0)) {
       setAmount(0);
       setBigAmount(BigInt(0));
-    } else if (amount > balance) {
+    } else if (amount_val > balance) {
       setAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
       setBigAmount(balance);
     } else {

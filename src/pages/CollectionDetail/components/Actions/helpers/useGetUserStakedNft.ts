@@ -5,10 +5,10 @@ import {
   ContractFunction,
   ResultsParser
 } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
-import { smartContract } from './smartContract';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { network } from 'config';
+import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 

@@ -2,21 +2,11 @@ import React, {
   CSSProperties,
   FC,
   JSXElementConstructor,
-  ReactElement,
-  useState
+  ReactElement
 } from 'react';
-import TypeSection from './component/TypeSection';
-import {
-  useGetAccountInfo,
-  useGetNetworkConfig,
-  useGetPendingTransactions
-} from '@multiversx/sdk-dapp/hooks';
-import { defaultToken } from 'config';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useGetCollectionInformations } from '../Actions/helpers';
-import notFound from './../../../../assets/img/notfoundc.svg';
-import { Link } from 'react-router-dom';
-import { routeNames } from 'routes';
-import HexagoneNFT from '../hexagoneNFT';
+import TypeSection from './component/TypeSection';
 
 interface CardPoolrops {
   height: string;
@@ -76,13 +66,7 @@ const CardOfCollection: FC<CardPoolrops> = ({
   WindowDimensions,
   textColor = '#ffffff',
   fontFamily = 'sans-serif',
-  collectionIdentifier,
-  tokens_extra_informations,
-  swapedTokens,
-  userEsdtBalance,
-  balance,
-  rewardedToken,
-  backgroundRewards = 'var(--linear-primary-light, linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 0%, rgba(31, 103, 255, 0.00) 100%), linear-gradient(to left, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)))'
+  collectionIdentifier
 }) => {
   const cardType: CSSProperties = {
     width: '300px',

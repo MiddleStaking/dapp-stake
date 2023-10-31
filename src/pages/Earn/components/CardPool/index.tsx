@@ -2,22 +2,18 @@ import React, {
   CSSProperties,
   FC,
   JSXElementConstructor,
-  ReactElement,
-  useState
+  ReactElement
 } from 'react';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { BigNumber } from 'bignumber.js';
+import { Link } from 'react-router-dom';
+import { defaultToken } from 'config';
+import { routeNames } from 'routes';
+import { useGetESDTCompute, useGetESDTInformations } from '../Actions/helpers';
+import notFound from './../../../../assets/img/notfoundc.svg';
 import MyStakeSection from './component/MyStakeSection';
 import RewardsSection from './component/RewardsSection';
 import TypeSection from './component/TypeSection';
-import {
-  useGetAccountInfo,
-  useGetPendingTransactions
-} from '@multiversx/sdk-dapp/hooks';
-import { defaultToken } from 'config';
-import { useGetESDTCompute, useGetESDTInformations } from '../Actions/helpers';
-import notFound from './../../../../assets/img/notfoundc.svg';
-import { Link } from 'react-router-dom';
-import { routeNames } from 'routes';
-import { BigNumber } from 'bignumber.js';
 
 interface CardPoolrops {
   staked_token?: any;
@@ -96,18 +92,9 @@ const CardPool: FC<CardPoolrops> = ({
   //   image1,
   //   image2,
   WindowDimensions,
-  EarnTitle,
-  StakeTile,
-  Apr,
-  rewards_amount,
   rewards_value,
-  Speed,
-  Staked,
-  Staked_value,
-  socialNetwork,
   myPools,
   canBeStaked,
-  decimals = 0,
   textColor = '#ffffff',
   fontFamily = 'sans-serif',
   //   address,
@@ -131,10 +118,6 @@ const CardPool: FC<CardPoolrops> = ({
 
   // const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
-  const [showStake, setShowStake] = useState(false);
-  const [showUnstake, setShowUnstake] = useState(false);
-  const { hasPendingTransactions } = useGetPendingTransactions();
-
   let isDual = false;
   if (staked_token != defaultToken && rewarded_token != defaultToken) {
     isDual = true;
@@ -198,7 +181,7 @@ const CardPool: FC<CardPoolrops> = ({
 
   //GET LP FROM OWN SWAP CONTRACT
   let first_lp_position: any = {};
-  let second_lp_position: any = {};
+  //let second_lp_position: any = {};
   if (all_lp) {
     let foundLp = all_lp.find((position: any) => {
       return position.swaped_token === rewarded_token;
@@ -206,13 +189,12 @@ const CardPool: FC<CardPoolrops> = ({
     if (foundLp) {
       first_lp_position = foundLp;
     }
-
     foundLp = all_lp.find((position: any) => {
       return position.swaped_token === staked_token;
     });
-    if (foundLp) {
-      second_lp_position = foundLp;
-    }
+    // if (foundLp) {
+    //   //second_lp_position = foundLp;
+    // }
   }
   // const stakingPosition = useGetStakingPosition(
   //   staked_token,
@@ -271,12 +253,12 @@ const CardPool: FC<CardPoolrops> = ({
       ) / 10000000
     : 0;
 
-  const rewarded_value =
-    rewarded_esdt_info?.price && token_position.balance
-      ? Number(
-          BigInt(token_position.balance.toFixed()) / BigInt(10 ** sdecimals)
-        ) * rewarded_esdt_info?.price
-      : 0;
+  // const rewarded_value =
+  //   rewarded_esdt_info?.price && token_position.balance
+  //     ? Number(
+  //         BigInt(token_position.balance.toFixed()) / BigInt(10 ** sdecimals)
+  //       ) * rewarded_esdt_info?.price
+  //     : 0;
 
   // (valeur finale - valeur initial) / valeur initiale * 100
   // rewards Value / initial value * 100 * 365 / speed
@@ -316,14 +298,14 @@ const CardPool: FC<CardPoolrops> = ({
         ? price_fixed1 * BigInt(token_position.total_stake.toFixed())
         : 1
     );
-    const rewards_value = BigInt(
+    const rewards_val = BigInt(
       price_fixed2 > 0 && BigInt(token_position.balance.toFixed())
         ? price_fixed2 * BigInt(token_position.balance.toFixed())
         : 1
     );
     priced_apr = BigInt(
       (
-        ((Number(rewards_value) / Number(initial_value)) * 100 * 365) /
+        ((Number(rewards_val) / Number(initial_value)) * 100 * 365) /
         Number(speed)
       ).toFixed()
     );

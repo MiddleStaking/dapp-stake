@@ -1,5 +1,7 @@
 // import React, { FC } from 'react';
 import React from 'react';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useNavigate } from 'react-router-dom';
 import LogoText from 'assets/LogoMiddleS';
@@ -7,17 +9,12 @@ import LogoTextMobile from 'assets/LogoMiddleSMobile';
 import { Button } from 'components/Design/Button';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
+import { network } from 'config';
 import { routeNames } from 'routes';
 // import Logo from 'assets/Logo';
 // import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
 // import { ReactComponent as MiddleLogo } from '../../assets/img/ms.svg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faExternalLinkAlt,
-  faArrowRight
-} from '@fortawesome/free-solid-svg-icons';
 // interface DropdownMenuProps {}
-import { network } from 'config';
 
 const styles = {
   header: {

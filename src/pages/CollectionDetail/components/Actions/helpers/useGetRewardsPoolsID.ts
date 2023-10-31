@@ -4,16 +4,15 @@ import {
   ResultsParser,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { network } from 'config';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
+import { network } from 'config';
 import { smartContract } from './smartContract';
-import { defaultPairs } from 'config';
 
 const resultsParser = new ResultsParser();
 
 export const useGetRewardsPoolsID = (stakedToken: string) => {
   const [rewardedTokens, setRewardedTokens] = useState<string[]>([]);
-  const time = new Date();
+  // const time = new Date();
 
   const getRewardedTokens = async () => {
     //using storage to reduce calls
@@ -47,7 +46,7 @@ export const useGetRewardsPoolsID = (stakedToken: string) => {
       if (queryResponse.returnCode == 'ok') {
         setRewardedTokens(tokens?.valueOf());
         //storage of 15 minutes
-        const expire = time.getTime() + 1000 * 60 * 15;
+        // const expire = time.getTime() + 1000 * 60 * 15;
         //const expire = time.getTime() + 1000 * 60 * 15;
         // localStorage.setItem(
         //   'rewarded_tokens_' + stakedToken,

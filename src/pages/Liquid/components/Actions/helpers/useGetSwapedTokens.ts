@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
+import { defaultToken, network } from 'config';
 import { smartContract } from './smartContract';
-import { defaultToken } from 'config';
-import { network } from 'config';
 
 const resultsParser = new ResultsParser();
 
@@ -17,8 +15,8 @@ export const useGetSwapedTokens = () => {
     //using storage to reduce calls
     const expire_test = Number(localStorage.getItem('swaped_tokens_expire'));
     const storage = localStorage.getItem('swaped_tokens');
-    const tokens = storage?.split(',');
-    setSwapedTokens(tokens ? tokens : []);
+    const tok = storage?.split(',');
+    setSwapedTokens(tok ? tok : []);
     if (time.getTime() < expire_test) {
       return;
     }

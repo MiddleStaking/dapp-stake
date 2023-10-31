@@ -4,9 +4,8 @@ import {
   ResultsParser,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { network } from 'config';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-
+import { network } from 'config';
 import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();

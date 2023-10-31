@@ -1,33 +1,19 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import Popover from 'react-bootstrap/Popover';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetESDTInformations, useGetESDTCompute } from './Actions/helpers';
-import {
-  useGetTokenPosition,
-  useGetStakingPosition,
-  useGetStakingPositionRewards
-} from './Actions/helpers';
-import { PoolStakeInfo } from './PoolInfo/PoolStakeInfo';
-import { defaultToken } from 'config';
-import { useGetPoolPosition } from './Actions/helpers';
-import { Col, Row, Container } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { Col, Row, Container } from 'react-bootstrap';
+import { defaultToken } from 'config';
+import { useGetESDTInformations } from './Actions/helpers';
+import { useGetPoolPosition } from './Actions/helpers';
+import { useGetPoolLpIdentifier } from './Actions/helpers';
 import LiquidModal from './LiquidModal';
 import RemoveLpModal from './RemoveLpModal';
-import { useGetPoolLpIdentifier } from './Actions/helpers';
-import { network } from 'config';
 
 export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   const [showLiquid, setShowLiquid] = useState(false);
   const [showRemoveLP, setShowRemoveLP] = useState(false);
   //const { network } = useGetNetworkConfig();
-  const { address } = useGetAccountInfo();
-  const [showStake, setShowStake] = useState(false);
-  const [showUnstake, setShowUnstake] = useState(false);
   const { hasPendingTransactions } = useGetPendingTransactions();
   const lp_token = useGetPoolLpIdentifier(defaultToken, second_token);
 
@@ -38,7 +24,6 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   const firstPoolPosition = useGetPoolPosition(
     defaultToken,
     second_token,
-    showStake,
     hasPendingTransactions,
     true
   );

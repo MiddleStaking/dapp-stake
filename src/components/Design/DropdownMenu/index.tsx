@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import Options from './components';
 import { useWindowDimensions } from 'components/DimensionScreen';
+import Options from './components';
 
 interface DropdownMenuProps {
   options: {

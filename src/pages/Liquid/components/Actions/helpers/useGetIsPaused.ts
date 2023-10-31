@@ -1,22 +1,14 @@
 import { useEffect, useState } from 'react';
-import {
-  ContractFunction,
-  ResultsParser,
-  TokenIdentifierValue
-} from '@multiversx/sdk-core/out';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-
-import { smartContract } from './smartContract';
 import { network } from 'config';
+import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 
 export const useGetIsPaused = () => {
   //const { network } = useGetNetworkConfig();
   const [isPaused, setIsPaused] = useState<string[]>([]);
-  const time = new Date();
-
   const getIsPaused = async () => {
     try {
       const query = smartContract.createQuery({
