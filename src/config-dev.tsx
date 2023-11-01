@@ -66,11 +66,11 @@ export const network: NetworkType = {
   chainId: 'D2',
   name: 'Devnet',
   egldLabel: 'xEGLD',
-  walletAddress: 'https://xalias.com',
-  apiAddress: 'https://devnet2-api.multiversx.com',
-  gatewayAddress: 'https://devnet2-gateway.multiversx.com',
-  gatewayCached: 'https://devnet2-gateway.multiversx.com',
-  explorerAddress: 'http://devnet2-explorer.multiversx.com',
+  walletAddress: 'https://wallet.multiversx.com/dapp/init',
+  apiAddress: 'https://devnet-api.multiversx.com',
+  gatewayAddress: 'https://devnet-gateway.multiversx.com',
+  gatewayCached: 'https://devnet-gateway.multiversx.com',
+  explorerAddress: 'http://devnet-explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };
 
