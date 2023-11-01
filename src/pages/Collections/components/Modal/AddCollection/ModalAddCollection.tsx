@@ -20,6 +20,8 @@ import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import { CheckBox } from './../../../../../components/Design';
 import { BigNumber } from 'bignumber.js';
 import { useParams } from 'react-router-dom';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+
 interface ModalProps {
   userEsdtBalance: any;
   show: boolean;
@@ -38,8 +40,11 @@ const ModalAddCollection = (props: ModalProps) => {
   const [credits, setCredits] = useState(BigNumber(0));
   const [buyCredits, setBuyCredits] = useState(false);
   const ModalRef: any = useRef(null);
+  const { account, address } = useGetAccountInfo();
+  const eBalance = BigInt(Number(account?.balance) > 0 ? account?.balance : 0);
 
-  const user_credits = 25;
+  const user_credits = 0;
+  const credit_value = 1000;
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
       // Si le menu est ouvert et le clic est en dehors du menu, fermez-le
@@ -340,13 +345,13 @@ const ModalAddCollection = (props: ModalProps) => {
   useEffect(() => {
     let credits = 0;
     if (speedNumber > 31) {
-      credits = speedNumber - 31;
+      credits = (speedNumber - 31) * 2;
     }
     if (vestingTime > 0) {
-      credits += vestingTime * 2;
+      credits += vestingTime * 5;
     }
     if (unboundingTime > 0) {
-      credits += unboundingTime * 3;
+      credits += unboundingTime * 20;
     }
     setCredits(BigNumber(credits));
   }, [speedNumber, vestingTime, unboundingTime]);
@@ -1097,24 +1102,11 @@ const ModalAddCollection = (props: ModalProps) => {
                       href='#'
                       onClick={() => setBuyCredits(!buyCredits)}
                     >
-                      <u>Buy more credits with $MID</u>
+                      <u>Buy more credits with EGLD</u>
                     </a>
                     {buyCredits && (
                       <div style={{ border: 'solid', padding: '20px' }}>
-                        {' '}
-                        <FormatAmount
-                          decimals={Number(midDecimals.toString())}
-                          value={midBalance.toString()}
-                          egldLabel={defaultToken}
-                          data-testid='staked'
-                          digits={
-                            balance.toString().length >= decimals
-                              ? 2
-                              : decimals -
-                                BigNumber(balance.toString()).toFixed().length +
-                                2
-                          }
-                        />
+                        1 EGLD = {credit_value} credits <br />
                         <Input
                           inputHeight='40px'
                           inputWidth='179px'
@@ -1127,7 +1119,21 @@ const ModalAddCollection = (props: ModalProps) => {
                           placeholder={''}
                           fontSize={14}
                         />{' '}
-                        == 1 credits
+                        <FormatAmount
+                          decimals={Number(18)}
+                          value={eBalance.toString()}
+                          egldLabel={''}
+                          data-testid='staked'
+                          digits={
+                            balance.toString().length >= decimals
+                              ? 2
+                              : decimals -
+                                BigNumber(balance.toString()).toFixed().length +
+                                2
+                          }
+                        />
+                        <br />
+                        Get {Math.floor(buyAmount * credit_value)} credits
                         <ActionFund
                           stakedToken={stoken}
                           rewardedToken={rtoken}
