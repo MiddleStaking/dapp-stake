@@ -1,5 +1,5 @@
 import React from 'react';
-import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
+//import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import {
   TransactionsToastList,
   SignTransactionsModals,
