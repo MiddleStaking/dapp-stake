@@ -1,3 +1,4 @@
+import inputNumbers from 'helpers/inputNumbers';
 import React, {
   FC,
   CSSProperties,
@@ -30,7 +31,8 @@ interface InputProps {
 
   disabled?: boolean;
   grayscale?: string;
-
+  min?: number | undefined;
+  max?: number | undefined;
   widthSvg?: string;
   heightSvg?: string;
   colorSvg?: string;
@@ -61,6 +63,7 @@ interface InputProps {
     | 'url'
     | 'week';
 
+  decimal?: number;
   onInputChange?: (value: any) => void;
 }
 
@@ -92,7 +95,10 @@ const Input: FC<InputProps> = ({
   BorderActiveColor = '#2266FF',
   value = '',
   LeftHtml = <div />,
-  rightHtml = <div />
+  rightHtml = <div />,
+  min = undefined,
+  max = undefined,
+  decimal = 18
 }) => {
   const [inputFocused, setInputFocused] = useState(false);
   const [uniqueId] = useState(generateUniqueId());
@@ -143,8 +149,6 @@ const Input: FC<InputProps> = ({
     width: inputWidth,
     ...backgroundStyle,
     ...borderStyle,
-
-    // filter: `grayscale(${grayscale})`,
     cursor: disabled ? 'not-allowed' : 'pointer',
     boxShadow: BoxShadowActive && inputFocused ? BoxShadowActiveColor : 'none'
   };
@@ -166,17 +170,94 @@ const Input: FC<InputProps> = ({
           color: ${placeholderColor};
         }
       `;
+
+  function handleBackspace(e: React.KeyboardEvent<HTMLInputElement>) {
+    const inputElement = e.target as HTMLInputElement;
+    if (type === 'number') {
+      const currentValue = parseFloat(inputElement.value);
+      if (e.key === 'Backspace' && inputElement.value.length === 1) {
+        e.preventDefault();
+        const zeroValue = 0;
+        if (onInputChange) {
+          onInputChange(zeroValue);
+        }
+      }
+      if (e.key === 'Backspace' && e.metaKey) {
+        e.preventDefault();
+        const zeroValue = 0;
+        if (onInputChange) {
+          onInputChange(zeroValue);
+        }
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const nextValue = Math.floor(currentValue) + 1;
+        if (onInputChange) {
+          if (typeof min === 'number' && nextValue < min) {
+            onInputChange(inputNumbers(min.toString(), decimal));
+          } else if (typeof max === 'number' && nextValue > max) {
+            onInputChange(inputNumbers(max.toString(), decimal));
+          } else {
+            onInputChange(inputNumbers(nextValue.toString(), decimal));
+          }
+        }
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextValue = Math.floor(currentValue) - 1;
+        if (onInputChange) {
+          if (typeof min === 'number' && nextValue < min) {
+            onInputChange(inputNumbers(min.toString(), decimal));
+          } else if (typeof max === 'number' && nextValue > max) {
+            onInputChange(inputNumbers(max.toString(), decimal));
+          } else {
+            onInputChange(inputNumbers(nextValue.toString(), decimal));
+          }
+        }
+      }
+    }
+  }
+
+  function handleInputChange(e: any) {
+    const inputValue = e.target.value;
+    if (type === 'number') {
+      const isValidNumber = (str: any) => {
+        // const pattern = /^-?(?:(?:\d+[\.,]?\d*)|(?:[\.,]\d+))$/;
+        const pattern = /^(?:(?:\d+[\.,]?\d*)|(?:[\.,]\d+))$/;
+        return pattern.test(str);
+      };
+      if (isValidNumber(inputValue)) {
+        if (onInputChange) {
+          const normalizedInputValue = inputValue.replace(',', '.');
+          if (typeof min === 'number' && normalizedInputValue < min) {
+            onInputChange(inputNumbers(min.toString(), decimal));
+          } else if (typeof max === 'number' && normalizedInputValue > max) {
+            onInputChange(inputNumbers(max.toString(), decimal));
+          } else {
+            onInputChange(inputNumbers(normalizedInputValue, decimal));
+          }
+        }
+      }
+    } else if (onInputChange) {
+      onInputChange(inputValue);
+    }
+  }
+
   return (
     <div style={searchBarStyle}>
       <div style={HtmlLeftSvgStyle}>{LeftHtml}</div>
       <div>
         {placeholderColor && <style>{customPlaceholderStyles}</style>}
         <input
-          type={type}
+          onKeyDown={handleBackspace}
+          type={type === 'number' ? 'text' : type}
+          inputMode={type === 'number' ? 'decimal' : 'none'}
           className={searchBarClassName}
           placeholder={placeholder}
           disabled={disabled}
           value={value}
+          min={min}
+          max={max}
           style={{
             flexGrow: 1,
             width: '100%',
@@ -192,7 +273,7 @@ const Input: FC<InputProps> = ({
           }}
           onFocus={() => setInputFocused(true)}
           onBlur={() => setInputFocused(false)}
-          onChange={(e) => onInputChange && onInputChange(e.target.value)}
+          onChange={handleInputChange}
         />
       </div>
       <div style={HtmlRightSvgStyle}>{rightHtml}</div>

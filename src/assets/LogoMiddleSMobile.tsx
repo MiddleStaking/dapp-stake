@@ -5,7 +5,7 @@ const LogoTextMobile = () => {
   return (
     <div className='logo-container'>
       <div className='logo-mobile'>
-        <MiddleLogo style={{ height: '50px', width: '100%' }} />
+        <MiddleLogo style={{ height: '50px' }} />
       </div>
       <div className='text-mobile'>
         Middle

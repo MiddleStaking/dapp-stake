@@ -1,6 +1,9 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useWindowDimensions } from 'components/DimensionScreen';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faKeyboard } from '@fortawesome/free-solid-svg-icons';
 import Options from './components';
+
 
 interface DropdownMenuProps {
   options: {
@@ -110,6 +113,8 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
     defaultValue ? defaultValue : 'Select an option'
   );
 
+  const [isReadonly, setIsReadonly] = useState(false);
+
   const [BorderType, setBorderType] = useState(
     Array.isArray(borderColor)
       ? `linear-gradient(${borderGradientDirection}, ${borderColor[0]}, ${borderColor[1]})`
@@ -184,6 +189,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
     padding: '0 10px',
     fontFamily,
     fontSize,
+    gap: '5px',
     color: textColor,
     height: inputHeight,
     width: inputWidth,
@@ -220,7 +226,6 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
-      // Si le menu est ouvert et le clic est en dehors du menu, fermez-le
       if (
         isOpen &&
         dropdownRef.current &&
@@ -233,15 +238,45 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
     document.addEventListener('mousedown', checkIfClickedOutside);
 
     return () => {
-      // Nettoyez l'écouteur lorsque le composant se démonte
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
   }, [isOpen]);
+
+  const isFirstRender = useRef(true); // Crée une ref pour suivre le premier rendu
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      // Si c'est le premier rendu, ne faites rien et mettez à jour le drapeau isFirstRender pour les rendus futurs
+      isFirstRender.current = false;
+      return;
+    }
+
+    // Si ce n'est pas le premier rendu, et si isReadonly est false, alors définissez le focus
+    if (!isReadonly && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isReadonly]);
+
+  const handleIconClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!isOpen) {
+      setIsOpen(true);
+    }
+
+    setIsReadonly((prev) => !prev);
+  };
 
   return (
     <div style={containerStyle} ref={dropdownRef}>
       {placeholderColor && <style>{customPlaceholderStyles}</style>}
       <div onClick={handleClick} style={dropDownBarStyle} ref={dropDownBarRef}>
+        {width < 768 && (
+          <div style={{}} onClick={handleIconClick}>
+            <FontAwesomeIcon icon={faKeyboard} />
+          </div>
+        )}
         <div>
           {textColor && <style>{customPlaceholderStyles}</style>}
           <input
@@ -250,7 +285,6 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
             className={dropDownMenuClassName}
             placeholder={displayText}
             disabled={disabled}
-            // Supprimez cette ligne
             // defaultValue={displayText}
             onChange={(e) => setSearchValue(e.target.value)}
             value={searchValue}
@@ -266,7 +300,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
               color: textColor,
               cursor: disabled ? 'not-allowed' : 'pointer'
             }}
-            // Supprimez cette ligne aussi, car l'input est désactivé
+            readOnly={isReadonly}
             // onChange={(e) => onInputChange && onInputChange(e.target.value)}
           />
         </div>
@@ -329,8 +363,6 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
                 </div>
               );
             }
-
-            // Des éléments correspondants ont été trouvés, les retourner
             return filteredOptions.map((option, index) => (
               <div
                 key={index}

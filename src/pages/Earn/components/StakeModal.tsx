@@ -368,7 +368,7 @@ const StakeModal = (props: any) => {
                   <div className='AmountInputGroupe'>
                     <Input
                       inputHeight='40px'
-                      inputWidth='180px'
+                      inputWidth='179px'
                       borderColor='rgb(105, 88, 133)'
                       value={tokenAmount}
                       onInputChange={handleTokenAmountChange}

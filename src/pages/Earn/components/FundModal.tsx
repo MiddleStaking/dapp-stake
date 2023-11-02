@@ -105,19 +105,28 @@ const FundModal = (props: any) => {
     BigInt(60);
 
   function handleTokenAmountChange(value: any) {
+    if (balance == BigInt(0)) {
+      return;
+    }
+    let percentage = Number(0);
     const amount = BigInt(Number(value) * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
+      percentage = Number(0);
     } else if (amount > balance) {
       setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
       setBigAmount(balance);
+      percentage = Number(100);
     } else {
-      setTokenAmount(Number(value));
+      setTokenAmount(value);
       const output = toBigAmount(Number(value), Number(decimals));
       setBigAmount(BigInt(output));
+      if (amount > BigInt(0)) {
+        percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
+      }
     }
-    const percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
+
     setRangeValue(percentage);
   }
 
@@ -169,7 +178,7 @@ const FundModal = (props: any) => {
                   </div>
                 </div>
               </div>
-              <div className='dropDownGroupeStakeModal'>
+              <div className='dropDownGroupeStakeModalEarn'>
                 <div className='dropDownStake'>
                   <div className='GroupeLabelDropdoown'>
                     <div className='LabelDropdoown'>Staked token</div>
