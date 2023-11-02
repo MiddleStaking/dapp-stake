@@ -147,12 +147,12 @@ export const MyNavbar = () => {
 
             <Link
               className='d-flex align-items-center navbar-brand mr-10'
-              to={routeNames.dashboard}
+              to={routeNames.delegate}
             >
               <span>
                 {' '}
                 <FontAwesomeIcon icon={faPiggyBank} className='mr-1' />
-                <span>DashBoard</span>
+                <span>Delegate</span>
                 {/* <s>DashBoard</s> */}
               </span>
             </Link>

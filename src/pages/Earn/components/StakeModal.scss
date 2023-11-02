@@ -36,15 +36,15 @@
   min-height: 400px;
   max-height: 800px;
   overflow-y: auto;
-  min-width: 500px;
-  max-width: 500px;
+  min-width: 505px;
+  max-width: 505px;
 }
 
 .neon-border-stack {
   pointer-events: none;
   z-index: -1; 
-  width: 480px;
-  height: 600px;
+  width: 484px;
+  height: 97%;
   position: absolute;
   top: 10px;
   bottom: 10px;
@@ -117,7 +117,7 @@
   padding: 25px 44px 10px 44px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 38px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -210,20 +210,20 @@
   }
 }
 
-@media screen and (max-width: 550px) {
-  .dropDownGroupeStakeModal {
+@media screen and (max-width: 670px) {
+  .dropDownGroupeStakeModalEarn {
     flex-direction: column;
   }
 }
 
-.dropDownGroupeStakeModal {
+.dropDownGroupeStakeModalEarn {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
 
-.dropDownGroupeStakeModal .dropDownStake,
-.dropDownGroupeStakeModal .dropDownEarn {
+.dropDownGroupeStakeModalEarn .dropDownStake,
+.dropDownGroupeStakeModalEarn .dropDownEarn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -399,8 +399,8 @@
   margin-bottom: 15px;
 }
 /* Ajoutez cette partie pour les écrans de moins de 550px */
-@media (max-width: 550px) {
-  .dropDownGroupeStakeModal {
+@media (max-width: 670px) {
+  .dropDownGroupeStakeModalEarn {
     flex-direction: column;
     .dropDownStake {
       margin-bottom: 10px;
