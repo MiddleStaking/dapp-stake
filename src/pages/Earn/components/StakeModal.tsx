@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './StakeModal.scss';
-import { ActionStake } from './Actions';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetESDTInformations } from './Actions/helpers';
-import { Button } from './../../../components/Design';
-import Input from 'components/Design/Input';
 import DropdownMenu from 'components/Design/DropdownMenu';
+import Input from 'components/Design/Input';
+import toBigAmount from 'helpers/toBigAmount';
+import notFound from './../../../assets/img/notfoundc.svg';
+import { Button } from './../../../components/Design';
+import { ActionStake } from './Actions';
 
 const StakeModal = (props: any) => {
   const [stoken, setStoken] = React.useState(props.staked_token);
@@ -15,7 +15,9 @@ const StakeModal = (props: any) => {
   const [balance, setBalance] = React.useState(BigInt(0));
   // const tokenPosition = useGetTokenPosition(stoken, rtoken);
   const tokenPosition = props.token_position;
-  const [tokenAmount, setTokenAmount] = React.useState<number | string>(0);
+  const [tokenAmount, setTokenAmount] = React.useState<
+    number | undefined | string
+  >('');
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
@@ -35,9 +37,7 @@ const StakeModal = (props: any) => {
         props.setShow(false);
       }
     };
-
     document.addEventListener('mousedown', checkIfClickedOutside);
-
     return () => {
       // Nettoyez l'écouteur lorsque le composant se démonte
       document.removeEventListener('mousedown', checkIfClickedOutside);
@@ -46,10 +46,11 @@ const StakeModal = (props: any) => {
 
   useEffect(() => {
     setStoken(props.staked_token);
+    setRtoken(props.rewarded_token);
     setBalance(stakedProps?.balance ? stakedProps?.balance : BigInt(0));
     setBigAmount(BigInt(0));
-    setTokenAmount(0);
-  }, [stakedProps, props.staked_token]);
+    setTokenAmount(undefined);
+  }, [stakedProps, props.staked_token, props.rewarded_token]);
 
   const staked_esdt_info = props.staked_esdt_info;
   const rewarded_esdt_info = props.rewarded_esdt_info;
@@ -74,7 +75,6 @@ const StakeModal = (props: any) => {
   //     rewarded_esdt_info?.price
   //   : 0;
   const rewarded_value = 0;
-  const apr = BigInt(100);
   // if (tokenPosition.total_stake > BigInt(0)) {
   //   apr =
   //     (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
@@ -87,23 +87,22 @@ const StakeModal = (props: any) => {
     BigInt(60);
 
   function handleTokenAmountChange(value: any) {
-    if (balance == BigInt(0)) {
+    if (!rtoken) {
       return;
     }
     let percentage = Number(0);
+
     const amount = BigInt(Number(value) * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
       percentage = Number(0);
     } else if (amount > balance) {
-      setTokenAmount(
-        (Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals))).toString()
-      );
+      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
       percentage = Number(100);
       setBigAmount(balance);
     } else {
-      setTokenAmount(value);
+      setTokenAmount(Number(value));
       const output = toBigAmount(Number(value), Number(sdecimals));
       setBigAmount(BigInt(output));
       if (amount > BigInt(0)) {
@@ -124,9 +123,7 @@ const StakeModal = (props: any) => {
         (BigInt(balance) * BigInt(percentage)) / BigInt(100)
       );
       setTokenAmount(
-        (
-          Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
-        ).toString()
+        Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
       );
       setBigAmount(big_amount);
     } else {
@@ -134,38 +131,8 @@ const StakeModal = (props: any) => {
     }
   }
 
-  function toBigAmount(invalue: number, indec: number) {
-    let fixed = '';
-    let dec = '';
-    let vir = false;
-    const sNumber = invalue.toString();
-    for (
-      let i = 0, len = sNumber.length;
-      i < len && (dec.length < indec || indec === 0);
-      i += 1
-    ) {
-      if (!vir) {
-        if (sNumber.charAt(i) === '.') {
-          vir = true;
-        } else {
-          fixed = fixed + sNumber.charAt(i);
-        }
-      } else if (indec > dec.length) {
-        dec = dec + sNumber.charAt(i);
-      }
-    }
-    let output = fixed + dec;
-    for (let i = 0; dec.length < indec; i += 1) {
-      output = output + '0';
-      dec = dec + '0';
-    }
-    return output;
-  }
-
   function setToMax() {
-    setTokenAmount(
-      (Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals))).toString()
-    );
+    setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
     setBigAmount(balance);
     setRangeValue(100);
   }
@@ -197,7 +164,7 @@ const StakeModal = (props: any) => {
                   </div>
                 </div>
               </div>
-              <div className='dropDownGroupeStakeModalEarn'>
+              <div className='dropDownGroupeStakeModal'>
                 <div className='dropDownStake'>
                   <div className='GroupeLabelDropdoown'>
                     <div className='LabelDropdoown'>STAKE</div>
@@ -218,7 +185,7 @@ const StakeModal = (props: any) => {
                     ]}
                     defaultValue={props.staked_token}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />
@@ -245,7 +212,7 @@ const StakeModal = (props: any) => {
                     ]}
                     defaultValue={props.rewarded_token}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />
@@ -419,7 +386,7 @@ const StakeModal = (props: any) => {
                         />
                       }
                       type='number'
-                      placeholder={'number'}
+                      placeholder={''}
                       fontSize={14}
                     />
                     <div className='FormatAmountStaked'>
