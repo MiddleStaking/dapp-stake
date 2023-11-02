@@ -89,12 +89,12 @@ const Faucet = () => {
   });
   //Network selectionné
   const [cnetwork, setNetwork] = React.useState({
-    network: net?.chainId ? net?.chainId : 'D2'
+    network: net?.chainId ? net?.chainId : 'D'
   });
 
   //Token selectionné
   const [ctoken, setToken] = React.useState({
-    token_id: '3',
+    token_id: '2',
     token_index: 0
   });
 
