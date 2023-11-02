@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../../../assets/Modal.css';
 import './CollectionModal.scss';
@@ -10,9 +11,11 @@ import Input from 'components/Design/Input';
 import toBigAmount from 'helpers/toBigAmount';
 import toHex from 'helpers/toHex';
 import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actions/helpers';
+import { useGetUserCredits } from 'pages/Collections/components/Actions/helpers';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import notFound from '../../../../../assets/img/notfoundc.svg';
 import { ActionFund } from '../../Actions';
+import { ActionBuyCredit } from '../../Actions/ActionBuyCredit';
 import {
   useGetCollectionInformations,
   useGetUserNFT
@@ -37,8 +40,14 @@ interface ModalProps {
 const ModalAddCollection = (props: ModalProps) => {
   const { param } = useParams();
   const [url] = useState(param?.toString());
-
+  const [credits, setCredits] = useState(BigNumber(0));
+  const [buyCredits, setBuyCredits] = useState(false);
   const ModalRef: any = useRef(null);
+  const { account, address } = useGetAccountInfo();
+  const eBalance = BigInt(Number(account?.balance) > 0 ? account?.balance : 0);
+
+  const user_credits = useGetUserCredits(address);
+  const credit_value = 1000;
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
@@ -85,6 +94,7 @@ const ModalAddCollection = (props: ModalProps) => {
   const [agreement2, setaAgreement2] = React.useState(true);
   // const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
+  const [buyAmount, setBuyAmount] = React.useState(0);
   const [vestingTime, setVestingTime] = React.useState(
     props.Vesting ? props.Vesting : 0
   );
@@ -100,6 +110,7 @@ const ModalAddCollection = (props: ModalProps) => {
   const nft: any = useGetNft(stoken, nonceNumber, true);
 
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
+  const [bigBuyAmount, setBigBuyAmount] = React.useState(BigInt(0));
 
   const tokenProps = userEsdtBalance.find(
     (item: any) => item.identifier === rtoken
@@ -148,6 +159,20 @@ const ModalAddCollection = (props: ModalProps) => {
     }
   }
 
+  function handleBuyAmountChange(value: any) {
+    const amount = BigInt(Number(value) * 10 ** decimals);
+    if (amount < BigInt(0)) {
+      setBuyAmount(0);
+      setBigBuyAmount(BigInt(0));
+    } else if (amount > eBalance) {
+      setBuyAmount(Number(BigInt(eBalance)) / Number(BigInt(10 ** decimals)));
+      setBigBuyAmount(eBalance);
+    } else {
+      setBuyAmount(Number(value));
+      const output = toBigAmount(Number(value), Number(decimals));
+      setBigBuyAmount(BigInt(output));
+    }
+  }
   function handleVestingTimeChange(value: any) {
     if (value <= 0) {
       setVestingTime(0);
@@ -221,6 +246,22 @@ const ModalAddCollection = (props: ModalProps) => {
     setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
     setBigAmount(balance);
   }
+
+  //calculate credit cost
+  useEffect(() => {
+    let l_credits = 0;
+    if (speedNumber > 31) {
+      l_credits = (speedNumber - 31) * 2;
+    }
+    if (vestingTime > 0) {
+      l_credits += vestingTime * 5;
+    }
+    if (unboundingTime > 0) {
+      l_credits += unboundingTime * 20;
+    }
+    setCredits(BigNumber(l_credits));
+  }, [speedNumber, vestingTime, unboundingTime]);
+
   if (!props.show) {
     return null;
   }
@@ -916,6 +957,72 @@ const ModalAddCollection = (props: ModalProps) => {
                       </div>
                     </div>
                   ))}
+              {testgetStakedTokens &&
+                testgetStakedTokens.filter(
+                  (pool) =>
+                    pool.identifier === rtoken &&
+                    pool.speed == BigInt(speedNumber) &&
+                    pool.nonce == BigInt(nonceNumber) &&
+                    pool.vesting == BigInt(vestingTime) &&
+                    pool.unbounding == BigInt(unboundingTime)
+                ).length === 0 && (
+                  <div className='groupCredits'>
+                    Creating this pool will cost you{' '}
+                    <FormatAmount
+                      decimals={Number(0)}
+                      value={credits.toFixed()}
+                      egldLabel={'credits'}
+                      data-testid='staked'
+                      digits={0}
+                    />
+                    .
+                    <br />
+                    You have {user_credits.toString()} credits left.{' '}
+                    <a
+                      className='text-white'
+                      href='#'
+                      onClick={() => setBuyCredits(!buyCredits)}
+                    >
+                      <u>Buy more credits with EGLD</u>
+                    </a>
+                    {buyCredits && (
+                      <div style={{ border: 'solid', padding: '20px' }}>
+                        1 EGLD = {credit_value} credits <br />
+                        <Input
+                          inputHeight='40px'
+                          inputWidth='179px'
+                          borderColor='rgb(105, 88, 133)'
+                          value={buyAmount
+                            .toString()
+                            .replace(/^0+(?=[^.])/, '')}
+                          onInputChange={handleBuyAmountChange}
+                          type='number'
+                          placeholder={''}
+                          fontSize={14}
+                        />{' '}
+                        <FormatAmount
+                          decimals={Number(18)}
+                          value={eBalance.toString()}
+                          egldLabel={''}
+                          data-testid='staked'
+                          digits={
+                            balance.toString().length >= decimals
+                              ? 2
+                              : decimals -
+                                BigNumber(balance.toString()).toFixed().length +
+                                2
+                          }
+                        />
+                        <br />
+                        Get {Math.floor(buyAmount * credit_value)} credits
+                        <ActionBuyCredit
+                          e_balance={eBalance}
+                          user_fund={bigBuyAmount}
+                        />{' '}
+                      </div>
+                    )}
+                  </div>
+                )}
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <Input

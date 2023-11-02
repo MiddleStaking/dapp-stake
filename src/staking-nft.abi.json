@@ -26,11 +26,43 @@
             {
                 "name": "sc_stake",
                 "type": "Address"
+            },
+            {
+                "name": "credit_value",
+                "type": "u64"
             }
         ],
         "outputs": []
     },
     "endpoints": [
+        {
+            "name": "buyCredits",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "giveCredits",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "to",
+                    "type": "Address"
+                },
+                {
+                    "name": "amount",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
         {
             "name": "fund",
             "mutability": "mutable",
@@ -157,6 +189,21 @@
                 {
                     "type": "variadic<u64>",
                     "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getUserCredits",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user_id",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
                 }
             ]
         },
