@@ -9,7 +9,6 @@ import Tokenomics from 'pages/Tokenomics';
 import TokenomicsV2 from 'pages/TokenomicstentativeV2';
 import { withPageTitle } from './components/PageTitle';
 import {
-  Dashboard,
   Home,
   Statistics,
   Earn,
@@ -17,12 +16,13 @@ import {
   Swap,
   Liquidity,
   Collections,
-  CollectionDetail
+  CollectionDetail,
+  Delegate
 } from './pages';
 
 export const routeNames = {
   home: '/',
-  dashboard: '/dashboard',
+  delegate: '/delegate',
   statistics: '/statistics',
   unlock: '/unlock',
   stake: '/stake',
@@ -62,9 +62,9 @@ export const routes: RouteWithTitleType[] = [
     authenticatedRoute: true
   },
   {
-    path: routeNames.dashboard,
-    title: 'Dashboard',
-    component: Dashboard,
+    path: routeNames.delegate,
+    title: 'Delegate',
+    component: Delegate,
     authenticatedRoute: true
   },
   {

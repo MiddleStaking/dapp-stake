@@ -36,15 +36,15 @@
   min-height: 400px;
   max-height: 800px;
   overflow-y: auto;
-  min-width: 500px;
-  max-width: 500px;
+  min-width: 505px;
+  max-width: 505px;
 }
 
 .neon-border-stack {
   pointer-events: none;
-  z-index: -1; 
-  width: 480px;
-  height: 600px;
+  z-index: -1;
+  width: 484px;
+  height: 97%;
   position: absolute;
   top: 10px;
   bottom: 10px;
@@ -58,17 +58,11 @@
       rgba(92, 228, 249, 1) 30%,
       rgba(92, 228, 249, 0) 70%
     )
-    border-box; 
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; 
-  mask-composite: exclude; 
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 80%,
-    0 80%
-  );
+    border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 80%);
 }
 
 @media (max-height: 670px) {
@@ -117,7 +111,7 @@
   padding: 25px 44px 10px 44px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 38px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;

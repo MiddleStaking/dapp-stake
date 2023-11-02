@@ -7,7 +7,6 @@ import { useGetESDTInformations } from './Actions/helpers';
 import { Button } from './../../../components/Design';
 import Input from 'components/Design/Input';
 import DropdownMenu from 'components/Design/DropdownMenu';
-import inputNumbers from 'helpers/inputNumbers';
 
 const StakeModal = (props: any) => {
   const [stoken, setStoken] = React.useState(props.staked_token);
@@ -16,9 +15,7 @@ const StakeModal = (props: any) => {
   const [balance, setBalance] = React.useState(BigInt(0));
   // const tokenPosition = useGetTokenPosition(stoken, rtoken);
   const tokenPosition = props.token_position;
-  const [tokenAmount, setTokenAmount] = React.useState<
-    number | undefined | string
-  >('');
+  const [tokenAmount, setTokenAmount] = React.useState<number | string>(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
@@ -51,7 +48,7 @@ const StakeModal = (props: any) => {
     setStoken(props.staked_token);
     setBalance(stakedProps?.balance ? stakedProps?.balance : BigInt(0));
     setBigAmount(BigInt(0));
-    setTokenAmount(undefined);
+    setTokenAmount(0);
   }, [stakedProps, props.staked_token]);
 
   const staked_esdt_info = props.staked_esdt_info;
@@ -90,22 +87,23 @@ const StakeModal = (props: any) => {
     BigInt(60);
 
   function handleTokenAmountChange(value: any) {
-    if (!rtoken) {
+    if (balance == BigInt(0)) {
       return;
     }
     let percentage = Number(0);
-
     const amount = BigInt(Number(value) * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
       percentage = Number(0);
     } else if (amount > balance) {
-      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
+      setTokenAmount(
+        (Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals))).toString()
+      );
       percentage = Number(100);
       setBigAmount(balance);
     } else {
-      setTokenAmount(Number(value));
+      setTokenAmount(value);
       const output = toBigAmount(Number(value), Number(sdecimals));
       setBigAmount(BigInt(output));
       if (amount > BigInt(0)) {
@@ -126,7 +124,9 @@ const StakeModal = (props: any) => {
         (BigInt(balance) * BigInt(percentage)) / BigInt(100)
       );
       setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
+        (
+          Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
+        ).toString()
       );
       setBigAmount(big_amount);
     } else {
@@ -163,7 +163,9 @@ const StakeModal = (props: any) => {
   }
 
   function setToMax() {
-    setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
+    setTokenAmount(
+      (Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals))).toString()
+    );
     setBigAmount(balance);
     setRangeValue(100);
   }
@@ -195,7 +197,7 @@ const StakeModal = (props: any) => {
                   </div>
                 </div>
               </div>
-              <div className='dropDownGroupeStakeModal'>
+              <div className='dropDownGroupeStakeModalEarn'>
                 <div className='dropDownStake'>
                   <div className='GroupeLabelDropdoown'>
                     <div className='LabelDropdoown'>STAKE</div>
@@ -399,7 +401,7 @@ const StakeModal = (props: any) => {
                   <div className='AmountInputGroupe'>
                     <Input
                       inputHeight='40px'
-                      inputWidth='180px'
+                      inputWidth='179px'
                       borderColor='rgb(105, 88, 133)'
                       value={tokenAmount}
                       onInputChange={handleTokenAmountChange}
@@ -417,7 +419,7 @@ const StakeModal = (props: any) => {
                         />
                       }
                       type='number'
-                      placeholder={''}
+                      placeholder={'number'}
                       fontSize={14}
                     />
                     <div className='FormatAmountStaked'>
