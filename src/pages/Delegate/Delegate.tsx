@@ -13,7 +13,7 @@ import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
 
-export const Dashboard = () => {
+export const Delegate = () => {
   const { address } = useGetAccountInfo();
   const [loading, setLoading] = useState(true);
 

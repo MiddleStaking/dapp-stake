@@ -129,7 +129,7 @@ const HeaderDesktop = () => {
             <Button
               {...defaultButtonProps}
               text='Delegate'
-              onClick={() => handleNavigate(routeNames.dashboard)}
+              onClick={() => handleNavigate(routeNames.delegate)}
             />
             <Button
               {...defaultButtonProps}

@@ -14,15 +14,19 @@ const StakeModal = (props: any) => {
   const [rtoken, setRtoken] = React.useState(props.rewarded_token);
   const [balance, setBalance] = React.useState(BigInt(0));
   const tokenPosition = props.token_position;
-  const [tokenAmount, setTokenAmount] = React.useState<number | undefined>(
-    undefined
-  );
+  const [tokenAmount, setTokenAmount] = React.useState<number | string>(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
+  const [inputTest, setInputTest] = React.useState(0);
+
+  function handleInputTest(value: any) {
+    setInputTest(value);
+  }
+
   useEffect(() => {
     setBigAmount(BigInt(0));
-    setTokenAmount(undefined);
+    setTokenAmount(0);
     setStoken(props.staked_token);
     setBalance(props?.balance ? props?.balance.toFixed() : BigInt(0));
   }, [props.balance, props.staked_token]);
@@ -80,23 +84,23 @@ const StakeModal = (props: any) => {
     BigInt(60);
 
   function handleTokenAmountChange(value: any) {
-    // console.log(Number(value));
     if (balance == BigInt(0)) {
       return;
     }
     let percentage = Number(0);
-
     const amount = BigInt(Number(value) * 10 ** sdecimals);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
       percentage = Number(0);
     } else if (amount > balance) {
-      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
+      setTokenAmount(
+        (Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals))).toString()
+      );
       setBigAmount(balance);
       percentage = Number(100);
     } else {
-      setTokenAmount(Number(value));
+      setTokenAmount(value);
       const output = toBigAmount(Number(value), Number(sdecimals));
       setBigAmount(BigInt(output));
       if (amount > BigInt(0)) {
@@ -187,7 +191,7 @@ const StakeModal = (props: any) => {
                 </div>
               </div>
 
-              <div className='dropDownGroupeStakeModal'>
+              <div className='dropDownGroupeStakeModalEarn'>
                 <div className='dropDownStake'>
                   <div className='GroupeLabelDropdoown'>
                     <div className='LabelDropdoown'>STAKE</div>

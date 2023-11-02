@@ -1,4 +1,4 @@
-export * from './Dashboard';
+export * from './Delegate';
 export * from './Home';
 export * from './Statistics';
 export * from './PageNotFound';
