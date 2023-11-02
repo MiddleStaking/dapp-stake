@@ -1,36 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import { Col, Form, Row } from 'react-bootstrap';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { defaultToken } from 'config';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetIsPaused, useGetUserRewards } from './Actions/helpers';
-import { useGetCollections, useGetCollectionRewards } from './Actions/helpers';
-import { useGetESDTInformations } from './Actions/helpers';
-import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
+import React, { useState } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { Button, ToggleSwitch } from '../../../components/Design';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
-import CardOfCollection from './CardOfCollection';
+import { useParams } from 'react-router-dom';
 import { useWindowDimensions } from 'components/DimensionScreen';
-import { Link } from 'react-router-dom';
-import { routeNames } from 'routes';
-import { useGetUserStakedNft } from './Actions/helpers/useGetUserStakedNft';
 import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
-import { PoolAddCollection } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollection';
-import AccordionWrap from './AccordionWrap';
 import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
+import { PoolAddCollection } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollection';
+import AccordionWrap from './AccordionWrap';
+import {
+  useGetUserRewards,
+  useGetCollectionRewards,
+  useGetUserESDT
+} from './Actions/helpers';
+import { useGetUserStakedNft } from './Actions/helpers/useGetUserStakedNft';
 
-export const CollectionsLayout = ({ children }: React.PropsWithChildren) => {
-  const [showFund, setShowFund] = useState(false);
+export const CollectionsLayout = () => {
   const { address } = useGetAccountInfo();
   const userEsdtBalance = useGetUserESDT();
-  const isLoggedIn = useGetIsLoggedIn();
   // const isPaused = useGetIsPaused();
 
-  const navigate = useNavigate();
   const { param } = useParams();
   const [url] = useState(param?.toString());
 

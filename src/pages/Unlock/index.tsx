@@ -5,7 +5,8 @@ import {
   LedgerLoginButton,
   OperaWalletLoginButton,
   WalletConnectLoginButton,
-  WebWalletLoginButton
+  WebWalletLoginButton,
+  XaliasLoginButton
 } from '@multiversx/sdk-dapp/UI';
 import { useNavigate, useParams } from 'react-router-dom';
 import { walletConnectV2ProjectId } from 'config';
@@ -31,30 +32,33 @@ const Unlock: FC = () => {
   const { address } = useGetAccountInfo();
   const route = useParams();
   const navigate = useNavigate();
-  //      name: 'MultiversX Web Wallet',
 
   const connects: Array<ConnectionType> = [
     {
       title: 'Desktop',
-      name: 'xAlias',
+      name: 'MultiversX Web Wallet',
       background: '#000000',
       image: (
         <div className={styles.logos}>
           <span>
-            {/* <img
-              className={styles.img}
-              src={imagePartalConnexion}
-              alt='Grapefruit slice atop a pile of other slices'
-            ></img> */}
-            <img
-              className={styles.img}
-              src={logoXalias}
-              alt='Grapefruit slice atop a pile of other slices'
-            ></img>
+            <img className={styles.img} src={imagePartalConnexion} alt=''></img>
           </span>
         </div>
       ),
       component: WebWalletLoginButton
+    },
+    {
+      title: 'xAlias',
+      name: 'Google Login.',
+      background: '#000000',
+      image: (
+        <div className={styles.logos}>
+          <span>
+            <img className={styles.img} src={logoXalias}></img>
+          </span>
+        </div>
+      ),
+      component: XaliasLoginButton
     },
     {
       title: 'Hardware',
@@ -94,6 +98,7 @@ const Unlock: FC = () => {
 
   useEffect(redirectConditionally, [address]);
 
+  //native auth to TRUE does not work with defi wallet !?
   const commonProps = {
     callbackRoute:
       route?.param !== undefined
@@ -101,7 +106,7 @@ const Unlock: FC = () => {
         : route?.route !== undefined
         ? route?.route
         : routeNames.stake,
-    nativeAuth: true // optional
+    nativeAuth: false // optional
   };
 
   //   const commonProps = {
@@ -145,7 +150,7 @@ const Unlock: FC = () => {
                 <span className={styles.title}>{connect.title}</span>
 
                 <span className={styles.icon}>
-                  {connect.title === 'Desktop' ? (
+                  {connect.title === 'Desktop' || connect.title === 'xAlias' ? (
                     connect.image
                   ) : (
                     <img

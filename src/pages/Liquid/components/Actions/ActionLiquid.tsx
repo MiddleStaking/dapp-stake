@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Address } from '@multiversx/sdk-core/out';
+import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractSwap, defaultToken } from 'config';
+import { contractSwap } from 'config';
+import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
-import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
-import { Address, AddressValue } from '@multiversx/sdk-core/out';
 
 export const ActionLiquid = ({
   first_token,
@@ -17,15 +18,6 @@ export const ActionLiquid = ({
   second_balance
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
-
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
@@ -62,12 +54,12 @@ export const ActionLiquid = ({
         Buffer.from(first_token, 'utf8').toString('hex') +
         '@00' +
         '@' +
-        bigToHexDec(BigInt(first_amount)) +
+        bigToHex(BigInt(first_amount)) +
         '@' +
         Buffer.from(second_token, 'utf8').toString('hex') +
         '@00' +
         '@' +
-        bigToHexDec(BigInt(second_amount)) +
+        bigToHex(BigInt(second_amount)) +
         '@' +
         Buffer.from('addLp', 'utf8').toString('hex'),
       receiver: address,
@@ -94,7 +86,6 @@ export const ActionLiquid = ({
     first_balance >= first_amount &&
     second_balance >= second_amount &&
     !hasPendingTransactions;
-  const notAllowedClass = stakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <>

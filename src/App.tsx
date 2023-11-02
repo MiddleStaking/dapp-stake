@@ -1,5 +1,5 @@
 import React from 'react';
-import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
+//import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import {
   TransactionsToastList,
   SignTransactionsModals,
@@ -33,7 +33,7 @@ export const App = () => {
       >
         <Router>
           <DappProvider
-            environment={EnvironmentsEnum.mainnet}
+            environment={'devnet'}
             customNetworkConfig={{
               name: 'customConfig',
               apiTimeout,

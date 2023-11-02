@@ -1,14 +1,13 @@
 import React, { CSSProperties, FC, useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
-import { useNavigate } from 'react-router-dom';
-import { defaultToken } from 'config';
-import { routeNames } from 'routes';
-import { Button } from 'components/Design';
-import { PoolSwapInfo } from '../../PoolInfo/PoolSwapInfo';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
-import UnstakeModal from '../../UnstakeModal';
-import StakeModal from '../../StakeModal';
 import { BigNumber } from 'bignumber.js';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'components/Design';
+import { defaultToken } from 'config';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+import { routeNames } from 'routes';
+import StakeModal from '../../StakeModal';
+import UnstakeModal from '../../UnstakeModal';
 
 interface MyStakeSectionProps {
   address: any;
@@ -37,7 +36,6 @@ interface MyStakeSectionProps {
 const MyStakeSection: FC<MyStakeSectionProps> = ({
   address,
   staked_token,
-  secondPoolPosition,
   rewarded_token,
   token_position,
   staking_position,
@@ -49,13 +47,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   image1,
   image2,
   sdecimals,
-  rdecimals,
-  my_rewards_value,
-  canBeStaked,
-  userEsdtBalance,
-  swapedTokens,
-  isDual,
-  firstPoolPosition
+  userEsdtBalance
 }) => {
   const navigate = useNavigate();
   const [showStake, setShowStake] = useState(false);

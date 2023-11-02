@@ -4,20 +4,9 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractNftStake } from 'config';
-import bigToHex from 'helpers/bigToHex';
-import toHex from 'helpers/toHex';
 import { Button } from './../../../../components/Design';
 
-export const ActionFund = ({
-  stakedToken,
-  rewardedToken,
-  user_fund,
-  speed,
-  nonce,
-  vesting,
-  unbounding,
-  agreement
-}: any) => {
+export const ActionBuyCredit = ({ user_fund }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
@@ -26,25 +15,8 @@ export const ActionFund = ({
 
   const sendFundTransaction = async () => {
     const fundTransaction = {
-      value: 0,
-      data:
-        'ESDTTransfer@' +
-        Buffer.from(rewardedToken, 'utf8').toString('hex') +
-        '@' +
-        bigToHex(BigInt(user_fund)) +
-        '@' +
-        Buffer.from('fund', 'utf8').toString('hex') +
-        '@' +
-        Buffer.from(stakedToken, 'utf8').toString('hex') +
-        '@' +
-        toHex(speed) +
-        '@' +
-        toHex(nonce) +
-        '@' +
-        toHex(vesting) +
-        '@' +
-        toHex(unbounding),
-
+      value: user_fund.toString(),
+      data: 'buyCredits',
       receiver: contractNftStake,
       gasLimit: '14000000'
     };
@@ -73,9 +45,9 @@ export const ActionFund = ({
                 buttonWidth='100%'
                 borderRadius={40}
                 background={['#BD37EC', '#1F67FF']}
-                text='Lock tokens'
+                text='Buy Credits'
                 onClick={sendFundTransaction}
-                disabled={user_fund == 0 || stakedToken === '' || !agreement}
+                disabled={user_fund == 0}
               />
             </>
           ) : (

@@ -2,13 +2,12 @@ import * as React from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
 import { defaultToken } from 'config';
-import styles from './rewards.module.scss';
 import { network } from 'config';
+import styles from './rewards.module.scss';
 
 const Rewards = () => {
   //const { network } = useGetNetworkConfig();

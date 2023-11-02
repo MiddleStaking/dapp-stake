@@ -1,32 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import {
-  useGetIsLoggedIn,
-  useGetPendingTransactions
-} from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Col, Form, Row } from 'react-bootstrap';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
+import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import notFound from './../../../assets/img/notfoundc.svg';
+import { ToggleSwitch } from './../../../components/Design';
+import { useGetAllLp } from './../../Swap/components/Actions/helpers';
 import {
   useGetAllStakingPosition,
   useGetAllTokenPosition,
-  useGetAllUserRewards
+  useGetAllUserRewards,
+  useGetIsPaused,
+  useGetStakedTokens,
+  useGetESDTInformations
 } from './Actions/helpers';
-import { useGetAllLp } from './../../Swap/components/Actions/helpers';
-import { useGetIsPaused } from './Actions/helpers';
-import { useGetStakedTokens, useGetSwapedTokens } from './Actions/helpers';
-import { useGetESDTInformations } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
-import FundModal from './FundModal';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { CheckBox, ToggleSwitch } from './../../../components/Design';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import CardPool from './CardPool';
-import { useWindowDimensions } from 'components/DimensionScreen';
-import { network } from 'config';
-import { BigNumber } from 'bignumber.js';
+import FundModal from './FundModal';
 
-export const EarnLayout = ({ children }: React.PropsWithChildren) => {
+export const EarnLayout = () => {
   // const { network } = useGetNetworkConfig();
   const [showFund, setShowFund] = useState(false);
   const [myPools, setMyPools] = React.useState(false);
@@ -34,10 +28,11 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const [orderBy, setOrderBy] = React.useState('value');
   const { address } = useGetAccountInfo();
 
-  const pairs =
-    localStorage.getItem('pairs_') != null
-      ? JSON.parse(localStorage.getItem('pairs_') as string)
-      : [{ s: '', r: '' }];
+  // const pairs =
+  //   localStorage.getItem('pairs_') != null
+  //     ? JSON.parse(localStorage.getItem('pairs_') as string)
+  //     : [{ s: '', r: '' }];
+
   const handleChange = () => {
     setMyPools(!myPools);
   };
@@ -45,9 +40,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   const handleMySearch = (e: any) => {
     setMySearch(e.target.value);
   };
-
   const navigate = useNavigate();
-  const isLoggedIn = useGetIsLoggedIn();
   const isPaused = useGetIsPaused();
   //const isPaused = 0;
 
@@ -60,7 +53,6 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
   // const [test, setTest] = useState(
   //   stakedTokens.includes(url) ? url : defaultToken + ':' + url + ':'
   // );
-  const { hasPendingTransactions } = useGetPendingTransactions();
 
   const userEsdtBalance = useGetUserESDT();
   const [stoken, setStoken] = React.useState(url);
@@ -163,26 +155,23 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
     setOrderBy(e.target.value);
   }
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
-  const [showStake, setShowStake] = useState(false);
-  const [showUnstake, setShowUnstake] = useState(false);
   const { width } = useWindowDimensions();
   const heightComponentTypeSection = width > 450 ? '162px' : '114px';
-  const socialNetworks: any = [
-    // {
-    //   icon: <IconGlobe />,
-    //   url: 'https://www.middlestaking.fr'
-    // },
-    // {
-    //   icon: <IconTwitter />,
-    //   url: 'https://twitter.com/MiddleStaking'
-    // },
-    // {
-    //   icon: <IconFlash />,
-    //   url: 'https://explorer.multiversx.com/tokens/MEX-455c57'
-    // }
-  ];
+  // const socialNetworks: any = [
+  // {
+  //   icon: <IconGlobe />,
+  //   url: 'https://www.middlestaking.fr'
+  // },
+  // {
+  //   icon: <IconTwitter />,
+  //   url: 'https://twitter.com/MiddleStaking'
+  // },
+  // {
+  //   icon: <IconFlash />,
+  //   url: 'https://explorer.multiversx.com/tokens/MEX-455c57'
+  // }
+  // ];
 
-  const path = useLocation().pathname;
   //const stakedToken = path.split('/')[2];
   //const rewardedToken = path.split('/')[2];
 
@@ -269,7 +258,7 @@ export const EarnLayout = ({ children }: React.PropsWithChildren) => {
                       .filter((token) => {
                         return token != 'MIDUSDC-3d93f4';
                       })
-                      .map((item, key) => (
+                      .map((item) => (
                         <option
                           className=''
                           disabled={false}

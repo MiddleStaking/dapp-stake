@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import Options from './components';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKeyboard } from '@fortawesome/free-solid-svg-icons';
+import Options from './components';
+
 
 interface DropdownMenuProps {
   options: {

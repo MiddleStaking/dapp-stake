@@ -7,11 +7,9 @@ import {
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-
-import { smartContract } from './smartContract';
 import { network } from 'config';
+import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 

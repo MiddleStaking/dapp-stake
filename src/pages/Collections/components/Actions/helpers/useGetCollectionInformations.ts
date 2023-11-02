@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import axios from 'axios';
 import { network } from 'config';
 export const useGetCollectionInformations = (identifier: string) => {

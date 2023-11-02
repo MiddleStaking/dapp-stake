@@ -12,7 +12,7 @@ import { routeNames } from 'routes';
 const UnlockPage = () => {
   const commonProps = {
     callbackRoute: routeNames.stake,
-    nativeAuth: true // optional
+    nativeAuth: false // optional
   };
 
   return (

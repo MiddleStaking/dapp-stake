@@ -1,33 +1,25 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { network } from 'config';
+import toHex from 'helpers/toHex';
 export const useGetNft = (
   collection: string,
   nonce: number,
   isOpen: boolean
 ) => {
-  function toHexDec(d: number) {
-    let result = '';
-    result = Number(d).toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
   const [nft, setNft] = useState<any>({});
-  const noncetoHex = toHexDec(nonce);
+  const noncetoHex = toHex(nonce);
   const identifier: string = collection;
   const load: any = localStorage.getItem(identifier + '-' + noncetoHex);
   const storage = JSON.parse(load);
   const time = new Date();
-
   const getNft = async () => {
     if (!isOpen) {
       return;
     }
     if (time.getTime() < storage?.expire) {
-      const load: any = localStorage.getItem(identifier + '-' + noncetoHex);
-      const storage = JSON.parse(load);
+      // const load: any = localStorage.getItem(identifier + '-' + noncetoHex);
+      // const storage = JSON.parse(load);
       setNft(storage);
       return;
     }

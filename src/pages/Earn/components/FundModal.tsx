@@ -1,20 +1,16 @@
 import React, { useEffect, useRef } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 // import './../../../assets/Modal.css';
 import './StakeModal.scss';
-
-import { ActionRemovePoolFees, ActionStake } from './Actions';
-import { defaultToken } from 'config';
-import { useGetTokenPosition } from './Actions/helpers';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetESDTInformations } from './Actions/helpers';
-import { ActionFund } from './Actions';
-import { CheckBox, Button } from './../../../components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
-import { network } from 'config';
+import { defaultToken } from 'config';
+import toBigAmount from 'helpers/toBigAmount';
+import notFound from './../../../assets/img/notfoundc.svg';
+import { CheckBox, Button } from './../../../components/Design';
+import { ActionRemovePoolFees, ActionFund } from './Actions';
+import { useGetTokenPosition } from './Actions/helpers';
+import { useGetESDTInformations } from './Actions/helpers';
 
 const FundModal = (props: any) => {
   const userEsdtBalance = props.userEsdtBalance;
@@ -75,33 +71,9 @@ const FundModal = (props: any) => {
     if (tokenProps?.balance) setBalance(tokenProps.balance);
   }, [tokenProps]);
 
-  function setFSToken(e: React.ChangeEvent<any>) {
-    const index = userEsdtBalance
-      .filter(({ identifier }: any) => identifier === identifier)
-      .findIndex((tokens: any) => tokens.identifier === e.target.value);
-    setStoken(e.target.value);
-    setPayFees(false);
-  }
-
-  function setFRtoken(e: React.ChangeEvent<any>) {
-    const index = userEsdtBalance
-      .filter(({ identifier }: any) => identifier === identifier)
-      .findIndex((tokens: any) => tokens.identifier === e.target.value);
-    setRtoken(e.target.value);
-
-    if (tokenProps?.decimals) setDecimals(tokenProps.decimals);
-    if (tokenProps?.balance) setBalance(tokenProps.balance);
-    setBigAmount(BigInt(0));
-    setTokenAmount(0);
-    setPayFees(false);
-  }
-
   const staked_esdt_info = useGetESDTInformations(stoken);
   const rewarded_esdt_info = useGetESDTInformations(rtoken);
   const sdecimals = staked_esdt_info?.decimals ? staked_esdt_info?.decimals : 0;
-  const rdecimals = rewarded_esdt_info?.decimals
-    ? rewarded_esdt_info?.decimals
-    : 0;
 
   const image1 = staked_esdt_info?.assets?.svgUrl
     ? staked_esdt_info?.assets?.svgUrl
@@ -117,12 +89,6 @@ const FundModal = (props: any) => {
     ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
       rewarded_esdt_info?.price
     : 0;
-
-  let apr = BigInt(100);
-  if (tokenPosition.total_stake > BigInt(0)) {
-    apr =
-      (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
-  }
 
   let fees = BigInt(10);
   if (tokenPosition.fee_percentage) {
@@ -178,34 +144,6 @@ const FundModal = (props: any) => {
     } else {
       setRangeValue(0);
     }
-  }
-
-  function toBigAmount(invalue: number, indec: number) {
-    let fixed = '';
-    let dec = '';
-    let vir = false;
-    const sNumber = invalue.toString();
-    for (
-      let i = 0, len = sNumber.length;
-      i < len && (dec.length < indec || indec === 0);
-      i += 1
-    ) {
-      if (!vir) {
-        if (sNumber.charAt(i) === '.') {
-          vir = true;
-        } else {
-          fixed = fixed + sNumber.charAt(i);
-        }
-      } else if (indec > dec.length) {
-        dec = dec + sNumber.charAt(i);
-      }
-    }
-    let output = fixed + dec;
-    for (let i = 0; dec.length < indec; i += 1) {
-      output = output + '0';
-      dec = dec + '0';
-    }
-    return output;
   }
 
   function setToMax() {

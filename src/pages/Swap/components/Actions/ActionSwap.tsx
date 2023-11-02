@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractSwap, defaultToken } from 'config';
+import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
 
 export const ActionSwap = ({
@@ -14,19 +15,9 @@ export const ActionSwap = ({
   swap_amount,
   in_balance,
   min_out,
-  price_impact,
-  name
+  price_impact
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
-
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
@@ -38,7 +29,7 @@ export const ActionSwap = ({
         'ESDTTransfer@' +
         Buffer.from(in_token, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(swap_amount)) +
+        bigToHex(BigInt(swap_amount)) +
         '@' +
         Buffer.from('swap', 'utf8').toString('hex') +
         '@' +
@@ -46,7 +37,7 @@ export const ActionSwap = ({
         '@' +
         Buffer.from(second_token, 'utf8').toString('hex') +
         '@' +
-        bigToHexDec(BigInt(min_out)),
+        bigToHex(BigInt(min_out)),
       receiver: contractSwap,
       gasLimit: '10000000'
     };
@@ -62,7 +53,7 @@ export const ActionSwap = ({
           'ESDTTransfer@' +
           Buffer.from(in_token, 'utf8').toString('hex') +
           '@' +
-          bigToHexDec(BigInt(swap_amount)) +
+          bigToHex(BigInt(swap_amount)) +
           '@' +
           Buffer.from('dualSwap', 'utf8').toString('hex') +
           '@' +
@@ -76,7 +67,7 @@ export const ActionSwap = ({
             'utf8'
           ).toString('hex') +
           '@' +
-          bigToHexDec(BigInt(min_out)),
+          bigToHex(BigInt(min_out)),
         receiver: contractSwap,
         gasLimit: '10000000'
       };
@@ -97,10 +88,6 @@ export const ActionSwap = ({
       setTransactionSessionId(sessionId);
     }
   };
-
-  const stakeAllowed = swap_amount != '0' && !hasPendingTransactions;
-  const notAllowedClass = stakeAllowed ? '' : 'not-allowed disabled';
-
   return (
     <>
       {swap_amount !== undefined && isLoggedIn && (
