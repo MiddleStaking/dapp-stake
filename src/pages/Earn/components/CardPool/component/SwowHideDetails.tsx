@@ -1,15 +1,10 @@
-import React, {
-  CSSProperties,
-  FC,
-  JSXElementConstructor,
-  ReactElement
-} from 'react';
+import React, { CSSProperties, FC } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
-import notFound from './../../../../../assets/img/notfoundc.svg';
+import { BigNumber } from 'bignumber.js';
+import { network } from 'config';
 import eCompass from './../../../../../assets/img/ecompass.svg';
 import jexchange from './../../../../../assets/img/jexchange.svg';
-import { network } from 'config';
-import { BigNumber } from 'bignumber.js';
+import notFound from './../../../../../assets/img/notfoundc.svg';
 
 interface TypeSectionProps {
   rewards_amount: BigNumber;

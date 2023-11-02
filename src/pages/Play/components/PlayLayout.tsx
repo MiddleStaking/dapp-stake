@@ -4,9 +4,10 @@ import {
   useGetIsLoggedIn,
   useGetAccountInfo
 } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { isMobileEnvironment } from '@multiversx/sdk-dapp/utils';
 import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
+import { network } from 'config';
 import { contractPlay } from 'config';
 import { routeNames } from 'routes';
 import notFound from './../../../assets/img/notfoundc.svg';
@@ -23,12 +24,8 @@ import {
   useGetPayment,
   useGetPrice
 } from './Actions/helpers';
-import { network } from 'config';
-import { isMobileEnvironment } from '@multiversx/sdk-dapp/utils';
 
-export const PlayLayout = ({ children }: React.PropsWithChildren) => {
-  //const { network } = useGetNetworkConfig();
-
+export const PlayLayout = () => {
   const address = useGetAccountInfo().address;
   const last_user = useGetWinner();
   const payment = useGetPayment(last_user);
@@ -71,7 +68,7 @@ export const PlayLayout = ({ children }: React.PropsWithChildren) => {
     ? esdt_informations?.media?.[0]?.url
     : nft_preview_not_found;
 
-  const handleHide = (event: React.MouseEvent) => {
+  const handleHide = () => {
     if (!hideRules) {
       setHideRules('hide');
     } else {

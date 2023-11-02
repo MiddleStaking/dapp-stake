@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import axios from 'axios';
 import {
   useGetAccountInfo,
   useGetPendingTransactions
 } from '@multiversx/sdk-dapp/hooks';
+import axios from 'axios';
 import { network } from 'config';
 export const useGetUserESDT = () => {
   //const { network } = useGetNetworkConfig();

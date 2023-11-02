@@ -6,7 +6,7 @@ interface CountdownProps {
   id_pool?: any;
 }
 
-const Countdown: React.FC<CountdownProps> = ({ totalSeconds, id_pool }) => {
+const Countdown: React.FC<CountdownProps> = ({ totalSeconds }) => {
   const [secondsRemaining, setSecondsRemaining] = useState(0);
 
   useEffect(() => {

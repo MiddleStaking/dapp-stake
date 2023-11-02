@@ -1,30 +1,29 @@
 import * as React from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import axios from 'axios';
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import { network } from 'config';
+import { network as net } from 'config';
 
 const Faucet = () => {
-  const address = useGetAccountInfo().address;
+  const user_address = useGetAccountInfo().address;
   // const { network } = useGetNetworkConfig();
   const [faddress, setAddress] = React.useState(
-    address === null ? '' : address
+    user_address === null ? '' : user_address
   );
   const [amount, setAmount] = React.useState(1);
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
 
   React.useEffect(() => {
-    setAddress(address === null ? '' : address);
-  }, [address]);
+    setAddress(user_address === null ? '' : user_address);
+  }, [user_address]);
 
   //States de l'application faucet (deprecié par moi )
   const [state, setState] = React.useState({
     urls: [
-      { network: 'T', explorer: 'https://testnet-explorer.elrond.com/' },
-      { network: 'D', explorer: 'https://devnet-explorer.elrond.com/' },
-      { network: 'D2', explorer: 'https://devnet2-explorer.elrond.com/' }
+      { network: 'T', explorer: 'https://testnet-multiversx.elrond.com/' },
+      { network: 'D', explorer: 'https://devnet-multiversx.elrond.com/' },
+      { network: 'D2', explorer: 'https://devnet2-multiversx.elrond.com/' }
     ],
     tokens: [
       { id: '1', identifier: 'xEGLD', network: 'T', balance: 0, decimals: 18 },
@@ -45,7 +44,7 @@ const Faucet = () => {
     token_id: '3'
   });
   //Tableau des tokens du faucet
-  const [tokens, setTokens] = React.useState({
+  const [tokensList, setTokensList] = React.useState({
     tokens: [
       {
         id: '1',
@@ -90,12 +89,12 @@ const Faucet = () => {
   });
   //Network selectionné
   const [cnetwork, setNetwork] = React.useState({
-    network: network?.chainId ? network?.chainId : 'D2'
+    network: net?.chainId ? net?.chainId : 'D'
   });
 
   //Token selectionné
   const [ctoken, setToken] = React.useState({
-    token_id: '3',
+    token_id: '2',
     token_index: 0
   });
 
@@ -123,7 +122,7 @@ const Faucet = () => {
     } else if (e.target.value === 'D2') {
       tmp = '3';
     }
-    const index = tokens.tokens
+    const index = tokensList.tokens
       .filter(({ network }) => network === e.target.value)
       .findIndex((tkp) => tkp.id === tmp);
     setToken({
@@ -131,14 +130,15 @@ const Faucet = () => {
       token_index: index
     });
     setAmount(
-      tokens.tokens.filter(({ network }) => network === e.target.value)[index]
-        .max
+      tokensList.tokens.filter(({ network }) => network === e.target.value)[
+        index
+      ].max
     );
     setError('');
     setSuccess('');
   }
   function setTokenID(e: React.ChangeEvent<any>) {
-    const index = tokens.tokens
+    const index = tokensList.tokens
       .filter(({ network }) => network === cnetwork.network)
       .findIndex((tokens) => tokens.id === e.target.value);
     setToken({
@@ -146,8 +146,9 @@ const Faucet = () => {
       token_index: index
     });
     setAmount(
-      tokens.tokens.filter(({ network }) => network === cnetwork.network)[index]
-        .max
+      tokensList.tokens.filter(({ network }) => network === cnetwork.network)[
+        index
+      ].max
     );
     setError('');
     setSuccess('');
@@ -156,7 +157,7 @@ const Faucet = () => {
   React.useEffect(() => {
     const fetchTokenList = async () => {
       const { data } = await axios('https://api.r3d4.fr/faucet/tokens');
-      setTokens({
+      setTokensList({
         tokens: data
       });
     };
@@ -252,7 +253,7 @@ const Faucet = () => {
             <Form.Control
               as='select'
               onChange={setNetworkID}
-              defaultValue={network.chainId}
+              defaultValue={net.chainId}
               disabled={true}
             >
               <option value='T'>Testnet</option>
@@ -268,8 +269,8 @@ const Faucet = () => {
               onChange={setTokenID}
               value={ctoken.token_id}
             >
-              {tokens.tokens &&
-                tokens.tokens
+              {tokensList.tokens &&
+                tokensList.tokens
                   .filter(({ network }) => network === cnetwork.network)
                   .map((item, index) => (
                     <option
@@ -309,27 +310,27 @@ const Faucet = () => {
             onChange={handleAmountChange}
           >
             <Form.Label>
-              {tokens.tokens.filter(
+              {tokensList.tokens.filter(
                 ({ network }) => network === cnetwork.network
               )[ctoken.token_index].identifier +
                 ' amount (Max ' +
-                tokens.tokens.filter(
+                tokensList.tokens.filter(
                   ({ network }) => network === cnetwork.network
                 )[ctoken.token_index].max +
                 ' of ' +
                 (
-                  tokens.tokens.filter(
+                  tokensList.tokens.filter(
                     ({ network }) => network === cnetwork.network
                   )[ctoken.token_index].balance /
                   Math.pow(
                     10,
-                    tokens.tokens.filter(
+                    tokensList.tokens.filter(
                       ({ network }) => network === cnetwork.network
                     )[ctoken.token_index].decimals
                   )
                 ).toFixed(2) +
                 ') (' +
-                tokens.tokens.filter(
+                tokensList.tokens.filter(
                   ({ network }) => network === cnetwork.network
                 )[ctoken.token_index].decimals +
                 ' decimals)'}

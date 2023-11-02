@@ -3,10 +3,10 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
+import toBigAmount from 'helpers/toBigAmount';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionUnstake } from './Actions';
-import { useGetESDTInformations } from './Actions/helpers';
 import './StakeModal.scss';
 
 const StakeModal = (props: any) => {
@@ -28,8 +28,9 @@ const StakeModal = (props: any) => {
     setBigAmount(BigInt(0));
     setTokenAmount(0);
     setStoken(props.staked_token);
+    setRtoken(props.rewarded_token);
     setBalance(props?.balance ? props?.balance.toFixed() : BigInt(0));
-  }, [props.balance, props.staked_token]);
+  }, [props.balance, props.staked_token, props.rewarded_token]);
 
   const ModalRef: any = useRef(null);
 
@@ -129,33 +130,6 @@ const StakeModal = (props: any) => {
       setRangeValue(0);
     }
   }
-  function toBigAmount(invalue: number, indec: number) {
-    let fixed = '';
-    let dec = '';
-    let vir = false;
-    const sNumber = invalue.toString();
-    for (
-      let i = 0, len = sNumber.length;
-      i < len && (dec.length < indec || indec === 0);
-      i += 1
-    ) {
-      if (!vir) {
-        if (sNumber.charAt(i) === '.') {
-          vir = true;
-        } else {
-          fixed = fixed + sNumber.charAt(i);
-        }
-      } else if (indec > dec.length) {
-        dec = dec + sNumber.charAt(i);
-      }
-    }
-    let output = fixed + dec;
-    for (let i = 0; dec.length < indec; i += 1) {
-      output = output + '0';
-      dec = dec + '0';
-    }
-    return output;
-  }
 
   function setToMax() {
     setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
@@ -210,7 +184,7 @@ const StakeModal = (props: any) => {
                     options={[{ text: stoken, value: stoken }]}
                     defaultValue={stoken}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />
@@ -237,7 +211,7 @@ const StakeModal = (props: any) => {
                     ]}
                     defaultValue={props.rewarded_token}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />

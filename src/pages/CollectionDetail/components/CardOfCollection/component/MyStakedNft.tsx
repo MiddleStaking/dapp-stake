@@ -1,7 +1,7 @@
 //NOTE - partie inferieure
 import React, { FC } from 'react';
-import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNft';
+import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 
 const MyStakedNft: FC<any> = ({
   nft_identifier,

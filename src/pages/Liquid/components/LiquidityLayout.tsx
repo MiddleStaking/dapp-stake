@@ -1,26 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
-import { Col, Form, Row } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Col, Row } from 'react-bootstrap';
 import { defaultToken } from 'config';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { useGetRewardedTokens } from './Actions/helpers';
-import { useGetIsPaused } from './Actions/helpers';
-import { useGetStakedTokens, useGetSwapedTokens } from './Actions/helpers';
-import { useGetESDTInformations } from './Actions/helpers';
+import { useGetSwapedTokens } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { LiquidInfo } from './LiquidInfo';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { ToggleSwitch } from './../../../components/Design';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
-import { network } from 'config';
 
-export const LiquidityLayout = ({ children }: React.PropsWithChildren) => {
+export const LiquidityLayout = () => {
   //const { network } = useGetNetworkConfig();
   const swapedTokens: string[] = useGetSwapedTokens();
-  const navigate = useNavigate();
-  const isLoggedIn = useGetIsLoggedIn();
   const userEsdtBalance = useGetUserESDT();
 
   return (
@@ -51,8 +38,6 @@ export const LiquidityLayout = ({ children }: React.PropsWithChildren) => {
                 </Col>
               ))}
         </Row>
-
-        {/* <div className={styles.transactions}>{children}</div> */}
       </div>{' '}
     </div>
   );

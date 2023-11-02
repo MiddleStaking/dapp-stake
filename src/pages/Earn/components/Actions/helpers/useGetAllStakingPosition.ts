@@ -6,14 +6,14 @@ import {
   ResultsParser,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { network } from 'config';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-import { smartContract } from './smartContract';
-import { BigNumber } from 'bignumber.js';
 import {
   useGetAccount,
   useGetPendingTransactions
 } from '@multiversx/sdk-dapp/hooks';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+import { BigNumber } from 'bignumber.js';
+import { network } from 'config';
+import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 
@@ -31,7 +31,7 @@ export const useGetAllStakingPosition = (stakedToken: any) => {
   ]);
   const { address } = useGetAccount();
 
-  const time = new Date();
+  //const time = new Date();
 
   const getAllStakingPosition = async () => {
     if (!address) {
@@ -83,7 +83,7 @@ export const useGetAllStakingPosition = (stakedToken: any) => {
       // console.log(test.toString());
       setTokenPosition(position?.valueOf());
 
-      const expire = time.getTime() + 1000 * 60 * 1;
+      //const expire = time.getTime() + 1000 * 60 * 1;
 
       // console.log(renderJson(position?.valueOf()));
       // localStorage.setItem(

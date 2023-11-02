@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
@@ -18,14 +18,6 @@ export const ActionWrap = ({ user_fund, account }: any) => {
   }
 
   const { hasPendingTransactions } = useGetPendingTransactions();
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
@@ -43,9 +35,9 @@ export const ActionWrap = ({ user_fund, account }: any) => {
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: stakeTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Stake transaction',
-        errorMessage: 'An error has occured Stake',
-        successMessage: 'Stake transaction successful'
+        processingMessage: 'Processing Wrap transaction',
+        errorMessage: 'An error has occured Wrap',
+        successMessage: 'Wrap transaction successful'
       },
       redirectAfterSign: false
     });
@@ -53,9 +45,6 @@ export const ActionWrap = ({ user_fund, account }: any) => {
       setTransactionSessionId(sessionId);
     }
   };
-
-  const stakeAllowed = user_fund != '0' && !hasPendingTransactions;
-  const notAllowedClass = stakeAllowed ? '' : 'not-allowed disabled';
 
   return (
     <>

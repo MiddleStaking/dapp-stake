@@ -63,7 +63,7 @@ export const contractPlay =
 
 export const network: NetworkType = {
   id: 'devnet',
-  chainId: 'D',
+  chainId: 'D2',
   name: 'Devnet',
   egldLabel: 'xEGLD',
   walletAddress: 'https://wallet.multiversx.com/dapp/init',

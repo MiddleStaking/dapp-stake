@@ -12,69 +12,55 @@ import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();
 
-export const useGetUserStakedNft = (address: string) => {
+export const useGetUserCredits = (address: string) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-  const [stakedTokensNft, setStakedTokensNft] = useState([
-    {
-      staked_nft: {
-        id: 0,
-        pool_id: 0,
-        identifier: '',
-        nonce: 0,
-        qty: 1,
-        lock: 0,
-        unbound: 0,
-        jump_unbound: 0
-      },
-      current_block: 0
-    }
-  ]);
-  const time = new Date();
+  const [userCredits, setUserCredits] = useState(BigInt(0));
+  //const time = new Date();
 
-  const getUserStakedNft = async () => {
+  const getUserCredits = async () => {
     if (hasPendingTransactions == true || address == '') {
       return;
     }
     //using storage to reduce calls
-    const expire_test = Number(localStorage.getItem('useGetUserStakedexpire'));
-    const load: any = localStorage.getItem('useGetUserStakedNft');
-    const storage = JSON.parse(load);
-    setStakedTokensNft(storage ? storage : []);
-    if (time.getTime() < expire_test) {
-      return;
-    }
+    // const expire_test = Number(localStorage.getItem('useGetUserStakedexpire'));
+    // const load: any = localStorage.getItem('useGetUserStakedNft');
+    // const storage = JSON.parse(load);
+    // setStakedTokensNft(storage ? storage : []);
+    // if (time.getTime() < expire_test) {
+    //   return;
+    // }
 
     try {
       const query = smartContract.createQuery({
-        func: new ContractFunction('getUserNfts'),
+        func: new ContractFunction('getUserCredits'),
         args: [new AddressValue(new Address(address))]
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
       const proxy = new ProxyNetworkProvider(network.gatewayAddress);
       const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getUserNfts');
+      const endpointDefinition = smartContract.getEndpoint('getUserCredits');
       const { firstValue: rewards } = resultsParser.parseQueryResponse(
         queryResponse,
         endpointDefinition
       );
       if (queryResponse.returnCode == 'ok') {
-        setStakedTokensNft(rewards?.valueOf());
+        setUserCredits(rewards?.valueOf());
         //storage of 3 secondes
-        const expire = time.getTime() + 1000 * 3;
-        localStorage.setItem(
-          'useGetUserStakedNft',
-          JSON.stringify(rewards?.valueOf())
-        );
-        localStorage.setItem('useGetUserStakedexpire', expire.toString());
+        // const expire = time.getTime() + 1000 * 3;
+        // localStorage.setItem(
+        //   'useGetUserStakedNft',
+        //   JSON.stringify(rewards?.valueOf())
+        // );
+        // localStorage.setItem('useGetUserStakedexpire', expire.toString());
       }
     } catch (err) {
-      console.error('Unable to call getStakedCollections', err);
+      console.error('Unable to call getUserCredits', err);
     }
   };
 
   useEffect(() => {
-    getUserStakedNft();
+    getUserCredits();
   }, [hasPendingTransactions]);
 
-  return stakedTokensNft;
+  return userCredits;
 };

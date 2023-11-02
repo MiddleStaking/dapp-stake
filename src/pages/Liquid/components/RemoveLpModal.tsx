@@ -2,17 +2,18 @@ import React, { useEffect } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import './../../../assets/Modal.css';
 import './StakeModal.scss';
-import notFound from './../../../assets/img/notfoundc.svg';
-import { ActionLiquid, ActionLiquidRemove } from './Actions';
-import { Button } from './../../../components/Design';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
+import toBigAmount from 'helpers/toBigAmount';
+import notFound from './../../../assets/img/notfoundc.svg';
+import { Button } from './../../../components/Design';
+import { ActionLiquidRemove } from './Actions';
+
 const RemoveLPModal = (props: any) => {
   const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
   const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
   const [second_token, setSecondToken] = React.useState(props.second_esdt_info);
   const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
-  const [lp_token, setLpToken] = React.useState(props.lp_token);
 
   //const [lp_token, setLpToken] = React.useState('');
 
@@ -36,7 +37,6 @@ const RemoveLPModal = (props: any) => {
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [firstBig, setFirstBig] = React.useState(BigInt(0));
-  const [secondBig, setSecondBig] = React.useState(BigInt(0));
 
   useEffect(() => {
     const first_balance = user_balance.find(
@@ -82,16 +82,13 @@ const RemoveLPModal = (props: any) => {
 
   function handleTokenAmountChange(value: any) {
     const amount = BigInt(Number(value) * 10 ** first_decimals);
-    const second_amount = (BigInt(amount) * BigInt(taux)) / BigInt(1000000000);
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setFirstBig(BigInt(0));
-      setSecondBig(BigInt(0));
     } else {
       setTokenAmount(Number(value));
       const output = toBigAmount(Number(value), Number(first_decimals));
       setFirstBig(BigInt(output));
-      setSecondBig(second_amount);
     }
     const percentage =
       firstBalance > 0
@@ -114,34 +111,6 @@ const RemoveLPModal = (props: any) => {
     } else {
       setRangeValue(0);
     }
-  }
-
-  function toBigAmount(invalue: number, indec: number) {
-    let fixed = '';
-    let dec = '';
-    let vir = false;
-    const sNumber = invalue.toString();
-    for (
-      let i = 0, len = sNumber.length;
-      i < len && (dec.length < indec || indec === 0);
-      i += 1
-    ) {
-      if (!vir) {
-        if (sNumber.charAt(i) === '.') {
-          vir = true;
-        } else {
-          fixed = fixed + sNumber.charAt(i);
-        }
-      } else if (indec > dec.length) {
-        dec = dec + sNumber.charAt(i);
-      }
-    }
-    let output = fixed + dec;
-    for (let i = 0; dec.length < indec; i += 1) {
-      output = output + '0';
-      dec = dec + '0';
-    }
-    return output;
   }
 
   function setToMax() {
@@ -435,7 +404,7 @@ const RemoveLPModal = (props: any) => {
                     ]}
                     defaultValue={first_token.identifier}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />
@@ -472,7 +441,7 @@ const RemoveLPModal = (props: any) => {
                     ]}
                     defaultValue={second_token.identifier}
                     disableOption={true}
-                    onSelect={function (value: any): void {
+                    onSelect={function (): void {
                       throw new Error('Function not implemented.');
                     }}
                   />

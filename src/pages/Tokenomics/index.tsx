@@ -263,7 +263,7 @@ const Tokenomics = () => {
                                       target='_BLANK'
                                       rel='noreferrer'
                                       href={
-                                        'https://explorer.elrond.com/transactions/' +
+                                        'https://explorer.multiversx.com/transactions/' +
                                         item.txHash
                                       }
                                     >
@@ -323,7 +323,7 @@ const Tokenomics = () => {
                                       target='_BLANK'
                                       rel='noreferrer'
                                       href={
-                                        'https://explorer.elrond.com/transactions/' +
+                                        'https://explorer.multiversx.com/transactions/' +
                                         item.txHash
                                       }
                                     >

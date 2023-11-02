@@ -1,35 +1,22 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { contractNftStake } from 'config';
-import { Button } from './../../../../components/Design';
-import BigNumber from 'bignumber.js';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { useGetESDTInformations } from './helpers/useGetESDTInformations';
+import { useState } from 'react';
 import {
   useGetAccountInfo,
   useGetPendingTransactions
 } from '@multiversx/sdk-dapp/hooks';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { contractNftStake } from 'config';
+import bigToHex from 'helpers/bigToHex';
+import { Button } from './../../../../components/Design';
 export const ActionClaimRewards = ({
   pool_id,
-  rewardsAmount,
-  identifier,
   buttonWidth,
   bottomHeight,
   Availablerewards
 }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
   const { address } = useGetAccountInfo();
-
-  function bigToHexDec(d: bigint) {
-    let result = '';
-    result = d.toString(16);
-    if (Math.abs(result.length % 2) == 1) {
-      result = '0' + result;
-    }
-    return result;
-  }
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
@@ -38,7 +25,7 @@ export const ActionClaimRewards = ({
   const sendClaimTransaction = async () => {
     const claimTransaction = {
       value: 0,
-      data: 'claimRewards@' + bigToHexDec(BigInt(pool_id)),
+      data: 'claimRewards@' + bigToHex(BigInt(pool_id)),
       receiver: contractNftStake,
       gasLimit: '5000000'
     };
@@ -57,14 +44,6 @@ export const ActionClaimRewards = ({
       setTransactionSessionId(sessionId);
     }
   };
-
-  const claimAllowed = rewardsAmount != '0' && !hasPendingTransactions;
-  const notAllowedClass = claimAllowed ? '' : 'not-allowed disabled';
-  // const rewarded_esdt_info = useGetESDTInformations(identifier.identifier);
-
-  // const rdecimals = rewarded_esdt_info?.decimals
-  //   ? rewarded_esdt_info?.decimals
-  //   : 0;
 
   return (
     <div
