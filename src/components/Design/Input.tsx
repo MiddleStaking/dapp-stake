@@ -1,4 +1,3 @@
-import inputNumbers from 'helpers/inputNumbers';
 import React, {
   FC,
   CSSProperties,
@@ -6,6 +5,7 @@ import React, {
   useEffect,
   ReactNode
 } from 'react';
+import inputNumbers from 'helpers/inputNumbers';
 
 interface InputProps {
   placeholder?: string;

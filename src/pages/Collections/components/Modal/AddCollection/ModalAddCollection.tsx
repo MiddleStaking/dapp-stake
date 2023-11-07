@@ -153,7 +153,7 @@ const ModalAddCollection = (props: ModalProps) => {
       setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
       setBigAmount(balance);
     } else {
-      setTokenAmount(Number(value));
+      setTokenAmount(value);
       const output = toBigAmount(Number(value), Number(decimals));
       setBigAmount(BigInt(output));
     }
@@ -513,6 +513,7 @@ const ModalAddCollection = (props: ModalProps) => {
                       </div>
                       <div>
                         <Input
+                          decimal={0}
                           inputHeight='25px'
                           inputWidth='66px'
                           borderRadius={6}
@@ -607,6 +608,7 @@ const ModalAddCollection = (props: ModalProps) => {
                       </div>
                       <div>
                         <Input
+                          decimal={0}
                           inputHeight='25px'
                           inputWidth='179px'
                           borderRadius={6}
@@ -700,6 +702,7 @@ const ModalAddCollection = (props: ModalProps) => {
                       </div>
                       <div>
                         <Input
+                          decimal={0}
                           inputHeight='25px'
                           inputWidth='60px'
                           borderRadius={6}
@@ -792,6 +795,7 @@ const ModalAddCollection = (props: ModalProps) => {
                       </div>
                       <div>
                         <Input
+                          decimal={0}
                           inputHeight='25px'
                           inputWidth='60px'
                           borderRadius={6}
@@ -1026,6 +1030,7 @@ const ModalAddCollection = (props: ModalProps) => {
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <Input
+                    decimal={rewarded_esdt_info.decimals}
                     inputHeight='40px'
                     inputWidth='179px'
                     borderColor='rgb(105, 88, 133)'

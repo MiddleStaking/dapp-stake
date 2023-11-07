@@ -18,12 +18,6 @@ const StakeModal = (props: any) => {
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
-  const [inputTest, setInputTest] = React.useState(0);
-
-  function handleInputTest(value: any) {
-    setInputTest(value);
-  }
-
   useEffect(() => {
     setBigAmount(BigInt(0));
     setTokenAmount(0);
@@ -366,6 +360,7 @@ const StakeModal = (props: any) => {
                   </div>
                   <div className='AmountInputGroupe'>
                     <Input
+                      decimal={rewarded_esdt_info.decimals}
                       inputHeight='40px'
                       inputWidth='179px'
                       borderColor='rgb(105, 88, 133)'

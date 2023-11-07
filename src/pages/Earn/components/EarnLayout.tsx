@@ -176,7 +176,14 @@ export const EarnLayout = () => {
   //const rewardedToken = path.split('/')[2];
 
   return (
-    <div className='center'>
+    <div
+      style={{
+        padding: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px'
+      }}
+    >
       <FundModal
         userEsdtBalance={userEsdtBalance}
         setShow={setShowFund}
@@ -399,74 +406,67 @@ export const EarnLayout = () => {
           )}
         </Col>
       </Row>
-      <div className='col-12'>
-        <Row className='pt-4'>
-          {allTokenPosition &&
-            orderedTokens
-              .filter((token) => {
-                return (
-                  token.rewarded_token
-                    .toLowerCase()
-                    .includes(mySearch.toLowerCase()) || mySearch == ''
-                );
-              })
-              .map((rtoken, key) => (
-                // CardPool
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  lg={4}
-                  xl={3}
-                  xxl={3}
-                  key={key}
-                  className='pb-4'
-                >
-                  {rtoken && allTokenPosition[0]?.rewarded_token != '' && (
-                    <CardPool
-                      staked_token={stoken}
-                      staked_esdt_info={esdt_info}
-                      rewarded_token={rtoken?.rewarded_token}
-                      token_position={rtoken?.token_position}
-                      all_staking_position={allStakingPosition}
-                      all_user_rewards={allUserRewards}
-                      all_lp={allLp}
-                      users={rtoken?.staked_addresses}
-                      height={heightComponentTypeSection}
-                      WindowDimensions={width}
-                      textColor='#ffffff'
-                      fontFamily='sans-serif'
-                      userEsdtBalance={userEsdtBalance}
-                      swapedTokens={swapedTokens}
-                      myPools={myPools}
-                      balance={balance}
-                      isPaused={isPaused}
-                      canBeStaked={
-                        stakedTokens.includes(rtoken.rewarded_token) &&
-                        stoken != rtoken.rewarded_token
-                      }
-                      tokens_extra_informations={tokens_extra_informations
-                        .filter((token) => {
-                          return token.identifier === rtoken.rewarded_token;
-                        })
-                        .map((token) => (token.identifier ? token : ''))}
-                    />
-                  )}
-                </Col>
-              ))}
-          <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
-            <div className='card-type'></div>
-          </Col>
-          <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
-            <div className='card-type'></div>
-          </Col>{' '}
-          <Col xs={12} sm={12} md={6} lg={4} xl={3} xxl={3}>
-            <div className='card-type'></div>
-          </Col>
-        </Row>
-
-        {/* <div className={styles.transactions}>{children}</div> */}
-      </div>{' '}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: '10px',
+          placeItems: 'start center'
+        }}
+      >
+        {allTokenPosition &&
+          orderedTokens
+            .filter((token) => {
+              return (
+                token.rewarded_token
+                  .toLowerCase()
+                  .includes(mySearch.toLowerCase()) || mySearch == ''
+              );
+            })
+            .map((rtoken, key) => (
+              // CardPool
+              <div
+                key={key}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  maxWidth: '300px'
+                }}
+              >
+                {rtoken && allTokenPosition[0]?.rewarded_token != '' && (
+                  <CardPool
+                    staked_token={stoken}
+                    staked_esdt_info={esdt_info}
+                    rewarded_token={rtoken?.rewarded_token}
+                    token_position={rtoken?.token_position}
+                    all_staking_position={allStakingPosition}
+                    all_user_rewards={allUserRewards}
+                    all_lp={allLp}
+                    users={rtoken?.staked_addresses}
+                    height={heightComponentTypeSection}
+                    WindowDimensions={width}
+                    textColor='#ffffff'
+                    fontFamily='sans-serif'
+                    userEsdtBalance={userEsdtBalance}
+                    swapedTokens={swapedTokens}
+                    myPools={myPools}
+                    balance={balance}
+                    isPaused={isPaused}
+                    canBeStaked={
+                      stakedTokens.includes(rtoken.rewarded_token) &&
+                      stoken != rtoken.rewarded_token
+                    }
+                    tokens_extra_informations={tokens_extra_informations
+                      .filter((token) => {
+                        return token.identifier === rtoken.rewarded_token;
+                      })
+                      .map((token) => (token.identifier ? token : ''))}
+                  />
+                )}
+              </div>
+            ))}
+      </div>
       <div className='col-12'>
         <div className='text-white text-center'>
           The staking rewards listing is permissionless. Anyone can add tokens

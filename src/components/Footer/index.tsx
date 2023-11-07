@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react';
-import { faBook, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
