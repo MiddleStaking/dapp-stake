@@ -47,7 +47,7 @@ const ModalAddCollection = (props: ModalProps) => {
   const eBalance = BigInt(Number(account?.balance) > 0 ? account?.balance : 0);
 
   const user_credits = useGetUserCredits(address);
-  const credit_value = 1000;
+  const credit_value = 250;
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
@@ -905,7 +905,9 @@ const ModalAddCollection = (props: ModalProps) => {
                             </div>
                             <div className='ValueDetailsInfo_Collection'>
                               <FormatAmount
-                                value={item.rewards.toString()}
+                                value={BigNumber(
+                                  item.rewards.toString()
+                                ).toFixed()}
                                 decimals={rdecimals}
                                 egldLabel={' '}
                                 data-testid='balance'
@@ -927,7 +929,9 @@ const ModalAddCollection = (props: ModalProps) => {
                             </div>
                             <div className='ValueDetailsInfo_Collection'>
                               <FormatAmount
-                                value={item.total_rewarded.toString()}
+                                value={BigNumber(
+                                  item.total_rewarded.toString()
+                                ).toFixed()}
                                 decimals={rdecimals}
                                 egldLabel={' '}
                                 data-testid='balance'
@@ -941,7 +945,9 @@ const ModalAddCollection = (props: ModalProps) => {
                             </div>
                             <div className='ValueDetailsInfo_Collection'>
                               <FormatAmount
-                                value={item.total_staked.toString()}
+                                value={BigNumber(
+                                  item.total_staked.toString()
+                                ).toFixed()}
                                 decimals={0}
                                 egldLabel={' '}
                                 data-testid='balance'

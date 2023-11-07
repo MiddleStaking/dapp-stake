@@ -3,6 +3,7 @@ import './accordeons.scss';
 import { BigNumber } from 'bignumber.js';
 import Accordion from './component/Accordion';
 import AccordionEmpty from './component/AccordionEmpty';
+import { verified } from 'verified-collections';
 
 interface CardPoolrops {
   collectionRewards: any[];
@@ -54,6 +55,13 @@ const AccordionWrap: FC<CardPoolrops> = ({
           </p>
         )}
 
+        {!verified.some((item) => item.c === collection_identifier) && (
+          <p className='alert alert-danger'>
+            Dyor : Collection listing is permissionless. Anyone can create a
+            rewarding pool. We did not managed to verify this collection at this
+            time. Proceed with care.
+          </p>
+        )}
         <div className='AccordeonsCardStake'>
           <div className='contentStakeModal_Collection'>
             <div
