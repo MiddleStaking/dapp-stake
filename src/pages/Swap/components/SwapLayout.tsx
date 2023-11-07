@@ -134,11 +134,14 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   const out_decimals = out_esdt_info?.decimals ? out_esdt_info?.decimals : 0;
   function handleTokenAmountChange(value: any) {
     const amount = BigInt(Number(value) * 10 ** in_decimals);
-    if (amount < BigInt(0)) {
+    if (Number(inBalance) == 0) {
+      setTokenAmount(0);
+      setBigAmount(BigInt(0));
+    } else if (amount < BigInt(0)) {
       setTokenAmount(0);
       setBigAmount(BigInt(0));
     } else {
-      setTokenAmount(Number(value));
+      setTokenAmount(value);
       const output = toBigAmount(Number(value), Number(in_decimals));
       setBigAmount(BigInt(output));
     }
@@ -760,6 +763,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     type='number'
                     placeholder={'number'}
                     fontSize={14}
+                    decimal={in_balance ? in_balance.decimals : 0}
                   />
                 </div>
                 <div className='FormatAmountStaked'>
