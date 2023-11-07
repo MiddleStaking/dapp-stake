@@ -15,9 +15,7 @@ const StakeModal = (props: any) => {
   const [balance, setBalance] = React.useState(BigInt(0));
   // const tokenPosition = useGetTokenPosition(stoken, rtoken);
   const tokenPosition = props.token_position;
-  const [tokenAmount, setTokenAmount] = React.useState<
-    number | undefined | string
-  >('');
+  const [tokenAmount, setTokenAmount] = React.useState<number | string>(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
 
@@ -49,7 +47,7 @@ const StakeModal = (props: any) => {
     setRtoken(props.rewarded_token);
     setBalance(stakedProps?.balance ? stakedProps?.balance : BigInt(0));
     setBigAmount(BigInt(0));
-    setTokenAmount(undefined);
+    setTokenAmount(0);
   }, [stakedProps, props.staked_token, props.rewarded_token]);
 
   const staked_esdt_info = props.staked_esdt_info;
@@ -98,11 +96,13 @@ const StakeModal = (props: any) => {
       setBigAmount(BigInt(0));
       percentage = Number(0);
     } else if (amount > balance) {
-      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals)));
-      percentage = Number(100);
+      setTokenAmount(
+        (Number(BigInt(balance)) / Number(BigInt(10 ** sdecimals))).toString()
+      );
       setBigAmount(balance);
+      percentage = Number(100);
     } else {
-      setTokenAmount(Number(value));
+      setTokenAmount(value);
       const output = toBigAmount(Number(value), Number(sdecimals));
       setBigAmount(BigInt(output));
       if (amount > BigInt(0)) {
@@ -367,6 +367,7 @@ const StakeModal = (props: any) => {
                   </div>
                   <div className='AmountInputGroupe'>
                     <Input
+                      decimal={rewarded_esdt_info.decimals}
                       inputHeight='40px'
                       inputWidth='179px'
                       borderColor='rgb(105, 88, 133)'

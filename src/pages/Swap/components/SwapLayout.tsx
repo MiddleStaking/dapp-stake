@@ -760,7 +760,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     type='number'
                     placeholder={'number'}
                     fontSize={14}
-                  />{' '}
+                  />
                 </div>
                 <div className='FormatAmountStaked'>
                   <div className='LabelDropdoownFormatAmount'>
