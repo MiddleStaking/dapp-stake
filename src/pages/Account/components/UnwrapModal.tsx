@@ -25,7 +25,7 @@ const UnwrapModal = (props: any) => {
       setAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
       setBigAmount(balance);
     } else {
-      setAmount(Number(value));
+      setAmount(value);
       const output = toBigAmount(Number(value), Number(decimals));
       setBigAmount(BigInt(output));
     }
@@ -58,6 +58,7 @@ const UnwrapModal = (props: any) => {
 
               <div className='AmountInputGroupe'>
                 <Input
+                  decimal={decimals}
                   inputHeight='40px'
                   inputWidth='180px'
                   borderColor='rgb(105, 88, 133)'
