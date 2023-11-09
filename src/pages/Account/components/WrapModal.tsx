@@ -35,7 +35,7 @@ const WrapModal = (props: any) => {
       );
       setBigAmount(balance - BigInt(10000000000000000));
     } else {
-      setAmount(Number(value));
+      setAmount(value);
       const output = toBigAmount(Number(value), Number(decimals));
       setBigAmount(BigInt(output));
     }
@@ -68,6 +68,7 @@ const WrapModal = (props: any) => {
 
               <div className='AmountInputGroupe'>
                 <Input
+                  decimal={decimals}
                   inputHeight='40px'
                   inputWidth='180px'
                   borderColor='rgb(105, 88, 133)'

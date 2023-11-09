@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import './accordeons.scss';
 import { BigNumber } from 'bignumber.js';
+import { verified } from 'verified-collections';
 import Accordion from './component/Accordion';
 import AccordionEmpty from './component/AccordionEmpty';
-import { verified } from 'verified-collections';
 
 interface CardPoolrops {
   collectionRewards: any[];

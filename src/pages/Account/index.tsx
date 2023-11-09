@@ -188,11 +188,11 @@ const Account = () => {
                   </div>
                 )}
                 <div>
-                  <div className={styles.square}>
-                    <div
-                      className={styles.labelIconSquare}
-                      onClick={() => setShowWrap(true)}
-                    >
+                  <div
+                    className={styles.square}
+                    onClick={() => setShowWrap(true)}
+                  >
+                    <div className={styles.labelIconSquare}>
                       <FormatAmount
                         value={balance.toString()}
                         egldLabel={''}
@@ -209,11 +209,11 @@ const Account = () => {
                 </div>
 
                 <div>
-                  <div className={styles.square}>
-                    <div
-                      className={styles.labelIconSquare}
-                      onClick={() => setShowUnwrap(true)}
-                    >
+                  <div
+                    className={styles.square}
+                    onClick={() => setShowUnwrap(true)}
+                  >
+                    <div className={styles.labelIconSquare}>
                       <FormatAmount
                         value={wegldBalance.toString()}
                         egldLabel={'wEgld'}
