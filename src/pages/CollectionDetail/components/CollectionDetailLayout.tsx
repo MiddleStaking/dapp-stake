@@ -13,6 +13,7 @@ import {
   useGetUserESDT
 } from './Actions/helpers';
 import { useGetUserStakedNft } from './Actions/helpers/useGetUserStakedNft';
+import { ModalJump } from './Modal/ModalJump';
 
 export const CollectionsLayout = () => {
   const { address } = useGetAccountInfo();
@@ -21,6 +22,9 @@ export const CollectionsLayout = () => {
 
   const { param } = useParams();
   const [url] = useState(param?.toString());
+
+  const [openModalJump, setOpenModalJump] = useState(false);
+  const [nftsJump, setNftsJump] = useState<any>('');
 
   const collectionRewards = useGetCollectionRewards(url ? url : '');
   const allRewardsForUser = useGetUserRewards(address, url ? url : '');
@@ -113,12 +117,24 @@ export const CollectionsLayout = () => {
                 address={address}
               />
             )}
+            {openModalJump && (
+              <ModalJump
+                getCollectionInformations={getCollectionInformations}
+                openModalJump={openModalJump}
+                nftsJump={nftsJump}
+                setOpenModalJump={setOpenModalJump}
+                showMoal={openModalJump}
+                onClose={() => setOpenModalJump(false)}
+              />
+            )}
           </div>
         </div>
       </div>
       <br />
       {getCollectionInformations?.length > 0 ? (
         <AccordionWrap
+          setNftsJump={setNftsJump}
+          setOpenModalJump={setOpenModalJump}
           userEsdtBalance={userEsdtBalance}
           collection_identifier={
             getCollectionInformations[0]?.collection

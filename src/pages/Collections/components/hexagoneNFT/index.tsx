@@ -16,6 +16,13 @@ interface TypeSectionProps {
   ShadowDimeantion?: string;
   shadowColor?: string;
   nft_qty?: number;
+  jump?: string;
+  jumpDesabled?: boolean;
+  setOpenModalJump?: any;
+  setNftsJump?: any;
+  nftsDetail?: any;
+  collectionReward?: any;
+  collectionRewards?: any;
 }
 
 // heightComponentTypeSection
@@ -29,7 +36,14 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   withShadow = false,
   ShadowDimeantion = '7px 0px 4px',
   shadowColor = 'rgba(0, 0, 0, 1)',
-  nft_qty = 0
+  nft_qty = 0,
+  jump = '',
+  jumpDesabled = false,
+  setOpenModalJump = undefined,
+  setNftsJump = undefined,
+  nftsDetail,
+  collectionReward,
+  collectionRewards
 }) => {
   const hex: CSSProperties = {
     display: 'block',
@@ -60,6 +74,25 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   };
   const hexImage: CSSProperties = {
     // borderRadius: 'inherit'
+  };
+
+  const nftsGoToJumpModal = () => {
+    if (jumpDesabled) {
+      return;
+    }
+    if (setOpenModalJump) {
+      setOpenModalJump(true);
+    }
+    if (setNftsJump) {
+      nftsDetail
+        ? setNftsJump({
+            nftsDetail: nftsDetail,
+            collectionReward: collectionReward,
+            collectionRewards: collectionRewards
+          })
+        : undefined;
+    }
+    return;
   };
 
   if (!url) {
@@ -116,6 +149,34 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
               : 'none'
           }}
         >
+          {jump !== '' &&
+            collectionRewards.filter(
+              (item: any) =>
+                item.pool_id !== collectionReward?.pool_id &&
+                (Number(item.nonce) === 0 ||
+                  Number(item.nonce) === Number(nftsDetail?.nonce))
+            ).length != 0 && (
+              <div
+                onClick={nftsGoToJumpModal}
+                style={{
+                  cursor: jumpDesabled ? 'not-allowed' : 'pointer',
+                  position: 'absolute',
+                  filter: jumpDesabled ? 'grayscale(60%)' : 'grayscale(0)',
+                  top: 0,
+                  right: 0,
+                  borderRadius: '50px',
+                  minWidth: '28px',
+                  minHeight: '28px',
+                  background: borderColor,
+                  zIndex: 40,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <div>{jump}</div>
+              </div>
+            )}
           <div className={styles.hex} style={hex}>
             <div
               className={styles.hexbackgroundBorder}
@@ -166,6 +227,30 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
               : 'none'
           }}
         >
+          {jump !== '' && (
+            <div
+              onClick={nftsGoToJumpModal}
+              style={{
+                cursor: jumpDesabled ? 'not-allowed' : 'pointer',
+                position: 'absolute',
+                filter: jumpDesabled ? 'grayscale(60%)' : 'grayscale(0)',
+                textDecoration: jumpDesabled ? 'line-through' : '',
+                top: 0,
+                right: 0,
+                borderRadius: '50px',
+                minWidth: '28px',
+                minHeight: '28px',
+                fontSize: '10px',
+                background: borderColor,
+                zIndex: 40,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <div>{jump}</div>
+            </div>
+          )}
           <div className={styles.hex} style={hex}>
             <div
               className={styles.hexbackgroundBorder}

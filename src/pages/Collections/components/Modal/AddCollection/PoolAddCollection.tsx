@@ -39,6 +39,7 @@ export const PoolAddCollection = ({
       {address && (
         <div
           className={border ? 'button-icon-border' : '' + 'cursor-pointer'}
+          style={{ cursor: 'pointer' }}
           onClick={() => {
             setHeaderMenu(false), setShowStakfund(true);
           }}

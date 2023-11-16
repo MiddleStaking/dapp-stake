@@ -14,6 +14,8 @@ interface CardPoolrops {
   collection_identifier: string;
   getCollectionInformations: any;
   userEsdtBalance: any;
+  setOpenModalJump: any;
+  setNftsJump: any;
 }
 
 const AccordionWrap: FC<CardPoolrops> = ({
@@ -23,6 +25,8 @@ const AccordionWrap: FC<CardPoolrops> = ({
   userNftBalance,
   userStakedNft,
   address,
+  setNftsJump,
+  setOpenModalJump,
   collection_identifier,
   getCollectionInformations
 }) => {
@@ -126,6 +130,9 @@ const AccordionWrap: FC<CardPoolrops> = ({
                   // </>
                   <div style={{ width: '100%' }} key={item.pool_id}>
                     <Accordion
+                      collectionRewards={collectionRewards}
+                      setNftsJump={setNftsJump}
+                      setOpenModalJump={setOpenModalJump}
                       address={address}
                       userEsdtBalance={userEsdtBalance}
                       allRewardsForUser={allRewardsForUser}
