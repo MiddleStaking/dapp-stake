@@ -25,6 +25,9 @@ interface CardPoolrops {
   address: string;
   getCollectionInformations: any;
   userEsdtBalance: any;
+  setOpenModalJump: any;
+  setNftsJump: any;
+  collectionRewards: any;
 }
 
 const Accordion: FC<CardPoolrops> = ({
@@ -34,7 +37,10 @@ const Accordion: FC<CardPoolrops> = ({
   userStakedNft,
   userEsdtBalance,
   address,
-  getCollectionInformations
+  getCollectionInformations,
+  setOpenModalJump,
+  setNftsJump,
+  collectionRewards
 }) => {
   const [nFtCanStake, setNFtCanStake] = useState([]);
   const [showMoal, setShowMoal] = useState(false);
@@ -612,6 +618,10 @@ const Accordion: FC<CardPoolrops> = ({
 
             {userStakedNft && userStakedNft.length > 0 && (
               <MyStakeSection
+                collectionRewards={collectionRewards}
+                collectionReward={collectionReward}
+                setNftsJump={setNftsJump}
+                setOpenModalJump={setOpenModalJump}
                 isOpen={isOpen}
                 pool={collectionReward?.pool_id}
                 unbounding={collectionReward?.unbounding}

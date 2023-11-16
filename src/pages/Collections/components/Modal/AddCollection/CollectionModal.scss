@@ -29,7 +29,18 @@
   min-width: 505px;
   max-width: 505px;
 }
-
+.backgroundStakeModal_Collection_Jump{
+  z-index: 100;
+  border-radius: 32px;
+  background-color: black;
+  box-shadow: 0 0 48px 0 rgba(0, 0, 0, 0.64);
+  opacity: 1;
+  min-height: 400px;
+  max-height: 800px;
+  overflow-y: auto;
+  min-width: 800px;
+  max-width: 800px;
+}
 .neon-border-stack_Collection {
   pointer-events: none;
   z-index: -1;
@@ -76,6 +87,21 @@
   }
 
   .neon-border-stack_Collection {
+    min-width: 0px;
+    min-height: 0px;
+    width: 360px;
+  }
+}
+
+@media (max-width: 855px) {
+  .backgroundStakeModal_Collection_Jump {
+    min-width: 0px;
+    min-height: 0px;
+    max-width: 380px;
+    max-height: 650px;
+  }
+
+  .neon-border-stack_Collection_Jump {
     min-width: 0px;
     min-height: 0px;
     width: 360px;

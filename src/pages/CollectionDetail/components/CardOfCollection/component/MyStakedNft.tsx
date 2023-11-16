@@ -7,17 +7,28 @@ const MyStakedNft: FC<any> = ({
   nft_identifier,
   nft_nonce,
   isOpen,
-  nft_qty
+  nft_qty,
+  jump,
+  jumpDesabled,
+  setOpenModalJump,
+  setNftsJump,
+  nftsDetail,
+  collectionReward,
+  collectionRewards
 }) => {
   const nft: any = useGetNft(nft_identifier, nft_nonce, isOpen);
-
-  //   console.log(nft_identifier);
-  //   console.log(nft_nonce);
 
   return (
     <>
       {nft?.media && (
         <HexagoneNFT
+          collectionRewards={collectionRewards}
+          collectionReward={collectionReward}
+          nftsDetail={nftsDetail}
+          setNftsJump={setNftsJump}
+          setOpenModalJump={setOpenModalJump}
+          jump={jump}
+          jumpDesabled={jumpDesabled}
           format={nft?.media[0]?.fileType}
           url={nft?.media[0]?.url}
           width={100}

@@ -11,12 +11,20 @@ interface MyStakeSectionProps {
   pool: number;
   unbounding: any;
   isOpen: boolean;
+  setOpenModalJump?: any;
+  setNftsJump?: any;
+  collectionReward?: any;
+  collectionRewards?: any;
 }
 const MyNftSection: FC<MyStakeSectionProps> = ({
   pool,
   staked_balance,
   unbounding,
-  isOpen
+  isOpen,
+  setOpenModalJump,
+  setNftsJump,
+  collectionReward,
+  collectionRewards
 }) => {
   return (
     <div
@@ -45,10 +53,21 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
               <div className='imgCheminCard'>
                 {item?.staked_nft?.identifier && (
                   <MyStakedNft
+                    // jumpOpen={})
+                    collectionRewards={collectionRewards}
+                    nftsDetail={item?.staked_nft}
+                    jump={'jump'}
+                    collectionReward={collectionReward}
+                    setNftsJump={setNftsJump}
+                    setOpenModalJump={setOpenModalJump}
                     isOpen={isOpen}
                     nft_identifier={item?.staked_nft.identifier}
                     nft_nonce={item?.staked_nft?.nonce}
                     nft_qty={item?.staked_nft?.qty?.toString()}
+                    jumpDesabled={
+                      item?.current_block < item?.staked_nft?.lock ||
+                      item?.staked_nft?.unbound != 0
+                    }
                   />
                 )}
               </div>
