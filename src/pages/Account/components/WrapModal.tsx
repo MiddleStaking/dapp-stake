@@ -68,6 +68,7 @@ const WrapModal = (props: any) => {
 
               <div className='AmountInputGroupe'>
                 <Input
+                  min={0}
                   decimal={decimals}
                   inputHeight='40px'
                   inputWidth='180px'
