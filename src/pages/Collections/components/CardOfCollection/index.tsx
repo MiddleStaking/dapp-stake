@@ -55,6 +55,7 @@ interface CardPoolrops {
   tokens_extra_informations?: any;
   userEsdtBalance?: any;
   swapedTokens?: any;
+  collection?: any;
 }
 
 const CardOfCollection: FC<CardPoolrops> = ({
@@ -66,7 +67,8 @@ const CardOfCollection: FC<CardPoolrops> = ({
   WindowDimensions,
   textColor = '#ffffff',
   fontFamily = 'sans-serif',
-  collectionIdentifier
+  collectionIdentifier,
+  collection
 }) => {
   const cardType: CSSProperties = {
     width: '300px',
@@ -87,26 +89,11 @@ const CardOfCollection: FC<CardPoolrops> = ({
   const collectionInfo = useGetCollectionInformations(collectionIdentifier);
 
   // const rewarded_esdt_info = useGetESDTInformations(rewardedToken);
-  // console.log(collectionInfo);
 
   return (
     <div style={cardType}>
-      {/* ---- THE CARD ---- */}
-      {/* => topCardPool */}
       <TypeSection
-        //   image1={image1}
-        //   image2={image2}
-        //   StakeTile={StakeTile}
-        //   EarnTitle={EarnTitle}
-        //   Apr={Apr}
-        //   decimals={decimals}
-        //   Rewards={Rewards}
-        //   Rewards_value={Rewards_value}
-        //   Speed={Speed}
-        //   Staked={Staked}
-        //   Staked_value={Staked_value}
-        //   Users={Users}
-        //   socialNetwork={socialNetwork}
+        collection={collection}
         collectionIdentifier={collectionIdentifier}
         collectionInfo={collectionInfo}
         width={width}
@@ -119,43 +106,6 @@ const CardOfCollection: FC<CardPoolrops> = ({
         background={background}
         address={address}
       />
-      {/* <MyStakeSection
-          address={address}
-          swapedTokens={swapedTokens}
-          userEsdtBalance={userEsdtBalance}
-          stakedToken={stakedToken}
-          rewardedToken={rewardedToken}
-          tokenPosition={tokenPosition}
-          stakingPosition={stakingPosition}
-          staked_esdt_info={staked_esdt_info}
-          rewarded_esdt_info={rewarded_esdt_info}
-          my_staked_value={my_staked_value}
-          rest={rest}
-          balance={balance}
-          image1={image1}
-          image2={image2}
-          sdecimals={sdecimals}
-          rdecimals={rdecimals}
-          stakingPositionRewards={stakingPositionRewards}
-          my_rewards_value={my_rewards_value}
-          canBeStaked={canBeStaked}
-          isDual={isDual}
-          firstPoolPosition={firstPoolPosition}
-          secondPoolPosition={secondPoolPosition}
-          balanc={balance}
-        /> */}
-
-      {/* {address && (
-          <RewardsSection
-            backgroundRewards={backgroundRewards}
-            stakingPositionRewards={stakingPositionRewards}
-            rdecimals={rdecimals}
-            rewarded_esdt_info={rewarded_esdt_info}
-            my_rewards_value={my_rewards_value}
-            stakedToken={stakedToken}
-            rewardedToken={rewardedToken}
-          />
-        )} */}
     </div>
   );
 };

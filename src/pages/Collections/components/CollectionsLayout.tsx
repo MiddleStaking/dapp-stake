@@ -8,6 +8,7 @@ import MintModal from '../../../pages/Mint/components/MintModal';
 import { Button } from './../../../components/Design';
 import { useGetCollections } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
+import { useGetCollectionsApi } from './Actions/helpersApi';
 import CardOfCollection from './CardOfCollection';
 import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
 export const CollectionsLayout = () => {
@@ -17,6 +18,8 @@ export const CollectionsLayout = () => {
   const { address } = useGetAccountInfo();
   const userEsdtBalance = useGetUserESDT();
   const stakedCollections: string[] = useGetCollections();
+
+  const callCollectionApi: any[] = useGetCollectionsApi();
   const userStakedNft = useGetUserStakedNft(address);
 
   //for unbond nft with no more pool in array
@@ -117,7 +120,7 @@ export const CollectionsLayout = () => {
           placeItems: 'start center'
         }}
       >
-        {stakedCollections &&
+        {/* {stakedCollections &&
           stakedCollections
             .filter((token) => {
               return (
@@ -141,6 +144,36 @@ export const CollectionsLayout = () => {
                   textColor='#ffffff'
                   fontFamily='sans-serif'
                   collectionIdentifier={item}
+                />
+              </div>
+            ))} */}
+
+        {callCollectionApi &&
+          callCollectionApi
+            .filter((item) => {
+              return (
+                item.identifier
+                  .toLowerCase()
+                  .includes(mySearch.toLowerCase()) || mySearch == ''
+              );
+            })
+            .map((item) => (
+              <div
+                key={item.identifier}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  maxWidth: '300px'
+                }}
+              >
+                <CardOfCollection
+                  collection={item}
+                  height={heightComponentTypeSection}
+                  WindowDimensions={width}
+                  textColor='#ffffff'
+                  fontFamily='sans-serif'
+                  collectionIdentifier={item.identifier}
                 />
               </div>
             ))}
