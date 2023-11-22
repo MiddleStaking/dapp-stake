@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { useGetESDTInformations } from '../../Actions/helpers';
-import { useWindowDimensions } from 'components/DimensionScreen';
-import notFound from '../../../../../assets/img/notfoundc.svg';
+import React from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import BigNumber from 'bignumber.js';
+import { RadioButton } from 'components/Design/RadioButton';
+import { useWindowDimensions } from 'components/DimensionScreen';
+import toHex from 'helpers/toHex';
 import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNft';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
-import toHex from 'helpers/toHex';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
-import { RadioButton } from 'components/Design/RadioButton';
+import notFound from '../../../../../assets/img/notfoundc.svg';
+import { useGetESDTInformations } from '../../Actions/helpers';
+
 export const RowJumpPool = (props: any) => {
   const { width } = useWindowDimensions();
   //   <div>{props.inforamtion.identifier}</div>;
@@ -256,15 +257,17 @@ export const RowJumpPool = (props: any) => {
               </div>
             </div>
           </div>
-          <div
-            style={{ width: '50px', display: 'flex', justifyContent: 'end' }}
-          >
-            <RadioButton
-              onClick={() => props.setPoolSelected(props.inforamtion.pool_id)}
-              selected={props.PoolSelected === props.inforamtion.pool_id}
-              borderColor={['#BD37EC', '#1F67FF']}
-            />
-          </div>
+          {props.RadioButton && (
+            <div
+              style={{ width: '50px', display: 'flex', justifyContent: 'end' }}
+            >
+              <RadioButton
+                onClick={() => props.setPoolSelected(props.inforamtion.pool_id)}
+                selected={props.PoolSelected === props.inforamtion.pool_id}
+                borderColor={['#BD37EC', '#1F67FF']}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
