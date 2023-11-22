@@ -43,6 +43,7 @@ export const useGetCollectionRewards = (stakedToken: string) => {
     if (!stakedToken) {
       return;
     }
+    console.log('rewards ? ' + stakedToken);
 
     try {
       const query = smartContract.createQuery({
@@ -57,6 +58,7 @@ export const useGetCollectionRewards = (stakedToken: string) => {
         queryResponse,
         endpointDefinition
       );
+      console.log(rewards);
       if (queryResponse.returnCode == 'ok') {
         setStakedTokens(rewards?.valueOf());
         //storage of 1 minutes

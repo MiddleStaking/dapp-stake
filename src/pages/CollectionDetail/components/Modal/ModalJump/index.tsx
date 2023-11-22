@@ -107,7 +107,7 @@ export const ModalJump = (props: any) => {
                   gap: '5px'
                 }}
               >
-                <div>informations sur le staking actuelle</div>
+                <div>Current position</div>
                 <div>
                   {props.nftsJump?.collectionReward &&
                   props.nftsJump?.collectionReward.total_staked &&

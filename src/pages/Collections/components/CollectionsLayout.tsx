@@ -6,7 +6,7 @@ import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { useGetUserStakedNft } from 'pages/CollectionDetail/components/Actions/helpers/useGetUserStakedNft';
 import MintModal from '../../../pages/Mint/components/MintModal';
 import { Button } from './../../../components/Design';
-import { useGetCollections } from './Actions/helpers';
+import { useGetCollections, useGetCollectionsApi } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import CardOfCollection from './CardOfCollection';
 import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
@@ -17,6 +17,8 @@ export const CollectionsLayout = () => {
   const { address } = useGetAccountInfo();
   const userEsdtBalance = useGetUserESDT();
   const stakedCollections: string[] = useGetCollections();
+  const stakedCollectionsApi = useGetCollectionsApi();
+
   const userStakedNft = useGetUserStakedNft(address);
 
   //for unbond nft with no more pool in array
@@ -117,33 +119,60 @@ export const CollectionsLayout = () => {
           placeItems: 'start center'
         }}
       >
-        {stakedCollections &&
-          stakedCollections
-            .filter((token) => {
-              return (
-                token.toLowerCase().includes(mySearch.toLowerCase()) ||
-                mySearch == ''
-              );
-            })
-            .map((item) => (
-              <div
-                key={item}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  maxWidth: '300px'
-                }}
-              >
-                <CardOfCollection
-                  height={heightComponentTypeSection}
-                  WindowDimensions={width}
-                  textColor='#ffffff'
-                  fontFamily='sans-serif'
-                  collectionIdentifier={item}
-                />
-              </div>
-            ))}
+        {stakedCollectionsApi
+          ? stakedCollectionsApi
+              .filter((item: any) => {
+                return (
+                  item.identifier
+                    .toLowerCase()
+                    .includes(mySearch.toLowerCase()) || mySearch == ''
+                );
+              })
+              .map((item: any) => (
+                <div
+                  key={item.identifier}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    maxWidth: '300px'
+                  }}
+                >
+                  <CardOfCollection
+                    height={heightComponentTypeSection}
+                    WindowDimensions={width}
+                    textColor='#ffffff'
+                    fontFamily='sans-serif'
+                    collectionIdentifier={item.identifier}
+                  />
+                </div>
+              ))
+          : stakedCollections
+              .filter((token) => {
+                return (
+                  token.toLowerCase().includes(mySearch.toLowerCase()) ||
+                  mySearch == ''
+                );
+              })
+              .map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    maxWidth: '300px'
+                  }}
+                >
+                  <CardOfCollection
+                    height={heightComponentTypeSection}
+                    WindowDimensions={width}
+                    textColor='#ffffff'
+                    fontFamily='sans-serif'
+                    collectionIdentifier={item}
+                  />
+                </div>
+              ))}
       </div>
     </div>
   );

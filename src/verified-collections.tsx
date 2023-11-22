@@ -13,5 +13,7 @@ export const verified = [
   { c: 'QWTEVCARS-d0cb53', s: 'verified' },
   { c: 'TIKAWLITE-04614b', s: 'verified' },
   { c: 'TIKAWULTRA-e6592a', s: 'verified' },
-  { c: 'XPACHIEVE-5a0519', s: 'verified' }
+  { c: 'XPACHIEVE-5a0519', s: 'verified' },
+  { c: 'TAVERN-e9b9d6', s: 'verified' },
+  { c: 'TRT-956a03', s: 'verified' }
 ];
