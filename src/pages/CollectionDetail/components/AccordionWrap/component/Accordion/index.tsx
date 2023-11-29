@@ -442,6 +442,14 @@ const Accordion: FC<CardPoolrops> = ({
                           setShowMoal(true);
                           setHeaderMenu(false);
                         }}
+                        disabled={
+                          userNftBalance.filter(
+                            (item: any) =>
+                              item.nonce == collectionReward?.nonce ||
+                              collectionReward?.nonce == BigInt(0)
+                          ).length === 0
+                        }
+
                         // rightHtml={
                         //   nft?.media && (
                         //     <HexagoneNFT
