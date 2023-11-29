@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
-import BigNumber from 'bignumber.js';
+import { faArrowDownLong } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import bigToHex from 'helpers/bigToHex';
 import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNft';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import { ActionJumpNFT } from '../../Actions';
-import { useGetESDTInformations } from '../../Actions/helpers';
 import { RowJumpPool } from './rowJumpPool';
 
 export const ModalJump = (props: any) => {
@@ -42,20 +42,26 @@ export const ModalJump = (props: any) => {
     props.openModalJump
   );
 
-  const rewarded_esdt_info = useGetESDTInformations(
-    props.nftsJump?.collectionReward?.identifier
-  );
-
-  const rdecimals = rewarded_esdt_info?.decimals
-    ? rewarded_esdt_info?.decimals
-    : 0;
+  const NftsStaked = {
+    pool_id: props.nftsJump?.nftsDetail.pool_id,
+    collection: props.nftsJump?.nftsDetail.identifier,
+    total_staked: props.nftsJump?.collectionReward.total_staked,
+    identifier: props.nftsJump?.collectionReward?.identifier,
+    rewards: props.nftsJump?.collectionReward?.rewards,
+    total_rewarded: props.nftsJump?.collectionReward?.total_rewarded,
+    last_fund_block: props.nftsJump?.collectionReward.last_fund_block,
+    speed: props.nftsJump?.collectionReward.speed,
+    vesting: props.nftsJump?.collectionReward?.vesting,
+    unbounding: props.nftsJump?.collectionReward?.unbounding,
+    nonce: props.nftsJump?.nftsDetail.nonce
+  };
 
   return (
     <div className='centerStakeModal_Collection'>
       <div ref={ModalRef} className='backgroundStakeModal_Collection_Jump'>
         <div className='modalStakeModal_Collection'>
           <div className='contentStakeModal_Collection'>
-            {/* <div className='modalLabelStakeModal_Collection'>Jump Nft</div> */}
+            <div className='modalLabelStakeModal_Collection'>Jump Nfts</div>
             <div>
               {nft?.media?.length > 0 && (
                 <HexagoneNFT
@@ -93,111 +99,27 @@ export const ModalJump = (props: any) => {
                   gap: '5px'
                 }}
               >
-                <div>{props.nftsJump?.nftsDetail.identifier}</div>
+                <div>
+                  {props.nftsJump?.nftsDetail.identifier}-
+                  {bigToHex(props.nftsJump?.nftsDetail.nonce)}
+                </div>
                 <div>nonce : {props.nftsJump?.nftsDetail.nonce.toString()}</div>
               </div>
-              <div
-                style={{
-                  width: '40%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  flexDirection: 'column',
-                  gap: '5px'
-                }}
-              >
-                <div>informations sur le staking actuelle</div>
-                <div>
-                  {props.nftsJump?.collectionReward &&
-                  props.nftsJump?.collectionReward.total_staked &&
-                  Number(props.nftsJump?.collectionReward.blocks_to_max) !==
-                    0 ? (
-                    <FormatAmount
-                      value={(
-                        BigInt(
-                          BigNumber(
-                            props.nftsJump?.collectionReward?.rewards
-                          ).toFixed()
-                        ) /
-                        (BigInt(props.nftsJump?.collectionReward.total_staked) >
-                        BigInt(0)
-                          ? BigInt(
-                              props.nftsJump?.collectionReward.total_staked
-                            )
-                          : BigInt(1)) /
-                        BigInt(props.nftsJump?.collectionReward.speed)
-                      ).toString()}
-                      decimals={Number(rdecimals)}
-                      egldLabel={
-                        '$' +
-                        `${
-                          props.nftsJump?.collectionReward?.identifier.split(
-                            '-'
-                          )[0]
-                        } / NFT / DAY`
-                      }
-                      data-testid='balance'
-                      digits={
-                        (
-                          BigInt(
-                            BigNumber(
-                              props.nftsJump?.collectionReward?.rewards
-                            ).toFixed()
-                          ) /
-                          (BigInt(
-                            props.nftsJump?.collectionReward.total_staked
-                          ) > BigInt(0)
-                            ? BigInt(
-                                props.nftsJump?.collectionReward.total_staked
-                              )
-                            : BigInt(1)) /
-                          BigInt(props.nftsJump?.collectionReward.speed)
-                        ).toString().length >= 18
-                          ? 2
-                          : 18 -
-                            (
-                              BigInt(
-                                BigNumber(
-                                  props.nftsJump?.collectionReward?.rewards
-                                ).toFixed()
-                              ) /
-                              (BigInt(
-                                props.nftsJump?.collectionReward.total_staked
-                              ) > BigInt(0)
-                                ? BigInt(
-                                    props.nftsJump?.collectionReward
-                                      .total_staked
-                                  )
-                                : BigInt(1)) /
-                              BigInt(props.nftsJump?.collectionReward.speed)
-                            ).toString().length +
-                            2
-                      }
-                    />
-                  ) : (
-                    <p>error</p>
-                  )}
-                </div>
-                <div>
-                  Vesting :{' '}
-                  {props.nftsJump?.collectionReward?.vesting.toString()} Days
-                </div>
-
-                <div>
-                  Unbonding :{' '}
-                  {props.nftsJump?.collectionReward?.unbounding.toString()} Days
-                </div>
-                <div>
-                  Speed :{' '}
-                  {props.nftsJump?.collectionReward?.speed?.toString() + ' '}
-                  days
-                </div>
-              </div>
+            </div>
+            <div style={{ width: '100%' }}>
+              <RowJumpPool
+                // RadioButton={true}
+                getCollectionInformations={props.getCollectionInformations}
+                inforamtion={NftsStaked}
+              />
+            </div>
+            <div>
+              <FontAwesomeIcon icon={faArrowDownLong} />
             </div>
             <div
               style={{
                 display: 'flex',
+                width: '100%',
                 flexDirection: 'column',
                 gap: '10px'
               }}
@@ -216,6 +138,7 @@ export const ModalJump = (props: any) => {
                   return (
                     <div key={index}>
                       <RowJumpPool
+                        RadioButton={true}
                         PoolSelected={PoolSelected}
                         setPoolSelected={setPoolSelected}
                         getCollectionInformations={
