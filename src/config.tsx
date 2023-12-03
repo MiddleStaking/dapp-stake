@@ -10,7 +10,8 @@ export const contractNftStake =
   'erd1qqqqqqqqqqqqqpgq5re66vt0dlee8v83dtyh6k54qqpjs3ketxfq9tcd29';
 export const contractMint =
   'erd1qqqqqqqqqqqqqpgqz8s3d4grypaq8kws6lrgjseljjtkw6etch9sltef2r';
-
+export const contractDistrib =
+  'erd1qqqqqqqqqqqqqpgqtmj6zwec4llv8m9fnvyjytcy9gmht78l5gcsev3xm2';
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 export const contractPlay =
@@ -44,10 +45,10 @@ export const stakingContract =
 
 export const dAppName = 'Middle Staking';
 // Generate your own WalletConnect 2 ProjectId here: https://cloud.walletconnect.com/app
-export const walletConnectV2ProjectId = '9b1a9564f91cb659ffe21b73d5c4e2d8';
+// export const walletConnectV2ProjectId = '9b1a9564f91cb659ffe21b73d5c4e2d8';
 //export const walletConnectV2ProjectId = '1837c732028bec8c26507a308ae4af5e';
-//export const walletConnectV2ProjectId = '1837c732028bec8c26507a308ae4af5e';
-//export const walletConnectV2ProjectId = '47d072804da2e2809c16ea08eea608b9';
+// export const walletConnectV2ProjectId = '1837c732028bec8c26507a308ae4af5e';
+export const walletConnectV2ProjectId = '47d072804da2e2809c16ea08eea608b9';
 
 export const apiTimeout = 6000;
 export const transactionSize = 15;

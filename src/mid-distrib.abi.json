@@ -1,0 +1,149 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.71.0-nightly",
+            "commitHash": "a2b1646c597329d0a25efa3889b66650f65de1de",
+            "commitDate": "2023-05-25",
+            "channel": "Nightly",
+            "short": "rustc 1.71.0-nightly (a2b1646c5 2023-05-25)"
+        },
+        "contractCrate": {
+            "name": "mid-distrib",
+            "version": "0.0.1"
+        },
+        "framework": {
+            "name": "multiversx-sc",
+            "version": "0.45.1"
+        }
+    },
+    "name": "MidDistrib",
+    "constructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "deposit",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "add",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "receiver",
+                    "type": "Address"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "add_bulk",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "args",
+                    "type": "variadic<multi<Address,BigUint>>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "execute",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getUserList",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "List<UserReward>"
+                }
+            ]
+        },
+        {
+            "name": "getTotal",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "token",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "nonce",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getUserAmount",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user_id",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        }
+    ],
+    "esdtAttributes": [],
+    "hasCallback": false,
+    "types": {
+        
+        "UserReward": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                }
+            ]
+        }
+    }
+}

@@ -58,9 +58,12 @@ export const contractMint =
 
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
-export const contractPlay =
-  'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
+  export const contractPlay =
+    'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
+export const contractDistrib =
+  'erd1qqqqqqqqqqqqqpgqzwkjf8c2695uaz4ak6d2scxece553d7hch9s82qmp2';
 
+  
 export const network: NetworkType = {
   id: 'devnet',
   chainId: 'D2',

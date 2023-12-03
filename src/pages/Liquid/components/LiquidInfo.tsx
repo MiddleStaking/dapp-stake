@@ -9,6 +9,11 @@ import { useGetPoolPosition } from './Actions/helpers';
 import { useGetPoolLpIdentifier } from './Actions/helpers';
 import LiquidModal from './LiquidModal';
 import RemoveLpModal from './RemoveLpModal';
+import { useGetUserList } from './../../Distrib/components/Actions/helpers';
+import { useGetGift } from 'pages/Distrib/components/Actions/helpersApi';
+import { Address } from '@multiversx/sdk-core/out';
+import { ActionAdd } from './Actions';
+import axios from 'axios';
 
 export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   const [showLiquid, setShowLiquid] = useState(false);
@@ -16,6 +21,73 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   //const { network } = useGetNetworkConfig();
   const { hasPendingTransactions } = useGetPendingTransactions();
   const lp_token = useGetPoolLpIdentifier(defaultToken, second_token);
+  const user_list = useGetUserList();
+  const gift = useGetGift();
+
+  console.log(user_list);
+  console.log(gift);
+
+  let i = 0;
+  let data = 'add';
+  // let user_list = [
+  //   {
+  //     address: {
+  //       bech32:
+  //         'erd12l6sk3ceklpf5jx6atut5mydqh3dqfpt73h2gxqh7zzmqxwx2jwqf5yj8e',
+  //       pubkey:
+  //         '57f50b4719b7c29a48daeaf8ba6c8d05e2d0242bf46ea41817f085b019c6549c'
+  //     },
+  //     amount: '1'
+  //   },
+  //   {
+  //     address: {
+  //       bech32:
+  //         'erd10y0lmy2s5hyt8en3cz62ekghexmdwj4vtf7ddnqtq39m269d2z3q4t0ccj',
+  //       pubkey:
+  //         '791ffd9150a5c8b3e671c0b4acd917c9b6d74aac5a7cd6cc0b044bb568ad50a2'
+  //     },
+  //     amount: '1'
+  //   }
+  // ];
+  let add = 0;
+  while (add < 50 && i < gift.length) {
+    const addressTobech32 = new Address(gift[i]?.address);
+    if (!user_list.some((item: any) => item?.address == gift[i]?.address)) {
+      data += '@';
+      data += addressTobech32.hex();
+      data += '@';
+      data += '01';
+      console.log('add :', gift[i]?.address);
+      add++;
+      console.log(add);
+    } else {
+      console.log('ok', gift[i]?.id);
+
+      const config = {
+        headers: {
+          'Access-Control-Allow-Origin': '*', // Remplacez '*' par le domaine autorisé si possible
+          'Access-Control-Allow-Methods': 'PUT', // Remplacez par les méthodes HTTP autorisées
+          'Content-Type': 'application/json' // Le type de contenu que vous envoyez
+        }
+      };
+
+      const formdata = {
+        tx_hash: 'hashe'
+      };
+      axios
+        .put('https://test.mvx.fr/gift/' + gift[i]?.id, formdata, config)
+        .then((res) => {
+          console.log('ok');
+        })
+        .catch((error) => {
+          console.log('nok');
+
+          console.error(error); // Affichez l'erreur dans la console pour le débogage
+        });
+    }
+    i++;
+  }
+  console.log(data);
 
   const lp_balance = userEsdtBalance.find(
     (item: any) => item.identifier === lp_token.token_identifier
@@ -214,6 +286,7 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
             <Col></Col>
           </Row>
         </Container>
+        <ActionAdd data={data} />
       </div>
       {/* 
       <div className={opacity}>
