@@ -1036,7 +1036,7 @@ const ModalAddCollection = (props: ModalProps) => {
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <Input
-                    decimal={rewarded_esdt_info.decimals}
+                    decimal={rewarded_esdt_info?.decimals}
                     inputHeight='40px'
                     inputWidth='179px'
                     borderColor='rgb(105, 88, 133)'
