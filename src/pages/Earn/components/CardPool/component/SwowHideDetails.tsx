@@ -14,7 +14,7 @@ interface TypeSectionProps {
   staked_value: number;
   users?: number;
   rewarded_esdt_info: any;
-  decimals?: number;
+  staked_esdt_info: any;
   textColor?: string;
   fontFamily?: string;
   socialNetwork?: any;
@@ -27,9 +27,9 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
   staked_amount,
   staked_value = 0,
   users,
+  staked_esdt_info,
   rewarded_esdt_info,
   socialNetwork,
-  decimals = 0,
   textColor = '#ffffff',
   fontFamily = 'sans-serif'
   //styleName: Text/12px/Light;
@@ -76,7 +76,6 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
     fontWeight: '600',
     fontSize: '12px'
   };
-
   return (
     <>
       <div
@@ -89,7 +88,7 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
           <div style={detailsRowResult}>
             <FormatAmount
               value={rewards_amount.toFixed()}
-              decimals={decimals}
+              decimals={rewarded_esdt_info?.decimals}
               egldLabel={' '}
               data-testid='balance'
               digits={2}
@@ -123,7 +122,7 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
             <div style={detailsRowResult}>
               <FormatAmount
                 value={staked_amount}
-                decimals={decimals}
+                decimals={staked_esdt_info?.decimals}
                 egldLabel={' '}
                 data-testid='staked'
                 digits={2}
