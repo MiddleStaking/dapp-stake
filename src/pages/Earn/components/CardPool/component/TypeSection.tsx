@@ -65,6 +65,7 @@ const TypeSection: FC<TypeSectionProps> = ({
   rewards_amount = BigNumber('0'),
   rewards_value = 0,
   rewarded_esdt_info,
+  staked_esdt_info,
   tokens_extra_informations,
   staked_value,
   users,
@@ -374,9 +375,7 @@ const TypeSection: FC<TypeSectionProps> = ({
       <div style={{ display: !showDetails ? 'none' : 'block', width: '100%' }}>
         <SwowHideDetails
           rewarded_esdt_info={rewarded_esdt_info}
-          decimals={Number(
-            rewarded_esdt_info?.decimals ? rewarded_esdt_info?.decimals : 0
-          )}
+          staked_esdt_info={staked_esdt_info}
           rewards_amount={rewards_amount}
           rewards_value={rewards_value}
           speed={speed.toString()}

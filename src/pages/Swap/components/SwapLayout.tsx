@@ -96,8 +96,22 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
     isDual
   );
 
-  const first_decimals = in_esdt_info?.decimals ? in_esdt_info?.decimals : 0;
-  const second_decimals = out_esdt_info?.decimals ? out_esdt_info?.decimals : 0;
+  const first_esdt_info = useGetESDTInformations(firstPoolPosition.first_token);
+  const second_esdt_info = useGetESDTInformations(
+    firstPoolPosition.second_token
+  );
+  const third_esdt_info = useGetESDTInformations(
+    secondPoolPosition.second_token
+  );
+  const first_decimals = first_esdt_info?.decimals
+    ? first_esdt_info?.decimals
+    : 0;
+  const second_decimals = second_esdt_info?.decimals
+    ? second_esdt_info?.decimals
+    : 0;
+  const third_decimals = third_esdt_info?.decimals
+    ? third_esdt_info?.decimals
+    : 0;
 
   const in_balance = userEsdtBalance.find(
     (item: any) => item.identifier === in_token
@@ -493,7 +507,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={firstPoolPosition.first_token_amount.toString()}
-                            decimals={Number(18)}
+                            decimals={Number(first_decimals)}
                             egldLabel={' '}
                             data-testid='balance'
                             digits={2}
@@ -501,7 +515,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                           :{' '}
                           <FormatAmount
                             value={firstPoolPosition.second_token_amount.toString()}
-                            decimals={Number(first_decimals)}
+                            decimals={Number(second_decimals)}
                             egldLabel={' '}
                             data-testid='balance'
                             digits={2}
@@ -524,7 +538,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                           :{' '}
                           <FormatAmount
                             value={secondPoolPosition.second_token_amount.toString()}
-                            decimals={Number(second_decimals)}
+                            decimals={Number(third_decimals)}
                             egldLabel={' '}
                             data-testid='balance'
                             digits={2}
@@ -734,7 +748,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                   <div className='LabelDropdoownFormatAmount'>
                     <FormatAmount
                       className='label2'
-                      decimals={Number(first_decimals.toString())}
+                      decimals={Number(in_decimals.toString())}
                       value={inBalance.toString()}
                       egldLabel={' '}
                       data-testid='staked'
@@ -763,14 +777,14 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     type='number'
                     placeholder={'number'}
                     fontSize={14}
-                    decimal={in_balance ? in_balance.decimals : 0}
+                    decimal={Number(first_decimals.toString())}
                   />
                 </div>
                 <div className='FormatAmountStaked'>
                   <div className='LabelDropdoownFormatAmount'>
                     <FormatAmount
                       className='label2'
-                      decimals={Number(second_decimals.toString())}
+                      decimals={Number(out_decimals.toString())}
                       value={outBalance.toString()}
                       egldLabel={' '}
                       data-testid='staked'
