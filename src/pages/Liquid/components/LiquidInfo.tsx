@@ -9,32 +9,33 @@ import { useGetPoolPosition } from './Actions/helpers';
 import { useGetPoolLpIdentifier } from './Actions/helpers';
 import LiquidModal from './LiquidModal';
 import RemoveLpModal from './RemoveLpModal';
+import BigNumber from 'bignumber.js';
 
-export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
+export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
   const [showLiquid, setShowLiquid] = useState(false);
   const [showRemoveLP, setShowRemoveLP] = useState(false);
   //const { network } = useGetNetworkConfig();
   const { hasPendingTransactions } = useGetPendingTransactions();
-  const lp_token = useGetPoolLpIdentifier(defaultToken, second_token);
+  //const lp_token = useGetPoolLpIdentifier(defaultToken, second_token);
 
   const lp_balance = userEsdtBalance.find(
-    (item: any) => item.identifier === lp_token.token_identifier
+    (item: any) => item.identifier === lp.lp_token
   );
 
-  const firstPoolPosition = useGetPoolPosition(
-    defaultToken,
-    second_token,
-    hasPendingTransactions,
-    true
-  );
+  // const firstPoolPosition = useGetPoolPosition(
+  //   defaultToken,
+  //   lp.swaped_token,
+  //   hasPendingTransactions,
+  //   true
+  // );
   const first_esdt_info = useGetESDTInformations(defaultToken);
-  const second_esdt_info = useGetESDTInformations(second_token);
+  const second_esdt_info = useGetESDTInformations(lp.swaped_token);
 
   const first_price = first_esdt_info.price
     ? BigInt((first_esdt_info.price * 1000000).toFixed())
     : BigInt(1000000);
   const first_value = BigInt(
-    (BigInt(firstPoolPosition.first_token_amount) * BigInt(first_price)) /
+    (BigInt(BigNumber(lp.first_token_amount).toFixed()) * BigInt(first_price)) /
       BigInt(1000000)
   );
 
@@ -42,18 +43,35 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
     ? BigInt((second_esdt_info.price * 1000000).toFixed())
     : BigInt(1000000);
   const second_value = BigInt(
-    (BigInt(firstPoolPosition.second_token_amount) * BigInt(second_price)) /
+    (BigInt(BigNumber(lp.second_token_amount).toFixed()) *
+      BigInt(second_price)) /
       BigInt(1000000)
   );
 
-  const ecart = (first_value - second_value) / BigInt(2);
-  const ecart2 = (second_value - first_value) / BigInt(2);
+  const ecart =
+    first_value /
+      BigInt(
+        Math.pow(10, first_esdt_info.decimals ? first_esdt_info.decimals : 0)
+      ) -
+    second_value /
+      BigInt(
+        Math.pow(10, second_esdt_info.decimals ? second_esdt_info.decimals : 0)
+      );
+  const ecart2 =
+    second_value /
+      BigInt(
+        Math.pow(10, second_esdt_info.decimals ? second_esdt_info.decimals : 0)
+      ) -
+    first_value /
+      BigInt(
+        Math.pow(10, first_esdt_info.decimals ? first_esdt_info.decimals : 0)
+      );
   return (
     <>
       <div className={'center text-white'}>
-        <LiquidModal
+        {/* <LiquidModal
           userEsdtBalance={userEsdtBalance}
-          firstPoolPosition={firstPoolPosition}
+          firstPoolPosition={lp}
           first_esdt_info={first_esdt_info}
           second_esdt_info={second_esdt_info}
           show={showLiquid}
@@ -63,37 +81,36 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
         />
         <RemoveLpModal
           userEsdtBalance={userEsdtBalance}
-          firstPoolPosition={firstPoolPosition}
+          firstPoolPosition={lp}
           first_esdt_info={first_esdt_info}
           second_esdt_info={second_esdt_info}
-          lp_token={lp_token.token_identifier}
+          lp_token={lp.lp_token}
           show={showRemoveLP}
           onClose={() => {
             setShowRemoveLP(false);
           }}
-        />
+        /> */}
 
         <Container>
           <Row>
             <Col>${defaultToken.split('-')[0]}</Col>
-            <Col>${second_token.split('-')[0]}</Col>
+            <Col>${lp.swaped_token.split('-')[0]}</Col>
           </Row>
           <Row>
             <Col>
               {' '}
               <FormatAmount
                 decimals={first_esdt_info.decimals}
-                value={firstPoolPosition.first_token_amount.toString()}
+                value={BigNumber(lp.first_token_amount).toFixed()}
                 egldLabel={' '}
                 data-testid='balance'
               />{' '}
             </Col>
-
             <Col>
               {' '}
               <FormatAmount
-                decimals={first_esdt_info.decimals}
-                value={firstPoolPosition.second_token_amount.toString()}
+                decimals={second_esdt_info.decimals}
+                value={BigNumber(lp.second_token_amount).toFixed()}
                 egldLabel={' '}
                 data-testid='balance'
               />{' '}
@@ -122,25 +139,24 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
             <Col>
               {ecart > 0 && (
                 <>
-                  SELL{' '}
+                  {'+ '}
                   <FormatAmount
-                    decimals={second_esdt_info.decimals}
+                    decimals={0}
                     value={ecart.toString()}
-                    egldLabel={'$'}
+                    egldLabel={' '}
                     data-testid='balance'
                   />
                 </>
               )}
               {ecart2 > 0 && (
                 <>
-                  BUY{' '}
+                  {'- '}
                   <FormatAmount
-                    decimals={second_esdt_info.decimals}
+                    decimals={0}
                     value={ecart2.toString()}
-                    egldLabel={'$'}
+                    egldLabel={' '}
                     data-testid='balance'
-                  />{' '}
-                  of MID with {second_token.split('-')[0]}
+                  />
                 </>
               )}
             </Col>

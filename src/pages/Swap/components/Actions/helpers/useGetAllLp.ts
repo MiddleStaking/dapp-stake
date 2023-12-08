@@ -46,7 +46,7 @@ export const useGetAllLp = () => {
       );
       if (queryResponse.returnCode == 'ok') {
         setTokenPosition(position?.valueOf());
-        const expire = time.getTime() + 1000 * 60 * 15;
+        const expire = time.getTime() + 1000 * 15 * 1;
         localStorage.setItem('all_lp', JSON.stringify(position?.valueOf()));
         localStorage.setItem('all_lp_expire', expire.toString());
       }
