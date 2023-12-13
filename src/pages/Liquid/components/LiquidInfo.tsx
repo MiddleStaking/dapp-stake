@@ -49,23 +49,28 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
   );
 
   const ecart =
-    first_value /
+    (first_value /
       BigInt(
         Math.pow(10, first_esdt_info.decimals ? first_esdt_info.decimals : 0)
       ) -
-    second_value /
-      BigInt(
-        Math.pow(10, second_esdt_info.decimals ? second_esdt_info.decimals : 0)
-      );
+      second_value /
+        BigInt(
+          Math.pow(
+            10,
+            second_esdt_info.decimals ? second_esdt_info.decimals : 0
+          )
+        )) /
+    BigInt(2);
   const ecart2 =
-    second_value /
+    (second_value /
       BigInt(
         Math.pow(10, second_esdt_info.decimals ? second_esdt_info.decimals : 0)
       ) -
-    first_value /
-      BigInt(
-        Math.pow(10, first_esdt_info.decimals ? first_esdt_info.decimals : 0)
-      );
+      first_value /
+        BigInt(
+          Math.pow(10, first_esdt_info.decimals ? first_esdt_info.decimals : 0)
+        )) /
+    BigInt(2);
   return (
     <>
       <div className={'center text-white'}>
@@ -126,37 +131,43 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
               />
             </Col>
             <Col>
-              <FormatAmount
-                decimals={second_esdt_info.decimals}
-                value={second_value.toString()}
-                egldLabel={'$'}
-                data-testid='balance'
-              />
+              {second_esdt_info.price && (
+                <FormatAmount
+                  decimals={second_esdt_info.decimals}
+                  value={second_value.toString()}
+                  egldLabel={'$'}
+                  data-testid='balance'
+                />
+              )}
             </Col>
           </Row>
           <Row>
             <Col></Col>
             <Col>
-              {ecart > 0 && (
+              {second_esdt_info.price && (
                 <>
-                  {'+ '}
-                  <FormatAmount
-                    decimals={0}
-                    value={ecart.toString()}
-                    egldLabel={' '}
-                    data-testid='balance'
-                  />
-                </>
-              )}
-              {ecart2 > 0 && (
-                <>
-                  {'- '}
-                  <FormatAmount
-                    decimals={0}
-                    value={ecart2.toString()}
-                    egldLabel={' '}
-                    data-testid='balance'
-                  />
+                  {ecart > 0 && (
+                    <>
+                      {'+ '}
+                      <FormatAmount
+                        decimals={0}
+                        value={ecart.toString()}
+                        egldLabel={' '}
+                        data-testid='balance'
+                      />
+                    </>
+                  )}
+                  {ecart2 > 0 && (
+                    <>
+                      {'- '}
+                      <FormatAmount
+                        decimals={0}
+                        value={ecart2.toString()}
+                        egldLabel={' '}
+                        data-testid='balance'
+                      />
+                    </>
+                  )}
                 </>
               )}
             </Col>
