@@ -7,8 +7,8 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
 
 const resultsParser = new ResultsParser();
 
-export const useGetUserList = () => {
-  const [stakedTokens, setStakedTokens] = useState<string[]>([]);
+export const useGetTotalUsers = () => {
+  const [stakedTokens, setStakedTokens] = useState<bigint>(BigInt(0));
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const getStakedTokens = async () => {
@@ -17,12 +17,12 @@ export const useGetUserList = () => {
     }
     try {
       const query = smartContract.createQuery({
-        func: new ContractFunction('getUserList')
+        func: new ContractFunction('getUserCount')
       });
       //const proxy = new ProxyNetworkProvider(network.apiAddress);
       const proxy = new ProxyNetworkProvider(network.apiAddress);
       const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getUserList');
+      const endpointDefinition = smartContract.getEndpoint('getTotal');
       const { firstValue: tokens } = resultsParser.parseQueryResponse(
         queryResponse,
         endpointDefinition

@@ -9,11 +9,18 @@ import { useGetPoolPosition } from './Actions/helpers';
 import { useGetPoolLpIdentifier } from './Actions/helpers';
 import LiquidModal from './LiquidModal';
 import RemoveLpModal from './RemoveLpModal';
-import { useGetUserList } from './../../Distrib/components/Actions/helpers';
+import {
+  useGetTotalAmount,
+  useGetTotalUsers,
+  useGetUserList
+} from './../../Distrib/components/Actions/helpers';
 import { useGetGift } from 'pages/Distrib/components/Actions/helpersApi';
 import { Address } from '@multiversx/sdk-core/out';
 import { ActionAdd } from './Actions';
 import axios from 'axios';
+import bigToHex from 'helpers/bigToHex';
+import BigNumber from 'bignumber.js';
+import { ActionExec } from './Actions/ActionExec';
 
 export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   const [showLiquid, setShowLiquid] = useState(false);
@@ -22,13 +29,16 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
   const lp_token = useGetPoolLpIdentifier(defaultToken, second_token);
   const user_list = useGetUserList();
+  const totalusers = useGetTotalUsers();
+  const totalamount = useGetTotalAmount();
   const gift = useGetGift();
-
-  console.log(user_list);
+  console.log('total_users', BigNumber(totalusers.toString()).toFixed());
+  console.log('total_amount', BigNumber(totalamount.toString()).toFixed());
+  // console.log(user_list);
   console.log(gift);
 
-  let i = 0;
-  let data = 'add';
+  const datas = [];
+  datas[0] = 'add';
   // let user_list = [
   //   {
   //     address: {
@@ -50,19 +60,42 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   //   }
   // ];
   let add = 0;
-  while (add < 50 && i < gift.length) {
+  let batch = 0;
+  let i = 0;
+  const max = 250 + i;
+  while (i < gift.length && i < max) {
     const addressTobech32 = new Address(gift[i]?.address);
-    if (!user_list.some((item: any) => item?.address == gift[i]?.address)) {
-      data += '@';
-      data += addressTobech32.hex();
-      data += '@';
-      data += '01';
-      console.log('add :', gift[i]?.address);
-      add++;
-      console.log(add);
-    } else {
-      console.log('ok', gift[i]?.id);
 
+    if (add < 50) {
+    } else {
+      batch++;
+      add = 0;
+      datas[batch] = 'add';
+    }
+    add++;
+    datas[batch] += '@';
+    datas[batch] += addressTobech32.hex();
+    datas[batch] += '@';
+    //data += '01';
+    datas[batch] += bigToHex(gift[i]?.mid_rewards ? gift[i]?.mid_rewards : 1);
+    // console.log(add, batch);
+    if (!user_list.some((item: any) => item?.address == gift[i]?.address)) {
+      // if (add < 50) {
+      //   datas[0] += '@';
+      //   datas[0] += addressTobech32.hex();
+      //   datas[0] += '@';
+      //   //data += '01';
+      //   datas[0] += bigToHex(gift[i]?.mid_rewards);
+      // } else {
+      //   datas[1] += '@';
+      //   datas[1] += addressTobech32.hex();
+      //   datas[1] += '@';
+      //   //data += '01';
+      //   datas[1] += bigToHex(gift[i]?.mid_rewards);
+      // }
+      console.log('add');
+    } else {
+      console.log('ok');
       const config = {
         headers: {
           'Access-Control-Allow-Origin': '*', // Remplacez '*' par le domaine autorisé si possible
@@ -87,7 +120,7 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
     }
     i++;
   }
-  console.log(data);
+  console.log(datas);
 
   const lp_balance = userEsdtBalance.find(
     (item: any) => item.identifier === lp_token.token_identifier
@@ -286,7 +319,8 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
             <Col></Col>
           </Row>
         </Container>
-        <ActionAdd data={data} />
+        <ActionAdd datas={datas} />
+        <ActionExec datas={datas} />
       </div>
       {/* 
       <div className={opacity}>

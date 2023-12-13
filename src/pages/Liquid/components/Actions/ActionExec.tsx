@@ -9,7 +9,7 @@ import { contractDistrib } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
 
-export const ActionAdd = (datas: any) => {
+export const ActionExec = (datas: any) => {
   console.log('datas:', datas);
   const { hasPendingTransactions } = useGetPendingTransactions();
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
@@ -23,9 +23,9 @@ export const ActionAdd = (datas: any) => {
     for (const data of datas.datas) {
       stakeTransaction.push({
         value: 0,
-        data: data,
+        data: 'execute',
         receiver: contractDistrib,
-        gasLimit: '80000000'
+        gasLimit: '62000000'
       });
     }
 
@@ -34,9 +34,9 @@ export const ActionAdd = (datas: any) => {
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: stakeTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing add transaction',
-        errorMessage: 'An error has occured add',
-        successMessage: 'add transaction successful'
+        processingMessage: 'Processing exec transaction',
+        errorMessage: 'An error has occured exec',
+        successMessage: 'exec transaction successful'
       },
       redirectAfterSign: false
     });
@@ -54,7 +54,7 @@ export const ActionAdd = (datas: any) => {
             borderRadius={40}
             background={['#BD37EC', '#1F67FF']}
             borderColor={'black'}
-            text='add receiver'
+            text='exec'
             onClick={sendStakeTransaction}
             disabled={false}
           />
