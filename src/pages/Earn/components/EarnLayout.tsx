@@ -19,6 +19,7 @@ import {
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import CardPool from './CardPool';
 import FundModal from './FundModal';
+import DropdownMenu from 'components/Design/DropdownMenu';
 
 export const EarnLayout = () => {
   // const { network } = useGetNetworkConfig();
@@ -146,13 +147,13 @@ export const EarnLayout = () => {
     })
     .map((token) => token.balance);
 
-  function setFSToken(e: React.ChangeEvent<any>) {
-    navigate(`/stake/${e.target.value}`);
-    setStoken(e.target.value);
+  function setFSToken(value: any) {
+    navigate(`/stake/${value}`);
+    setStoken(value);
     setMySearch('');
   }
-  function setFOrderBy(e: React.ChangeEvent<any>) {
-    setOrderBy(e.target.value);
+  function setFOrderBy(value: any) {
+    setOrderBy(value);
   }
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
   const { width } = useWindowDimensions();
@@ -237,8 +238,8 @@ export const EarnLayout = () => {
                 <div className='label2'>Staked token</div>
               </div>
 
-              <div className='input-default'>
-                <svg
+              {/* <div className='input-default'> */}
+              {/* <svg
                   className='chevron-down'
                   width='16'
                   height='16'
@@ -252,8 +253,42 @@ export const EarnLayout = () => {
                     d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
                     fill='white'
                   />
-                </svg>
-                <Form.Control
+                </svg> */}
+              <DropdownMenu
+                BoxShadowActive={false}
+                BoxShadowActiveColor='none'
+                BoxShadowColor='none'
+                inputHeight={'40px'}
+                inputWidth='179px'
+                borderRadius='54'
+                hasBorder={true}
+                borderRadiusOptions='5px'
+                borderColor='#695885'
+                options={
+                  stakedTokens
+                    ? stakedTokens
+                        .filter((token) => {
+                          return token != 'MIDUSDC-3d93f4';
+                        })
+                        .map((item: any) => ({
+                          text: item,
+                          value: item
+                        }))
+                    : [
+                        {
+                          text: stoken,
+                          value: stoken
+                        }
+                      ]
+                }
+                defaultValue={stoken}
+                disableOption={false}
+                onSelect={function (value: any): void {
+                  setFSToken(value);
+                }}
+              />
+
+              {/* <Form.Control
                   as='select'
                   onChange={setFSToken}
                   value={stoken}
@@ -275,8 +310,8 @@ export const EarnLayout = () => {
                           {item}
                         </option>
                       ))}
-                </Form.Control>
-              </div>
+                </Form.Control> */}
+              {/* </div> */}
             </div>
           </div>
         </Col>
@@ -294,7 +329,7 @@ export const EarnLayout = () => {
               <div className='label4'>Sort by</div>
             </div>
 
-            <div className='input-default2'>
+            {/* <div className='input-default2'>
               <Form.Control
                 as='select'
                 onChange={setFOrderBy}
@@ -330,7 +365,41 @@ export const EarnLayout = () => {
                   fill='white'
                 />
               </svg>
-            </div>
+            </div> */}
+            <DropdownMenu
+              BoxShadowActive={false}
+              BoxShadowActiveColor='none'
+              BoxShadowColor='none'
+              inputHeight={'40px'}
+              inputWidth='179px'
+              borderRadius='54'
+              hasBorder={true}
+              borderRadiusOptions='5px'
+              borderColor='#695885'
+              options={[
+                {
+                  text: 'Staked value',
+                  value: 'svalue'
+                },
+                {
+                  text: 'Reward value',
+                  value: 'rvalue'
+                },
+                {
+                  text: 'Users',
+                  value: 'users'
+                },
+                {
+                  text: 'Yields',
+                  value: 'yields'
+                }
+              ]}
+              defaultValue={'Staked value'}
+              disableOption={false}
+              onSelect={function (value: any): void {
+                setFOrderBy(value);
+              }}
+            />
           </div>
 
           <ToggleSwitch
