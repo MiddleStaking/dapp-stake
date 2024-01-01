@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { smartContract } from './smartContract';
-import { network } from 'config';
 import {
   useGetPendingTransactions,
   useGetSuccessfulTransactions
 } from '@multiversx/sdk-dapp/hooks';
 import axios from 'axios';
+import { network } from 'config';
 
 export const useGetMinted = () => {
   const [hash, setHash] = useState<any>('');
@@ -16,11 +13,9 @@ export const useGetMinted = () => {
   const [nft, setNft] = useState<any>({});
   const { hasPendingTransactions } = useGetPendingTransactions();
 
-  const resultsParser = new ResultsParser();
   const { successfulTransactionsArray } = useGetSuccessfulTransactions();
 
   const getHash = async () => {
-    console.log('getHash');
     if (hasPendingTransactions) {
       if (nft.identifier) {
         setNft({});
@@ -36,18 +31,16 @@ export const useGetMinted = () => {
     if (last_nonce <= last) {
       return;
     }
-    const hash =
+    const newhash =
       successfulTransactionsArray?.[txs]?.[1]?.transactions?.[0]?.hash;
-    if (!hash) {
+    if (!newhash) {
       return;
     }
     setLast(last_nonce);
-    setHash(hash);
+    setHash(newhash);
   };
 
   const getMinted = async () => {
-    console.log('getMinted');
-
     if (!hash) {
       return;
     }
@@ -67,7 +60,6 @@ export const useGetMinted = () => {
   };
 
   const getNftdata = async () => {
-    console.log('getNftdata');
     if (!minted) {
       return;
     }

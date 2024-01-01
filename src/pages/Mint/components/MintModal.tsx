@@ -1,24 +1,22 @@
 import React, { useEffect } from 'react';
 import './StakeModal.scss';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
 import Input from 'components/Design/Input';
 import { defaultToken, sftCollection } from 'config';
-import toBigAmount from 'helpers/toBigAmount';
+import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
 import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
+import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import { Button } from '../../../components/Design';
 import { ActionMint } from './Actions';
-import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
-import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import { useGetMinted, useGetNonces } from './Actions/helpers';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
 
 const MintModal = (props: any) => {
   // const tokenPosition = useGetTokenPosition(stoken, rtoken);
-  const [egldAmount, setEgldAmount] = React.useState(0.2);
-  const [egldBig, setEgldBig] = React.useState(BigInt('200000000000000000'));
-
-  const [midAmount, setMidAmount] = React.useState(100);
-  const [midBig, setMidBig] = React.useState(BigInt('100000000000000000000'));
+  const [egldAmount] = React.useState(0.2);
+  const [egldBig] = React.useState(BigInt('200000000000000000'));
+  const [midAmount] = React.useState(100);
+  const [midBig] = React.useState(BigInt('100000000000000000000'));
 
   //index du gift dans la collection
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
@@ -28,9 +26,8 @@ const MintModal = (props: any) => {
   const userNftBalance: any = useGetUserNFT('TOKENTICKE-38b075');
 
   const { hasPendingTransactions } = useGetPendingTransactions();
-  //TODO : disable si no nonce
-  // const nonces = useGetNonces();
-  // console.log(nonces);
+
+  const nonces = useGetNonces();
 
   const getMinted = useGetMinted();
 
@@ -159,7 +156,13 @@ const MintModal = (props: any) => {
                       rewarded_token={props.rewarded_token}
                       method={'egld'}
                       bigValue={egldBig}
-                      disabled={egld_balance < egldBig ? true : false}
+                      disabled={
+                        nonces.length == 0
+                          ? true
+                          : egld_balance < egldBig
+                          ? true
+                          : false
+                      }
                     />
                   </div>
 
@@ -184,7 +187,13 @@ const MintModal = (props: any) => {
                       rewarded_token={props.rewarded_token}
                       method={'mid'}
                       bigValue={midBig}
-                      disabled={mid_balance < midBig ? true : false}
+                      disabled={
+                        nonces.length == 0
+                          ? true
+                          : mid_balance < midBig
+                          ? true
+                          : false
+                      }
                     />
                   </div>
 
@@ -268,7 +277,13 @@ const MintModal = (props: any) => {
                       method={'gift'}
                       collection={selectedGift?.collection}
                       nonce={selectedGift?.nonce}
-                      disabled={userNftBalance.length > 0 ? false : true}
+                      disabled={
+                        nonces.length == 0
+                          ? true
+                          : userNftBalance.length > 0
+                          ? false
+                          : true
+                      }
                     />
                   </div>
 
