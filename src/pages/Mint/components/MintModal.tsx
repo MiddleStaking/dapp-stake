@@ -1,36 +1,77 @@
 import React, { useEffect } from 'react';
 import './StakeModal.scss';
 import Input from 'components/Design/Input';
-import { sftCollection } from 'config';
+import { defaultToken, sftCollection } from 'config';
 import toBigAmount from 'helpers/toBigAmount';
 import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import { Button } from '../../../components/Design';
 import { ActionMint } from './Actions';
+import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
+import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
+import { useGetMinted, useGetNonces } from './Actions/helpers';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
 
 const MintModal = (props: any) => {
   // const tokenPosition = useGetTokenPosition(stoken, rtoken);
-  const [tokenAmount, setTokenAmount] = React.useState(0);
-  const [bigAmount, setBigAmount] = React.useState(BigInt('10000000000000000'));
+  const [egldAmount, setEgldAmount] = React.useState(0.2);
+  const [egldBig, setEgldBig] = React.useState(BigInt('200000000000000000'));
+
+  const [midAmount, setMidAmount] = React.useState(100);
+  const [midBig, setMidBig] = React.useState(BigInt('100000000000000000000'));
+
+  //index du gift dans la collection
+  const [currentIndex, setCurrentIndex] = React.useState<number>(0);
+  const [selectedGift, setSelectedGift] = React.useState<any>({});
+
   const getCollectionInformations = useGetCollectionInformations(sftCollection);
+  const userNftBalance: any = useGetUserNFT('TOKENTICKE-38b075');
 
+  const { hasPendingTransactions } = useGetPendingTransactions();
+  //TODO : disable si no nonce
   // const nonces = useGetNonces();
-  useEffect(() => {
-    setBigAmount(BigInt('10000000000000000'));
-    setTokenAmount(0.01);
-  }, []);
+  // console.log(nonces);
 
-  function handleTokenAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** 18);
-    if (amount < BigInt(0)) {
-      setTokenAmount(0);
-      setBigAmount(BigInt(0));
-    } else {
-      setTokenAmount(Number(value));
-      const output = toBigAmount(Number(value), Number(18));
-      setBigAmount(BigInt(output));
+  const getMinted = useGetMinted();
+
+  const mid_balance =
+    props.userEsdtBalance.find(
+      (item: any) => item.identifier === defaultToken
+    ) ?? { balance: BigInt(0) }?.balance;
+
+  const egld_balance = props.userEgldBalance
+    ? BigInt(props.userEgldBalance)
+    : BigInt(0);
+
+  //on pre-selectionne le premier nft du tableau
+  useEffect(() => {
+    setSelectedGift(userNftBalance[0]);
+    setCurrentIndex(0);
+  }, [userNftBalance]);
+
+  const handleBeforeClick = () => {
+    const myCurrentIndex = userNftBalance.findIndex(
+      (item: any) => item.identifier === selectedGift?.identifier
+    );
+
+    if (myCurrentIndex > 0) {
+      const previousItem = userNftBalance[myCurrentIndex - 1];
+      setCurrentIndex(myCurrentIndex - 1);
+      setSelectedGift(previousItem);
     }
-  }
+  };
+
+  const handleAfterClick = () => {
+    const myCurrentIndex = userNftBalance.findIndex(
+      (item: any) => item.identifier === selectedGift?.identifier
+    );
+
+    if (myCurrentIndex < userNftBalance.length - 1) {
+      const newItem = userNftBalance[myCurrentIndex + 1];
+      setCurrentIndex(myCurrentIndex + 1);
+      setSelectedGift(newItem);
+    }
+  };
 
   if (!props.show) {
     return null;
@@ -43,43 +84,194 @@ const MintModal = (props: any) => {
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
               <div className='modalLabelStakeModal'>Mint SFT</div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '30px 0px'
-                }}
-              >
-                {getCollectionInformations &&
-                  Object.keys(getCollectionInformations).length > 0 && (
-                    <HexagoneGroupe
-                      collectionInfo={getCollectionInformations}
-                    />
-                  )}
-              </div>
+              {getMinted?.media && !hasPendingTransactions ? (
+                <>
+                  {' '}
+                  <div>Your last mint :</div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      margin: '0px 0px'
+                    }}
+                  >
+                    {getMinted?.media && (
+                      <HexagoneNFT
+                        format={
+                          getMinted?.media[0]?.fileType == 'video/mp4'
+                            ? 'video/mp4'
+                            : 'image'
+                        }
+                        url={
+                          getMinted.length != 0 ? getMinted?.media[0]?.url : ''
+                        }
+                        width={200}
+                        withBorder={true}
+                        borderWidth={2.5}
+                        borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                        withShadow={true}
+                      />
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      margin: '30px 0px'
+                    }}
+                  >
+                    {getCollectionInformations &&
+                      Object.keys(getCollectionInformations).length > 0 && (
+                        <HexagoneGroupe
+                          collectionInfo={getCollectionInformations}
+                        />
+                      )}
+                  </div>
+                </>
+              )}
 
               <div className='staked-rewarded-tokens-StakeModal'>
                 <div className='do-you-want-to-add-it-rewarded-tokens-StakeModal'>
-                  Mint one random SFT from collection
+                  Mint one random SFT from collection with :
                 </div>
 
                 <div>
+                  {/* with EGLD */}
                   <div className='AmountInputGroupe'>
                     <Input
                       inputHeight='40px'
                       inputWidth='180px'
                       borderColor='rgb(105, 88, 133)'
-                      value={tokenAmount}
-                      onInputChange={handleTokenAmountChange}
+                      value={egldAmount}
                       type='number'
                       placeholder={'number'}
                       fontSize={14}
                       disabled={true}
                       rightHtml={'EGLD'}
                     />
+                    <ActionMint
+                      staked_token={props.staked_token}
+                      rewarded_token={props.rewarded_token}
+                      method={'egld'}
+                      bigValue={egldBig}
+                      disabled={egld_balance < egldBig ? true : false}
+                    />
                   </div>
+
+                  {/* with MID */}
+                  <div
+                    className='AmountInputGroupe'
+                    style={{ marginTop: '10px' }}
+                  >
+                    <Input
+                      inputHeight='40px'
+                      inputWidth='180px'
+                      borderColor='rgb(105, 88, 133)'
+                      value={midAmount}
+                      type='number'
+                      placeholder={'number'}
+                      fontSize={14}
+                      disabled={true}
+                      rightHtml={'MID'}
+                    />
+                    <ActionMint
+                      staked_token={props.staked_token}
+                      rewarded_token={props.rewarded_token}
+                      method={'mid'}
+                      bigValue={midBig}
+                      disabled={mid_balance < midBig ? true : false}
+                    />
+                  </div>
+
+                  {/* with GIFT */}
+                  {userNftBalance.length > 0 && (
+                    <div
+                      className='wrapperTT'
+                      style={{ margin: 'auto', maxWidth: '200px' }}
+                    >
+                      <div
+                        className='arrow arrow-before'
+                        onClick={handleBeforeClick}
+                        style={{
+                          cursor: currentIndex > 0 ? 'pointer' : 'default',
+                          filter: currentIndex <= 0 ? 'grayscale(0.80)' : 'none'
+                        }}
+                      ></div>
+
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          margin: '30px 0px'
+                        }}
+                      >
+                        {selectedGift?.media && (
+                          <HexagoneNFT
+                            format={
+                              selectedGift?.media[0]?.fileType == 'video/mp4'
+                                ? 'video/mp4'
+                                : 'image'
+                            }
+                            url={
+                              selectedGift.length != 0
+                                ? selectedGift?.media[0]?.url
+                                : ''
+                            }
+                            width={200}
+                            withBorder={true}
+                            borderWidth={2.5}
+                            borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                            withShadow={true}
+                          />
+                        )}
+                      </div>
+                      <div
+                        className='arrow arrow-after'
+                        onClick={handleAfterClick}
+                        style={{
+                          cursor:
+                            currentIndex < userNftBalance.length - 1
+                              ? 'pointer'
+                              : 'default',
+                          filter:
+                            currentIndex >= userNftBalance.length - 1
+                              ? 'grayscale(0.80)'
+                              : 'none'
+                        }}
+                      ></div>
+                    </div>
+                  )}
+                  <div
+                    className='AmountInputGroupe'
+                    style={{ marginTop: '10px' }}
+                  >
+                    <Input
+                      inputHeight='40px'
+                      inputWidth='180px'
+                      borderColor='rgb(105, 88, 133)'
+                      value={1}
+                      type='number'
+                      placeholder={'number'}
+                      fontSize={14}
+                      disabled={true}
+                      rightHtml={'MIDGIFT'}
+                    />
+                    <ActionMint
+                      staked_token={props.staked_token}
+                      rewarded_token={props.rewarded_token}
+                      method={'gift'}
+                      collection={selectedGift?.collection}
+                      nonce={selectedGift?.nonce}
+                      disabled={userNftBalance.length > 0 ? false : true}
+                    />
+                  </div>
+
                   <div className='bottomGroupeModal' onClick={props.onClose}>
                     <div className='bottomModal'>
                       <Button
@@ -92,13 +284,13 @@ const MintModal = (props: any) => {
                         onClick={props.onClose}
                       />
                     </div>
-                    <div className='bottomModal'>
+                    {/* <div className='bottomModal'>
                       <ActionMint
                         staked_token={props.staked_token}
                         rewarded_token={props.rewarded_token}
                         user_fund={bigAmount}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

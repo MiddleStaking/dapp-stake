@@ -66,6 +66,15 @@ const AccordionWrap: FC<CardPoolrops> = ({
             time. Proceed with care.
           </p>
         )}
+
+        {verified.some(
+          (item) => item.c === collection_identifier && item.s === 'scam'
+        ) && (
+          <p className='alert alert-danger'>
+            This collection has been reported by many users as a scam
+            collection.
+          </p>
+        )}
         <div className='AccordeonsCardStake'>
           <div className='contentStakeModal_Collection'>
             <div

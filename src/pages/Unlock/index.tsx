@@ -26,6 +26,7 @@ interface ConnectionType {
   background: string;
   image: any;
   component: any;
+  disabled?: boolean;
 }
 
 const Unlock: FC = () => {
@@ -145,6 +146,7 @@ const Unlock: FC = () => {
                     isWalletConnectV2: true
                   }
                 : {})}
+              disabled={connect.disabled}
             >
               <span className={styles.connect}>
                 <span className={styles.title}>{connect.title}</span>

@@ -8,6 +8,7 @@ import toBigAmount from 'helpers/toBigAmount';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionLiquid } from './Actions';
+import BigNumber from 'bignumber.js';
 const LiquidModal = (props: any) => {
   const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
   const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
@@ -29,7 +30,7 @@ const LiquidModal = (props: any) => {
     setSecondToken(props.second_esdt_info);
   }, [props.second_esdt_info]);
 
-  const [firstBalance, setFirstBalance] = React.useState(BigInt(0));
+  const [firstBalance, setFirstBalance] = React.useState(BigNumber(0));
   const [secondBalance, setSecondBalance] = React.useState(BigInt(0));
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
@@ -44,7 +45,7 @@ const LiquidModal = (props: any) => {
       (item: any) => item.identifier === second_token.identifier
     );
     setFirstBalance(
-      first_balance?.balance ? first_balance?.balance : BigInt(0)
+      first_balance?.balance ? BigNumber(first_balance?.balance) : BigNumber(0)
     );
     setSecondBalance(
       second_balance?.balance ? second_balance?.balance : BigInt(0)
@@ -61,14 +62,17 @@ const LiquidModal = (props: any) => {
     ? second_token?.assets?.svgUrl
     : notFound;
 
+  const first_second = BigNumber(
+    first_pool.second_token_amount > 0 ? first_pool.second_token_amount : 1
+  );
+
+  const first_first = BigNumber(
+    first_pool.first_token_amount > 0 ? first_pool.first_token_amount : 1
+  );
+
   const taux =
-    (BigInt(
-      first_pool.second_token_amount > 0 ? first_pool.second_token_amount : 1
-    ) *
-      BigInt(1000000000)) /
-    BigInt(
-      first_pool.first_token_amount > 0 ? first_pool.first_token_amount : 1
-    );
+    (BigInt(first_second.toFixed()) * BigInt(1000000000)) /
+    BigInt(first_first.toFixed());
   const second_amount = Number(
     (BigInt(firstBig) * BigInt(taux)) / BigInt(1000000000)
   );
@@ -89,34 +93,35 @@ const LiquidModal = (props: any) => {
       setSecondBig(second_a);
     }
     const percentage =
-      firstBalance > 0
-        ? Number((BigInt(amount) * BigInt(100)) / BigInt(firstBalance))
+      BigInt(firstBalance.toFixed()) > 0
+        ? Number(
+            (BigInt(amount) * BigInt(100)) / BigInt(firstBalance.toFixed())
+          )
         : 0;
     setRangeValue(percentage);
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (firstBalance > BigInt(0)) {
-      setRangeValue(e.target.value);
-      const percentage = Number(e.target.value).toFixed();
-      const big_amount = BigInt(
-        (BigInt(firstBalance) * BigInt(percentage)) / BigInt(100)
-      );
-      setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** first_decimals))
-      );
-      setFirstBig(big_amount);
-    } else {
-      setRangeValue(0);
-    }
+    // if (BigInt(firstBalance.toFixed()) > BigInt(0)) {
+    //   setRangeValue(e.target.value);
+    //   const percentage = Number(e.target.value).toFixed();
+    //   const big_amount = BigInt(
+    //     (BigInt(firstBalance.toFixed()) * BigInt(percentage)) / BigInt(100)
+    //   );
+    //   setTokenAmount(
+    //     Number(BigInt(big_amount)) / Number(BigInt(10 ** first_decimals))
+    //   );
+    //   setFirstBig(big_amount);
+    // } else {
+    //   setRangeValue(0);
+    // }
   }
 
   function setToMax() {
-    setTokenAmount(
-      Number(BigInt(firstBalance)) / Number(BigInt(10 ** first_decimals))
-    );
-    setFirstBig(firstBalance);
-    setRangeValue(100);
+    // console.log(firstBalance, first_decimals);
+    // setTokenAmount(Number(firstBalance) / Number(BigInt(10 ** first_decimals)));
+    // setFirstBig(BigInt(firstBalance.toFixed()));
+    // setRangeValue(100);
   }
 
   if (!props.show) {
@@ -210,17 +215,17 @@ const LiquidModal = (props: any) => {
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>in_fee</div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
+                          {/* <FormatAmount
                             value={first_pool.first_fee.toString()}
                             decimals={Number(2)}
                             egldLabel={' '}
                             data-testid='balance'
                             digits={2}
-                          />{' '}
+                          />{' '} */}
                           %
                         </div>
                       </div>
-                      <div className='DetailsInfo'>
+                      {/* <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>out_fee</div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
@@ -232,7 +237,7 @@ const LiquidModal = (props: any) => {
                           />{' '}
                           %
                         </div>
-                      </div>
+                      </div> */}
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value</div>
                         <div className='ValueDetailsInfo'>
@@ -313,7 +318,7 @@ const LiquidModal = (props: any) => {
                           />
                         </div>
                       </div>
-                      <div className='DetailsInfo'>
+                      {/* <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>in_fee</div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
@@ -325,8 +330,8 @@ const LiquidModal = (props: any) => {
                           />{' '}
                           %
                         </div>
-                      </div>
-                      <div className='DetailsInfo'>
+                      </div> */}
+                      {/* <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>out_fee</div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
@@ -338,7 +343,7 @@ const LiquidModal = (props: any) => {
                           />{' '}
                           %
                         </div>
-                      </div>
+                      </div> */}
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value</div>
                         <div className='ValueDetailsInfo'>

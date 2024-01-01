@@ -12,7 +12,7 @@ export const LiquidityLayout = () => {
   const allLp = useGetAllLp();
   const userEsdtBalance = useGetUserESDT();
 
-  console.log(allLp);
+  // console.log(allLp);
   return (
     <div className='center'>
       <div className='col-12'>

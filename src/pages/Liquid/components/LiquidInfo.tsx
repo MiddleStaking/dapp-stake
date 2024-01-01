@@ -74,7 +74,7 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
   return (
     <>
       <div className={'center text-white'}>
-        {/* <LiquidModal
+        <LiquidModal
           userEsdtBalance={userEsdtBalance}
           firstPoolPosition={lp}
           first_esdt_info={first_esdt_info}
@@ -83,7 +83,8 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
           onClose={() => {
             setShowLiquid(false);
           }}
-        />
+        />{' '}
+        {/* 
         <RemoveLpModal
           userEsdtBalance={userEsdtBalance}
           firstPoolPosition={lp}
@@ -95,7 +96,6 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
             setShowRemoveLP(false);
           }}
         /> */}
-
         <Container>
           <Row>
             <Col>${defaultToken.split('-')[0]}</Col>
