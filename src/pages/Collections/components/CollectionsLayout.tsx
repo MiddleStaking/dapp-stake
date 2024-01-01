@@ -15,7 +15,7 @@ export const CollectionsLayout = () => {
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
   const [mySearch, setMySearch] = React.useState('');
   const [showMint, setShowMint] = useState(false);
-  const { address } = useGetAccountInfo();
+  const { account, address } = useGetAccountInfo();
   const userEsdtBalance = useGetUserESDT();
   const stakedCollections: string[] = useGetCollections();
 
@@ -47,7 +47,9 @@ export const CollectionsLayout = () => {
     >
       <MintModal
         userEsdtBalance={userEsdtBalance}
-        userEgldBalance={'1000000000000000000'}
+        userEgldBalance={
+          account.balance != '...' ? BigInt(account.balance) : BigInt(0)
+        }
         show={showMint}
         onClose={() => {
           setHeaderMenu(true), setShowMint(false);

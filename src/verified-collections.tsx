@@ -9,6 +9,7 @@ export const verified = [
   { c: 'FRAMEITFC-4d1023', s: 'verified' },
   { c: 'KROQWT-b6b8e5', s: 'verified' },
   { c: 'OPIUMPASS-ff95cf', s: 'verified' },
+  { c: 'ORBS-096feb', s: 'scam' },
   { c: 'QWTCARDS-17f15b', s: 'verified' },
   { c: 'QWTCOINS-27203b', s: 'verified' },
   { c: 'QWTEVCARS-d0cb53', s: 'verified' },
