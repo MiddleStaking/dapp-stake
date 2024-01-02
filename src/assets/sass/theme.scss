@@ -17,9 +17,11 @@ Override Bootstrap variables only above.
 
 // Bootstrap
 
-@import '~bootstrap/scss/bootstrap.scss';
+// @import '~bootstrap/scss/bootstrap.scss';
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 
-@import '~bootstrap/scss/reboot';
+// @import '~bootstrap/scss/reboot';
+@import '../../../node_modules/bootstrap/scss/reboot';
 
 .custom-classname.btn-primary {
   background-color: green;
@@ -51,10 +53,10 @@ html {
   margin: 0 auto;
 
   &.icon-medium {
-    width: 80px;
-    height: 80px;
-  }
-}
+      width: 80px;
+        height: 80px;
+      }
+      }
 
 /* Navbar
 -------------------------------------------------- */
@@ -81,16 +83,16 @@ html {
   margin: 0 7px;
 
   button {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    background-color: $white;
+      border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        background-color: $white;
 
     &:hover {
-      opacity: 0.9;
-    }
-  }
-}
+        opacity: 0.9;
+        }
+        }
+        }
 
 .transactions {
   .transaction-icon {
@@ -214,23 +216,23 @@ footer {
     line-height: 1.155rem;
 
     a {
-      color: $black;
+        color: $black;
 
       &:hover {
-        color: $black;
-      }
+          color: $black;
+          }
 
       #heart {
         height: 16px;
         width: 16px;
 
         path {
-          fill: #c00;
-        }
-      }
-    }
-  }
-}
+            fill: #c00;
+            }
+            }
+            }
+            }
+            }
 
 .dropdown-menu {
   background-color: currentcolor;

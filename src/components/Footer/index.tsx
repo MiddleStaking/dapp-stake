@@ -7,8 +7,12 @@ import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { routeNames } from 'routes';
-import { ReactComponent as GitHub } from '../../assets/img/github.svg';
-import { ReactComponent as HeartIcon } from '../../assets/img/heart.svg';
+
+import GitHub from '../../assets/img/github.svg';
+import HeartIcon from '../../assets/img/heart.svg';
+
+// import { ReactComponent as GitHub } from '../../assets/img/github.svg';
+// import { ReactComponent as HeartIcon } from '../../assets/img/heart.svg';
 
 // interface DropdownMenuProps {}
 
@@ -111,7 +115,7 @@ const FooterDekstop: FC<any> = ({}) => {
           className='align-items-center'
           href='https://middlestaking.fr/'
         >
-          Made with <HeartIcon className='mx-1' /> by Middle Staking.
+          Made with <img src={HeartIcon} className='mx-1' /> by Middle Staking.
         </a>{' '}
         <a
           {...{
@@ -127,7 +131,7 @@ const FooterDekstop: FC<any> = ({}) => {
             display: 'inline-flex'
           }}
         >
-          <GitHub className='navIcon' />
+          <img src={GitHub}  className='navIcon' />
         </a>{' '}
         <a
           {...{
