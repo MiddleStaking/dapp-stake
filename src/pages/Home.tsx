@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import { AuthRedirectWrapper } from 'components';
 import { dAppName } from 'config';
 import { routeNames } from 'routes';
-import { ReactComponent as MiddleLogo } from './../assets/img/middlestaking.svg';
+import msLogo from './../assets/img/middlestaking.svg';
 
 const HomePage = () => {
   return (
     <div className='d-flex flex-fill align-items-center container'>
       <div className='row w-100' style={{ marginBottom: '200px' }}>
         <div className='col-12 col-md-8 col-lg-5 mx-auto '>
-          <MiddleLogo
+          <img
+            src={msLogo}
             className='multiversx-logo'
             style={{
               width: '100%',

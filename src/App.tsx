@@ -24,59 +24,77 @@ import { PageNotFound } from 'pages';
 import Unlock from 'pages/Unlock';
 import { routeNames } from 'routes';
 import { routes } from 'routes';
+import { RouteNamesEnum } from 'localConstants';
+import { BatchTransactionsContextProvider } from 'wrappers';
+
+const AppContent = () => {
+  return (
+    <ContextProvider>
+      <DappProvider
+        environment={'mainnet'}
+        customNetworkConfig={{
+          name: 'customConfig',
+          apiTimeout,
+          walletConnectV2ProjectId,
+          walletAddress: network.walletAddress,
+          apiAddress: network.apiAddress,
+          gatewayAddress: network.gatewayAddress,
+          explorerAddress: network.explorerAddress
+        }}
+        dappConfig={{
+          shouldUseWebViewProvider: true,
+          logoutRoute: RouteNamesEnum.unlock
+        }}
+        customComponents={{
+          transactionTracker: {
+            // uncomment this to use the custom transaction tracker
+            // component: TransactionsTracker,
+            props: {
+              onSuccess: (sessionId: string) => {
+                console.log(`Session ${sessionId} successfully completed`);
+              },
+              onFail: (sessionId: string, errorMessage: string) => {
+                console.log(
+                  `Session ${sessionId} failed. ${errorMessage ?? ''}`
+                );
+              }
+            }
+          }
+        }}
+      >
+        <AxiosInterceptorContext.Listener>
+          <Layout>
+            <TransactionsToastList />
+            <NotificationModal />
+            <SignTransactionsModals />
+            <Routes>
+              <Route path={RouteNamesEnum.unlock} element={<Unlock />} />
+              {routes.map((route) => (
+                <Route
+                  path={route.path}
+                  key={`route-key-'${route.path}`}
+                  element={<route.component />}
+                />
+              ))}
+              <Route path='*' element={<PageNotFound />} />
+            </Routes>
+          </Layout>
+        </AxiosInterceptorContext.Listener>
+      </DappProvider>
+    </ContextProvider>
+  );
+};
 
 export const App = () => {
   return (
     <AxiosInterceptorContext.Provider>
       <AxiosInterceptorContext.Interceptor
-        authenticatedDomanis={sampleAuthenticatedDomains}
+        authenticatedDomains={sampleAuthenticatedDomains}
       >
         <Router>
-          <DappProvider
-            // environment={'devnet'}
-            environment={'mainnet'}
-            customNetworkConfig={{
-              name: 'customConfig',
-              apiTimeout,
-              walletConnectV2ProjectId,
-              walletAddress: network.walletAddress,
-              apiAddress: network.apiAddress,
-              gatewayAddress: network.gatewayAddress,
-              explorerAddress: network.explorerAddress
-            }}
-          >
-            {' '}
-            <ContextProvider>
-              <HeaderMenuProvider>
-                <Layout>
-                  <AxiosInterceptorContext.Listener />
-                  <TransactionsToastList />
-                  <NotificationModal />
-                  <SignTransactionsModals className='custom-class-for-modals' />
-                  <Routes>
-                    <Route
-                      path={routeNames.unlock + '/:route' + '/:param'}
-                      element={<Unlock />}
-                    />
-                    <Route
-                      path={routeNames.unlock + '/:route'}
-                      element={<Unlock />}
-                    />
-                    <Route path={routeNames.unlock} element={<Unlock />} />
-
-                    {routes.map((route, index) => (
-                      <Route
-                        path={route.path}
-                        key={'route-key-' + index}
-                        element={<route.component />}
-                      />
-                    ))}
-                    <Route path='*' element={<PageNotFound />} />
-                  </Routes>
-                </Layout>
-              </HeaderMenuProvider>{' '}
-            </ContextProvider>
-          </DappProvider>
+          <BatchTransactionsContextProvider>
+            <AppContent />
+          </BatchTransactionsContextProvider>
         </Router>
       </AxiosInterceptorContext.Interceptor>
     </AxiosInterceptorContext.Provider>
