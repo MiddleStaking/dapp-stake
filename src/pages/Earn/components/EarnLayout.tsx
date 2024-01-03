@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { Col, Form, Row } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
@@ -193,16 +192,15 @@ export const EarnLayout = () => {
           setHeaderMenu(true), setShowFund(false);
         }}
       />
-      <Row className='pb-4'>
-        <Col
-          className='subnav center'
-          xs={12}
-          sm={12}
-          md={6}
-          lg={4}
-          xl={4}
-          xxl={4}
-        >
+      <div
+        className='pb-4'
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(12, 1fr)'
+        }}
+      >
+        <div className='subnav center headcol'>
+          {' '}
           <div className='staked-token'>
             <div className='token'>
               <div className='logo'>
@@ -216,20 +214,6 @@ export const EarnLayout = () => {
                     }
                   />
                 </div>
-
-                <svg
-                  className='info'
-                  width='20'
-                  height='20'
-                  viewBox='0 0 20 20'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    d='M9.99999 1.6665C8.35182 1.6665 6.74065 2.15525 5.37024 3.07092C3.99983 3.9866 2.93173 5.28809 2.301 6.81081C1.67027 8.33353 1.50524 10.0091 1.82678 11.6256C2.14833 13.2421 2.942 14.727 4.10744 15.8924C5.27287 17.0578 6.75773 17.8515 8.37424 18.173C9.99075 18.4946 11.6663 18.3296 13.189 17.6988C14.7117 17.0681 16.0132 16 16.9289 14.6296C17.8446 13.2592 18.3333 11.648 18.3333 9.99984C18.3333 8.90549 18.1178 7.82186 17.699 6.81081C17.2802 5.79976 16.6664 4.8811 15.8925 4.10728C15.1187 3.33346 14.2001 2.71963 13.189 2.30084C12.178 1.88205 11.0943 1.6665 9.99999 1.6665V1.6665ZM10.8333 13.3332C10.8333 13.5542 10.7455 13.7661 10.5892 13.9224C10.433 14.0787 10.221 14.1665 9.99999 14.1665C9.77898 14.1665 9.56702 14.0787 9.41074 13.9224C9.25446 13.7661 9.16666 13.5542 9.16666 13.3332V9.1665C9.16666 8.94549 9.25446 8.73353 9.41074 8.57725C9.56702 8.42097 9.77898 8.33317 9.99999 8.33317C10.221 8.33317 10.433 8.42097 10.5892 8.57725C10.7455 8.73353 10.8333 8.94549 10.8333 9.1665V13.3332ZM9.99999 7.49984C9.83518 7.49984 9.67406 7.45096 9.53702 7.3594C9.39998 7.26783 9.29317 7.13768 9.23009 6.98541C9.16702 6.83314 9.15052 6.66558 9.18267 6.50393C9.21483 6.34228 9.29419 6.19379 9.41074 6.07725C9.52728 5.9607 9.67577 5.88134 9.83742 5.84918C9.99907 5.81703 10.1666 5.83353 10.3189 5.8966C10.4712 5.95968 10.6013 6.06649 10.6929 6.20353C10.7845 6.34057 10.8333 6.50169 10.8333 6.6665C10.8333 6.88752 10.7455 7.09948 10.5892 7.25576C10.433 7.41204 10.221 7.49984 9.99999 7.49984Z'
-                    fill='white'
-                  />
-                </svg>
               </div>
             </div>
 
@@ -237,23 +221,6 @@ export const EarnLayout = () => {
               <div className='label'>
                 <div className='label2'>Staked token</div>
               </div>
-
-              {/* <div className='input-default'> */}
-              {/* <svg
-                  className='chevron-down'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 16 16'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    fillRule='evenodd'
-                    clipRule='evenodd'
-                    d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
-                    fill='white'
-                  />
-                </svg> */}
               <DropdownMenu
                 BoxShadowActive={false}
                 BoxShadowActiveColor='none'
@@ -287,85 +254,14 @@ export const EarnLayout = () => {
                   setFSToken(value);
                 }}
               />
-
-              {/* <Form.Control
-                  as='select'
-                  onChange={setFSToken}
-                  value={stoken}
-                  disabled={false}
-                  className='search-select'
-                >
-                  {stakedTokens &&
-                    stakedTokens
-                      .filter((token) => {
-                        return token != 'MIDUSDC-3d93f4';
-                      })
-                      .map((item) => (
-                        <option
-                          className=''
-                          disabled={false}
-                          key={item}
-                          value={item}
-                        >
-                          {item}
-                        </option>
-                      ))}
-                </Form.Control> */}
-              {/* </div> */}
             </div>
           </div>
-        </Col>
-        <Col
-          className='subnav  center'
-          xs={12}
-          sm={12}
-          md={6}
-          lg={4}
-          xl={4}
-          xxl={4}
-        >
+        </div>
+        <div className='subnav  center headcol'>
           <div className='input2'>
             <div className='label3'>
               <div className='label4'>Sort by</div>
             </div>
-
-            {/* <div className='input-default2'>
-              <Form.Control
-                as='select'
-                onChange={setFOrderBy}
-                value={orderBy}
-                disabled={false}
-                className='search-select'
-              >
-                <option className='' value={'svalue'} disabled={false}>
-                  Staked value
-                </option>{' '}
-                <option className='' value={'rvalue'} disabled={false}>
-                  Reward value
-                </option>
-                <option className='' value={'users'} disabled={false}>
-                  Users
-                </option>
-                <option className='' value={'yields'} disabled={false}>
-                  Yields
-                </option>
-              </Form.Control>
-              <svg
-                className='chevron-down2'
-                width='16'
-                height='16'
-                viewBox='0 0 16 16'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  fillRule='evenodd'
-                  clipRule='evenodd'
-                  d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
-                  fill='white'
-                />
-              </svg>
-            </div> */}
             <DropdownMenu
               BoxShadowActive={false}
               BoxShadowActiveColor='none'
@@ -414,17 +310,9 @@ export const EarnLayout = () => {
           <div className='toggle'>
             <div className='staken-only'>Staked only</div>
           </div>
-        </Col>
+        </div>
 
-        <Col
-          className='subnav center'
-          xs={12}
-          sm={12}
-          md={6}
-          lg={4}
-          xl={4}
-          xxl={4}
-        >
+        <div className='subnav center headcol'>
           <div className='search-bar'>
             <svg
               className='search'
@@ -473,8 +361,8 @@ export const EarnLayout = () => {
               </div>
             </div>
           )}
-        </Col>
-      </Row>
+        </div>
+      </div>
       <div
         style={{
           display: 'grid',
