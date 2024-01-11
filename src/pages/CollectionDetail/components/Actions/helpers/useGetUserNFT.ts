@@ -7,7 +7,7 @@ import axios from 'axios';
 import { network } from 'config';
 export const useGetUserNFT = (search: string) => {
   // const { network } = useGetNetworkConfig();
-  const [esdtBalance, setNftBalance] = useState([]);
+  const [esdtBalance, setNftBalance] = useState(<any>[]);
   const address = useGetAccountInfo().address;
   const { hasPendingTransactions } = useGetPendingTransactions();
 

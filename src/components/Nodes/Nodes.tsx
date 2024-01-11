@@ -18,7 +18,6 @@ import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/trans
 import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import classNames from 'classnames';
-import { Dropdown } from 'react-bootstrap';
 
 import { Action } from 'components/Action';
 import { network, auctionContract, stakingContract } from 'config';
@@ -345,7 +344,7 @@ export const Nodes = () => {
                   </span>
                 )}
 
-                <Dropdown>
+                {/* <Dropdown>
                   <Dropdown.Toggle
                     className={classNames(styles.toggle, {
                       [styles.disabled]: pending
@@ -379,7 +378,7 @@ export const Nodes = () => {
                       );
                     })}
                   </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
               </div>
             </div>
           ))

@@ -45,13 +45,14 @@ const LiquidModal = (props: any) => {
       (item: any) => item.identifier === second_token.identifier
     );
     setFirstBalance(
-      first_balance?.balance ? BigNumber(first_balance?.balance) : BigNumber(0)
+      first_balance?.balance ? first_balance?.balance : BigInt(0)
     );
     setSecondBalance(
       second_balance?.balance ? second_balance?.balance : BigInt(0)
     );
   }, [props.first_esdt_info, props.second_esdt_info, user_balance]);
 
+  console.log('first', firstBalance);
   const first_decimals = first_token?.decimals ? first_token?.decimals : 0;
   const second_decimals = second_token?.decimals ? second_token?.decimals : 0;
 
