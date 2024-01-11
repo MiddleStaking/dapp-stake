@@ -1,0 +1,449 @@
+.centerStakeModal {
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  border-radius: 32px;
+  color: var(--neutral-white, #fff);
+}
+
+.centerSwapModal {
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 80%;
+  top: 100;
+  left: 0;
+  background-color: transparent;
+  border-radius: 32px;
+  color: var(--neutral-white, #fff);
+}
+.backgroundStakeModal {
+  z-index: 100;
+  border-radius: 32px;
+  background-color: black;
+  box-shadow: 0 0 48px 0 rgba(0, 0, 0, 0.64);
+  opacity: 1;
+  min-height: 400px;
+  max-height: 800px;
+  overflow-y: auto;
+  min-width: 505px;
+  max-width: 505px;
+}
+
+.neon-border-stack {
+  pointer-events: none;
+  z-index: -1; 
+  width: 484px;
+  height: 97%;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  border-radius: 34px;
+  border: 3px solid transparent;
+  background: linear-gradient(
+      179.89deg,
+      rgba(73, 84, 246, 1) 0%,
+      rgba(92, 228, 249, 1) 30%,
+      rgba(92, 228, 249, 0) 70%
+    )
+    border-box; 
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; 
+  mask-composite: exclude; 
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 80%,
+    0 80%
+  );
+}
+
+@media (max-height: 670px) {
+  .backgroundStakeModal {
+    max-height: 380px;
+    max-width: 380px;
+  }
+
+  .neon-border-stack {
+    max-height: 380px;
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 670px) {
+  .backgroundStakeModal {
+    min-width: 0px;
+    min-height: 0px;
+    max-width: 380px;
+    max-height: 650px;
+  }
+  .neon-border-stack {
+    min-width: 0px;
+    min-height: 0px;
+    width: 360px;
+  }
+}
+
+.modalStakeModal {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  background: linear-gradient(
+      156.86deg,
+      rgba(189, 55, 236, 0.26) 12.97%,
+      rgba(31, 103, 255, 0) 71.91%
+    ),
+    rgba(99, 74, 203, 0.32);
+
+  .modalLabelStakeModal {
+    font: var(--title-28-px-bold, 700 28px '', sans-serif);
+  }
+}
+
+.contentStakeModal {
+  padding: 25px 44px 10px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  //   width: 618px;
+
+  overflow: hidden;
+}
+.closeStakeModal {
+  color: #a18fb3; /* Couleur de base du SVG */
+  margin-right: 20px;
+  margin-top: 25px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.closeStakeModal:hover {
+  color: white; /* Couleur du SVG au survol */
+  cursor: pointer;
+}
+
+.logosStakeModal {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  .image_2StakeModal {
+    background: var(--neutral-black, #000000);
+    border-radius: 132.6px;
+    display: flex;
+    flex-direction: row;
+    gap: 13.26px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    position: relative;
+  }
+
+  .logo2StakeModal {
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    position: relative;
+  }
+
+  .img_2StakeModal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+  }
+
+  .logo1StakeModal {
+    padding: 0 !important;
+    background-color: white;
+    border-radius: 44.2px;
+    border-style: solid;
+    border-color: var(--neutral-light, #695885);
+    border-width: 1px;
+    padding: 8.84px;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    left: -15.98px;
+    top: 52px;
+  }
+
+  .image_1StakeModal {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .img_1StakeModal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .dropDownGroupeStakeModal {
+    flex-direction: column;
+  }
+}
+
+.dropDownGroupeStakeModal {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.dropDownGroupeStakeModal .dropDownStake,
+.dropDownGroupeStakeModal .dropDownEarn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: transparent;
+}
+
+.dropDownStake,
+.dropDownEarn {
+  flex-direction: column;
+
+  .GroupeLabelDropdoown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 5px;
+    .LabelDropdoown {
+      font: 300 10px '', sans-serif;
+      text-transform: uppercase;
+      width: 179px;
+      float: left;
+    }
+  }
+}
+.pool-details_StakeModal {
+  width: 100%;
+  .this-pool-already-exists_StakeModal {
+    float: left;
+  }
+}
+
+.GroupeDetails_StakeModal {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+  margin-top: 30px;
+  background-color: #3e2977;
+  border-radius: 8px;
+  padding: 24px 24px;
+}
+
+.LogosDetails_StakeModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .logosStakeModal {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: center;
+
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .image_2StakeModal {
+    background: var(--neutral-black, #000000);
+    border-radius: 132.6px;
+    display: flex;
+    flex-direction: row;
+    gap: 13.26px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 50.4px;
+    height: 50.4px;
+    position: relative;
+  }
+
+  .logo2StakeModal {
+    flex-shrink: 0;
+    width: 49px;
+    height: 49px;
+    position: relative;
+  }
+
+  .img_2StakeModal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+  }
+
+  .logo1StakeModal {
+    padding: 0 !important;
+    background-color: white;
+    border-radius: 44.2px;
+    border-style: solid;
+    border-color: var(--neutral-light, #695885);
+    border-width: 1px;
+    padding: 6.19px;
+    flex-shrink: 0;
+    width: 22.4px;
+    height: 22.4px;
+    position: absolute;
+    left: -11.188px;
+    top: 36.4px;
+  }
+
+  .image_1StakeModal {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .img_1StakeModal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
+.PoolDetails_StakeModal {
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  .DetailsInfo {
+    display: flex;
+    justify-content: space-between; // Nouvelle ligne
+    .LabelDetailsInfo {
+      // float: left; // Supprimée
+      font: 300 12px '', sans-serif;
+    }
+    .ValueDetailsInfo {
+      // float: right; // Supprimée
+      font: 600 12px '', sans-serif;
+    }
+  }
+}
+
+.staked-rewarded-tokens-StakeModal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  .do-you-want-to-add-it-rewarded-tokens-StakeModal {
+    float: left;
+  }
+}
+
+.FormatAmountStaked {
+  font: 300 italic 12px '', sans-serif;
+}
+
+.AmountInputGroupe,
+.bottomGroupeModal {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.bottomGroupeModal {
+  margin-top: 15px;
+}
+.bottomModal {
+  width: 100%;
+}
+.AmountRageGroupe {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+/* Ajoutez cette partie pour les écrans de moins de 550px */
+@media (max-width: 550px) {
+  .dropDownGroupeStakeModal {
+    flex-direction: column;
+    .dropDownStake {
+      margin-bottom: 10px;
+    }
+  }
+  .InverseArrow {
+    margin: 0px 0px 0px 0px;
+    transform: rotate(90deg);
+  }
+}
+
+@media (min-width: 551px) {
+  .InverseArrow {
+    margin: 29px 0px 0px 0px;
+  }
+}
+.dropDownArrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 60px;
+}
+.dropDownArrow:hover {
+  cursor: pointer;
+}
+
+.GroupeLabelDropdoownFormatAmount {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  .LabelDropdoown,
+  .LabelDropdoownFormatAmount {
+    width: 100%;
+    float: left;
+  }
+}
+
+.AmountRageGroupeSwap {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}

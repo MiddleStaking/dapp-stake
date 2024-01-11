@@ -42,7 +42,7 @@
     "build:devnet": "yarn run copy:devnet-config & vite build",
     "build:testnet": "yarn run copy:testnet-config & vite build",
     "build:mainnet": "yarn run copy:mainnet-config & vite build",
-    "copy:devnet-config": "cp ./src/config-dev.tsx ./src/config.ts",
+    "copy:devnet-config": "cp ./src/config-dev.tsx ./src/config.tsx",
     "copy:testnet-config": "cp ./config.testnet.ts ./src/config.tsx",
     "copy:mainnet-config": "cp ./src/config-main.tsx ./src/config.tsx",
     "cy:run": "node scripts/cypress.ts",
