@@ -17,6 +17,7 @@ import {
   Liquidity,
   Collections,
   CollectionDetail,
+  Lock,
   Delegate
 } from './pages';
 
@@ -37,6 +38,7 @@ export const routeNames = {
   play: '/play',
   liquidity: '/liquidity',
   collections: '/collections',
+  lock: '/lock',
   admin: '/admin'
 };
 
@@ -89,6 +91,12 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.collections,
     title: 'Collections',
     component: Collections,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.lock,
+    title: 'Lock',
+    component: Lock,
     authenticatedRoute: false
   },
   {

@@ -31,7 +31,7 @@ const AppContent = () => {
   return (
     <ContextProvider>
       <DappProvider
-        environment={'mainnet'}
+        environment={network.id}
         customNetworkConfig={{
           name: 'customConfig',
           apiTimeout,

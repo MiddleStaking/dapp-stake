@@ -1,0 +1,382 @@
+.centerStakeModal_Collection {
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  border-radius: 32px;
+  color: var(--neutral-white, #fff);
+}
+
+.modalStakeModal_Collection,
+.backgroundStakeModal_Collection {
+  flex: 1;
+}
+.backgroundStakeModal_Collection {
+  z-index: 100;
+  border-radius: 32px;
+  background-color: black;
+  box-shadow: 0 0 48px 0 rgba(0, 0, 0, 0.64);
+  opacity: 1;
+  min-height: 400px;
+  max-height: 800px;
+  overflow-y: auto;
+  min-width: 505px;
+  max-width: 505px;
+}
+.backgroundStakeModal_Collection_Jump{
+  z-index: 100;
+  border-radius: 32px;
+  background-color: black;
+  box-shadow: 0 0 48px 0 rgba(0, 0, 0, 0.64);
+  opacity: 1;
+  min-height: 400px;
+  max-height: 800px;
+  overflow-y: auto;
+  min-width: 800px;
+  max-width: 800px;
+}
+.neon-border-stack_Collection {
+  pointer-events: none;
+  z-index: -1;
+  width: 484px;
+  height: 97%;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  border-radius: 34px;
+  border: 3px solid transparent;
+  background: linear-gradient(
+      179.89deg,
+      rgba(73, 84, 246, 1) 0%,
+      rgba(92, 228, 249, 1) 30%,
+      rgba(92, 228, 249, 0) 70%
+    )
+    border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 80%);
+}
+
+@media (max-height: 670px) {
+  .backgroundStakeModal_Collection {
+    max-height: 380px;
+    max-width: 380px;
+  }
+
+  .neon-border-stack_Collection {
+    max-height: 380px;
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 670px) {
+  .backgroundStakeModal_Collection {
+    min-width: 0px;
+    min-height: 0px;
+    max-width: 380px;
+    max-height: 650px;
+  }
+
+  .neon-border-stack_Collection {
+    min-width: 0px;
+    min-height: 0px;
+    width: 360px;
+  }
+}
+
+@media (max-width: 855px) {
+  .backgroundStakeModal_Collection_Jump {
+    min-width: 0px;
+    min-height: 0px;
+    max-width: 380px;
+    max-height: 650px;
+  }
+
+  .neon-border-stack_Collection_Jump {
+    min-width: 0px;
+    min-height: 0px;
+    width: 360px;
+  }
+}
+
+.modalStakeModal_Collection {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  background: linear-gradient(
+      156.86deg,
+      rgba(189, 55, 236, 0.26) 12.97%,
+      rgba(31, 103, 255, 0) 71.91%
+    ),
+    rgba(99, 74, 203, 0.32);
+
+  .modalLabelStakeModal_Collection {
+    font: var(--title-28-px-bold, 700 28px '', sans-serif);
+  }
+}
+
+.contentStakeModal_Collection {
+  padding: 25px 44px 10px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  min-height: 400px;
+  // overflow: hidden;
+}
+
+.closeStakeModal_Collection {
+  color: #a18fb3;
+  /* Couleur de base du SVG */
+  margin-right: 20px;
+  margin-top: 25px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.closeStakeModal_Collection:hover {
+  color: white;
+  /* Couleur du SVG au survol */
+  cursor: pointer;
+}
+
+@media screen and (max-width: 550px) {
+  .dropDownGroupeStakeModal_Collection {
+    flex-direction: column;
+  }
+}
+
+.dropDownGroupeStakeModal_Collection {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.dropDownGroupeStakeModal_Collection .dropDownStake_Collection,
+.dropDownGroupeStakeModal_Collection .dropDownEarn_Collection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: transparent;
+}
+
+.dropDownStake_Collection,
+.dropDownEarn_Collection {
+  flex-direction: column;
+
+  .GroupeLabelDropdoown_Collection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 5px;
+
+    .LabelDropdoown_Collection {
+      font: 300 10px '', sans-serif;
+      text-transform: uppercase;
+      width: 179px;
+      float: left;
+    }
+  }
+}
+
+.PoolDetails_StakeModal_Collection {
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  gap: 2px;
+  .DetailsInfo_Collection {
+    display: flex;
+    justify-content: space-between; // Nouvelle ligne
+    .LabelDetailsInfo_Collection {
+      // float: left; // Supprimée
+      font: 300 12px '', sans-serif;
+    }
+    .ValueDetailsInfo_Collection {
+      // float: right; // Supprimée
+      font: 600 12px '', sans-serif;
+    }
+  }
+}
+
+.pool-details_StakeModal_Collection {
+  width: 100%;
+
+  .this-pool-already-exists_StakeModal_Collection {
+    float: left;
+  }
+}
+
+.GroupeDetails_StakeModal_Collection {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+  background-color: #3e2977;
+  border-radius: 8px;
+  padding: 24px 24px;
+}
+
+.groupCredits {
+  gap: 15px;
+  width: 100%;
+  background-color: #3e2977;
+  border-radius: 8px;
+  padding: 24px 24px;
+}
+.pool-details_StakeModal_black_Collection {
+  width: 100%;
+
+  .this-pool-already-exists_StakeModal_Collection {
+    float: left;
+  }
+}
+
+.GroupeDetails_StakeModal_black_Collection {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+  background-color: black;
+  border-radius: 8px;
+  padding: 9px 24px;
+}
+
+.GroupeDetails_StakeModal_black_input_Collection {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+  background-color: black;
+  border-radius: 8px;
+  padding: 7px 24px;
+}
+
+.PoolDetails_StakeModal_black_Collection {
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  gap: 2px;
+  .DetailsInfo_black_Collection {
+    display: flex;
+    justify-content: space-between; // Nouvelle ligne
+    align-items: center;
+    .LabelDetailsInfo_black_Collection {
+      // float: left; // Supprimée
+      font: 300 12px '', sans-serif;
+    }
+    .ValueDetailsInfo_black_Collection {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 15px;
+      // float: right; // Supprimée
+      font: 600 12px '', sans-serif;
+
+      .pourcentage {
+        width: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 670px) {
+  .GroupeDetails_StakeModal_black_Collection {
+    flex-direction: column;
+  }
+
+  .PoolDetails_StakeModal_black_Collection {
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+    gap: 2px;
+    .DetailsInfo_black_Collection {
+      display: flex;
+      justify-content: space-between; // Nouvelle ligne
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      .LabelDetailsInfo_black_Collection {
+        // float: left; // Supprimée
+        font: 300 12px '', sans-serif;
+      }
+      .ValueDetailsInfo_black_Collection {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+        // float: right; // Supprimée
+        font: 600 12px '', sans-serif;
+
+        .pourcentage {
+          width: 10px;
+        }
+      }
+    }
+  }
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  margin: 0;
+  padding: 0;
+
+  &.open {
+    max-height: 200px; // ou toute autre valeur qui convient à votre contenu
+  }
+}
+
+.svgAccordeons {
+  cursor: pointer;
+}
+
+.accordion-content::before {
+  content: '';
+  display: block;
+
+  height: 1px; /* Hauteur du trait */
+  width: 100%; /* Largeur du trait */
+  background: transparent; /* Couleur transparente par défaut */
+  visibility: hidden; /* Caché par défaut */
+  position: relative;
+  z-index: 1;
+}
+
+// .accordion-content.open::before {
+//   background: #3e2977; /* Couleur semi-transparente pour voir le background en dessous. À adapter selon vos besoins. */
+//   visibility: visible; /* Afficher le trait lorsque l'accordéon est ouvert */
+//   margin: 3px 0px;
+// }
+
+.accordion-content.open::before {
+  content: '';
+  position: absolute; /* Utilisation du positionnement absolu */
+  left: 0; /* Positionnement à gauche de l'élément parent */
+  right: 0; /* Étendre jusqu'au bord droit de l'élément parent */
+  height: 1px; /* Hauteur du trait */
+  background: linear-gradient(
+      156.86deg,
+      rgba(189, 55, 236, 0.26) 12.97%,
+      rgba(31, 103, 255, 0) 71.91%
+    ),
+    rgba(99, 74, 203, 0.32);
+  visibility: visible;
+  z-index: 1; /* Éventuellement, pour s'assurer qu'il est au-dessus d'autres éléments imbriqués */
+}
