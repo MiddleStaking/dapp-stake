@@ -1,1 +1,1 @@
-export * from './Liquid';
+export * from './Distrib';

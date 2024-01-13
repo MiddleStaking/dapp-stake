@@ -9,3 +9,6 @@ export * from './useGetIsPaused';
 export * from './useGetPoolPosition';
 export * from './useGetSwapedTokens';
 export * from './useGetPoolLpIdentifier';
+export * from './useGetUserList';
+export * from './useGetTotalAmount';
+export * from './useGetTotalUsers';
