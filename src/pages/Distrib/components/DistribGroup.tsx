@@ -1,12 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { defaultToken } from 'config';
-import { useGetESDTInformations } from './Actions/helpers';
-import { useGetPoolPosition } from './Actions/helpers';
-import { useGetPoolLpIdentifier } from './Actions/helpers';
-import LiquidModal from './LiquidModal';
-import RemoveLpModal from './RemoveLpModal';
+import { ActionAdd, ActionDeposit, ActionExec } from './Actions';
 import {
   useGetTotalAmount,
   useGetTotalUsers,
@@ -14,61 +7,17 @@ import {
 } from './../../Distrib/components/Actions/helpers';
 import { useGetGift } from 'pages/Distrib/components/Actions/helpersApi';
 import { Address } from '@multiversx/sdk-core/out';
-import { ActionAdd, ActionDeposit, ActionExec } from './Actions';
-import axios from 'axios';
 import bigToHex from 'helpers/bigToHex';
 import BigNumber from 'bignumber.js';
 import toHex from 'helpers/toHex';
-import { DistribGroup } from './DistribGroup';
 
-export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
-  // const config = {
-  //   tab: 1,
-  //   cell: '1',
-  //   collection: 'SFT-221ca7',
-  //   nonce: 1,
-  //   amount: 918
-  // };
-  // const config = {
-  //   tab: 2,
-  //   cell: '2',
-  //   collection: 'SFT-221ca7',
-  //   nonce: 2,
-  //   amount: 468
-  // };
-  const config = [
-    {
-      tab: 1,
-      cell: '1',
-      collection: 'SFT-221ca7',
-      nonce: 1,
-      amount: 918
-    },
-    {
-      tab: 2,
-      cell: '2',
-      collection: 'SFT-221ca7',
-      nonce: 2,
-      amount: 468
-    },
-    {
-      tab: 3,
-      cell: '3',
-      collection: 'SFT-221ca7',
-      nonce: 3,
-      amount: 114
-    }
-  ];
-
-  const tab = config[0].tab; //tableau de campagne
-  const cell = config[0].cell; //cellule du json pour la qté
-  const collection = config[0].collection; //identifier de la collection à distribuer
-  const nonce = config[0].nonce; //numéro du nonce à déposer
-  const sft_amount = config[0].amount;
-  // const sft_amount = 918;
-  // const sft_amount = 468;
-  // const sft_amount = 114;
-
+export const DistribGroup = ({
+  tab,
+  cell,
+  collection,
+  nonce,
+  sft_amount
+}: any) => {
   const user_list = useGetUserList(tab);
   const totalusers = useGetTotalUsers(tab);
   const totalamount = useGetTotalAmount(tab);
@@ -129,19 +78,7 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
 
   return (
     <>
-      {config.map((item) => (
-        <div style={{ color: 'white' }}>
-          {item.tab} :
-          <DistribGroup
-            tab={item.tab}
-            cell={item.cell}
-            collection={item.collection}
-            nonce={item.nonce}
-            sft_amount={item.amount}
-          />
-        </div>
-      ))}
-      {/* <div className={'center text-white'}>
+      <div className={'center text-white'}>
         <ActionDeposit
           tab={tab}
           collection={collection}
@@ -150,7 +87,7 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
         />
         <ActionAdd datas={datas} tab={tab} />
         <ActionExec datas={datas} tab={tab} />
-      </div> */}
+      </div>
     </>
   );
 };
