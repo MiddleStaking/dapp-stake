@@ -1,51 +1,8 @@
-//DEVNET :
-// export const defaultToken = 'MID-7f1d59';
-// export const sftCollection = 'TOKENTICKE-5909b2';
-// export const defaultPairs = [
-//   { s: 'MID-7f1d59', r: 'MID-7f1d59' },
-//   { s: 'MID-7f1d59', r: 'ATS-e57f90' },
-//   { s: 'MID-7f1d59', r: 'MEX-dc289c' },
-//   { s: 'MID-7f1d59', r: 'WEGLD-d7c6bb' },
-//   { s: 'MEX-dc289c', r: 'MID-7f1d59' },
-//   { s: 'MEX-dc289c', r: 'MEX-dc289c' },
-//   { s: 'SNS-ffcb8c', r: 'TIKA-c375d8' },
-//   { s: 'SNS-ffcb8c', r: 'MID-7f1d59' },
-//   { s: 'SNS-ffcb8c', r: 'RENBTC-0b6973' },
-//   { s: 'SNS-ffcb8c', r: 'WEGLD-d7c6bb' },
-//   { s: 'VITAL-058fd5', r: 'VITAL-058fd5' },
-//   { s: 'USDC-8d4068', r: 'VITAL-058fd5' }
-// ];
-// export const contractStake =
-//   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
-// export const contractSwap =
-//   'erd1qqqqqqqqqqqqqpgq4dvqaez22usynmp7e3w957q24m6740nkch9s5lvlc7';
-// export const contractNftStake =
-//   'erd1qqqqqqqqqqqqqpgq56t249qv4ancy8e0xr70a70wpszs9vdgch9sqt473c';
-// // 'erd1qqqqqqqqqqqqqpgqn2lylt4vzaxrsklfd0afnxjt04d4xlk7ch9s7wc54y';
-// export const contractMint =
-//   'erd1qqqqqqqqqqqqqpgqz8s3d4grypaq8kws6lrgjseljjtkw6etch9sltef2r';
-
-// export const contractAddressDelegation =
-//   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
-// export const contractPlay =
-//   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
-
-// export const network: NetworkType = {
-//   id: 'devnet',
-//   chainId: 'D',
-//   name: 'Devnet',
-//   egldLabel: 'xEGLD',
-//   walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
-//   apiAddress: 'https://devnet-api.multiversx.com',
-//   gatewayAddress: 'https://devnet-gateway.multiversx.com',
-//   gatewayCached: 'https://devnet-gateway.multiversx.com',
-//   explorerAddress: 'http://devnet-explorer.multiversx.com',
-//   delegationContract: contractAddressDelegation
-// };
-
 // // DEVNET 2:
 export const defaultToken = 'MID-00c2c9';
 export const sftCollection = 'TOKENTICKE-38b075';
+export const lockedCollection = 'TOKENTICKE-38b075';
+export const vouchersCollection = 'SFT-221ca7"';
 export const defaultPairs = [{ s: 'MID-00c2c9', r: 'MID-00c2c9' }];
 export const contractStake =
   'erd1qqqqqqqqqqqqqpgqnhdcg9ugyall5xyxa8xayz80hp5d3d6gch9s2kragz';
@@ -55,13 +12,15 @@ export const contractNftStake =
   'erd1qqqqqqqqqqqqqpgqq9va3mwdgzx5qzc7qnxu8k6ay0twry5jch9sz0ymrt';
 export const contractMint =
   'erd1qqqqqqqqqqqqqpgq7zl9anenveu2vfz7z8m3kd4kcjlzq2wpch9sjgjyqh';
-  export const contractDistrib =
-    'erd1qqqqqqqqqqqqqpgqzwkjf8c2695uaz4ak6d2scxece553d7hch9s82qmp2';
+export const contractDistrib =
+  'erd1qqqqqqqqqqqqqpgqzwkjf8c2695uaz4ak6d2scxece553d7hch9s82qmp2';
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
-
+export const contracts = {
+  lockGraou: 'erd1qqqqqqqqqqqqqpgqkhd7lhchw42cz3sahdrc95kme9pxnzguch9srygudw'
+};
 export const network: NetworkType = {
   id: 'devnet',
   chainId: 'D2',

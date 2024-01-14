@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { network } from 'config';
-export const useGetCollectionInformations = (identifier: string) => {
+export const useGetCollectionInformations = (
+  identifier: string,
+  size: number = 5
+) => {
   //const { network } = useGetNetworkConfig();
   const time = new Date();
   const [esdtInfo, setEsdtInfo] = useState<any>([]);
@@ -11,7 +14,9 @@ export const useGetCollectionInformations = (identifier: string) => {
   const url =
     '/collections/' +
     identifier +
-    '/nfts?from=0&size=5&withSupply=true&withScamInfo=true&sort=nonce&order=asc';
+    '/nfts?from=0&size=' +
+    size +
+    '&withSupply=true&withScamInfo=true&sort=nonce&order=asc';
   const getEsdtInfo = async () => {
     if (!identifier) {
       return;

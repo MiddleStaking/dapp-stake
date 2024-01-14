@@ -13,8 +13,12 @@ import { useGetMinted, useGetNonces } from './Actions/helpers';
 
 const MintModal = (props: any) => {
   // const tokenPosition = useGetTokenPosition(stoken, rtoken);
-  const [egldAmount] = React.useState(0.2);
-  const [egldBig] = React.useState(BigInt('200000000000000000'));
+  // const [egldAmount] = React.useState(0.2);
+  // const [egldBig] = React.useState(BigInt('200000000000000000'));
+
+  const [egldAmount] = React.useState(0.01);
+  const [egldBig] = React.useState(BigInt('10000000000000000'));
+
   const [midAmount] = React.useState(100);
   const [midBig] = React.useState(BigInt('100000000000000000000'));
 
