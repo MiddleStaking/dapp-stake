@@ -1,7 +1,7 @@
 // // DEVNET 2:
 export const defaultToken = 'MID-00c2c9';
 export const sftCollection = 'TOKENTICKE-38b075';
-export const vouchersCollection = 'SFT-221ca7"';
+export const vouchersCollection = 'SFT-221ca7';
 
 export const lockedCollection = 'TOKENTICKE-38b075';
 export const defaultPairs = [{ s: 'MID-00c2c9', r: 'MID-00c2c9' }];
@@ -25,7 +25,7 @@ export const contracts = {
 };
 export const network: NetworkType = {
   id: 'devnet',
-  chainId: 'D2',
+  chainId: 'D',
   name: 'Devnet',
   egldLabel: 'xEGLD',
   walletAddress: 'https://wallet.multiversx.com/dapp/init',

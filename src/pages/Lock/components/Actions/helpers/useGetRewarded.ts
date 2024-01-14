@@ -53,16 +53,26 @@ export const useGetRewarded = () => {
         baseURL: network.apiAddress,
         params: {}
       });
-      console.log('url', data);
 
       if (data.action.arguments.functionName == 'lock') {
         const filteredOperations = data.operations.filter(
-          (operation: any) => operation?.collection === vouchersCollection
+          (operation: any) => operation?.collection == vouchersCollection
         );
-        setMinted(filteredOperations[0].identifier);
+        console.log(
+          'filtered',
+          data.operations,
+          filteredOperations,
+          vouchersCollection,
+          filteredOperations[0]?.identifier
+        );
+        setMinted(
+          filteredOperations[0]?.identifier
+            ? filteredOperations[0]?.identifier
+            : 'fail'
+        );
       }
     } catch (err) {
-      console.error('Unable to fetch Tokens');
+      console.error('Unable to fetch Tokens', err);
     }
   };
 
@@ -70,6 +80,13 @@ export const useGetRewarded = () => {
     if (!minted) {
       return;
     }
+    if (minted == 'fail') {
+      setNft({
+        identifier: 'fail'
+      });
+      return;
+    }
+
     const url = '/nfts/' + minted;
     try {
       const { data } = await axios.get<any>(url, {

@@ -1,8 +1,9 @@
 // // DEVNET 2:
 export const defaultToken = 'MID-00c2c9';
 export const sftCollection = 'TOKENTICKE-38b075';
+export const vouchersCollection = 'SFT-221ca7';
+
 export const lockedCollection = 'TOKENTICKE-38b075';
-export const vouchersCollection = 'SFT-221ca7"';
 export const defaultPairs = [{ s: 'MID-00c2c9', r: 'MID-00c2c9' }];
 export const contractStake =
   'erd1qqqqqqqqqqqqqpgqnhdcg9ugyall5xyxa8xayz80hp5d3d6gch9s2kragz';
@@ -18,12 +19,13 @@ export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
+
 export const contracts = {
   lockGraou: 'erd1qqqqqqqqqqqqqpgqkhd7lhchw42cz3sahdrc95kme9pxnzguch9srygudw'
 };
 export const network: NetworkType = {
   id: 'devnet',
-  chainId: 'D2',
+  chainId: 'D',
   name: 'Devnet',
   egldLabel: 'xEGLD',
   walletAddress: 'https://wallet.multiversx.com/dapp/init',

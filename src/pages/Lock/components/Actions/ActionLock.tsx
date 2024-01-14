@@ -43,9 +43,9 @@ export const ActionLock = ({ collection, nonce }: any) => {
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: fundTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Fund transaction',
-        errorMessage: 'An error has occured Fund',
-        successMessage: 'Fund transaction successful'
+        processingMessage: 'Processing Lock transaction',
+        errorMessage: 'An error has occured Lock',
+        successMessage: 'Lock transaction successful'
       },
       redirectAfterSign: false
     });

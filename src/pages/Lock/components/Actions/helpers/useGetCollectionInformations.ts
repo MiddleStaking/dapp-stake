@@ -23,10 +23,10 @@ export const useGetCollectionInformations = (
     }
     //using storage to reduce calls
     const expire_test = Number(
-      localStorage.getItem('collection_info_' + identifier + '_expire')
+      localStorage.getItem('collection_info_' + identifier + size + '_expire')
     );
     const storage = JSON.parse(
-      localStorage.getItem('collection_info_' + identifier) as string
+      localStorage.getItem('collection_info_' + identifier + size) as string
     );
     setEsdtInfo(storage);
     if (time.getTime() < expire_test) {
@@ -45,11 +45,11 @@ export const useGetCollectionInformations = (
       //storage of 10 minutes
       const expire = time.getTime() + 1000 * 60 * 10;
       localStorage.setItem(
-        'collection_info_' + identifier,
+        'collection_info_' + identifier + size,
         JSON.stringify(data)
       );
       localStorage.setItem(
-        'collection_info_' + identifier + '_expire',
+        'collection_info_' + identifier + size + '_expire',
         expire.toString()
       );
     } catch (err) {

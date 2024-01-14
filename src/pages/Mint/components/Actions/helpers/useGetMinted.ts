@@ -4,7 +4,7 @@ import {
   useGetSuccessfulTransactions
 } from '@multiversx/sdk-dapp/hooks';
 import axios from 'axios';
-import { network } from 'config';
+import { network, sftCollection } from 'config';
 
 export const useGetMinted = () => {
   const [hash, setHash] = useState<any>('');
@@ -50,9 +50,14 @@ export const useGetMinted = () => {
         baseURL: network.apiAddress,
         params: {}
       });
-
+      console.log('buySft', data);
       if (data.action.name == 'buySft') {
-        setMinted(data.operations[0].identifier);
+        console.log('minted', data.operations[0].identifier);
+
+        const filteredOperations = data.operations.filter(
+          (operation: any) => operation?.collection === sftCollection
+        );
+        setMinted(filteredOperations[0].identifier);
       }
     } catch (err) {
       console.error('Unable to fetch Tokens');
