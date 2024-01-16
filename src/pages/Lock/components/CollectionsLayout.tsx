@@ -79,12 +79,13 @@ export const CollectionsLayout = () => {
               <HexagoneNFT
                 format={item?.media?.[0]?.fileType}
                 url={item?.media?.[0]?.url}
-                width={100}
+                width={150}
                 withBorder={true}
                 borderWidth={1}
                 borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                nft_qty={item?.balance}
               />
-              {item?.identifier} : {item?.balance}{' '}
+              {item?.identifier}
             </div>
           ))}
         </div>

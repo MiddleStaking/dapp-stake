@@ -128,7 +128,8 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
               zIndex: 40,
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center'
+              alignItems: 'center',
+              color: 'white'
             }}
           >
             <div>{nft_qty}</div>
@@ -209,7 +210,8 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
                 zIndex: 40,
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                color: 'white'
               }}
             >
               <div>{nft_qty}</div>
@@ -274,7 +276,8 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
                 zIndex: 40,
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                color: 'white'
               }}
             >
               <div>{nft_qty}</div>
