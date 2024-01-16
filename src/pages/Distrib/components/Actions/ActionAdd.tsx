@@ -6,7 +6,6 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractDistrib } from 'config';
-import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
 
 export const ActionAdd = (datas: any) => {
