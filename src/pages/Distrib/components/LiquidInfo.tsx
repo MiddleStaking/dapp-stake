@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { DistribGroup } from './DistribGroup';
+import { vouchersCollection } from 'config';
 
 export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   // const config = {
@@ -20,21 +21,21 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
     {
       tab: 1,
       cell: '1',
-      collection: 'SFT-221ca7',
+      collection: vouchersCollection,
       nonce: 1,
       amount: 918
     },
     {
       tab: 2,
       cell: '2',
-      collection: 'SFT-221ca7',
+      collection: vouchersCollection,
       nonce: 2,
       amount: 468
     },
     {
       tab: 3,
       cell: '3',
-      collection: 'SFT-221ca7',
+      collection: vouchersCollection,
       nonce: 3,
       amount: 114
     }

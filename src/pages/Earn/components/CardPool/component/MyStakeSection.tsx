@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC, useState } from 'react';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import { BigNumber } from 'bignumber.js';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'components/Design';
 import { defaultToken } from 'config';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
@@ -47,7 +47,8 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   image1,
   image2,
   sdecimals,
-  userEsdtBalance
+  userEsdtBalance,
+  canBeStaked
 }) => {
   const navigate = useNavigate();
   const [showStake, setShowStake] = useState(false);
@@ -105,6 +106,21 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   return (
     // <>
     <div style={sectionStyle}>
+      {canBeStaked && (
+        <Link
+          to={routeNames.stake + `/${rewarded_token}`}
+          className='canBeStaked'
+          data-testid='loginBtn'
+        >
+          {' '}
+          <div className='icon-container'>
+            <div className='half-circle'>
+              {' '}
+              Stake {rewarded_token.split('-')[0]}{' '}
+            </div>
+          </div>
+        </Link>
+      )}
       <StakeModal
         userEsdtBalance={userEsdtBalance}
         staked_esdt_info={staked_esdt_info}
@@ -153,14 +169,15 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
             buttonWidth='240px'
             textColor='#ffffff'
             background={'#000000'}
-            onClick={() =>
-              navigate(
-                routeNames.unlock +
-                  `/stake/${
-                    staked_token !== undefined ? staked_token : defaultToken
-                  }`
-              )
-            }
+            onClick={() => navigate(routeNames.unlock)}
+            // onClick={() =>
+            //   navigate(
+            //     routeNames.unlock +
+            //       `/stake/${
+            //         staked_token !== undefined ? staked_token : defaultToken
+            //       }`
+            //   )
+            // }
             text={'Login'}
           />
         </div>

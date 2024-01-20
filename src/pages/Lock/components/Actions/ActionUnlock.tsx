@@ -3,35 +3,38 @@ import { useState } from 'react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { useWindowDimensions } from 'components/DimensionScreen';
-import { contractNftStake } from 'config';
+import { contracts } from 'config';
 import bigToHex from 'helpers/bigToHex';
+import toHex from 'helpers/toHex';
 import { Button } from '../../../../components/Design';
+import { Address } from '@multiversx/sdk-core/out';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 
-export const ActionJumpNFT = ({ Nft_id, pool_id, disabled }: any) => {
+export const ActionUnlock = ({ nonce }: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
-  const { width } = useWindowDimensions();
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
 
-  const sendJumpTransaction = async () => {
-    const jumpTransaction = {
-      value: 0,
-      data: 'jump@' + bigToHex(Nft_id) + '@' + bigToHex(pool_id),
+  // const addressTobech32 = new Address(contracts.lockGraou);
+  // const { address } = useGetAccountInfo();
 
-      receiver: contractNftStake,
-      gasLimit: '8000000'
+  const sendFundTransaction = async () => {
+    const fundTransaction = {
+      value: 0,
+      data: 'unlock' + '@' + bigToHex(BigInt(nonce)),
+      receiver: contracts.lockGraou,
+      gasLimit: '14000000'
     };
     await refreshAccount();
 
     const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: jumpTransaction,
+      transactions: fundTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Jump transaction',
-        errorMessage: 'An error has occured Jump',
-        successMessage: 'Jump transaction successful'
+        processingMessage: 'Processing Lock transaction',
+        errorMessage: 'An error has occured Lock',
+        successMessage: 'Lock transaction successful'
       },
       redirectAfterSign: false
     });
@@ -39,24 +42,16 @@ export const ActionJumpNFT = ({ Nft_id, pool_id, disabled }: any) => {
       setTransactionSessionId(sessionId);
     }
   };
-
   return (
     <>
       {!hasPendingTransactions ? (
         <>
           <Button
-            boxShadow='0px 0px 44px 0px #8E44EB80 inset'
-            borderWidth='2px'
+            buttonWidth='100%'
             borderRadius={40}
-            background='black'
-            borderColor={['#BD37EC', '#1F67FF']}
-            text={'validate'}
-            hasBorder={true}
-            fontFamily=''
-            buttonHeight={width > 579 ? '40px' : '40px'}
-            fontSize={width > 579 ? '15px' : '15px'}
-            disabled={disabled}
-            onClick={sendJumpTransaction}
+            background={['#BD37EC', '#1F67FF']}
+            text='Unlock sft'
+            onClick={sendFundTransaction}
           />
         </>
       ) : (

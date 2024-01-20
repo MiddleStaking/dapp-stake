@@ -45,7 +45,7 @@ export const ActionFund = ({
         toHex(unbounding),
 
       receiver: contractNftStake,
-      gasLimit: '14000000'
+      gasLimit: '15000000'
     };
     await refreshAccount();
 

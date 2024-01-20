@@ -18,7 +18,7 @@ export const ActionUnstakeNFT = ({ nft_id, text, disabled }: any) => {
       value: 0,
       data: 'unstake@' + bigToHex(BigInt(nft_id)),
       receiver: contractNftStake,
-      gasLimit: '6000000'
+      gasLimit: '7000000'
     };
     await refreshAccount();
 

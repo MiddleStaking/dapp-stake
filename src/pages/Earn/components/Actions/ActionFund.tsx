@@ -28,7 +28,7 @@ export const ActionFund = ({ stakedToken, rewardedToken, user_fund }: any) => {
         Buffer.from(stakedToken, 'utf8').toString('hex'),
 
       receiver: contractStake,
-      gasLimit: '6000000'
+      gasLimit: '7000000'
     };
     await refreshAccount();
 

@@ -41,7 +41,7 @@ export const ActionStakeNft = ({
         bigToHex(BigInt(pool_id)),
 
       receiver: address,
-      gasLimit: '7000000'
+      gasLimit: '8000000'
     };
     await refreshAccount();
 

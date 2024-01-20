@@ -22,6 +22,7 @@ import { useGetRewarded } from './Actions/helpers/useGetRewarded';
 import { cpSync } from 'fs';
 import lostVoucher from '../../../assets/img/lostVoucher.png';
 import pendingVoucher from '../../../assets/img/voucherRun.png';
+import { ActionUnlock } from './Actions/ActionUnlock';
 
 export const CollectionsLayout = () => {
   const [mint, setMint] = useState(0);
@@ -37,6 +38,7 @@ export const CollectionsLayout = () => {
   }
   const userNftBalance = useGetUserNFT(lockedCollection);
   const ScNftBalance = useGetScNFT(vouchersCollection, contracts.lockGraou);
+  //const ScNftBalance: any = [];
   console.log('ScNftBalance', ScNftBalance);
 
   const minted = useGetRewarded();
@@ -176,7 +178,19 @@ export const CollectionsLayout = () => {
                       </div>
                       <div style={{ width: '100px', margin: 'auto' }}>
                         {userStakedNft.includes(item?.nonce.toString()) ? (
-                          <Button style={{ width: '100px' }}>Locked 🔒</Button>
+                          <>
+                            {ScNftBalance.length > 0 ? (
+                              <Button style={{ width: '100px' }}>
+                                Locked 🔒
+                              </Button>
+                            ) : (
+                              <ActionUnlock
+                                text={'Unlock'}
+                                disabled={false}
+                                nonce={item?.nonce}
+                              />
+                            )}
+                          </>
                         ) : (
                           <>
                             {userNftBalance.some(

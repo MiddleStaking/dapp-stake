@@ -471,18 +471,18 @@ const CardPool: FC<CardPoolrops> = ({
             rewarded_token={rewarded_token}
           />
         )}
-        {canBeStaked && (
+        {/* {canBeStaked && (
           <>
             {' '}
             <Link
               to={routeNames.stake + `/${rewarded_token}`}
               className='butLine bouton-visiter'
-              data-testid='loginBtn'
+              data-testid='canBeStaked'
             >
               Stake {rewarded_token}
             </Link>
           </>
-        )}
+        )} */}
       </div>
     </div>
   );

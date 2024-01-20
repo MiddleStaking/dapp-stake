@@ -27,7 +27,7 @@ export const ActionClaimRewards = ({
       value: 0,
       data: 'claimRewards@' + bigToHex(BigInt(pool_id)),
       receiver: contractNftStake,
-      gasLimit: '5000000'
+      gasLimit: '6000000'
     };
     await refreshAccount();
 

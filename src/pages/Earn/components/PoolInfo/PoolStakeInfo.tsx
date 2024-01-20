@@ -584,18 +584,18 @@ export const PoolStakeInfo = ({
           )}
         </div>
       )}
-      {canBeStaked && (
+      {/* {canBeStaked && (
         <>
           {' '}
           <Link
             to={routeNames.stake + `/${rewardedToken}`}
             className='butLine bouton-visiter'
-            data-testid='loginBtn'
+            data-testid='visitPool'
           >
             Stake {rewardedToken}
           </Link>
         </>
-      )}
+      )} */}
     </>
   );
 };

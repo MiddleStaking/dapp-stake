@@ -19,7 +19,7 @@ export const Actionfinalize = ({ nft_id, text, disabled }: any) => {
       value: 0,
       data: 'finalize@' + bigToHex(BigInt(nft_id)),
       receiver: contractNftStake,
-      gasLimit: '5000000'
+      gasLimit: '6000000'
     };
     await refreshAccount();
 

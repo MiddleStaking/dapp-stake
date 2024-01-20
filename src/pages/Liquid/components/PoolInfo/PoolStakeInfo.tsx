@@ -521,7 +521,7 @@ export const PoolStakeInfo = ({
           </div>
         </div>
       )}
-      {canBeStaked && (
+      {/* {canBeStaked && (
         <>
           {' '}
           <Link
@@ -532,7 +532,7 @@ export const PoolStakeInfo = ({
             Stake {rewardedToken}
           </Link>
         </>
-      )}
+      )} */}
     </>
   );
 };
