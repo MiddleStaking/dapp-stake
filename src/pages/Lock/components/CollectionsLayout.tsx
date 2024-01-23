@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useGetAccountInfo,
   useGetPendingTransactions
@@ -52,6 +52,12 @@ export const CollectionsLayout = () => {
   console.log('mint', mint);
   console.log('hasPendingTransactions', hasPendingTransactions);
 
+  useEffect(() => {
+    if (mint == 1 && hasPendingTransactions) {
+      setMint(2);
+    }
+  }, [hasPendingTransactions, mint]);
+
   return (
     <div
       style={{
@@ -93,7 +99,7 @@ export const CollectionsLayout = () => {
         </div>
       </div>
 
-      {!hasPendingTransactions && mint == 1 && minted?.identifer != '' ? (
+      {!hasPendingTransactions && mint > 0 && minted?.identifer != '' ? (
         <>
           {minted?.media?.[0]?.url ? (
             <>
@@ -110,17 +116,31 @@ export const CollectionsLayout = () => {
             </>
           ) : (
             <>
-              <div style={{ margin: 'auto' }}>
-                <img width='400px' src={lostVoucher} />
-              </div>
-              <Button onClick={() => setMint(0)}>BACK</Button>
+              {mint == 1 ? (
+                <>
+                  <div style={{ margin: 'auto' }}>
+                    <img width='400px' src={pendingVoucher} />
+                  </div>
+                  <Button onClick={() => setMint(0)}>
+                    Awaiting Transaction
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {' '}
+                  <div style={{ margin: 'auto' }}>
+                    <img width='400px' src={lostVoucher} />
+                  </div>
+                  <Button onClick={() => setMint(0)}>BACK</Button>
+                </>
+              )}
             </>
           )}
         </>
       ) : (
         <>
           {' '}
-          {hasPendingTransactions && mint == 1 ? (
+          {hasPendingTransactions && mint > 0 ? (
             <>
               <div style={{ margin: 'auto' }}>
                 <img width='400px' src={pendingVoucher} />

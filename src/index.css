@@ -2658,7 +2658,7 @@ display: none;
 .ghost {
   opacity: 40%;
 }
-.styled-checkbox {
+/* .styled-checkbox {
   position: absolute;
   opacity: 0;
 
@@ -2723,3 +2723,5 @@ display: none;
     transform: rotate(45deg);
   }
 }
+
+*/
