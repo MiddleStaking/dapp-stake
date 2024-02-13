@@ -352,15 +352,26 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                 }}
               >
                 <div>
-                  <Button
-                    borderRadius={40}
-                    buttonHeight='31px'
-                    // buttonWidth='240px'
-                    textColor='#ffffff'
-                    background={'#000000'}
-                    onClick={() => setShowStake(true)}
-                    text={'Stake'}
-                  />
+                  {token_position.paused == 1 ? (
+                    <Button
+                      borderRadius={40}
+                      buttonHeight='31px'
+                      textColor='#ffffff'
+                      text='Paused'
+                      background={'#000000'}
+                      disabled={true}
+                    />
+                  ) : (
+                    <Button
+                      borderRadius={40}
+                      buttonHeight='31px'
+                      // buttonWidth='240px'
+                      textColor='#ffffff'
+                      background={'#000000'}
+                      onClick={() => setShowStake(true)}
+                      text={'Stake'}
+                    />
+                  )}
                 </div>
 
                 <div>

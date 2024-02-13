@@ -20,7 +20,7 @@ export const contractPlay =
   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
 
 export const contracts = {
-  lockGraou: 'erd1qqqqqqqqqqqqqpgqkhd7lhchw42cz3sahdrc95kme9pxnzguch9srygudw'
+  lockGraou: 'erd1qqqqqqqqqqqqqpgqsgvnfzwwdmjpf55hvp66eeq3xu5pd40k5gcsm5vzlw'
 };
 export const network: NetworkType = {
   id: 'mainnet',

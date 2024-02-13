@@ -30,9 +30,9 @@ export const CollectionsLayout = () => {
   const stakedCollections: string[] = useGetCollections();
   const collection_info = useGetCollectionInformations(lockedCollection, 30);
   const userStakedNft = useGetLocked(address);
-  //console.log('locked', userStakedNft, userStakedNft.length);
+  console.log('locked', userStakedNft, userStakedNft.length);
   // const userStakedNft = [2, 3];
-  let percent = 40;
+  let percent = 20;
   if (userStakedNft.length > 0) {
     percent += 10 * userStakedNft.length;
   }
@@ -68,11 +68,20 @@ export const CollectionsLayout = () => {
       }}
     >
       <div className='alert alert-warning text-center'>
-        Acquire an extra Dino Gazette and try your luck to win a dinovoucher.
-        <br /> The Gazettes will remain locked until there are no more vouchers
-        in the contract. <br />
-        Current chance of success :<br />
-        <b>🍀 {percent > 100 ? 100 : percent}% </b>
+        {ScNftBalance.length > 0 ? (
+          <>
+            {' '}
+            Acquire an extra Dino Gazette and try your luck to win a
+            dinovoucher.
+            <br /> The Gazettes will remain locked until there are no more
+            vouchers in the contract. <br />
+            Current chance of success :<br />
+            <b>🍀 {percent > 100 ? 100 : percent}% </b>
+          </>
+        ) : (
+          <>No vouchers left in contract.</>
+        )}
+
         <div
           style={{
             display: 'grid',
@@ -216,14 +225,21 @@ export const CollectionsLayout = () => {
                             {userNftBalance.some(
                               (nft: any) => nft.nonce === item?.nonce
                             ) ? (
-                              <div onClick={() => setMint(1)}>
-                                <ActionLock
-                                  text={'Lock'}
-                                  disabled={false}
-                                  collection={item?.collection}
-                                  nonce={item?.nonce}
-                                />{' '}
-                              </div>
+                              <>
+                                {ScNftBalance.length > 0 ? (
+                                  <div onClick={() => setMint(1)}>
+                                    <ActionLock
+                                      text={'Lock'}
+                                      disabled={false}
+                                      collection={item?.collection}
+                                      nonce={item?.nonce}
+                                    />{' '}
+                                    {ScNftBalance.length}
+                                  </div>
+                                ) : (
+                                  <>no</>
+                                )}
+                              </>
                             ) : (
                               <a
                                 style={{ color: 'white', display: 'flex' }}

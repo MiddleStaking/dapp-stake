@@ -35,7 +35,8 @@ export const useGetLocked = (address: any) => {
       );
       const non = nonces?.valueOf().toString(10);
       if (queryResponse.returnCode == 'ok') {
-        setLocked(non.split(','));
+        console.log('non', non);
+        setLocked(non ? non.split(',') : []);
       }
     } catch (err) {
       console.error('Unable to call getIsPaused', err);

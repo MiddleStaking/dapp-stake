@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, CSSProperties } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { network } from 'config';
@@ -11,6 +11,9 @@ import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import { useGetCollectionsApi } from './Actions/helpersApi';
 import CardOfCollection from './CardOfCollection';
 import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
+import HexagoneNFT from './hexagoneNFT';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 export const CollectionsLayout = () => {
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
   const [mySearch, setMySearch] = React.useState('');
@@ -35,7 +38,54 @@ export const CollectionsLayout = () => {
   const handleMySearch = (e: any) => {
     setMySearch(e.target.value);
   };
+  const top: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+    flexShrink: 0,
+    margin: '11px'
+  };
 
+  const left: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+    flexShrink: 0
+  };
+
+  const title: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2px',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-star',
+    flexShrink: 0
+  };
+
+  const earnMex: CSSProperties = {
+    color: 'white',
+    textAlign: 'left',
+    fontWeight: 700,
+    fontSize: '22px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  };
+
+  const stakeMex: CSSProperties = {
+    color: 'white',
+    textAlign: 'left',
+    fontWeight: 300,
+    fontSize: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  };
   return (
     <div
       style={{
@@ -150,6 +200,104 @@ export const CollectionsLayout = () => {
               </div>
             ))} */}
 
+        {/* div Vouchers */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            maxWidth: '300px'
+          }}
+        >
+          {' '}
+          <div
+            style={{
+              width: '300px',
+              // height: '300px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1px',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              flex: 1,
+              position: 'relative'
+            }}
+          >
+            <div
+              onClick={() => (window.location.href = `/lock`)}
+              style={{
+                minHeight: '171px',
+                width: '100%',
+                background:
+                  'linear-gradient(0deg, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)),linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%)',
+                borderRadius: '8px 8px 8px 8px',
+                borderWidth: '1px',
+                // borderStyle: 'solid',
+                borderStyle: '',
+                borderImage:
+                  'linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.00) 100%) 1',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start',
+                alignSelf: 'stretch',
+                flexShrink: 0,
+                overflow: 'hidden'
+              }}
+            >
+              <div style={top}>
+                <div style={left}>
+                  <div style={title}>
+                    <div style={earnMex}>
+                      Lock {'DINOGAZ-c723ac'.split('-')[0]}{' '}
+                      <FontAwesomeIcon
+                        icon={faCertificate}
+                        style={{ color: '#66bf1d' }}
+                        size={'sm'}
+                      />
+                    </div>
+                    <div style={stakeMex}>Earn Vouchers</div>
+                  </div>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(3, 1fr)',
+                      gridGap: '70px'
+                    }}
+                  >
+                    <div className='imgCheminCard'>
+                      <div>
+                        <HexagoneNFT
+                          format={'image'}
+                          url={
+                            'https://media.elrond.com/nfts/asset/bafybeihmudwr67z66ghteqbchkesdddvnmeo2psop3xyicznkbgyu6xpu4/item.png'
+                          }
+                          width={100}
+                          withBorder={true}
+                          borderWidth={2.5}
+                          borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                        />
+                      </div>
+                    </div>
+                    <div className='imgCheminCard'>
+                      <HexagoneNFT
+                        format={'video/mp4'}
+                        url={
+                          'https://media.elrond.com/nfts/asset/bafybeia2xgpmdfphy74bvw5x4um6ogy5rtpydu6xujwaley7m4i3ltlj4m/item.mp4'
+                        }
+                        width={100}
+                        withBorder={true}
+                        borderWidth={2.5}
+                        borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* end div Vouchers */}
         {callCollectionApi &&
           callCollectionApi
             .filter((item) => {
