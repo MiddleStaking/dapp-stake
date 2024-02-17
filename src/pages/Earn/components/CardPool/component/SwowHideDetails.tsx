@@ -223,7 +223,7 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
             {rewarded_esdt_info?.assets?.social?.twitter && (
               <a
                 style={icon}
-                href={socialNetwork?.[0]?.twitter}
+                href={rewarded_esdt_info?.assets?.social?.twitter}
                 target={'_blank'}
                 rel={'noreferrer'}
               >

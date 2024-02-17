@@ -201,12 +201,13 @@ export const CollectionsLayout = () => {
             ))} */}
 
         {/* div Vouchers */}
-        <div
+        {/* <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            maxWidth: '300px'
+            maxWidth: '300px',
+            cursor: 'pointer'
           }}
         >
           {' '}
@@ -224,7 +225,7 @@ export const CollectionsLayout = () => {
             }}
           >
             <div
-              onClick={() => (window.location.href = `/lock`)}
+              onClick={() => (window.location.href = `/graou`)}
               style={{
                 minHeight: '171px',
                 width: '100%',
@@ -256,7 +257,7 @@ export const CollectionsLayout = () => {
                         size={'sm'}
                       />
                     </div>
-                    <div style={stakeMex}>Earn Vouchers</div>
+                    <div style={stakeMex}>Earn #graou Vouchers</div>
                   </div>
                   <div
                     style={{
@@ -296,7 +297,7 @@ export const CollectionsLayout = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         {/* end div Vouchers */}
         {callCollectionApi &&
           callCollectionApi
@@ -314,7 +315,8 @@ export const CollectionsLayout = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  maxWidth: '300px'
+                  maxWidth: '300px',
+                  cursor: 'pointer'
                 }}
               >
                 <CardOfCollection

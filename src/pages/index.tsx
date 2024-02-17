@@ -12,4 +12,4 @@ export * from './Liquid';
 export * from './Distrib';
 export * from './Collections';
 export * from './CollectionDetail';
-export * from './Lock';
+export * from './Graou';

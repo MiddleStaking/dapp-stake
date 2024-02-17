@@ -23,6 +23,8 @@ import { cpSync } from 'fs';
 import lostVoucher from '../../../assets/img/lostVoucher.png';
 import pendingVoucher from '../../../assets/img/voucherRun.png';
 import { ActionUnlock } from './Actions/ActionUnlock';
+import DinoDyor from '../../../assets/img/DinoVoxDyor.jpg';
+import SmallVox from '../../../assets/img/vox-s.png';
 
 export const CollectionsLayout = () => {
   const [mint, setMint] = useState(0);
@@ -67,27 +69,69 @@ export const CollectionsLayout = () => {
         gap: '10px'
       }}
     >
-      <div className='alert alert-warning text-center'>
+      <div
+        className='text-center text-white'
+        style={{
+          minHeight: '171px',
+          width: '100%',
+          background:
+            'linear-gradient(0deg, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)), linear-gradient(rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%)',
+          borderRadius: '8px',
+          borderWidth: '1px',
+          borderImage:
+            'linear-gradient(rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%) 1 / 1 / 0 stretch'
+        }}
+      >
         {ScNftBalance.length > 0 ? (
           <>
-            {' '}
-            Acquire an extra Dino Gazette and try your luck to win a
+            <div
+              style={{ fontFamily: 'Arial, sans-serif', marginBottom: '20px' }}
+            >
+              <h2>Unlock Rewards with Dino Gazette</h2>
+              <div style={{ margin: 'auto' }}>
+                <img width='500px' src={DinoDyor} />
+              </div>{' '}
+              <p>
+                Acquire an extra Dino Gazette and try your luck to win a
+                dinovoucher. Each locked gazette increases your chance to win
+                from a pool of exclusive vouchers.
+              </p>
+              <p>
+                The Gazettes will remain locked until there are no more vouchers
+                in the contract, ensuring continuous excitement and rewards for
+                participants.
+              </p>
+              Lock your Gazette now! Current chance to unlock a voucher :{' '}
+              <b>🍀 {percent > 100 ? 100 : percent}% </b>
+            </div>
+
+            {/* Acquire an extra Dino Gazette and try your luck to win a
             dinovoucher.
             <br /> The Gazettes will remain locked until there are no more
             vouchers in the contract. <br />
             Current chance of success :<br />
-            <b>🍀 {percent > 100 ? 100 : percent}% </b>
+            <b>🍀 {percent > 100 ? 100 : percent}% </b> */}
           </>
         ) : (
-          <>No vouchers left in contract.</>
+          <>
+            <h2>Unlock Rewards with Dino Gazette</h2>{' '}
+            <div style={{ margin: 'auto' }}>
+              <img width='500px' src={DinoDyor} />
+            </div>
+            <p>No vouchers left in contract. All Gazettes are now unlockable</p>
+          </>
         )}
 
         <div
+          className=''
           style={{
-            display: 'grid',
+            display: 'inline-flex',
             gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-            gap: '10px',
-            placeItems: 'start center'
+            gap: '20px',
+            placeItems: 'start center',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            padding: '5px'
           }}
         >
           {ScNftBalance.map((item: any) => (
@@ -105,6 +149,31 @@ export const CollectionsLayout = () => {
               {item?.identifier}
             </div>
           ))}
+        </div>
+        <div style={{ padding: '3px' }}>
+          <a
+            className='text-white'
+            href='https://www.dinovox.com/'
+            target='_blank'
+            rel='noreferrer'
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            Learn more about the Dinovox
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <img width='50px' src={SmallVox} />
+            </div>
+          </a>
         </div>
       </div>
 
@@ -234,26 +303,42 @@ export const CollectionsLayout = () => {
                                       collection={item?.collection}
                                       nonce={item?.nonce}
                                     />{' '}
-                                    {ScNftBalance.length}
                                   </div>
                                 ) : (
                                   <>no</>
                                 )}
                               </>
                             ) : (
-                              <a
-                                style={{ color: 'white', display: 'flex' }}
-                                target='_blank'
-                                rel='noreferrer'
-                                href={
-                                  'https://www.frameit.gg/marketplace/nft/' +
-                                  item.collection +
-                                  '-' +
-                                  toHex(item.nonce)
-                                }
-                              >
-                                <Button>Get it on framit.gg</Button>
-                              </a>
+                              <>
+                                {address ? (
+                                  <a
+                                    style={{ color: 'white', display: 'flex' }}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                    href={
+                                      'https://www.frameit.gg/marketplace/nft/' +
+                                      item.collection +
+                                      '-' +
+                                      toHex(item.nonce)
+                                    }
+                                  >
+                                    <Button>Get it on framit.gg</Button>
+                                  </a>
+                                ) : (
+                                  <a
+                                    style={{
+                                      color: 'white',
+                                      display: 'flex'
+                                    }}
+                                    rel='noreferrer'
+                                    href={'unlock'}
+                                  >
+                                    <Button style={{ width: '130px' }}>
+                                      Login
+                                    </Button>
+                                  </a>
+                                )}
+                              </>
                             )}
                           </>
                         )}

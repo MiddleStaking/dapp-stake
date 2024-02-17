@@ -18,7 +18,7 @@ import {
   Distrib,
   Collections,
   CollectionDetail,
-  Lock,
+  Graou,
   Delegate
 } from './pages';
 
@@ -40,7 +40,7 @@ export const routeNames = {
   liquidity: '/liquidity',
   distrib: '/distrib',
   collections: '/collections',
-  lock: '/lock',
+  graou: '/graou',
   admin: '/admin'
 };
 
@@ -96,9 +96,9 @@ export const routes: RouteWithTitleType[] = [
     authenticatedRoute: false
   },
   {
-    path: routeNames.lock,
-    title: 'Lock',
-    component: Lock,
+    path: routeNames.graou,
+    title: '#graou',
+    component: Graou,
     authenticatedRoute: false
   },
   {
