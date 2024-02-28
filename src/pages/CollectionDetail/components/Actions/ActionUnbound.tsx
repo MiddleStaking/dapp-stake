@@ -19,7 +19,7 @@ export const ActionUnbound = ({ nft_id, text, disabled }: any) => {
       value: 0,
       data: 'unbound@' + bigToHex(BigInt(nft_id)),
       receiver: contractNftStake,
-      gasLimit: '7000000'
+      gasLimit: '8000000'
     };
     await refreshAccount();
 

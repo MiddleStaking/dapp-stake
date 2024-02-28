@@ -181,7 +181,9 @@ export const CollectionsLayout = () => {
         <>
           {minted?.media?.[0]?.url ? (
             <>
-              <div style={{ margin: 'auto', color: 'white' }}>Yo Won !</div>
+              <div style={{ margin: 'auto', color: 'white' }}>
+                🦖 You Won !{' '}
+              </div>
               <HexagoneNFT
                 format={minted?.media?.[0]?.fileType}
                 url={minted?.media?.[0]?.url}

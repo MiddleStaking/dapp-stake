@@ -201,7 +201,7 @@ export const CollectionsLayout = () => {
             ))} */}
 
         {/* div Vouchers */}
-        {/* <div
+        <div
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -297,7 +297,7 @@ export const CollectionsLayout = () => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
         {/* end div Vouchers */}
         {callCollectionApi &&
           callCollectionApi
