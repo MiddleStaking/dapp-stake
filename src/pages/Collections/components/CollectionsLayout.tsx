@@ -145,22 +145,20 @@ export const CollectionsLayout = () => {
               />
             )}
           </div>
-          {network.id != 'mainnet' && (
-            <div className='centered-element'>
-              <Button
-                fontSize='16px'
-                buttonHeight={'44px'}
-                buttonWidth={'90px'}
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text='Mint SFT'
-                onClick={() => {
-                  setHeaderMenu(false), setShowMint(true);
-                }}
-              />
-            </div>
-          )}
+          <div className='centered-element'>
+            <Button
+              fontSize='16px'
+              buttonHeight={'44px'}
+              buttonWidth={'140px'}
+              borderRadius={40}
+              background={['#BD37EC', '#1F67FF']}
+              borderColor={'black'}
+              text='Open MIDGIFT'
+              onClick={() => {
+                setHeaderMenu(false), setShowMint(true);
+              }}
+            />
+          </div>
         </div>
       </div>
 

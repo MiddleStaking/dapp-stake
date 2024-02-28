@@ -1,8 +1,9 @@
 // MAINNET:
 export const defaultToken = 'MID-ecb7bf';
-export const sftCollection = '';
+export const sftCollection = 'MIDSTERS-a7c790';
 export const lockedCollection = 'DINOGAZ-c723ac';
 export const vouchersCollection = 'VOUCHERS-e6045e';
+export const midGiftToken = 'MIDGIFT-bf25b7';
 
 export const contractStake =
   'erd1qqqqqqqqqqqqqpgqgdf6vk43c2jxk4a6nw2adv8vmnpqagegtxfqmf8et2';
@@ -11,7 +12,7 @@ export const contractSwap =
 export const contractNftStake =
   'erd1qqqqqqqqqqqqqpgq5re66vt0dlee8v83dtyh6k54qqpjs3ketxfq9tcd29';
 export const contractMint =
-  'erd1qqqqqqqqqqqqqpgqz8s3d4grypaq8kws6lrgjseljjtkw6etch9sltef2r';
+  'erd1qqqqqqqqqqqqqpgqmcf5lv9kxjl8jkp9qrme74y2ft3kwzultxfq03fghn';
 export const contractDistrib =
   'erd1qqqqqqqqqqqqqpgqtmj6zwec4llv8m9fnvyjytcy9gmht78l5gcsev3xm2';
 export const contractAddressDelegation =

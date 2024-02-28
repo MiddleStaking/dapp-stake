@@ -1,4 +1,5 @@
 export const verified = [
+  { c: 'BEARSU-7b68e2', s: 'verified' },
   { c: 'MIDGIFT-bf25b7', s: 'verified' },
   { c: 'DINOBOX-54d57b', s: 'verified' },
   { c: 'DINOVOX-cb2297', s: 'verified' },
@@ -8,6 +9,7 @@ export const verified = [
   { c: 'FCHIPS-c9d584', s: 'verified' },
   { c: 'FRAMEITFC-4d1023', s: 'verified' },
   { c: 'KROQWT-b6b8e5', s: 'verified' },
+  { c: 'MIDSTERS-a7c790', s: 'verified' },
   { c: 'OPIUMPASS-ff95cf', s: 'verified' },
   { c: 'ORBS-096feb', s: 'scam' },
   { c: 'QWTCARDS-17f15b', s: 'verified' },

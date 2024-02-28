@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './StakeModal.scss';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
 import Input from 'components/Design/Input';
-import { defaultToken, sftCollection } from 'config';
+import { defaultToken, midGiftToken, sftCollection } from 'config';
 import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
 import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
@@ -27,7 +27,7 @@ const MintModal = (props: any) => {
   const [selectedGift, setSelectedGift] = React.useState<any>({});
 
   const getCollectionInformations = useGetCollectionInformations(sftCollection);
-  const userNftBalance: any = useGetUserNFT('TOKENTICKE-38b075');
+  const userNftBalance: any = useGetUserNFT(midGiftToken);
 
   const { hasPendingTransactions } = useGetPendingTransactions();
 
@@ -84,11 +84,11 @@ const MintModal = (props: any) => {
         <div className='backgroundStakeModal'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
-              <div className='modalLabelStakeModal'>Mint SFT</div>
+              <div className='modalLabelStakeModal'>OPEN GIFT</div>
               {getMinted?.media && !hasPendingTransactions ? (
                 <>
                   {' '}
-                  <div>Your last mint :</div>
+                  <div>Your last opening :</div>
                   <div
                     style={{
                       display: 'flex',
@@ -137,13 +137,16 @@ const MintModal = (props: any) => {
               )}
 
               <div className='staked-rewarded-tokens-StakeModal'>
-                <div className='do-you-want-to-add-it-rewarded-tokens-StakeModal'>
-                  Mint one random SFT from collection with :
+                <div
+                  className='do-you-want-to-add-it-rewarded-tokens-StakeModal'
+                  style={{ margin: 'auto' }}
+                >
+                  Reveal one random NFT from collection with a MIDGIFT
                 </div>
 
                 <div>
                   {/* with EGLD */}
-                  <div className='AmountInputGroupe'>
+                  {/* <div className='AmountInputGroupe'>
                     <Input
                       inputHeight='40px'
                       inputWidth='180px'
@@ -168,10 +171,10 @@ const MintModal = (props: any) => {
                           : false
                       }
                     />
-                  </div>
+                  </div> */}
 
                   {/* with MID */}
-                  <div
+                  {/* <div
                     className='AmountInputGroupe'
                     style={{ marginTop: '10px' }}
                   >
@@ -199,7 +202,7 @@ const MintModal = (props: any) => {
                           : false
                       }
                     />
-                  </div>
+                  </div> */}
 
                   {/* with GIFT */}
                   {userNftBalance.length > 0 && (

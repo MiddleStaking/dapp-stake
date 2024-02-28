@@ -64,9 +64,9 @@ export const ActionMint = ({
           '@' +
           addressTobech32.hex() +
           '@' +
-          Buffer.from('buySft', 'utf8').toString('hex'),
+          Buffer.from('buyNft', 'utf8').toString('hex'),
         receiver: address,
-        gasLimit: '10000000'
+        gasLimit: '60000000'
       };
     }
 
@@ -94,7 +94,7 @@ export const ActionMint = ({
             buttonWidth='100%'
             borderRadius={40}
             background={['#BD37EC', '#1F67FF']}
-            text='Mint SFT'
+            text='Open Gift'
             onClick={sendMintTransaction}
             disabled={disabled}
           />
