@@ -5,6 +5,7 @@ import { Actionfinalize } from '../../Actions/Actionfinalize';
 import { ActionUnbound } from '../../Actions/ActionUnbound';
 import Countdown from '../../CountDown';
 import MyStakedNft from './MyStakedNft';
+import toHex from 'helpers/toHex';
 
 interface MyStakeSectionProps {
   staked_balance: any[];
@@ -51,6 +52,23 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
               }}
             >
               <div className='imgCheminCard'>
+                <a
+                  target='_BLANK'
+                  rel='noreferrer'
+                  className='text-white'
+                  href={
+                    'https://www.frameit.gg/marketplace/nft/' +
+                    item?.staked_nft.identifier +
+                    '-' +
+                    toHex(item?.staked_nft?.nonce)
+                  }
+                >
+                  <u>
+                    {item?.staked_nft.identifier.split('-')[1] +
+                      '-' +
+                      toHex(item?.staked_nft?.nonce)}
+                  </u>
+                </a>{' '}
                 {item?.staked_nft?.identifier && (
                   <MyStakedNft
                     // jumpOpen={})
