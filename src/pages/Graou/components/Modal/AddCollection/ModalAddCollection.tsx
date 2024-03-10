@@ -14,7 +14,6 @@ import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actio
 import { useGetUserCredits } from 'pages/Collections/components/Actions/helpers';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import notFound from '../../../../../assets/img/notfoundc.svg';
-import { ActionFund } from '../../Actions';
 import { ActionBuyCredit } from '../../Actions/ActionBuyCredit';
 import {
   useGetCollectionInformations,
@@ -1121,18 +1120,7 @@ const ModalAddCollection = (props: ModalProps) => {
                     onClick={props.onClose}
                   />
                 </div>
-                <div className='bottomModal'>
-                  <ActionFund
-                    stakedToken={stoken}
-                    rewardedToken={rtoken}
-                    user_fund={bigAmount}
-                    speed={speedNumber}
-                    nonce={nonceNumber}
-                    vesting={vestingTime}
-                    unbounding={unboundingTime}
-                    agreement={agreement && agreement2}
-                  />
-                </div>
+                <div className='bottomModal'></div>
               </div>{' '}
               <div>Give away rewards to the collection?</div>
               <div>

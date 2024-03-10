@@ -1,52 +1,44 @@
-// MAINNET:
-export const defaultToken = 'MID-ecb7bf';
-export const sftCollection = 'MIDSTERS-a7c790';
-export const lockedCollection = 'DINOGAZ-c723ac';
-export const vouchersCollection = 'VOUCHERS-e6045e';
+// // DEVNET 2:
+export const defaultToken = 'MID-00c2c9';
+export const sftCollection = 'TOKENTICKE-38b075';
+export const vouchersCollection = 'SFT-221ca7';
+export const lockedCollection = 'TOKENTICKE-38b075';
 export const midGiftToken = 'MIDGIFT-bf25b7';
+export const scOwner =
+  'erd12stex47hwg0hvx8cfvukj3y3ugs7dm0686k3wasycffexva6ch9s7tvj29';
 
+export const defaultPairs = [{ s: 'MID-00c2c9', r: 'MID-00c2c9' }];
 export const contractStake =
-  'erd1qqqqqqqqqqqqqpgqgdf6vk43c2jxk4a6nw2adv8vmnpqagegtxfqmf8et2';
+  'erd1qqqqqqqqqqqqqpgqnhdcg9ugyall5xyxa8xayz80hp5d3d6gch9s2kragz';
 export const contractSwap =
-  'erd1qqqqqqqqqqqqqpgqw0tp0z2evzvdgmreavvszfwkncnxnsejtxfql7w9tu';
+  'erd1qqqqqqqqqqqqqpgq0dr0a8ag4y59q4nd66leux69vaeg6j9nch9swrxd82';
 export const contractNftStake =
-  'erd1qqqqqqqqqqqqqpgq5re66vt0dlee8v83dtyh6k54qqpjs3ketxfq9tcd29';
+  'erd1qqqqqqqqqqqqqpgqq9va3mwdgzx5qzc7qnxu8k6ay0twry5jch9sz0ymrt';
 export const contractMint =
-  'erd1qqqqqqqqqqqqqpgqmcf5lv9kxjl8jkp9qrme74y2ft3kwzultxfq03fghn';
+  'erd1qqqqqqqqqqqqqpgq7zl9anenveu2vfz7z8m3kd4kcjlzq2wpch9sjgjyqh';
 export const contractDistrib =
-  'erd1qqqqqqqqqqqqqpgqtmj6zwec4llv8m9fnvyjytcy9gmht78l5gcsev3xm2';
+  'erd1qqqqqqqqqqqqqpgqzwkjf8c2695uaz4ak6d2scxece553d7hch9s82qmp2';
 export const contractAddressDelegation =
-  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
+  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 export const contractPlay =
-  'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
+  'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
 
 export const contracts = {
-  lockGraou: 'erd1qqqqqqqqqqqqqpgqsgvnfzwwdmjpf55hvp66eeq3xu5pd40k5gcsm5vzlw'
+  lockGraou: 'erd1qqqqqqqqqqqqqpgqkhd7lhchw42cz3sahdrc95kme9pxnzguch9srygudw'
 };
 export const network: NetworkType = {
-  id: 'mainnet',
-  chainId: '1',
-  name: 'Mainnet',
-  egldLabel: 'EGLD',
-  walletAddress: 'https://wallet.multiversx.com/dapp/init',
-  //  walletAddress: 'https://xalias.com',
-  apiAddress: 'https://api.multiversx.com',
-  gatewayAddress: 'https://gateway.multiversx.com',
-  gatewayCached: 'https://api.middlestaking.fr/mainnet',
-  explorerAddress: 'http://explorer.multiversx.com',
+  id: 'devnet',
+  chainId: 'D',
+  name: 'Devnet',
+  egldLabel: 'xEGLD',
+  walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
+  apiAddress: 'https://devnet-api.multiversx.com',
+  gatewayAddress: 'https://devnet-gateway.multiversx.com',
+  gatewayCached: 'https://devnet-gateway.multiversx.com',
+  explorerAddress: 'http://devnet-explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };
-export const defaultPairs = [
-  { s: 'MID-ecb7bf', r: 'MID-ecb7bf' },
-  { s: 'MID-ecb7bf', r: 'MEX-455c57' },
-  { s: 'MID-ecb7bf', r: 'VITAL-ab7917' },
-  { s: 'MID-ecb7bf', r: 'XTW-78700a' },
-  { s: 'MIDUSDC-3d93f4', r: 'MID-ecb7bf' },
-  { s: 'MEX-455c57', r: 'MID-ecb7bf' },
-  { s: 'VITAL-ab7917', r: 'MID-ecb7bf' }
-];
 
-//GLOBAL :
 export const stakingContract =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 

@@ -27,6 +27,8 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
   collectionReward,
   collectionRewards
 }) => {
+
+  console.log(staked_balance);
   return (
     <div
       style={{
@@ -112,11 +114,15 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                     <>
                       <ActionUnbound
                         text={
-                          item?.current_block < item?.staked_nft?.lock
+                          BigInt(item?.current_block) <
+                          BigInt(item?.staked_nft?.lock)
                             ? 'Vesting '
                             : 'Unbound '
                         }
-                        disabled={item?.current_block < item?.staked_nft?.lock}
+                        disabled={
+                          BigInt(item?.current_block) <
+                          BigInt(item?.staked_nft?.lock)
+                        }
                         nft_id={item?.staked_nft.id}
                       />
                       <Countdown
@@ -136,7 +142,8 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                       <Actionfinalize
                         text={'Finalize '}
                         disabled={
-                          item?.current_block < item?.staked_nft?.unbound
+                          BigInt(item?.current_block) <
+                          BigInt(item?.staked_nft?.unbound)
                         }
                         nft_id={item?.staked_nft.id}
                       />

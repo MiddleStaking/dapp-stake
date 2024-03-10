@@ -14,7 +14,7 @@ import { useGetCollectionRewards } from 'pages/CollectionDetail/components/Actio
 import { useGetUserCredits } from 'pages/Collections/components/Actions/helpers';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import notFound from '../../../../../assets/img/notfoundc.svg';
-import { ActionFund } from '../../Actions';
+import { ActionFund, ActionClose, ActionDelete } from '../../Actions';
 import { ActionBuyCredit } from '../../Actions/ActionBuyCredit';
 import {
   useGetCollectionInformations,
@@ -24,6 +24,7 @@ import { useGetNft } from '../../Actions/helpers/useGetNft';
 import HexagoneNFT from '../../hexagoneNFT';
 import { CheckBox } from './../../../../../components/Design';
 import HexagoneGroupe from './hexagoneGroupe';
+import { scOwner } from 'config-dev';
 
 interface ModalProps {
   userEsdtBalance: any;
@@ -965,6 +966,12 @@ const ModalAddCollection = (props: ModalProps) => {
                           </div>
                         </div>
                       </div>
+                      {account.address == scOwner && (
+                        <div className='bottomModal'>
+                          <ActionClose poolID={item?.pool_id} />
+                          <ActionDelete poolID={item?.pool_id} />
+                        </div>
+                      )}
                     </div>
                   ))}
               {testgetStakedTokens &&
