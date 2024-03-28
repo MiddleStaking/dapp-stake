@@ -303,11 +303,20 @@ const CardPool: FC<CardPoolrops> = ({
         ? price_fixed2 * BigInt(token_position.balance.toFixed())
         : 1
     );
+    // priced_apr = BigInt(
+    //   BigNumber(
+    //     ((Number(rewards_val) / Number(initial_value)) * 100 * 365) /
+    //       Number(speed)
+    //   ).toFixed()
+    // );
+
     priced_apr = BigInt(
-      (
+      BigNumber(
         ((Number(rewards_val) / Number(initial_value)) * 100 * 365) /
-        Number(speed)
-      ).toFixed()
+          Number(speed)
+      )
+        .integerValue(BigNumber.ROUND_FLOOR)
+        .toString() // or ROUND_CEIL for rounding up
     );
   }
 
@@ -351,13 +360,20 @@ const CardPool: FC<CardPoolrops> = ({
       );
     }
 
+    // priced_apr = BigInt(
+    //   ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
+    //     100 *
+    //     365) /
+    //     Number(speed)
+    // );
+
     priced_apr = BigInt(
-      (
+      Math.round(
         ((Number(pooled_reward_value) / Number(pooled_initial_value)) *
           100 *
           365) /
-        Number(speed)
-      ).toFixed()
+          Number(speed)
+      )
     );
   }
 
