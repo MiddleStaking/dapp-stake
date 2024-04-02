@@ -18,6 +18,7 @@ const FundModal = (props: any) => {
   const [rtoken, setRtoken] = React.useState(defaultToken);
   const [decimals, setDecimals] = React.useState(18);
   const [balance, setBalance] = React.useState(BigInt(0));
+  const [agreement, setaAgreement] = React.useState(false);
 
   const [payFees, setPayFees] = React.useState(false);
   const tokenPosition = useGetTokenPosition(stoken, rtoken);
@@ -40,8 +41,12 @@ const FundModal = (props: any) => {
   const defaultProps = userEsdtBalance.find(
     (item: any) => item.identifier === defaultToken
   );
+  // const handleChange = () => {
+  //   setPayFees(!payFees);
+  // };
+
   const handleChange = () => {
-    setPayFees(!payFees);
+    setaAgreement(!agreement);
   };
 
   const ModalRef: any = useRef(null);
@@ -398,7 +403,7 @@ const FundModal = (props: any) => {
               <div className='staked-rewarded-tokens-StakeModal'>
                 {fees > BigInt(0) ? (
                   <div className='AmountInputGroupe'>
-                    <div className='do-you-want-to-add-it-rewarded-tokens'>
+                    {/* <div className='do-you-want-to-add-it-rewarded-tokens'>
                       <CheckBox
                         label='Pay to remove the 1% deposit fees.'
                         checked={payFees}
@@ -416,15 +421,15 @@ const FundModal = (props: any) => {
                       >
                         <u>Read More</u>
                       </a>
-                    </div>
+                    </div> */}
                   </div>
                 ) : (
                   <div className='do-you-want-to-add-it-rewarded-tokens'>
-                    <CheckBox
+                    {/* <CheckBox
                       label='Fees payed'
                       checked={true}
                       disabled={true}
-                    />
+                    /> */}
                   </div>
                 )}
 
@@ -522,7 +527,7 @@ const FundModal = (props: any) => {
                   </>
                 ) : (
                   <>
-                    <div className='form'>
+                    {/* <div className='form'>
                       <div className='frame-57'>
                         <div className='input3'>
                           <div className='label5'>
@@ -565,7 +570,7 @@ const FundModal = (props: any) => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </>
                 )}
               </div>
@@ -593,11 +598,31 @@ const FundModal = (props: any) => {
                       stakedToken={stoken}
                       rewardedToken={rtoken}
                       user_fund={bigAmount}
+                      agreement={agreement}
                     />
                   )}
                 </div>
+              </div>{' '}
+              <div>
+                <CheckBox
+                  label='I understand that this operation is irreversible'
+                  checked={agreement}
+                  onClick={() => {
+                    handleChange();
+                  }}
+                />{' '}
+                <a
+                  style={{ color: 'white', display: 'flex' }}
+                  target='_blank'
+                  rel='noreferrer'
+                  href='https://docs.middlestaking.fr/welcome/deposit'
+                >
+                  <u>Read More</u>
+                </a>
               </div>
+              <div></div>
             </div>
+
             <svg
               className='closeStakeModal'
               onClick={props.onClose}

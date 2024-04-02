@@ -7,7 +7,12 @@ import { contractStake } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
 
-export const ActionFund = ({ stakedToken, rewardedToken, user_fund }: any) => {
+export const ActionFund = ({
+  stakedToken,
+  rewardedToken,
+  user_fund,
+  agreement
+}: any) => {
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
@@ -58,7 +63,7 @@ export const ActionFund = ({ stakedToken, rewardedToken, user_fund }: any) => {
                 background={['#BD37EC', '#1F67FF']}
                 text='Lock tokens'
                 onClick={sendFundTransaction}
-                disabled={user_fund == 0}
+                disabled={user_fund == 0 && !agreement}
               />
             </>
           ) : (
