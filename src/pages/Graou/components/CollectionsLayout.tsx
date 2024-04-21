@@ -8,7 +8,6 @@ import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { useGetUserStakedNft } from 'pages/CollectionDetail/components/Actions/helpers/useGetUserStakedNft';
 import {
   useGetCollectionInformations,
-  useGetCollections,
   useGetLocked,
   useGetScNFT
 } from './Actions/helpers';
@@ -23,16 +22,16 @@ import { cpSync } from 'fs';
 import lostVoucher from '../../../assets/img/lostVoucher.png';
 import pendingVoucher from '../../../assets/img/voucherRun.png';
 import { ActionUnlock } from './Actions/ActionUnlock';
+import { ActionUnlockAll } from './Actions/ActionUnlockAll';
 import DinoDyor from '../../../assets/img/DinoVoxDyor.jpg';
 import SmallVox from '../../../assets/img/vox-s.png';
 
 export const CollectionsLayout = () => {
   const [mint, setMint] = useState(0);
   const { account, address } = useGetAccountInfo();
-  const stakedCollections: string[] = useGetCollections();
+  // const stakedCollections: string[] = useGetCollections();
   const collection_info = useGetCollectionInformations(lockedCollection, 30);
   const userStakedNft = useGetLocked(address);
-  console.log('locked', userStakedNft, userStakedNft.length);
   // const userStakedNft = [2, 3];
   let percent = 20;
   if (userStakedNft.length > 0) {
@@ -41,7 +40,6 @@ export const CollectionsLayout = () => {
   const userNftBalance = useGetUserNFT(lockedCollection);
   const ScNftBalance = useGetScNFT(vouchersCollection, contracts.lockGraou);
   //const ScNftBalance: any = [];
-  console.log('ScNftBalance', ScNftBalance);
 
   const minted = useGetRewarded();
   const { hasPendingTransactions } = useGetPendingTransactions();
@@ -50,9 +48,6 @@ export const CollectionsLayout = () => {
   //   identifier: 'fail'
   // };
   // const minted = userNftBalance[0];
-  console.log('35', minted);
-  console.log('mint', mint);
-  console.log('hasPendingTransactions', hasPendingTransactions);
 
   useEffect(() => {
     if (mint == 1 && hasPendingTransactions) {
@@ -135,7 +130,7 @@ export const CollectionsLayout = () => {
           }}
         >
           {ScNftBalance.map((item: any) => (
-            <div>
+            <div key={item?.name}>
               {item?.name}
               <HexagoneNFT
                 format={item?.media?.[0]?.fileType}
@@ -177,6 +172,13 @@ export const CollectionsLayout = () => {
         </div>
       </div>
 
+      {ScNftBalance.length == 0 && (
+        <ActionUnlockAll
+          text={'Unlock'}
+          disabled={false}
+          nonces={userStakedNft}
+        />
+      )}
       {!hasPendingTransactions && mint > 0 && minted?.identifer != '' ? (
         <>
           {minted?.media?.[0]?.url ? (

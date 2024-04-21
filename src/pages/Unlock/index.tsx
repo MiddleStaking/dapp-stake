@@ -48,19 +48,7 @@ const Unlock: FC = () => {
       ),
       component: WebWalletLoginButton
     },
-    {
-      title: 'xAlias',
-      name: 'Google Login.',
-      background: '#000000',
-      image: (
-        <div className={styles.logos}>
-          <span>
-            <img className={styles.img} src={logoXalias}></img>
-          </span>
-        </div>
-      ),
-      component: XaliasLoginButton
-    },
+
     {
       title: 'Hardware',
       name: 'Ledger',
@@ -90,6 +78,20 @@ const Unlock: FC = () => {
       component: OperaWalletLoginButton
     }
   ];
+
+  // {
+  //   title: 'xAlias',
+  //   name: 'Google Login.',
+  //   background: '#000000',
+  //   image: (
+  //     <div className={styles.logos}>
+  //       <span>
+  //         <img className={styles.img} src={logoXalias}></img>
+  //       </span>
+  //     </div>
+  //   ),
+  //   component: XaliasLoginButton
+  // },
 
   const redirectConditionally = () => {
     if (Boolean(address)) {

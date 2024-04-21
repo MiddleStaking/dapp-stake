@@ -35,7 +35,7 @@ export const useGetLocked = (address: any) => {
       );
       const non = nonces?.valueOf().toString(10);
       if (queryResponse.returnCode == 'ok') {
-        console.log('non', non);
+        // console.log('non', non);
         setLocked(non ? non.split(',') : []);
       }
     } catch (err) {

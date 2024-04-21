@@ -28,7 +28,7 @@ export const useGetRewarded = () => {
     const txs = successfulTransactionsArray.length - 1;
     const last_nonce =
       successfulTransactionsArray?.[txs]?.[1]?.transactions?.[0]?.nonce;
-    console.log('last_nonce', last_nonce, hash);
+    // console.log('last_nonce', last_nonce, hash);
 
     if (last_nonce <= last) {
       return;

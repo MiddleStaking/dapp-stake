@@ -19,6 +19,7 @@ import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import CardPool from './CardPool';
 import FundModal from './FundModal';
 import DropdownMenu from 'components/Design/DropdownMenu';
+import { useGetFeePercent } from './Actions/helpers/useGetFeePercent';
 
 export const EarnLayout = () => {
   // const { network } = useGetNetworkConfig();
@@ -28,6 +29,9 @@ export const EarnLayout = () => {
   const [orderBy, setOrderBy] = React.useState('value');
   const { address } = useGetAccountInfo();
 
+
+  const feePercent = useGetFeePercent();
+  console.log(feePercent);
   // const pairs =
   //   localStorage.getItem('pairs_') != null
   //     ? JSON.parse(localStorage.getItem('pairs_') as string)
