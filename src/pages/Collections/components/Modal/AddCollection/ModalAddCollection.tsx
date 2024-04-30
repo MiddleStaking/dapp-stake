@@ -48,7 +48,7 @@ const ModalAddCollection = (props: ModalProps) => {
   const eBalance = BigInt(Number(account?.balance) > 0 ? account?.balance : 0);
 
   const user_credits = useGetUserCredits(address);
-  const credit_value = 250;
+  const credit_value = 500;
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
