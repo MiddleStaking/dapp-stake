@@ -21,5 +21,6 @@ export const verified = [
   { c: 'TRT-956a03', s: 'verified' },
   { c: 'TAVERN-e9b9d6', s: 'verified' },
   { c: 'DRIVERS-f247ce', s: 'verified' },
-  { c: 'CREATOROCX-b96f26', s: 'verified' }
+  { c: 'CREATOROCX-b96f26', s: 'verified' },
+  { c: 'CUTIESONLY-5342b5', s: 'verified' }
 ];
