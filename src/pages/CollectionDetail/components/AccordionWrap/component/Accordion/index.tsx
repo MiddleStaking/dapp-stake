@@ -278,9 +278,9 @@ const Accordion: FC<CardPoolrops> = ({
                             decimals={Number(rdecimals)}
                             egldLabel={
                               '$' +
-                              `${
-                                collectionReward?.identifier.split('-')[0]
-                              } / NFT / DAY`
+                              `${collectionReward?.identifier.split(
+                                '-'
+                              )[0]} / NFT / DAY`
                             }
                             data-testid='balance'
                             digits={
@@ -509,7 +509,17 @@ const Accordion: FC<CardPoolrops> = ({
                       decimals={Number(rdecimals)}
                       egldLabel={' '}
                       data-testid='balance'
-                      digits={2}
+                      digits={
+                        BigNumber(collectionReward?.rewards)
+                          .toFixed()
+                          .toString().length >= Number(rdecimals)
+                          ? 2
+                          : Number(rdecimals) -
+                            BigNumber(
+                              Number(collectionReward?.rewards).toString()
+                            ).toFixed().length +
+                            2
+                      }
                     />
                     {address && (
                       <PoolAddCollection
