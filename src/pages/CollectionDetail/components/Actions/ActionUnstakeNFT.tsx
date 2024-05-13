@@ -18,16 +18,16 @@ export const ActionUnstakeNFT = ({ nft_id, text, disabled }: any) => {
       value: 0,
       data: 'unstake@' + bigToHex(BigInt(nft_id)),
       receiver: contractNftStake,
-      gasLimit: '7000000'
+      gasLimit: '8000000'
     };
     await refreshAccount();
 
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: claimTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing claimRewards transaction',
-        errorMessage: 'An error has occured claimRewards transaction',
-        successMessage: 'claimRewards transaction successful'
+        processingMessage: 'Processing unstakeNft transaction',
+        errorMessage: 'An error has occured unstakeNft transaction',
+        successMessage: 'unstakeNft transaction successful'
       },
       redirectAfterSign: false
     });
