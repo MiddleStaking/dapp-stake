@@ -58,13 +58,13 @@ export const useGetRewarded = () => {
         const filteredOperations = data.operations.filter(
           (operation: any) => operation?.collection == vouchersCollection
         );
-        console.log(
-          'filtered',
-          data.operations,
-          filteredOperations,
-          vouchersCollection,
-          filteredOperations[0]?.identifier
-        );
+        // console.log(
+        //   'filtered',
+        //   data.operations,
+        //   filteredOperations,
+        //   vouchersCollection,
+        //   filteredOperations[0]?.identifier
+        // );
         setMinted(
           filteredOperations[0]?.identifier
             ? filteredOperations[0]?.identifier

@@ -9,7 +9,7 @@ import { contractDistrib } from 'config';
 import { Button } from './../../../../components/Design';
 
 export const ActionAdd = (datas: any) => {
-  console.log('datas:', datas);
+  // console.log('datas:', datas);
   const { hasPendingTransactions } = useGetPendingTransactions();
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null

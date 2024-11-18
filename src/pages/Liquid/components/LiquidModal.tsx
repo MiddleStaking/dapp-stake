@@ -52,7 +52,7 @@ const LiquidModal = (props: any) => {
     );
   }, [props.first_esdt_info, props.second_esdt_info, user_balance]);
 
-  console.log('first', firstBalance);
+  // console.log('first', firstBalance);
   const first_decimals = first_token?.decimals ? first_token?.decimals : 0;
   const second_decimals = second_token?.decimals ? second_token?.decimals : 0;
 

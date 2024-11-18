@@ -26,9 +26,9 @@ export const Actionfinalize = ({ nft_id, text, disabled }: any) => {
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: claimTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing claimRewards transaction',
-        errorMessage: 'An error has occured claimRewards transaction',
-        successMessage: 'claimRewards transaction successful'
+        processingMessage: 'Processing finalize transaction',
+        errorMessage: 'An error has occured finalize transaction',
+        successMessage: 'finalize transaction successful'
       },
       redirectAfterSign: false
     });

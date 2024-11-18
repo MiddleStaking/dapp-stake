@@ -11,6 +11,7 @@ import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
 import { network } from 'config';
 import { routeNames } from 'routes';
+// import { useGetRegister } from 'helpers/api_v2/register';
 // import Logo from 'assets/Logo';
 // import { ReactComponent as MiddleLogo } from '../../../assets/img/ms.svg';
 // import { ReactComponent as MiddleLogo } from '../../assets/img/ms.svg';
@@ -87,6 +88,7 @@ const HeaderDesktop = () => {
   const isLoggedIn = useGetIsLoggedIn();
   const { width } = useWindowDimensions();
 
+  // const register = useGetRegister();
   const navigate = useNavigate();
 
   const handleNavigate = (path: any) => {
@@ -163,7 +165,7 @@ const HeaderDesktop = () => {
               </div>
             </div>
           </div>
-        )}
+        )}{' '}
       </div>
     </div>
   ) : (

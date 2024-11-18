@@ -172,7 +172,7 @@ export const CollectionsLayout = () => {
         </div>
       </div>
 
-      {ScNftBalance.length == 0 && (
+      {userStakedNft.length > 0 && (
         <ActionUnlockAll
           text={'Unlock'}
           disabled={false}
@@ -257,7 +257,7 @@ export const CollectionsLayout = () => {
                             target='_blank'
                             rel='noreferrer'
                             href={
-                              'https://www.frameit.gg/marketplace/nft/' +
+                              'https://xoxno.com/nft/' +
                               item.collection +
                               '-' +
                               toHex(item.nonce)
@@ -320,7 +320,7 @@ export const CollectionsLayout = () => {
                                     target='_blank'
                                     rel='noreferrer'
                                     href={
-                                      'https://www.frameit.gg/marketplace/nft/' +
+                                      'https://xoxno.com/nft/' +
                                       item.collection +
                                       '-' +
                                       toHex(item.nonce)

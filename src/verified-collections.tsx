@@ -1,6 +1,7 @@
 export const verified = [
   { c: 'BEARSU-7b68e2', s: 'verified' },
   { c: 'MIDGIFT-bf25b7', s: 'verified' },
+  { c: 'OFT-01552b', s: 'verified' },
   { c: 'DINOBOX-54d57b', s: 'verified' },
   { c: 'DINOVOX-cb2297', s: 'verified' },
   { c: 'DINOGAZ-c723ac', s: 'verified' },
@@ -22,5 +23,11 @@ export const verified = [
   { c: 'TAVERN-e9b9d6', s: 'verified' },
   { c: 'DRIVERS-f247ce', s: 'verified' },
   { c: 'CREATOROCX-b96f26', s: 'verified' },
-  { c: 'CUTIESONLY-5342b5', s: 'verified' }
+  { c: 'CUTIESONLY-5342b5', s: 'verified' },
+  { c: 'ELITEPXC-c73af0', s: 'verified' },
+  { c: 'VRSENYATH2-6b632c', s: 'verified' },
+  { c: 'OCX7AMULET-bb7328', s: 'verified' },
+  { c: 'BLOOPX-1ced34', s: 'verified' },
+  { c: 'PXCLUB-a71d8e', s: 'verified' },
+  { c: 'OCX7NOCTIS-78b51b', s: 'verified' }
 ];

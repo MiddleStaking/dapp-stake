@@ -1,167 +1,156 @@
-import React, { FC, useEffect } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import {
-  ExtensionLoginButton,
-  LedgerLoginButton,
-  OperaWalletLoginButton,
-  WalletConnectLoginButton,
-  WebWalletLoginButton,
-  XaliasLoginButton
-} from '@multiversx/sdk-dapp/UI';
+import { useEffect } from 'react';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { ExtensionLoginButton } from '@multiversx/sdk-dapp/UI/extension/ExtensionLoginButton';
+import { LedgerLoginButton } from '@multiversx/sdk-dapp/UI/ledger/LedgerLoginButton';
+import { WalletConnectLoginButton } from '@multiversx/sdk-dapp/UI/walletConnect/WalletConnectLoginButton';
+import { WebWalletLoginButton } from '@multiversx/sdk-dapp/UI/webWallet/WebWalletLoginButton';
 import { useNavigate, useParams } from 'react-router-dom';
-import { walletConnectV2ProjectId } from 'config';
-import { routeNames } from 'routes';
-import logoMS from '../../assets/img/ms.svg';
-import logoXalias from '../../assets/img/xalias.svg';
-import legerImage from '../../assets/legerImage.png';
-import imagePartalConnexion from '../../assets/multiversxPortal.png';
-import imageWalletDefi from '../../assets/téléchargement.png';
+
+import { Extension } from './../../assets/Extension';
+import { Ledger } from './../../assets/Ledger';
+import { MultiversX } from 'assets/MultiversX';
+import { Wallet } from './../../assets/Wallet';
+import { xPortal } from './../../assets/xPortal';
+import { Metamask } from './../../assets/Metamask';
+import { network } from 'config';
+
+import { MetamaskLoginButton } from '@multiversx/sdk-dapp/UI';
+
 import styles from './styles.module.scss';
 
-// multiversxPortal
+import type { ConnectionType } from './types';
 
-interface ConnectionType {
-  title: string;
-  name: string;
-  background: string;
-  image: any;
-  component: any;
-  disabled?: boolean;
-}
-
-const Unlock: FC = () => {
+export const Unlock = () => {
   const { address } = useGetAccountInfo();
   const route = useParams();
-  const navigate = useNavigate();
 
-  const connects: Array<ConnectionType> = [
+  const navigate = useNavigate();
+  const connects: ConnectionType[] = [
     {
       title: 'Desktop',
       name: 'MultiversX Web Wallet',
       background: '#000000',
-      image: (
-        <div className={styles.logos}>
-          <span>
-            <img className={styles.img} src={imagePartalConnexion} alt=''></img>
-          </span>
-        </div>
-      ),
-      component: WebWalletLoginButton
+      icon: Wallet,
+      component: WebWalletLoginButton,
+      nativeAuth: true
     },
-
     {
       title: 'Hardware',
       name: 'Ledger',
+      nativeAuth: true,
       background: '#000000',
-      image: legerImage,
-      component: LedgerLoginButton
+      icon: Ledger,
+      component: LedgerLoginButton,
+      innerLedgerComponentsClasses: {
+        ledgerScamPhishingAlertClassName: styles.phishing,
+        ledgerProgressBarClassNames: {},
+        ledgerConnectClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalSubtitleClassName: styles.subtitle,
+          ledgerModalIconClassName: styles.icon
+        },
+        confirmAddressClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalConfirmDescriptionClassName: styles.description,
+          ledgerModalConfirmFooterClassName: styles.footer
+        },
+        addressTableClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalSubtitleClassName: styles.subtitle,
+          ledgerModalTableHeadClassName: styles.head,
+          ledgerModalTableNavigationButtonClassName: styles.navigation,
+          ledgerModalTableSelectedItemClassName: styles.selected
+        },
+        ledgerLoadingClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalSubtitleClassName: styles.subtitle
+        }
+      }
     },
     {
       title: 'Mobile',
-      name: 'xPortal App',
-      background: '#000000',
-      image: imagePartalConnexion,
-      component: WalletConnectLoginButton
+      name: 'xPortal Mobile Wallet',
+      background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
+      nativeAuth: true,
+      icon: xPortal,
+      isWalletConnectV2: true,
+      component: WalletConnectLoginButton,
+      innerWalletConnectComponentsClasses: {
+        containerContentClassName: styles.content,
+        containerTitleClassName: styles.title,
+        containerButtonClassName: styles.button,
+        containerSubtitleClassName: styles.subtitle,
+        containerScamPhishingAlertClassName: styles.phishing,
+        walletConnectPairingListClassNames: {
+          leadClassName: styles.lead,
+          buttonClassName: styles.pairing
+        }
+      }
     },
     {
       title: 'Browser',
       name: 'MultiversX DeFi Wallet',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
-      image: imageWalletDefi,
+      nativeAuth: true,
+      icon: Extension,
       component: ExtensionLoginButton
     },
     {
-      title: 'Browser',
-      name: 'Opera Crypto Wallet - Beta',
-      background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
-      image: imagePartalConnexion,
-      component: OperaWalletLoginButton
+      title: 'Metamask',
+      name: 'Metamask ',
+      background:
+        'linear-gradient(351deg, rgb(254 254 254) 0%, rgb(255 255 255) 100%)',
+      nativeAuth: true,
+      icon: Metamask,
+      component: MetamaskLoginButton
     }
   ];
 
-  // {
-  //   title: 'xAlias',
-  //   name: 'Google Login.',
-  //   background: '#000000',
-  //   image: (
-  //     <div className={styles.logos}>
-  //       <span>
-  //         <img className={styles.img} src={logoXalias}></img>
-  //       </span>
-  //     </div>
-  //   ),
-  //   component: XaliasLoginButton
-  // },
-
   const redirectConditionally = () => {
-    if (Boolean(address)) {
-      navigate('/stake');
+    if (address) {
+      navigate('/dashboard');
     }
   };
 
   useEffect(redirectConditionally, [address]);
 
-  //native auth to TRUE does not work with defi wallet !?
-  const commonProps = {
-    callbackRoute:
-      route?.param !== undefined
-        ? '/' + route?.route + '/' + route?.param
-        : route?.route !== undefined
-        ? route?.route
-        : routeNames.stake,
-    nativeAuth: false // optional
-  };
-
-  //   const commonProps = {
-  //     callbackRoute: routeNames.dashboard,
-  //     nativeAuth: true // optional
-  //   };
-
   return (
     <div className={styles.unlock}>
       <div className={styles.wrapper}>
         <div className={styles.logo}>
-          <div className={styles.logo2}>
-            <span>
-              <img
-                className={styles.logoMs}
-                src={logoMS}
-                alt='Grapefruit slice atop a pile of other slices'
-              ></img>
-            </span>
-          </div>
+          <MultiversX />
         </div>
 
-        <strong className={styles.heading}>Middle Staking Dashboard</strong>
+        <strong className={styles.heading}>
+          MultiversX Delegation Dashboard
+        </strong>
 
         <div className={styles.description}>
-          {'Login with your favorite wallet'}
+          {`Delegate MultiversX (${network.egldLabel}) and earn up to 25% APY!`}
         </div>
 
         <div className={styles.connects}>
-          {connects.map((connect: ConnectionType) => (
+          {connects.map((connect) => (
             <connect.component
               key={connect.name}
-              {...commonProps}
-              {...(walletConnectV2ProjectId
-                ? {
-                    isWalletConnectV2: true
-                  }
-                : {})}
-              disabled={connect.disabled}
+              callbackRoute={
+                route?.param !== undefined
+                  ? '/' + route?.route + '/' + route?.param
+                  : route?.route !== undefined
+                  ? route?.route
+                  : '/stake'
+              }
+              logoutRoute='/unlock'
+              {...connect}
             >
               <span className={styles.connect}>
                 <span className={styles.title}>{connect.title}</span>
 
-                <span className={styles.icon}>
-                  {connect.title === 'Desktop' || connect.title === 'xAlias' ? (
-                    connect.image
-                  ) : (
-                    <img
-                      src={connect.image}
-                      alt='Grapefruit slice atop a pile of other slices'
-                    ></img>
-                  )}
+                <span
+                  className={styles.icon}
+                  style={{ background: connect.background }}
+                >
+                  <connect.icon />
                 </span>
 
                 <span className={styles.name}>{connect.name}</span>
@@ -173,5 +162,4 @@ const Unlock: FC = () => {
     </div>
   );
 };
-
 export default Unlock;

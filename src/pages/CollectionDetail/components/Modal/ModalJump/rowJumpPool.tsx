@@ -131,9 +131,9 @@ export const RowJumpPool = (props: any) => {
                           decimals={Number(rdecimals)}
                           egldLabel={
                             '$' +
-                            `${
-                              props.inforamtion?.identifier.split('-')[0]
-                            } / NFT / DAY`
+                            `${props.inforamtion?.identifier.split(
+                              '-'
+                            )[0]} / NFT / DAY`
                           }
                           data-testid='balance'
                           digits={
@@ -217,7 +217,7 @@ export const RowJumpPool = (props: any) => {
                       target='_blank'
                       rel='noreferrer'
                       href={
-                        'https://www.frameit.gg/marketplace/nft/' +
+                        'https://xoxno.com/nft/' +
                         props.inforamtion?.collection +
                         '-' +
                         toHex(props.inforamtion?.nonce)
@@ -240,7 +240,7 @@ export const RowJumpPool = (props: any) => {
                       target='_blank'
                       rel='noreferrer'
                       href={
-                        'https://www.frameit.gg/marketplace/' +
+                        'https://xoxno.com/collection/' +
                         props.inforamtion?.collection
                       }
                     >

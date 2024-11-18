@@ -1,8 +1,25 @@
 import * as React from 'react';
 import { DistribGroup } from './DistribGroup';
-import { vouchersCollection } from 'config';
+import { dinobadge, vouchersCollection } from 'config';
 
 export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
+  const config = [
+    {
+      tab: 20,
+      cell: '100xGRAOU',
+      collection: vouchersCollection,
+      nonce: 2,
+      amount: 24
+    }
+  ];
+
+  //   {
+  //     tab: 10,
+  //     cell: '500xGRAOU',
+  //     collection: vouchersCollection,
+  //     nonce: 3,
+  //     amount: 32
+  //   }
   // const config = {
   //   tab: 1,
   //   cell: '1',
@@ -17,30 +34,42 @@ export const LiquidInfo = ({ userEsdtBalance, second_token }: any) => {
   //   nonce: 2,
   //   amount: 468
   // };
-  const config = [
-    {
-      tab: 1,
-      cell: '1',
-      collection: vouchersCollection,
-      nonce: 1,
-      amount: 918
-    },
-    {
-      tab: 2,
-      cell: '2',
-      collection: vouchersCollection,
-      nonce: 2,
-      amount: 468
-    },
-    {
-      tab: 3,
-      cell: '3',
-      collection: vouchersCollection,
-      nonce: 3,
-      amount: 114
-    }
-  ];
 
+  // const config = [
+  //   {
+  //     tab: 4,
+  //     cell: 'total',
+  //     collection: 'DINOCARDS-46ceea',
+  //     nonce: 1,
+  //     amount: 462
+  //   }
+  // ];
+
+  // const config = [
+  //   {
+  //     tab: 1,
+  //     cell: '500xGRAOU',
+  //     collection: vouchersCollection,
+  //     nonce: 3,
+  //     amount: 32
+  //   },
+  //   {
+  //     tab: 2,
+  //     cell: '100xGRAOU',
+  //     collection: vouchersCollection,
+  //     nonce: 2,
+  //     amount: 286
+  //   }
+  // ];
+
+  // ,
+  // {
+  //   tab: 3,
+  //   cell: '50xGRAOU',
+  //   collection: vouchersCollection,
+  //   nonce: 1,
+  //   amount: 117
+  // }
   // const tab = config[0].tab; //tableau de campagne
   // const cell = config[0].cell; //cellule du json pour la qté
   // const collection = config[0].collection; //identifier de la collection à distribuer

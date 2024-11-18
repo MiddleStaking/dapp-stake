@@ -48,27 +48,7 @@ const Accordion: FC<CardPoolrops> = ({
 
   const [isOpen, setIsOpen] = useState(false);
 
-  // useEffect(() => {
-  //   if (
-  //     userStakedNft.filter(
-  //       (item) =>
-  //         item.staked_nft.pool_id.toString() ==
-  //         collectionReward?.pool_id.toString()
-  //     ).length > 0
-  //   ) {
-  //     setIsOpen(true);
-  //   }
-  // }, [userStakedNft]);
-
-  // const rewarded_esdt_info = useGetESDTInformations(rtoken);
-
   useEffect(() => {
-    // const my_token_staked_number = userStakedNft.filter(
-    //   (item: any) =>
-    //     item?.staked_nft?.pool_id?.toString() ==
-    //       collectionReward?.pool_id?.toString() &&
-    //     item?.staked_nft?.unbound?.toString() == '0'
-    // ).length;
     const my_token_staked_number = userStakedNft
       ? userStakedNft
           .filter(
@@ -80,7 +60,6 @@ const Accordion: FC<CardPoolrops> = ({
           .map((item) => Number(item.staked_nft.qty))
           .reduce((prev, curr) => prev + curr, 0)
       : 0;
-
     setMyTokenStakedNumber(my_token_staked_number);
   }, []);
 
@@ -382,7 +361,7 @@ const Accordion: FC<CardPoolrops> = ({
                         target='_blank'
                         rel='noreferrer'
                         href={
-                          'https://www.frameit.gg/marketplace/nft/' +
+                          'https://xoxno.com/nft/' +
                           collectionReward.collection +
                           '-' +
                           toHex(collectionReward.nonce)
@@ -405,7 +384,7 @@ const Accordion: FC<CardPoolrops> = ({
                         target='_blank'
                         rel='noreferrer'
                         href={
-                          'https://www.frameit.gg/marketplace/' +
+                          'https://xoxno.com/collection/' +
                           collectionReward.collection
                         }
                       >

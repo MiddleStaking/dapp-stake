@@ -22,11 +22,11 @@ export const DistribGroup = ({
   const totalusers = useGetTotalUsers(tab);
   const totalamount = useGetTotalAmount(tab);
   const gift = useGetGift();
-  console.log('total_users', BigNumber(totalusers.toString()).toFixed());
-  console.log('total_amount', BigNumber(totalamount.toString()).toFixed());
+  // console.log(tab, 'total_users', BigNumber(totalusers.toString()).toFixed());
+  // console.log(tab, 'total_amount', BigNumber(totalamount.toString()).toFixed());
   // console.log(user_list);
-  console.log(gift);
-
+  // console.log(gift);
+  // console.log('len', gift.length);
   const datas = [];
   datas[0] = 'add@' + toHex(tab);
   let add = 0;
@@ -41,40 +41,40 @@ export const DistribGroup = ({
       add = 0;
       datas[batch] = 'add@' + toHex(tab);
     }
-    add++;
-    datas[batch] += '@';
-    datas[batch] += addressTobech32.hex();
-    datas[batch] += '@';
-    datas[batch] += bigToHex(gift[i]?.[cell] ? gift[i]?.[cell] : 0);
-    if (!user_list.some((item: any) => item?.address == gift[i]?.address)) {
-      console.log('add');
-    } else {
-      console.log('ok');
-
-      // const config = {
-      //   headers: {
-      //     'Access-Control-Allow-Origin': '*', // Remplacez '*' par le domaine autorisé si possible
-      //     'Access-Control-Allow-Methods': 'PUT', // Remplacez par les méthodes HTTP autorisées
-      //     'Content-Type': 'application/json' // Le type de contenu que vous envoyez
-      //   }
-      // };
-      // const formdata = {
-      //   tx_hash: 'hashe'
-      // };
-      // axios
-      //   .put('https://test.mvx.fr/gift/' + gift[i]?.id, formdata, config)
-      //   .then((res) => {
-      //     console.log('ok');
-      //   })
-      //   .catch((error) => {
-      //     console.log('nok');
-
-      //     console.error(error); // Affichez l'erreur dans la console pour le débogage
-      //   });
+    if (gift[i]?.[cell] > 0) {
+      add++;
+      datas[batch] += '@';
+      datas[batch] += addressTobech32.hex();
+      datas[batch] += '@';
+      datas[batch] += bigToHex(gift[i]?.[cell] ? gift[i]?.[cell] : 0);
+      if (!user_list.some((item: any) => item?.address == gift[i]?.address)) {
+        // console.log(tab, 'add');
+      } else {
+        // console.log(tab, 'ok');
+        // const config = {
+        //   headers: {
+        //     'Access-Control-Allow-Origin': '*', // Remplacez '*' par le domaine autorisé si possible
+        //     'Access-Control-Allow-Methods': 'PUT', // Remplacez par les méthodes HTTP autorisées
+        //     'Content-Type': 'application/json' // Le type de contenu que vous envoyez
+        //   }
+        // };
+        // const formdata = {
+        //   tx_hash: 'hashe'
+        // };
+        // axios
+        //   .put('https://test.mvx.fr/gift/' + gift[i]?.id, formdata, config)
+        //   .then((res) => {
+        //     console.log('ok');
+        //   })
+        //   .catch((error) => {
+        //     console.log('nok');
+        //     console.error(error); // Affichez l'erreur dans la console pour le débogage
+        //   });
+      }
     }
     i++;
   }
-  console.log(datas);
+  // console.log(datas);
 
   return (
     <>

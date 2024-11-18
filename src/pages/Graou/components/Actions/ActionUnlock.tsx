@@ -32,9 +32,9 @@ export const ActionUnlock = ({ nonce }: any) => {
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: fundTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Lock transaction',
-        errorMessage: 'An error has occured Lock',
-        successMessage: 'Lock transaction successful'
+        processingMessage: 'Processing Unlock transaction',
+        errorMessage: 'An error has occured Unlock',
+        successMessage: 'Unlock transaction successful'
       },
       redirectAfterSign: false
     });

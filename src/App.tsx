@@ -38,8 +38,9 @@ const AppContent = () => {
           walletConnectV2ProjectId,
           walletAddress: network.walletAddress,
           apiAddress: network.apiAddress,
-          gatewayAddress: network.gatewayAddress,
-          explorerAddress: network.explorerAddress
+          // gatewayAddress: network.gatewayAddress,
+          explorerAddress: network.explorerAddress,
+          metamaskSnapWalletAddress: 'https://snap-wallet.multiversx.com'
         }}
         dappConfig={{
           shouldUseWebViewProvider: true,

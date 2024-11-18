@@ -50,9 +50,9 @@ export const useGetMinted = () => {
         baseURL: network.apiAddress,
         params: {}
       });
-      console.log('buySft', data);
+      // console.log('buySft', data);
       if (data.action.name == 'buySft') {
-        console.log('minted', data.operations[0].identifier);
+        // console.log('minted', data.operations[0].identifier);
 
         const filteredOperations = data.operations.filter(
           (operation: any) => operation?.collection === sftCollection

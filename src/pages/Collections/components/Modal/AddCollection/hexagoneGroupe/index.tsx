@@ -23,11 +23,7 @@ const HexagoneGroupe = (props: any) => {
                   style={{ zIndex: 1 + index }}
                 >
                   <HexagoneNFT
-                    format={
-                      collectionInfo.media[0].fileType == 'video/mp4'
-                        ? 'video/mp4'
-                        : 'image'
-                    }
+                    format={collectionInfo.media[0].fileType}
                     url={collectionInfo.media[0].url}
                     width={props.width ? props.width : 100}
                     withBorder={true}

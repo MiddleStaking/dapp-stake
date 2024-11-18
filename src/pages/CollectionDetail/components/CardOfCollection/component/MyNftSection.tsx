@@ -38,11 +38,7 @@ const MyNftSection: FC<MyNftSectionProps> = ({
                 }}
               >
                 <HexagoneNFT
-                  format={
-                    item?.media[0]?.fileType == 'video/mp4'
-                      ? 'video/mp4'
-                      : 'image'
-                  }
+                  format={item?.media[0]?.fileType}
                   url={item?.media[0]?.url ? item?.media[0]?.url : ''}
                   width={100}
                   withBorder={true}

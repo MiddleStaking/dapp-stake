@@ -4,6 +4,7 @@ import { BigNumber } from 'bignumber.js';
 import { verified } from 'verified-collections';
 import Accordion from './component/Accordion';
 import AccordionEmpty from './component/AccordionEmpty';
+import { ActionClaimPools } from '../Actions/ActionClaimPools';
 
 interface CardPoolrops {
   collectionRewards: any[];
@@ -41,6 +42,18 @@ const AccordionWrap: FC<CardPoolrops> = ({
         .reduce((prev, curr) => prev + curr, 0)
     : '...';
 
+  const user_pools = userStakedNft
+    .filter(
+      (item: any) =>
+        item?.staked_nft?.unbound == 0 &&
+        item?.staked_nft?.identifier == collection_identifier
+    )
+    .map((item: any) => Number(item.staked_nft.pool_id))
+    .filter(
+      (value: string, index: number, self: string[]) =>
+        self.indexOf(value) === index
+    );
+  // console.log(user_pools);
   return (
     <div className='AccordeonsCards'>
       <div className='backgroundAccordeonsCards'>
@@ -51,6 +64,11 @@ const AccordionWrap: FC<CardPoolrops> = ({
         >
           {'Nfts staked in this collection: '}
           {nftNumberStakePool}
+          <ActionClaimPools
+            buttonWidth='120px'
+            bottomHeight={'30px'}
+            user_pools={user_pools}
+          />
         </div>
         {collection_identifier == 'DINOVOX-cb2297' && (
           <p className='alert alert-dark'>

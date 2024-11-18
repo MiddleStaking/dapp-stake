@@ -1,8 +1,14 @@
 // MAINNET:
+
+export const mid_api_v2 = 'https://api.middlestaking.com';
+
 export const defaultToken = 'MID-ecb7bf';
 export const sftCollection = 'MIDSTERS-a7c790';
 export const lockedCollection = 'DINOGAZ-c723ac';
 export const vouchersCollection = 'VOUCHERS-e6045e';
+export const dinoblock = 'DINOBLOCK-652073';
+export const dinobadge = 'DINOBLOCK-652073';
+
 export const midGiftToken = 'MIDGIFT-bf25b7';
 export const scOwner =
   'erd175f5khy03nuctjfxre29kza4je8e48xsfu56fzwgmwqtty33txfqse8h4k';

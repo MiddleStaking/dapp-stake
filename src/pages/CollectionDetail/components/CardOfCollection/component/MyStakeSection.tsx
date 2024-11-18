@@ -27,8 +27,7 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
   collectionReward,
   collectionRewards
 }) => {
-
-  console.log(staked_balance);
+  // console.log(staked_balance);
   return (
     <div
       style={{
@@ -59,7 +58,7 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                   rel='noreferrer'
                   className='text-white'
                   href={
-                    'https://www.frameit.gg/marketplace/nft/' +
+                    'https://xoxno.com/nft/' +
                     item?.staked_nft.identifier +
                     '-' +
                     toHex(item?.staked_nft?.nonce)

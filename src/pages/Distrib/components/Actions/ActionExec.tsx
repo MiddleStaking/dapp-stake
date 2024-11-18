@@ -11,24 +11,31 @@ import { Button } from './../../../../components/Design';
 import toHex from 'helpers/toHex';
 
 export const ActionExec = ({ datas, tab }: any) => {
-  console.log('datas:', datas);
+  // console.log('datas:', datas);
   const { hasPendingTransactions } = useGetPendingTransactions();
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
   const { address } = useGetAccount();
   const contract_address = new Address(contractDistrib).hex();
-  console.log('exec@', tab);
+  // console.log('exec@', tab);
   const sendStakeTransaction = async () => {
+    // const stakeTransaction = [];
+    // for (const data of datas) {
+    //   stakeTransaction.push({
+    //     value: 0,
+    //     data: 'graou@' + toHex(tab),
+    //     receiver: contractDistrib,
+    //     gasLimit: '62000000'
+    //   });
+    // }
     const stakeTransaction = [];
-    for (const data of datas) {
-      stakeTransaction.push({
-        value: 0,
-        data: 'graou@' + toHex(tab),
-        receiver: contractDistrib,
-        gasLimit: '62000000'
-      });
-    }
+    stakeTransaction.push({
+      value: 0,
+      data: 'graou@' + toHex(tab),
+      receiver: contractDistrib,
+      gasLimit: '70000000'
+    });
 
     await refreshAccount();
 

@@ -177,7 +177,7 @@ export const ModalStakeNft = (props: any) => {
                 target='_blank'
                 rel='noreferrer'
                 href={
-                  'https://www.frameit.gg/marketplace/nft/' +
+                  'https://xoxno.com/nft/' +
                   props.collectionReward.collection +
                   '-' +
                   toHex(props.collectionReward.nonce)
@@ -195,7 +195,7 @@ export const ModalStakeNft = (props: any) => {
                 target='_blank'
                 rel='noreferrer'
                 href={
-                  'https://www.frameit.gg/marketplace/' +
+                  'https://xoxno.com/collection/' +
                   props.collectionReward.collection
                 }
               >

@@ -208,7 +208,7 @@ export const PlayLayout = () => {
                           rel='noreferrer'
                           className='text-white'
                           href={
-                            'https://www.frameit.gg/marketplace/nft/' +
+                            'https://xoxno.com/nft/' +
                             esdt_informations?.identifier +
                             '/'
                           }

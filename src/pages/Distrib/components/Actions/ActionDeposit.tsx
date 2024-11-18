@@ -17,7 +17,7 @@ export const ActionDeposit = ({ tab, collection, nonce, qty }: any) => {
     >(null);
   const { address } = useGetAccount();
   const contract_address = new Address(contractDistrib).hex();
-  console.log('exec@', tab);
+  // console.log('exec@', tab);
   const sendStakeTransaction = async () => {
     // const stakeTransaction = [];
     // stakeTransaction.push({
@@ -53,9 +53,9 @@ export const ActionDeposit = ({ tab, collection, nonce, qty }: any) => {
     const { sessionId /*, error*/ } = await sendTransactions({
       transactions: stakeTransaction,
       transactionsDisplayInfo: {
-        processingMessage: 'Processing exec transaction',
-        errorMessage: 'An error has occured exec',
-        successMessage: 'exec transaction successful'
+        processingMessage: 'Processing deposit transaction',
+        errorMessage: 'An error has occured deposit',
+        successMessage: 'deposit transaction successful'
       },
       redirectAfterSign: false
     });

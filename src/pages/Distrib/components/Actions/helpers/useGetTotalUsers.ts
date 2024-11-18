@@ -32,7 +32,7 @@ export const useGetTotalUsers = (tab: number) => {
         queryResponse,
         endpointDefinition
       );
-      console.log(tokens);
+      // console.log(tokens);
       if (queryResponse.returnCode == 'ok') {
         setStakedTokens(tokens?.valueOf());
       }

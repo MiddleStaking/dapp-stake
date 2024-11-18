@@ -900,6 +900,17 @@ const ModalAddCollection = (props: ModalProps) => {
                     >
                       <div className='GroupeDetails_StakeModal_Collection'>
                         <div className='PoolDetails_StakeModal_Collection'>
+                          <div
+                            className='DetailsInfo_Collection'
+                            hidden={false}
+                          >
+                            <div className='LabelDetailsInfo_Collection'>
+                              Identifier
+                            </div>
+                            <div className='ValueDetailsInfo_Collection'>
+                              {item.pool_id.toString()}
+                            </div>
+                          </div>
                           <div className='DetailsInfo_Collection'>
                             <div className='LabelDetailsInfo_Collection'>
                               Rewards
@@ -916,14 +927,7 @@ const ModalAddCollection = (props: ModalProps) => {
                               />
                             </div>
                           </div>
-                          {/* <div className='DetailsInfo_Collection'>
-                            <div className='LabelDetailsInfo_Collection'>
-                              Value
-                            </div>
-                            <div className='ValueDetailsInfo_Collection'>
-                              700$
-                            </div>
-                          </div> */}
+
                           <div className='DetailsInfo_Collection'>
                             <div className='LabelDetailsInfo_Collection'>
                               All time rewarded

@@ -29,9 +29,8 @@ export const EarnLayout = () => {
   const [orderBy, setOrderBy] = React.useState('value');
   const { address } = useGetAccountInfo();
 
-
   const feePercent = useGetFeePercent();
-  console.log(feePercent);
+  // console.log(feePercent);
   // const pairs =
   //   localStorage.getItem('pairs_') != null
   //     ? JSON.parse(localStorage.getItem('pairs_') as string)

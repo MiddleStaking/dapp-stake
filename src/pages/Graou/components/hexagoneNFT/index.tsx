@@ -6,7 +6,7 @@ import notfoundNft from '../../../../assets/img/notfoundnft.png';
 import styles from './styles.module.scss';
 
 interface TypeSectionProps {
-  format: 'video/mp4' | 'image';
+  format: 'video/mp4' | 'image' | 'video/quicktime';
   url: string;
   width: number;
   borderColor?: string;
@@ -141,6 +141,85 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
 
   switch (format) {
     case 'video/mp4':
+      return (
+        <div
+          style={{
+            position: 'relative',
+            filter: withShadow
+              ? `drop-shadow(${shadowColor} ${ShadowDimeantion})`
+              : 'none'
+          }}
+        >
+          {jump !== '' &&
+            collectionRewards.filter(
+              (item: any) =>
+                item.pool_id !== collectionReward?.pool_id &&
+                (Number(item.nonce) === 0 ||
+                  Number(item.nonce) === Number(nftsDetail?.nonce))
+            ).length != 0 && (
+              <div
+                onClick={nftsGoToJumpModal}
+                style={{
+                  cursor: jumpDesabled ? 'not-allowed' : 'pointer',
+                  position: 'absolute',
+                  filter: jumpDesabled ? 'grayscale(60%)' : 'grayscale(0)',
+                  top: 0,
+                  right: 0,
+                  borderRadius: '50px',
+                  minWidth: '28px',
+                  minHeight: '28px',
+                  background: borderColor,
+                  zIndex: 40,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <div>{jump}</div>
+              </div>
+            )}
+          <div className={styles.hex} style={hex}>
+            <div
+              className={styles.hexbackgroundBorder}
+              style={hexbackgroundBorder}
+            >
+              <div style={hexbackground} className={styles.hexbackground}>
+                <ReactPlayer
+                  width={'100%'}
+                  height={'100%'}
+                  playing={!isMobileEnvironment() && width > 40}
+                  loop={true}
+                  volume={0}
+                  muted={true}
+                  url={url}
+                  playsInline={false}
+                />
+              </div>
+            </div>
+          </div>
+          {nft_qty > 0 && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0, // Positionne cette div en bas de la div parente
+                right: 0, // Positionne cette div à gauche de la div parente
+                borderRadius: '50px',
+                minWidth: '28px',
+                minHeight: '28px',
+                background: borderColor,
+                zIndex: 40,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: 'white'
+              }}
+            >
+              <div>{nft_qty}</div>
+            </div>
+          )}
+        </div>
+      );
+    case 'video/quicktime':
       return (
         <div
           style={{

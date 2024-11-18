@@ -1,4 +1,6 @@
 // // DEVNET 2:
+export const mid_api_v2 = 'https://api.middlestaking.com';
+
 export const defaultToken = 'MID-00c2c9';
 export const sftCollection = 'TOKENTICKE-38b075';
 export const vouchersCollection = 'SFT-221ca7';

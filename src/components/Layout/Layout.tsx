@@ -6,6 +6,7 @@ import FooterDekstop from 'components/Footer';
 import HeaderDekstop from 'components/Header';
 import { routes, routeNames } from 'routes';
 import './Layout.scss';
+// import RegisterForm from './../../helpers/api_v2/register'; // Assurez-vous que le chemin est correct
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();
@@ -18,7 +19,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       }`}
     >
       <HeaderDekstop />
-
+      {/* <RegisterForm /> */}
       <main className={'d-flex flex-column flex-grow-1 main-content'}>
         <AuthenticatedRoutesWrapper
           routes={routes}

@@ -91,7 +91,7 @@ export const CollectionsLayout = () => {
                       target='_blank'
                       rel='noreferrer'
                       href={
-                        'https://www.frameit.gg/marketplace/' +
+                        'https://xoxno.com/collection/' +
                         getCollectionInformations[0]?.collection
                       }
                     >
