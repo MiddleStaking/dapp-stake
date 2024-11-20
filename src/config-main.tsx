@@ -21,8 +21,6 @@ export const contractNftStake =
   'erd1qqqqqqqqqqqqqpgq5re66vt0dlee8v83dtyh6k54qqpjs3ketxfq9tcd29';
 export const contractMint =
   'erd1qqqqqqqqqqqqqpgqmcf5lv9kxjl8jkp9qrme74y2ft3kwzultxfq03fghn';
-export const contractDistrib =
-  'erd1qqqqqqqqqqqqqpgqtmj6zwec4llv8m9fnvyjytcy9gmht78l5gcsev3xm2';
 export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 export const contractPlay =
