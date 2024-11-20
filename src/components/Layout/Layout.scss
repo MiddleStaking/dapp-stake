@@ -31,7 +31,7 @@
   background: black;
   background-size: cover;
   background-repeat: repeat;
-  minheight: 100vh;
+  min-height: 100vh;
   width: 100%;
   margin: 0;
   display: flex;
@@ -59,8 +59,10 @@
 
 @media (min-width: 451px) {
   .wrapper {
-    background: url('./../../assets/img/DekstopTopLeft.svg') top left,
-      url('./../../assets/img/DekstopBottomRigh.svg') bottom right, #000000;
+    background:
+      url('./../../assets/img/DekstopTopLeft.svg') top left,
+      url('./../../assets/img/DekstopBottomRigh.svg') bottom right,
+      #000000;
     background-size: auto;
     background-repeat: no-repeat;
   }

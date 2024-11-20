@@ -39,7 +39,7 @@ export const ActionSwap = ({
         '@' +
         bigToHex(BigInt(min_out)),
       receiver: contractSwap,
-      gasLimit: '10000000'
+      gasLimit: '20000000'
     };
 
     if (
@@ -69,7 +69,7 @@ export const ActionSwap = ({
           '@' +
           bigToHex(BigInt(min_out)),
         receiver: contractSwap,
-        gasLimit: '10000000'
+        gasLimit: '20000000'
       };
     }
 

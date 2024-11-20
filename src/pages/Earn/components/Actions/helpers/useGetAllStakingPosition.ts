@@ -31,8 +31,6 @@ export const useGetAllStakingPosition = (stakedToken: any) => {
   ]);
   const { address } = useGetAccount();
 
-  //const time = new Date();
-
   const getAllStakingPosition = async () => {
     if (!address) {
       setTokenPosition([]);
@@ -41,18 +39,6 @@ export const useGetAllStakingPosition = (stakedToken: any) => {
     if (hasPendingTransactions == true) {
       return;
     }
-    // const expire_test = Number(
-    //   localStorage.getItem('all_token_position_' + stakedToken + '_expire')
-    // );
-    // const load: any = localStorage.getItem('all_token_position_' + stakedToken);
-    // const storage = pareseJson(load);
-    // if (load) {
-    //   console.log(storage);
-    //   setTokenPosition(storage);
-    // }
-    // if (time.getTime() < expire_test) {
-    //   return;
-    // }
 
     try {
       const query = smartContract.createQuery({

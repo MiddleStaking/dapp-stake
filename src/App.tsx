@@ -1,5 +1,4 @@
 import React from 'react';
-//import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import {
   TransactionsToastList,
   SignTransactionsModals,
@@ -7,7 +6,7 @@ import {
 } from '@multiversx/sdk-dapp/UI';
 import {
   DappProvider,
-  AxiosInterceptorContext // using this is optional
+  AxiosInterceptorContext
 } from '@multiversx/sdk-dapp/wrappers';
 
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
@@ -19,10 +18,8 @@ import {
   network
 } from 'config';
 import { ContextProvider } from 'context';
-import { HeaderMenuProvider } from 'context/Header/HeaderMenuProvider';
 import { PageNotFound } from 'pages';
 import Unlock from 'pages/Unlock';
-import { routeNames } from 'routes';
 import { routes } from 'routes';
 import { RouteNamesEnum } from 'localConstants';
 import { BatchTransactionsContextProvider } from 'wrappers';

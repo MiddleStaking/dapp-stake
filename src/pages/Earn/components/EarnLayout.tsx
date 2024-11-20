@@ -19,22 +19,13 @@ import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import CardPool from './CardPool';
 import FundModal from './FundModal';
 import DropdownMenu from 'components/Design/DropdownMenu';
-import { useGetFeePercent } from './Actions/helpers/useGetFeePercent';
 
 export const EarnLayout = () => {
-  // const { network } = useGetNetworkConfig();
   const [showFund, setShowFund] = useState(false);
   const [myPools, setMyPools] = React.useState(false);
   const [mySearch, setMySearch] = React.useState('');
   const [orderBy, setOrderBy] = React.useState('value');
   const { address } = useGetAccountInfo();
-
-  const feePercent = useGetFeePercent();
-  // console.log(feePercent);
-  // const pairs =
-  //   localStorage.getItem('pairs_') != null
-  //     ? JSON.parse(localStorage.getItem('pairs_') as string)
-  //     : [{ s: '', r: '' }];
 
   const handleChange = () => {
     setMyPools(!myPools);
@@ -45,17 +36,12 @@ export const EarnLayout = () => {
   };
   const navigate = useNavigate();
   const isPaused = useGetIsPaused();
-  //const isPaused = 0;
 
   const stakedTokens: string[] = useGetStakedTokens();
-  //const swapedTokens: string[] = useGetSwapedTokens();
+  //const swapedTokens: string[] = useGetSwapedTokens();(wip)
   const swapedTokens: string[] = [];
   const { param } = useParams();
   const [url] = useState(param ? param.toString() : defaultToken);
-
-  // const [test, setTest] = useState(
-  //   stakedTokens.includes(url) ? url : defaultToken + ':' + url + ':'
-  // );
 
   const userEsdtBalance = useGetUserESDT();
   const [stoken, setStoken] = React.useState(url);
@@ -71,7 +57,6 @@ export const EarnLayout = () => {
       'token_position_' + stoken + '_' + tok
     );
     const rinfo = JSON.parse(localStorage.getItem('esdt_' + tok) as string);
-    // const sinfo = JSON.parse(localStorage.getItem('esdt_' + stoken) as string);
     const storage = JSON.parse(load);
 
     const load_apr: any = localStorage.getItem('apr_' + stoken + '_' + tok);
@@ -113,35 +98,6 @@ export const EarnLayout = () => {
   useEffect(() => {
     setStoken(param ? param.toString() : defaultToken);
   }, [param]);
-
-  const tokens_extra_informations = [
-    {
-      identifier: 'MID-7f1d59',
-      ecompass: 'https://e-compass.io/maiars/chartJungle/mid/usdc',
-      jexchange:
-        'https://app.jexchange.io/?paymentToken=EGLD&buyToken=MID-ecb7bf',
-      jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
-    },
-    {
-      identifier: 'MID-ecb7bf',
-      ecompass: 'https://e-compass.io/maiars/chartJungle/mid/usdc',
-      jexchange:
-        'https://app.jexchange.io/?paymentToken=EGLD&buyToken=MID-ecb7bf',
-      jungle: 'https://jungledex.com/analytics/tokens/MID-ecb7bf'
-    },
-    {
-      identifier: 'MEX-455c57',
-      ecompass: 'https://e-compass.io/maiars/chart/mex/usdc',
-      jexchange:
-        'https://app.jexchange.io/?paymentToken=EGLD&buyToken=MEX-455c57'
-    },
-    {
-      identifier: 'VITAL-ab7917',
-      ecompass: 'https://e-compass.io/exrond/chart/vital/usdc',
-      jexchange:
-        'https://app.jexchange.io/?paymentToken=EGLD&buyToken=VITAL-ab7917'
-    }
-  ];
 
   const balance = userEsdtBalance
     .filter((token) => {
@@ -417,11 +373,6 @@ export const EarnLayout = () => {
                       stakedTokens.includes(rtoken.rewarded_token) &&
                       stoken != rtoken.rewarded_token
                     }
-                    tokens_extra_informations={tokens_extra_informations
-                      .filter((token) => {
-                        return token.identifier === rtoken.rewarded_token;
-                      })
-                      .map((token) => (token.identifier ? token : ''))}
                   />
                 )}
               </div>

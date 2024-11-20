@@ -198,9 +198,11 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
 
       out_amount = BigInt(firstPoolPosition.second_token_amount) - y_amount;
       out_fees =
-        (out_amount * BigInt(10000)) /
-        BigInt(firstPoolPosition.second_fee) /
-        BigInt(10000);
+        firstPoolPosition.second_fee > 0
+          ? (out_amount * BigInt(10000)) /
+            BigInt(firstPoolPosition.second_fee) /
+            BigInt(10000)
+          : BigInt(0);
 
       price_impact =
         (Number(in_amount.toString()) /
@@ -216,9 +218,11 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
 
       out_amount = BigInt(firstPoolPosition.first_token_amount) - x_amount;
       out_fees =
-        (out_amount * BigInt(10000)) /
-        BigInt(firstPoolPosition.second_fee) /
-        BigInt(10000);
+        firstPoolPosition.second_fee > 0
+          ? (out_amount * BigInt(10000)) /
+            BigInt(firstPoolPosition.second_fee) /
+            BigInt(10000)
+          : BigInt(0);
 
       price_impact =
         (Number(in_amount.toString()) /

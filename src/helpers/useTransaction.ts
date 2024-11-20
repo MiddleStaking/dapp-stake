@@ -1,4 +1,4 @@
-import { Address, SmartContract, TokenPayment } from '@multiversx/sdk-core';
+import { Address, SmartContract, TokenTransfer } from '@multiversx/sdk-core';
 import { sendTransactions } from '@multiversx/sdk-dapp/services/transactions/sendTransactions';
 import {
   network,
@@ -39,7 +39,7 @@ const useTransaction = () => {
       };
 
       const transaction = {
-        value: TokenPayment.egldFromAmount(value),
+        value: TokenTransfer.egldFromAmount(value),
         data: getFunctionName(),
         receiver: contract.getAddress().bech32(),
         gasLimit: getGasLimit()

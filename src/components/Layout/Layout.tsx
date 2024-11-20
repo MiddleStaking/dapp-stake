@@ -6,7 +6,7 @@ import FooterDekstop from 'components/Footer';
 import HeaderDekstop from 'components/Header';
 import { routes, routeNames } from 'routes';
 import './Layout.scss';
-// import RegisterForm from './../../helpers/api_v2/register'; // Assurez-vous que le chemin est correct
+// import RegisterForm from './../../helpers/api_v2/register';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();

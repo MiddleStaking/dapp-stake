@@ -71,7 +71,6 @@ interface CardPoolrops {
   balance?: any;
   canBeStaked?: any;
   isPaused?: any;
-  tokens_extra_informations?: any;
   userEsdtBalance?: any;
   swapedTokens?: any;
 }
@@ -99,7 +98,6 @@ const CardPool: FC<CardPoolrops> = ({
   fontFamily = 'sans-serif',
   //   address,
   staked_token,
-  tokens_extra_informations,
   swapedTokens,
   userEsdtBalance,
   balance,
@@ -123,6 +121,7 @@ const CardPool: FC<CardPoolrops> = ({
     isDual = true;
   }
 
+  //deprecated
   // const firstPoolPosition = useGetPoolPosition(
   //   defaultToken,
   //   rewardedToken == defaultToken ? stakedToken : rewardedToken,
@@ -453,7 +452,6 @@ const CardPool: FC<CardPoolrops> = ({
           token_position={token_position}
           staked_value={staked_value}
           speed={speed}
-          tokens_extra_informations={tokens_extra_informations}
           swapedTokens={swapedTokens}
           width={width}
           textColor={textColor}

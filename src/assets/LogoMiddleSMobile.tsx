@@ -1,5 +1,6 @@
 import React from 'react';
 import './Logo.scss';
+import logoKwak from './img/logoKwak.svg';
 import logoMs from './img/ms.svg';
 
 const LogoTextMobile = () => {

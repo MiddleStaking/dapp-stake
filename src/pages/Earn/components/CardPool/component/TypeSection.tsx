@@ -26,8 +26,6 @@ interface TypeSectionProps {
   token_position: any;
   staked_value: any;
   speed: any;
-  tokens_extra_informations: any;
-
   EarnTitle?: string;
   StakeTile?: string;
   Apr?: string;
@@ -66,7 +64,6 @@ const TypeSection: FC<TypeSectionProps> = ({
   rewards_value = 0,
   rewarded_esdt_info,
   staked_esdt_info,
-  tokens_extra_informations,
   staked_value,
   users,
   textColor = '#ffffff',
@@ -386,7 +383,6 @@ const TypeSection: FC<TypeSectionProps> = ({
           }
           staked_value={staked_value}
           users={users ? users : 0}
-          socialNetwork={tokens_extra_informations}
           textColor={textColor}
           fontFamily={fontFamily}
         />

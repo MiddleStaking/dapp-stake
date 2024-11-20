@@ -39,7 +39,6 @@ export const usePostRegister = () => {
   const [isRegister, setRegister] = useState<any>(false);
   const { tokenLogin, isLoggedIn } = useGetLoginInfo();
 
-  console.log('tokenLogin', tokenLogin);
   const postRegister = async () => {
     if (tokenLogin) {
       try {

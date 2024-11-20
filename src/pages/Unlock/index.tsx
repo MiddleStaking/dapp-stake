@@ -121,13 +121,9 @@ export const Unlock = () => {
           <MultiversX />
         </div>
 
-        <strong className={styles.heading}>
-          MultiversX Delegation Dashboard
-        </strong>
+        <strong className={styles.heading}>Middle Staking Dapp</strong>
 
-        <div className={styles.description}>
-          {`Delegate MultiversX (${network.egldLabel}) and earn up to 25% APY!`}
-        </div>
+        <div className={styles.description}>{`MultiversX dapp`}</div>
 
         <div className={styles.connects}>
           {connects.map((connect) => (
