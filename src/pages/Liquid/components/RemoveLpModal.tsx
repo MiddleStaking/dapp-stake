@@ -8,14 +8,13 @@ import toBigAmount from 'helpers/toBigAmount';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionLiquidRemove } from './Actions';
+import BigNumber from 'bignumber.js';
 
 const RemoveLPModal = (props: any) => {
   const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
   const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
   const [second_token, setSecondToken] = React.useState(props.second_esdt_info);
   const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
-
-  //const [lp_token, setLpToken] = React.useState('');
 
   React.useEffect(() => {
     setUserBalance(props.userEsdtBalance);
@@ -31,8 +30,6 @@ const RemoveLPModal = (props: any) => {
     setSecondToken(props.second_esdt_info);
   }, [props.second_esdt_info]);
 
-  const [firstBalance, setFirstBalance] = React.useState(BigInt(0));
-  const [secondBalance, setSecondBalance] = React.useState(BigInt(0));
   const [lpBalance, setLpBalance] = React.useState(BigInt(0));
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
@@ -48,12 +45,6 @@ const RemoveLPModal = (props: any) => {
     const lp_balance = user_balance.find(
       (item: any) => item.identifier === props.lp_token
     );
-    setFirstBalance(
-      first_balance?.balance ? first_balance?.balance : BigInt(0)
-    );
-    setSecondBalance(
-      second_balance?.balance ? second_balance?.balance : BigInt(0)
-    );
     setLpBalance(lp_balance?.balance ? lp_balance?.balance : BigInt(0));
   }, [props.first_esdt_info, props.second_esdt_info, user_balance]);
 
@@ -68,20 +59,18 @@ const RemoveLPModal = (props: any) => {
     ? second_token?.assets?.svgUrl
     : notFound;
 
-  const taux =
-    (BigInt(
-      first_pool.second_token_amount > 0 ? first_pool.second_token_amount : 1
-    ) *
-      BigInt(1000000000)) /
-    BigInt(
-      first_pool.first_token_amount > 0 ? first_pool.first_token_amount : 1
+  const taux = new BigNumber(
+    first_pool.second_token_amount > 0 ? first_pool.second_token_amount : 1
+  )
+    .multipliedBy(new BigNumber(1000000000))
+    .dividedBy(
+      new BigNumber(
+        first_pool.first_token_amount > 0 ? first_pool.first_token_amount : 1
+      )
     );
-  const second_amount = Number(
-    (BigInt(firstBig ? firstBig : 1) * BigInt(taux)) / BigInt(1000000000)
-  );
 
   function handleTokenAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** first_decimals);
+    const amount = BigInt(Number(value));
     if (amount < BigInt(0)) {
       setTokenAmount(0);
       setFirstBig(BigInt(0));
@@ -91,22 +80,20 @@ const RemoveLPModal = (props: any) => {
       setFirstBig(BigInt(output));
     }
     const percentage =
-      firstBalance > 0
-        ? Number((BigInt(amount) * BigInt(100)) / BigInt(firstBalance))
+      lpBalance > 0
+        ? Number((BigInt(amount) * BigInt(100)) / BigInt(lpBalance))
         : 0;
     setRangeValue(percentage);
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (firstBalance > BigInt(0)) {
+    if (lpBalance > BigInt(0)) {
       setRangeValue(e.target.value);
       const percentage = Number(e.target.value).toFixed();
       const big_amount = BigInt(
-        (BigInt(firstBalance) * BigInt(percentage)) / BigInt(100)
+        (BigInt(lpBalance) * BigInt(percentage)) / BigInt(100)
       );
-      setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** first_decimals))
-      );
+      setTokenAmount(Number(BigInt(big_amount)));
       setFirstBig(big_amount);
     } else {
       setRangeValue(0);
@@ -114,9 +101,7 @@ const RemoveLPModal = (props: any) => {
   }
 
   function setToMax() {
-    setTokenAmount(
-      Number(BigInt(lpBalance)) / Number(BigInt(10 ** lp_decimals))
-    );
+    setTokenAmount(Number(lpBalance));
     setFirstBig(lpBalance);
     setRangeValue(100);
   }
@@ -209,32 +194,7 @@ const RemoveLPModal = (props: any) => {
                           />
                         </div>
                       </div>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>in_fee</div>
-                        <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={first_pool.first_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                          %
-                        </div>
-                      </div>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>out_fee</div>
-                        <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={first_pool.second_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
-                          %
-                        </div>
-                      </div>
+
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value</div>
                         <div className='ValueDetailsInfo'>
@@ -380,7 +340,7 @@ const RemoveLPModal = (props: any) => {
                       <FormatAmount
                         className='label2'
                         decimals={Number(first_decimals.toString())}
-                        value={firstBalance.toString()}
+                        value={lpBalance.toString()}
                         egldLabel={' '}
                         data-testid='staked'
                       />
@@ -417,7 +377,7 @@ const RemoveLPModal = (props: any) => {
                       <FormatAmount
                         className='label2'
                         decimals={Number(second_decimals.toString())}
-                        value={secondBalance.toString()}
+                        value={lpBalance.toString()}
                         egldLabel={' '}
                         data-testid='staked'
                       />
@@ -515,28 +475,6 @@ const RemoveLPModal = (props: any) => {
                     fontSize={14}
                   />
                 </div>
-                <div className='FormatAmountStaked'>
-                  <Input
-                    inputHeight='40px'
-                    inputWidth='100%'
-                    borderColor='rgb(105, 88, 133)'
-                    disabled={true}
-                    value={(
-                      Number(second_amount) /
-                      10 ** second_decimals
-                    ).toString()}
-                    type='number'
-                    placeholder={'number'}
-                    fontSize={14}
-                  />
-                </div>{' '}
-                <FormatAmount
-                  className='label2'
-                  decimals={Number(second_decimals.toString())}
-                  value={second_amount.toString()}
-                  egldLabel={' '}
-                  data-testid='staked'
-                />
               </div>
               <div className='bottomGroupeModal' onClick={props.onClose}>
                 <div className='bottomModal'>

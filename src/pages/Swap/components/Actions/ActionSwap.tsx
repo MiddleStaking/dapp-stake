@@ -6,6 +6,8 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractSwap, defaultToken } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
+import { useGetAccount } from 'hooks';
+import { Address } from '@multiversx/sdk-core/out';
 
 export const ActionSwap = ({
   isLoggedIn,
@@ -21,13 +23,19 @@ export const ActionSwap = ({
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
+  const { address } = useGetAccount();
+  const contract_address = new Address(contractSwap).hex();
 
   const sendStakeTransaction = async () => {
     let stakeTransaction = {
       value: 0,
       data:
-        'ESDTTransfer@' +
+        'MultiESDTNFTTransfer@' +
+        contract_address +
+        '@01' +
+        '@' +
         Buffer.from(in_token, 'utf8').toString('hex') +
+        '@00' +
         '@' +
         bigToHex(BigInt(swap_amount)) +
         '@' +
@@ -38,7 +46,7 @@ export const ActionSwap = ({
         Buffer.from(second_token, 'utf8').toString('hex') +
         '@' +
         bigToHex(BigInt(min_out)),
-      receiver: contractSwap,
+      receiver: address,
       gasLimit: '20000000'
     };
 
@@ -50,8 +58,12 @@ export const ActionSwap = ({
       stakeTransaction = {
         value: 0,
         data:
-          'ESDTTransfer@' +
+          'MultiESDTNFTTransfer@' +
+          contract_address +
+          '@01' +
+          '@' +
           Buffer.from(in_token, 'utf8').toString('hex') +
+          '@00' +
           '@' +
           bigToHex(BigInt(swap_amount)) +
           '@' +
@@ -68,7 +80,7 @@ export const ActionSwap = ({
           ).toString('hex') +
           '@' +
           bigToHex(BigInt(min_out)),
-        receiver: contractSwap,
+        receiver: address,
         gasLimit: '20000000'
       };
     }

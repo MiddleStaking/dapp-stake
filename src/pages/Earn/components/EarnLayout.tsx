@@ -13,12 +13,14 @@ import {
   useGetAllUserRewards,
   useGetIsPaused,
   useGetStakedTokens,
-  useGetESDTInformations
+  useGetESDTInformations,
+  useGetSwapedTokens
 } from './Actions/helpers';
 import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
 import CardPool from './CardPool';
 import FundModal from './FundModal';
 import DropdownMenu from 'components/Design/DropdownMenu';
+import BigNumber from 'bignumber.js';
 
 export const EarnLayout = () => {
   const [showFund, setShowFund] = useState(false);
@@ -26,6 +28,26 @@ export const EarnLayout = () => {
   const [mySearch, setMySearch] = React.useState('');
   const [orderBy, setOrderBy] = React.useState('value');
   const { address } = useGetAccountInfo();
+  const [blockNonce, setBlockNonce] = useState<BigNumber>(new BigNumber(0));
+
+  React.useEffect(() => {
+    const fetchLastBlockNonce = async () => {
+      try {
+        const response = await fetch(
+          'https://api.multiversx.com/blocks?size=1'
+        );
+        const data = await response.json();
+        if (data && data.length > 0) {
+          console.log('last block nonce:', data[0].nonce);
+          setBlockNonce(new BigNumber(data[0].nonce));
+        }
+      } catch (error) {
+        console.error('Error fetching last block nonce:', error);
+      }
+    };
+
+    fetchLastBlockNonce();
+  }, []);
 
   const handleChange = () => {
     setMyPools(!myPools);
@@ -38,8 +60,8 @@ export const EarnLayout = () => {
   const isPaused = useGetIsPaused();
 
   const stakedTokens: string[] = useGetStakedTokens();
-  //const swapedTokens: string[] = useGetSwapedTokens();(wip)
-  const swapedTokens: string[] = [];
+  const swapedTokens: string[] = useGetSwapedTokens();
+  // const swapedTokens: string[] = [];
   const { param } = useParams();
   const [url] = useState(param ? param.toString() : defaultToken);
 
@@ -373,6 +395,7 @@ export const EarnLayout = () => {
                       stakedTokens.includes(rtoken.rewarded_token) &&
                       stoken != rtoken.rewarded_token
                     }
+                    currentBlockNonce={blockNonce}
                   />
                 )}
               </div>

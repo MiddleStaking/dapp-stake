@@ -6,6 +6,8 @@ import {
   ActionStakeRewards
 } from 'pages/Earn/components/Actions';
 import illustrationSvg from '../../../../../assets/img/Illustration.svg';
+import ProgressBar from '../../progressBar';
+import { BigNumber } from 'bignumber.js';
 
 interface RewardsSectionProps {
   rdecimals: any;
@@ -15,6 +17,9 @@ interface RewardsSectionProps {
   staked_token: any;
   rewarded_token: any;
   backgroundRewards: string;
+  currentBlockNonce: any;
+  staking_position: any;
+  token_position: any;
 }
 
 const RewardsSection: FC<RewardsSectionProps> = ({
@@ -24,7 +29,10 @@ const RewardsSection: FC<RewardsSectionProps> = ({
   my_rewards_value,
   staked_token,
   rewarded_token,
-  backgroundRewards
+  backgroundRewards,
+  currentBlockNonce,
+  staking_position,
+  token_position
 }) => {
   // const navigate = useNavigate();
   const { width } = useWindowDimensions();
@@ -76,13 +84,23 @@ const RewardsSection: FC<RewardsSectionProps> = ({
     left: width > 450 ? '190px' : '185px',
     top: '-12px'
   };
+
+  const elaspesed_blocks =
+    currentBlockNonce - staking_position.last_action_block;
+  const blocks_left = token_position.blocks_to_max - elaspesed_blocks;
+
   return (
     <>
       {stakingPositionRewards > BigInt(0) && (
         <div style={rewardsSection}>
           <div style={top5}>
             <div style={availabledRewards}>Available rewards</div>
-            <div></div>
+            <div style={{ width: '18Opx' }}>
+              <ProgressBar
+                value={new BigNumber(elaspesed_blocks)}
+                max={new BigNumber(token_position.blocks_to_max)}
+              />
+            </div>
             <div
               style={{
                 width: '180px',

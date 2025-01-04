@@ -73,6 +73,7 @@ interface CardPoolrops {
   isPaused?: any;
   userEsdtBalance?: any;
   swapedTokens?: any;
+  currentBlockNonce: any;
 }
 
 const CardPool: FC<CardPoolrops> = ({
@@ -101,7 +102,8 @@ const CardPool: FC<CardPoolrops> = ({
   swapedTokens,
   userEsdtBalance,
   balance,
-  backgroundRewards = 'var(--linear-primary-light, linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 0%, rgba(31, 103, 255, 0.00) 100%), linear-gradient(to left, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)))'
+  backgroundRewards = 'var(--linear-primary-light, linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 0%, rgba(31, 103, 255, 0.00) 100%), linear-gradient(to left, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)))',
+  currentBlockNonce
 }) => {
   const cardType: CSSProperties = {
     width: '300px',
@@ -485,6 +487,7 @@ const CardPool: FC<CardPoolrops> = ({
           firstPoolPosition={'firstPoolPosition'}
           secondPoolPosition={'secondPoolPosition'}
           balanc={balance}
+          currentBlockNonce={currentBlockNonce}
         />
 
         {address && (
@@ -496,6 +499,9 @@ const CardPool: FC<CardPoolrops> = ({
             my_rewards_value={my_rewards_value}
             staked_token={staked_token}
             rewarded_token={rewarded_token}
+            currentBlockNonce={currentBlockNonce}
+            staking_position={staking_position}
+            token_position={token_position}
           />
         )}
         {/* {canBeStaked && (

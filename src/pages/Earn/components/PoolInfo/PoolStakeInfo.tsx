@@ -66,7 +66,7 @@ export const PoolStakeInfo = ({
         show={showUnstake}
       /> */}
 
-      {!address ? (
+      {/* {!address ? (
         <div className='my-stake-section3 '>
           <Link
             className='center'
@@ -583,7 +583,7 @@ export const PoolStakeInfo = ({
             />
           )}
         </div>
-      )}
+      )} */}
       {/* {canBeStaked && (
         <>
           {' '}

@@ -4,7 +4,10 @@ import {
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import {
+  useGetAccountInfo,
+  useGetIsLoggedIn
+} from '@multiversx/sdk-dapp/hooks';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import DropdownMenu from 'components/Design/DropdownMenu';
@@ -17,6 +20,7 @@ import { ActionSwap } from './Actions';
 import { useGetESDTInformations } from './Actions/helpers';
 import { useGetPoolPosition } from './Actions/helpers';
 import './StakeModal.scss';
+import BigNumber from 'bignumber.js';
 
 interface SwapLayoutProps {
   firstToken: string;
@@ -26,7 +30,7 @@ interface SwapLayoutProps {
   all_lp: any[];
 }
 export const SwapLayout: FC<SwapLayoutProps> = ({
-  firstToken = 'WEGLD-bd4d79',
+  firstToken,
   secondToken,
   defaultToken,
   userEsdtBalance,
@@ -42,6 +46,11 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
   const [bigAmount, setBigAmount] = React.useState(BigInt(0));
+
+  const { account } = useGetAccountInfo();
+  const egld_balance = BigInt(
+    Number(account?.balance) > 0 ? account?.balance : 0
+  );
 
   let out_amount = BigInt(0);
   let out_fees = BigInt(0);
@@ -113,19 +122,28 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
     ? third_esdt_info?.decimals
     : 0;
 
-  const in_balance = userEsdtBalance.find(
-    (item: any) => item.identifier === in_token
-  );
-  const out_balance = userEsdtBalance.find(
-    (item: any) => item.identifier === out_token
-  );
+  const in_balance =
+    in_token === 'EGLD-000000'
+      ? { balance: egld_balance }
+      : userEsdtBalance.find((item: any) => item.identifier === in_token);
+
+  const out_balance =
+    out_token === 'EGLD-000000'
+      ? { balance: egld_balance }
+      : userEsdtBalance.find((item: any) => item.identifier === out_token);
+
   useEffect(() => {
     setInBalance(in_balance?.balance ? in_balance?.balance : BigInt(0));
     setOutBalance(out_balance?.balance ? out_balance?.balance : BigInt(0));
     if (in_token == out_token) {
-      setInToken('WEGLD-bd4d79');
+      setInToken('EGLD-000000');
       setOutToken(defaultToken);
     }
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('firstToken', in_token);
+    url.searchParams.set('secondToken', out_token);
+    window.history.pushState({}, '', url.toString());
   }, [in_token, out_token, userEsdtBalance]);
 
   function inverse() {
@@ -136,6 +154,11 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
     setTokenAmount(0);
     setBigAmount(BigInt(0));
     setRangeValue(0);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('firstToken', second);
+    url.searchParams.set('secondToken', first);
+    window.history.pushState({}, '', url.toString());
   }
   function setToMax() {
     setTokenAmount(
@@ -232,6 +255,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   } else {
     //Dual Swap
 
+    //Ratio des deux pools
     const first_k_pool =
       BigInt(secondPoolPosition.first_token_amount) *
       BigInt(secondPoolPosition.second_token_amount);
@@ -240,40 +264,24 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
       BigInt(firstPoolPosition.second_token_amount);
     const in_amount = BigInt(bigAmount);
 
-    // if (first_token == in_token) {
-    //******* */
-    // const in_fees =
-    //   (in_amount * BigInt(secondPoolPosition.first_fee)) / BigInt(10000);
-    // const first_x_amount =
-    //   first_k_pool /
-    //   (BigInt(secondPoolPosition.second_token_amount) + in_amount - in_fees);
-    // const first_out_amount =
-    //   BigInt(secondPoolPosition.first_token_amount) - first_x_amount;
-
-    // const second_y_amount =
-    //   second_k_pool /
-    //   (BigInt(firstPoolPosition.first_token_amount) + first_out_amount);
-    // out_amount =
-    //   BigInt(firstPoolPosition.second_token_amount) - second_y_amount;
-
-    // out_fees =
-    //   (out_amount * BigInt(10000)) /
-    //   BigInt(firstPoolPosition.second_fee) /
-    //   BigInt(10000);
-
-    // price_impact =
-    //   (Number(in_amount.toString()) /
-    //     Number(firstPoolPosition.first_token_amount.toString())) *
-    //   100;
-    // } else {
-    //******* */
-    const in_fees =
+    //LP_FEE 1
+    const first_in_fees =
       (in_amount * BigInt(firstPoolPosition.first_fee)) / BigInt(10000);
+
+    //premier montant sortant
     const first_x_amount =
       second_k_pool /
-      (BigInt(firstPoolPosition.second_token_amount) + in_amount - in_fees);
+      (BigInt(firstPoolPosition.second_token_amount) +
+        in_amount -
+        first_in_fees);
+
     const first_out_amount =
       BigInt(firstPoolPosition.first_token_amount) - first_x_amount;
+
+    //LP_FEE 2
+    const second_in_fees =
+      (first_out_amount * BigInt(secondPoolPosition.first_fee)) / BigInt(10000);
+    const second_in_amount = first_out_amount - second_in_fees;
 
     price_impact =
       (Number(in_amount.toString()) /
@@ -281,17 +289,19 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
       100;
     const second_y_amount =
       first_k_pool /
-      (BigInt(secondPoolPosition.first_token_amount) + first_out_amount);
+      (BigInt(secondPoolPosition.first_token_amount) + second_in_amount);
     out_amount =
       BigInt(secondPoolPosition.second_token_amount) - second_y_amount;
 
     out_fees =
-      (out_amount * BigInt(10000)) /
-      BigInt(secondPoolPosition.second_fee) /
-      BigInt(10000);
+      secondPoolPosition.second_fee > 0
+        ? (out_amount * BigInt(10000)) /
+          BigInt(secondPoolPosition.second_fee) /
+          BigInt(10000)
+        : BigInt(0);
 
     dual_price_impact =
-      (Number(first_out_amount.toString()) /
+      (Number(second_in_amount.toString()) /
         Number(secondPoolPosition.first_token_amount.toString())) *
       100;
 
@@ -304,16 +314,25 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   const percentage = rangeValue / 100;
 
   const first_amount = firstPoolPosition.first_token_amount
-    ? Number(firstPoolPosition.first_token_amount)
-    : Number(1);
+    ? new BigNumber(firstPoolPosition.first_token_amount.toString()).dividedBy(
+        10 ** 18
+      )
+    : new BigNumber(0);
   const second_amount = secondPoolPosition.first_token_amount
-    ? Number(secondPoolPosition.first_token_amount)
-    : Number(1);
+    ? new BigNumber(secondPoolPosition.first_token_amount.toString()).dividedBy(
+        10 ** 18
+      )
+    : new BigNumber(0);
   const price = def_esdt_info?.price
-    ? Number(def_esdt_info.price) * 2
-    : Number(1);
-  const lp_value1 = first_amount * price;
-  const lp_value2 = second_amount * price;
+    ? new BigNumber(def_esdt_info.price)
+    : new BigNumber(1);
+  const lp_value1 = first_amount
+    .multipliedBy(price)
+    .decimalPlaces(2, BigNumber.ROUND_DOWN);
+  const lp_value2 = second_amount
+    .multipliedBy(price)
+    .decimalPlaces(2, BigNumber.ROUND_DOWN);
+
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
   setHeaderMenu(true);
   return (
@@ -456,13 +475,14 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                           {/* {staked_value.toLocaleString('en-US', {
                             maximumFractionDigits: 2
                           })}{' '} */}
-                          <FormatAmount
-                            value={lp_value1.toString()}
-                            decimals={Number(18)}
+                          {lp_value1.toFixed()} $
+                          {/* <FormatAmount
+                            value={lp_value1.toFixed()}
+                            decimals={Number(0)}
                             egldLabel={'$'}
                             data-testid='balance'
                             digits={2}
-                          />{' '}
+                          />{' '} */}
                         </div>
                       </div>
                       {/* <div className='DetailsInfo'>
@@ -527,6 +547,19 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                         </div>
                       </div>
                       <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>lp_fee_1</div>
+                        <div className='ValueDetailsInfo'>
+                          <FormatAmount
+                            value={firstPoolPosition.first_fee.toString()}
+                            decimals={Number(2)}
+                            egldLabel={' '}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
+                          %
+                        </div>
+                      </div>{' '}
+                      <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>
                           {defaultToken.split('-')[0]} :{' '}
                           {out_token.split('-')[0]}
@@ -550,10 +583,10 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                         </div>
                       </div>
                       <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>in_fee</div>
+                        <div className='LabelDetailsInfo'>lp_fee_2</div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
-                            value={firstPoolPosition.first_fee.toString()}
+                            value={secondPoolPosition.first_fee.toString()}
                             decimals={Number(2)}
                             egldLabel={' '}
                             data-testid='balance'
@@ -563,10 +596,10 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                         </div>
                       </div>
                       <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>out_fee</div>
+                        <div className='LabelDetailsInfo'>stake_fee</div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
-                            value={firstPoolPosition.second_fee.toString()}
+                            value={secondPoolPosition.second_fee.toString()}
                             decimals={Number(2)}
                             egldLabel={' '}
                             data-testid='balance'
@@ -581,25 +614,27 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                           {/* {staked_value.toLocaleString('en-US', {
                             maximumFractionDigits: 2
                           })}{' '} */}
-                          <FormatAmount
-                            value={lp_value1.toString()}
-                            decimals={Number(18)}
+                          {lp_value1.toFixed()} $
+                          {/* <FormatAmount
+                            value={lp_value1.toFixed()}
+                            decimals={Number(0)}
                             egldLabel={'$'}
                             data-testid='balance'
                             digits={2}
-                          />{' '}
+                          />{' '} */}
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value 2</div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={lp_value2.toString()}
-                            decimals={Number(18)}
+                          {lp_value2.toFixed()} $
+                          {/* <FormatAmount
+                            value={lp_value2.toFixed()}
+                            decimals={Number(0)}
                             egldLabel={'$'}
                             data-testid='balance'
                             digits={2}
-                          />{' '}
+                          />{' '} */}
                         </div>
                       </div>
                     </div>
@@ -633,12 +668,15 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     options={
                       all_lp
                         ? token_list.map((item: any) => ({
-                            text: item.swaped_token,
+                            text:
+                              item.swaped_token == 'EGLD-000000'
+                                ? 'EGLD'
+                                : item.swaped_token,
                             value: item.swaped_token
                           }))
                         : [{ text: in_token, value: in_token }]
                     }
-                    defaultValue={in_token}
+                    defaultValue={in_token == 'EGLD-000000' ? 'EGLD' : in_token}
                     disableOption={false}
                     onSelect={function (value: any): void {
                       setInToken(value);
@@ -681,12 +719,17 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     options={
                       all_lp
                         ? token_list.map((item: any) => ({
-                            text: item.swaped_token,
+                            text:
+                              item.swaped_token == 'EGLD-000000'
+                                ? 'EGLD'
+                                : item.swaped_token,
                             value: item.swaped_token
                           }))
                         : [{ text: out_token, value: out_token }]
                     }
-                    defaultValue={out_token}
+                    defaultValue={
+                      out_token == 'EGLD-000000' ? 'EGLD' : out_token
+                    }
                     disableOption={false}
                     onSelect={function (value: any): void {
                       setOutToken(value);
@@ -757,7 +800,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                       egldLabel={' '}
                       data-testid='staked'
                     />{' '}
-                    {in_token}
+                    {in_token == 'EGLD-000000' ? 'EGLD' : in_token}
                   </div>
                   <Input
                     inputHeight='40px'
@@ -793,7 +836,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                       egldLabel={' '}
                       data-testid='staked'
                     />{' '}
-                    {out_token}
+                    {out_token == 'EGLD-000000' ? 'EGLD' : out_token}
                   </div>
                   <Input
                     inputHeight='40px'

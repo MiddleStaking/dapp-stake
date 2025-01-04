@@ -1,0 +1,21 @@
+.custom-table {
+  display: table;
+  width: 100%;
+}
+
+.table-header,
+.table-row {
+  display: table-row;
+}
+
+.table-cell {
+  display: table-cell;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-header .table-cell {
+  font-weight: bold;
+  border-bottom: 2px solid #fff;
+}

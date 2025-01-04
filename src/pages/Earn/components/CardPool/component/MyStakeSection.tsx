@@ -8,6 +8,7 @@ import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { routeNames } from 'routes';
 import StakeModal from '../../StakeModal';
 import UnstakeModal from '../../UnstakeModal';
+import ProgressBar from '../../progressBar';
 
 interface MyStakeSectionProps {
   address: any;
@@ -32,6 +33,7 @@ interface MyStakeSectionProps {
   balance: any;
   my_rewards_value: any;
   canBeStaked: any;
+  currentBlockNonce: any;
 }
 const MyStakeSection: FC<MyStakeSectionProps> = ({
   address,
@@ -48,7 +50,8 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   image2,
   sdecimals,
   userEsdtBalance,
-  canBeStaked
+  canBeStaked,
+  currentBlockNonce
 }) => {
   const navigate = useNavigate();
   const [showStake, setShowStake] = useState(false);
@@ -102,6 +105,17 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
     gap: '16px',
     width: '100%'
   };
+
+  // const elaspesed_blocks =
+  //   currentBlockNonce - staking_position.last_action_block;
+  // const blocks_left = token_position.blocks_to_max - elaspesed_blocks;
+  // console.log('blocks_left', blocks_left.toString());
+
+  // {staking_position.last_action_block.toFixed()}
+  // <br />
+  // {token_position.blocks_to_max.toFixed()}
+  // <br />
+  // {currentBlockNonce.toFixed()}
 
   return (
     // <>
@@ -265,6 +279,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                 gap: '16px'
               }}
             >
+              {' '}
               <div
                 style={{
                   width: '100%',
@@ -340,7 +355,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   <div>{rest} %</div>
                 </div>
               </div>
-
               <div
                 style={{
                   width: '100%',
@@ -384,6 +398,23 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     text={'Unstake'}
                   />
                 </div>
+              </div>{' '}
+              <div className='_18-853-74'>
+                {/* <br />
+                last : {staking_position.last_action_block.toFixed()}
+                <br />
+                max : {token_position.blocks_to_max.toFixed()}
+                <br />
+                current: {currentBlockNonce.toFixed()}
+                <br />
+                elaspesed : {elaspesed_blocks.toString()}
+                <br />
+                left : {blocks_left.toString()} */}
+
+                {/* <ProgressBar
+                  value={new BigNumber(elaspesed_blocks)}
+                  max={new BigNumber(token_position.blocks_to_max)}
+                /> */}
               </div>
               {/* {(swapedTokens.includes(stakedToken) ||
                 swapedTokens.includes(rewardedToken)) &&

@@ -9,6 +9,7 @@ import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionLiquid } from './Actions';
 import BigNumber from 'bignumber.js';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 const LiquidModal = (props: any) => {
   const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
   const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
@@ -16,6 +17,10 @@ const LiquidModal = (props: any) => {
   const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
   //const [lp_token, setLpToken] = React.useState('');
 
+  const { account } = useGetAccountInfo();
+  const egld_balance = BigInt(
+    Number(account?.balance) > 0 ? account?.balance : 0
+  );
   React.useEffect(() => {
     setUserBalance(props.userEsdtBalance);
   }, [props.userEsdtBalance]);
@@ -44,11 +49,16 @@ const LiquidModal = (props: any) => {
     const second_balance = user_balance.find(
       (item: any) => item.identifier === second_token.identifier
     );
+    //always MID
     setFirstBalance(
       first_balance?.balance ? first_balance?.balance : BigInt(0)
     );
     setSecondBalance(
-      second_balance?.balance ? second_balance?.balance : BigInt(0)
+      second_token.identifier === 'EGLD-000000'
+        ? egld_balance
+        : second_balance?.balance
+        ? second_balance?.balance
+        : BigInt(0)
     );
   }, [props.first_esdt_info, props.second_esdt_info, user_balance]);
 

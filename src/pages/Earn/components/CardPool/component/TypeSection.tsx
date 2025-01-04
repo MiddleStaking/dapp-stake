@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import { BigNumber } from 'bignumber.js';
 import SwowHideDetails from './SwowHideDetails';
+import { Link } from 'react-router-dom';
 
 interface TypeSectionProps {
   height: string;
@@ -67,7 +68,8 @@ const TypeSection: FC<TypeSectionProps> = ({
   staked_value,
   users,
   textColor = '#ffffff',
-  fontFamily = 'sans-serif'
+  fontFamily = 'sans-serif',
+  swapedTokens
 }) => {
   const isGradient = (
     value: string | [string, string]
@@ -300,7 +302,6 @@ const TypeSection: FC<TypeSectionProps> = ({
         <div style={left}>
           <div style={title}>
             <div style={earnMex}>Earn {rewarded_token.split('-')[0]}</div>
-
             <div style={stakeMex}>Stake {staked_token.split('-')[0]}</div>
           </div>
 
@@ -319,22 +320,48 @@ const TypeSection: FC<TypeSectionProps> = ({
           </div>
         </div>
 
-        <div style={logos}>
-          <div style={logo2}>
-            <div style={image_2}>
-              <img style={img_2} src={image2} />
+        {/* Conteneur logos et Swap */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          <div style={logos}>
+            <div style={logo2}>
+              <div style={image_2}>
+                <img style={img_2} src={image2} />
+              </div>
+            </div>
+            <div style={logo1}>
+              <div style={image_1}>
+                <img style={img_1} src={image1} />
+              </div>
             </div>
           </div>
 
-          <div style={logo1}>
-            <div style={image_1}>
-              <img style={img_1} src={image1} />
-            </div>
+          {/* Section Swap sous les logos */}
+          <div
+            style={{ marginTop: '10px', color: textColor, fontSize: '12px' }}
+          >
+            {swapedTokens.includes(staked_token) &&
+              swapedTokens.includes(rewarded_token) && (
+                <Link
+                  to={`/swap?firstToken=${
+                    rewarded_token === staked_token
+                      ? 'WEGLD-bd4d79'
+                      : rewarded_token
+                  }&secondToken=${staked_token}`}
+                  style={{ color: textColor, textDecoration: 'none' }}
+                >
+                  &lt; = Swap = &gt;
+                </Link>
+              )}
           </div>
         </div>
-
-        {/* {!showDetails ? ( */}
       </div>
+
       <div style={detailsStyle} onClick={handleChange}>
         <div style={{ fontSize: '10px' }}>
           {!showDetails ? 'Show details' : 'Hide details'}
