@@ -8,6 +8,7 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { contractSwap } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
+import BigNumber from 'bignumber.js';
 
 export const ActionLiquid = ({
   first_token,
@@ -54,12 +55,12 @@ export const ActionLiquid = ({
         Buffer.from(first_token, 'utf8').toString('hex') +
         '@00' +
         '@' +
-        bigToHex(BigInt(first_amount)) +
+        bigToHex(BigInt(first_amount.toFixed())) +
         '@' +
         Buffer.from(second_token, 'utf8').toString('hex') +
         '@00' +
         '@' +
-        bigToHex(BigInt(second_amount)) +
+        bigToHex(BigInt(second_amount.toFixed())) +
         '@' +
         Buffer.from('addLp', 'utf8').toString('hex'),
       receiver: address,

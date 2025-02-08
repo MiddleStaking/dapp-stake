@@ -23,13 +23,22 @@ export const LiquidityLayout = () => {
   return (
     <div className='center'>
       <div className='liquidity-table'>
+        <div className='table-header'>
+          <div className='table-cell'>TOKEN</div>
+          <div className='table-cell'>LP1</div>
+          <div className='table-cell'>LP2</div>
+          <div className='table-cell'>VALUE1</div>
+          <div className='table-cell'>VALUE2</div>
+          <div className='table-cell'>DIFF</div>
+          <div className='table-cell'>ACTIONS</div>
+        </div>
         {sortedLp &&
           sortedLp.map((lp) => (
-            <div className='table-row' key={lp.lp_token}>
-              <div className='table-cell'>
-                <LiquidInfo userEsdtBalance={userEsdtBalance} lp={lp} />
-              </div>
-            </div>
+            <LiquidInfo
+              userEsdtBalance={userEsdtBalance}
+              lp={lp}
+              key={lp.lp_token}
+            />
           ))}
       </div>
     </div>

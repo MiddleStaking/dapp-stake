@@ -98,7 +98,7 @@ const AddSingleTokenModal = (props: any) => {
         .multipliedBy(percentage)
         .dividedBy(100);
       setTokenAmount(big_amount.dividedBy(10 ** first_decimals).toNumber());
-      setFirstBig(big_amount);
+      setFirstBig(big_amount.integerValue(BigNumber.ROUND_FLOOR));
     } else {
       setRangeValue(0);
     }

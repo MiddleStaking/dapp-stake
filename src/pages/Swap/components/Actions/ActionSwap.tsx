@@ -8,6 +8,7 @@ import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
 import { useGetAccount } from 'hooks';
 import { Address } from '@multiversx/sdk-core/out';
+import BigNumber from 'bignumber.js';
 
 export const ActionSwap = ({
   isLoggedIn,
@@ -26,6 +27,16 @@ export const ActionSwap = ({
   const { address } = useGetAccount();
   const contract_address = new Address(contractSwap).hex();
 
+  let hexValue = swap_amount.toString(16); // Convert to hex
+  if (hexValue.length % 2 !== 0) {
+    hexValue = '0' + hexValue;
+  }
+
+  let hexValue2 = min_out.toString(16); // Convert to hex
+  if (hexValue2.length % 2 !== 0) {
+    hexValue2 = '0' + hexValue2;
+  }
+
   const sendStakeTransaction = async () => {
     let stakeTransaction = {
       value: 0,
@@ -37,7 +48,7 @@ export const ActionSwap = ({
         Buffer.from(in_token, 'utf8').toString('hex') +
         '@00' +
         '@' +
-        bigToHex(BigInt(swap_amount)) +
+        hexValue +
         '@' +
         Buffer.from('swap', 'utf8').toString('hex') +
         '@' +
@@ -45,7 +56,7 @@ export const ActionSwap = ({
         '@' +
         Buffer.from(second_token, 'utf8').toString('hex') +
         '@' +
-        bigToHex(BigInt(min_out)),
+        hexValue2,
       receiver: address,
       gasLimit: '20000000'
     };
@@ -65,7 +76,7 @@ export const ActionSwap = ({
           Buffer.from(in_token, 'utf8').toString('hex') +
           '@00' +
           '@' +
-          bigToHex(BigInt(swap_amount)) +
+          hexValue +
           '@' +
           Buffer.from('dualSwap', 'utf8').toString('hex') +
           '@' +
@@ -79,7 +90,7 @@ export const ActionSwap = ({
             'utf8'
           ).toString('hex') +
           '@' +
-          bigToHex(BigInt(min_out)),
+          hexValue2,
         receiver: address,
         gasLimit: '20000000'
       };
@@ -100,6 +111,7 @@ export const ActionSwap = ({
       setTransactionSessionId(sessionId);
     }
   };
+
   return (
     <>
       {swap_amount !== undefined && isLoggedIn && (
@@ -113,16 +125,16 @@ export const ActionSwap = ({
                   background={['rgb(236 55 55)', 'rgb(236 55 55)']}
                   borderColor={'black'}
                   text={
-                    in_balance < swap_amount
+                    in_balance.isLessThan(swap_amount)
                       ? 'Low balance & low liquidity'
                       : 'LOW LIQUIDITY'
                   }
                   onClick={sendStakeTransaction}
-                  disabled={in_balance < swap_amount}
+                  disabled={in_balance.isLessThan(swap_amount)}
                 />
               ) : (
                 <>
-                  {in_balance < swap_amount ? (
+                  {in_balance.isLessThan(swap_amount) ? (
                     <Button
                       buttonWidth='100%'
                       borderRadius={40}

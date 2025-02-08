@@ -1,7 +1,8 @@
 import React, { useEffect, FC } from 'react';
 import {
   faArrowsLeftRight,
-  faArrowRight
+  faArrowRight,
+  faLink
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,7 +14,6 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
-import toBigAmount from 'helpers/toBigAmount';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionSwap } from './Actions';
@@ -21,6 +21,14 @@ import { useGetESDTInformations } from './Actions/helpers';
 import { useGetPoolPosition } from './Actions/helpers';
 import './StakeModal.scss';
 import BigNumber from 'bignumber.js';
+import { useGetEgldBalance } from './Actions/helpers/useGetEgldBalance';
+import { contractSwap } from 'config';
+import { contractRestake } from 'config';
+
+import { swap } from 'formik';
+import { ActionRestake } from './Actions/ActionRestake';
+import { useGetRestakeBalance } from './Actions/helpers/useGetRestakeBalance';
+import { ActionClaim } from './Actions/ActionClaim';
 
 interface SwapLayoutProps {
   firstToken: string;
@@ -36,24 +44,29 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   userEsdtBalance,
   all_lp
 }) => {
-  // const [first_token, setFirstToken] = React.useState(firstToken);
-  // const [second_token, setSecondToken] = React.useState(secondToken);
   const { hasPendingTransactions } = useGetPendingTransactions();
-  const [inBalance, setInBalance] = React.useState(BigInt(0));
-  const [outBalance, setOutBalance] = React.useState(BigInt(0));
+  const [inBalance, setInBalance] = React.useState(new BigNumber(0));
+  const [outBalance, setOutBalance] = React.useState(new BigNumber(0));
   const [in_token, setInToken] = React.useState(firstToken);
   const [out_token, setOutToken] = React.useState(secondToken);
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
-  const [bigAmount, setBigAmount] = React.useState(BigInt(0));
+  const [swap_amount, setSwapAmount] = React.useState(new BigNumber(0));
 
   const { account } = useGetAccountInfo();
   const egld_balance = BigInt(
     Number(account?.balance) > 0 ? account?.balance : 0
   );
+  const contract_swap_egld_balance = useGetEgldBalance(contractSwap);
+  const contract_restake_egld_balance = useGetEgldBalance(contractRestake);
+  const restake_balance = useGetRestakeBalance();
+  //montant mini avant de proposer le restake décentralisé
+  const min_restake = new BigNumber(1 * 10 ** 18);
+  const min_claim_stake = new BigNumber(1 * 10 ** 17);
 
-  let out_amount = BigInt(0);
-  let out_fees = BigInt(0);
+  // console.log('restake_balance', restake_balance);
+  let out_amount = new BigNumber(0);
+  let out_fees = new BigNumber(0);
   let price_impact = 0;
   let dual_price_impact = 0;
 
@@ -105,10 +118,13 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
     isDual
   );
 
+  //généralement le mid
   const first_esdt_info = useGetESDTInformations(firstPoolPosition.first_token);
+  //entrant
   const second_esdt_info = useGetESDTInformations(
     firstPoolPosition.second_token
   );
+  //sortant
   const third_esdt_info = useGetESDTInformations(
     secondPoolPosition.second_token
   );
@@ -133,8 +149,16 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
       : userEsdtBalance.find((item: any) => item.identifier === out_token);
 
   useEffect(() => {
-    setInBalance(in_balance?.balance ? in_balance?.balance : BigInt(0));
-    setOutBalance(out_balance?.balance ? out_balance?.balance : BigInt(0));
+    setInBalance(
+      in_balance?.balance
+        ? new BigNumber(in_balance?.balance)
+        : new BigNumber(0)
+    );
+    setOutBalance(
+      out_balance?.balance
+        ? new BigNumber(out_balance?.balance)
+        : new BigNumber(0)
+    );
     if (in_token == out_token) {
       setInToken('EGLD-000000');
       setOutToken(defaultToken);
@@ -152,7 +176,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
     setInToken(second);
     setOutToken(first);
     setTokenAmount(0);
-    setBigAmount(BigInt(0));
+    setSwapAmount(new BigNumber(0));
     setRangeValue(0);
 
     const url = new URL(window.location.href);
@@ -161,144 +185,186 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
     window.history.pushState({}, '', url.toString());
   }
   function setToMax() {
-    setTokenAmount(
-      Number(BigInt(inBalance)) / Number(BigInt(10 ** in_decimals))
-    );
-    setBigAmount(inBalance);
+    setTokenAmount(Number(inBalance) / Number(BigInt(10 ** in_decimals)));
+    setSwapAmount(inBalance);
     setRangeValue(100);
   }
   const in_decimals = in_esdt_info?.decimals ? in_esdt_info?.decimals : 0;
   const out_decimals = out_esdt_info?.decimals ? out_esdt_info?.decimals : 0;
+
   function handleTokenAmountChange(value: any) {
-    const amount = BigInt(Number(value) * 10 ** in_decimals);
-    if (Number(inBalance) == 0) {
+    const amount = new BigNumber(value).multipliedBy(10 ** in_decimals);
+
+    if (amount.isLessThan(0)) {
       setTokenAmount(0);
-      setBigAmount(BigInt(0));
-    } else if (amount < BigInt(0)) {
-      setTokenAmount(0);
-      setBigAmount(BigInt(0));
+      setSwapAmount(new BigNumber(0));
     } else {
       setTokenAmount(value);
-      const output = toBigAmount(Number(value), Number(in_decimals));
-      setBigAmount(BigInt(output));
+      const output = new BigNumber(value).multipliedBy(10 ** in_decimals);
+      setSwapAmount(new BigNumber(output));
     }
     const percentage = Number(
-      (BigInt(amount) * BigInt(100)) /
-        BigInt(inBalance ? inBalance : amount ? amount : 1)
+      amount
+        .multipliedBy(100)
+        .dividedBy(inBalance ? inBalance : amount ? amount : 1)
+        .integerValue(BigNumber.ROUND_FLOOR)
+        .toFixed()
     );
     setRangeValue(percentage);
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (inBalance > BigInt(0)) {
+    if (inBalance.isGreaterThan(0)) {
       setRangeValue(e.target.value);
       const percentage = Number(e.target.value).toFixed();
-      const big_amount = BigInt(
-        (BigInt(inBalance) * BigInt(percentage)) / BigInt(100)
-      );
-      setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** in_decimals))
-      );
-      setBigAmount(big_amount);
+      const big_amount = new BigNumber(inBalance)
+        .multipliedBy(percentage)
+        .dividedBy(100);
+      setTokenAmount(Number(big_amount) / Number(BigInt(10 ** in_decimals)));
+      setSwapAmount(big_amount);
     } else {
       setRangeValue(0);
     }
   }
   if (in_token == defaultToken || out_token == defaultToken) {
     //Simple Swap
-    const k_pool =
-      BigInt(firstPoolPosition.first_token_amount) *
-      BigInt(firstPoolPosition.second_token_amount);
-    const in_amount = BigInt(bigAmount);
+    const k_pool = new BigNumber(
+      firstPoolPosition.first_token_amount.toString()
+    ).multipliedBy(firstPoolPosition.second_token_amount.toString());
 
     if (defaultToken == in_token) {
       //******* */
-      const in_fees =
-        (in_amount * BigInt(firstPoolPosition.first_fee)) / BigInt(10000);
-      const y_amount =
-        k_pool /
-        (BigInt(firstPoolPosition.first_token_amount) + in_amount - in_fees);
+      const in_fees = new BigNumber(swap_amount)
+        .multipliedBy(firstPoolPosition.first_fee.toString())
+        .dividedBy(10000)
+        .integerValue(BigNumber.ROUND_FLOOR);
 
-      out_amount = BigInt(firstPoolPosition.second_token_amount) - y_amount;
+      const y_amount = k_pool
+        .dividedBy(
+          new BigNumber(firstPoolPosition.first_token_amount.toString())
+            .plus(swap_amount)
+            .minus(in_fees)
+        )
+        .integerValue(BigNumber.ROUND_FLOOR);
+
+      out_amount = new BigNumber(
+        firstPoolPosition.second_token_amount.toString()
+      ).minus(y_amount);
       out_fees =
         firstPoolPosition.second_fee > 0
-          ? (out_amount * BigInt(10000)) /
-            BigInt(firstPoolPosition.second_fee) /
-            BigInt(10000)
-          : BigInt(0);
+          ? new BigNumber(out_amount)
+              .multipliedBy(10000)
+              .dividedBy(firstPoolPosition.second_fee.toString())
+              .integerValue(BigNumber.ROUND_FLOOR)
+              .dividedBy(10000)
+              .integerValue(BigNumber.ROUND_FLOOR)
+          : new BigNumber(0);
 
       price_impact =
-        (Number(in_amount.toString()) /
-          Number(firstPoolPosition.first_token_amount.toString())) *
+        (Number(swap_amount) / Number(firstPoolPosition.first_token_amount)) *
         100;
     } else {
       //******* */
-      const in_fees =
-        (in_amount * BigInt(firstPoolPosition.first_fee)) / BigInt(10000);
-      const x_amount =
-        k_pool /
-        (BigInt(firstPoolPosition.second_token_amount) + in_amount - in_fees);
+      const in_fees = new BigNumber(swap_amount)
+        .multipliedBy(firstPoolPosition.first_fee.toString())
+        .dividedBy(10000)
+        .integerValue(BigNumber.ROUND_FLOOR);
+      const x_amount = k_pool
+        .dividedBy(
+          new BigNumber(firstPoolPosition.second_token_amount.toString())
+            .plus(swap_amount)
+            .minus(in_fees)
+        )
+        .integerValue(BigNumber.ROUND_FLOOR);
 
-      out_amount = BigInt(firstPoolPosition.first_token_amount) - x_amount;
+      out_amount = new BigNumber(
+        firstPoolPosition.first_token_amount.toString()
+      ).minus(x_amount);
       out_fees =
         firstPoolPosition.second_fee > 0
-          ? (out_amount * BigInt(10000)) /
-            BigInt(firstPoolPosition.second_fee) /
-            BigInt(10000)
-          : BigInt(0);
+          ? new BigNumber(out_amount)
+              .multipliedBy(10000)
+              .dividedBy(firstPoolPosition.second_fee.toString())
+              .integerValue(BigNumber.ROUND_FLOOR)
+              .dividedBy(10000)
+              .integerValue(BigNumber.ROUND_FLOOR)
+          : new BigNumber(0);
 
       price_impact =
-        (Number(in_amount.toString()) /
+        (Number(swap_amount.toString()) /
           Number(firstPoolPosition.second_token_amount.toString())) *
         100;
     }
   } else {
-    //Dual Swap
+    //DualSwap
 
     //Ratio des deux pools
-    const first_k_pool =
-      BigInt(secondPoolPosition.first_token_amount) *
-      BigInt(secondPoolPosition.second_token_amount);
-    const second_k_pool =
-      BigInt(firstPoolPosition.first_token_amount) *
-      BigInt(firstPoolPosition.second_token_amount);
-    const in_amount = BigInt(bigAmount);
+    //MID EGLD
+    const first_k_pool = new BigNumber(
+      firstPoolPosition.first_token_amount.toString()
+    ).multipliedBy(firstPoolPosition.second_token_amount.toString());
+    // console.log('first_k_pool', first_k_pool.toFixed());
+
+    //MID USDC
+    const second_k_pool = new BigNumber(
+      secondPoolPosition.first_token_amount.toString()
+    ).multipliedBy(secondPoolPosition.second_token_amount.toString());
+    // console.log('second_k_pool', second_k_pool.toFixed());
 
     //LP_FEE 1
-    const first_in_fees =
-      (in_amount * BigInt(firstPoolPosition.first_fee)) / BigInt(10000);
+    const first_in_fees = new BigNumber(swap_amount)
+      .multipliedBy(firstPoolPosition.first_fee.toString())
+      .dividedBy(10000)
+      .integerValue(BigNumber.ROUND_FLOOR);
 
-    //premier montant sortant
-    const first_x_amount =
-      second_k_pool /
-      (BigInt(firstPoolPosition.second_token_amount) +
-        in_amount -
-        first_in_fees);
+    const first_in_amount = new BigNumber(swap_amount).minus(first_in_fees);
 
-    const first_out_amount =
-      BigInt(firstPoolPosition.first_token_amount) - first_x_amount;
+    const first_x_amount = first_k_pool
+      .dividedBy(
+        new BigNumber(firstPoolPosition.second_token_amount.toString()).plus(
+          first_in_amount
+        )
+      )
+      .integerValue(BigNumber.ROUND_FLOOR);
+
+    const first_out_amount = new BigNumber(
+      firstPoolPosition.first_token_amount.toString()
+    ).minus(first_x_amount);
 
     //LP_FEE 2
-    const second_in_fees =
-      (first_out_amount * BigInt(secondPoolPosition.first_fee)) / BigInt(10000);
-    const second_in_amount = first_out_amount - second_in_fees;
+    const second_in_fees = new BigNumber(first_out_amount)
+      .multipliedBy(secondPoolPosition.first_fee.toString())
+      .dividedBy(10000)
+      .integerValue(BigNumber.ROUND_FLOOR);
+    const second_in_amount = new BigNumber(first_out_amount).minus(
+      second_in_fees
+    );
 
     price_impact =
-      (Number(in_amount.toString()) /
+      (Number(swap_amount.toString()) /
         Number(firstPoolPosition.second_token_amount.toString())) *
       100;
-    const second_y_amount =
-      first_k_pool /
-      (BigInt(secondPoolPosition.first_token_amount) + second_in_amount);
-    out_amount =
-      BigInt(secondPoolPosition.second_token_amount) - second_y_amount;
+    const second_y_amount = second_k_pool
+      .dividedBy(
+        new BigNumber(secondPoolPosition.first_token_amount.toString()).plus(
+          second_in_amount
+        )
+      )
+      .integerValue(BigNumber.ROUND_FLOOR);
+    out_amount = new BigNumber(
+      secondPoolPosition.second_token_amount.toString()
+    ).minus(second_y_amount);
 
+    //Out fees
     out_fees =
       secondPoolPosition.second_fee > 0
-        ? (out_amount * BigInt(10000)) /
-          BigInt(secondPoolPosition.second_fee) /
-          BigInt(10000)
-        : BigInt(0);
+        ? new BigNumber(out_amount)
+            .multipliedBy(10000)
+            .dividedBy(secondPoolPosition.second_fee.toString())
+            .integerValue(BigNumber.ROUND_FLOOR)
+            .dividedBy(10000)
+            .integerValue(BigNumber.ROUND_FLOOR)
+        : new BigNumber(0);
 
     dual_price_impact =
       (Number(second_in_amount.toString()) /
@@ -309,7 +375,11 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   }
 
   //Slippage :
-  const min_out = ((out_amount - out_fees) * BigInt(99)) / BigInt(100);
+  const min_out = out_amount
+    .minus(out_fees)
+    .multipliedBy(99)
+    .dividedBy(100)
+    .integerValue(BigNumber.ROUND_FLOOR);
 
   const percentage = rangeValue / 100;
 
@@ -323,15 +393,17 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
         10 ** 18
       )
     : new BigNumber(0);
-  const price = def_esdt_info?.price
+  const first_price = def_esdt_info?.price
     ? new BigNumber(def_esdt_info.price)
     : new BigNumber(1);
+
   const lp_value1 = first_amount
-    .multipliedBy(price)
-    .decimalPlaces(2, BigNumber.ROUND_DOWN);
+    .multipliedBy(first_price)
+    .integerValue(BigNumber.ROUND_FLOOR);
+
   const lp_value2 = second_amount
-    .multipliedBy(price)
-    .decimalPlaces(2, BigNumber.ROUND_DOWN);
+    .multipliedBy(first_price)
+    .integerValue(BigNumber.ROUND_FLOOR);
 
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
   setHeaderMenu(true);
@@ -357,19 +429,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
               <div className='modalLabelStakeModal'>Swap tokens</div>
-
               <div className='logosStakeModal'>
-                {/* <div className='logo2StakeModal'>
-                  <div className='image_2StakeModal'>
-                    <img className='img_2StakeModal' src={second_image} />
-                  </div>
-                </div>
-
-                <div className='logo1StakeModal'>
-                  <div className='image_1StakeModal'>
-                    <img className='img_1StakeModal' src={first_image} />
-                  </div>
-                </div> */}
                 <div className='LogoStakeModalGroupe'>
                   <div className='LogoStake'>
                     <img src={first_image} />
@@ -393,6 +453,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                 <div className='this-pool-already-exists_StakeModal'>
                   Pool informations
                 </div>
+
                 {!isDual ? (
                   <div className='GroupeDetails_StakeModal'>
                     <div className='LogosDetails_StakeModal'>
@@ -416,6 +477,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                         </div>
                       </div>
                     </div>
+
                     <div className='PoolDetails_StakeModal'>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>{defaultToken}</div>
@@ -443,6 +505,40 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                           />
                         </div>
                       </div>
+                      {(in_token == 'EGLD-000000' ||
+                        out_token == 'EGLD-000000') &&
+                        restake_balance && (
+                          <div className='DetailsInfo'>
+                            <div className='LabelDetailsInfo'>
+                              Restaked
+                              <a
+                                href='https://explorer.multiversx.com/accounts/erd1qqqqqqqqqqqqqpgq4mudu4n6kqqa6agtek3s2jmr7j5tqjwctxfqphra6x/staking'
+                                target='_BLANK'
+                                rel='noreferrer'
+                              >
+                                <FontAwesomeIcon
+                                  icon={faLink}
+                                  style={{
+                                    fontSize: '12px',
+                                    marginLeft: '5px',
+                                    color: '#7195df'
+                                  }}
+                                />
+                              </a>
+                            </div>
+                            <div className='ValueDetailsInfo'>
+                              <FormatAmount
+                                value={new BigNumber(
+                                  restake_balance.userActiveStake
+                                ).toFixed()}
+                                decimals={Number(18)}
+                                egldLabel={' '}
+                                data-testid='balance'
+                                digits={2}
+                              />
+                            </div>
+                          </div>
+                        )}
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>in_fee</div>
                         <div className='ValueDetailsInfo'>
@@ -472,31 +568,9 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value</div>
                         <div className='ValueDetailsInfo'>
-                          {/* {staked_value.toLocaleString('en-US', {
-                            maximumFractionDigits: 2
-                          })}{' '} */}
                           {lp_value1.toFixed()} $
-                          {/* <FormatAmount
-                            value={lp_value1.toFixed()}
-                            decimals={Number(0)}
-                            egldLabel={'$'}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '} */}
                         </div>
                       </div>
-                      {/* <div className='DetailsInfo'>
-                      <div className='LabelDetailsInfo'>{'Send'}</div>
-                      <div className='ValueDetailsInfo'>
-                        <FormatAmount
-                          className='label2'
-                          decimals={Number(in_decimals.toString())}
-                          value={inBalance.toString()}
-                          egldLabel={' '}
-                          data-testid='staked'
-                        />
-                      </div>
-                    </div> */}
                     </div>
                   </div>
                 ) : (
@@ -611,49 +685,39 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value 1</div>
                         <div className='ValueDetailsInfo'>
-                          {/* {staked_value.toLocaleString('en-US', {
-                            maximumFractionDigits: 2
-                          })}{' '} */}
                           {lp_value1.toFixed()} $
-                          {/* <FormatAmount
-                            value={lp_value1.toFixed()}
-                            decimals={Number(0)}
-                            egldLabel={'$'}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '} */}
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value 2</div>
                         <div className='ValueDetailsInfo'>
                           {lp_value2.toFixed()} $
-                          {/* <FormatAmount
-                            value={lp_value2.toFixed()}
-                            decimals={Number(0)}
-                            egldLabel={'$'}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '} */}
                         </div>
                       </div>
                     </div>
                   </div>
                 )}
               </div>
+              {contract_restake_egld_balance.isGreaterThan(min_restake) && (
+                <>
+                  <ActionRestake amount={contract_restake_egld_balance} />
+                </>
+              )}
+              {restake_balance &&
+                new BigNumber(restake_balance.claimableRewards).isGreaterThan(
+                  min_claim_stake
+                ) && (
+                  <>
+                    <ActionClaim
+                      amount={new BigNumber(restake_balance.claimableRewards)}
+                    />
+                  </>
+                )}
+
               <div className='dropDownGroupeStakeModal'>
                 <div className='dropDownStake'>
                   <div className='GroupeLabelDropdoownFormatAmount'>
                     <div className='LabelDropdoown'>Send</div>
-                    {/* <div className='LabelDropdoownFormatAmount'>
-                      <FormatAmount
-                        className='label2'
-                        decimals={Number(first_decimals.toString())}
-                        value={inBalance.toString()}
-                        egldLabel={' '}
-                        data-testid='staked'
-                      />
-                    </div> */}
                   </div>
                   <DropdownMenu
                     BoxShadowActive={true}
@@ -696,15 +760,6 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                 <div className='dropDownEarn'>
                   <div className='GroupeLabelDropdoownFormatAmount'>
                     <div className='LabelDropdoown'>Receive</div>
-                    {/* <div className='LabelDropdoownFormatAmount'>
-                      <FormatAmount
-                        className='label2'
-                        decimals={Number(out_decimals.toString())}
-                        value={outBalance.toString()}
-                        egldLabel={' '}
-                        data-testid='staked'
-                      />
-                    </div> */}
                   </div>
                   <DropdownMenu
                     BoxShadowActive={false}
@@ -740,17 +795,6 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
               <div>
                 <div className='AmountRageGroupeSwap'>
                   <div className='label6'>amount</div>
-                  {/* <div className='InputRangePerso'> */}
-                  {/* <input
-                    type='range'
-                    id='slider'
-                    min='0'
-                    max='100'
-                    step='1'
-                    value={rangeValue}
-                    onChange={handleRangeValueChange}
-                    // ref={sliderRef}
-                  /> */}
                   <div>
                     <input
                       type='range'
@@ -774,7 +818,6 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                       }}
                     />
                   </div>
-                  {/* </div> */}
                   <div className='label6'>{rangeValue}%</div>
                 </div>
                 {!isDual ? (
@@ -789,14 +832,13 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                   </div>
                 )}
               </div>
-
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <div className='LabelDropdoownFormatAmount'>
                     <FormatAmount
                       className='label2'
                       decimals={Number(in_decimals.toString())}
-                      value={inBalance.toString()}
+                      value={inBalance.toFixed()}
                       egldLabel={' '}
                       data-testid='staked'
                     />{' '}
@@ -832,7 +874,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     <FormatAmount
                       className='label2'
                       decimals={Number(out_decimals.toString())}
-                      value={outBalance.toString()}
+                      value={outBalance.toFixed()}
                       egldLabel={' '}
                       data-testid='staked'
                     />{' '}
@@ -844,7 +886,7 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     borderColor='rgb(105, 88, 133)'
                     disabled={true}
                     value={(
-                      Number(out_amount - out_fees) /
+                      Number(out_amount.minus(out_fees)) /
                       10 ** out_decimals
                     ).toString()}
                     type='number'
@@ -856,8 +898,8 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                   <div className='LabelDropdoownFormatAmount'>Slippage(1%)</div>
                   <FormatAmount
                     className='label2'
-                    decimals={Number(out_decimals.toString())}
-                    value={min_out.toString()}
+                    decimals={Number(out_decimals.toFixed())}
+                    value={min_out.toFixed()}
                     egldLabel={' '}
                     data-testid='staked'
                   />
@@ -865,28 +907,61 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
               </div>
               <div className='bottomGroupeModal'>
                 <div className='bottomModal'>
-                  <ActionSwap
-                    isLoggedIn={isLoggedIn}
-                    first_token={
-                      in_token == defaultToken
-                        ? in_token
-                        : out_token == defaultToken
-                        ? out_token
-                        : in_token
-                    }
-                    second_token={
-                      out_token == defaultToken ? in_token : out_token
-                    }
-                    in_token={in_token}
-                    in_balance={inBalance}
-                    swap_amount={bigAmount}
-                    min_out={min_out}
-                    price_impact={
-                      price_impact > dual_price_impact
-                        ? price_impact
-                        : dual_price_impact
-                    }
-                  />
+                  {out_token == 'EGLD-000000' &&
+                  contract_swap_egld_balance.isLessThan(
+                    out_amount.toString()
+                  ) ? (
+                    <div
+                      style={{
+                        padding: '15px',
+                        backgroundColor: '#2a1b4b',
+                        color: '#d1c4e9',
+                        fontFamily: 'Arial, sans-serif',
+                        borderRadius: '8px',
+                        maxWidth: '400px',
+                        textAlign: 'center',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+                        lineHeight: '1.5'
+                      }}
+                    >
+                      <strong style={{ color: '#e0e0e0', fontSize: '16px' }}>
+                        Swap Unavailable
+                      </strong>
+                      <p>
+                        This swap cannot be executed because part of the amount
+                        is currently locked in restaking. Please select a
+                        different token, reduce the amount, or wait until the
+                        restaking process is complete. Availaible :
+                        {contract_swap_egld_balance
+                          .dividedBy(10 ** 18)
+                          .toFixed(2)}{' '}
+                        EGLD
+                      </p>
+                    </div>
+                  ) : (
+                    <ActionSwap
+                      isLoggedIn={isLoggedIn}
+                      first_token={
+                        in_token == defaultToken
+                          ? in_token
+                          : out_token == defaultToken
+                          ? out_token
+                          : in_token
+                      }
+                      second_token={
+                        out_token == defaultToken ? in_token : out_token
+                      }
+                      in_token={in_token}
+                      in_balance={inBalance}
+                      swap_amount={swap_amount}
+                      min_out={min_out}
+                      price_impact={
+                        price_impact > dual_price_impact
+                          ? price_impact
+                          : dual_price_impact
+                      }
+                    />
+                  )}
                 </div>
               </div>
             </div>

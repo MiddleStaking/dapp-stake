@@ -11,7 +11,7 @@ import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import { logout } from '@multiversx/sdk-dapp/utils';
 // import { Button } from 'components/Design/Button';
 import { useNavigate } from 'react-router-dom';
-import { network } from 'config';
+import { network, wegld_identifier } from 'config';
 import { routeNames } from 'routes';
 import { useGetUserESDT } from './../Earn/components/Actions/helpers/useGetUserESDT';
 import styles from './account.module.scss';
@@ -26,7 +26,7 @@ const Account = () => {
   const [wegldBalance, setWegldBalance] = React.useState(BigInt(0));
   const userEsdtBalance = useGetUserESDT();
   const wegldProps = userEsdtBalance.find(
-    (item: any) => item.identifier === 'WEGLD-bd4d79'
+    (item: any) => item.identifier === wegld_identifier
   );
   useEffect(() => {
     setWegldBalance(wegldProps?.balance ? wegldProps?.balance : BigInt(0));
@@ -123,7 +123,7 @@ const Account = () => {
                     </p>
                   </div>
                 </div>
-                <div
+                {/* <div
                   className={styles.square}
                   onClick={() => open('https://devnet-app.middlestaking.fr/')}
                 >
@@ -136,7 +136,7 @@ const Account = () => {
                       Open this application on the Devnet
                     </p>
                   </div>
-                </div>
+                </div> */}
                 <div>
                   <div
                     className={styles.square}

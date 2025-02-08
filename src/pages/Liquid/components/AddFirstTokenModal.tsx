@@ -7,20 +7,14 @@ import Input from 'components/Design/Input';
 import toBigAmount from 'helpers/toBigAmount';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
-import { ActionLiquid } from './Actions';
+import { ActionLiquidRemove } from './Actions';
 import BigNumber from 'bignumber.js';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-const LiquidModal = (props: any) => {
-  const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
-  const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
-  const [second_token, setSecondToken] = React.useState(props.second_esdt_info);
-  const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
-  //const [lp_token, setLpToken] = React.useState('');
 
-  const { account } = useGetAccountInfo();
-  const egld_balance = BigInt(
-    Number(account?.balance) > 0 ? account?.balance : 0
-  );
+const AddFirstTokenModal = (props: any) => {
+  const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
+  const [token, setToken] = React.useState(props.esdt_info);
+  const [first_pool, setFirstPool] = React.useState(props.firstPoolPosition);
+
   React.useEffect(() => {
     setUserBalance(props.userEsdtBalance);
   }, [props.userEsdtBalance]);
@@ -28,45 +22,24 @@ const LiquidModal = (props: any) => {
     setFirstPool(props.firstPoolPosition);
   }, [props.firstPoolPosition]);
   React.useEffect(() => {
-    setFirstToken(props.first_esdt_info);
+    setToken(props.first_esdt_info);
     props.second_esdt_info;
   }, [props.first_esdt_info]);
-  React.useEffect(() => {
-    setSecondToken(props.second_esdt_info);
-  }, [props.second_esdt_info]);
 
-  const [firstBalance, setFirstBalance] = React.useState(new BigNumber(0));
-  const [secondBalance, setSecondBalance] = React.useState(new BigNumber(0));
+  const [lpBalance, setLpBalance] = React.useState(BigInt(0));
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
-  const [firstBig, setFirstBig] = React.useState(new BigNumber(0));
-  const [secondBig, setSecondBig] = React.useState(new BigNumber(0));
+  const [firstBig, setFirstBig] = React.useState(BigInt(0));
 
   useEffect(() => {
-    const first_balance = user_balance.find(
-      (item: any) => item.identifier === first_token.identifier
-    );
-    const second_balance = user_balance.find(
-      (item: any) => item.identifier === second_token.identifier
-    );
-    //always MID
-    setFirstBalance(
-      first_balance?.balance
-        ? new BigNumber(first_balance?.balance.toString())
-        : new BigNumber(0)
-    );
-    setSecondBalance(
-      second_token.identifier === 'EGLD-000000'
-        ? new BigNumber(egld_balance.toString())
-        : second_balance?.balance
-        ? new BigNumber(second_balance?.balance)
-        : new BigNumber(0)
+    const balance = user_balance.find(
+      (item: any) => item.identifier === token.identifier
     );
   }, [props.first_esdt_info, props.second_esdt_info, user_balance]);
 
-  // console.log('first', firstBalance);
   const first_decimals = first_token?.decimals ? first_token?.decimals : 0;
   const second_decimals = second_token?.decimals ? second_token?.decimals : 0;
+  const lp_decimals = 0;
 
   const first_image = first_token?.assets?.svgUrl
     ? first_token?.assets?.svgUrl
@@ -75,73 +48,51 @@ const LiquidModal = (props: any) => {
     ? second_token?.assets?.svgUrl
     : notFound;
 
-  const first_second = BigNumber(
+  const taux = new BigNumber(
     first_pool.second_token_amount > 0 ? first_pool.second_token_amount : 1
-  );
-
-  const first_first = BigNumber(
-    first_pool.first_token_amount > 0 ? first_pool.first_token_amount : 1
-  );
-
-  const taux = first_second.multipliedBy(1000000000).dividedBy(first_first);
-
-  const second_amount = Number(
-    firstBig.multipliedBy(taux.toString()).dividedBy(1000000000)
-  );
-
-  function handleTokenAmountChange(value: any) {
-    const first_in_value = new BigNumber(value * 10 ** first_decimals);
-    const second_in_value = new BigNumber(
-      first_in_value.multipliedBy(taux.toString()).dividedBy(1000000000)
+  )
+    .multipliedBy(new BigNumber(1000000000))
+    .dividedBy(
+      new BigNumber(
+        first_pool.first_token_amount > 0 ? first_pool.first_token_amount : 1
+      )
     );
 
-    // const amount = BigInt(Number(value) * 10 ** first_decimals);
-    // const second_a =
-    //   (BigInt(amount ? amount : 1) * BigInt(taux ? taux : 1)) /
-    //   BigInt(1000000000);
-    if (
-      first_in_value.isLessThan(0) ||
-      first_in_value.isNaN() ||
-      first_in_value.isEqualTo(0)
-    ) {
+  function handleTokenAmountChange(value: any) {
+    const amount = BigInt(Number(value));
+    if (amount < BigInt(0)) {
       setTokenAmount(0);
-      setFirstBig(new BigNumber(0));
-      setSecondBig(new BigNumber(0));
+      setFirstBig(BigInt(0));
     } else {
       setTokenAmount(Number(value));
       const output = toBigAmount(Number(value), Number(first_decimals));
-      setFirstBig(new BigNumber(output));
-      setSecondBig(
-        new BigNumber(second_in_value.integerValue(BigNumber.ROUND_FLOOR))
-      );
+      setFirstBig(BigInt(output));
     }
-    const percentage = firstBalance.isGreaterThan(0)
-      ? Number(first_in_value.multipliedBy(100).dividedBy(firstBalance))
-      : 0;
+    const percentage =
+      lpBalance > 0
+        ? Number((BigInt(amount) * BigInt(100)) / BigInt(lpBalance))
+        : 0;
     setRangeValue(percentage);
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    // if (BigInt(firstBalance.toFixed()) > BigInt(0)) {
-    //   setRangeValue(e.target.value);
-    //   const percentage = Number(e.target.value).toFixed();
-    //   const big_amount = BigInt(
-    //     (BigInt(firstBalance.toFixed()) * BigInt(percentage)) / BigInt(100)
-    //   );
-    //   setTokenAmount(
-    //     Number(BigInt(big_amount)) / Number(BigInt(10 ** first_decimals))
-    //   );
-    //   setFirstBig(big_amount);
-    // } else {
-    //   setRangeValue(0);
-    // }
+    if (lpBalance > BigInt(0)) {
+      setRangeValue(e.target.value);
+      const percentage = Number(e.target.value).toFixed();
+      const big_amount = BigInt(
+        (BigInt(lpBalance) * BigInt(percentage)) / BigInt(100)
+      );
+      setTokenAmount(Number(BigInt(big_amount)));
+      setFirstBig(big_amount);
+    } else {
+      setRangeValue(0);
+    }
   }
 
   function setToMax() {
-    // console.log(firstBalance, first_decimals);
-    // setTokenAmount(Number(firstBalance) / Number(BigInt(10 ** first_decimals)));
-    // setFirstBig(BigInt(firstBalance.toFixed()));
-    // setRangeValue(100);
+    setTokenAmount(Number(lpBalance));
+    setFirstBig(lpBalance);
+    setRangeValue(100);
   }
 
   if (!props.show) {
@@ -161,7 +112,7 @@ const LiquidModal = (props: any) => {
         <div className='backgroundStakeModal'>
           <div className='modalStakeModal'>
             <div className='contentStakeModal'>
-              <div className='modalLabelStakeModal'>Add liquidity</div>
+              <div className='modalLabelStakeModal'>Swap tokens</div>
 
               <div className='logosStakeModal'>
                 <div className='logo2StakeModal'>
@@ -210,9 +161,7 @@ const LiquidModal = (props: any) => {
                         </div>
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
-                            value={new BigNumber(
-                              first_pool.first_token_amount
-                            ).toFixed()}
+                            value={first_pool.first_token_amount.toString()}
                             decimals={Number(first_decimals)}
                             egldLabel={' '}
                             data-testid='balance'
@@ -234,14 +183,13 @@ const LiquidModal = (props: any) => {
                           />
                         </div>
                       </div>
-                      <div className='DetailsInfo'>
-                        <div className='LabelDetailsInfo'>in_fee</div>
-                        <div className='ValueDetailsInfo'>%</div>
-                      </div>
 
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value</div>
                         <div className='ValueDetailsInfo'>
+                          {/* {staked_value.toLocaleString('en-US', {
+                            maximumFractionDigits: 2
+                          })}{' '} */}
                           <FormatAmount
                             value={lp_value1.toString()}
                             decimals={Number(18)}
@@ -251,6 +199,18 @@ const LiquidModal = (props: any) => {
                           />
                         </div>
                       </div>
+                      {/* <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>{'Send'}</div>
+                      <div className='ValueDetailsInfo'>
+                        <FormatAmount
+                          className='label2'
+                          decimals={Number(in_decimals.toString())}
+                          value={inBalance.toString()}
+                          egldLabel={' '}
+                          data-testid='staked'
+                        />
+                      </div>
+                    </div> */}
                     </div>
                   </div>
                 ) : (
@@ -305,8 +265,37 @@ const LiquidModal = (props: any) => {
                         </div>
                       </div>
                       <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>in_fee</div>
+                        <div className='ValueDetailsInfo'>
+                          <FormatAmount
+                            value={first_pool.first_fee.toString()}
+                            decimals={Number(2)}
+                            egldLabel={' '}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
+                          %
+                        </div>
+                      </div>
+                      <div className='DetailsInfo'>
+                        <div className='LabelDetailsInfo'>out_fee</div>
+                        <div className='ValueDetailsInfo'>
+                          <FormatAmount
+                            value={first_pool.second_fee.toString()}
+                            decimals={Number(2)}
+                            egldLabel={' '}
+                            data-testid='balance'
+                            digits={2}
+                          />{' '}
+                          %
+                        </div>
+                      </div>
+                      <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value</div>
                         <div className='ValueDetailsInfo'>
+                          {/* {staked_value.toLocaleString('en-US', {
+                            maximumFractionDigits: 2
+                          })}{' '} */}
                           <FormatAmount
                             value={lp_value1.toString()}
                             decimals={Number(18)}
@@ -316,6 +305,18 @@ const LiquidModal = (props: any) => {
                           />{' '}
                         </div>
                       </div>
+                      {/* <div className='DetailsInfo'>
+                      <div className='LabelDetailsInfo'>{'Send'}</div>
+                      <div className='ValueDetailsInfo'>
+                        <FormatAmount
+                          className='label2'
+                          decimals={Number(in_decimals.toString())}
+                          value={inBalance.toString()}
+                          egldLabel={' '}
+                          data-testid='staked'
+                        />
+                      </div>
+                    </div> */}
                     </div>
                   </div>
                 )}
@@ -328,7 +329,7 @@ const LiquidModal = (props: any) => {
                       <FormatAmount
                         className='label2'
                         decimals={Number(first_decimals.toString())}
-                        value={firstBalance.toFixed()}
+                        value={lpBalance.toString()}
                         egldLabel={' '}
                         data-testid='staked'
                       />
@@ -365,7 +366,7 @@ const LiquidModal = (props: any) => {
                       <FormatAmount
                         className='label2'
                         decimals={Number(second_decimals.toString())}
-                        value={secondBalance.toFixed()}
+                        value={lpBalance.toString()}
                         egldLabel={' '}
                         data-testid='staked'
                       />
@@ -398,6 +399,17 @@ const LiquidModal = (props: any) => {
               <div>
                 <div className='AmountRageGroupeSwap'>
                   <div className='label6'>amount</div>
+                  {/* <div className='InputRangePerso'> */}
+                  {/* <input
+                    type='range'
+                    id='slider'
+                    min='0'
+                    max='100'
+                    step='1'
+                    value={rangeValue}
+                    onChange={handleRangeValueChange}
+                    // ref={sliderRef}
+                  /> */}
                   <div>
                     <input
                       type='range'
@@ -421,6 +433,7 @@ const LiquidModal = (props: any) => {
                       }}
                     />
                   </div>
+                  {/* </div> */}
                   <div className='label6'>{rangeValue}%</div>
                 </div>
               </div>
@@ -451,26 +464,6 @@ const LiquidModal = (props: any) => {
                     fontSize={14}
                   />
                 </div>
-                <div className='FormatAmountStaked'>
-                  LA
-                  <Input
-                    inputHeight='40px'
-                    inputWidth='100%'
-                    borderColor='rgb(105, 88, 133)'
-                    disabled={true}
-                    value={secondBig.dividedBy(10 ** second_decimals).toFixed()}
-                    type='number'
-                    placeholder={'number'}
-                    fontSize={14}
-                  />
-                </div>{' '}
-                <FormatAmount
-                  className='label2'
-                  value={secondBig.toFixed()}
-                  decimals={Number(second_decimals.toString())}
-                  egldLabel={' '}
-                  data-testid='staked'
-                />
               </div>
               <div className='bottomGroupeModal' onClick={props.onClose}>
                 <div className='bottomModal'>
@@ -485,13 +478,11 @@ const LiquidModal = (props: any) => {
                   />
                 </div>
                 <div className='bottomModal'>
-                  <ActionLiquid
+                  <ActionLiquidRemove
                     first_token={first_token.identifier}
                     second_token={second_token.identifier}
-                    first_amount={firstBig}
-                    second_amount={secondBig}
-                    first_balance={firstBalance}
-                    second_balance={secondBalance}
+                    lp_token={props.lp_token}
+                    lp_amount={firstBig}
                   />
                 </div>
               </div>
@@ -514,4 +505,4 @@ const LiquidModal = (props: any) => {
     </>
   );
 };
-export default LiquidModal;
+export default AddFirstTokenModal;

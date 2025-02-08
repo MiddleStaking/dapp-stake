@@ -8,6 +8,7 @@ export const lockedCollection = 'DINOGAZ-c723ac';
 export const vouchersCollection = 'VOUCHERS-e6045e';
 export const dinoblock = 'DINOBLOCK-652073';
 export const dinobadge = 'DINOBLOCK-652073';
+export const wegld_identifier = 'WEGLD-bd4d79';
 
 export const midGiftToken = 'MIDGIFT-bf25b7';
 export const scOwner =
@@ -25,6 +26,8 @@ export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
+export const contractRestake =
+  'erd1qqqqqqqqqqqqqpgq4mudu4n6kqqa6agtek3s2jmr7j5tqjwctxfqphra6x';
 
 export const contracts = {
   lockGraou: 'erd1qqqqqqqqqqqqqpgqsgvnfzwwdmjpf55hvp66eeq3xu5pd40k5gcsm5vzlw'

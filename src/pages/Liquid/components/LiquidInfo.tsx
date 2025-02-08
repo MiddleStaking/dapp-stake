@@ -9,7 +9,7 @@ import AddSingleTokenModal from './AddSingleTokenModal';
 
 import RemoveLpModal from './RemoveLpModal';
 import BigNumber from 'bignumber.js';
-import './LiquidInfo.css';
+// import './LiquidInfo.css';
 import { Add } from 'components/Nodes/components/Add';
 
 export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
@@ -70,7 +70,7 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
     BigInt(2);
 
   return (
-    <div className='center text-white'>
+    <div className='text-white table-row'>
       <LiquidModal
         userEsdtBalance={userEsdtBalance}
         firstPoolPosition={lp}
@@ -106,121 +106,108 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
         onClose={() => setShowSecond(false)}
       />
 
-      <div className='custom-table'>
-        <div className='table-header'>
-          <div className='table-cell'>
-            ${defaultToken.split('-')[0]}{' '}
-            <span
-              onClick={() => {
-                setShowFirst(true);
-              }}
-            >
-              <span className='button-icon'>+</span>
-            </span>
-          </div>
-          <div className='table-cell'>
-            ${lp.swaped_token.split('-')[0]}{' '}
-            <span
-              onClick={() => {
-                setShowSecond(true);
-              }}
-            >
-              <span className='button-icon'>+</span>
-            </span>
-          </div>
-        </div>
+      <div className='table-cell'>${lp.swaped_token.split('-')[0]} </div>
 
-        <div className='table-row'>
-          <div className='table-cell'>
-            <FormatAmount
-              decimals={first_esdt_info.decimals}
-              value={BigNumber(lp.first_token_amount).toFixed()}
-              egldLabel={' '}
-              data-testid='balance'
-            />
-          </div>
-          <div className='table-cell'>
-            <FormatAmount
-              decimals={second_esdt_info.decimals}
-              value={BigNumber(lp.second_token_amount).toFixed()}
-              egldLabel={' '}
-              data-testid='balance'
-            />
-          </div>
-        </div>
+      <div className='table-cell'>
+        <FormatAmount
+          decimals={first_esdt_info.decimals}
+          value={BigNumber(lp.first_token_amount).toFixed()}
+          egldLabel={' '}
+          data-testid='balance'
+        />
+        <span
+          onClick={() => {
+            setShowFirst(true);
+          }}
+        >
+          <span className='button-icon'>+</span>
+        </span>
+      </div>
+      <div className='table-cell'>
+        <FormatAmount
+          decimals={second_esdt_info.decimals}
+          value={BigNumber(lp.second_token_amount).toFixed()}
+          egldLabel={' '}
+          data-testid='balance'
+        />{' '}
+        <span
+          onClick={() => {
+            setShowSecond(true);
+          }}
+        >
+          <span className='button-icon'>+</span>
+        </span>
+      </div>
 
-        <div className='table-row'>
-          <div className='table-cell'>
-            <FormatAmount
-              decimals={first_esdt_info.decimals}
-              value={first_value.toString()}
-              egldLabel={'$'}
-              data-testid='balance'
-            />
-          </div>
-          <div className='table-cell'>
-            {second_esdt_info.price && (
-              <FormatAmount
-                decimals={second_esdt_info.decimals}
-                value={second_value.toString()}
-                egldLabel={'$'}
-                data-testid='balance'
-              />
-            )}
-          </div>
-        </div>
+      <div className='table-cell'>
+        <FormatAmount
+          decimals={first_esdt_info.decimals}
+          value={first_value.toString()}
+          egldLabel={'$'}
+          data-testid='balance'
+        />
+      </div>
 
-        <div className='table-row'>
-          <div className='table-cell'></div>
-          <div className='table-cell'>
-            {second_esdt_info.price && (
+      <div className='table-cell'>
+        {second_esdt_info.price && (
+          <FormatAmount
+            decimals={second_esdt_info.decimals}
+            value={second_value.toString()}
+            egldLabel={'$'}
+            data-testid='balance'
+          />
+        )}
+      </div>
+
+      <div className='table-cell'>
+        {second_esdt_info.price && (
+          <>
+            {ecart > 0 && (
               <>
-                {ecart > 0 && (
-                  <>
-                    {'+ '}
-                    <FormatAmount
-                      decimals={0}
-                      value={ecart.toString()}
-                      egldLabel={' '}
-                      data-testid='balance'
-                    />
-                  </>
-                )}
-                {ecart2 > 0 && (
-                  <>
-                    {'- '}
-                    <FormatAmount
-                      decimals={0}
-                      value={ecart2.toString()}
-                      egldLabel={' '}
-                      data-testid='balance'
-                    />
-                  </>
-                )}
+                {'+ '}
+                <FormatAmount
+                  decimals={0}
+                  value={ecart.toString()}
+                  egldLabel={' '}
+                  data-testid='balance'
+                />
               </>
             )}
-          </div>
+            {ecart2 > 0 && (
+              <>
+                {'- '}
+                <FormatAmount
+                  decimals={0}
+                  value={ecart2.toString()}
+                  egldLabel={' '}
+                  data-testid='balance'
+                />
+              </>
+            )}
+          </>
+        )}
+      </div>
 
+      <div className='table-cell'>
+        <div
+          className='button-icon'
+          onClick={() => {
+            setShowLiquid(true);
+          }}
+        >
+          +
+        </div>
+
+        {lp_balance?.balance > 0 && (
           <div
-            className='table-cell'
+            className='button-icon'
             onClick={() => {
-              setShowLiquid(true);
+              setShowRemoveLP(true);
             }}
           >
-            <div className='button-icon'>+</div>
+            -
           </div>
-
-          {lp_balance?.balance > 0 && (
-            <div
-              className='button-icon-border  cursor-pointer'
-              onClick={() => {
-                setShowRemoveLP(true);
-              }}
-            >
-              <div className='button-icon'>-</div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );

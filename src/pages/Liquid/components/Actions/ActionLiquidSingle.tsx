@@ -53,7 +53,7 @@ export const ActionLiquidSingle = ({
         '@' +
         bigToHex(BigInt(amount.toFixed())) +
         '@' +
-        Buffer.from('addSingleLp', 'utf8').toString('hex') +
+        Buffer.from('addSingleLP', 'utf8').toString('hex') +
         '@' +
         Buffer.from(second_token, 'utf8').toString('hex'),
       receiver: address,

@@ -7,6 +7,7 @@ import React, {
 import { BigNumber } from 'bignumber.js';
 import SwowHideDetails from './SwowHideDetails';
 import { Link } from 'react-router-dom';
+import { wegld_identifier } from 'config';
 
 interface TypeSectionProps {
   height: string;
@@ -350,7 +351,7 @@ const TypeSection: FC<TypeSectionProps> = ({
                 <Link
                   to={`/swap?firstToken=${
                     rewarded_token === staked_token
-                      ? 'WEGLD-bd4d79'
+                      ? wegld_identifier
                       : rewarded_token
                   }&secondToken=${staked_token}`}
                   style={{ color: textColor, textDecoration: 'none' }}

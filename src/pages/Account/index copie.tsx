@@ -14,7 +14,7 @@ import { useGetUserESDT } from './../Earn/components/Actions/helpers/useGetUserE
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import WrapModal from './components/WrapModal';
 import UnwrapModal from './components/UnwrapModal';
-import { network } from 'config';
+import { network, wegld_identifier } from 'config';
 
 const Account = () => {
   const { account, address } = useGetAccountInfo();
@@ -26,7 +26,7 @@ const Account = () => {
   const userEsdtBalance = useGetUserESDT();
 
   const wegldProps = userEsdtBalance.find(
-    (item: any) => item.identifier === 'WEGLD-bd4d79'
+    (item: any) => item.identifier === wegld_identifier
   );
   useEffect(() => {
     setWegldBalance(wegldProps?.balance ? wegldProps?.balance : BigInt(0));

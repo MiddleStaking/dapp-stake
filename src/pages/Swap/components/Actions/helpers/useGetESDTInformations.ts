@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { network } from 'config';
+import { network, wegld_identifier } from 'config';
 export const useGetESDTInformations = (identifier: string) => {
   //const { network } = useGetNetworkConfig();
   const time = new Date();
   const [esdtInfo, setEsdtInfo] = useState<any>({});
+
   // {
   //   type: 'FungibleESDT',
   //   identifier: 'STAKE-1c6362',
@@ -51,7 +52,9 @@ export const useGetESDTInformations = (identifier: string) => {
   //   ]
   // }
 
-  const url = '/tokens/' + identifier;
+  const egld_identifier =
+    identifier == 'EGLD-000000' ? wegld_identifier : identifier;
+  const url = '/tokens/' + egld_identifier;
   const getEsdtInfo = async () => {
     if (!identifier) {
       return;

@@ -6,6 +6,8 @@ export const sftCollection = 'TOKENTICKE-38b075';
 export const vouchersCollection = 'SFT-221ca7';
 export const lockedCollection = 'TOKENTICKE-38b075';
 export const midGiftToken = 'MIDGIFT-bf25b7';
+export const wegld_identifier = 'WEGLD-a28c59';
+
 export const scOwner =
   'erd12stex47hwg0hvx8cfvukj3y3ugs7dm0686k3wasycffexva6ch9s7tvj29';
 
@@ -22,6 +24,8 @@ export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr0llllsj732py';
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
+export const contractRestake =
+  'erd1qqqqqqqqqqqqqpgq3hgxpv4mrxzxs03s6rexh3ngtswxgl2rch9s83xchu';
 
 export const contracts = {
   lockGraou: 'erd1qqqqqqqqqqqqqpgqkhd7lhchw42cz3sahdrc95kme9pxnzguch9srygudw'

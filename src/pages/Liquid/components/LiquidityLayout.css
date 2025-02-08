@@ -1,61 +1,23 @@
 .liquidity-table {
-  display: table;
-  width: 100%;
-  border-collapse: collapse;
+  grid-template-columns: repeat(7, 1fr); /* 8 colonnes égales */
+  width: 100%; /* Assure que le tableau occupe toute la largeur */
+  border-collapse: collapse; /* Facultatif : si vous voulez des bordures fusionnées */
 }
 
 .table-header {
-  display: table-row;
+  display: grid;
+  grid-template-columns: inherit; /* Utilise la même grille que le parent */
+  background-color: #f8f8f8; /* Couleur de fond des en-têtes */
   font-weight: bold;
-  background-color: #1e1e2f;
-  color: #fff;
 }
 
 .table-row {
-  display: table-row;
-  background-color: #2a2a3b;
+  display: grid;
+  grid-template-columns: inherit; /* Utilise la même grille que le parent */
 }
 
 .table-cell {
-  display: table-cell;
-  padding: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
   text-align: center;
-  border-bottom: 1px solid #444;
-}
-
-.action-btn {
-  margin: 5px;
-  padding: 5px 10px;
-  border: none;
-  background-color: #4caf50;
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.action-btn:hover {
-  background-color: #45a049;
-}
-
-.table-header .table-cell {
-  border-bottom: 2px solid #fff;
-}
-
-@media (max-width: 768px) {
-  .liquidity-table {
-    display: block;
-  }
-
-  .table-header,
-  .table-row {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .table-cell {
-    display: block;
-    text-align: left;
-    border-bottom: none;
-    padding: 10px 0;
-  }
 }
