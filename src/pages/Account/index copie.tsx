@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'lib';
 import {
   faExternalLinkAlt,
   faArrowRight
@@ -14,7 +14,7 @@ import { useGetUserESDT } from './../Earn/components/Actions/helpers/useGetUserE
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
 import WrapModal from './components/WrapModal';
 import UnwrapModal from './components/UnwrapModal';
-import { network, wegld_identifier } from 'config';
+import { local_network, wegld_identifier } from 'config';
 
 const Account = () => {
   const { account, address } = useGetAccountInfo();
@@ -53,7 +53,7 @@ const Account = () => {
     setAddress(address === null ? '' : address);
   }, [address]);
 
-  const explorer = network.explorerAddress + '/accounts/';
+  const explorer = local_network.explorerAddress + '/accounts/';
   return (
     <>
       <WrapModal
@@ -165,7 +165,7 @@ const Account = () => {
                   </div>
                 </div>
 
-                {network.id != 'mainnet' && (
+                {local_network.id != 'mainnet' && (
                   <div>
                     <div className={styles.square}>
                       <div

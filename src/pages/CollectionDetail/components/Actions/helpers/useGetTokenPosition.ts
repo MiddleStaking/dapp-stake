@@ -1,16 +1,32 @@
 import { useEffect, useState } from 'react';
 import {
+  Abi,
+  Address,
+  AddressValue,
   ContractFunction,
-  ResultsParser,
+  DevnetEntrypoint,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-import { network } from 'config';
-import { smartContract } from './smartContract';
-
-const resultsParser = new ResultsParser();
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractNftStake } from 'config';
+import json from 'staking-nft.abi.json';
+import { BigNumber } from 'bignumber.js';
 
 export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractNftStake);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
   const [tokenPosition, setTokenPosition] = useState({
     stakedToken: stakedToken,
     rewardedToken: rewardedToken,
@@ -69,44 +85,33 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
     }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getTokenPosition'),
-        args: [
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getTokenPosition',
+        arguments: [
           new TokenIdentifierValue(stakedToken),
           new TokenIdentifierValue(rewardedToken)
         ]
       });
 
-      //      const proxy = new ProxyNetworkProvider(network.apiAddress);
-      //const proxy = new ProxyNetworkProvider(network.gatewayAddress);
-
-      //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
-
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getTokenPosition');
-      const { firstValue: position } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
-
-      const tab = position?.valueOf();
+      console.log('response', response);
+      const tab = response;
 
       if (tab) {
         setTokenPosition({
           stakedToken: stakedToken,
           rewardedToken: rewardedToken,
-          pool_id: tab[0].toFixed(),
-          collection: tab[1].toFixed(),
-          total_staked: tab[2].toFixed(),
-          identifier: tab[3].toFixed(),
-          rewards: tab[4].toFixed(),
-          total_rewarded: tab[5].toFixed(),
-          last_fund_block: tab[6].toFixed(),
-          speed: tab[7].toFixed(),
-          vesting: tab[8].toFixed(),
-          unbounding: tab[9].toFixed(),
-          nonce: tab[10].toFixed()
+          pool_id: tab[0],
+          collection: tab[1],
+          total_staked: tab[2],
+          identifier: tab[3],
+          rewards: tab[4],
+          total_rewarded: tab[5],
+          last_fund_block: tab[6],
+          speed: tab[7],
+          vesting: tab[8],
+          unbounding: tab[9],
+          nonce: tab[10]
         });
 
         //storage of 1 minutes
@@ -117,17 +122,17 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
           JSON.stringify({
             stakedToken: stakedToken,
             rewardedToken: rewardedToken,
-            pool_id: tab[0].toFixed(),
-            collection: tab[1].toFixed(),
-            total_staked: tab[2].toFixed(),
-            identifier: tab[3].toFixed(),
-            rewards: tab[4].toFixed(),
-            total_rewarded: tab[5].toFixed(),
-            last_fund_block: tab[6].toFixed(),
-            speed: tab[7].toFixed(),
-            vesting: tab[8].toFixed(),
-            unbounding: tab[9].toFixed(),
-            nonce: tab[10].toFixed()
+            pool_id: tab[0],
+            collection: tab[1],
+            total_staked: tab[2],
+            identifier: tab[3],
+            rewards: tab[4],
+            total_rewarded: tab[5],
+            last_fund_block: tab[6],
+            speed: tab[7],
+            vesting: tab[8],
+            unbounding: tab[9],
+            nonce: tab[10]
           })
         );
         localStorage.setItem(

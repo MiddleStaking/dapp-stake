@@ -4,7 +4,7 @@ import React, {
   JSXElementConstructor,
   ReactElement
 } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'lib';
 import { BigNumber } from 'bignumber.js';
 import { Link } from 'react-router-dom';
 import { defaultToken } from 'config';
@@ -30,7 +30,7 @@ interface CardPoolrops {
     stake_amount: BigNumber;
     last_action_block: BigNumber;
   };
-  users: number;
+  users: BigNumber;
   height: string;
   WindowDimensions: number;
   backgroundRewards?: string;
@@ -123,22 +123,6 @@ const CardPool: FC<CardPoolrops> = ({
     isDual = true;
   }
 
-  //deprecated
-  // const firstPoolPosition = useGetPoolPosition(
-  //   defaultToken,
-  //   rewardedToken == defaultToken ? stakedToken : rewardedToken,
-  //   showStake,
-  //   hasPendingTransactions,
-  //   true
-  // );
-  // const secondPoolPosition = useGetPoolPosition(
-  //   defaultToken,
-  //   stakedToken,
-  //   showStake,
-  //   hasPendingTransactions,
-  //   isDual
-  // );
-
   const stakedCompute = useGetESDTCompute(staked_token);
 
   const rewarded_esdt_info = useGetESDTInformations(rewarded_token);
@@ -219,30 +203,33 @@ const CardPool: FC<CardPoolrops> = ({
   //   hasPendingTransactions
   // );
 
-  const speed =
-    (BigInt(token_position?.blocks_to_max.toFixed()) * BigInt(6)) /
-    BigInt(24) /
-    BigInt(60) /
-    BigInt(60);
+  const speed = BigNumber(token_position?.blocks_to_max.toFixed())
+    .multipliedBy(6)
+    .dividedBy(24)
+    .dividedBy(60)
+    .dividedBy(60);
   const staked_value =
     stakedCompute?.price > 0
-      ? Number(BigInt(token_position.total_stake.toFixed())) *
-        stakedCompute?.price
+      ? BigNumber(token_position.total_stake.toFixed())
+          .multipliedBy(stakedCompute?.price)
+          .toNumber()
       : staked_esdt_info?.price > 0
-      ? Number(
-          BigInt(token_position.total_stake.toFixed()) / BigInt(10 ** sdecimals)
-        ) * staked_esdt_info?.price
+      ? BigNumber(token_position?.total_stake?.toFixed())
+          .dividedBy(BigNumber(10).pow(sdecimals))
+          .multipliedBy(staked_esdt_info?.price)
+          .toNumber()
       : 0;
 
   const my_staked_value =
     stakedCompute?.price > 0
-      ? Number(BigInt(staking_position.stake_amount.toFixed())) *
-        stakedCompute?.price
+      ? BigNumber(staking_position?.stake_amount?.toFixed())
+          .multipliedBy(stakedCompute?.price)
+          .toNumber()
       : staked_esdt_info?.price > 0
-      ? Number(
-          BigInt(staking_position.stake_amount.toFixed()) /
-            BigInt(10 ** sdecimals)
-        ) * staked_esdt_info?.price
+      ? BigNumber(staking_position?.stake_amount?.toFixed())
+          .dividedBy(BigNumber(10).pow(sdecimals))
+          .multipliedBy(staked_esdt_info?.price)
+          .toNumber()
       : 0;
 
   //Montant user
@@ -265,13 +252,13 @@ const CardPool: FC<CardPoolrops> = ({
   // rewards Value / initial value * 100 * 365 / speed
   let priced_apr = BigInt(0);
   let n_apr = 0;
-  const fixed_speed = speed > 0 ? Number(speed) : 1;
-  const vi = Number(
-    BigInt(token_position.total_stake.toFixed()) / BigInt(10 ** sdecimals)
-  );
-  const rw = Number(
-    BigInt(token_position.balance.toFixed()) / BigInt(10 ** sdecimals)
-  );
+  const fixed_speed = speed.isGreaterThan(0) ? speed.toNumber() : 1;
+  const vi = BigNumber(token_position?.total_stake?.toFixed())
+    .dividedBy(BigNumber(10).pow(sdecimals))
+    .toNumber();
+  const rw = BigNumber(token_position?.balance?.toFixed())
+    .dividedBy(BigNumber(10).pow(sdecimals))
+    .toNumber();
   if (staked_token == rewarded_token) {
     n_apr = ((rw / vi) * 100 * 365) / fixed_speed;
   } else if (
@@ -396,16 +383,15 @@ const CardPool: FC<CardPoolrops> = ({
     priced_apr.toString()
   );
 
-  let share = BigInt(10000);
-  if (BigInt(token_position.total_stake.toFixed()) > BigInt(0)) {
-    share =
-      (BigInt(
-        staking_position.stake_amount
-          ? staking_position.stake_amount.toFixed()
-          : 0
-      ) *
-        share) /
-      BigInt(token_position.total_stake.toFixed());
+  let share = new BigNumber(10000);
+  if (BigNumber(token_position?.total_stake?.toFixed()).isGreaterThan(0)) {
+    share = BigNumber(
+      staking_position.stake_amount
+        ? staking_position.stake_amount.toFixed()
+        : 0
+    )
+      .multipliedBy(share)
+      .dividedBy(BigNumber(token_position?.total_stake?.toFixed()));
   }
   const rest = Number(share) / Number(100);
 
@@ -438,7 +424,7 @@ const CardPool: FC<CardPoolrops> = ({
           //   EarnTitle={EarnTitle}
           //   Apr={Apr}
           //   decimals={decimals}
-          rewards_amount={token_position.balance}
+          rewards_amount={token_position?.balance}
           rewards_value={rewards_value}
           //   Speed={Speed}
           //   Staked={Staked}
@@ -493,7 +479,7 @@ const CardPool: FC<CardPoolrops> = ({
         {address && (
           <RewardsSection
             backgroundRewards={backgroundRewards}
-            stakingPositionRewards={BigInt(rewards_position.toFixed())}
+            stakingPositionRewards={BigNumber(rewards_position?.toFixed())}
             rdecimals={rdecimals}
             rewarded_esdt_info={rewarded_esdt_info}
             my_rewards_value={my_rewards_value}

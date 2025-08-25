@@ -15,7 +15,7 @@ import {
   Query,
   decodeString
 } from '@multiversx/sdk-core';
-import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetPendingTransactions } from 'lib';
 import {
   ApiNetworkProvider,
   ProxyNetworkProvider
@@ -26,7 +26,7 @@ import { useLocation } from 'react-router-dom';
 
 import { MultiversX } from 'assets/MultiversX';
 import { Action } from 'components/Action';
-import { network, auctionContract } from 'config';
+import { local_network, auctionContract } from 'config';
 import { useGlobalContext, useDispatch } from 'context';
 import { denominated } from 'helpers/denominate';
 import getPercentage from 'helpers/getPercentage';
@@ -61,8 +61,8 @@ export const Cards = () => {
     contractDetails,
     networkConfig
   } = useGlobalContext();
-  const { pending } = useGetActiveTransactionsStatus();
-
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -116,23 +116,23 @@ export const Cards = () => {
     });
 
     try {
-      const provider = new ProxyNetworkProvider(network.gatewayAddress);
+      const provider = new ProxyNetworkProvider(local_network.gatewayAddress);
       const query = new Query({
-        address: new Address(network.delegationContract),
+        address: new Address(local_network.delegationContract),
         func: new ContractFunction('getNumUsers')
       });
 
-      const data = await provider.queryContract(query);
-      const [userNumber] = data.getReturnDataParts();
+      // const data = await provider.queryContract(query);
+      // const [userNumber] = data.getReturnDataParts();
 
-      dispatch({
-        type: 'getUsersNumber',
-        usersNumber: {
-          status: 'loaded',
-          data: decodeUnsignedNumber(userNumber).toString(),
-          error: null
-        }
-      });
+      // dispatch({
+      //   type: 'getUsersNumber',
+      //   usersNumber: {
+      //     status: 'loaded',
+      //     data: decodeUnsignedNumber(userNumber).toString(),
+      //     error: null
+      //   }
+      // });
     } catch (error) {
       dispatch({
         type: 'getUsersNumber',
@@ -156,7 +156,7 @@ export const Cards = () => {
     });
 
     try {
-      const query = new ApiNetworkProvider(network.apiAddress, {
+      const query = new ApiNetworkProvider(local_network.apiAddress, {
         timeout: 4000
       });
 
@@ -189,7 +189,7 @@ export const Cards = () => {
         totalActiveStake.status === 'loading';
 
       return {
-        value: loading ? `... ${network.egldLabel}` : 'Stake Unknown',
+        value: loading ? `... ${local_network.egldLabel}` : 'Stake Unknown',
         percentage: loading ? '...%' : 'Data Unavailable'
       };
     }
@@ -243,7 +243,7 @@ export const Cards = () => {
         contractDetails.status === 'loading';
 
       return {
-        value: loading ? `... ${network.egldLabel}` : 'Cap Unknown',
+        value: loading ? `... ${local_network.egldLabel}` : 'Cap Unknown',
         percentage: loading ? '...%' : 'Data Unavailable'
       };
     }
@@ -254,7 +254,7 @@ export const Cards = () => {
     };
 
     return {
-      value: `${formatted.value} ${network.egldLabel}`,
+      value: `${formatted.value} ${local_network.egldLabel}`,
       percentage: `${getPercentage(formatted.stake, formatted.value)}% filled`
     };
   }, [totalActiveStake.data, contractDetails.data]);
@@ -345,7 +345,7 @@ export const Cards = () => {
     {
       label: 'Delegation Cap',
       modal: <ChangeDelegationCap />,
-      description: `The delegation cap is the maximum amount of ${network.egldLabel} your agency can stake from delegators.`,
+      description: `The delegation cap is the maximum amount of ${local_network.egldLabel} your agency can stake from delegators.`,
       title: 'Delegation Cap',
       icon: <FontAwesomeIcon icon={faArrowUp} />,
       colors: ['#E48570', '#C25C45'],
@@ -387,12 +387,14 @@ export const Cards = () => {
             <div className={styles.heading}>
               <span>{card.label}</span>
               <div
-                style={{ fill: interactive && !pending ? beta : 'white' }}
+                style={{
+                  fill: interactive && !hasPendingTransactions ? beta : 'white'
+                }}
                 className={classNames(styles.icon, {
-                  [styles.fill]: interactive && !pending
+                  [styles.fill]: interactive && !hasPendingTransactions
                 })}
               >
-                {interactive && !pending ? (
+                {interactive && !hasPendingTransactions ? (
                   <Action
                     render={() => card.modal}
                     title={card.title}

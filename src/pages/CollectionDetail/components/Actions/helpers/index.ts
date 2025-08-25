@@ -7,4 +7,3 @@ export * from './useGetUserNFT';
 export * from './useGetCollectionRewards';
 export * from './useGetRewardsPoolsID';
 export * from './useGetUserRewards';
-export * from './useGetUserESDT';

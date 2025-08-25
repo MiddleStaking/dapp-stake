@@ -61,7 +61,7 @@ export const contractAddressDelegation =
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
 
-export const network: NetworkType = {
+export const local_network: NetworkType = {
   id: 'devnet',
   chainId: 'D2',
   name: 'Devnet',
@@ -69,7 +69,7 @@ export const network: NetworkType = {
   walletAddress: 'https://wallet.multiversx.com/dapp/init',
   apiAddress: 'https://devnet-api.multiversx.com',
   gatewayAddress: 'https://devnet-gateway.multiversx.com',
-  gatewayCached: 'https://devnet-gateway.multiversx.com',
+  gatewayCached: 'https://devnet-gateway.multiversx.com/cached',
   explorerAddress: 'http://devnet-explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };

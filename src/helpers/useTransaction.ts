@@ -1,9 +1,21 @@
-import { Address, SmartContract, TokenTransfer } from '@multiversx/sdk-core';
-import { sendTransactions } from '@multiversx/sdk-dapp/services/transactions/sendTransactions';
+import { SmartContract, TokenTransfer } from 'lib';
+import { signAndSendTransactions } from 'helpers';
 import {
-  network,
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
+
+import {
   DelegationContractType,
-  delegationContractData
+  delegationContractData,
+  contractAddressDelegation
 } from 'config';
 
 interface TransactionParametersType {
@@ -18,8 +30,11 @@ const useTransaction = () => {
     value,
     type
   }: TransactionParametersType) => {
-    const address = new Address(network.delegationContract);
-    const contract = new SmartContract({ address });
+    const { network } = useGetNetworkConfig();
+    const { address } = useGetAccountInfo();
+
+    const sc_address = new Address(contractAddressDelegation);
+    const contract = new SmartContract({ address: sc_address });
     const delegable = delegationContractData.find(
       (item: DelegationContractType) => item.name === type
     );
@@ -38,14 +53,19 @@ const useTransaction = () => {
           : delegable.gasLimit;
       };
 
-      const transaction = {
-        value: TokenTransfer.egldFromAmount(value),
-        data: getFunctionName(),
+      const transaction = new Transaction({
+        value: BigInt(value),
+        data: new TextEncoder().encode(getFunctionName()),
         receiver: contract.getAddress().bech32(),
-        gasLimit: getGasLimit()
-      };
+        gasLimit: BigInt(getGasLimit()),
 
-      return await sendTransactions({
+        gasPrice: BigInt(GAS_PRICE),
+        chainID: network.chainId,
+        sender: new Address(address),
+        version: 1
+      });
+
+      return await signAndSendTransactions({
         transactions: [transaction]
       });
     }

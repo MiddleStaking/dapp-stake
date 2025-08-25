@@ -1,13 +1,13 @@
 import React, { ChangeEvent, MouseEvent, useState } from 'react';
 
-import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetPendingTransactions } from 'lib';
 import classNames from 'classnames';
 import { Formik } from 'formik';
 import { object } from 'yup';
 import { Action, Submit } from 'components/Action';
 import { undelegateValidator } from 'components/Stake//helpers/delegationValidators';
 import useStakeData, { ActionCallbackType } from 'components/Stake/hooks';
-import { network } from 'config';
+import { local_network } from 'config';
 import { useGlobalContext } from 'context';
 
 import { denominated } from 'helpers/denominate';
@@ -19,7 +19,7 @@ export const Undelegate = () => {
 
   const { userActiveStake } = useGlobalContext();
   const { onUndelegate } = useStakeData();
-  const { pending } = useGetActiveTransactionsStatus();
+  const pending = useGetPendingTransactions();
 
   return (
     <div className={classNames(styles.wrapper, 'undelegate-wrapper')}>

@@ -1,11 +1,11 @@
 import React, { ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetPendingTransactions } from 'lib';
 import classNames from 'classnames';
 
 import { MultiversX } from 'assets/MultiversX';
-import { network } from 'config';
+import { local_network } from 'config';
 import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 
@@ -32,7 +32,8 @@ interface PanelType {
 }
 
 export const Stake = () => {
-  const { pending } = useGetActiveTransactionsStatus();
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
   const { userActiveStake, userClaimableRewards } = useGlobalContext();
   const { onRedelegate, onClaimRewards } = useStakeData();
   const { isLoading, isEmpty, isError } = {
@@ -159,7 +160,8 @@ export const Stake = () => {
                       style={{ background: iteratee ? panel.color : '#303234' }}
                       onClick={action.transaction}
                       className={classNames(styles.action, {
-                        [styles.disabled]: panel.disabled || pending
+                        [styles.disabled]:
+                          panel.disabled || hasPendingTransactions
                       })}
                     >
                       {action.label}

@@ -1,7 +1,7 @@
 import React, { MouseEvent } from 'react';
 
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
-import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetAccountInfo } from 'lib';
+import { useGetPendingTransactions } from 'lib';
 import classNames from 'classnames';
 import { Formik } from 'formik';
 import { object } from 'yup';
@@ -9,7 +9,7 @@ import { object } from 'yup';
 import { Action, Submit } from 'components/Action';
 import { delegateValidator } from 'components/Stake//helpers/delegationValidators';
 import useStakeData, { ActionCallbackType } from 'components/Stake/hooks';
-import { network } from 'config';
+import { local_network } from 'config';
 
 import { denominated } from 'helpers/denominate';
 
@@ -18,7 +18,8 @@ import styles from './styles.module.scss';
 export const Delegate = () => {
   const { account } = useGetAccountInfo();
   const { onDelegate, getStakingLimits } = useStakeData();
-  const { pending } = useGetActiveTransactionsStatus();
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
   const { limit, balance, maxed } = getStakingLimits();
 
   return (
@@ -26,11 +27,11 @@ export const Delegate = () => {
       <Action
         title='Delegate Now'
         description={`Select the amount of ${network.egldLabel} you want to delegate.`}
-        disabled={pending}
+        disabled={hasPendingTransactions}
         trigger={
           <div
             className={classNames(styles.trigger, {
-              [styles.disabled]: pending
+              [styles.disabled]: hasPendingTransactions
             })}
           >
             Delegate

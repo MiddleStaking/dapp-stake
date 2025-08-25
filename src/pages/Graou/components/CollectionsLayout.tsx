@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {
-  useGetAccountInfo,
-  useGetPendingTransactions
-} from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo, useGetPendingTransactions } from 'lib';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { useGetUserStakedNft } from 'pages/CollectionDetail/components/Actions/helpers/useGetUserStakedNft';
 import {
   useGetCollectionInformations,
-  useGetLocked,
+  // useGetLocked,
   useGetScNFT
 } from './Actions/helpers';
 import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
@@ -31,19 +28,19 @@ export const CollectionsLayout = () => {
   const { account, address } = useGetAccountInfo();
   // const stakedCollections: string[] = useGetCollections();
   const collection_info = useGetCollectionInformations(lockedCollection, 30);
-  const userStakedNft = useGetLocked(address);
-  // const userStakedNft = [2, 3];
+  // const userStakedNft = useGetLocked(address);
+
   let percent = 20;
-  if (userStakedNft.length > 0) {
-    percent += 10 * userStakedNft.length;
-  }
+  // if (userStakedNft.length > 0) {
+  //   percent += 10 * userStakedNft.length;
+  // }
   const userNftBalance = useGetUserNFT(lockedCollection);
   const ScNftBalance = useGetScNFT(vouchersCollection, contracts.lockGraou);
   //const ScNftBalance: any = [];
 
   const minted = useGetRewarded();
-  const { hasPendingTransactions } = useGetPendingTransactions();
-
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
   // const minted: any = {
   //   identifier: 'fail'
   // };
@@ -172,13 +169,13 @@ export const CollectionsLayout = () => {
         </div>
       </div>
 
-      {userStakedNft.length > 0 && (
+      {/* {userStakedNft.length > 0 && (
         <ActionUnlockAll
           text={'Unlock'}
           disabled={false}
           nonces={userStakedNft}
         />
-      )}
+      )} */}
       {!hasPendingTransactions && mint > 0 && minted?.identifer != '' ? (
         <>
           {minted?.media?.[0]?.url ? (
@@ -279,7 +276,7 @@ export const CollectionsLayout = () => {
                         />
                       </div>
                       <div style={{ width: '100px', margin: 'auto' }}>
-                        {userStakedNft.includes(item?.nonce.toString()) ? (
+                        {/* {userStakedNft.includes(item?.nonce.toString()) ? (
                           <>
                             {ScNftBalance.length > 0 ? (
                               <Button style={{ width: '100px' }}>
@@ -345,7 +342,7 @@ export const CollectionsLayout = () => {
                               </>
                             )}
                           </>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   ))}

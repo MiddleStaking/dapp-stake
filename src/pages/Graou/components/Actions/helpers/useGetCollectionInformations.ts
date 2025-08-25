@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { network } from 'config';
+import { local_network } from 'config';
 export const useGetCollectionInformations = (
   identifier: string,
   size: number = 5
@@ -35,7 +35,7 @@ export const useGetCollectionInformations = (
 
     try {
       const { data } = await axios.get<[]>(url, {
-        baseURL: network.apiAddress,
+        baseURL: local_network.apiAddress,
         params: {}
       });
       // if (data.data?.identifier != identifier) {

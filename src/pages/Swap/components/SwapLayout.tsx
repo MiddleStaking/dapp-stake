@@ -5,12 +5,8 @@ import {
   faLink
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  useGetAccountInfo,
-  useGetIsLoggedIn
-} from '@multiversx/sdk-dapp/hooks';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { useGetAccountInfo, useGetIsLoggedIn } from 'lib';
+import { useGetPendingTransactions } from 'lib';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
@@ -24,8 +20,6 @@ import BigNumber from 'bignumber.js';
 import { useGetEgldBalance } from './Actions/helpers/useGetEgldBalance';
 import { contractSwap } from 'config';
 import { contractRestake } from 'config';
-
-import { swap } from 'formik';
 import { ActionRestake } from './Actions/ActionRestake';
 import { useGetRestakeBalance } from './Actions/helpers/useGetRestakeBalance';
 import { ActionClaim } from './Actions/ActionClaim';
@@ -44,7 +38,8 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   userEsdtBalance,
   all_lp
 }) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
   const [inBalance, setInBalance] = React.useState(new BigNumber(0));
   const [outBalance, setOutBalance] = React.useState(new BigNumber(0));
   const [in_token, setInToken] = React.useState(firstToken);
@@ -81,8 +76,9 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   }
 
   token_list.sort(function (a, b) {
-    if (a.swaped_token.toLowerCase() < b.swaped_token.toLowerCase()) return -1;
-    if (a.swaped_token.toLowerCase() > b.swaped_token.toLowerCase()) return 1;
+    if (a.swaped_token?.toLowerCase() < b.swaped_token?.toLowerCase())
+      return -1;
+    if (a.swaped_token?.toLowerCase() > b.swaped_token?.toLowerCase()) return 1;
     return 0;
   });
 
@@ -107,14 +103,12 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
     defaultToken,
     in_token == defaultToken ? out_token : in_token,
     true,
-    hasPendingTransactions,
     true
   );
   const secondPoolPosition = useGetPoolPosition(
     defaultToken,
     out_token,
     true,
-    hasPendingTransactions,
     isDual
   );
 
@@ -250,15 +244,12 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
       out_amount = new BigNumber(
         firstPoolPosition.second_token_amount.toString()
       ).minus(y_amount);
-      out_fees =
-        firstPoolPosition.second_fee > 0
-          ? new BigNumber(out_amount)
-              .multipliedBy(10000)
-              .dividedBy(firstPoolPosition.second_fee.toString())
-              .integerValue(BigNumber.ROUND_FLOOR)
-              .dividedBy(10000)
-              .integerValue(BigNumber.ROUND_FLOOR)
-          : new BigNumber(0);
+      out_fees = firstPoolPosition.second_fee.isGreaterThan(0)
+        ? new BigNumber(out_amount)
+            .multipliedBy(firstPoolPosition.second_fee.toString())
+            .dividedBy(10000)
+            .integerValue(BigNumber.ROUND_FLOOR)
+        : new BigNumber(0);
 
       price_impact =
         (Number(swap_amount) / Number(firstPoolPosition.first_token_amount)) *
@@ -280,15 +271,14 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
       out_amount = new BigNumber(
         firstPoolPosition.first_token_amount.toString()
       ).minus(x_amount);
-      out_fees =
-        firstPoolPosition.second_fee > 0
-          ? new BigNumber(out_amount)
-              .multipliedBy(10000)
-              .dividedBy(firstPoolPosition.second_fee.toString())
-              .integerValue(BigNumber.ROUND_FLOOR)
-              .dividedBy(10000)
-              .integerValue(BigNumber.ROUND_FLOOR)
-          : new BigNumber(0);
+      out_fees = firstPoolPosition.second_fee.isGreaterThan(0)
+        ? new BigNumber(out_amount)
+            .multipliedBy(10000)
+            .dividedBy(firstPoolPosition.second_fee.toString())
+            .integerValue(BigNumber.ROUND_FLOOR)
+            .dividedBy(10000)
+            .integerValue(BigNumber.ROUND_FLOOR)
+        : new BigNumber(0);
 
       price_impact =
         (Number(swap_amount.toString()) /
@@ -352,19 +342,18 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
       )
       .integerValue(BigNumber.ROUND_FLOOR);
     out_amount = new BigNumber(
-      secondPoolPosition.second_token_amount.toString()
+      secondPoolPosition?.second_token_amount?.toString()
     ).minus(second_y_amount);
 
     //Out fees
-    out_fees =
-      secondPoolPosition.second_fee > 0
-        ? new BigNumber(out_amount)
-            .multipliedBy(10000)
-            .dividedBy(secondPoolPosition.second_fee.toString())
-            .integerValue(BigNumber.ROUND_FLOOR)
-            .dividedBy(10000)
-            .integerValue(BigNumber.ROUND_FLOOR)
-        : new BigNumber(0);
+    out_fees = secondPoolPosition?.second_fee?.isGreaterThan(0)
+      ? new BigNumber(out_amount)
+          .multipliedBy(10000)
+          .dividedBy(secondPoolPosition.second_fee.toString())
+          .integerValue(BigNumber.ROUND_FLOOR)
+          .dividedBy(10000)
+          .integerValue(BigNumber.ROUND_FLOOR)
+      : new BigNumber(0);
 
     dual_price_impact =
       (Number(second_in_amount.toString()) /
@@ -482,13 +471,14 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>{defaultToken}</div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={firstPoolPosition.first_token_amount.toString()}
-                            decimals={Number(first_decimals)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />
+                          {Number(
+                            firstPoolPosition.first_token_amount
+                              .dividedBy(10 ** first_decimals)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}{' '}
                         </div>
                       </div>
                       <div className='DetailsInfo'>
@@ -496,13 +486,14 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                           {in_token == defaultToken ? out_token : in_token}
                         </div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={firstPoolPosition.second_token_amount.toString()}
-                            decimals={Number(second_decimals)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />
+                          {Number(
+                            firstPoolPosition.second_token_amount
+                              .dividedBy(10 ** second_decimals)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}{' '}
                         </div>
                       </div>
                       {(in_token == 'EGLD-000000' ||
@@ -527,48 +518,60 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                               </a>
                             </div>
                             <div className='ValueDetailsInfo'>
-                              <FormatAmount
-                                value={new BigNumber(
-                                  restake_balance.userActiveStake
-                                ).toFixed()}
-                                decimals={Number(18)}
-                                egldLabel={' '}
-                                data-testid='balance'
-                                digits={2}
-                              />
+                              {Number(
+                                restake_balance?.userActiveStake
+                                  ? new BigNumber(
+                                      restake_balance.userActiveStake
+                                    )
+                                      .dividedBy(10 ** 18)
+                                      .toFixed(2)
+                                  : 0
+                              ).toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                              })}{' '}
                             </div>
                           </div>
                         )}
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>in_fee</div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={firstPoolPosition.first_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
+                          {Number(
+                            firstPoolPosition.first_fee
+                              .dividedBy(100)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}{' '}
                           %
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>out_fee</div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={firstPoolPosition.second_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
+                          {Number(
+                            firstPoolPosition.second_fee
+                              .dividedBy(100)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}{' '}
                           %
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value</div>
                         <div className='ValueDetailsInfo'>
-                          {lp_value1.toFixed()} $
+                          {Number(lp_value1.toFixed(2)).toLocaleString(
+                            undefined,
+                            {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2
+                            }
+                          )}{' '}
+                          $
                         </div>
                       </div>
                     </div>
@@ -603,33 +606,30 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                           {in_token.split('-')[0]}
                         </div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={firstPoolPosition.first_token_amount.toString()}
-                            decimals={Number(first_decimals)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
+                          {Number(
+                            firstPoolPosition.first_token_amount
+                              .dividedBy(10 ** first_decimals)
+                              .toFixed(2)
+                          ).toLocaleString()}{' '}
                           :{' '}
-                          <FormatAmount
-                            value={firstPoolPosition.second_token_amount.toString()}
-                            decimals={Number(second_decimals)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />
+                          {Number(
+                            firstPoolPosition.second_token_amount
+                              .dividedBy(10 ** second_decimals)
+                              .toFixed(2)
+                          ).toLocaleString()}
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>lp_fee_1</div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={firstPoolPosition.first_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
+                          {Number(
+                            firstPoolPosition.first_fee
+                              .dividedBy(100)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}{' '}
                           %
                         </div>
                       </div>{' '}
@@ -639,59 +639,78 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                           {out_token.split('-')[0]}
                         </div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={secondPoolPosition.first_token_amount.toString()}
-                            decimals={Number(18)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
+                          {' '}
+                          {Number(
+                            secondPoolPosition.first_token_amount
+                              .dividedBy(10 ** first_decimals)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}{' '}
                           :{' '}
-                          <FormatAmount
-                            value={secondPoolPosition.second_token_amount.toString()}
-                            decimals={Number(third_decimals)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />
+                          {Number(
+                            secondPoolPosition.second_token_amount
+                              .dividedBy(10 ** third_decimals)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}{' '}
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>lp_fee_2</div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={secondPoolPosition.first_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
+                          {Number(
+                            secondPoolPosition.first_fee
+                              .dividedBy(100)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}{' '}
                           %
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>stake_fee</div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={secondPoolPosition.second_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
-                            data-testid='balance'
-                            digits={2}
-                          />{' '}
+                          {Number(
+                            secondPoolPosition.second_fee
+                              .dividedBy(100)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}{' '}
                           %
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value 1</div>
                         <div className='ValueDetailsInfo'>
-                          {lp_value1.toFixed()} $
+                          {Number(lp_value1.toFixed(2)).toLocaleString(
+                            undefined,
+                            {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2
+                            }
+                          )}{' '}
+                          $
                         </div>
                       </div>
                       <div className='DetailsInfo'>
                         <div className='LabelDetailsInfo'>LP value 2</div>
                         <div className='ValueDetailsInfo'>
-                          {lp_value2.toFixed()} $
+                          {Number(lp_value2.toFixed(2)).toLocaleString(
+                            undefined,
+                            {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2
+                            }
+                          )}{' '}
+                          $
                         </div>
                       </div>
                     </div>
@@ -835,13 +854,12 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <div className='LabelDropdoownFormatAmount'>
-                    <FormatAmount
-                      className='label2'
-                      decimals={Number(in_decimals.toString())}
-                      value={inBalance.toFixed()}
-                      egldLabel={' '}
-                      data-testid='staked'
-                    />{' '}
+                    {Number(
+                      inBalance.dividedBy(10 ** in_decimals).toFixed(2)
+                    ).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })}{' '}
                     {in_token == 'EGLD-000000' ? 'EGLD' : in_token}
                   </div>
                   <Input
@@ -871,13 +889,12 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                 </div>
                 <div className='FormatAmountStaked'>
                   <div className='LabelDropdoownFormatAmount'>
-                    <FormatAmount
-                      className='label2'
-                      decimals={Number(out_decimals.toString())}
-                      value={outBalance.toFixed()}
-                      egldLabel={' '}
-                      data-testid='staked'
-                    />{' '}
+                    {Number(
+                      outBalance.dividedBy(10 ** out_decimals).toFixed(2)
+                    ).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })}{' '}
                     {out_token == 'EGLD-000000' ? 'EGLD' : out_token}
                   </div>
                   <Input
@@ -885,10 +902,17 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                     inputWidth='100%'
                     borderColor='rgb(105, 88, 133)'
                     disabled={true}
-                    value={(
-                      Number(out_amount.minus(out_fees)) /
-                      10 ** out_decimals
-                    ).toString()}
+                    value={new Intl.NumberFormat(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    }).format(
+                      Number(
+                        out_amount
+                          .minus(out_fees)
+                          .div(10 ** out_decimals)
+                          .toFixed(2)
+                      )
+                    )}
                     type='number'
                     placeholder={'number'}
                     fontSize={14}
@@ -896,13 +920,12 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
                 </div>{' '}
                 <div>
                   <div className='LabelDropdoownFormatAmount'>Slippage(1%)</div>
-                  <FormatAmount
-                    className='label2'
-                    decimals={Number(out_decimals.toFixed())}
-                    value={min_out.toFixed()}
-                    egldLabel={' '}
-                    data-testid='staked'
-                  />
+                  {Number(
+                    min_out.dividedBy(10 ** out_decimals).toFixed(2)
+                  ).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })}{' '}
                 </div>
               </div>
               <div className='bottomGroupeModal'>

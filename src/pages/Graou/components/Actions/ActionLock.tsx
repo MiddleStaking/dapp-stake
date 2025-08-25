@@ -1,53 +1,68 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetPendingTransactions } from 'lib';
+import { signAndSendTransactions } from 'helpers';
+import {
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
+
 import { contracts } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import toHex from 'helpers/toHex';
 import { Button } from '../../../../components/Design';
-import { Address } from '@multiversx/sdk-core/out';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 
 export const ActionLock = ({ collection, nonce }: any) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
 
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
 
   const addressTobech32 = new Address(contracts.lockGraou);
-  const { address } = useGetAccountInfo();
 
   const sendFundTransaction = async () => {
-    const fundTransaction = {
-      value: 0,
-      data:
-        'ESDTNFTTransfer@' +
-        Buffer.from(collection, 'utf8').toString('hex') +
-        '@' +
-        bigToHex(BigInt(nonce)) +
-        '@' +
-        bigToHex(BigInt(1)) +
-        '@' +
-        addressTobech32.hex() +
-        '@' +
-        Buffer.from('lock', 'utf8').toString('hex'),
+    const payload =
+      'ESDTNFTTransfer@' +
+      Buffer.from(collection, 'utf8').toString('hex') +
+      '@' +
+      bigToHex(BigInt(nonce)) +
+      '@' +
+      bigToHex(BigInt(1)) +
+      '@' +
+      addressTobech32.toHex() +
+      '@' +
+      Buffer.from('lock', 'utf8').toString('hex');
 
-      receiver: address,
-      gasLimit: '14000000'
-    };
-    await refreshAccount();
+    const transaction = new Transaction({
+      value: BigInt(0),
+      data: new TextEncoder().encode(payload),
+      receiver: new Address(address),
+      gasLimit: BigInt('14000000'),
 
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: fundTransaction,
+      gasPrice: BigInt(GAS_PRICE),
+      chainID: network.chainId,
+      sender: new Address(address),
+      version: 1
+    });
+
+    const sessionId = await signAndSendTransactions({
+      transactions: [transaction],
       transactionsDisplayInfo: {
         processingMessage: 'Processing Lock transaction',
         errorMessage: 'An error has occured Lock',
         successMessage: 'Lock transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);

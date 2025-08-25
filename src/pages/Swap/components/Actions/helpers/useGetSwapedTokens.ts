@@ -1,13 +1,33 @@
 import { useEffect, useState } from 'react';
-import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { defaultToken } from 'config';
-import { network } from 'config';
-import { smartContract } from './smartContract';
-const resultsParser = new ResultsParser();
+import {
+  Abi,
+  Address,
+  AddressValue,
+  ContractFunction,
+  DevnetEntrypoint,
+  TokenIdentifierValue
+} from '@multiversx/sdk-core/out';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractSwap, defaultToken } from 'config';
+import json from 'swap-contract.abi.json';
+import { BigNumber } from 'bignumber.js';
 
 export const useGetSwapedTokens = () => {
-  //const { network } = useGetNetworkConfig();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractSwap);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+
   const [swapedTokens, setSwapedTokens] = useState<string[]>([]);
   const time = new Date();
 
@@ -22,26 +42,19 @@ export const useGetSwapedTokens = () => {
     }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getSwapedTokens')
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getSwapedTokens',
+        arguments: []
       });
-      //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getSwapedTokens');
-      const { firstValue: tokens } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
-      if (queryResponse.returnCode == 'ok') {
-        const temp = defaultToken + ',' + tokens?.valueOf()?.toString(10);
-        setSwapedTokens(temp.split(','));
-        //storage of 15 minutes
-        const expire = time.getTime() + 1000 * 60 * 15;
-        //const expire = time.getTime() + 1000 * 60 * 15;
-        localStorage.setItem('swaped_tokens', temp);
-        localStorage.setItem('swaped_tokens_expire', expire.toString());
-      }
+
+      const temp = defaultToken + ',' + response;
+      setSwapedTokens(temp.split(','));
+      //storage of 15 minutes
+      const expire = time.getTime() + 1000 * 60 * 15;
+      //const expire = time.getTime() + 1000 * 60 * 15;
+      localStorage.setItem('swaped_tokens', temp);
+      localStorage.setItem('swaped_tokens_expire', expire.toString());
     } catch (err) {
       console.error('Unable to call getSwapedTokens', err);
     }

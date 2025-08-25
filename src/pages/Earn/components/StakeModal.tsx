@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { FormatAmount } from 'lib';
 import './StakeModal.scss';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
@@ -7,6 +7,7 @@ import toBigAmount from 'helpers/toBigAmount';
 import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionStake } from './Actions';
+import { BigNumber } from 'bignumber.js';
 
 const StakeModal = (props: any) => {
   const [stoken, setStoken] = React.useState(props.staked_token);
@@ -78,11 +79,12 @@ const StakeModal = (props: any) => {
   //     (BigInt(tokenPosition.balance) * apr) / BigInt(tokenPosition.total_stake);
   // }
 
-  const speed =
-    (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
-    BigInt(24) /
-    BigInt(60) /
-    BigInt(60);
+  const speed = new BigNumber(tokenPosition?.blocks_to_max || 0)
+    .multipliedBy(6)
+    .dividedBy(24)
+    .dividedBy(60)
+    .dividedBy(60)
+    .toFixed(0);
 
   function handleTokenAmountChange(value: any) {
     if (!rtoken) {
@@ -246,10 +248,7 @@ const StakeModal = (props: any) => {
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={tokenPosition.balance.toString()}
-                              decimals={Number(rdecimals)}
-                              egldLabel={' '}
                               data-testid='balance'
-                              digits={2}
                             />
                           </div>
                         </div>
@@ -269,10 +268,7 @@ const StakeModal = (props: any) => {
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={tokenPosition.total_rewards.toString()}
-                              decimals={Number(rdecimals)}
-                              egldLabel={' '}
                               data-testid='balance'
-                              digits={2}
                             />
                           </div>
                         </div>
@@ -287,10 +283,7 @@ const StakeModal = (props: any) => {
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={tokenPosition.total_stake.toString()}
-                              decimals={Number(sdecimals)}
-                              egldLabel={' '}
                               data-testid='staked'
-                              digits={2}
                             />
                           </div>
                         </div>
@@ -312,10 +305,7 @@ const StakeModal = (props: any) => {
                                   ? tokenPosition.users.toString()
                                   : '0'
                               }
-                              decimals={Number(0)}
-                              egldLabel={' '}
                               data-testid='staked'
-                              digits={0}
                             />
                           </div>
                         </div>
@@ -392,9 +382,7 @@ const StakeModal = (props: any) => {
                     />
                     <div className='FormatAmountStaked'>
                       <FormatAmount
-                        decimals={Number(sdecimals.toString())}
                         value={balance.toString()}
-                        egldLabel={stoken}
                         data-testid='staked'
                       />
                     </div>

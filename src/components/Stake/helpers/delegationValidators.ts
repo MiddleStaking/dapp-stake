@@ -1,8 +1,8 @@
-import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
+import { parseAmount } from 'lib';
 
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';
-import { network, denomination } from 'config';
+import { local_network, denomination } from 'config';
 import { denominated } from 'helpers/denominate';
 
 const undelegateValidator = (input: string) =>
@@ -13,7 +13,7 @@ const undelegateValidator = (input: string) =>
     )
     .test(
       'remaining',
-      `Either undelegate the total amount or leave at least 1 ${network.egldLabel} staked.`,
+      `Either undelegate the total amount or leave at least 1 ${local_network.egldLabel} staked.`,
       (value = '0') => {
         const requested = new BigNumber(parseAmount(value, denomination));
         const minimum = new BigNumber(parseAmount('1', denomination));
@@ -28,7 +28,7 @@ const undelegateValidator = (input: string) =>
     .test(
       'maximum',
       `You need to set a value under ${denominated(input)} ${
-        network.egldLabel
+        local_network.egldLabel
       }.`,
       (value = '0') => {
         const requested = new BigNumber(parseAmount(value, denomination));
@@ -49,7 +49,7 @@ const delegateValidator = (input: string, limit: string) =>
     .test(
       'maximum',
       `You need to set a value under ${denominated(input)} ${
-        network.egldLabel
+        local_network.egldLabel
       }.`,
       (value = '0') =>
         new BigNumber(parseAmount(value, denomination)).isLessThanOrEqualTo(
@@ -60,7 +60,7 @@ const delegateValidator = (input: string, limit: string) =>
       'uncapable',
       `Max delegation cap reached. That is the maximum amount you can delegate: ${denominated(
         limit
-      )} ${network.egldLabel}`,
+      )} ${local_network.egldLabel}`,
       (value = '0') =>
         new BigNumber(parseAmount(value, denomination)).isLessThanOrEqualTo(
           limit

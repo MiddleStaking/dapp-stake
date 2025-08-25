@@ -1,8 +1,19 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetPendingTransactions } from 'lib';
+import { signAndSendTransactions } from 'helpers';
+import {
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
+
 import { contractStake } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
@@ -12,36 +23,42 @@ export const ActionUnstake = ({
   rewarded_token,
   user_fund
 }: any) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
 
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
 
   const sendUnstakeTransaction = async () => {
-    const unstakeTransaction = {
-      value: 0,
-      data:
-        'unstake@' +
-        Buffer.from(staked_token, 'utf8').toString('hex') +
-        '@' +
-        Buffer.from(rewarded_token, 'utf8').toString('hex') +
-        '@' +
-        bigToHex(user_fund),
+    const payload =
+      'unstake@' +
+      Buffer.from(staked_token, 'utf8').toString('hex') +
+      '@' +
+      Buffer.from(rewarded_token, 'utf8').toString('hex') +
+      '@' +
+      bigToHex(user_fund);
+    const transaction = new Transaction({
+      value: BigInt(0),
+      data: new TextEncoder().encode(payload),
+      receiver: new Address(contractStake),
+      gasLimit: BigInt('6000000'),
 
-      receiver: contractStake,
-      gasLimit: '6000000'
-    };
-    await refreshAccount();
+      gasPrice: BigInt(GAS_PRICE),
+      chainID: network.chainId,
+      sender: new Address(address),
+      version: 1
+    });
 
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: unstakeTransaction,
+    const sessionId = await signAndSendTransactions({
+      transactions: [transaction],
       transactionsDisplayInfo: {
         processingMessage: 'Processing Unstake transaction',
         errorMessage: 'An error has occured Unstake',
         successMessage: 'Unstake transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);

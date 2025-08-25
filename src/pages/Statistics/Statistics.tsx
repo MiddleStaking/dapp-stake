@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { Loader, PageState } from '@multiversx/sdk-dapp/UI';
+// import { Loader, PageState } from 'lib';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { TOOLS_API_URL } from 'config';
@@ -40,23 +40,20 @@ export const Statistics = () => {
 
   if (statistics === null) {
     return (
-      <PageState
-        icon={faTriangleExclamation}
-        iconClass='text-white'
-        iconBgClass='bg-warning'
-        iconSize='3x'
-        title='Unable to load statistics'
-        action={<Link to={routeNames.stake}>Back to Dashboard</Link>}
-      />
+      <></>
+      // <PageState
+      //   icon={faTriangleExclamation}
+      //   iconClass='text-white'
+      //   iconBgClass='bg-warning'
+      //   iconSize='3x'
+      //   title='Unable to load statistics'
+      //   action={<Link to={routeNames.stake}>Back to Dashboard</Link>}
+      // />
     );
   }
 
   if (!statistics) {
-    return (
-      <StatisticsLayout>
-        <Loader />
-      </StatisticsLayout>
-    );
+    return <StatisticsLayout>{/* <Loader /> */}</StatisticsLayout>;
   }
 
   return (

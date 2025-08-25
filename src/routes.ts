@@ -1,7 +1,7 @@
-import { RouteType } from '@multiversx/sdk-dapp/types';
+import { RouteType } from 'types';
 import { dAppName } from 'config';
 import Account from 'pages/Account';
-import { Admin } from 'pages/Admin';
+// import { Admin } from 'pages/Admin';
 import Faucet from 'pages/Faucet';
 import Rewards from 'pages/Rewards';
 import Rewards2 from 'pages/RewardsV2';
@@ -12,13 +12,13 @@ import {
   Home,
   Statistics,
   Earn,
-  Play,
   Swap,
-  Liquidity,
+  // Liquidity,
   Collections,
   CollectionDetail,
-  Graou,
-  Delegate
+  // Graou,
+  Delegate,
+  Unlock
 } from './pages';
 
 export const routeNames = {
@@ -35,28 +35,36 @@ export const routeNames = {
   tokenomics: '/tokenomics',
   tokenomics2: '/tokenomics2',
   rewards2: '/rewards2',
-  play: '/play',
   liquidity: '/liquidity',
   collections: '/collections',
-  graou: '/graou',
+  // graou: '/graou',
   admin: '/admin'
 };
 
 interface RouteWithTitleType extends RouteType {
   title: string;
+  authenticatedRoute?: boolean;
+  children?: RouteWithTitleType[];
 }
 
 export const routes: RouteWithTitleType[] = [
   {
     path: routeNames.home,
     title: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: routeNames.unlock,
+        title: 'Unlock',
+        component: Unlock
+      }
+    ]
   },
-  {
-    path: routeNames.admin,
-    title: 'Admin',
-    component: Admin
-  },
+  // {
+  //   path: routeNames.admin,
+  //   title: 'Admin',
+  //   component: Admin
+  // },
   {
     path: routeNames.statistics,
     title: 'Statistics',
@@ -93,30 +101,30 @@ export const routes: RouteWithTitleType[] = [
     component: Collections,
     authenticatedRoute: false
   },
-  {
-    path: routeNames.graou,
-    title: '#graou',
-    component: Graou,
-    authenticatedRoute: false
-  },
-  {
-    path: routeNames.liquidity,
-    title: 'Liquidity',
-    component: Liquidity,
-    authenticatedRoute: false
-  },
+  // {
+  //   path: routeNames.graou,
+  //   title: '#graou',
+  //   component: Graou,
+  //   authenticatedRoute: false
+  // },
+  // {
+  //   path: routeNames.liquidity,
+  //   title: 'Liquidity',
+  //   component: Liquidity,
+  //   authenticatedRoute: false
+  // },
   {
     path: routeNames.swap,
     title: 'Swap',
     component: Swap,
     authenticatedRoute: false
   },
-  {
-    path: routeNames.faucet,
-    title: 'Faucet',
-    component: Faucet,
-    authenticatedRoute: true
-  },
+  // {
+  //   path: routeNames.faucet,
+  //   title: 'Faucet',
+  //   component: Faucet,
+  //   authenticatedRoute: true
+  // },
   {
     path: routeNames.account,
     title: 'Account',
@@ -146,13 +154,13 @@ export const routes: RouteWithTitleType[] = [
     title: 'TokenomicsV2',
     component: TokenomicsV2,
     authenticatedRoute: false
-  },
-  {
-    path: routeNames.play,
-    title: 'Play',
-    component: Play,
-    authenticatedRoute: false
   }
+  // {
+  //   path: routeNames.play,
+  //   title: 'Play',
+  //   component: Play,
+  //   authenticatedRoute: false
+  // }
 ];
 
 export const mappedRoutes = routes.map((route) => {

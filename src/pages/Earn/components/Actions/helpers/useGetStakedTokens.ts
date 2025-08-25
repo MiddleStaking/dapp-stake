@@ -1,12 +1,35 @@
 import { useEffect, useState } from 'react';
-import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { network } from 'config';
-import { smartContract } from './smartContract';
-
-const resultsParser = new ResultsParser();
+import {
+  Abi,
+  Address,
+  AddressValue,
+  ContractFunction,
+  DevnetEntrypoint,
+  TokenIdentifierValue
+} from '@multiversx/sdk-core/out';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractStake } from 'config';
+import json from 'staking-contract.abi.json';
+import { BigNumber } from 'bignumber.js';
+import { local_network } from 'config';
 
 export const useGetStakedTokens = () => {
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: local_network.gatewayCached
+  });
+
+  const contractAddress = Address.newFromBech32(contractStake);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+
   const [stakedTokens, setStakedTokens] = useState<string[]>([]);
   const time = new Date();
 
@@ -21,28 +44,23 @@ export const useGetStakedTokens = () => {
     }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getStakedTokens')
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getStakedTokens',
+        arguments: []
       });
-      //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getStakedTokens');
-      const { firstValue: tokens } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
-      if (queryResponse.returnCode == 'ok') {
-        setStakedTokens(tokens?.valueOf()?.toString(10).split(','));
-        //storage of 15 minutes
-        const expire = time.getTime() + 1000 * 60 * 15;
-        //const expire = time.getTime() + 1000 * 60 * 15;
-        localStorage.setItem(
-          'staked_tokens',
-          tokens?.valueOf()?.toString(10).split(',')
-        );
-        localStorage.setItem('staked_tokens_expire', expire.toString());
-      }
+      // const response = await controller.query({
+      //   contract: contractAddress,
+      //   func: 'getStakedTokens',
+      //   arguments: []
+      // });
+      console.log('response getStakedTokens', response);
+      setStakedTokens(response);
+      //storage of 15 minutes
+      const expire = time.getTime() + 1000 * 60 * 15;
+      //const expire = time.getTime() + 1000 * 60 * 15;
+      localStorage.setItem('staked_tokens', response.toString());
+      localStorage.setItem('staked_tokens_expire', expire.toString());
     } catch (err) {
       console.error('Unable to call getStakedTokens', err);
     }

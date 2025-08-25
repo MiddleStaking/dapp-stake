@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
+import { FormatAmount } from 'lib';
 import BigNumber from 'bignumber.js';
 import { RadioButton } from 'components/Design/RadioButton';
 import { useWindowDimensions } from 'components/DimensionScreen';
@@ -128,41 +128,7 @@ export const RowJumpPool = (props: any) => {
                               : BigInt(1)) /
                             BigInt(props.inforamtion?.speed)
                           ).toString()}
-                          decimals={Number(rdecimals)}
-                          egldLabel={
-                            '$' +
-                            `${props.inforamtion?.identifier.split(
-                              '-'
-                            )[0]} / NFT / DAY`
-                          }
                           data-testid='balance'
-                          digits={
-                            (
-                              BigInt(
-                                BigNumber(props.inforamtion?.rewards).toFixed()
-                              ) /
-                              (BigInt(props.inforamtion.total_staked) >
-                              BigInt(0)
-                                ? BigInt(props.inforamtion?.total_staked)
-                                : BigInt(1)) /
-                              BigInt(props.inforamtion?.speed)
-                            ).toString().length >= rdecimals
-                              ? 2
-                              : rdecimals -
-                                (
-                                  BigInt(
-                                    BigNumber(
-                                      props.inforamtion?.rewards
-                                    ).toFixed()
-                                  ) /
-                                  (BigInt(props.inforamtion?.total_staked) >
-                                  BigInt(0)
-                                    ? BigInt(props.inforamtion?.total_staked)
-                                    : BigInt(1)) /
-                                  BigInt(props.inforamtion?.speed)
-                                ).toString().length +
-                                2
-                          }
                         />
                       ) : (
                         <p>error</p>

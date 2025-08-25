@@ -1,8 +1,18 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetPendingTransactions } from 'lib';
+import { signAndSendTransactions } from 'helpers';
+import {
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
 import { Button } from './../../../../components/Design';
 
 const shard0 = 'erd1qqqqqqqqqqqqqpgqvc7gdl0p4s97guh498wgz75k8sav6sjfjlwqh679jy';
@@ -17,29 +27,36 @@ export const ActionWrap = ({ user_fund, account }: any) => {
     contractAddress = shard2;
   }
 
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
 
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
 
   const sendStakeTransaction = async () => {
-    const stakeTransaction = {
-      value: user_fund,
-      data: 'wrapEgld',
-      receiver: contractAddress,
-      gasLimit: '4200000'
-    };
-    await refreshAccount();
+    const payload = 'wrapEgld';
+    const transaction = new Transaction({
+      value: BigInt(user_fund.toString()),
+      data: new TextEncoder().encode(payload),
+      receiver: new Address(contractAddress),
 
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: stakeTransaction,
+      gasLimit: BigInt('4200000'),
+      gasPrice: BigInt(GAS_PRICE),
+      chainID: network.chainId,
+      sender: new Address(address),
+      version: 1
+    });
+
+    const sessionId = await signAndSendTransactions({
+      transactions: [transaction],
       transactionsDisplayInfo: {
         processingMessage: 'Processing Wrap transaction',
         errorMessage: 'An error has occured Wrap',
         successMessage: 'Wrap transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);

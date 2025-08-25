@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { network } from 'config';
+import { local_network } from 'config';
 import toHex from 'helpers/toHex';
 export const useGetNft = (
   collection: string,

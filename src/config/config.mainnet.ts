@@ -14,7 +14,7 @@ export const contractAddressDelegation =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgq5swddcg7k5umyj9y3c66a8xrjj2ftfx4txfqgxgj0w';
-export const network: NetworkType = {
+export const local_network: NetworkType = {
   id: 'mainnet',
   chainId: '1',
   name: 'Mainnet',
@@ -23,7 +23,7 @@ export const network: NetworkType = {
   //  walletAddress: 'https://xalias.com',
   apiAddress: 'https://api.multiversx.com',
   gatewayAddress: 'https://gateway.multiversx.com',
-  gatewayCached: 'https://api.middlestaking.fr/mainnet',
+  gatewayCached: 'https://api.middlestaking.fr/mainnet/data',
   explorerAddress: 'http://explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };

@@ -7,6 +7,7 @@ import AccordionEmpty from './component/AccordionEmpty';
 import { ActionClaimPools } from '../Actions/ActionClaimPools';
 
 interface CardPoolrops {
+  uniqueKey: string | number;
   collectionRewards: any[];
   allRewardsForUser: any[];
   userNftBalance: any;
@@ -20,6 +21,7 @@ interface CardPoolrops {
 }
 
 const AccordionWrap: FC<CardPoolrops> = ({
+  uniqueKey,
   collectionRewards,
   allRewardsForUser,
   userEsdtBalance,
@@ -36,11 +38,12 @@ const AccordionWrap: FC<CardPoolrops> = ({
     pools_id.push(BigNumber(pools.pool_id).toFixed());
   }
 
-  const nftNumberStakePool = collectionRewards
-    ? collectionRewards
-        .map((item) => Number(item.total_staked))
-        .reduce((prev, curr) => prev + curr, 0)
-    : '...';
+  const nftNumberStakePool =
+    Array.isArray(collectionRewards) && collectionRewards.length > 0
+      ? collectionRewards
+          .map((item) => Number(item.total_staked))
+          .reduce((prev, curr) => prev + curr, 0)
+      : '...';
 
   const user_pools = userStakedNft
     .filter(
@@ -55,7 +58,7 @@ const AccordionWrap: FC<CardPoolrops> = ({
     );
   // console.log(user_pools);
   return (
-    <div className='AccordeonsCards'>
+    <div className='AccordeonsCards' key={uniqueKey}>
       <div className='backgroundAccordeonsCards'>
         <div
           style={{
@@ -136,27 +139,11 @@ const AccordionWrap: FC<CardPoolrops> = ({
                     </div>
                   ))}
               {/* View all pools still active  */}
-              {collectionRewards &&
+              {Array.isArray(collectionRewards) &&
                 collectionRewards.map((item) => (
-                  // <>
-                  //   <div
-                  //     key={item.pool_id}
-                  //     // style={{ backgroundColor: 'red', margin: '3px' }}
-                  //   >
-                  //     pool_id: {item?.pool_id.toString()} <br />
-                  //     {item?.identifier} <br />
-                  //     vesting: {item?.vesting.toString()} <br />
-                  //     rewards: {item?.rewards.toString()}
-                  //     <br />
-                  //     unbounding: {item?.unbounding.toString()}
-                  //     <br />
-                  //     speed: {item?.blocks_to_max.toString()}
-                  //     <br /> nonce: {item?.nonce.toString()}
-                  //   </div>
-                  //   <br />
-                  // </>
                   <div style={{ width: '100%' }} key={item.pool_id}>
                     <Accordion
+                      key={item.pool_id}
                       collectionRewards={collectionRewards}
                       setNftsJump={setNftsJump}
                       setOpenModalJump={setOpenModalJump}

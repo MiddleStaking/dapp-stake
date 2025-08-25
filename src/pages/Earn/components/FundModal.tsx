@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { FormatAmount } from 'lib';
 // import './../../../assets/Modal.css';
 import './StakeModal.scss';
 import DropdownMenu from 'components/Design/DropdownMenu';
@@ -11,13 +11,14 @@ import { CheckBox, Button } from './../../../components/Design';
 import { ActionRemovePoolFees, ActionFund } from './Actions';
 import { useGetTokenPosition } from './Actions/helpers';
 import { useGetESDTInformations } from './Actions/helpers';
+import BigNumber from 'bignumber.js';
 
 const FundModal = (props: any) => {
   const userEsdtBalance = props.userEsdtBalance;
   const [stoken, setStoken] = React.useState(defaultToken);
   const [rtoken, setRtoken] = React.useState(defaultToken);
   const [decimals, setDecimals] = React.useState(18);
-  const [balance, setBalance] = React.useState(BigInt(0));
+  const [balance, setBalance] = React.useState(new BigNumber(0));
   const [agreement, setaAgreement] = React.useState(false);
 
   const [payFees, setPayFees] = React.useState(false);
@@ -25,14 +26,16 @@ const FundModal = (props: any) => {
   // const { network } = useGetNetworkConfig();
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [rangeValue, setRangeValue] = React.useState(0);
-  const [bigAmount, setBigAmount] = React.useState(BigInt(0));
+  const [bigAmount, setBigAmount] = React.useState(new BigNumber(0));
 
   const default_esdt_info = useGetESDTInformations(defaultToken);
-  const price = BigInt('2000000000000000000000');
+  const price = new BigNumber('2000000000000000000000');
   const price_float = '2000.00';
   const dollar_value = default_esdt_info?.price
-    ? Number(BigInt(price) / BigInt(10 ** default_esdt_info.decimals)) *
-      default_esdt_info?.price
+    ? price
+        .div(new BigNumber(10).pow(default_esdt_info.decimals))
+        .multipliedBy(default_esdt_info.price)
+        .toNumber()
     : 0;
 
   const tokenProps = userEsdtBalance.find(
@@ -87,48 +90,55 @@ const FundModal = (props: any) => {
     ? rewarded_esdt_info?.assets?.svgUrl
     : notFound;
   const staked_value = staked_esdt_info?.price
-    ? Number(BigInt(tokenPosition.total_stake) / BigInt(10 ** sdecimals)) *
-      staked_esdt_info?.price
-    : 0;
-  const rewarded_value = rewarded_esdt_info?.price
-    ? Number(BigInt(tokenPosition.balance) / BigInt(10 ** sdecimals)) *
-      rewarded_esdt_info?.price
+    ? new BigNumber(tokenPosition.total_stake ? tokenPosition.total_stake : 0)
+        .div(new BigNumber(10).pow(sdecimals))
+        .multipliedBy(staked_esdt_info.price)
+        .toNumber()
     : 0;
 
-  let fees = BigInt(10);
+  const rewarded_value = rewarded_esdt_info?.price
+    ? new BigNumber(tokenPosition.balance ? tokenPosition.balance : 0)
+        .div(new BigNumber(10).pow(sdecimals))
+        .multipliedBy(rewarded_esdt_info.price)
+        .toNumber()
+    : 0;
+
+  let fees = new BigNumber(10);
   if (tokenPosition.fee_percentage) {
-    fees = BigInt(tokenPosition.fee_percentage) / BigInt(100);
+    fees = new BigNumber(tokenPosition.fee_percentage).div(100);
   }
 
   if (stoken == defaultToken && rtoken == defaultToken) {
-    fees = BigInt(0);
+    fees = new BigNumber(0);
   }
-  const speed =
-    (BigInt(tokenPosition.blocks_to_max) * BigInt(6)) /
-    BigInt(24) /
-    BigInt(60) /
-    BigInt(60);
+  const speed = new BigNumber(tokenPosition.blocks_to_max || 0)
+    .multipliedBy(6)
+    .dividedBy(24)
+    .dividedBy(60)
+    .dividedBy(60);
 
   function handleTokenAmountChange(value: any) {
-    if (balance == BigInt(0)) {
+    if (balance == new BigNumber(0)) {
       return;
     }
     let percentage = Number(0);
-    const amount = BigInt(Number(value) * 10 ** sdecimals);
-    if (amount < BigInt(0)) {
+    const amount = new BigNumber(value).multipliedBy(
+      new BigNumber(10).pow(sdecimals)
+    );
+    if (amount.isLessThan(new BigNumber(0))) {
       setTokenAmount(0);
-      setBigAmount(BigInt(0));
+      setBigAmount(new BigNumber(0));
       percentage = Number(0);
-    } else if (amount > balance) {
-      setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
+    } else if (amount.isGreaterThan(balance)) {
+      setTokenAmount(Number(balance.div(new BigNumber(10).pow(decimals))));
       setBigAmount(balance);
       percentage = Number(100);
     } else {
       setTokenAmount(value);
       const output = toBigAmount(Number(value), Number(decimals));
-      setBigAmount(BigInt(output));
-      if (amount > BigInt(0)) {
-        percentage = Number((BigInt(amount) * BigInt(100)) / BigInt(balance));
+      setBigAmount(new BigNumber(output));
+      if (amount.isGreaterThan(new BigNumber(0))) {
+        percentage = Number(amount.multipliedBy(100).dividedBy(balance));
       }
     }
 
@@ -136,14 +146,14 @@ const FundModal = (props: any) => {
   }
 
   function handleRangeValueChange(e: React.ChangeEvent<any>) {
-    if (balance > BigInt(0)) {
+    if (balance.isGreaterThan(new BigNumber(0))) {
       setRangeValue(e.target.value);
       const percentage = Number(e.target.value).toFixed();
-      const big_amount = BigInt(
-        (BigInt(balance) * BigInt(percentage)) / BigInt(100)
-      );
+      const big_amount = new BigNumber(balance)
+        .multipliedBy(percentage)
+        .dividedBy(100);
       setTokenAmount(
-        Number(BigInt(big_amount)) / Number(BigInt(10 ** sdecimals))
+        Number(big_amount.dividedBy(new BigNumber(10).pow(sdecimals)))
       );
       setBigAmount(big_amount);
     } else {
@@ -152,7 +162,7 @@ const FundModal = (props: any) => {
   }
 
   function setToMax() {
-    setTokenAmount(Number(BigInt(balance)) / Number(BigInt(10 ** decimals)));
+    setTokenAmount(Number(balance.div(new BigNumber(10).pow(decimals))));
     setBigAmount(balance);
     setRangeValue(100);
   }
@@ -311,14 +321,7 @@ const FundModal = (props: any) => {
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={tokenPosition.balance.toString()}
-                              decimals={Number(
-                                rewarded_esdt_info?.decimals
-                                  ? rewarded_esdt_info?.decimals
-                                  : 0
-                              )}
-                              egldLabel={' '}
                               data-testid='balance'
-                              digits={2}
                             />
                           </div>
                         </div>
@@ -338,14 +341,7 @@ const FundModal = (props: any) => {
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={tokenPosition.total_rewards.toString()}
-                              decimals={Number(
-                                rewarded_esdt_info?.decimals
-                                  ? rewarded_esdt_info?.decimals
-                                  : 0
-                              )}
-                              egldLabel={' '}
                               data-testid='balance'
-                              digits={2}
                             />
                           </div>
                         </div>
@@ -360,14 +356,7 @@ const FundModal = (props: any) => {
                           <div className='ValueDetailsInfo'>
                             <FormatAmount
                               value={tokenPosition.total_stake.toString()}
-                              decimals={Number(
-                                staked_esdt_info?.decimals
-                                  ? staked_esdt_info?.decimals
-                                  : 0
-                              )}
-                              egldLabel={' '}
                               data-testid='staked'
-                              digits={2}
                             />
                           </div>
                         </div>
@@ -389,10 +378,7 @@ const FundModal = (props: any) => {
                                   ? tokenPosition.users.toString()
                                   : '0'
                               }
-                              decimals={Number(0)}
-                              egldLabel={' '}
                               data-testid='staked'
-                              digits={0}
                             />
                           </div>
                         </div>
@@ -401,7 +387,7 @@ const FundModal = (props: any) => {
                   </div>
                 )}
               <div className='staked-rewarded-tokens-StakeModal'>
-                {fees > BigInt(0) ? (
+                {fees.isGreaterThan(new BigNumber(0)) ? (
                   <div className='AmountInputGroupe'>
                     {/* <div className='do-you-want-to-add-it-rewarded-tokens'>
                       <CheckBox
@@ -517,9 +503,7 @@ const FundModal = (props: any) => {
 
                       <div className='FormatAmountStaked'>
                         <FormatAmount
-                          decimals={Number(decimals.toString())}
                           value={balance.toString()}
-                          egldLabel={rtoken}
                           data-testid='staked'
                         />
                       </div>
@@ -638,78 +622,6 @@ const FundModal = (props: any) => {
           </div>
         </div>
       </div>
-      {/* <div className='modal' onClick={props.onClose}>
-      <div className='modal-content' onClick={(e) => e.stopPropagation()}>
-        <div className='modal-header'>
-          <img className='smallPoolLogo' src={props.image1} />
-          <h4 className='modal-title mx-auto'>Stake ESDT</h4>
-          <img className='smallPoolLogo' src={props.image2} />
-        </div>
-        <div className='modal-body'>
-          <br />
-          You will stake{' '}
-          <u>
-            {' '}
-            <img className='smallPoolLogo' src={props.image1} />[
-            {props.stakedToken}]
-          </u>{' '}
-          and earn <img className='smallPoolLogo' src={props.image2} />[
-          {props.rewardedToken}] that will be claimable over time.
-          <br />
-          <br />
-          <ul>
-            <li>Staked tokens will stay in contract</li>
-            <li>You can unstake at any time</li>
-            <li>Calculated rewards vary based on total staked</li>
-            <li>Rewards must be claimed to be finalized</li>
-          </ul>
-        </div>
-        <Form.Group as={Row} md='12'>
-          <Form.Group
-            as={Col}
-            md='6'
-            controlId='TokenAmount'
-            onChange={handleTokenAmountChange}
-          >
-            {' '}
-            <div className='maxInput' role='button'>
-              <a onClick={setToMax}>
-                <u>MAX</u>
-              </a>
-            </div>
-            <Form.Control
-              required
-              type='number'
-              placeholder=''
-              defaultValue='0'
-              value={tokenAmount}
-            />{' '}
-            <Form.Label className='float-right'>
-              <FormatAmount
-                decimals={Number(props.decimals.toString())}
-                value={props.balance.toString()}
-                egldLabel={props.stakedToken}
-                data-testid='staked'
-                digits={2}
-              />
-            </Form.Label>
-          </Form.Group>
-          <Form.Group className='m-auto' onClick={props.onClose}>
-            <ActionStake
-              stakedToken={props.stakedToken}
-              rewardedToken={props.rewardedToken}
-              user_fund={bigAmount}
-              name='STAKE'
-            />{' '}
-          </Form.Group>
-        </Form.Group>
-        <div className='modal-footer'>
-          <button onClick={props.onClose} className='button'>
-            Close
-          </button>
-        </div>
-      </div>
-    </div> */}
     </>
   );
 };

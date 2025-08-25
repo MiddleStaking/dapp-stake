@@ -5,15 +5,18 @@ import {
   AddressValue,
   Query,
   ContractFunction,
-  decodeBigNumber
+  decodeBigNumber,
+  DevnetEntrypoint,
+  Abi
 } from '@multiversx/sdk-core';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
-import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
-import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
+
+import { useGetAccountInfo } from 'lib';
+import { useGetPendingTransactions } from 'lib';
+import { useGetSuccessfulTransactions } from 'lib';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import BigNumber from 'bignumber.js';
 
-import { network, minDust } from 'config';
+import { local_network, minDust } from 'config';
 import { useDispatch, useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 import getPercentage from 'helpers/getPercentage';
@@ -31,9 +34,10 @@ const useStakeData = () => {
 
   const { account, address } = useGetAccountInfo();
   const { sendTransaction } = useTransaction();
-  const { pending } = useGetActiveTransactionsStatus();
-  const { hasSuccessfulTransactions, successfulTransactionsArray } =
-    useGetSuccessfulTransactions();
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+  const successfulTransactions = useGetSuccessfulTransactions();
+  const hasSuccessfulTransactions = successfulTransactions.length > 0;
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
 
@@ -141,6 +145,17 @@ const useStakeData = () => {
       limit: ''
     };
   };
+  const entrypoint = new DevnetEntrypoint({ url: local_network.apiAddress });
+  const abi = Abi.create({
+    endpoints: [
+      {
+        name: 'getClaimableRewards',
+        inputs: [{ name: 'address', type: 'Address' }],
+        outputs: [{ name: 'rewards', type: 'BigUint' }]
+      }
+    ]
+  });
+  const controller = entrypoint.createSmartContractController(abi);
 
   const getUserClaimableRewards = async (): Promise<void> => {
     dispatch({
@@ -153,23 +168,22 @@ const useStakeData = () => {
     });
 
     try {
-      const provider = new ProxyNetworkProvider(network.gatewayAddress);
-      const query = new Query({
-        address: new Address(network.delegationContract),
-        func: new ContractFunction('getClaimableRewards'),
-        args: [new AddressValue(new Address(address))]
+      const contractAddress = Address.newFromBech32(
+        local_network.delegationContract
+      );
+      const res: any = await controller.query({
+        contract: contractAddress,
+        function: 'getClaimableRewards',
+        arguments: [new AddressValue(new Address(address))]
       });
-
-      const data = await provider.queryContract(query);
-      const [claimableRewards] = data.getReturnDataParts();
 
       dispatch({
         type: 'getUserClaimableRewards',
         userClaimableRewards: {
           status: 'loaded',
           error: null,
-          data: claimableRewards
-            ? denominated(decodeBigNumber(claimableRewards).toFixed(), {
+          data: res
+            ? denominated(decodeBigNumber(res).toFixed(), {
                 decimals: 4
               })
             : '0'
@@ -194,7 +208,7 @@ const useStakeData = () => {
   };
 
   const reFetchClaimableRewards = () => {
-    if (hasSuccessfulTransactions && successfulTransactionsArray.length > 0) {
+    if (hasSuccessfulTransactions) {
       getUserClaimableRewards();
     }
   };
@@ -202,18 +216,18 @@ const useStakeData = () => {
   useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
   useEffect(reFetchClaimableRewards, [
     hasSuccessfulTransactions,
-    successfulTransactionsArray.length
+    successfulTransactions
   ]);
 
   useEffect(() => {
-    if (pending && !check) {
+    if (hasPendingTransactions && !check) {
       setCheck(true);
 
       return () => {
         setCheck(false);
       };
     }
-  }, [pending]);
+  }, [hasPendingTransactions]);
 
   return {
     onDelegate,

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { AuthRedirectWrapper } from 'components';
+import { Link, Outlet } from 'react-router-dom';
 import { dAppName } from 'config';
 import { routeNames } from 'routes';
 import msLogo from './../assets/img/middlestaking.svg';
@@ -42,12 +41,9 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <Outlet />
     </div>
   );
 };
 
-export const Home = () => (
-  <AuthRedirectWrapper>
-    <HomePage />
-  </AuthRedirectWrapper>
-);
+export const Home = () => <HomePage />;

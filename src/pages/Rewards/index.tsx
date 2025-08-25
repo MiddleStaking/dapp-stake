@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { useGetAccountInfo } from 'lib';
+import { FormatAmount } from 'lib';
 import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
 import { defaultToken } from 'config';
-import { network } from 'config';
+import { local_network } from 'config';
 import styles from './rewards.module.scss';
 
 const Rewards = () => {
@@ -78,7 +78,7 @@ const Rewards = () => {
                 style={{ marginLeft: 0 }}
                 className={'text-white ' + styles.cardback}
               >
-                <Row className={'sm-12 '}>
+                {/* <Row className={'sm-12 '}>
                   <Col>
                     MID tokens are distributed annually to users participating
                     in EGLD staking on our contract in proportion to the amount
@@ -94,8 +94,8 @@ const Rewards = () => {
                     </a>{' '}
                     for more details.
                   </Col>
-                </Row>{' '}
-                <Row className={styles.cardback}>
+                </Row>{' '} */}
+                {/* <Row className={styles.cardback}>
                   <Col>
                     <div className={'sm-12 '}>
                       Rewards from staking (All time) :{' '}
@@ -107,8 +107,8 @@ const Rewards = () => {
                       />
                     </div>
                   </Col>{' '}
-                </Row>
-                {yRewards.yrewards ? (
+                </Row> */}
+                {/* {yRewards.yrewards ? (
                   yRewards.yrewards.map((item: string, index: string) => (
                     <Row key={index}>
                       <Col>
@@ -166,8 +166,8 @@ const Rewards = () => {
                   ))
                 ) : (
                   <></>
-                )}
-                {points.points ? (
+                )} */}
+                {/* {points.points ? (
                   points.points.map((Ditem, Dindex) => (
                     <Row key={Dindex} className={styles.cardback}>
                       <Col className='sm-12'>
@@ -176,7 +176,6 @@ const Rewards = () => {
                         </Row>
                         <Row className='lead'>
                           <Col>Action</Col>
-                          {/* <Col>Value</Col> */}
                           <Col>Earn</Col>
                         </Row>{' '}
                         <hr
@@ -214,14 +213,7 @@ const Rewards = () => {
                                     <FontAwesomeIcon icon={faSearch} />
                                   </a>
                                 </Col>
-                                {/* <Col>
-                                    <FormatAmount
-                                      value={rewards.tx[Ditem][index].value}
-                                      egldLabel={'Egld'}
-                                      data-testid='balance'
-                                      digits={2}
-                                    />
-                                  </Col> */}
+
                                 <Col>
                                   {' '}
                                   <FormatAmount
@@ -239,12 +231,12 @@ const Rewards = () => {
                   ))
                 ) : (
                   <></>
-                )}
-                {yRewards.sum == '0' && (
+                )} */}
+                {/* {yRewards.sum == '0' && (
                   <Row className={''}>
                     <Col> We found no rewards for {address}</Col>
                   </Row>
-                )}
+                )} */}
               </Container>
             </div>
           </div>

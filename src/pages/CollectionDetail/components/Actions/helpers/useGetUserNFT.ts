@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
-import {
-  useGetAccountInfo,
-  useGetPendingTransactions
-} from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo, useGetPendingTransactions } from 'lib';
 import axios from 'axios';
-import { network } from 'config';
+import { local_network } from 'config';
 export const useGetUserNFT = (search: string) => {
   // const { network } = useGetNetworkConfig();
   const [esdtBalance, setNftBalance] = useState(<any>[]);
   const address = useGetAccountInfo().address;
-  const { hasPendingTransactions } = useGetPendingTransactions();
-
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
   const url = '/accounts/' + address + '/nfts?from=0&size=100&search=' + search;
   const getUserNFT = async () => {
     if (hasPendingTransactions == true || address == '') {

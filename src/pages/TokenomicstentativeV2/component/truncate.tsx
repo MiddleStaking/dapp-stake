@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { network } from 'config';
+import { local_network } from 'config';
 import styles from './tokenomics.module.scss';
 
 interface Adress {
@@ -67,7 +67,7 @@ const Truncate = (address: Adress) => {
           </span>
 
           <a
-            href={`${network.explorerAddress}/accounts/${address}`}
+            href={`${local_network.explorerAddress}/accounts/${address}`}
             className={styles.icon}
             rel='noreferrer'
             target='_blank'

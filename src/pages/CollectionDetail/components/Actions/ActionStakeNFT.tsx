@@ -1,9 +1,18 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Address } from '@multiversx/sdk-core/out';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetPendingTransactions } from 'lib';
+import { signAndSendTransactions } from 'helpers';
+import {
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
 import { contractNftStake } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from '../../../../components/Design';
@@ -12,47 +21,52 @@ export const ActionStakeNft = ({
   stakedNFT,
   user_fund,
   pool_id,
-  address,
   nft_nonce,
   disabled
 }: any) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
 
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
 
   const addressTobech32 = new Address(contractNftStake);
   const sendStakeTransaction = async () => {
-    const stakeTransaction = {
-      value: 0,
-      data:
-        'ESDTNFTTransfer@' +
-        Buffer.from(stakedNFT, 'utf8').toString('hex') +
-        '@' +
-        bigToHex(BigInt(nft_nonce)) +
-        '@' +
-        bigToHex(BigInt(user_fund)) +
-        '@' +
-        addressTobech32.hex() +
-        '@' +
-        Buffer.from('stake', 'utf8').toString('hex') +
-        '@' +
-        bigToHex(BigInt(pool_id)),
+    const payload =
+      'ESDTNFTTransfer@' +
+      Buffer.from(stakedNFT, 'utf8').toString('hex') +
+      '@' +
+      bigToHex(BigInt(nft_nonce)) +
+      '@' +
+      bigToHex(BigInt(user_fund)) +
+      '@' +
+      addressTobech32.toHex() +
+      '@' +
+      Buffer.from('stake', 'utf8').toString('hex') +
+      '@' +
+      bigToHex(BigInt(pool_id));
 
-      receiver: address,
-      gasLimit: '8000000'
-    };
-    await refreshAccount();
+    const transaction = new Transaction({
+      value: BigInt(0),
+      data: new TextEncoder().encode(payload),
+      receiver: addressTobech32,
+      gasLimit: BigInt('8000000'),
 
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: stakeTransaction,
+      gasPrice: BigInt(GAS_PRICE),
+      chainID: network.chainId,
+      sender: new Address(address),
+      version: 1
+    });
+    const sessionId = await signAndSendTransactions({
+      transactions: [transaction],
       transactionsDisplayInfo: {
         processingMessage: 'Processing Stake transaction',
         errorMessage: 'An error has occured Stake',
         successMessage: 'Stake transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);

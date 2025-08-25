@@ -11,7 +11,7 @@ import {
 } from '@multiversx/sdk-core/out';
 import { smartContract } from './smartContract';
 import { defaultToken } from 'config';
-import { network } from 'config';
+import { local_network } from 'config';
 
 const resultsParser = new ResultsParser();
 

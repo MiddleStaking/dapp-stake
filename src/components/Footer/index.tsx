@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import { useGetIsLoggedIn } from 'lib';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
@@ -131,7 +131,7 @@ const FooterDekstop: FC<any> = ({}) => {
             display: 'inline-flex'
           }}
         >
-          <img src={GitHub}  className='navIcon' />
+          <img src={GitHub} className='navIcon' />
         </a>{' '}
         <a
           {...{

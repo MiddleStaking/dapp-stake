@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC, useState } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
+import { FormatAmount } from 'lib';
 import { BigNumber } from 'bignumber.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'components/Design';
@@ -158,7 +158,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
         staked_token={staked_token}
         staked_esdt_info={staked_esdt_info}
         rewarded_esdt_info={rewarded_esdt_info}
-        balance={staking_position.stake_amount}
+        balance={staking_position?.stake_amount}
         decimals={sdecimals}
         onClose={() => {
           setHeaderMenu(true), setShowUnstake(false);
@@ -197,7 +197,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
         </div>
       ) : (
         <>
-          {staking_position.stake_amount == 0 ? (
+          {staking_position?.stake_amount == 0 ? (
             <div style={MyStackedContentStyle}>
               <div
                 style={{
@@ -218,7 +218,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   justifyContent: 'center'
                 }}
               >
-                {token_position.paused == 1 ? (
+                {token_position?.paused == 1 ? (
                   <Button
                     borderRadius={40}
                     buttonHeight='31px'
@@ -311,16 +311,9 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     <div className='_18-853-74'>
                       <FormatAmount
                         value={BigNumber(
-                          staking_position.stake_amount
+                          staking_position?.stake_amount
                         ).toFixed()}
-                        decimals={Number(
-                          staked_esdt_info?.decimals
-                            ? staked_esdt_info?.decimals
-                            : 0
-                        )}
-                        egldLabel={' '}
                         data-testid='staked'
-                        digits={2}
                       />
                     </div>
 
@@ -366,7 +359,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                 }}
               >
                 <div>
-                  {token_position.paused == 1 ? (
+                  {token_position?.paused == 1 ? (
                     <Button
                       borderRadius={40}
                       buttonHeight='31px'

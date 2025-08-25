@@ -4,7 +4,7 @@ import eCompass from './../../../../assets/img/ecompass.svg';
 import jexchange from './../../../../assets/img/jexchange.svg';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import notFound from './../../../../assets/img/notfoundc.svg';
-import { network } from 'config';
+import { local_network } from 'config';
 
 export const PoolTopInfo = ({
   stakedToken,
@@ -211,7 +211,7 @@ export const PoolTopInfo = ({
               <a
                 className='text-white'
                 href={
-                  network.explorerAddress +
+                  local_network.explorerAddress +
                   '/tokens/' +
                   rewarded_esdt_info?.identifier
                 }

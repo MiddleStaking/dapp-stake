@@ -1,8 +1,18 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetPendingTransactions } from 'lib';
+import { signAndSendTransactions } from 'helpers';
+import {
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
 
@@ -18,35 +28,43 @@ export const ActionUnwrap = ({ user_fund, account }: any) => {
     contractAddress = shard2;
   }
 
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
+
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
 
   const sendStakeTransaction = async () => {
-    const stakeTransaction = {
-      value: 0,
-      data:
-        'ESDTTransfer@' +
-        Buffer.from('WEGLD-bd4d79', 'utf8').toString('hex') +
-        '@' +
-        bigToHex(BigInt(user_fund)) +
-        '@' +
-        Buffer.from('unwrapEgld', 'utf8').toString('hex'),
-      receiver: contractAddress,
-      gasLimit: '4200000'
-    };
-    await refreshAccount();
+    const payload =
+      'ESDTTransfer@' +
+      Buffer.from('WEGLD-bd4d79', 'utf8').toString('hex') +
+      '@' +
+      bigToHex(BigInt(user_fund)) +
+      '@' +
+      Buffer.from('unwrapEgld', 'utf8').toString('hex');
+    const transaction = new Transaction({
+      value: BigInt(0),
+      data: new TextEncoder().encode(payload),
+      receiver: new Address(contractAddress),
+      gasLimit: BigInt('4200000'),
 
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: stakeTransaction,
+      gasPrice: BigInt(GAS_PRICE),
+      chainID: network.chainId,
+      sender: new Address(address),
+      version: 1
+    });
+
+    const sessionId = await signAndSendTransactions({
+      transactions: [transaction],
       transactionsDisplayInfo: {
         processingMessage: 'Processing Unwrap transaction',
         errorMessage: 'An error has occured Unwrap',
         successMessage: 'Unwrap transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);

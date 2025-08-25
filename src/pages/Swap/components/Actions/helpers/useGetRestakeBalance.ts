@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { contractRestake, network } from 'config';
+import { contractRestake, local_network } from 'config';
 import BigNumber from 'bignumber.js';
 export const useGetRestakeBalance = () => {
   //const { network } = useGetNetworkConfig();
@@ -29,7 +29,7 @@ export const useGetRestakeBalance = () => {
     const url = '/accounts/' + contractRestake + '/delegation';
     try {
       const { data } = await axios.get<any[]>(url, {
-        baseURL: network.apiAddress,
+        baseURL: local_network.apiAddress,
         params: {}
       });
       // if (data.data?.identifier != identifier) {
@@ -43,8 +43,8 @@ export const useGetRestakeBalance = () => {
           console.log('Restake available');
         } else {
           console.log('No restake available');
-          //storage of 60*24 minutes
-          const expire = time.getTime() + 1000 * 60 * 60 * 24;
+          //storage of 60 minutes
+          const expire = time.getTime() + 1000 * 60 * 60;
           localStorage.setItem('restake_', JSON.stringify(data[0]));
           localStorage.setItem('restake_expire', expire.toString());
         }

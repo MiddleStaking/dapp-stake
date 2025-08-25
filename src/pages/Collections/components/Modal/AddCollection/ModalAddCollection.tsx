@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { useGetAccountInfo } from 'lib';
+import { FormatAmount } from 'lib';
 import './../../../../../assets/Modal.css';
 import './CollectionModal.scss';
 import { BigNumber } from 'bignumber.js';
@@ -920,10 +920,7 @@ const ModalAddCollection = (props: ModalProps) => {
                                 value={BigNumber(
                                   item.rewards.toString()
                                 ).toFixed()}
-                                decimals={rdecimals}
-                                egldLabel={' '}
                                 data-testid='balance'
-                                digits={2}
                               />
                             </div>
                           </div>
@@ -937,10 +934,7 @@ const ModalAddCollection = (props: ModalProps) => {
                                 value={BigNumber(
                                   item.total_rewarded.toString()
                                 ).toFixed()}
-                                decimals={rdecimals}
-                                egldLabel={' '}
                                 data-testid='balance'
-                                digits={2}
                               />
                             </div>
                           </div>
@@ -953,10 +947,7 @@ const ModalAddCollection = (props: ModalProps) => {
                                 value={BigNumber(
                                   item.total_staked.toString()
                                 ).toFixed()}
-                                decimals={0}
-                                egldLabel={' '}
                                 data-testid='balance'
-                                digits={0}
                               />
                             </div>
                           </div>
@@ -990,11 +981,8 @@ const ModalAddCollection = (props: ModalProps) => {
                   <div className='groupCredits'>
                     Creating this pool will cost you{' '}
                     <FormatAmount
-                      decimals={Number(0)}
                       value={credits.toFixed()}
-                      egldLabel={'credits'}
                       data-testid='staked'
-                      digits={0}
                     />
                     .
                     <br />
@@ -1022,17 +1010,8 @@ const ModalAddCollection = (props: ModalProps) => {
                           fontSize={14}
                         />{' '}
                         <FormatAmount
-                          decimals={Number(18)}
                           value={eBalance.toString()}
-                          egldLabel={''}
                           data-testid='staked'
-                          digits={
-                            balance.toString().length >= decimals
-                              ? 2
-                              : decimals -
-                                BigNumber(balance.toString()).toFixed().length +
-                                2
-                          }
                         />
                         <br />
                         Get {Math.floor(buyAmount * credit_value)} credits
@@ -1073,51 +1052,24 @@ const ModalAddCollection = (props: ModalProps) => {
                 </div>
                 <div className='FormatAmountStaked'>
                   <FormatAmount
-                    decimals={Number(decimals.toString())}
                     value={balance.toString()}
-                    egldLabel={rtoken}
                     data-testid='staked'
-                    digits={
-                      balance.toString().length >= decimals
-                        ? 2
-                        : decimals -
-                          BigNumber(balance.toString()).toFixed().length +
-                          2
-                    }
                   />
                 </div>
               </div>{' '}
               1% fees deposit to $MID staking contract
               <div>
                 <FormatAmount
-                  decimals={Number(decimals.toString())}
                   value={(BigInt(bigAmount) / BigInt(100)).toString()}
-                  egldLabel={' fees '}
                   data-testid='staked'
-                  digits={
-                    balance.toString().length >= decimals
-                      ? 2
-                      : decimals -
-                        BigNumber(balance.toString()).toFixed().length +
-                        2
-                  }
                 />{' '}
                 and{' '}
                 <FormatAmount
-                  decimals={Number(decimals.toString())}
                   value={(
                     (BigInt(bigAmount) * BigInt(99)) /
                     BigInt(100)
                   ).toString()}
-                  egldLabel={' locked'}
                   data-testid='staked'
-                  digits={
-                    balance.toString().length >= decimals
-                      ? 2
-                      : decimals -
-                        BigNumber(balance.toString()).toFixed().length +
-                        2
-                  }
                 />
               </div>
               <div className='bottomGroupeModal' onClick={props.onClose}>

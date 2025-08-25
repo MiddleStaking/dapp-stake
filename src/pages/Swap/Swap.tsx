@@ -2,8 +2,9 @@ import React from 'react';
 import { defaultToken } from 'config';
 import { SwapLayout } from './components';
 import { useGetAllLp } from './components/Actions/helpers';
-import { useGetUserESDT } from './components/Actions/helpers/useGetUserESDT';
-import { useLocation } from 'react-router-dom';
+import { useGetUserESDT } from 'pages/Earn/components/Actions/helpers/useGetUserESDT';
+import { Outlet, useLocation } from 'react-router-dom';
+import { PageWrapper } from 'wrappers';
 
 export const Swap = () => {
   const userEsdtBalance = useGetUserESDT();
@@ -18,12 +19,12 @@ export const Swap = () => {
 
   return (
     <SwapLayout
-      userEsdtBalance={userEsdtBalance}
-      all_lp={all_lp}
       firstToken={firstToken ? firstToken : 'EGLD-000000'}
-      // firstToken='EGLD-000000'
       secondToken={secondToken ? secondToken : defaultToken}
       defaultToken={defaultToken}
+      userEsdtBalance={userEsdtBalance}
+      all_lp={all_lp}
+      // firstToken='EGLD-000000'
     />
   );
 };

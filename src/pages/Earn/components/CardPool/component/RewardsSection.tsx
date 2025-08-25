@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
+import { FormatAmount } from 'lib';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import {
   ActionClaimRewards,
@@ -11,7 +11,7 @@ import { BigNumber } from 'bignumber.js';
 
 interface RewardsSectionProps {
   rdecimals: any;
-  stakingPositionRewards: bigint;
+  stakingPositionRewards: BigNumber;
   rewarded_esdt_info: any;
   my_rewards_value: any;
   staked_token: any;
@@ -86,12 +86,12 @@ const RewardsSection: FC<RewardsSectionProps> = ({
   };
 
   const elaspesed_blocks =
-    currentBlockNonce - staking_position.last_action_block;
-  const blocks_left = token_position.blocks_to_max - elaspesed_blocks;
+    currentBlockNonce - staking_position?.last_action_block;
+  const blocks_left = token_position?.blocks_to_max - elaspesed_blocks;
 
   return (
     <>
-      {stakingPositionRewards > BigInt(0) && (
+      {stakingPositionRewards.isGreaterThan(0) && (
         <div style={rewardsSection}>
           <div style={top5}>
             <div style={availabledRewards}>Available rewards</div>
@@ -115,10 +115,7 @@ const RewardsSection: FC<RewardsSectionProps> = ({
               <div>
                 <FormatAmount
                   value={stakingPositionRewards.toString()}
-                  decimals={Number(rdecimals)}
-                  egldLabel={' '}
                   data-testid='balance'
-                  digits={2}
                 />
               </div>
               {rewarded_esdt_info?.price && (

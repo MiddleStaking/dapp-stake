@@ -1,100 +1,36 @@
-import React from 'react';
-import {
-  TransactionsToastList,
-  SignTransactionsModals,
-  NotificationModal
-} from '@multiversx/sdk-dapp/UI';
-import {
-  DappProvider,
-  AxiosInterceptorContext
-} from '@multiversx/sdk-dapp/wrappers';
-
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
-import { Layout } from 'components';
-import {
-  apiTimeout,
-  walletConnectV2ProjectId,
-  sampleAuthenticatedDomains,
-  network
-} from 'config';
-import { ContextProvider } from 'context';
-import { PageNotFound } from 'pages';
-import Unlock from 'pages/Unlock';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AxiosInterceptors, BatchTransactionsContextProvider } from 'wrappers';
+import { Layout } from './components';
 import { routes } from 'routes';
-import { RouteNamesEnum } from 'localConstants';
-import { BatchTransactionsContextProvider } from 'wrappers';
+import { PageNotFound } from 'pages';
 
-const AppContent = () => {
+export const App = () => {
   return (
-    <ContextProvider>
-      <DappProvider
-        environment={network.id}
-        customNetworkConfig={{
-          name: 'customConfig',
-          apiTimeout,
-          walletConnectV2ProjectId,
-          walletAddress: network.walletAddress,
-          apiAddress: network.apiAddress,
-          // gatewayAddress: network.gatewayAddress,
-          explorerAddress: network.explorerAddress,
-          metamaskSnapWalletAddress: 'https://snap-wallet.multiversx.com'
-        }}
-        dappConfig={{
-          shouldUseWebViewProvider: true,
-          logoutRoute: RouteNamesEnum.unlock
-        }}
-        customComponents={{
-          transactionTracker: {
-            // uncomment this to use the custom transaction tracker
-            // component: TransactionsTracker,
-            props: {
-              onSuccess: (sessionId: string) => {
-                console.log(`Session ${sessionId} successfully completed`);
-              },
-              onFail: (sessionId: string, errorMessage: string) => {
-                console.log(
-                  `Session ${sessionId} failed. ${errorMessage ?? ''}`
-                );
-              }
-            }
-          }
-        }}
-      >
-        <AxiosInterceptorContext.Listener>
+    <Router>
+      <AxiosInterceptors>
+        <BatchTransactionsContextProvider>
           <Layout>
-            <TransactionsToastList />
-            <NotificationModal />
-            <SignTransactionsModals />
             <Routes>
-              <Route path={RouteNamesEnum.unlock} element={<Unlock />} />
               {routes.map((route) => (
                 <Route
+                  key={`route-key-${route.path}`}
                   path={route.path}
-                  key={`route-key-'${route.path}`}
                   element={<route.component />}
-                />
+                >
+                  {route.children?.map((child) => (
+                    <Route
+                      key={`route-key-${route.path}-${child.path}`}
+                      path={child.path}
+                      element={<child.component />}
+                    />
+                  ))}
+                </Route>
               ))}
               <Route path='*' element={<PageNotFound />} />
             </Routes>
           </Layout>
-        </AxiosInterceptorContext.Listener>
-      </DappProvider>
-    </ContextProvider>
-  );
-};
-
-export const App = () => {
-  return (
-    <AxiosInterceptorContext.Provider>
-      <AxiosInterceptorContext.Interceptor
-        authenticatedDomains={sampleAuthenticatedDomains}
-      >
-        <Router>
-          <BatchTransactionsContextProvider>
-            <AppContent />
-          </BatchTransactionsContextProvider>
-        </Router>
-      </AxiosInterceptorContext.Interceptor>
-    </AxiosInterceptorContext.Provider>
+        </BatchTransactionsContextProvider>
+      </AxiosInterceptors>
+    </Router>
   );
 };

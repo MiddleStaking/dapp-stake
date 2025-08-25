@@ -6,21 +6,21 @@ import {
   faEdit
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetPendingTransactions } from 'lib';
 import classNames from 'classnames';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Action } from 'components/Action';
-import { network } from 'config';
+import { local_network } from 'config';
 import { useGlobalContext } from 'context';
 
-import { Identity } from './components/Identity';
+// import { Identity } from './components/Identity';
 
 import styles from './styles.module.scss';
 
 export const Heading = () => {
   const { contractDetails } = useGlobalContext();
-  const { pending } = useGetActiveTransactionsStatus();
+  const pending = useGetPendingTransactions();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ export const Heading = () => {
             {isAdmin ? 'Dashboard' : 'Admin'}
           </button>
 
-          {isAdmin && (
+          {/* {isAdmin && (
             <Action
               title='Agency Details'
               disabled={pending}
@@ -77,7 +77,7 @@ export const Heading = () => {
               }
               render={() => <Identity />}
             />
-          )}
+          )} */}
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { network } from 'config';
+import { local_network } from 'config';
 
 export const useGetNftInformations = (identifier: string, nonce: string) => {
   //const { network } = useGetNetworkConfig();
@@ -74,7 +74,7 @@ export const useGetNftInformations = (identifier: string, nonce: string) => {
 
     try {
       const { data } = await axios.get<[]>(url, {
-        baseURL: network.apiAddress,
+        baseURL: local_network.apiAddress,
         params: {}
       });
       setEsdtInfo(data);

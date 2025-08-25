@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { FormatAmount } from 'lib';
 import './../../../assets/Modal.css';
 import './StakeModal.scss';
 import DropdownMenu from 'components/Design/DropdownMenu';
@@ -9,7 +9,7 @@ import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionLiquidSingle } from './Actions';
 import BigNumber from 'bignumber.js';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'lib';
 
 const AddSingleTokenModal = (props: any) => {
   const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
@@ -145,9 +145,7 @@ const AddSingleTokenModal = (props: any) => {
                     <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
-                        decimals={Number(first_decimals.toString())}
                         value={first_balance.toString()}
-                        egldLabel={' '}
                         data-testid='staked'
                       />
                     </div>
@@ -182,9 +180,7 @@ const AddSingleTokenModal = (props: any) => {
                     <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
-                        decimals={Number(second_decimals.toString())}
                         value={second_balance.toString()}
-                        egldLabel={' '}
                         data-testid='staked'
                       />
                     </div>

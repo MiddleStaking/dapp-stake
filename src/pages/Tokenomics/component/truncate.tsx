@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { network } from 'config';
+import { local_network } from 'config';
 import styles from './tokenomics.module.scss';
 
 interface Adress {

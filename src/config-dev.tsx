@@ -30,7 +30,7 @@ export const contractRestake =
 export const contracts = {
   lockGraou: 'erd1qqqqqqqqqqqqqpgqkhd7lhchw42cz3sahdrc95kme9pxnzguch9srygudw'
 };
-export const network: NetworkType = {
+export const local_network: NetworkType = {
   id: 'devnet',
   chainId: 'D',
   name: 'Devnet',

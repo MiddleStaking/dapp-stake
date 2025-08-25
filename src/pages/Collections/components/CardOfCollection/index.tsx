@@ -4,7 +4,7 @@ import React, {
   JSXElementConstructor,
   ReactElement
 } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'lib';
 import { useGetCollectionInformations } from '../Actions/helpers';
 import TypeSection from './component/TypeSection';
 

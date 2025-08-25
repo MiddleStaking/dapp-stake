@@ -1,13 +1,21 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetPendingTransactions } from 'lib';
+import { signAndSendTransactions } from 'helpers';
+import {
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
 import { contractSwap, defaultToken } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
-import { useGetAccount } from 'hooks';
-import { Address } from '@multiversx/sdk-core/out';
 import BigNumber from 'bignumber.js';
 
 export const ActionSwap = ({
@@ -20,12 +28,15 @@ export const ActionSwap = ({
   min_out,
   price_impact
 }: any) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
+
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
-  const { address } = useGetAccount();
-  const contract_address = new Address(contractSwap).hex();
+  const contract_address = new Address(contractSwap).toHex();
 
   let hexValue = swap_amount.toString(16); // Convert to hex
   if (hexValue.length % 2 !== 0) {
@@ -38,9 +49,42 @@ export const ActionSwap = ({
   }
 
   const sendStakeTransaction = async () => {
-    let stakeTransaction = {
-      value: 0,
-      data:
+    const payload =
+      'MultiESDTNFTTransfer@' +
+      contract_address +
+      '@01' +
+      '@' +
+      Buffer.from(in_token, 'utf8').toString('hex') +
+      '@00' +
+      '@' +
+      hexValue +
+      '@' +
+      Buffer.from('swap', 'utf8').toString('hex') +
+      '@' +
+      Buffer.from(first_token, 'utf8').toString('hex') +
+      '@' +
+      Buffer.from(second_token, 'utf8').toString('hex') +
+      '@' +
+      hexValue2;
+
+    let transaction = new Transaction({
+      value: BigInt(0),
+      data: new TextEncoder().encode(payload),
+      receiver: new Address(address),
+      gasLimit: BigInt('20000000'),
+
+      gasPrice: BigInt(GAS_PRICE),
+      chainID: network.chainId,
+      sender: new Address(address),
+      version: 1
+    });
+
+    if (
+      in_token != defaultToken &&
+      first_token != defaultToken &&
+      second_token != defaultToken
+    ) {
+      const payload =
         'MultiESDTNFTTransfer@' +
         contract_address +
         '@01' +
@@ -50,62 +94,39 @@ export const ActionSwap = ({
         '@' +
         hexValue +
         '@' +
-        Buffer.from('swap', 'utf8').toString('hex') +
+        Buffer.from('dualSwap', 'utf8').toString('hex') +
         '@' +
-        Buffer.from(first_token, 'utf8').toString('hex') +
+        Buffer.from(
+          in_token == first_token ? first_token : second_token,
+          'utf8'
+        ).toString('hex') +
         '@' +
-        Buffer.from(second_token, 'utf8').toString('hex') +
+        Buffer.from(
+          in_token == first_token ? second_token : first_token,
+          'utf8'
+        ).toString('hex') +
         '@' +
-        hexValue2,
-      receiver: address,
-      gasLimit: '20000000'
-    };
+        hexValue2;
+      transaction = new Transaction({
+        value: BigInt(0),
+        data: new TextEncoder().encode(payload),
+        receiver: new Address(address),
+        gasLimit: BigInt('20000000'),
 
-    if (
-      in_token != defaultToken &&
-      first_token != defaultToken &&
-      second_token != defaultToken
-    ) {
-      stakeTransaction = {
-        value: 0,
-        data:
-          'MultiESDTNFTTransfer@' +
-          contract_address +
-          '@01' +
-          '@' +
-          Buffer.from(in_token, 'utf8').toString('hex') +
-          '@00' +
-          '@' +
-          hexValue +
-          '@' +
-          Buffer.from('dualSwap', 'utf8').toString('hex') +
-          '@' +
-          Buffer.from(
-            in_token == first_token ? first_token : second_token,
-            'utf8'
-          ).toString('hex') +
-          '@' +
-          Buffer.from(
-            in_token == first_token ? second_token : first_token,
-            'utf8'
-          ).toString('hex') +
-          '@' +
-          hexValue2,
-        receiver: address,
-        gasLimit: '20000000'
-      };
+        gasPrice: BigInt(GAS_PRICE),
+        chainID: network.chainId,
+        sender: new Address(address),
+        version: 1
+      });
     }
 
-    await refreshAccount();
-
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: stakeTransaction,
+    const sessionId = await signAndSendTransactions({
+      transactions: [transaction],
       transactionsDisplayInfo: {
         processingMessage: 'Processing Swap transaction',
         errorMessage: 'An error has occured Swap',
         successMessage: 'Swap transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);

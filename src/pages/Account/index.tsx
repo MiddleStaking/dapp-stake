@@ -6,12 +6,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 // import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
-import { logout } from '@multiversx/sdk-dapp/utils';
+import { getAccountProvider, useGetAccountInfo } from 'lib';
+import { FormatAmount } from 'lib';
+// import { logout } from 'lib';
 // import { Button } from 'components/Design/Button';
 import { useNavigate } from 'react-router-dom';
-import { network, wegld_identifier } from 'config';
+import { local_network, wegld_identifier } from 'config';
 import { routeNames } from 'routes';
 import { useGetUserESDT } from './../Earn/components/Actions/helpers/useGetUserESDT';
 import styles from './account.module.scss';
@@ -25,14 +25,20 @@ const Account = () => {
   const [showUnwrap, setShowUnwrap] = useState(false);
   const [wegldBalance, setWegldBalance] = React.useState(BigInt(0));
   const userEsdtBalance = useGetUserESDT();
+  const provider = getAccountProvider();
+
   const wegldProps = userEsdtBalance.find(
     (item: any) => item.identifier === wegld_identifier
   );
   useEffect(() => {
     setWegldBalance(wegldProps?.balance ? wegldProps?.balance : BigInt(0));
   }, [wegldProps]);
-  const handleLogout = () => {
-    logout(`${window.location.origin}/unlock`);
+  const handleLogout = async () => {
+    // setOpen(false);
+    sessionStorage.clear();
+    // logout(callbackUrl, onRedirect, shouldAttemptReLogin, options);
+    await provider.logout();
+    navigate(routeNames.home);
   };
   const navigate = useNavigate();
   const handleNavigate = (path: any) => {
@@ -169,7 +175,7 @@ const Account = () => {
                     </div>
                   </div>
                 </div>
-                {network.id === 'devnet' && (
+                {local_network.id === 'devnet' && (
                   <div>
                     <div
                       className={styles.square}
@@ -195,9 +201,7 @@ const Account = () => {
                     <div className={styles.labelIconSquare}>
                       <FormatAmount
                         value={balance.toString()}
-                        egldLabel={''}
                         data-testid='balance'
-                        digits={2}
                       />
                       <span className={styles.labelSquare}>Wrap</span>{' '}
                       <FontAwesomeIcon icon={faArrowRight} />
@@ -216,9 +220,7 @@ const Account = () => {
                     <div className={styles.labelIconSquare}>
                       <FormatAmount
                         value={wegldBalance.toString()}
-                        egldLabel={'wEgld'}
                         data-testid='balance'
-                        digits={2}
                       />
                       <span className={styles.labelSquare}>Unwrap</span>{' '}
                       <FontAwesomeIcon icon={faArrowRight} />

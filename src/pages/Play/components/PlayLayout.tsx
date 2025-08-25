@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './PoolCol.scss';
-import {
-  useGetIsLoggedIn,
-  useGetAccountInfo
-} from '@multiversx/sdk-dapp/hooks';
-import { isMobileEnvironment } from '@multiversx/sdk-dapp/utils';
+import { useGetIsLoggedIn, useGetAccountInfo } from 'lib';
+import { useIsMobile } from 'helpers/useIsMobile';
 import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
-import { network } from 'config';
+import { local_network } from 'config';
 import { contractPlay } from 'config';
 import { routeNames } from 'routes';
 import notFound from './../../../assets/img/notfoundc.svg';
@@ -37,7 +34,7 @@ export const PlayLayout = () => {
   const [time, setTime] = useState(new Date());
   const [time_out, setTimeOut] = useState(0);
   const [hideRules, setHideRules] = useState('hide');
-
+  const isMobile = useIsMobile();
   const image_esdt = payment_esdt_info?.assets?.svgUrl
     ? payment_esdt_info?.assets?.svgUrl
     : notFound;
@@ -190,7 +187,7 @@ export const PlayLayout = () => {
                           <ReactPlayer
                             width='auto'
                             height='400px'
-                            playing={!isMobileEnvironment()}
+                            playing={!isMobile}
                             loop={true}
                             volume={0}
                             muted={true}

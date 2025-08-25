@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { network } from 'config';
+import { local_network } from 'config';
 export const useGetCollectionInformations = (identifier: string) => {
   //const { network } = useGetNetworkConfig();
   const time = new Date();
@@ -30,7 +30,7 @@ export const useGetCollectionInformations = (identifier: string) => {
 
     try {
       const { data } = await axios.get<[]>(url, {
-        baseURL: network.apiAddress,
+        baseURL: local_network.apiAddress,
         params: {}
       });
       // if (data.data?.identifier != identifier) {

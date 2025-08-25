@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'lib';
 import { useParams } from 'react-router-dom';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
@@ -7,11 +7,8 @@ import { useGetCollectionInformations } from 'pages/Collections/components/Actio
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import { PoolAddCollection } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollection';
 import AccordionWrap from './AccordionWrap';
-import {
-  useGetUserRewards,
-  useGetCollectionRewards,
-  useGetUserESDT
-} from './Actions/helpers';
+import { useGetUserRewards, useGetCollectionRewards } from './Actions/helpers';
+import { useGetUserESDT } from 'pages/Earn/components/Actions/helpers/useGetUserESDT';
 import { useGetUserStakedNft } from './Actions/helpers/useGetUserStakedNft';
 import { ModalJump } from './Modal/ModalJump';
 
@@ -133,6 +130,8 @@ export const CollectionsLayout = () => {
       <br />
       {getCollectionInformations?.length > 0 ? (
         <AccordionWrap
+          key={getCollectionInformations[0]?.collection}
+          uniqueKey={getCollectionInformations[0]?.collection}
           setNftsJump={setNftsJump}
           setOpenModalJump={setOpenModalJump}
           userEsdtBalance={userEsdtBalance}

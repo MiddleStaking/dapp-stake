@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { FormatAmount } from 'lib';
 import Input from 'components/Design/Input';
 import toBigAmount from 'helpers/toBigAmount';
 import { Button } from './../../../components/Design';
@@ -83,9 +83,7 @@ const UnwrapModal = (props: any) => {
                 />
                 <div className='FormatAmountStaked'>
                   <FormatAmount
-                    decimals={decimals}
                     value={balance.toString()}
-                    egldLabel={'wEGLD'}
                     data-testid='balance'
                   />
                 </div>

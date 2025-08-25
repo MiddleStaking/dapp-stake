@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useGetAccountInfo } from 'lib';
+import { useParams, useNavigate, Outlet } from 'react-router-dom';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
@@ -21,6 +21,7 @@ import CardPool from './CardPool';
 import FundModal from './FundModal';
 import DropdownMenu from 'components/Design/DropdownMenu';
 import BigNumber from 'bignumber.js';
+import { PageWrapper } from 'wrappers';
 
 export const EarnLayout = () => {
   const [showFund, setShowFund] = useState(false);
@@ -98,7 +99,7 @@ export const EarnLayout = () => {
       rewarded_token: tok.rewarded_token,
       token_position: tok.token_position,
       staked_addresses: tok?.staked_addresses ? tok?.staked_addresses : 0,
-      balance: tok.token_position.balance,
+      balance: tok.token_position?.balance ? tok.token_position.balance : 0,
       staked: tok?.token_position?.total_stake
         ? Number(tok?.token_position?.total_stake)
         : 1,
@@ -155,6 +156,13 @@ export const EarnLayout = () => {
 
   //const stakedToken = path.split('/')[2];
   //const rewardedToken = path.split('/')[2];
+  const normalizedSearch = (mySearch ?? '').trim().toLowerCase();
+
+  const visibleTokens = (orderedTokens ?? []).filter((t) => {
+    if (!normalizedSearch) return true; // pas de recherche -> tout passe
+    const rewarded = (t?.rewarded_token ?? '').toString().toLowerCase();
+    return rewarded.includes(normalizedSearch);
+  });
 
   return (
     <div
@@ -353,53 +361,45 @@ export const EarnLayout = () => {
         }}
       >
         {allTokenPosition &&
-          orderedTokens
-            .filter((token) => {
-              return (
-                token.rewarded_token
-                  .toLowerCase()
-                  .includes(mySearch.toLowerCase()) || mySearch == ''
-              );
-            })
-            .map((rtoken, key) => (
-              // CardPool
-              <div
-                key={key}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  maxWidth: '300px'
-                }}
-              >
-                {rtoken && allTokenPosition[0]?.rewarded_token != '' && (
-                  <CardPool
-                    staked_token={stoken}
-                    staked_esdt_info={esdt_info}
-                    rewarded_token={rtoken?.rewarded_token}
-                    token_position={rtoken?.token_position}
-                    all_staking_position={allStakingPosition}
-                    all_user_rewards={allUserRewards}
-                    all_lp={allLp}
-                    users={rtoken?.staked_addresses}
-                    height={heightComponentTypeSection}
-                    WindowDimensions={width}
-                    textColor='#ffffff'
-                    fontFamily='sans-serif'
-                    userEsdtBalance={userEsdtBalance}
-                    swapedTokens={swapedTokens}
-                    myPools={myPools}
-                    balance={balance}
-                    isPaused={isPaused}
-                    canBeStaked={
-                      stakedTokens.includes(rtoken.rewarded_token) &&
-                      stoken != rtoken.rewarded_token
-                    }
-                    currentBlockNonce={blockNonce}
-                  />
-                )}
-              </div>
-            ))}
+          visibleTokens.map((rtoken, key) => (
+            // CardPool
+            <div
+              key={key}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                maxWidth: '300px'
+              }}
+            >
+              {rtoken && allTokenPosition[0]?.rewarded_token != '' && (
+                <CardPool
+                  staked_token={stoken}
+                  staked_esdt_info={esdt_info}
+                  rewarded_token={rtoken?.rewarded_token}
+                  token_position={rtoken?.token_position}
+                  all_staking_position={allStakingPosition}
+                  all_user_rewards={allUserRewards}
+                  all_lp={allLp}
+                  users={new BigNumber(rtoken?.staked_addresses)}
+                  height={heightComponentTypeSection}
+                  WindowDimensions={width}
+                  textColor='#ffffff'
+                  fontFamily='sans-serif'
+                  userEsdtBalance={userEsdtBalance}
+                  swapedTokens={swapedTokens}
+                  myPools={myPools}
+                  balance={balance}
+                  isPaused={isPaused}
+                  canBeStaked={
+                    stakedTokens.includes(rtoken.rewarded_token) &&
+                    stoken != rtoken.rewarded_token
+                  }
+                  currentBlockNonce={blockNonce}
+                />
+              )}
+            </div>
+          ))}
       </div>
       <div className='col-12'>
         <div className='text-white text-center'>
@@ -407,6 +407,8 @@ export const EarnLayout = () => {
           as a reward. Be sure to do your research before investing in a token.{' '}
         </div>
       </div>
+
+      <Outlet />
     </div>
   );
 };

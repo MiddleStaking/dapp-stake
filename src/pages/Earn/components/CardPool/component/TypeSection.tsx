@@ -35,7 +35,7 @@ interface TypeSectionProps {
   rewards_value?: number;
   Speed?: string;
   Staked?: string;
-  users?: number;
+  users?: BigNumber;
   decimals?: number;
   textColor?: string;
   fontFamily?: string;
@@ -302,15 +302,15 @@ const TypeSection: FC<TypeSectionProps> = ({
       <div style={top}>
         <div style={left}>
           <div style={title}>
-            <div style={earnMex}>Earn {rewarded_token.split('-')[0]}</div>
-            <div style={stakeMex}>Stake {staked_token.split('-')[0]}</div>
+            <div style={earnMex}>Earn {rewarded_token?.split('-')[0]}</div>
+            <div style={stakeMex}>Stake {staked_token?.split('-')[0]}</div>
           </div>
 
           <div style={apr}>
             <div style={apr2}>APR</div>
             <div style={rate}>
               <div style={rateApr}>
-                {token_position.paused == 1
+                {token_position?.paused == 1
                   ? 'Paused'
                   : pool_apr > 0
                   ? pool_apr.toString() + ' %'
@@ -402,15 +402,15 @@ const TypeSection: FC<TypeSectionProps> = ({
           rewarded_esdt_info={rewarded_esdt_info}
           staked_esdt_info={staked_esdt_info}
           rewards_amount={rewards_amount}
-          rewards_value={rewards_value}
+          rewards_value={new BigNumber(rewards_value)}
           speed={speed.toString()}
           staked_amount={
-            token_position.total_stake
-              ? token_position.total_stake.toFixed()
+            token_position?.total_stake
+              ? token_position?.total_stake?.toFixed()
               : 0
           }
-          staked_value={staked_value}
-          users={users ? users : 0}
+          staked_value={new BigNumber(staked_value)}
+          users={users ? users : new BigNumber(0)}
           textColor={textColor}
           fontFamily={fontFamily}
         />

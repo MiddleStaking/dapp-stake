@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from 'react';
-import { isMobileEnvironment } from '@multiversx/sdk-dapp/utils';
+import { useIsMobile } from 'helpers/useIsMobile';
 import ReactPlayer from 'react-player';
 // import { IconFacebook } from "module";
 import notfoundNft from '../../../../assets/img/notfoundnft.png';
@@ -45,6 +45,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
   collectionReward,
   collectionRewards
 }) => {
+  const isMobile = useIsMobile();
   const hex: CSSProperties = {
     display: 'block',
     margin: '0 auto',
@@ -187,7 +188,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
                 <ReactPlayer
                   width={'100%'}
                   height={'100%'}
-                  playing={!isMobileEnvironment() && width > 40}
+                  playing={!isMobile && width > 40}
                   loop={true}
                   volume={0}
                   muted={true}
@@ -266,7 +267,7 @@ const hexagoneNFT: FC<TypeSectionProps> = ({
                 <ReactPlayer
                   width={'100%'}
                   height={'100%'}
-                  playing={!isMobileEnvironment() && width > 40}
+                  playing={!isMobile && width > 40}
                   loop={true}
                   volume={0}
                   muted={true}

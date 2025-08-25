@@ -1,24 +1,33 @@
 import { useEffect, useState } from 'react';
 import {
+  Abi,
   Address,
   AddressValue,
   ContractFunction,
-  ResultsParser,
+  DevnetEntrypoint,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-import { network } from 'config';
-import { smartContract } from './smartContract';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractNftStake } from 'config';
+import json from 'staking-nft.abi.json';
+import { BigNumber } from 'bignumber.js';
 
-const resultsParser = new ResultsParser();
-
-export const useGetStakingPosition = (
-  stakedToken: any,
-  rewardedToken: any,
-  hasPendingTransactions: boolean
-) => {
+export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
+  const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractNftStake);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+
   const [stakingPosition, setStakingPosition] = useState({
     stake_amount: BigInt(0),
     last_action_block: BigInt(0)
@@ -29,26 +38,17 @@ export const useGetStakingPosition = (
       return;
     }
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getStakingPosition'),
-        args: [
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getStakingPosition',
+        arguments: [
           new AddressValue(new Address(address)),
           new TokenIdentifierValue(stakedToken),
           new TokenIdentifierValue(rewardedToken)
         ]
       });
 
-      //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
-
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition =
-        smartContract.getEndpoint('getStakingPosition');
-      const { firstValue: position } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
-      const tab = position?.valueOf();
+      const tab = response;
 
       if (tab) {
         setStakingPosition({

@@ -1,19 +1,31 @@
 import { useEffect, useState } from 'react';
 import {
+  Abi,
   Address,
   AddressValue,
   ContractFunction,
-  ResultsParser
+  DevnetEntrypoint,
+  TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { network } from 'config';
-import { smartContract } from './smartContract';
-
-const resultsParser = new ResultsParser();
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractNftStake } from 'config';
+import json from 'staking-nft.abi.json';
+import { BigNumber } from 'bignumber.js';
 
 export const useGetUserStakedNft = (address: string) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractNftStake);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
   const [stakedTokensNft, setStakedTokensNft] = useState([
     {
       staked_nft: {
@@ -45,28 +57,17 @@ export const useGetUserStakedNft = (address: string) => {
     }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getUserNfts'),
-        args: [new AddressValue(new Address(address))]
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getUserNfts',
+        arguments: [new AddressValue(new Address(address))]
       });
-      //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getUserNfts');
-      const { firstValue: rewards } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
-      if (queryResponse.returnCode == 'ok') {
-        setStakedTokensNft(rewards?.valueOf());
-        //storage of 3 secondes
-        const expire = time.getTime() + 1000 * 3;
-        localStorage.setItem(
-          'useGetUserStakedNft',
-          JSON.stringify(rewards?.valueOf())
-        );
-        localStorage.setItem('useGetUserStakedexpire', expire.toString());
-      }
+
+      setStakedTokensNft(response);
+      //storage of 3 secondes
+      const expire = time.getTime() + 1000 * 3;
+      localStorage.setItem('useGetUserStakedNft', JSON.stringify(response));
+      localStorage.setItem('useGetUserStakedexpire', expire.toString());
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);
     }

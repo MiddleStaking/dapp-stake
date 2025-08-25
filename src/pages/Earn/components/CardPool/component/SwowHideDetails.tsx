@@ -1,18 +1,18 @@
 import React, { CSSProperties, FC } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
+import { FormatAmount } from 'lib';
 import { BigNumber } from 'bignumber.js';
-import { network } from 'config';
+import { local_network } from 'config';
 import eCompass from './../../../../../assets/img/ecompass.svg';
 import jexchange from './../../../../../assets/img/jexchange.svg';
 import notFound from './../../../../../assets/img/notfoundc.svg';
 
 interface TypeSectionProps {
   rewards_amount: BigNumber;
-  rewards_value: number;
+  rewards_value: BigNumber;
   speed?: string;
   staked_amount?: string;
-  staked_value: number;
-  users?: number;
+  staked_value: BigNumber;
+  users?: BigNumber;
   rewarded_esdt_info: any;
   staked_esdt_info: any;
   textColor?: string;
@@ -21,10 +21,10 @@ interface TypeSectionProps {
 
 const SwowHideDetails: FC<TypeSectionProps> = ({
   rewards_amount,
-  rewards_value = 0,
+  rewards_value = new BigNumber(0),
   speed,
   staked_amount,
-  staked_value = 0,
+  staked_value = new BigNumber(0),
   users,
   staked_esdt_info,
   rewarded_esdt_info,
@@ -84,21 +84,23 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
         <div style={detailsRow}>
           <div>Rewards</div>
           <div style={detailsRowResult}>
-            <FormatAmount
-              value={rewards_amount.toFixed()}
-              decimals={rewarded_esdt_info?.decimals}
-              egldLabel={' '}
-              data-testid='balance'
-              digits={2}
-            />
+            {Number(
+              rewards_amount
+                .dividedBy(10 ** rewarded_esdt_info?.decimals)
+                .toFixed(2)
+            ).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })}{' '}
           </div>
         </div>
-        {rewards_value > 0 && (
+        {rewards_value.isGreaterThan(0) && (
           <div style={detailsRow}>
             <div>Rewards value</div>
 
             <div style={detailsRowResult}>
-              {rewards_value.toLocaleString('en-US', {
+              {Number(rewards_value.toFixed(2)).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
                 maximumFractionDigits: 2
               })}{' '}
               $
@@ -118,26 +120,15 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
             <div>Staked</div>
 
             <div style={detailsRowResult}>
-              <FormatAmount
-                value={staked_amount}
-                decimals={staked_esdt_info?.decimals}
-                egldLabel={' '}
-                data-testid='staked'
-                digits={2}
-              />
+              <FormatAmount value={staked_amount} data-testid='staked' />
             </div>
           </div>
         )}
-        {staked_value > 0 && (
+        {staked_value.isGreaterThan(0) && (
           <div style={detailsRow}>
             <div>Staked value</div>
 
-            <div style={detailsRowResult}>
-              {staked_value.toLocaleString('en-US', {
-                maximumFractionDigits: 2
-              })}{' '}
-              $
-            </div>
+            <div style={detailsRowResult}>{staked_value.toFixed(2)} $</div>
           </div>
         )}
         {users && (
@@ -146,11 +137,8 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
 
             <div style={detailsRowResult}>
               <FormatAmount
-                value={users.toString()}
-                decimals={Number(0)}
-                egldLabel={' '}
+                value={users.multipliedBy(10 ** 18).toString()}
                 data-testid='staked'
-                digits={0}
               />
             </div>
           </div>
@@ -178,7 +166,7 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
           <a
             style={icon}
             href={
-              network.explorerAddress +
+              local_network.explorerAddress +
               '/tokens/' +
               rewarded_esdt_info?.identifier
             }

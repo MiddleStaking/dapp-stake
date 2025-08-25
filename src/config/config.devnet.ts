@@ -61,7 +61,7 @@ export const contractAddressDelegation =
 export const contractPlay =
   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
 
-export const network: NetworkType = {
+export const local_network: NetworkType = {
   id: 'devnet',
   chainId: 'D2',
   name: 'Devnet',

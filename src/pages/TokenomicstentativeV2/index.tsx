@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { FormatAmount } from 'lib';
 import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
 import Truncate from './component/truncate';
@@ -123,7 +123,7 @@ const TokenomicsV2 = () => {
               }
             >
               <div className={'card-body text-center p-4 '}>
-                <Container
+                {/* <Container
                   style={{ marginLeft: 0 }}
                   className={'text-white ' + styles.cardback}
                 >
@@ -203,7 +203,6 @@ const TokenomicsV2 = () => {
                             key={index}
                             className={'msbulle' + '  ' + styles.languette}
                           >
-                            {/* cardbackBackground */}
 
                             <Col
                               style={{ fontSize: '100%', padding: 0 }}
@@ -218,55 +217,7 @@ const TokenomicsV2 = () => {
                       )}{' '}
                     </Col>
                   </Row>
-                  {/* <Row className={'msbulle' + '  ' + styles.cardscolor}>
-                    <Col className='sm-12'>
-                      <Row>
-                        <Col className='lead'>DEX Liquidity #1</Col>
-                      </Row>
-                      <hr
-                        style={{
-                          height: '1px',
-                          color: 'white',
-                          backgroundColor: 'white',
-                          marginTop: 0
-                        }}
-                      />
-                      <Row>
-                        <Col className='lead'>
-                          erd1qqqqqqqqqqqqqpgqjs9xspq7usjfd37f3kty9y0q280kqnhl2jpsxh87wn
-                        </Col>
-                      </Row>{' '}
-                      <hr
-                        style={{
-                          height: '1px',
-                          color: 'white',
-                          backgroundColor: 'white',
-                          marginTop: 0
-                        }}
-                      />
-                      <Row>
-                        <Col>
-
-                        </Col>
-                        <Col> + </Col>
-                        <Col>
-                          {' '}
-                          <Col>
-
-                          </Col>
-                        </Col>
-                      </Row>{' '}
-                      <Row>
-                        <Col>{contracts.liquidity.ratio} </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          Locked value : {contracts.liquidity.lockedValueUSD}{' '}
-                          $USD
-                        </Col>
-                      </Row>{' '}
-                    </Col>
-                  </Row> */}
+               
                   <Row>
                     <Col className='sm-6'>
                       <Row
@@ -389,25 +340,7 @@ const TokenomicsV2 = () => {
                       </Row>
                     </Col>
                   </Row>
-                  {/* <Row>
-                    <Col className={'msbulle' + '  ' + styles.cardscolor}>
-                      <FormatAmount
-                        value={contracts.supply_sum}
-                        egldLabel={'MID-ecb7bf'}
-                        data-testid='balance'
-                        digits={2}
-                      />
-                    </Col>
-                    <Col className={'msbulle' + '  ' + styles.cardscolor}>
-                      {' '}
-                      <FormatAmount
-                        value={contracts.burn_sum}
-                        egldLabel={'MID-ecb7bf'}
-                        data-testid='balance'
-                        digits={2}
-                      />
-                    </Col>
-                  </Row>{' '} */}
+                
                   <Row
                     className={
                       'sm-12 msbulle' +
@@ -428,7 +361,7 @@ const TokenomicsV2 = () => {
                       />
                     </Col>
                   </Row>
-                </Container>
+                </Container> */}
                 {/* </div> */}
               </div>
             </div>

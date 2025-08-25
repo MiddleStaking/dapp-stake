@@ -1,36 +1,53 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetPendingTransactions } from 'lib';
+import { signAndSendTransactions } from 'helpers';
+import {
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
 import { contractNftStake } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from '../../../../components/Design';
 
 export const Actionfinalize = ({ nft_id, text, disabled }: any) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
 
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
 
   const sendClaimTransaction = async () => {
-    const claimTransaction = {
-      value: 0,
-      data: 'finalize@' + bigToHex(BigInt(nft_id)),
-      receiver: contractNftStake,
-      gasLimit: '6000000'
-    };
-    await refreshAccount();
+    const payload = 'finalize@' + bigToHex(BigInt(nft_id));
+    const transaction = new Transaction({
+      value: BigInt('0'),
+      data: new TextEncoder().encode(payload),
+      receiver: new Address(contractNftStake),
+      gasLimit: BigInt('6000000'),
 
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: claimTransaction,
+      gasPrice: BigInt(GAS_PRICE),
+      chainID: network.chainId,
+      sender: new Address(address),
+      version: 1
+    });
+
+    const sessionId = await signAndSendTransactions({
+      transactions: [transaction],
       transactionsDisplayInfo: {
         processingMessage: 'Processing finalize transaction',
         errorMessage: 'An error has occured finalize transaction',
         successMessage: 'finalize transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);

@@ -14,7 +14,6 @@ export const ModalStakeNft = (props: any) => {
   const [qty, setQty] = React.useState(1);
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
   const [openAccordions, setOpenAccordions] = useState([false]);
-  const { address } = useGetAccountInfo();
 
   const ModalRef: any = useRef(null);
 
@@ -436,7 +435,6 @@ export const ModalStakeNft = (props: any) => {
 
               <div className='bottomModal'>
                 <ActionStakeNft
-                  address={address}
                   stakedNFT={stoken[0]?.collection}
                   user_fund={qty}
                   pool_id={props.pool_id}

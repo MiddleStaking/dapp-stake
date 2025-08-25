@@ -1,13 +1,33 @@
 import { useEffect, useState } from 'react';
-import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+import {
+  Abi,
+  Address,
+  AddressValue,
+  ContractFunction,
+  DevnetEntrypoint,
+  TokenIdentifierValue
+} from '@multiversx/sdk-core/out';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractSwap } from 'config';
+import json from 'swap-contract.abi.json';
 import { BigNumber } from 'bignumber.js';
-import { network } from 'config';
-import { smartContract } from './smartContract';
-
-const resultsParser = new ResultsParser();
 
 export const useGetAllLp = () => {
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractSwap);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+
   const [tokenPosition, setTokenPosition] = useState([
     {
       swaped_token: '',
@@ -31,25 +51,17 @@ export const useGetAllLp = () => {
     }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getAllLp'),
-        args: []
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getAllLp',
+        arguments: []
       });
 
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
-
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getAllLp');
-      const { firstValue: position } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
-      if (queryResponse.returnCode == 'ok') {
-        setTokenPosition(position?.valueOf());
-        const expire = time.getTime() + 1000 * 15 * 1;
-        localStorage.setItem('all_lp', JSON.stringify(position?.valueOf()));
-        localStorage.setItem('all_lp_expire', expire.toString());
-      }
+      console.log('getAllLp response', response);
+      setTokenPosition(response[0]);
+      const expire = time.getTime() + 1000 * 15 * 1;
+      localStorage.setItem('all_lp', JSON.stringify(response[0]));
+      localStorage.setItem('all_lp_expire', expire.toString());
     } catch (err) {
       console.error('Unable to call getAllLp', err);
     }

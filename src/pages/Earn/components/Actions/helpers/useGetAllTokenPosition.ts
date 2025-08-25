@@ -1,17 +1,33 @@
 import { useEffect, useState } from 'react';
 import {
+  Abi,
+  Address,
+  AddressValue,
   ContractFunction,
-  ResultsParser,
+  DevnetEntrypoint,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractStake } from 'config';
+import json from 'staking-contract.abi.json';
 import { BigNumber } from 'bignumber.js';
-import { network } from 'config';
-import { smartContract } from './smartContract';
-
-const resultsParser = new ResultsParser();
 
 export const useGetAllTokenPosition = (stakedToken: any) => {
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractStake);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+
   const [tokenPosition, setTokenPosition] = useState([
     {
       rewarded_token: '',
@@ -43,27 +59,17 @@ export const useGetAllTokenPosition = (stakedToken: any) => {
     // }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getAllTokenPosition'),
-        args: [new TokenIdentifierValue(stakedToken)]
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getAllTokenPosition',
+        arguments: [new TokenIdentifierValue(stakedToken)]
       });
 
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
-
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint(
-        'getAllTokenPosition'
-      );
-      const { firstValue: position } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
-
-      setTokenPosition(position?.valueOf());
+      setTokenPosition(response[0]);
       const expire = time.getTime() + 1000 * 60 * 1;
       localStorage.setItem(
         'all_token_position_' + stakedToken,
-        JSON.stringify(position?.valueOf())
+        JSON.stringify(response)
       );
       localStorage.setItem(
         'all_token_position_' + stakedToken + '_expire',

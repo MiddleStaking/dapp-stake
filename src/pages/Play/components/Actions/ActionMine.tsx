@@ -2,10 +2,19 @@ import * as React from 'react';
 import { useState } from 'react';
 import { faDollar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetPendingTransactions, FormatAmount } from 'lib';
+import { signAndSendTransactions } from 'helpers';
+import {
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
 import { useNavigate } from 'react-router-dom';
 import { contractPlay } from 'config';
 import bigToHex from 'helpers/bigToHex';
@@ -20,7 +29,12 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
     ? payment_esdt_info?.decimals
     : 0;
 
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
+
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
+
   const userEsdtBalance = useGetUserESDT();
   const balance = BigInt(
     userEsdtBalance
@@ -44,29 +58,33 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
     >(null);
 
   const sendUnstakeTransaction = async () => {
-    const unstakeTransaction = {
-      value: 0,
-      data:
-        'ESDTTransfer@' +
-        Buffer.from(payment_esdt_info?.identifier, 'utf8').toString('hex') +
-        '@' +
-        bigToHex(BigInt(price)) +
-        '@' +
-        Buffer.from('mine', 'utf8').toString('hex'),
+    const payload =
+      'ESDTTransfer@' +
+      Buffer.from(payment_esdt_info?.identifier, 'utf8').toString('hex') +
+      '@' +
+      bigToHex(BigInt(price)) +
+      '@' +
+      Buffer.from('mine', 'utf8').toString('hex');
 
-      receiver: contractPlay,
-      gasLimit: '5000000'
-    };
-    await refreshAccount();
+    const transaction = new Transaction({
+      value: BigInt(0),
+      data: new TextEncoder().encode(payload),
+      receiver: new Address(contractPlay),
+      gasLimit: BigInt('5000000'),
 
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: unstakeTransaction,
+      gasPrice: BigInt(GAS_PRICE),
+      chainID: network.chainId,
+      sender: new Address(address),
+      version: 1
+    });
+
+    const sessionId = await signAndSendTransactions({
+      transactions: [transaction],
       transactionsDisplayInfo: {
         processingMessage: 'Processing mine transaction',
         errorMessage: 'An error has occured mine',
         successMessage: 'Mine transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);
@@ -82,20 +100,14 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
               Play for{' '}
               <FormatAmount
                 value={price ? price.toString() : 0}
-                decimals={Number(pdecimals)}
-                egldLabel={payment_esdt_info?.identifier}
                 data-testid='balance'
-                digits={2}
               />{' '}
               {payment_esdt_info?.price && (
                 <>
                   <br />~{' '}
                   <FormatAmount
                     value={dollar_value.toString()}
-                    decimals={Number(pdecimals)}
-                    egldLabel={' '}
                     data-testid='balance'
-                    digits={2}
                   />
                   <FontAwesomeIcon icon={faDollar} />
                 </>
@@ -119,18 +131,12 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
                   {' '}
                   <FormatAmount
                     value={balance.toString()}
-                    decimals={Number(pdecimals)}
-                    egldLabel={' '}
                     data-testid='balance'
-                    digits={2}
                   />
                   /{' '}
                   <FormatAmount
                     value={price ? price.toString() : 0}
-                    decimals={Number(pdecimals)}
-                    egldLabel={payment_esdt_info?.identifier}
                     data-testid='balance'
-                    digits={2}
                   />
                 </>
               ) : (
@@ -142,10 +148,7 @@ export const ActionMine = ({ payment_esdt_info, price }: any) => {
                   <br />~{' '}
                   <FormatAmount
                     value={dollar_value.toString()}
-                    decimals={Number(pdecimals)}
-                    egldLabel={' '}
                     data-testid='balance'
-                    digits={2}
                   />
                   <FontAwesomeIcon icon={faDollar} />
                 </>

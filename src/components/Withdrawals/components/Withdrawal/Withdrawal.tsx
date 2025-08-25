@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetPendingTransactions } from 'lib';
 import axios from 'axios';
 import classNames from 'classnames';
 import moment from 'moment';
 
 import { MultiversX } from 'assets/MultiversX';
-import { network } from 'config';
+import { local_network } from 'config';
 import { UndelegateStakeListType } from 'context/state';
 import useTransaction from 'helpers/useTransaction';
 
@@ -24,7 +24,8 @@ interface FormattersType {
 
 export const Withdrawal = (props: UndelegateStakeListType) => {
   const { value, timeLeft } = props;
-  const { pending } = useGetActiveTransactionsStatus();
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
   const { sendTransaction } = useTransaction();
 
   const [counter, setCounter] = useState<number>(timeLeft - moment().unix());
@@ -133,7 +134,7 @@ export const Withdrawal = (props: UndelegateStakeListType) => {
         <button
           onClick={onWithdraw}
           className={classNames(styles.withdraw, {
-            [styles.disabled]: counter > 0 || pending
+            [styles.disabled]: counter > 0 || hasPendingTransactions
           })}
         >
           <FontAwesomeIcon icon={faMinus} /> <span>Withdraw</span>

@@ -1,13 +1,13 @@
 import React, { useState, CSSProperties } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'lib';
 import { useWindowDimensions } from 'components/DimensionScreen';
-import { network } from 'config';
+import { local_network } from 'config';
 import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 import { useGetUserStakedNft } from 'pages/CollectionDetail/components/Actions/helpers/useGetUserStakedNft';
-import MintModal from '../../../pages/Mint/components/MintModal';
+// import MintModal from '../../../pages/Mint/components/MintModal';
 import { Button } from './../../../components/Design';
 import { useGetCollections } from './Actions/helpers';
-import { useGetUserESDT } from './Actions/helpers/useGetUserESDT';
+import { useGetUserESDT } from 'pages/Earn/components/Actions/helpers/useGetUserESDT';
 import { useGetCollectionsApi } from './Actions/helpersApi';
 import CardOfCollection from './CardOfCollection';
 import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
@@ -27,9 +27,9 @@ export const CollectionsLayout = () => {
 
   //for unbond nft with no more pool in array
   for (const userNft of userStakedNft) {
-    stakedCollections.indexOf(userNft.staked_nft.identifier) === -1 &&
-      userNft.staked_nft.identifier != '' &&
-      stakedCollections.push(userNft.staked_nft.identifier);
+    stakedCollections?.indexOf(userNft?.staked_nft?.identifier) === -1 &&
+      userNft?.staked_nft?.identifier != '' &&
+      stakedCollections.push(userNft?.staked_nft?.identifier);
   }
 
   const { width } = useWindowDimensions();
@@ -95,7 +95,7 @@ export const CollectionsLayout = () => {
         gap: '10px'
       }}
     >
-      <MintModal
+      {/* <MintModal
         userEsdtBalance={userEsdtBalance}
         userEgldBalance={
           account.balance != '...' ? BigInt(account.balance) : BigInt(0)
@@ -104,7 +104,7 @@ export const CollectionsLayout = () => {
         onClose={() => {
           setHeaderMenu(true), setShowMint(false);
         }}
-      />
+      /> */}
       <div>
         <div
           style={{

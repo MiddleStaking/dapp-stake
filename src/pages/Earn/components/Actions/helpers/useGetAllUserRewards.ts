@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react';
 import {
+  Abi,
   Address,
   AddressValue,
   ContractFunction,
-  ResultsParser,
+  DevnetEntrypoint,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import { BigNumber } from 'bignumber.js';
-import { network } from 'config';
-import { smartContract } from './smartContract';
-
-const resultsParser = new ResultsParser();
+import { local_network } from 'config';
+import { contractStake } from 'config';
+import json from 'staking-contract.abi.json';
 
 export const useGetAllUserRewards = (stakedToken: any) => {
   const [tokenPosition, setTokenPosition] = useState([
@@ -25,7 +29,16 @@ export const useGetAllUserRewards = (stakedToken: any) => {
   ]);
   const [time, setTime] = useState(new Date());
 
+  const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractStake);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
 
   //const exp = new Date();
 
@@ -48,22 +61,15 @@ export const useGetAllUserRewards = (stakedToken: any) => {
     // }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getAllUserRewards'),
-        args: [
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getAllUserRewards',
+        arguments: [
           new AddressValue(new Address(address)),
           new TokenIdentifierValue(stakedToken)
         ]
       });
 
-      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
-
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getAllUserRewards');
-      const { firstValue: position } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
       // console.log(position?.valueOf());
       // console.log(position?.valueOf()[0].token_position.balance);
       // console.log(position?.valueOf()[0].token_position.balance.toString());
@@ -72,7 +78,7 @@ export const useGetAllUserRewards = (stakedToken: any) => {
 
       // console.log(test);
       // console.log(test.toString());
-      setTokenPosition(position?.valueOf());
+      setTokenPosition(response);
 
       //const expire = exp.getTime() + 1000 * 60 * 1;
 

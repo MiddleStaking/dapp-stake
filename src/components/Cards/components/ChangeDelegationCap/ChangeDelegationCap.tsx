@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { string, object } from 'yup';
 
 import { Submit } from 'components/Action';
-import { network } from 'config';
+import { local_network } from 'config';
 import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 import { nominateValToHex } from 'helpers/nominate';
@@ -37,7 +37,7 @@ export const ChangeDelegationCap = () => {
       .required('Required')
       .test(
         'minimum',
-        `Minimum ${minimum} ${network.egldLabel} or 0 ${network.egldLabel}`,
+        `Minimum ${minimum} ${local_network.egldLabel} or 0 ${local_network.egldLabel}`,
         (value = '') =>
           new BigNumber(value).isGreaterThanOrEqualTo(minimum) || value === '0'
       )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { useGetAccountInfo } from 'lib';
 import { useNavigate } from 'react-router-dom';
 
 import { Cards } from 'components/Cards';
@@ -10,7 +10,7 @@ import { Stake } from 'components/Stake';
 import { Withdrawals } from 'components/Withdrawals';
 
 import styles from './styles.module.scss';
-import useGlobalData from '../../hooks/useGlobalData';
+// import useGlobalData from '../../hooks/useGlobalData';
 
 export const Delegate = () => {
   const { address } = useGetAccountInfo();
@@ -21,7 +21,7 @@ export const Delegate = () => {
     address ? setLoading(false) : navigate('/unlock');
 
   useEffect(handleRedirect, [address]);
-  useGlobalData();
+  // useGlobalData();
 
   if (loading) {
     return (

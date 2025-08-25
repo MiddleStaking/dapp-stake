@@ -1,11 +1,18 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useGetPendingTransactions } from 'lib';
+import { signAndSendTransactions } from 'helpers';
 import {
-  useGetAccountInfo,
-  useGetPendingTransactions
-} from '@multiversx/sdk-dapp/hooks';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
 import { contractNftStake } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
@@ -14,8 +21,11 @@ export const ActionClaimPools = ({
   buttonWidth,
   bottomHeight
 }: any) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
+
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
 
   // console.log(user_pools);
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
@@ -23,15 +33,23 @@ export const ActionClaimPools = ({
     >(null);
 
   const sendClaimTransaction = async () => {
-    const claimTransaction = [];
+    const transactions: Transaction[] = [];
 
     for (const pool_id of user_pools) {
-      claimTransaction.push({
-        value: 0,
-        data: 'claimRewards@' + bigToHex(BigInt(pool_id)),
-        receiver: contractNftStake,
-        gasLimit: '6000000'
-      });
+      const payload = 'claimRewards@' + bigToHex(BigInt(pool_id));
+      transactions.push(
+        new Transaction({
+          value: BigInt(0),
+          data: new TextEncoder().encode(payload),
+          receiver: new Address(contractNftStake),
+          gasLimit: BigInt('6000000'),
+
+          gasPrice: BigInt(GAS_PRICE),
+          chainID: network.chainId,
+          sender: new Address(address),
+          version: 1
+        })
+      );
     }
     // console.log(claimTransaction);
 
@@ -41,16 +59,14 @@ export const ActionClaimPools = ({
     //   receiver: contractNftStake,
     //   gasLimit: '6000000'
     // };
-    await refreshAccount();
 
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: claimTransaction,
+    const sessionId = await signAndSendTransactions({
+      transactions: transactions,
       transactionsDisplayInfo: {
         processingMessage: 'Processing claimRewards transaction',
         errorMessage: 'An error has occured claimRewards transaction',
         successMessage: 'claimRewards transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);

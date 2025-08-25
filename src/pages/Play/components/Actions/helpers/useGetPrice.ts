@@ -5,7 +5,7 @@ import {
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { network } from 'config';
+import { local_network } from 'config';
 import { smartContract } from './smartContract';
 
 const resultsParser = new ResultsParser();

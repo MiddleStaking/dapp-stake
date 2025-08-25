@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { FormatAmount } from 'lib';
 import './../../../assets/Modal.css';
 import './StakeModal.scss';
 import DropdownMenu from 'components/Design/DropdownMenu';
@@ -9,7 +9,7 @@ import notFound from './../../../assets/img/notfoundc.svg';
 import { Button } from './../../../components/Design';
 import { ActionLiquid } from './Actions';
 import BigNumber from 'bignumber.js';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'lib';
 const LiquidModal = (props: any) => {
   const [user_balance, setUserBalance] = React.useState(props.userEsdtBalance);
   const [first_token, setFirstToken] = React.useState(props.first_esdt_info);
@@ -213,10 +213,7 @@ const LiquidModal = (props: any) => {
                             value={new BigNumber(
                               first_pool.first_token_amount
                             ).toFixed()}
-                            decimals={Number(first_decimals)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />
                         </div>
                       </div>
@@ -227,10 +224,7 @@ const LiquidModal = (props: any) => {
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={first_pool.second_token_amount.toString()}
-                            decimals={Number(second_decimals)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />
                         </div>
                       </div>
@@ -244,10 +238,7 @@ const LiquidModal = (props: any) => {
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={lp_value1.toString()}
-                            decimals={Number(18)}
-                            egldLabel={'$'}
                             data-testid='balance'
-                            digits={2}
                           />
                         </div>
                       </div>
@@ -289,18 +280,12 @@ const LiquidModal = (props: any) => {
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={first_pool.first_token_amount.toString()}
-                            decimals={Number(first_decimals)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />{' '}
                           :{' '}
                           <FormatAmount
                             value={first_pool.second_token_amount.toString()}
-                            decimals={Number(second_decimals)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />
                         </div>
                       </div>
@@ -309,10 +294,7 @@ const LiquidModal = (props: any) => {
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={lp_value1.toString()}
-                            decimals={Number(18)}
-                            egldLabel={'$'}
                             data-testid='balance'
-                            digits={2}
                           />{' '}
                         </div>
                       </div>
@@ -327,9 +309,7 @@ const LiquidModal = (props: any) => {
                     <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
-                        decimals={Number(first_decimals.toString())}
                         value={firstBalance.toFixed()}
-                        egldLabel={' '}
                         data-testid='staked'
                       />
                     </div>
@@ -364,9 +344,7 @@ const LiquidModal = (props: any) => {
                     <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
-                        decimals={Number(second_decimals.toString())}
                         value={secondBalance.toFixed()}
-                        egldLabel={' '}
                         data-testid='staked'
                       />
                     </div>
@@ -467,8 +445,6 @@ const LiquidModal = (props: any) => {
                 <FormatAmount
                   className='label2'
                   value={secondBig.toFixed()}
-                  decimals={Number(second_decimals.toString())}
-                  egldLabel={' '}
                   data-testid='staked'
                 />
               </div>

@@ -1,17 +1,35 @@
 import { useEffect, useState } from 'react';
 import {
+  Abi,
+  Address,
+  AddressValue,
   ContractFunction,
-  ResultsParser,
+  DevnetEntrypoint,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { network } from 'config';
-import { defaultPairs } from 'config';
-import { smartContract } from './smartContract';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractStake } from 'config';
+import json from 'staking-contract.abi.json';
+import { BigNumber } from 'bignumber.js';
 
-const resultsParser = new ResultsParser();
+import { defaultPairs } from 'config';
 
 export const useGetRewardedTokens = (stakedToken: string) => {
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractStake);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+
   const [rewardedTokens, setRewardedTokens] = useState<string[]>([]);
   const time = new Date();
 
@@ -32,40 +50,32 @@ export const useGetRewardedTokens = (stakedToken: string) => {
     }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getRewardedTokens'),
-        args: [new TokenIdentifierValue(stakedToken)]
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getRewardedTokens',
+        arguments: [new TokenIdentifierValue(stakedToken)]
       });
-      //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayCached);
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getRewardedTokens');
-      const { firstValue: tokens } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
-      if (queryResponse.returnCode == 'ok') {
-        setRewardedTokens(tokens?.valueOf()?.toString(10).split(','));
-        //storage of 15 minutes
-        const expire = time.getTime() + 1000 * 60 * 15;
-        //const expire = time.getTime() + 1000 * 60 * 15;
-        localStorage.setItem(
-          'rewarded_tokens_' + stakedToken,
-          tokens?.valueOf()?.toString(10).split(',')
-        );
-        localStorage.setItem(
-          'rewarded_tokens_' + stakedToken + '_expire',
-          expire.toString()
-        );
 
-        for (const token of tokens?.valueOf()?.toString(10).split(',')) {
-          const p: any = { s: stakedToken, r: token };
-          pairs.findIndex((e: any) => e?.s === p.s && e?.r === p.r) === -1
-            ? pairs.push(p)
-            : '';
-        }
-        localStorage.setItem('pairs_', JSON.stringify(pairs));
+      setRewardedTokens(response);
+      //storage of 15 minutes
+      const expire = time.getTime() + 1000 * 60 * 15;
+      //const expire = time.getTime() + 1000 * 60 * 15;
+      localStorage.setItem(
+        'rewarded_tokens_' + stakedToken,
+        response.toString()
+      );
+      localStorage.setItem(
+        'rewarded_tokens_' + stakedToken + '_expire',
+        expire.toString()
+      );
+
+      for (const token of response) {
+        const p: any = { s: stakedToken, r: token };
+        pairs.findIndex((e: any) => e?.s === p.s && e?.r === p.r) === -1
+          ? pairs.push(p)
+          : '';
       }
+      localStorage.setItem('pairs_', JSON.stringify(pairs));
     } catch (err) {
       console.error('Unable to call getRewardedTokens', err);
     }

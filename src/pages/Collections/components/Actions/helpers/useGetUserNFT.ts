@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'lib';
 import axios from 'axios';
-import { network } from 'config';
+import { local_network } from 'config';
 export const useGetUserNFT = () => {
   // const { network } = useGetNetworkConfig();
   const [esdtBalance, setNftBalance] = useState([
@@ -30,12 +30,12 @@ export const useGetUserNFT = () => {
     if (address != '') {
       try {
         const { data } = await axios.get<[]>(url, {
-          baseURL: network.apiAddress,
+          baseURL: local_network.apiAddress,
           params: {}
         });
         setNftBalance(data);
       } catch (err) {
-        console.error('Unable to fetch Tokens');
+        console.error('Unable to fetch NftTokens');
         setNftBalance([]);
       }
     }

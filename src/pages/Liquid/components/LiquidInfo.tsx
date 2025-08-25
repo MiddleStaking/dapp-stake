@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { useGetPendingTransactions } from 'lib';
+import { FormatAmount } from 'lib';
 import { defaultToken } from 'config';
 import { useGetESDTInformations } from './Actions/helpers';
 import LiquidModal from './LiquidModal';
@@ -18,7 +18,8 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
   const [showSecond, setShowSecond] = useState(false);
 
   const [showRemoveLP, setShowRemoveLP] = useState(false);
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
 
   const lp_balance = userEsdtBalance.find(
     (item: any) => item.identifier === lp.lp_token
@@ -110,9 +111,7 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
 
       <div className='table-cell'>
         <FormatAmount
-          decimals={first_esdt_info.decimals}
           value={BigNumber(lp.first_token_amount).toFixed()}
-          egldLabel={' '}
           data-testid='balance'
         />
         <span
@@ -125,9 +124,7 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
       </div>
       <div className='table-cell'>
         <FormatAmount
-          decimals={second_esdt_info.decimals}
           value={BigNumber(lp.second_token_amount).toFixed()}
-          egldLabel={' '}
           data-testid='balance'
         />{' '}
         <span
@@ -140,22 +137,12 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
       </div>
 
       <div className='table-cell'>
-        <FormatAmount
-          decimals={first_esdt_info.decimals}
-          value={first_value.toString()}
-          egldLabel={'$'}
-          data-testid='balance'
-        />
+        <FormatAmount value={first_value.toString()} data-testid='balance' />
       </div>
 
       <div className='table-cell'>
         {second_esdt_info.price && (
-          <FormatAmount
-            decimals={second_esdt_info.decimals}
-            value={second_value.toString()}
-            egldLabel={'$'}
-            data-testid='balance'
-          />
+          <FormatAmount value={second_value.toString()} data-testid='balance' />
         )}
       </div>
 
@@ -165,23 +152,13 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
             {ecart > 0 && (
               <>
                 {'+ '}
-                <FormatAmount
-                  decimals={0}
-                  value={ecart.toString()}
-                  egldLabel={' '}
-                  data-testid='balance'
-                />
+                <FormatAmount value={ecart.toString()} data-testid='balance' />
               </>
             )}
             {ecart2 > 0 && (
               <>
                 {'- '}
-                <FormatAmount
-                  decimals={0}
-                  value={ecart2.toString()}
-                  egldLabel={' '}
-                  data-testid='balance'
-                />
+                <FormatAmount value={ecart2.toString()} data-testid='balance' />
               </>
             )}
           </>

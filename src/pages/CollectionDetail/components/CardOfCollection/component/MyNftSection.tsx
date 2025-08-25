@@ -1,6 +1,5 @@
 //NOTE - partie inferieure
 import React, { FC } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { ActionStakeNft } from '../../Actions/ActionStakeNFT';
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 
@@ -14,8 +13,6 @@ const MyNftSection: FC<MyNftSectionProps> = ({
   nft_balance,
   pool_nonce
 }) => {
-  const { address } = useGetAccountInfo();
-
   return (
     <div
       style={{
@@ -46,7 +43,6 @@ const MyNftSection: FC<MyNftSectionProps> = ({
                   borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
                 />
                 <ActionStakeNft
-                  address={address}
                   stakedNFT={item?.collection}
                   user_fund={1}
                   pool_id={pool_id}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+import { FormatAmount } from 'lib';
 import './../../../assets/Modal.css';
 import './StakeModal.scss';
 import DropdownMenu from 'components/Design/DropdownMenu';
@@ -173,10 +173,7 @@ const RemoveLPModal = (props: any) => {
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={first_pool.first_token_amount.toString()}
-                            decimals={Number(first_decimals)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />
                         </div>
                       </div>
@@ -187,10 +184,7 @@ const RemoveLPModal = (props: any) => {
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={first_pool.second_token_amount.toString()}
-                            decimals={Number(second_decimals)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />
                         </div>
                       </div>
@@ -203,10 +197,7 @@ const RemoveLPModal = (props: any) => {
                           })}{' '} */}
                           <FormatAmount
                             value={lp_value1.toString()}
-                            decimals={Number(18)}
-                            egldLabel={'$'}
                             data-testid='balance'
-                            digits={2}
                           />
                         </div>
                       </div>
@@ -260,18 +251,12 @@ const RemoveLPModal = (props: any) => {
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={first_pool.first_token_amount.toString()}
-                            decimals={Number(first_decimals)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />{' '}
                           :{' '}
                           <FormatAmount
                             value={first_pool.second_token_amount.toString()}
-                            decimals={Number(second_decimals)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />
                         </div>
                       </div>
@@ -280,10 +265,7 @@ const RemoveLPModal = (props: any) => {
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={first_pool.first_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />{' '}
                           %
                         </div>
@@ -293,10 +275,7 @@ const RemoveLPModal = (props: any) => {
                         <div className='ValueDetailsInfo'>
                           <FormatAmount
                             value={first_pool.second_fee.toString()}
-                            decimals={Number(2)}
-                            egldLabel={' '}
                             data-testid='balance'
-                            digits={2}
                           />{' '}
                           %
                         </div>
@@ -309,10 +288,7 @@ const RemoveLPModal = (props: any) => {
                           })}{' '} */}
                           <FormatAmount
                             value={lp_value1.toString()}
-                            decimals={Number(18)}
-                            egldLabel={'$'}
                             data-testid='balance'
-                            digits={2}
                           />{' '}
                         </div>
                       </div>
@@ -339,9 +315,7 @@ const RemoveLPModal = (props: any) => {
                     <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
-                        decimals={Number(first_decimals.toString())}
                         value={lpBalance.toString()}
-                        egldLabel={' '}
                         data-testid='staked'
                       />
                     </div>
@@ -376,9 +350,7 @@ const RemoveLPModal = (props: any) => {
                     <div className='LabelDropdoownFormatAmount'>
                       <FormatAmount
                         className='label2'
-                        decimals={Number(second_decimals.toString())}
                         value={lpBalance.toString()}
-                        egldLabel={' '}
                         data-testid='staked'
                       />
                     </div>

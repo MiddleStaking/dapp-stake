@@ -1,16 +1,33 @@
 import { useEffect, useState } from 'react';
 import {
+  Abi,
+  Address,
+  AddressValue,
   ContractFunction,
-  ResultsParser,
+  DevnetEntrypoint,
   TokenIdentifierValue
 } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { network } from 'config';
-import { smartContract } from './smartContract';
-
-const resultsParser = new ResultsParser();
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractNftStake } from 'config';
+import json from 'staking-nft.abi.json';
+import { BigNumber } from 'bignumber.js';
 
 export const useGetCollectionRewards = (stakedToken: string) => {
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractNftStake);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+
   const [stakedTokens, setStakedTokens] = useState([
     {
       pool_id: BigInt(0),
@@ -45,31 +62,23 @@ export const useGetCollectionRewards = (stakedToken: string) => {
     }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getRewards'),
-        args: [new TokenIdentifierValue(stakedToken)]
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getRewards',
+        arguments: [new TokenIdentifierValue(stakedToken)]
       });
-      //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getRewards');
-      const { firstValue: rewards } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
+
+      setStakedTokens(response);
+      //storage of 1 minutes
+      const expire = time.getTime() + 1000 * 60 * 1;
+      localStorage.setItem(
+        'collection_rewards_' + stakedToken,
+        JSON.stringify(response?.toString())
       );
-      if (queryResponse.returnCode == 'ok') {
-        setStakedTokens(rewards?.valueOf());
-        //storage of 1 minutes
-        const expire = time.getTime() + 1000 * 60 * 1;
-        localStorage.setItem(
-          'collection_rewards_' + stakedToken,
-          JSON.stringify(rewards?.valueOf())
-        );
-        localStorage.setItem(
-          'collection_rewards_' + stakedToken + '_expire',
-          expire.toString()
-        );
-      }
+      localStorage.setItem(
+        'collection_rewards_' + stakedToken + '_expire',
+        expire.toString()
+      );
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);
     }

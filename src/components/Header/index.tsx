@@ -2,14 +2,14 @@
 import React from 'react';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
+import { useGetIsLoggedIn } from 'lib';
 import { useNavigate } from 'react-router-dom';
 import LogoText from 'assets/LogoMiddleS';
 import LogoTextMobile from 'assets/LogoMiddleSMobile';
 import { Button } from 'components/Design/Button';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import { defaultToken } from 'config';
-import { network } from 'config';
+import { local_network } from 'config';
 import { routeNames } from 'routes';
 // import { useGetRegister } from 'helpers/api_v2/register';
 // import Logo from 'assets/Logo';
@@ -154,7 +154,7 @@ const HeaderDesktop = () => {
             />
           </div>
         </div>
-        {network.id != 'mainnet' && (
+        {local_network.id != 'mainnet' && (
           <div className='text-white'>
             <div>
               <div onClick={() => handleNavigate(routeNames.faucet)}>

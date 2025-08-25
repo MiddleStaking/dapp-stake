@@ -23,7 +23,7 @@ import jexchange from './../../../assets/img/jexchange.svg';
 import twitter from './../../../assets/img/twitter.svg';
 import styles from './../earn.module.scss';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { network } from 'config';
+import { local_network } from 'config';
 
 export const PoolInfo = ({
   stakedToken,

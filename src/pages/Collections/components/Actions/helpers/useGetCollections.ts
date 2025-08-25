@@ -1,12 +1,33 @@
 import { useEffect, useState } from 'react';
-import { ContractFunction, ResultsParser } from '@multiversx/sdk-core/out';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { network } from 'config';
-import { smartContract } from './smartContract';
-
-const resultsParser = new ResultsParser();
+import {
+  Abi,
+  Address,
+  AddressValue,
+  ContractFunction,
+  DevnetEntrypoint,
+  TokenIdentifierValue
+} from '@multiversx/sdk-core/out';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractNftStake } from 'config';
+import json from 'staking-nft.abi.json';
+import { BigNumber } from 'bignumber.js';
 
 export const useGetCollections = () => {
+  const { network } = useGetNetworkConfig();
+
+  const entrypoint = new DevnetEntrypoint({
+    url: network.apiAddress
+  });
+  const contractAddress = Address.newFromBech32(contractNftStake);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+
   const [stakedTokens, setStakedTokens] = useState<string[]>([]);
   const time = new Date();
 
@@ -23,28 +44,18 @@ export const useGetCollections = () => {
     }
 
     try {
-      const query = smartContract.createQuery({
-        func: new ContractFunction('getStakedNfts')
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getStakedNfts',
+        arguments: []
       });
-      //const proxy = new ProxyNetworkProvider(network.apiAddress);
-      const proxy = new ProxyNetworkProvider(network.gatewayAddress);
-      const queryResponse = await proxy.queryContract(query);
-      const endpointDefinition = smartContract.getEndpoint('getStakedNfts');
-      const { firstValue: tokens } = resultsParser.parseQueryResponse(
-        queryResponse,
-        endpointDefinition
-      );
-      if (queryResponse.returnCode == 'ok') {
-        setStakedTokens(tokens?.valueOf()?.toString(10).split(','));
-        //storage of 15 minutes
-        const expire = time.getTime() + 1000 * 60 * 1;
-        //const expire = time.getTime() + 1000 * 60 * 15;
-        localStorage.setItem(
-          'staked_collections',
-          tokens?.valueOf()?.toString(10).split(',')
-        );
-        localStorage.setItem('staked_collections_expire', expire.toString());
-      }
+
+      setStakedTokens(response);
+      //storage of 15 minutes
+      const expire = time.getTime() + 1000 * 60 * 1;
+      //const expire = time.getTime() + 1000 * 60 * 15;
+      localStorage.setItem('staked_collections', JSON.stringify(response));
+      localStorage.setItem('staked_collections_expire', expire.toString());
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);
     }

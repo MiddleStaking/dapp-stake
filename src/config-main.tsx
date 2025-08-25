@@ -32,7 +32,7 @@ export const contractRestake =
 export const contracts = {
   lockGraou: 'erd1qqqqqqqqqqqqqpgqsgvnfzwwdmjpf55hvp66eeq3xu5pd40k5gcsm5vzlw'
 };
-export const network: NetworkType = {
+export const local_network: NetworkType = {
   id: 'mainnet',
   chainId: '1',
   name: 'Mainnet',
@@ -41,7 +41,7 @@ export const network: NetworkType = {
   //  walletAddress: 'https://xalias.com',
   apiAddress: 'https://api.multiversx.com',
   gatewayAddress: 'https://gateway.multiversx.com',
-  gatewayCached: 'https://api.middlestaking.fr/mainnet',
+  gatewayCached: 'https://api.middlestaking.fr/mainnet/data',
   explorerAddress: 'http://explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };

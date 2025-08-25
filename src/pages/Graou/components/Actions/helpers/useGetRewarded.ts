@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  useGetPendingTransactions,
-  useGetSuccessfulTransactions
-} from '@multiversx/sdk-dapp/hooks';
+import { useGetPendingTransactions, useGetSuccessfulTransactions } from 'lib';
 import axios from 'axios';
 import { network, sftCollection, vouchersCollection } from 'config';
 
@@ -11,10 +8,10 @@ export const useGetRewarded = () => {
   const [last, setLast] = useState<any>(0);
   const [minted, setMinted] = useState<any>('');
   const [nft, setNft] = useState<any>({});
-  const { hasPendingTransactions } = useGetPendingTransactions();
-
-  const { successfulTransactionsArray } = useGetSuccessfulTransactions();
-
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
+  const successtransactions = useGetSuccessfulTransactions();
+  const hasSuccessfulTransactions = successtransactions.length > 0;
   const getHash = async () => {
     if (hasPendingTransactions) {
       if (nft.identifier) {
@@ -25,16 +22,14 @@ export const useGetRewarded = () => {
       }
       return;
     }
-    const txs = successfulTransactionsArray.length - 1;
-    const last_nonce =
-      successfulTransactionsArray?.[txs]?.[1]?.transactions?.[0]?.nonce;
+    const txs = successtransactions.length - 1;
+    const last_nonce = successtransactions?.[txs]?.nonce;
     // console.log('last_nonce', last_nonce, hash);
 
     if (last_nonce <= last) {
       return;
     }
-    const newhash =
-      successfulTransactionsArray?.[txs]?.[1]?.transactions?.[0]?.hash;
+    const newhash = successtransactions?.[txs]?.hash;
 
     if (!newhash) {
       return;
@@ -103,7 +98,7 @@ export const useGetRewarded = () => {
   };
   useEffect(() => {
     getHash();
-  }, [successfulTransactionsArray]);
+  }, [successtransactions]);
 
   useEffect(() => {
     getMinted();

@@ -1,17 +1,29 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetPendingTransactions } from 'lib';
+import { signAndSendTransactions } from 'helpers';
+import {
+  AbiRegistry,
+  Address,
+  GAS_PRICE,
+  SmartContractTransactionsFactory,
+  Transaction,
+  TransactionsFactoryConfig,
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetAccountInfo
+} from 'lib';
 import { contracts } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import toHex from 'helpers/toHex';
 import { Button } from '../../../../components/Design';
-import { Address } from '@multiversx/sdk-core/out';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 
 export const ActionUnlockAll = ({ nonces }: any) => {
-  const { hasPendingTransactions } = useGetPendingTransactions();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
+
+  const transactions = useGetPendingTransactions();
+  const hasPendingTransactions = transactions.length > 0;
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
@@ -21,14 +33,22 @@ export const ActionUnlockAll = ({ nonces }: any) => {
   // const { address } = useGetAccountInfo();
 
   const sendFundTransaction = async () => {
-    const fundTransaction = [];
+    const transactions: Transaction[] = [];
     for (const nonce of nonces) {
-      fundTransaction.push({
-        value: 0,
-        data: 'unlock' + '@' + bigToHex(BigInt(nonce)),
-        receiver: contracts.lockGraou,
-        gasLimit: '14000000'
-      });
+      const payload = 'unlock@' + bigToHex(BigInt(nonce));
+      transactions.push(
+        new Transaction({
+          value: BigInt(0),
+          data: new TextEncoder().encode(payload),
+          receiver: new Address(contracts.lockGraou),
+          gasLimit: BigInt('14000000'),
+
+          gasPrice: BigInt(GAS_PRICE),
+          chainID: network.chainId,
+          sender: new Address(address),
+          version: 1
+        })
+      );
     }
 
     // const fundTransaction = {
@@ -38,16 +58,13 @@ export const ActionUnlockAll = ({ nonces }: any) => {
     //   gasLimit: '14000000'
     // };
 
-    await refreshAccount();
-
-    const { sessionId /*, error*/ } = await sendTransactions({
-      transactions: fundTransaction,
+    const sessionId = await signAndSendTransactions({
+      transactions: transactions,
       transactionsDisplayInfo: {
         processingMessage: 'Processing Unlock transaction',
         errorMessage: 'An error has occured Unlock',
         successMessage: 'Unlock transaction successful'
-      },
-      redirectAfterSign: false
+      }
     });
     if (sessionId != null) {
       setTransactionSessionId(sessionId);

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI';
+import { FormatAmount } from 'lib';
 import './accordion.scss';
 import { BigNumber } from 'bignumber.js';
 import { Button } from 'components/Design';
@@ -77,7 +77,8 @@ const Accordion: FC<CardPoolrops> = ({
 
   const Availablerewards = allRewardsForUser
     .filter(
-      (item) => item.pool_id.toString() == collectionReward?.pool_id.toString()
+      (item) =>
+        item?.pool_id?.toString() == collectionReward?.pool_id?.toString()
     )
     .map((item: any) => item?.rewards);
 
@@ -106,8 +107,8 @@ const Accordion: FC<CardPoolrops> = ({
   const { width } = useWindowDimensions();
 
   const nft = useGetNft(
-    collectionReward.collection.toString(),
-    Number(collectionReward.nonce),
+    collectionReward?.collection?.toString(),
+    Number(collectionReward?.nonce),
     true
   );
 
@@ -254,41 +255,7 @@ const Accordion: FC<CardPoolrops> = ({
                                 : BigInt(1)) /
                               BigInt(collectionReward.speed)
                             ).toString()}
-                            decimals={Number(rdecimals)}
-                            egldLabel={
-                              '$' +
-                              `${collectionReward?.identifier.split(
-                                '-'
-                              )[0]} / NFT / DAY`
-                            }
                             data-testid='balance'
-                            digits={
-                              (
-                                BigInt(
-                                  BigNumber(collectionReward?.rewards).toFixed()
-                                ) /
-                                (BigInt(collectionReward.total_staked) >
-                                BigInt(0)
-                                  ? BigInt(collectionReward.total_staked)
-                                  : BigInt(1)) /
-                                BigInt(collectionReward.speed)
-                              ).toString().length >= rdecimals
-                                ? 2
-                                : rdecimals -
-                                  (
-                                    BigInt(
-                                      BigNumber(
-                                        collectionReward?.rewards
-                                      ).toFixed()
-                                    ) /
-                                    (BigInt(collectionReward.total_staked) >
-                                    BigInt(0)
-                                      ? BigInt(collectionReward.total_staked)
-                                      : BigInt(1)) /
-                                    BigInt(collectionReward.speed)
-                                  ).toString().length +
-                                  2
-                            }
                           />
                         ) : (
                           <p>error</p>
@@ -318,11 +285,11 @@ const Accordion: FC<CardPoolrops> = ({
                     </div>
                   </div>
                   <div>
-                    Vesting : {collectionReward?.vesting.toString()} Days
+                    Vesting : {collectionReward?.vesting?.toString()} Days
                   </div>
 
                   <div>
-                    Unbonding : {collectionReward?.unbounding.toString()} Days
+                    Unbonding : {collectionReward?.unbounding?.toString()} Days
                   </div>
                   <div>
                     Speed : {collectionReward?.speed?.toString() + ' '}
@@ -485,20 +452,7 @@ const Accordion: FC<CardPoolrops> = ({
                     rewards :{' '}
                     <FormatAmount
                       value={BigNumber(collectionReward?.rewards).toFixed()}
-                      decimals={Number(rdecimals)}
-                      egldLabel={' '}
                       data-testid='balance'
-                      digits={
-                        BigNumber(collectionReward?.rewards)
-                          .toFixed()
-                          .toString().length >= Number(rdecimals)
-                          ? 2
-                          : Number(rdecimals) -
-                            BigNumber(
-                              Number(collectionReward?.rewards).toString()
-                            ).toFixed().length +
-                            2
-                      }
                     />
                     {address && (
                       <PoolAddCollection
@@ -561,18 +515,8 @@ const Accordion: FC<CardPoolrops> = ({
                             ? BigNumber(Availablerewards[0])?.toFixed()
                             : ''
                         }
-                        decimals={Number(rdecimals)}
-                        egldLabel={' '}
                         data-testid='balance'
                         // digits={2}
-                        digits={
-                          BigNumber(Availablerewards[0])?.toFixed().length >=
-                          rdecimals
-                            ? 2
-                            : rdecimals -
-                              BigNumber(Availablerewards[0])?.toFixed().length +
-                              2
-                        }
                       />
                     </div>
                   )}

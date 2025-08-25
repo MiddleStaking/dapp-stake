@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'lib';
 import axios from 'axios';
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import { network as net } from 'config';
+import { local_network } from 'config';
 
 const Faucet = () => {
   const user_address = useGetAccountInfo().address;
@@ -89,7 +89,7 @@ const Faucet = () => {
   });
   //Network selectionné
   const [cnetwork, setNetwork] = React.useState({
-    network: net?.chainId ? net?.chainId : 'D'
+    network: local_network?.chainId ? local_network?.chainId : 'D'
   });
 
   //Token selectionné
