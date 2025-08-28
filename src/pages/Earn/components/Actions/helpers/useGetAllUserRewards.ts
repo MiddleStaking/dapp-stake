@@ -53,7 +53,6 @@ export const useGetAllUserRewards = (stakedToken: any) => {
     // const load: any = localStorage.getItem('all_token_position_' + stakedToken);
     // const storage = pareseJson(load);
     // if (load) {
-    //   console.log(storage);
     //   setTokenPosition(storage);
     // }
     // if (time.getTime() < expire_test) {
@@ -70,19 +69,12 @@ export const useGetAllUserRewards = (stakedToken: any) => {
         ]
       });
 
-      // console.log(position?.valueOf());
-      // console.log(position?.valueOf()[0].token_position.balance);
-      // console.log(position?.valueOf()[0].token_position.balance.toString());
-
       // const test = new BigNumber(position?.valueOf()[0].token_position.balance);
 
-      // console.log(test);
-      // console.log(test.toString());
-      setTokenPosition(response);
+      setTokenPosition(response[0]);
 
       //const expire = exp.getTime() + 1000 * 60 * 1;
 
-      // console.log(renderJson(position?.valueOf()));
       // localStorage.setItem(
       //   'all_token_position_' + stakedToken,
       //   renderJson(position?.valueOf())

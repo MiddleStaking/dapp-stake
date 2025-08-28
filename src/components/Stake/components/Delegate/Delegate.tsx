@@ -26,7 +26,7 @@ export const Delegate = () => {
     <div className={`${styles.wrapper} delegate-wrapper`}>
       <Action
         title='Delegate Now'
-        description={`Select the amount of ${network.egldLabel} you want to delegate.`}
+        description={`Select the amount of ${local_network.egldLabel} you want to delegate.`}
         disabled={hasPendingTransactions}
         trigger={
           <div
@@ -68,7 +68,9 @@ export const Delegate = () => {
                 return (
                   <form onSubmit={handleSubmit}>
                     <div className={styles.field}>
-                      <label htmlFor='amount'>{network.egldLabel} Amount</label>
+                      <label htmlFor='amount'>
+                        {local_network.egldLabel} Amount
+                      </label>
                       <div className={styles.group}>
                         <input
                           type='number'
@@ -99,7 +101,7 @@ export const Delegate = () => {
 
                       <span className={styles.description}>
                         <span>Balance:</span> {denominated(account.balance)}{' '}
-                        {network.egldLabel}
+                        {local_network.egldLabel}
                       </span>
 
                       {((errors.amount && touched.amount) || maxed) && (

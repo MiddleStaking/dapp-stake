@@ -32,9 +32,11 @@ export const Heading = () => {
         <div className={styles.label}>Contract Address</div>
 
         <div className='d-flex align-items-center'>
-          <span className={styles.contract}>{network.delegationContract}</span>
+          <span className={styles.contract}>
+            {local_network.delegationContract}
+          </span>
           <a
-            href={`${network.explorerAddress}/accounts/${network.delegationContract}`}
+            href={`${local_network.explorerAddress}/accounts/${local_network.delegationContract}`}
             className={styles.icon}
             rel='noreferrer'
             target='_blank'

@@ -6,6 +6,7 @@ import { ActionUnbound } from '../../Actions/ActionUnbound';
 import Countdown from '../../CountDown';
 import MyStakedNft from './MyStakedNft';
 import toHex from 'helpers/toHex';
+import BigNumber from 'bignumber.js';
 
 interface MyStakeSectionProps {
   staked_balance: any[];
@@ -27,7 +28,6 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
   collectionReward,
   collectionRewards
 }) => {
-  // console.log(staked_balance);
   return (
     <div
       style={{
@@ -59,13 +59,13 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                   className='text-white'
                   href={
                     'https://xoxno.com/nft/' +
-                    item?.staked_nft.identifier +
+                    item?.staked_nft?.identifier +
                     '-' +
                     toHex(item?.staked_nft?.nonce)
                   }
                 >
                   <u>
-                    {item?.staked_nft.identifier.split('-')[1] +
+                    {item?.staked_nft?.identifier.split('-')[1] +
                       '-' +
                       toHex(item?.staked_nft?.nonce)}
                   </u>
@@ -109,7 +109,7 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                 </>
               ) : (
                 <>
-                  {item?.staked_nft.unbound == 0 ? (
+                  {item?.staked_nft?.unbound == 0 ? (
                     <>
                       <ActionUnbound
                         text={
@@ -122,7 +122,7 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                           BigInt(item?.current_block) <
                           BigInt(item?.staked_nft?.lock)
                         }
-                        nft_id={item?.staked_nft.id}
+                        nft_id={item?.staked_nft?.id}
                       />
                       <Countdown
                         totalSeconds={
@@ -141,10 +141,13 @@ const MyNftSection: FC<MyStakeSectionProps> = ({
                       <Actionfinalize
                         text={'Finalize '}
                         disabled={
-                          BigInt(item?.current_block) <
-                          BigInt(item?.staked_nft?.unbound)
+                          !item?.current_block || !item?.staked_nft?.unbound
+                            ? true
+                            : new BigNumber(item.current_block).lt(
+                                new BigNumber(item.staked_nft.unbound)
+                              )
                         }
-                        nft_id={item?.staked_nft.id}
+                        nft_id={item?.staked_nft?.id}
                       />
                       <Countdown
                         id_pool={pool}

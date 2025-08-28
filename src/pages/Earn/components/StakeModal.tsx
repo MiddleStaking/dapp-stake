@@ -381,10 +381,14 @@ const StakeModal = (props: any) => {
                       fontSize={14}
                     />
                     <div className='FormatAmountStaked'>
-                      <FormatAmount
-                        value={balance.toString()}
-                        data-testid='staked'
-                      />
+                      {Number(
+                        new BigNumber(balance.toString())
+                          .dividedBy(10 ** sdecimals)
+                          .toFixed(2)
+                      ).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      })}
                     </div>
                   </div>
                   <div className='bottomGroupeModal' onClick={props.onClose}>

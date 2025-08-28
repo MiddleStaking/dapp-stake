@@ -15,6 +15,7 @@ import { Undelegate } from './components/Undelegate';
 import useStakeData from './hooks';
 
 import styles from './styles.module.scss';
+import BigNumber from 'bignumber.js';
 
 interface ActionType {
   label: string;
@@ -68,7 +69,13 @@ export const Stake = () => {
       subicon: <FontAwesomeIcon icon={faGift} />,
       color: '#27C180',
       title: 'Claimable Rewards',
-      value: `+ ${userClaimableRewards.data || '...'}`,
+      value: `+ ${
+        Number(
+          new BigNumber(userClaimableRewards.data ?? '0')
+            .dividedBy(10 ** 18)
+            .toFixed(4)
+        ).toLocaleString(undefined, { minimumFractionDigits: 4 }) || '...'
+      }`,
       disabled: !userClaimableRewards.data || userClaimableRewards.data === '0',
       actions: [
         {
@@ -110,7 +117,7 @@ export const Stake = () => {
               ? 'Retrieving staking data...'
               : isError
               ? 'There was an error trying to retrieve staking data.'
-              : `Currently you don't have any ${network.egldLabel} staked.`}
+              : `Currently you don't have any ${local_network.egldLabel} staked.`}
           </div>
 
           <Delegate />
@@ -146,7 +153,7 @@ export const Stake = () => {
               <div className={styles.title}>{panel.title}</div>
 
               <strong className={styles.value}>
-                {panel.value} {network.egldLabel}
+                {panel.value} {local_network.egldLabel}
               </strong>
 
               <div className={styles.actions}>

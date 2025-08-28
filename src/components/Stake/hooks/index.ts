@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   Address,
@@ -30,12 +30,14 @@ export interface DelegationPayloadType {
 
 const useStakeData = () => {
   const dispatch = useDispatch();
-  const [check, setCheck] = useState(false);
+  const [check, setCheck] = useState(true);
 
   const { account, address } = useGetAccountInfo();
   const { sendTransaction } = useTransaction();
   const pending = useGetPendingTransactions();
-  const hasPendingTransactions = pending.length > 0;
+  const hasPendingTransactions = !!useGetPendingTransactions()?.length;
+  const prevHasPending = useRef(hasPendingTransactions);
+
   const successfulTransactions = useGetSuccessfulTransactions();
   const hasSuccessfulTransactions = successfulTransactions.length > 0;
   const { contractDetails, userClaimableRewards, totalActiveStake } =
@@ -158,6 +160,8 @@ const useStakeData = () => {
   const controller = entrypoint.createSmartContractController(abi);
 
   const getUserClaimableRewards = async (): Promise<void> => {
+    setCheck(false);
+
     dispatch({
       type: 'getUserClaimableRewards',
       userClaimableRewards: {
@@ -182,11 +186,7 @@ const useStakeData = () => {
         userClaimableRewards: {
           status: 'loaded',
           error: null,
-          data: res
-            ? denominated(decodeBigNumber(res).toFixed(), {
-                decimals: 4
-              })
-            : '0'
+          data: res[0] ? new BigNumber(res[0]) : new BigNumber(0)
         }
       });
     } catch (error) {
@@ -204,29 +204,34 @@ const useStakeData = () => {
   const fetchClaimableRewards = () => {
     if (!userClaimableRewards.data) {
       getUserClaimableRewards();
+      console.log('fetchClaimableRewards');
     }
   };
 
   const reFetchClaimableRewards = () => {
-    if (hasSuccessfulTransactions) {
+    if (check) {
       getUserClaimableRewards();
+      setCheck(false);
+      console.log('reFetchClaimableRewards');
     }
   };
 
-  useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
+  // useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
   useEffect(reFetchClaimableRewards, [
     hasSuccessfulTransactions,
     successfulTransactions
   ]);
 
   useEffect(() => {
-    if (hasPendingTransactions && !check) {
+    if (prevHasPending.current && !hasPendingTransactions) {
       setCheck(true);
+      console.log('setCheck true');
 
-      return () => {
-        setCheck(false);
-      };
+      // return () => {
+      //   setCheck(false);
+      // };
     }
+    prevHasPending.current = hasPendingTransactions;
   }, [hasPendingTransactions]);
 
   return {

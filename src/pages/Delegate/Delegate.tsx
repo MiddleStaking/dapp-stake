@@ -10,7 +10,7 @@ import { Stake } from 'components/Stake';
 import { Withdrawals } from 'components/Withdrawals';
 
 import styles from './styles.module.scss';
-// import useGlobalData from '../../hooks/useGlobalData';
+import useGlobalData from 'hooks/useGlobalData';
 
 export const Delegate = () => {
   const { address } = useGetAccountInfo();
@@ -21,7 +21,7 @@ export const Delegate = () => {
     address ? setLoading(false) : navigate('/unlock');
 
   useEffect(handleRedirect, [address]);
-  // useGlobalData();
+  useGlobalData();
 
   if (loading) {
     return (

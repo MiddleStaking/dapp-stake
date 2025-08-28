@@ -25,16 +25,16 @@ interface TransactionParametersType {
 }
 
 const useTransaction = () => {
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccountInfo();
+  const sc_address = new Address(contractAddressDelegation);
+  // const contract = new SmartContract({ address: sc_address });
+
   const sendTransaction = async ({
     args,
     value,
     type
   }: TransactionParametersType) => {
-    const { network } = useGetNetworkConfig();
-    const { address } = useGetAccountInfo();
-
-    const sc_address = new Address(contractAddressDelegation);
-    const contract = new SmartContract({ address: sc_address });
     const delegable = delegationContractData.find(
       (item: DelegationContractType) => item.name === type
     );
@@ -56,7 +56,7 @@ const useTransaction = () => {
       const transaction = new Transaction({
         value: BigInt(value),
         data: new TextEncoder().encode(getFunctionName()),
-        receiver: contract.getAddress().bech32(),
+        receiver: sc_address,
         gasLimit: BigInt(getGasLimit()),
 
         gasPrice: BigInt(GAS_PRICE),

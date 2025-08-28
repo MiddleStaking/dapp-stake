@@ -53,7 +53,6 @@ export const useAgencyMetaData = (delegationContractBech32: string) => {
       // const [name, website, keybase] = res
       //   .getReturnDataParts()
       //   .map(decodeString);
-      console.log('res', res);
       // setData({ name, website, keybase });
       setStatus('loaded');
     } catch (e) {

@@ -57,7 +57,6 @@ export const useGetAllLp = () => {
         arguments: []
       });
 
-      console.log('getAllLp response', response);
       setTokenPosition(response[0]);
       const expire = time.getTime() + 1000 * 15 * 1;
       localStorage.setItem('all_lp', JSON.stringify(response[0]));

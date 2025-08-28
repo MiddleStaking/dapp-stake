@@ -15,7 +15,7 @@ export const useGetUserNFT = (search: string) => {
     }
     try {
       const { data } = await axios.get<[]>(url, {
-        baseURL: network.apiAddress,
+        baseURL: local_network.apiAddress,
         params: {}
       });
       setNftBalance(data);

@@ -12,7 +12,7 @@ import {
   useGetNetworkConfig,
   useGetPendingTransactions
 } from 'lib';
-import { contractNftStake } from 'config';
+import { contractNftStake, local_network } from 'config';
 import json from 'staking-nft.abi.json';
 import { BigNumber } from 'bignumber.js';
 
@@ -20,7 +20,7 @@ export const useGetCollectionRewards = (stakedToken: string) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const entrypoint = new DevnetEntrypoint({
-    url: network.apiAddress
+    url: local_network.gatewayCached
   });
   const contractAddress = Address.newFromBech32(contractNftStake);
   const abi = Abi.create(json);
@@ -68,12 +68,12 @@ export const useGetCollectionRewards = (stakedToken: string) => {
         arguments: [new TokenIdentifierValue(stakedToken)]
       });
 
-      setStakedTokens(response);
+      setStakedTokens(response[0]);
       //storage of 1 minutes
       const expire = time.getTime() + 1000 * 60 * 1;
       localStorage.setItem(
         'collection_rewards_' + stakedToken,
-        JSON.stringify(response?.toString())
+        JSON.stringify(response[0].toString())
       );
       localStorage.setItem(
         'collection_rewards_' + stakedToken + '_expire',

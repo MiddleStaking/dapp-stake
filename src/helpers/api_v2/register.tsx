@@ -21,7 +21,6 @@ export const useGetRegister = () => {
 
         setRegister(data);
         if (data.message) setMessage(data.message);
-        console.log('get register : ', data);
       } catch (err) {
         console.error('Unable to call getRegister', err);
       }
@@ -47,11 +46,9 @@ export const usePostRegister = () => {
             Authorization: `Bearer ${tokenLogin.nativeAuthToken}`
           }
         };
-        console.log('conf', config);
 
         const { data } = await axios.post(mid_api_v2 + '/register', {}, config);
         setRegister(data);
-        console.log('post register : ', data);
       } catch (err) {
         console.error('Unable to call postRegister', err);
       }

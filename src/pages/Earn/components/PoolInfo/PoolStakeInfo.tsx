@@ -1,47 +1,48 @@
-import * as React from 'react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { defaultToken } from 'config';
-import { routeNames } from 'routes';
-import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
-import StakeModal from './../StakeModal';
-import UnstakeModal from './../UnstakeModal';
-import { ActionClaimRewards, ActionStakeRewards } from './../Actions';
-import { Button } from './../../../../components/Design';
-import { PoolSwapInfo } from './../PoolInfo/PoolSwapInfo';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
+// import * as React from 'react';
+// import { useState } from 'react';
+// import { Link } from 'react-router-dom';
+// import { defaultToken } from 'config';
+// import { routeNames } from 'routes';
+// import { FormatAmount } from '@multiversx/sdk-dapp/UI/FormatAmount';
+// import StakeModal from './../StakeModal';
+// import UnstakeModal from './../UnstakeModal';
+// import { ActionClaimRewards, ActionStakeRewards } from './../Actions';
+// import { Button } from './../../../../components/Design';
+// import { PoolSwapInfo } from './../PoolInfo/PoolSwapInfo';
+// import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
 
-export const PoolStakeInfo = ({
-  address,
-  stakedToken,
-  rewardedToken,
-  tokenPosition,
-  stakingPosition,
-  staked_esdt_info,
-  rewarded_esdt_info,
-  my_staked_value,
-  rest,
-  balance,
-  image1,
-  image2,
-  sdecimals,
-  rdecimals,
-  stakingPositionRewards,
-  my_rewards_value,
-  canBeStaked,
-  userEsdtBalance,
-  swapedTokens,
-  isDual,
-  firstPoolPosition,
-  secondPoolPosition
-}: any) => {
-  const [showStake, setShowStake] = useState(false);
-  const [showUnstake, setShowUnstake] = useState(false);
-  const { setHeaderMenu } = React.useContext(HeaderMenuContext);
+// export const PoolStakeInfo = ({
+//   address,
+//   stakedToken,
+//   rewardedToken,
+//   tokenPosition,
+//   stakingPosition,
+//   staked_esdt_info,
+//   rewarded_esdt_info,
+//   my_staked_value,
+//   rest,
+//   balance,
+//   image1,
+//   image2,
+//   sdecimals,
+//   rdecimals,
+//   stakingPositionRewards,
+//   my_rewards_value,
+//   canBeStaked,
+//   userEsdtBalance,
+//   swapedTokens,
+//   isDual,
+//   firstPoolPosition,
+//   secondPoolPosition
+// }: any) => {
+//   const [showStake, setShowStake] = useState(false);
+//   const [showUnstake, setShowUnstake] = useState(false);
+//   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
 
-  return (
-    <>
-      {/* <StakeModal
+//   return (
+//     <>
+{
+  /* <StakeModal
         userEsdtBalance={userEsdtBalance}
         rewardedToken={rewardedToken}
         stakedToken={stakedToken}
@@ -64,9 +65,11 @@ export const PoolStakeInfo = ({
           setHeaderMenu(true), setShowUnstake(false);
         }}
         show={showUnstake}
-      /> */}
+      /> */
+}
 
-      {/* {!address ? (
+{
+  /* {!address ? (
         <div className='my-stake-section3 '>
           <Link
             className='center'
@@ -583,8 +586,10 @@ export const PoolStakeInfo = ({
             />
           )}
         </div>
-      )} */}
-      {/* {canBeStaked && (
+      )} */
+}
+{
+  /* {canBeStaked && (
         <>
           {' '}
           <Link
@@ -595,7 +600,10 @@ export const PoolStakeInfo = ({
             Stake {rewardedToken}
           </Link>
         </>
-      )} */}
-    </>
+      )} */
+}
+{
+  /* </>
   );
-};
+}; */
+}

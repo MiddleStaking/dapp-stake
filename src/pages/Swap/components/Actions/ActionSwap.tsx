@@ -30,7 +30,6 @@ export const ActionSwap = ({
 }: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
-
   const transactions = useGetPendingTransactions();
   const hasPendingTransactions = transactions.length > 0;
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
@@ -38,15 +37,8 @@ export const ActionSwap = ({
     >(null);
   const contract_address = new Address(contractSwap).toHex();
 
-  let hexValue = swap_amount.toString(16); // Convert to hex
-  if (hexValue.length % 2 !== 0) {
-    hexValue = '0' + hexValue;
-  }
-
-  let hexValue2 = min_out.toString(16); // Convert to hex
-  if (hexValue2.length % 2 !== 0) {
-    hexValue2 = '0' + hexValue2;
-  }
+  let hexValue = bigToHex(swap_amount.toFixed(0)); // Convert to hex
+  let hexValue2 = bigToHex(min_out.toFixed(0)); // Convert to hex
 
   const sendStakeTransaction = async () => {
     const payload =

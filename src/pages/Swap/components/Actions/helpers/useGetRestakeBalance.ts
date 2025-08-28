@@ -40,16 +40,15 @@ export const useGetRestakeBalance = () => {
         const claimableRewards = new BigNumber(data[0].claimableRewards);
 
         if (claimableRewards.isGreaterThan(10 ** 18)) {
-          console.log('Restake available');
+          console.info('Restake available');
         } else {
-          console.log('No restake available');
           //storage of 60 minutes
           const expire = time.getTime() + 1000 * 60 * 60;
           localStorage.setItem('restake_', JSON.stringify(data[0]));
           localStorage.setItem('restake_expire', expire.toString());
         }
       } else {
-        console.log('No data available');
+        console.error('No data available');
       }
     } catch (err) {
       console.error('Unable to fetch restake');

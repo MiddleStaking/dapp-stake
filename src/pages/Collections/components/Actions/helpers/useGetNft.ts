@@ -30,7 +30,7 @@ export const useGetNft = (
     const url = '/nfts/' + identifier + '-' + noncetoHex;
     try {
       const { data } = await axios.get<any>(url, {
-        baseURL: network.apiAddress,
+        baseURL: local_network.apiAddress,
         params: {}
       });
       setNft({ media: data?.media });

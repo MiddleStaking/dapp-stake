@@ -20,13 +20,14 @@ export const Undelegate = () => {
   const { userActiveStake } = useGlobalContext();
   const { onUndelegate } = useStakeData();
   const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
 
   return (
     <div className={classNames(styles.wrapper, 'undelegate-wrapper')}>
       <Action
         title='Undelegate Now'
-        description={`Select the amount of ${network.egldLabel} you want to undelegate.`}
-        disabled={pending}
+        description={`Select the amount of ${local_network.egldLabel} you want to undelegate.`}
+        disabled={hasPendingTransactions}
         trigger={
           <div
             className={classNames(styles.trigger, {
@@ -77,7 +78,9 @@ export const Undelegate = () => {
                 return (
                   <form onSubmit={handleSubmit}>
                     <div className={styles.field}>
-                      <label htmlFor='amount'>{network.egldLabel} Amount</label>
+                      <label htmlFor='amount'>
+                        {local_network.egldLabel} Amount
+                      </label>
                       <div className={styles.group}>
                         <input
                           type='number'
@@ -102,7 +105,7 @@ export const Undelegate = () => {
                       <span className={styles.description}>
                         <span>Balance:</span>{' '}
                         {denominated(userActiveStake.data || '')}{' '}
-                        {network.egldLabel}
+                        {local_network.egldLabel}
                       </span>
 
                       {errors.amount && touched.amount && (

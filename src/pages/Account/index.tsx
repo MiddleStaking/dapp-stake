@@ -58,7 +58,7 @@ const Account = () => {
   //   setAddress(address === null ? '' : address);
   // }, [address]);
 
-  const explorer = network.explorerAddress + '/accounts/';
+  const explorer = local_network.explorerAddress + '/accounts/';
   React.useEffect(() => {
     const squares = document.querySelectorAll('.' + styles.square);
     squares.forEach((square) => {

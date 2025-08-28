@@ -461,9 +461,9 @@ const Accordion: FC<CardPoolrops> = ({
                         paddingAroundSvg={'1px 1px 1px 1px'}
                         userEsdtBalance={userEsdtBalance}
                         address={address}
-                        Vesting={Number(collectionReward?.vesting.toString())}
+                        Vesting={Number(collectionReward?.vesting?.toString())}
                         Unbounding={Number(
-                          collectionReward?.unbounding.toString()
+                          collectionReward?.unbounding?.toString()
                         )}
                         Speed={Number(collectionReward?.speed?.toString())}
                         Nonce={

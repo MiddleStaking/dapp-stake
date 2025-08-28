@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useGetAccountInfo, useGetPendingTransactions } from 'lib';
-import { useWindowDimensions } from 'components/DimensionScreen';
-import { HeaderMenuContext } from 'context/Header/HeaderMenuContext';
-import { useGetUserStakedNft } from 'pages/CollectionDetail/components/Actions/helpers/useGetUserStakedNft';
 import {
   useGetCollectionInformations,
   // useGetLocked,

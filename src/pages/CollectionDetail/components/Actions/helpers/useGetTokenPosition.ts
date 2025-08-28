@@ -94,8 +94,7 @@ export const useGetTokenPosition = (stakedToken: any, rewardedToken: any) => {
         ]
       });
 
-      console.log('response', response);
-      const tab = response;
+      const tab = response[0];
 
       if (tab) {
         setTokenPosition({

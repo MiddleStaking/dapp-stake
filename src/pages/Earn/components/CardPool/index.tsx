@@ -276,23 +276,11 @@ const CardPool: FC<CardPoolrops> = ({
         : 1
     );
 
-    // console.log(
-    //   'here the bug : ',
-    //   rewarded_esdt_info.identifier,
-    //   rewarded_esdt_info.price
-    // );
-    // const price_fixed2 = BigInt(
-    //   rewarded_esdt_info.price > 0
-    //     ? (rewarded_esdt_info.price * 10 ** 18).toFixed()
-    //     : 1
-    // );
     const price_fixed2 = BigInt(
       rewarded_esdt_info.price > 0
         ? BigInt(Math.floor(rewarded_esdt_info.price * 10 ** 18)).toString()
         : '1'
     );
-
-    // console.log('price_fixed2 : ', price_fixed2);
 
     const initial_value = BigInt(
       price_fixed1 > 0 && BigInt(token_position.total_stake.toFixed())

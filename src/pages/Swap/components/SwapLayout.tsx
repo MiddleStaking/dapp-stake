@@ -59,7 +59,6 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
   const min_restake = new BigNumber(1 * 10 ** 18);
   const min_claim_stake = new BigNumber(1 * 10 ** 17);
 
-  // console.log('restake_balance', restake_balance);
   let out_amount = new BigNumber(0);
   let out_fees = new BigNumber(0);
   let price_impact = 0;
@@ -293,13 +292,11 @@ export const SwapLayout: FC<SwapLayoutProps> = ({
     const first_k_pool = new BigNumber(
       firstPoolPosition.first_token_amount.toString()
     ).multipliedBy(firstPoolPosition.second_token_amount.toString());
-    // console.log('first_k_pool', first_k_pool.toFixed());
 
     //MID USDC
     const second_k_pool = new BigNumber(
       secondPoolPosition.first_token_amount.toString()
     ).multipliedBy(secondPoolPosition.second_token_amount.toString());
-    // console.log('second_k_pool', second_k_pool.toFixed());
 
     //LP_FEE 1
     const first_in_fees = new BigNumber(swap_amount)

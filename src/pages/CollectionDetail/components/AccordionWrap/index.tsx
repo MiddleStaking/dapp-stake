@@ -56,7 +56,6 @@ const AccordionWrap: FC<CardPoolrops> = ({
       (value: string, index: number, self: string[]) =>
         self.indexOf(value) === index
     );
-  // console.log(user_pools);
   return (
     <div className='AccordeonsCards' key={uniqueKey}>
       <div className='backgroundAccordeonsCards'>

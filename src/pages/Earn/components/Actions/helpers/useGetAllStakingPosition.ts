@@ -56,11 +56,10 @@ export const useGetAllStakingPosition = (stakedToken: any) => {
         ]
       });
 
-      setTokenPosition(response);
+      setTokenPosition(response[0]);
 
       //const expire = time.getTime() + 1000 * 60 * 1;
 
-      // console.log(renderJson(position?.valueOf()));
       // localStorage.setItem(
       //   'all_token_position_' + stakedToken,
       //   renderJson(position?.valueOf())

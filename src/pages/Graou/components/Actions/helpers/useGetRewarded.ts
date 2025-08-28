@@ -24,7 +24,6 @@ export const useGetRewarded = () => {
     }
     const txs = successtransactions.length - 1;
     const last_nonce = successtransactions?.[txs]?.nonce;
-    // console.log('last_nonce', last_nonce, hash);
 
     if (last_nonce <= last) {
       return;
@@ -53,13 +52,7 @@ export const useGetRewarded = () => {
         const filteredOperations = data.operations.filter(
           (operation: any) => operation?.collection == vouchersCollection
         );
-        // console.log(
-        //   'filtered',
-        //   data.operations,
-        //   filteredOperations,
-        //   vouchersCollection,
-        //   filteredOperations[0]?.identifier
-        // );
+
         setMinted(
           filteredOperations[0]?.identifier
             ? filteredOperations[0]?.identifier

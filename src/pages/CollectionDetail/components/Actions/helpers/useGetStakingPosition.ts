@@ -48,7 +48,7 @@ export const useGetStakingPosition = (stakedToken: any, rewardedToken: any) => {
         ]
       });
 
-      const tab = response;
+      const tab = response[0];
 
       if (tab) {
         setStakingPosition({

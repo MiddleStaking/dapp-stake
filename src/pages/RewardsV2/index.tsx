@@ -63,33 +63,11 @@ const Rewards2 = () => {
         sum: data.sum
       });
 
-      // console.log('data.rewards');
-
       // setTab(data.rewards);
-
-      // console.log(data.points);
-
-      // data.points.map((item: string, index: number) =>
-      //   tab.find((element: any) => element !== item.substr(0, 4))
-      //     ? tab.push(item.substr(0, 4))
-      //     : console.log(item)
-      // );
     };
 
     fetchRewardsList();
   }, [setYRewards]);
-
-  // console.log('tab');
-  // console.log(tab !== null || undefined ? tab : '2021');
-
-  // console.log(
-  //   points.points.map((item: string, index: number) =>
-  //     (tab !== null || undefined ? tab[0].year.toString() : '2021') ===
-  //     item.substr(0, 4).toString()
-  //       ? points.points[index]
-  //       : 'non'
-  //   )
-  // );
 
   return (
     <div className={'mx-auto ' + styles.dashboard}>

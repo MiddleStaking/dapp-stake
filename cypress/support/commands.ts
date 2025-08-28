@@ -48,7 +48,6 @@ Cypress.Commands.add('apiIntercept', (method, param) => {
 Cypress.on('uncaught:exception', () => {
   // Do nothing or handle the exception as per your requirements
   // You can remove the comment and add your custom handling logic here
-  // console.log('An uncaught exception occurred but will be ignored');
   return false; // Prevent Cypress from failing the test
 });
 Cypress.Commands.add('checkWidgetMsg', (msgArr) => {

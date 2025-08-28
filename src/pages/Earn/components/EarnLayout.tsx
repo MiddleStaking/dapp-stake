@@ -39,7 +39,6 @@ export const EarnLayout = () => {
         );
         const data = await response.json();
         if (data && data.length > 0) {
-          console.log('last block nonce:', data[0].nonce);
           setBlockNonce(new BigNumber(data[0].nonce));
         }
       } catch (error) {

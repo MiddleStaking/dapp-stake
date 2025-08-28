@@ -39,7 +39,7 @@ export const useGetIsPaused = () => {
         arguments: []
       });
 
-      setIsPaused(response);
+      setIsPaused(response[0]);
     } catch (err) {
       console.error('Unable to call getIsPaused', err);
     }

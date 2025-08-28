@@ -58,10 +58,10 @@ export const useGetUserRewards = (address: string, collection: string) => {
         ]
       });
 
-      setStakedTokensNft(response);
+      setStakedTokensNft(response[0]);
       //storage of 10 secondes
       const expire = time.getTime() + 1000 * 10 * 1;
-      localStorage.setItem('user_rewards_nft', JSON.stringify(response));
+      localStorage.setItem('user_rewards_nft', JSON.stringify(response[0]));
       localStorage.setItem('user_rewards_nft_expire', expire.toString());
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);

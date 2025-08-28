@@ -54,7 +54,6 @@ export const useGetStakedTokens = () => {
       //   func: 'getStakedTokens',
       //   arguments: []
       // });
-      console.log('response getStakedTokens', response);
       setStakedTokens(response);
       //storage of 15 minutes
       const expire = time.getTime() + 1000 * 60 * 15;

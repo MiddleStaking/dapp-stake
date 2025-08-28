@@ -31,7 +31,6 @@ export const CollectionsLayout = () => {
     url ? url : ''
   );
 
-  // console.log(getCollectionInformations);
   const { width } = useWindowDimensions();
 
   return (

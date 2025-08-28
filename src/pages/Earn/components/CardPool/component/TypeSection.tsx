@@ -401,13 +401,13 @@ const TypeSection: FC<TypeSectionProps> = ({
         <SwowHideDetails
           rewarded_esdt_info={rewarded_esdt_info}
           staked_esdt_info={staked_esdt_info}
-          rewards_amount={rewards_amount}
+          rewards_amount={new BigNumber(rewards_amount)}
           rewards_value={new BigNumber(rewards_value)}
           speed={speed.toString()}
           staked_amount={
             token_position?.total_stake
-              ? token_position?.total_stake?.toFixed()
-              : 0
+              ? token_position?.total_stake
+              : new BigNumber(0)
           }
           staked_value={new BigNumber(staked_value)}
           users={users ? users : new BigNumber(0)}

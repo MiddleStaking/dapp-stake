@@ -334,9 +334,10 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
           }}
         >
           {(() => {
-            const filteredOptions = options.filter(
-              (option) =>
-                option?.text?.toLowerCase().includes(searchValue?.toLowerCase())
+            const filteredOptions = options.filter((option) =>
+              String(option?.text ?? '')
+                .toLowerCase()
+                .includes((searchValue ?? '').toLowerCase())
             );
 
             if (filteredOptions.length === 0) {

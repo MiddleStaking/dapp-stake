@@ -51,7 +51,7 @@ export const useGetUserCredits = (address: string) => {
       });
 
       // Assuming response is an array and the credit value is at index 0
-      const creditValue = BigInt(response?.[0]?.valueOf?.() ?? 0);
+      const creditValue = BigInt(response?.[0]);
       setUserCredits(creditValue);
       //storage of 3 secondes
       // const expire = time.getTime() + 1000 * 3;

@@ -10,7 +10,7 @@ interface TypeSectionProps {
   rewards_amount: BigNumber;
   rewards_value: BigNumber;
   speed?: string;
-  staked_amount?: string;
+  staked_amount?: BigNumber;
   staked_value: BigNumber;
   users?: BigNumber;
   rewarded_esdt_info: any;
@@ -23,7 +23,7 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
   rewards_amount,
   rewards_value = new BigNumber(0),
   speed,
-  staked_amount,
+  staked_amount = new BigNumber(0),
   staked_value = new BigNumber(0),
   users,
   staked_esdt_info,
@@ -120,7 +120,14 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
             <div>Staked</div>
 
             <div style={detailsRowResult}>
-              <FormatAmount value={staked_amount} data-testid='staked' />
+              {Number(
+                staked_amount
+                  .dividedBy(10 ** staked_esdt_info?.decimals)
+                  .toFixed()
+              ).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              })}
             </div>
           </div>
         )}
@@ -128,7 +135,14 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
           <div style={detailsRow}>
             <div>Staked value</div>
 
-            <div style={detailsRowResult}>{staked_value.toFixed(2)} $</div>
+            <div style={detailsRowResult}>
+              {' '}
+              {Number(staked_value.toFixed()).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              })}{' '}
+              $
+            </div>
           </div>
         )}
         {users && (
@@ -136,10 +150,10 @@ const SwowHideDetails: FC<TypeSectionProps> = ({
             <div>Users</div>
 
             <div style={detailsRowResult}>
-              <FormatAmount
-                value={users.multipliedBy(10 ** 18).toString()}
-                data-testid='staked'
-              />
+              {Number(users.toFixed()).toLocaleString(undefined, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              })}
             </div>
           </div>
         )}

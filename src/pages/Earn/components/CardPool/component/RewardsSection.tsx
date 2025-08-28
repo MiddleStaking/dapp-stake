@@ -113,10 +113,14 @@ const RewardsSection: FC<RewardsSectionProps> = ({
               }}
             >
               <div>
-                <FormatAmount
-                  value={stakingPositionRewards.toString()}
-                  data-testid='balance'
-                />
+                {Number(
+                  new BigNumber(stakingPositionRewards)
+                    .dividedBy(10 ** rdecimals)
+                    .toFixed(2)
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })}
               </div>
               {rewarded_esdt_info?.price && (
                 <div
@@ -136,7 +140,8 @@ const RewardsSection: FC<RewardsSectionProps> = ({
                     }}
                   >
                     ${' '}
-                    {my_rewards_value.toLocaleString('en-US', {
+                    {my_rewards_value.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
                       maximumFractionDigits: 2
                     })}
                   </div>

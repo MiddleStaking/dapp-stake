@@ -62,11 +62,11 @@ export const useGetUserStakedNft = (address: string) => {
         function: 'getUserNfts',
         arguments: [new AddressValue(new Address(address))]
       });
+      setStakedTokensNft(response[0]);
 
-      setStakedTokensNft(response);
       //storage of 3 secondes
       const expire = time.getTime() + 1000 * 3;
-      localStorage.setItem('useGetUserStakedNft', JSON.stringify(response));
+      localStorage.setItem('useGetUserStakedNft', JSON.stringify(response[0]));
       localStorage.setItem('useGetUserStakedexpire', expire.toString());
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);

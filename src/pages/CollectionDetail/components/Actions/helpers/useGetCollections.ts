@@ -50,11 +50,11 @@ export const useGetCollections = () => {
         arguments: [new ContractFunction('getStakedNfts')]
       });
 
-      setStakedTokens(response);
+      setStakedTokens(response[0]);
       //storage of 15 minutes
       const expire = time.getTime() + 1000 * 60 * 15;
       //const expire = time.getTime() + 1000 * 60 * 15;
-      localStorage.setItem('staked_collections', response.toString());
+      localStorage.setItem('staked_collections', response[0].toString());
       localStorage.setItem('staked_collections_expire', expire.toString());
     } catch (err) {
       console.error('Unable to call getStakedCollections', err);

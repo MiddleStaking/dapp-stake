@@ -27,7 +27,6 @@ export const ActionClaimPools = ({
   const transactions = useGetPendingTransactions();
   const hasPendingTransactions = transactions.length > 0;
 
-  // console.log(user_pools);
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
@@ -51,7 +50,6 @@ export const ActionClaimPools = ({
         })
       );
     }
-    // console.log(claimTransaction);
 
     // const claimTransaction = {
     //   value: 0,

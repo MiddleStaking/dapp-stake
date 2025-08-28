@@ -109,7 +109,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   // const elaspesed_blocks =
   //   currentBlockNonce - staking_position.last_action_block;
   // const blocks_left = token_position.blocks_to_max - elaspesed_blocks;
-  // console.log('blocks_left', blocks_left.toString());
 
   // {staking_position.last_action_block.toFixed()}
   // <br />
@@ -309,12 +308,14 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     }}
                   >
                     <div className='_18-853-74'>
-                      <FormatAmount
-                        value={BigNumber(
-                          staking_position?.stake_amount
-                        ).toFixed()}
-                        data-testid='staked'
-                      />
+                      {Number(
+                        new BigNumber(staking_position?.stake_amount)
+                          .dividedBy(10 ** 18)
+                          .toFixed(2)
+                      ).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      })}
                     </div>
 
                     {my_staked_value > 0 && (
@@ -336,7 +337,8 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                         >
                           ${' '}
                           <>
-                            {my_staked_value.toLocaleString('en-US', {
+                            {my_staked_value.toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
                               maximumFractionDigits: 2
                             })}{' '}
                           </>
@@ -345,7 +347,13 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     )}
                   </div>
 
-                  <div>{rest} %</div>
+                  <div>
+                    {rest.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })}{' '}
+                    %
+                  </div>
                 </div>
               </div>
               <div

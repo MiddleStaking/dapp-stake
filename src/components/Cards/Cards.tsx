@@ -13,9 +13,16 @@ import {
   ContractFunction,
   Address,
   Query,
-  decodeString
+  decodeString,
+  DevnetEntrypoint,
+  Abi
 } from '@multiversx/sdk-core';
-import { useGetPendingTransactions } from 'lib';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions,
+  useGetSuccessfulTransactions
+} from 'lib';
 import {
   ApiNetworkProvider,
   ProxyNetworkProvider
@@ -65,6 +72,24 @@ export const Cards = () => {
   const hasPendingTransactions = pending.length > 0;
   const dispatch = useDispatch();
   const location = useLocation();
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: local_network.gatewayCached
+  });
+  const contractAddress = Address.newFromBech32(
+    local_network.delegationContract
+  );
+  const abi = Abi.create({
+    endpoints: [
+      {
+        name: 'getNumUsers',
+        inputs: [],
+        outputs: [{ name: 'usersNumber', type: 'BigUint' }]
+      }
+    ]
+  });
+  const controller = entrypoint.createSmartContractController(abi);
 
   const getNetworkStatus = async (): Promise<void> => {
     dispatch({
@@ -78,8 +103,10 @@ export const Cards = () => {
 
     try {
       const [status, balance] = await Promise.all([
-        new ProxyNetworkProvider(network.gatewayAddress).getNetworkStatus(),
-        axios.get(`${network.apiAddress}/accounts/${auctionContract}`)
+        new ProxyNetworkProvider(
+          local_network.gatewayAddress
+        ).getNetworkStatus(),
+        axios.get(`${local_network.apiAddress}/accounts/${auctionContract}`)
       ]);
 
       dispatch({
@@ -116,24 +143,31 @@ export const Cards = () => {
     });
 
     try {
-      const provider = new ProxyNetworkProvider(local_network.gatewayAddress);
-      const query = new Query({
-        address: new Address(local_network.delegationContract),
-        func: new ContractFunction('getNumUsers')
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getNumUsers',
+        arguments: []
       });
+
+      // const provider = new ProxyNetworkProvider(local_network.gatewayAddress);
+      // const query = new Query({
+      //   address: new Address(local_network.delegationContract),
+      //   func: new ContractFunction('getNumUsers')
+      // });
 
       // const data = await provider.queryContract(query);
       // const [userNumber] = data.getReturnDataParts();
 
-      // dispatch({
-      //   type: 'getUsersNumber',
-      //   usersNumber: {
-      //     status: 'loaded',
-      //     data: decodeUnsignedNumber(userNumber).toString(),
-      //     error: null
-      //   }
-      // });
+      dispatch({
+        type: 'getUsersNumber',
+        usersNumber: {
+          status: 'loaded',
+          data: response[0].toFixed(),
+          error: null
+        }
+      });
     } catch (error) {
+      console.error('getUsersNumber error', error);
       dispatch({
         type: 'getUsersNumber',
         usersNumber: {
@@ -200,7 +234,7 @@ export const Cards = () => {
     };
 
     return {
-      value: `${formatted.nodes} ${network.egldLabel}`,
+      value: `${formatted.nodes} ${local_network.egldLabel}`,
       percentage: `${getPercentage(
         formatted.nodes,
         formatted.stake
@@ -209,10 +243,13 @@ export const Cards = () => {
   }, [totalNetworkStake, totalActiveStake.data]);
 
   const getNodesNumber = useCallback(() => {
-    if (!totalNetworkStake.data || !nodesNumber.data) {
+    const total = Number(totalNetworkStake?.data?.TotalValidators ?? 0);
+    const nodesData = nodesNumber?.data;
+
+    if (!total || !nodesData) {
       const loading =
-        totalNetworkStake.status === 'loading' ||
-        nodesNumber.status === 'loading';
+        totalNetworkStake?.status === 'loading' ||
+        nodesNumber?.status === 'loading';
 
       return {
         value: loading ? '...' : 'Nodes Unknown',
@@ -220,20 +257,43 @@ export const Cards = () => {
       };
     }
 
-    const formatted = {
-      stake: totalNetworkStake.data.TotalValidators.toString(),
-      nodes: nodesNumber.data
-        .filter((key: any) => decodeString(key) === 'staked')
-        .length.toString()
-    };
+    // Compte les noeuds stakés quelque soit la forme reçue
+    const countStaked = (() => {
+      // Cas 1: données déjà normalisées: [{ isStaked }, ...] ou [{ status: 'staked' }, ...]
+      // if (
+      //   Array.isArray(nodesData) &&
+      //   nodesData.length &&
+      //   typeof nodesData[0] === 'object' &&
+      //   nodesData[0] !== null
+      // ) {
+      //   return nodesData.reduce((acc: number, item: any) => {
+      //     if (typeof item.isStaked === 'boolean')
+      //       return acc + (item.isStaked ? 1 : 0);
+      //     if (typeof item.status === 'string')
+      //       return acc + (item.status === 'staked' ? 1 : 0);
+      //     return acc;
+      //   }, 0);
+      // }
 
-    return {
-      value: formatted.nodes,
-      percentage: `${getPercentage(
-        formatted.nodes,
-        formatted.stake
-      )}% of total nodes`
-    };
+      // Cas 2: flux brut Buffer[]: [bls, status, bls, status, ...]
+      if (Array.isArray(nodesData)) {
+        let cnt = 0;
+        for (let i = 0; i + 1 < nodesData.length; i += 2) {
+          const statusBuf = nodesData[i + 1];
+          const status = decodeString(Buffer.from(statusBuf));
+          if (status === 'staked') cnt++;
+        }
+        return cnt;
+      }
+
+      return 0;
+    })();
+
+    const value = String(countStaked);
+    const percentageNum = total > 0 ? (countStaked / total) * 100 : 0;
+    const percentage = `${percentageNum.toFixed(1)}% of total nodes`;
+
+    return { value, percentage };
   }, [totalNetworkStake, nodesNumber]);
 
   const getDelegationCap = useCallback(() => {
