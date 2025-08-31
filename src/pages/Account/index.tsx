@@ -143,7 +143,7 @@ const Account = () => {
                     </p>
                   </div>
                 </div> */}
-                <div>
+                {/* <div>
                   <div
                     className={styles.square}
                     onClick={() => handleNavigate(routeNames.tokenomics)}
@@ -158,8 +158,8 @@ const Account = () => {
                       </p>
                     </div>
                   </div>
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                   <div
                     className={styles.square}
                     onClick={() => handleNavigate(routeNames.rewards)}
@@ -174,7 +174,7 @@ const Account = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {local_network.id === 'devnet' && (
                   <div>
                     <div

@@ -204,7 +204,6 @@ const useStakeData = () => {
   const fetchClaimableRewards = () => {
     if (!userClaimableRewards.data) {
       getUserClaimableRewards();
-      console.log('fetchClaimableRewards');
     }
   };
 
@@ -212,7 +211,6 @@ const useStakeData = () => {
     if (check) {
       getUserClaimableRewards();
       setCheck(false);
-      console.log('reFetchClaimableRewards');
     }
   };
 
@@ -225,7 +223,6 @@ const useStakeData = () => {
   useEffect(() => {
     if (prevHasPending.current && !hasPendingTransactions) {
       setCheck(true);
-      console.log('setCheck true');
 
       // return () => {
       //   setCheck(false);

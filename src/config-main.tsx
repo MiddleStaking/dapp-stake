@@ -1,4 +1,6 @@
 // MAINNET:
+import { EnvironmentsEnum } from './lib';
+export const environment = EnvironmentsEnum.mainnet;
 
 export const mid_api_v2 = 'https://api.middlestaking.com';
 

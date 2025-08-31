@@ -182,8 +182,7 @@ const useGlobalData = () => {
           //     automaticActivation:
           //       decodeString(activationStatus) === 'true' ? 'ON' : 'OFF'
           //   };
-          console.log('getContractConfig decoded');
-          console.log('redelegationCap', redelegationCap);
+
           return {
             automaticActivation: 'string',
             redelegationCap: 'zzreez',
@@ -211,7 +210,6 @@ const useGlobalData = () => {
               new AddressValue(new Address(local_network.delegationContract))
             ]
           });
-          console.log('getBlsKeysStatus', response[0]);
 
           //   const query = new Query({
           //     address: new Address(auctionContract),
@@ -240,7 +238,6 @@ const useGlobalData = () => {
             function: 'getAllNodeStates',
             arguments: []
           });
-          console.log('getAllNodeStates', response);
 
           //   const query = new Query({
           //     address: new Address(local_network.delegationContract),
@@ -266,7 +263,6 @@ const useGlobalData = () => {
             arguments: []
           });
 
-          console.log('getTotalActiveStake', response);
           //   const query = new Query({
           //     address: new Address(local_network.delegationContract),
           //     func: new ContractFunction('getTotalActiveStake')
@@ -291,7 +287,6 @@ const useGlobalData = () => {
             arguments: [new AddressValue(new Address(address))]
           });
 
-          console.log('getUserActiveStake', response);
           const userStake = new BigNumber(response[0]);
 
           if (!userStake) {

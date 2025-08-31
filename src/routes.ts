@@ -13,10 +13,10 @@ import {
   Statistics,
   Earn,
   Swap,
-  // Liquidity,
+  Liquidity,
   Collections,
   CollectionDetail,
-  // Graou,
+  Graou,
   Delegate,
   Unlock
 } from './pages';
@@ -37,7 +37,7 @@ export const routeNames = {
   rewards2: '/rewards2',
   liquidity: '/liquidity',
   collections: '/collections',
-  // graou: '/graou',
+  graou: '/graou',
   admin: '/admin'
 };
 
@@ -101,18 +101,18 @@ export const routes: RouteWithTitleType[] = [
     component: Collections,
     authenticatedRoute: false
   },
-  // {
-  //   path: routeNames.graou,
-  //   title: '#graou',
-  //   component: Graou,
-  //   authenticatedRoute: false
-  // },
-  // {
-  //   path: routeNames.liquidity,
-  //   title: 'Liquidity',
-  //   component: Liquidity,
-  //   authenticatedRoute: false
-  // },
+  {
+    path: routeNames.graou,
+    title: '#graou',
+    component: Graou,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.liquidity,
+    title: 'Liquidity',
+    component: Liquidity,
+    authenticatedRoute: false
+  },
   {
     path: routeNames.swap,
     title: 'Swap',

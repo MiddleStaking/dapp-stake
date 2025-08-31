@@ -18,8 +18,8 @@ export const useGetNft = (
       return;
     }
     if (time.getTime() < storage?.expire) {
-      // const load: any = localStorage.getItem(identifier + '-' + noncetoHex);
-      // const storage = JSON.parse(load);
+      const load: any = localStorage.getItem(identifier + '-' + noncetoHex);
+      const storage = JSON.parse(load);
       setNft(storage);
       return;
     }

@@ -68,12 +68,15 @@ export const useGetCollectionRewards = (stakedToken: string) => {
         arguments: [new TokenIdentifierValue(stakedToken)]
       });
 
+      if (!response || response.length == 0) {
+        return;
+      }
       setStakedTokens(response[0]);
-      //storage of 1 minutes
-      const expire = time.getTime() + 1000 * 60 * 1;
+      //storage of 10 minutes
+      const expire = time.getTime() + 1000 * 60 * 10;
       localStorage.setItem(
         'collection_rewards_' + stakedToken,
-        JSON.stringify(response[0].toString())
+        JSON.stringify(response[0])
       );
       localStorage.setItem(
         'collection_rewards_' + stakedToken + '_expire',

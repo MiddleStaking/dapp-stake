@@ -12,7 +12,7 @@ import {
   useGetNetworkConfig,
   useGetPendingTransactions
 } from 'lib';
-import { contractStake } from 'config';
+import { contractStake, local_network } from 'config';
 import json from 'staking-contract.abi.json';
 import { BigNumber } from 'bignumber.js';
 
@@ -20,7 +20,7 @@ export const useGetIsPaused = () => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccount();
   const entrypoint = new DevnetEntrypoint({
-    url: network.apiAddress
+    url: local_network.gatewayCached
   });
   const contractAddress = Address.newFromBech32(contractStake);
   const abi = Abi.create(json);

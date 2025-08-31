@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useGetPendingTransactions } from 'lib';
 import { FormatAmount } from 'lib';
 import { defaultToken } from 'config';
-import { useGetESDTInformations } from './Actions/helpers';
+import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import LiquidModal from './LiquidModal';
 import AddSingleTokenModal from './AddSingleTokenModal';
 
@@ -28,47 +28,51 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
   const first_esdt_info = useGetESDTInformations(defaultToken);
   const second_esdt_info = useGetESDTInformations(lp.swaped_token);
 
-  const first_price = first_esdt_info.price
-    ? BigInt((first_esdt_info.price * 1000000).toFixed())
-    : BigInt(1000000);
-  const first_value = BigInt(
-    (BigInt(BigNumber(lp.first_token_amount).toFixed()) * BigInt(first_price)) /
-      BigInt(1000000)
-  );
+  const first_price = first_esdt_info?.price
+    ? BigNumber(first_esdt_info.price).multipliedBy(1000000).toFixed(0)
+    : '1000000';
+  const first_value = new BigNumber(lp.first_token_amount)
+    .multipliedBy(first_price)
+    .dividedBy(1000000);
 
-  const second_price = second_esdt_info.price
-    ? BigInt((second_esdt_info.price * 1000000).toFixed())
-    : BigInt(1000000);
-  const second_value = BigInt(
-    (BigInt(BigNumber(lp.second_token_amount).toFixed()) *
-      BigInt(second_price)) /
-      BigInt(1000000)
-  );
+  const second_price = second_esdt_info?.price
+    ? BigNumber(second_esdt_info?.price)
+        .multipliedBy(1000000)
+        .toFixed(0)
+    : '1000000';
+  const second_value = new BigNumber(lp?.second_token_amount)
+    .multipliedBy(second_price)
+    .dividedBy(1000000);
 
-  const ecart =
-    (first_value /
-      BigInt(
-        Math.pow(10, first_esdt_info.decimals ? first_esdt_info.decimals : 0)
-      ) -
-      second_value /
-        BigInt(
-          Math.pow(
-            10,
-            second_esdt_info.decimals ? second_esdt_info.decimals : 0
-          )
-        )) /
-    BigInt(2);
+  const ecart = BigNumber(first_value.toString())
+    .div(
+      BigNumber(10).pow(
+        first_esdt_info?.decimals ? first_esdt_info.decimals : 0
+      )
+    )
+    .minus(
+      BigNumber(second_value.toString()).div(
+        BigNumber(10).pow(
+          second_esdt_info?.decimals ? second_esdt_info.decimals : 0
+        )
+      )
+    )
+    .div(2);
 
-  const ecart2 =
-    (second_value /
-      BigInt(
-        Math.pow(10, second_esdt_info.decimals ? second_esdt_info.decimals : 0)
-      ) -
-      first_value /
-        BigInt(
-          Math.pow(10, first_esdt_info.decimals ? first_esdt_info.decimals : 0)
-        )) /
-    BigInt(2);
+  const ecart2 = BigNumber(second_value.toString())
+    .div(
+      BigNumber(10).pow(
+        second_esdt_info?.decimals ? second_esdt_info.decimals : 0
+      )
+    )
+    .minus(
+      BigNumber(first_value.toString()).div(
+        BigNumber(10).pow(
+          first_esdt_info?.decimals ? first_esdt_info.decimals : 0
+        )
+      )
+    )
+    .div(2);
 
   return (
     <div className='text-white table-row'>
@@ -110,10 +114,14 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
       <div className='table-cell'>${lp.swaped_token.split('-')[0]} </div>
 
       <div className='table-cell'>
-        <FormatAmount
-          value={BigNumber(lp.first_token_amount).toFixed()}
-          data-testid='balance'
-        />
+        {Number(
+          new BigNumber(lp?.first_token_amount)
+            .dividedBy(10 ** first_esdt_info?.decimals)
+            .toFixed()
+        ).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}{' '}
         <span
           onClick={() => {
             setShowFirst(true);
@@ -123,10 +131,14 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
         </span>
       </div>
       <div className='table-cell'>
-        <FormatAmount
-          value={BigNumber(lp.second_token_amount).toFixed()}
-          data-testid='balance'
-        />{' '}
+        {Number(
+          new BigNumber(lp.second_token_amount)
+            .dividedBy(10 ** second_esdt_info?.decimals)
+            .toFixed()
+        ).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}{' '}
         <span
           onClick={() => {
             setShowSecond(true);
@@ -137,28 +149,49 @@ export const LiquidInfo = ({ userEsdtBalance, lp }: any) => {
       </div>
 
       <div className='table-cell'>
-        <FormatAmount value={first_value.toString()} data-testid='balance' />
+        {Number(
+          first_value.dividedBy(10 ** first_esdt_info?.decimals).toString()
+        ).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}{' '}
       </div>
 
       <div className='table-cell'>
         {second_esdt_info.price && (
-          <FormatAmount value={second_value.toString()} data-testid='balance' />
+          <>
+            {' '}
+            {Number(
+              second_value
+                .dividedBy(10 ** second_esdt_info?.decimals)
+                .toString()
+            ).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })}{' '}
+          </>
         )}
       </div>
 
       <div className='table-cell'>
         {second_esdt_info.price && (
           <>
-            {ecart > 0 && (
+            {ecart.isGreaterThan(0) && (
               <>
                 {'+ '}
-                <FormatAmount value={ecart.toString()} data-testid='balance' />
+                {Number(ecart.toFixed(0)).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })}
               </>
             )}
-            {ecart2 > 0 && (
+            {ecart2.isGreaterThan(0) && (
               <>
                 {'- '}
-                <FormatAmount value={ecart2.toString()} data-testid='balance' />
+                {Number(ecart2.toFixed(0)).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })}{' '}
               </>
             )}
           </>

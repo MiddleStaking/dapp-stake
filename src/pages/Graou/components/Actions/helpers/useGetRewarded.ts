@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useGetPendingTransactions, useGetSuccessfulTransactions } from 'lib';
 import axios from 'axios';
-import { network, sftCollection, vouchersCollection } from 'config';
+import { local_network, sftCollection, vouchersCollection } from 'config';
 
 export const useGetRewarded = () => {
   const [hash, setHash] = useState<any>('');
@@ -44,7 +44,7 @@ export const useGetRewarded = () => {
     const url = '/transactions/' + hash;
     try {
       const { data } = await axios.get<any>(url, {
-        baseURL: network.apiAddress,
+        baseURL: local_network.apiAddress,
         params: {}
       });
 
@@ -78,7 +78,7 @@ export const useGetRewarded = () => {
     const url = '/nfts/' + minted;
     try {
       const { data } = await axios.get<any>(url, {
-        baseURL: network.apiAddress,
+        baseURL: local_network.apiAddress,
         params: {}
       });
 

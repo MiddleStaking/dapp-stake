@@ -65,23 +65,23 @@ export const useGetPoolPosition = (
     // });
 
     //Do not refresh if modal is closed using storage
-    // if (showStake == false) {
-    //   const expire_test = Number(
-    //     localStorage.getItem(
-    //       'pool_position_' + stakedToken + '_' + rewardedToken + '_expire'
-    //     )
-    //   );
-    //   const load: any = localStorage.getItem(
-    //     'pool_position_' + stakedToken + '_' + rewardedToken
-    //   );
-    //   const storage = JSON.parse(load);
-    //   if (storage) {
-    //     setTokenPosition(storage);
-    //   }
-    //   if (time.getTime() < expire_test) {
-    //     return;
-    //   }
-    // }
+    if (showStake == false) {
+      const expire_test = Number(
+        localStorage.getItem(
+          'pool_position_' + stakedToken + '_' + rewardedToken + '_expire'
+        )
+      );
+      const load: any = localStorage.getItem(
+        'pool_position_' + stakedToken + '_' + rewardedToken
+      );
+      const storage = JSON.parse(load);
+      if (storage) {
+        setTokenPosition(storage);
+      }
+      if (time.getTime() < expire_test) {
+        return;
+      }
+    }
 
     try {
       const response = await controller.query({

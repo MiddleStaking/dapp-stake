@@ -6,7 +6,7 @@ import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
 import toBigAmount from 'helpers/toBigAmount';
 import notFound from './../../../assets/img/notfoundc.svg';
-import { Button } from './../../../components/Design';
+import { Button } from '../../../components/Design';
 import { ActionLiquidRemove } from './Actions';
 import BigNumber from 'bignumber.js';
 

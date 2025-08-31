@@ -1,16 +1,16 @@
 import './styles/globals.css';
 
-import { walletConnectV2ProjectId } from 'config';
+import { environment, walletConnectV2ProjectId } from 'config';
 import { EnvironmentsEnum, ICustomProvider, InitAppType } from './lib';
 import { InMemoryProvider } from './provider/inMemoryProvider';
 
 const providers: ICustomProvider[] = [
-  {
-    name: 'In Memory Provider',
-    type: 'inMemoryProvider',
-    iconUrl: `${window.location.origin}/multiversx-white.svg`,
-    constructor: async (options) => new InMemoryProvider(options)
-  }
+  // {
+  //   name: 'In Memory Provider',
+  //   type: 'inMemoryProvider',
+  //   iconUrl: `${window.location.origin}/multiversx-white.svg`,
+  //   constructor: async (options) => new InMemoryProvider(options)
+  // }
 ];
 
 (window as any).multiversx = {};
@@ -21,7 +21,7 @@ export const config: InitAppType = {
   storage: { getStorageCallback: () => sessionStorage },
   dAppConfig: {
     nativeAuth: true,
-    environment: EnvironmentsEnum.mainnet,
+    environment: environment,
     providers: {
       walletConnect: {
         walletConnectV2ProjectId

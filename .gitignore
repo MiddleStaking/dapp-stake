@@ -27,3 +27,5 @@ package-lock.json
 yalc.lock
 package-lock.json
 ftp-deploy.js
+ftp-dev.js
+ftp-main.js

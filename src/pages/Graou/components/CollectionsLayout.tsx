@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useGetAccountInfo, useGetPendingTransactions } from 'lib';
 import {
-  useGetCollectionInformations,
   // useGetLocked,
   useGetScNFT
 } from './Actions/helpers';
+import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
 import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
 import HexagoneNFT from './hexagoneNFT';
 import toHex from 'helpers/toHex';

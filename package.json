@@ -48,8 +48,8 @@
     "copy:mainnet-config": "cp ./src/config-main.tsx ./src/config.tsx",
     "cy:run": "node scripts/cypress.ts",
     "nodev": "nvm use v18.9.0",
-    "deploy:ftp": "ftp-deploy --config ./ftp-deploy.config.json",
-    "deploy": "node ftp-deploy"
+    "deploy:mainnet": "node ftp-main",
+    "deploy:devnet": "node ftp-dev"
   },
   "eslintConfig": {
     "extends": [

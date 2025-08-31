@@ -16,7 +16,7 @@ import {
 
 import { contractSwap } from 'config';
 import bigToHex from 'helpers/bigToHex';
-import { Button } from './../../../../components/Design';
+import { Button } from '../../../../components/Design';
 import BigNumber from 'bignumber.js';
 
 export const ActionLiquid = ({

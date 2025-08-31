@@ -15,7 +15,7 @@ import {
 } from 'lib';
 import { contractSwap } from 'config';
 import bigToHex from 'helpers/bigToHex';
-import { Button } from './../../../../components/Design';
+import { Button } from '../../../../components/Design';
 
 export const ActionLiquidSingle = ({
   first_token,

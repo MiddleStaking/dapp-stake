@@ -1,4 +1,7 @@
 // // DEVNET 2:
+import { EnvironmentsEnum } from './lib';
+export const environment = EnvironmentsEnum.devnet;
+
 export const mid_api_v2 = 'https://api.middlestaking.com';
 
 export const defaultToken = 'MID-00c2c9';
