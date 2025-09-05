@@ -9,6 +9,7 @@ import { routeNames } from 'routes';
 import StakeModal from '../../StakeModal';
 import UnstakeModal from '../../UnstakeModal';
 import ProgressBar from '../../progressBar';
+import { ConnectButton } from 'components/Button/ConnectButton';
 
 interface MyStakeSectionProps {
   address: any;
@@ -176,7 +177,8 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
             justifyContent: 'center'
           }}
         >
-          <Button
+          <ConnectButton />
+          {/* <Button
             borderRadius={40}
             buttonHeight='31px'
             buttonWidth='240px'
@@ -192,7 +194,7 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
             //   )
             // }
             text={'Login'}
-          />
+          /> */}
         </div>
       ) : (
         <>

@@ -17,8 +17,7 @@ export const Delegate = () => {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
-  const handleRedirect = () =>
-    address ? setLoading(false) : navigate('/unlock');
+  const handleRedirect = () => (address ? setLoading(false) : navigate('/'));
 
   useEffect(handleRedirect, [address]);
   useGlobalData();

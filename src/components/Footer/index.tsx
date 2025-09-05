@@ -16,13 +16,24 @@ import HeartIcon from '../../assets/img/heart.svg';
 
 // interface DropdownMenuProps {}
 
-const FooterDekstop: FC<any> = ({}) => {
+const FooterMobile: FC<any> = ({}) => {
   const { headerMenu } = useContext(HeaderMenuContext);
-  const { width } = useWindowDimensions();
-  const navigate = useNavigate();
-  const isLoggedIn = useGetIsLoggedIn();
 
-  //   background: linear-gradient(90deg, #2266FF 0%, #1F67FF 100%);
+  const isLoggedIn = useGetIsLoggedIn();
+  const { width } = useWindowDimensions();
+  const location = useLocation();
+  // const { t } = useTranslation();
+
+  const fullPath = location.pathname + location.search + location.hash;
+  const go = (to: string, withState = true) => {
+    if (withState) {
+      navigate(to, { state: { background: location, returnTo: fullPath } });
+    } else {
+      navigate(to); // navigation normale, pas de background
+    }
+  };
+  // const register = useGetRegister();
+  const navigate = useNavigate();
 
   const path = useLocation().pathname;
   const firstSegment = '/' + path.split('/')[1];
@@ -237,7 +248,9 @@ const FooterDekstop: FC<any> = ({}) => {
 
       <div
         onClick={() =>
-          navigate(isLoggedIn ? routeNames.account : routeNames.unlock)
+          isLoggedIn
+            ? go(routeNames.account, false)
+            : go(routeNames.unlock, true)
         }
         style={{
           ...iconStyle,
@@ -260,7 +273,7 @@ const FooterDekstop: FC<any> = ({}) => {
   );
 };
 
-export default FooterDekstop;
+export default FooterMobile;
 
 interface SvgProps {
   widthSvg?: string;

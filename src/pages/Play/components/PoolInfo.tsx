@@ -24,6 +24,7 @@ import twitter from './../../../assets/img/twitter.svg';
 import styles from './../earn.module.scss';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { local_network } from 'config';
+import { ConnectButton } from 'components/Button/ConnectButton';
 
 export const PoolInfo = ({
   stakedToken,
@@ -82,14 +83,16 @@ export const PoolInfo = ({
 
         <div className='poolPosition'>
           {!address ? (
-            <Link
-              to={routeNames.unlock + `/stake/${stakedToken}`}
-              className='butLine goldButton'
-              data-testid='loginBtn'
-            >
-              Login
-            </Link>
+            <ConnectButton />
           ) : (
+            // <Link
+            //   to={routeNames.unlock + `/stake/${stakedToken}`}
+            //   className='butLine goldButton'
+            //   data-testid='loginBtn'
+            // >
+            //   Login
+            // </Link>
+
             <div className='text-black' data-testid='myPosition'></div>
           )}
         </div>

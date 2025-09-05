@@ -51,14 +51,7 @@ export const routes: RouteWithTitleType[] = [
   {
     path: routeNames.home,
     title: 'Home',
-    component: Home,
-    children: [
-      {
-        path: routeNames.unlock,
-        title: 'Unlock',
-        component: Unlock
-      }
-    ]
+    component: Home
   },
   // {
   //   path: routeNames.admin,
@@ -75,7 +68,7 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.delegate,
     title: 'Delegate',
     component: Delegate,
-    authenticatedRoute: true
+    authenticatedRoute: false
   },
   {
     path: routeNames.stake + '/:param',

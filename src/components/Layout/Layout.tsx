@@ -3,15 +3,15 @@ import type { PropsWithChildren } from 'react';
 import { AuthRedirectWrapper } from 'wrappers';
 import { useLocation } from 'react-router-dom';
 import { useWindowDimensions } from 'components/DimensionScreen';
-import FooterDekstop from 'components/Footer';
+import FooterMobile from 'components/Footer';
 import HeaderDekstop from 'components/Header';
-import { routes, routeNames } from 'routes';
 import './Layout.scss';
 // import RegisterForm from './../../helpers/api_v2/register';
 
 export const Layout = ({ children }: PropsWithChildren) => {
-  const { search } = useLocation();
+  const { pathname } = useLocation();
   const { width } = useWindowDimensions();
+  const isUnlock = pathname === '/unlock'; // 👈 test
 
   return (
     <div
@@ -24,7 +24,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
       <main className={'d-flex flex-column flex-grow-1 main-content'}>
         <AuthRedirectWrapper>{children}</AuthRedirectWrapper>
       </main>
-      <FooterDekstop />
+      {!isUnlock && <FooterMobile />}
     </div>
   );
 };

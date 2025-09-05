@@ -3,7 +3,7 @@ import React from 'react';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetIsLoggedIn } from 'lib';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LogoText from 'assets/LogoMiddleS';
 import LogoTextMobile from 'assets/LogoMiddleSMobile';
 import { Button } from 'components/Design/Button';
@@ -87,7 +87,17 @@ const styles = {
 const HeaderDesktop = () => {
   const isLoggedIn = useGetIsLoggedIn();
   const { width } = useWindowDimensions();
+  const location = useLocation();
+  // const { t } = useTranslation();
 
+  const fullPath = location.pathname + location.search + location.hash;
+  const go = (to: string, withState = true) => {
+    if (withState) {
+      navigate(to, { state: { background: location, returnTo: fullPath } });
+    } else {
+      navigate(to); // navigation normale, pas de background
+    }
+  };
   // const register = useGetRegister();
   const navigate = useNavigate();
 
@@ -143,10 +153,10 @@ const HeaderDesktop = () => {
               borderColor={['#BD37EC', '#1F67FF']}
               text={isLoggedIn ? 'Account' : 'Login'}
               hasBorder={true}
-              onClick={
+              onClick={() =>
                 isLoggedIn
-                  ? () => handleNavigate(routeNames.account)
-                  : () => handleNavigate(routeNames.unlock)
+                  ? go(routeNames.account, false)
+                  : go(routeNames.unlock, true)
               }
               fontFamily=''
               buttonHeight={width > 579 ? '52px' : '40px'}
