@@ -41,7 +41,7 @@ export const local_network: NetworkType = {
   walletAddress: 'https://devnet-wallet.multiversx.com/dapp/init',
   apiAddress: 'https://devnet-api.multiversx.com',
   gatewayAddress: 'https://devnet-gateway.multiversx.com',
-  gatewayCached: 'https://devnet-gateway.multiversx.com',
+  gatewayCached: 'https://devnet-api.multiversx.com',
   explorerAddress: 'http://devnet-explorer.multiversx.com',
   delegationContract: contractAddressDelegation
 };

@@ -45,7 +45,7 @@ const ProgressBar = ({ value, max }: ProgressBarProps) => {
           pointerEvents: 'none'
         }}
       >
-        {percentage.toFixed(2)}%
+        {Math.min(percentage, 100).toFixed(2)}%
       </span>
     </div>
   );

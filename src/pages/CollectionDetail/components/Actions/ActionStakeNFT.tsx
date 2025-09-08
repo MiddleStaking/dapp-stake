@@ -52,7 +52,7 @@ export const ActionStakeNft = ({
     const transaction = new Transaction({
       value: BigInt(0),
       data: new TextEncoder().encode(payload),
-      receiver: addressTobech32,
+      receiver: new Address(address),
       gasLimit: BigInt('8000000'),
 
       gasPrice: BigInt(GAS_PRICE),

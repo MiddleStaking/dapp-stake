@@ -14,7 +14,7 @@ import notFound from './../../../../assets/img/notfoundc.svg';
 import MyStakeSection from './component/MyStakeSection';
 import RewardsSection from './component/RewardsSection';
 import TypeSection from './component/TypeSection';
-
+import AdminSection from './component/AdminSection';
 interface CardPoolrops {
   staked_token?: any;
   rewarded_token: string;
@@ -22,6 +22,7 @@ interface CardPoolrops {
     balance: BigNumber;
     total_stake: BigNumber;
     blocks_to_max: BigNumber;
+    paused?: boolean;
   };
   all_staking_position: any;
   all_user_rewards: any;
@@ -463,6 +464,11 @@ const CardPool: FC<CardPoolrops> = ({
           balanc={balance}
           currentBlockNonce={currentBlockNonce}
         />
+        {/* <AdminSection
+          staked_token={staked_token}
+          rewarded_token={rewarded_token}
+          isPaused={token_position?.paused ? true : false}
+        /> */}
 
         {address && (
           <RewardsSection

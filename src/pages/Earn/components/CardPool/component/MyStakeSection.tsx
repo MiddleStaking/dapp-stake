@@ -118,7 +118,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
   // {currentBlockNonce.toFixed()}
 
   return (
-    // <>
     <div style={sectionStyle}>
       {canBeStaked && (
         <Link
@@ -167,7 +166,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
         setShow={setShowUnstake}
         token_position={token_position}
       />
-
       {!address ? (
         <div
           style={{
@@ -178,23 +176,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
           }}
         >
           <ConnectButton />
-          {/* <Button
-            borderRadius={40}
-            buttonHeight='31px'
-            buttonWidth='240px'
-            textColor='#ffffff'
-            background={'#000000'}
-            onClick={() => navigate(routeNames.unlock)}
-            // onClick={() =>
-            //   navigate(
-            //     routeNames.unlock +
-            //       `/stake/${
-            //         staked_token !== undefined ? staked_token : defaultToken
-            //       }`
-            //   )
-            // }
-            text={'Login'}
-          /> */}
         </div>
       ) : (
         <>
@@ -244,32 +225,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   />
                 )}
               </div>
-              {/* {(swapedTokens.includes(stakedToken) ||
-                swapedTokens.includes(rewardedToken)) &&
-                stakedToken != rewardedToken && (
-                  <PoolSwapInfo
-                    buttonHeight={'31px'}
-                    address={address}
-                    stakedToken={
-                      swapedTokens.includes(stakedToken) &&
-                      swapedTokens.includes(rewardedToken)
-                        ? stakedToken
-                        : defaultToken
-                    }
-                    rewardedToken={
-                      swapedTokens.includes(stakedToken) &&
-                      swapedTokens.includes(rewardedToken)
-                        ? rewardedToken
-                        : swapedTokens.includes(stakedToken)
-                        ? stakedToken
-                        : rewardedToken
-                    }
-                    userEsdtBalance={userEsdtBalance}
-                    isDual={isDual}
-                    firstPoolPosition={firstPoolPosition}
-                    secondPoolPosition={secondPoolPosition}
-                  />
-                )} */}
             </div>
           ) : (
             <div
@@ -390,7 +345,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                     />
                   )}
                 </div>
-
                 <div>
                   <Button
                     borderRadius={40}
@@ -402,49 +356,6 @@ const MyStakeSection: FC<MyStakeSectionProps> = ({
                   />
                 </div>
               </div>{' '}
-              <div className='_18-853-74'>
-                {/* <br />
-                last : {staking_position.last_action_block.toFixed()}
-                <br />
-                max : {token_position.blocks_to_max.toFixed()}
-                <br />
-                current: {currentBlockNonce.toFixed()}
-                <br />
-                elaspesed : {elaspesed_blocks.toString()}
-                <br />
-                left : {blocks_left.toString()} */}
-
-                {/* <ProgressBar
-                  value={new BigNumber(elaspesed_blocks)}
-                  max={new BigNumber(token_position.blocks_to_max)}
-                /> */}
-              </div>
-              {/* {(swapedTokens.includes(stakedToken) ||
-                swapedTokens.includes(rewardedToken)) &&
-                stakedToken != rewardedToken && (
-                  <PoolSwapInfo
-                    buttonHeight={'31px'}
-                    address={address}
-                    stakedToken={
-                      swapedTokens.includes(stakedToken) &&
-                      swapedTokens.includes(rewardedToken)
-                        ? stakedToken
-                        : defaultToken
-                    }
-                    rewardedToken={
-                      swapedTokens.includes(stakedToken) &&
-                      swapedTokens.includes(rewardedToken)
-                        ? rewardedToken
-                        : swapedTokens.includes(stakedToken)
-                        ? stakedToken
-                        : rewardedToken
-                    }
-                    userEsdtBalance={userEsdtBalance}
-                    isDual={isDual}
-                    firstPoolPosition={firstPoolPosition}
-                    secondPoolPosition={secondPoolPosition}
-                  />
-                )} */}
             </div>
           )}
         </>
