@@ -464,11 +464,14 @@ const CardPool: FC<CardPoolrops> = ({
           balanc={balance}
           currentBlockNonce={currentBlockNonce}
         />
-        {/* <AdminSection
-          staked_token={staked_token}
-          rewarded_token={rewarded_token}
-          isPaused={token_position?.paused ? true : false}
-        /> */}
+        {address ===
+          'erd175f5khy03nuctjfxre29kza4je8e48xsfu56fzwgmwqtty33txfqse8h4k' && (
+          <AdminSection
+            staked_token={staked_token}
+            rewarded_token={rewarded_token}
+            isPaused={token_position?.paused ? true : false}
+          />
+        )}
 
         {address && (
           <RewardsSection

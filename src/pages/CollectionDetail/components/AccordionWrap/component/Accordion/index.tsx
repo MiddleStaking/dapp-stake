@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { FormatAmount } from 'lib';
 import './accordion.scss';
 import { BigNumber } from 'bignumber.js';
 import { Button } from 'components/Design';
@@ -245,43 +244,22 @@ const Accordion: FC<CardPoolrops> = ({
                         {collectionReward &&
                         collectionReward.total_staked &&
                         Number(collectionReward.blocks_to_max) !== 0 ? (
-                          <FormatAmount
-                            value={(
-                              BigInt(
-                                BigNumber(collectionReward?.rewards).toFixed()
-                              ) /
-                              (BigInt(collectionReward.total_staked) > BigInt(0)
-                                ? BigInt(collectionReward.total_staked)
-                                : BigInt(1)) /
-                              BigInt(collectionReward.speed)
-                            ).toString()}
-                            data-testid='balance'
-                          />
+                          <>
+                            {Number(
+                              new BigNumber(collectionReward?.rewards)
+                                .dividedBy(collectionReward.total_staked)
+                                .dividedBy(collectionReward.speed)
+                                .dividedBy(10 ** rdecimals)
+                                .toFixed()
+                            ).toLocaleString(undefined, {
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 4
+                            })}{' '}
+                          </>
                         ) : (
                           <p>error</p>
                         )}
                       </div>
-                      {/* <div>
-                        {collectionReward &&
-                        collectionReward.total_staked &&
-                        Number(collectionReward.blocks_to_max) !== 0 ? (
-                          <FormatAmount
-                            value={(
-                              BigInt(collectionReward?.rewards) /
-                              (BigInt(collectionReward.total_staked) > BigInt(0)
-                                ? BigInt(collectionReward.total_staked)
-                                : BigInt(1)) /
-                              BigInt(collectionReward.speed)
-                            ).toString()}
-                            decimals={Number(rdecimals)}
-                            egldLabel={' / NFT / DAY'}
-                            data-testid='balance'
-                            digits={2}
-                          />
-                        ) : (
-                          <p>probleme</p>
-                        )}
-                      </div> */}
                     </div>
                   </div>
                   <div>
@@ -304,24 +282,6 @@ const Accordion: FC<CardPoolrops> = ({
                       gap: '10px'
                     }}
                   >
-                    {/* {nft?.media && (
-                      <div
-                        style={{
-                          width: '100%',
-                          textAlign: width > 855 ? 'center' : 'center'
-                        }}
-                      >
-                        <HexagoneNFT
-                          format={nft?.media[0]?.fileType}
-                          url={nft?.media[0]?.url}
-                          width={35}
-                          withBorder={true}
-                          borderWidth={1}
-                          borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                        />
-                      </div>
-                    )} */}
-
                     {nft?.media ? (
                       <a
                         style={{ color: 'white', display: 'flex' }}
@@ -450,10 +410,14 @@ const Accordion: FC<CardPoolrops> = ({
                     }}
                   >
                     rewards :{' '}
-                    <FormatAmount
-                      value={BigNumber(collectionReward?.rewards).toFixed()}
-                      data-testid='balance'
-                    />
+                    {Number(
+                      new BigNumber(collectionReward?.rewards)
+                        .dividedBy(10 ** rdecimals)
+                        .toFixed()
+                    ).toLocaleString(undefined, {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: rdecimals
+                    })}
                     {address && (
                       <PoolAddCollection
                         border={false}
@@ -509,15 +473,16 @@ const Accordion: FC<CardPoolrops> = ({
                       }}
                     >
                       my rewards :{' '}
-                      <FormatAmount
-                        value={
-                          Availablerewards
-                            ? BigNumber(Availablerewards[0])?.toFixed()
-                            : ''
-                        }
-                        data-testid='balance'
-                        // digits={2}
-                      />
+                      {Number(
+                        new BigNumber(
+                          Availablerewards ? Availablerewards[0] : 0
+                        )
+                          .dividedBy(10 ** rdecimals)
+                          .toFixed()
+                      ).toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: rdecimals
+                      })}
                     </div>
                   )}
                 </div>

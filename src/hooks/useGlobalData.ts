@@ -112,13 +112,6 @@ const useGlobalData = () => {
         inputs: [{ name: 'addr', type: 'Address' }],
         outputs: [{ name: 'keys', type: 'variadic<bytes>', multi_result: true }]
       }
-      // outputs: [
-      //       {
-      //         type: 'variadic<tuple<bytes,bytes>>',
-      //         multi_result: true
-      //       }
-      //     ]
-      //   }
     ]
   });
   const controller = entrypoint.createSmartContractController(abi);

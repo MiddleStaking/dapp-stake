@@ -905,7 +905,7 @@ const ModalAddCollection = (props: ModalProps) => {
                             hidden={false}
                           >
                             <div className='LabelDetailsInfo_Collection'>
-                              Identifier
+                              Pool ID
                             </div>
                             <div className='ValueDetailsInfo_Collection'>
                               {item.pool_id.toString()}
@@ -916,12 +916,14 @@ const ModalAddCollection = (props: ModalProps) => {
                               Rewards
                             </div>
                             <div className='ValueDetailsInfo_Collection'>
-                              <FormatAmount
-                                value={BigNumber(
-                                  item.rewards.toString()
-                                ).toFixed()}
-                                data-testid='balance'
-                              />
+                              {Number(
+                                new BigNumber(item.rewards.toString())
+                                  .dividedBy(10 ** rdecimals)
+                                  .toFixed()
+                              ).toLocaleString(undefined, {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 4
+                              })}
                             </div>
                           </div>
 
@@ -930,12 +932,14 @@ const ModalAddCollection = (props: ModalProps) => {
                               All time rewarded
                             </div>
                             <div className='ValueDetailsInfo_Collection'>
-                              <FormatAmount
-                                value={BigNumber(
-                                  item.total_rewarded.toString()
-                                ).toFixed()}
-                                data-testid='balance'
-                              />
+                              {Number(
+                                new BigNumber(item.total_rewarded.toString())
+                                  .dividedBy(10 ** rdecimals)
+                                  .toFixed()
+                              ).toLocaleString(undefined, {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 4
+                              })}
                             </div>
                           </div>
                           <div className='DetailsInfo_Collection'>
@@ -943,12 +947,7 @@ const ModalAddCollection = (props: ModalProps) => {
                               Staked NFT
                             </div>
                             <div className='ValueDetailsInfo_Collection'>
-                              <FormatAmount
-                                value={BigNumber(
-                                  item.total_staked.toString()
-                                ).toFixed()}
-                                data-testid='balance'
-                              />
+                              {item.total_staked.toString()}
                             </div>
                           </div>
                           <div className='DetailsInfo_Collection'>
@@ -979,12 +978,8 @@ const ModalAddCollection = (props: ModalProps) => {
                     pool.unbounding == BigInt(unboundingTime)
                 ).length === 0 && (
                   <div className='groupCredits'>
-                    Creating this pool will cost you{' '}
-                    <FormatAmount
-                      value={credits.toFixed()}
-                      data-testid='staked'
-                    />
-                    .
+                    Creating this pool will cost you {credits.toString()}{' '}
+                    credits.
                     <br />
                     You have {user_credits.toString()} credits left.{' '}
                     <a
