@@ -30,7 +30,7 @@ export const ActionUnPausePool = ({ staked_token, rewarded_token }: any) => {
 
   const sendTransaction = async () => {
     const payload =
-      'unpause@' +
+      'unpausePool@' +
       Buffer.from(staked_token, 'utf8').toString('hex') +
       '@' +
       Buffer.from(rewarded_token, 'utf8').toString('hex');

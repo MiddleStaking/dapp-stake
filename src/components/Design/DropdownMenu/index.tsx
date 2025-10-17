@@ -46,6 +46,7 @@ interface DropdownMenuProps {
   OptonsCrollHeight?: string;
   disableOption?: boolean;
   borderColorMobile?: string;
+  focusOnOpen?: boolean;
 }
 
 const generateUniqueId = () => {
@@ -100,14 +101,13 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   colorSvg = disabled ? '#695885' : '#fff',
   OptonsCrollHeight = '300px',
 
-  disableOption = false
+  disableOption = false,
+  focusOnOpen = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [selectedValue, setSelectedValue] = useState(
-  //   defaultOption ? defaultOption.value : null
-  // );
   const [searchValue, setSearchValue] = useState('');
   const { width } = useWindowDimensions();
+
   const [displayText, setDisplayText] = useState(
     defaultValue ? defaultValue : 'Select an option'
   );
@@ -121,45 +121,75 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   );
 
   useEffect(() => {
-    if (value !== '') {
-      // setSearchValue(value);
-    }
     setDisplayText(defaultValue);
   }, [defaultValue]);
 
   useEffect(() => {
-    if (value !== '') {
-      setSearchValue(value);
-    }
     if (hasBorderActive && isOpen) {
       setBorderType(BorderActiveColor);
     } else if (Array.isArray(borderColor)) {
-      return setBorderType(
+      setBorderType(
         `linear-gradient(${borderGradientDirection}, ${borderColor[0]}, ${borderColor[1]})`
       );
     } else {
-      return setBorderType(borderColor);
+      setBorderType(borderColor);
     }
+  }, [
+    isOpen,
+    hasBorderActive,
+    BorderActiveColor,
+    borderGradientDirection,
+    borderColor
+  ]);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dropDownBarRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleClick = () => {
+    if (disabled) return;
+    setIsOpen((prev) => {
+      const next = !prev;
+      // Ne focus le champ que si explicitement demandé
+      if (next && focusOnOpen) {
+        requestAnimationFrame(() => inputRef.current?.focus());
+      }
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    const onDocMouseDown = (e: MouseEvent) => {
+      if (
+        isOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onDocMouseDown);
+    return () => document.removeEventListener('mousedown', onDocMouseDown);
   }, [isOpen]);
 
+  // À la fermeture: on nettoie la recherche, et on blur SEULEMENT si on avait demandé focusOnOpen
   useEffect(() => {
     if (!isOpen) {
       setSearchValue('');
-      inputRef.current.blur();
+      if (focusOnOpen) inputRef.current?.blur();
     }
-  }, [isOpen]);
-
-  const [uniqueId] = useState(generateUniqueId());
-  const dropDownMenuClassName = `dropDownInput-${uniqueId}`;
+  }, [isOpen, focusOnOpen]);
 
   const handleOptionClick = (val: any) => {
     onSelect(val);
-    // setSelectedValue(value);
-    const foundOption = options.find((option) => option.value === val);
+    const foundOption = options.find((o) => o.value === val);
     setDisplayText(foundOption ? foundOption.text : 'Select an option');
     setSearchValue('');
     setIsOpen(false);
   };
+
+  const [uniqueId] = useState(generateUniqueId());
+  const dropDownMenuClassName = `dropDownInput-${uniqueId}`;
 
   const containerStyle: React.CSSProperties = {
     // position: 'relative'
@@ -211,85 +241,30 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
       color: ${textColor};
     }
   `;
-  const inputRef: any = useRef();
-  const dropDownBarRef: any = useRef(null);
-
-  const handleClick = () => {
-    if (!disabled) {
-      setIsOpen(!isOpen);
-    }
-    inputRef.current.focus();
-  };
-
-  const dropdownRef: any = useRef(null);
-
-  useEffect(() => {
-    const checkIfClickedOutside = (e: MouseEvent) => {
-      if (
-        isOpen &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', checkIfClickedOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', checkIfClickedOutside);
-    };
-  }, [isOpen]);
-
-  const isFirstRender = useRef(true); // Crée une ref pour suivre le premier rendu
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      // Si c'est le premier rendu, ne faites rien et mettez à jour le drapeau isFirstRender pour les rendus futurs
-      isFirstRender.current = false;
-      return;
-    }
-
-    // Si ce n'est pas le premier rendu, et si isReadonly est false, alors définissez le focus
-    if (!isReadonly && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isReadonly]);
-
-  const handleIconClick = (e: any) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!isOpen) {
-      setIsOpen(true);
-    }
-
-    setIsReadonly((prev) => !prev);
-  };
 
   return (
-    <div style={containerStyle} ref={dropdownRef}>
-      {placeholderColor && <style>{customPlaceholderStyles}</style>}
+    <div ref={dropdownRef}>
       <div onClick={handleClick} style={dropDownBarStyle} ref={dropDownBarRef}>
         {width < 768 && (
-          <div style={{}} onClick={handleIconClick}>
+          // icône clavier conservée mais sans toggle de readonly ni focus forcé
+          <div>
             <FontAwesomeIcon icon={faKeyboard} />
           </div>
         )}
         <div>
-          {textColor && <style>{customPlaceholderStyles}</style>}
           <input
             ref={inputRef}
             type='text'
             className={dropDownMenuClassName}
             placeholder={displayText}
             disabled={disabled}
-            // defaultValue={displayText}
-            onChange={(e) => setSearchValue(e.target.value)}
             value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            // 🔑 Empêche de voler le focus tant que fermé
+            tabIndex={isOpen && focusOnOpen ? 0 : -1}
+            readOnly={!isOpen} // en lecture seule quand fermé (pas de caret)
             style={{
               flexGrow: 1,
-              // width: `calc(${inputWidth} - 10px)`,
               width: '100%',
               border: 'none',
               outline: 'none',
@@ -299,8 +274,6 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
               color: textColor,
               cursor: disabled ? 'not-allowed' : 'pointer'
             }}
-            readOnly={isReadonly}
-            // onChange={(e) => onInputChange && onInputChange(e.target.value)}
           />
         </div>
         <div style={DropDownSvgStyle}>
@@ -334,13 +307,14 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
           }}
         >
           {(() => {
-            const filteredOptions = options.filter((option) =>
-              String(option?.text ?? '')
+            const sv = (searchValue ?? '').toLowerCase();
+            const filtered = options.filter((o) =>
+              String(o?.text ?? '')
                 .toLowerCase()
-                .includes((searchValue ?? '').toLowerCase())
+                .includes(sv)
             );
 
-            if (filteredOptions.length === 0) {
+            if (!filtered.length) {
               return (
                 <div
                   style={{
@@ -354,19 +328,20 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
                     textColor={textColorOption}
                     width={inputWidth}
                     height={height}
-                    hoverActive={true}
+                    hoverActive
                     hoverTextColor={textColorSelect}
                     hoverBackgroudColor={backgroundColorSelect}
                     backgroudColor={backgroundColor}
-                    text={'no token found'}
+                    text='no token found'
                     borderRadius={`${borderRadiusOptions}px`}
                   />
                 </div>
               );
             }
-            return filteredOptions.map((option, index) => (
+
+            return filtered.map((option, index) => (
               <div
-                key={index}
+                key={option.value ?? index}
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -379,15 +354,14 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
                   textColor={textColorOption}
                   width={inputWidth}
                   height={height}
-                  hoverActive={true}
+                  hoverActive
                   hoverTextColor={textColorSelect}
                   hoverBackgroudColor={backgroundColorSelect}
                   backgroudColor={backgroundColor}
-                  key={index}
                   text={option.text}
                   onClick={() => handleOptionClick(option.value)}
                   borderRadius={
-                    index === filteredOptions.length - 1
+                    index === filtered.length - 1
                       ? `0 0 ${borderRadiusOptions} ${borderRadiusOptions}`
                       : index === 0
                       ? `${borderRadiusOptions} ${borderRadiusOptions} 0 0`

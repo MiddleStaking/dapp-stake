@@ -11,7 +11,8 @@ import {
   TransactionsFactoryConfig,
   useGetAccount,
   useGetNetworkConfig,
-  useGetAccountInfo
+  useGetAccountInfo,
+  useGetIsLoggedIn
 } from 'lib';
 import { contractSwap, defaultToken } from 'config';
 import bigToHex from 'helpers/bigToHex';
@@ -19,7 +20,6 @@ import { Button } from './../../../../components/Design';
 import BigNumber from 'bignumber.js';
 
 export const ActionSwap = ({
-  isLoggedIn,
   first_token,
   second_token,
   in_token,
@@ -30,6 +30,7 @@ export const ActionSwap = ({
 }: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
+  const isLoggedIn = useGetIsLoggedIn();
   const transactions = useGetPendingTransactions();
   const hasPendingTransactions = transactions.length > 0;
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
