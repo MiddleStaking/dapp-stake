@@ -1,51 +1,55 @@
-// import { useEffect, useState } from 'react';
-// import {
-//   Address,
-//   AddressValue,
-//   ContractFunction,
-//   ResultsParser
-// } from '@multiversx/sdk-core';
-// import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
-// import { local_network } from 'config';
-// import { smartContract } from './smartContract';
-// import { useGetPendingTransactions } from 'lib';
+import { useEffect, useState } from 'react';
+import {
+  Abi,
+  Address,
+  AddressValue,
+  ContractFunction,
+  DevnetEntrypoint,
+  TokenIdentifierValue
+} from '@multiversx/sdk-core/out';
+import {
+  useGetAccount,
+  useGetNetworkConfig,
+  useGetPendingTransactions
+} from 'lib';
+import { contractLockdinogaz, local_network } from 'config';
+import json from 'lock-graou.abi.json';
 
-// const resultsParser = new ResultsParser();
+export const useGetLocked = () => {
+  const { network } = useGetNetworkConfig();
+  const { address } = useGetAccount();
+  const entrypoint = new DevnetEntrypoint({
+    url: local_network.gatewayCached
+  });
+  const contractAddress = Address.newFromBech32(contractLockdinogaz);
+  const abi = Abi.create(json);
+  const controller = entrypoint.createSmartContractController(abi);
+  const pending = useGetPendingTransactions();
+  const hasPendingTransactions = pending.length > 0;
 
-// export const useGetLocked = (address: any) => {
-//   const pending = useGetPendingTransactions();
-//   const hasPendingTransactions = pending.length > 0;
+  const [locked, setLocked] = useState<any>([]);
 
-//   const [locked, setLocked] = useState<any>([]);
-//   const getIsPaused = async () => {
-//     if (hasPendingTransactions == true || address == '') {
-//       return;
-//     }
-//     try {
-//       const query = smartContract.createQuery({
-//         func: new ContractFunction('getUserNonces'),
-//         args: [new AddressValue(new Address(address))]
-//       });
+  const getIsPaused = async () => {
+    if (hasPendingTransactions == true || address == '') {
+      return;
+    }
+    try {
+      const response = await controller.query({
+        contract: contractAddress,
+        function: 'getUserNonces',
+        arguments: [new AddressValue(new Address(address))]
+      });
 
-//       const proxy = new ProxyNetworkProvider(network.gatewayAddress);
-//       const queryResponse = await proxy.queryContract(query);
-//       const endpointDefinition = smartContract.getEndpoint('getUserNonces');
-//       const { firstValue: nonces } = resultsParser.parseQueryResponse(
-//         queryResponse,
-//         endpointDefinition
-//       );
-//       const non = nonces?.valueOf().toString(10);
-//       if (queryResponse.returnCode == 'ok') {
-//         setLocked(non ? non.split(',') : []);
-//       }
-//     } catch (err) {
-//       console.error('Unable to call getIsPaused', err);
-//     }
-//   };
+      console.log('locked', response);
+      setLocked(response ? response.toString().split(',') : []);
+    } catch (err) {
+      console.error('Unable to call getIsPaused', err);
+    }
+  };
 
-//   useEffect(() => {
-//     getIsPaused();
-//   }, [hasPendingTransactions]);
+  useEffect(() => {
+    getIsPaused();
+  }, [hasPendingTransactions]);
 
-//   return locked;
-// };
+  return locked;
+};

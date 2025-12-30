@@ -29,7 +29,8 @@ export const contractPlay =
   'erd1qqqqqqqqqqqqqpgqtqyp5v7nwnrvxhlnxav7z6k27an2m4vkch9sgsmrrt';
 export const contractRestake =
   'erd1qqqqqqqqqqqqqpgq3hgxpv4mrxzxs03s6rexh3ngtswxgl2rch9s83xchu';
-
+export const contractLockdinogaz =
+  'erd1qqqqqqqqqqqqqpgqkhd7lhchw42cz3sahdrc95kme9pxnzguch9srygudw';
 export const contracts = {
   lockGraou: 'erd1qqqqqqqqqqqqqpgqkhd7lhchw42cz3sahdrc95kme9pxnzguch9srygudw'
 };

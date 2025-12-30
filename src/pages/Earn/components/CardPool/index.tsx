@@ -235,11 +235,10 @@ const CardPool: FC<CardPoolrops> = ({
 
   //Montant user
   const my_rewards_value = rewarded_esdt_info?.price
-    ? Number(
-        (BigInt(rewards_position.toFixed()) *
-          BigInt((rewarded_esdt_info.price * 10000000).toFixed())) /
-          BigInt(10 ** rdecimals)
-      ) / 10000000
+    ? BigNumber(rewards_position.toFixed(0)) // Ensure integer string, no exponential
+        .multipliedBy(rewarded_esdt_info.price)
+        .dividedBy(BigNumber(10).pow(rdecimals))
+        .toNumber()
     : 0;
 
   // const rewarded_value =
@@ -270,27 +269,38 @@ const CardPool: FC<CardPoolrops> = ({
   ) {
     const price_fixed1 = BigInt(
       stakedCompute?.price > 0
-        ? BigInt((stakedCompute?.price * 10 ** 18).toFixed()) *
-            BigInt(10 ** sdecimals)
+        ? BigInt(
+            BigNumber(stakedCompute?.price)
+              .multipliedBy(10 ** 18)
+              .toFixed(0)
+          ) * BigInt(10 ** sdecimals)
         : staked_esdt_info?.price > 0
-        ? (staked_esdt_info?.price * 10 ** 18).toFixed()
+        ? BigNumber(staked_esdt_info?.price)
+            .multipliedBy(10 ** 18)
+            .toFixed(0)
         : 1
     );
 
     const price_fixed2 = BigInt(
       rewarded_esdt_info.price > 0
-        ? BigInt(Math.floor(rewarded_esdt_info.price * 10 ** 18)).toString()
+        ? BigNumber(rewarded_esdt_info.price)
+            .multipliedBy(10 ** 18)
+            .toFixed(0)
         : '1'
     );
 
     const initial_value = BigInt(
-      price_fixed1 > 0 && BigInt(token_position.total_stake.toFixed())
-        ? price_fixed1 * BigInt(token_position.total_stake.toFixed())
+      price_fixed1 > 0 &&
+        BigInt(BigNumber(token_position.total_stake.toFixed()).toFixed(0))
+        ? price_fixed1 *
+            BigInt(BigNumber(token_position.total_stake.toFixed()).toFixed(0))
         : 1
     );
     const rewards_val = BigInt(
-      price_fixed2 > 0 && BigInt(token_position.balance.toFixed())
-        ? price_fixed2 * BigInt(token_position.balance.toFixed())
+      price_fixed2 > 0 &&
+        BigInt(BigNumber(token_position.balance.toFixed()).toFixed(0))
+        ? price_fixed2 *
+            BigInt(BigNumber(token_position.balance.toFixed()).toFixed(0))
         : 1
     );
     // priced_apr = BigInt(
@@ -306,7 +316,7 @@ const CardPool: FC<CardPoolrops> = ({
           Number(speed)
       )
         .integerValue(BigNumber.ROUND_FLOOR)
-        .toString() // or ROUND_CEIL for rounding up
+        .toFixed(0) // Ensures no exponential notation
     );
   }
 

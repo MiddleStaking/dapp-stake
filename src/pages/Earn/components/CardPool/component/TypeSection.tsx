@@ -310,12 +310,14 @@ const TypeSection: FC<TypeSectionProps> = ({
             <div style={apr2}>APR</div>
             <div style={rate}>
               <div style={rateApr}>
-                {token_position?.paused == 1
-                  ? 'Paused'
-                  : pool_apr > 0
-                  ? pool_apr.toString() + ' %'
-                  : ''}
+                {pool_apr < 10000 &&
+                  (token_position?.paused == 1
+                    ? 'Paused'
+                    : pool_apr > 0
+                    ? pool_apr.toString() + ' %'
+                    : '')}
                 {pool_apr == 0 && 'N/A'}
+                {pool_apr >= 10000 && ' 10 000+ %'}
               </div>
             </div>
           </div>

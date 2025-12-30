@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useGetAccountInfo, useGetPendingTransactions } from 'lib';
-import {
-  // useGetLocked,
-  useGetScNFT
-} from './Actions/helpers';
+import { useGetLocked, useGetScNFT } from './Actions/helpers';
 import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
 import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers';
 import HexagoneNFT from './hexagoneNFT';
@@ -25,12 +22,12 @@ export const CollectionsLayout = () => {
   const { account, address } = useGetAccountInfo();
   // const stakedCollections: string[] = useGetCollections();
   const collection_info = useGetCollectionInformations(lockedCollection, 30);
-  // const userStakedNft = useGetLocked(address);
+  const userStakedNft = useGetLocked();
 
   let percent = 20;
-  // if (userStakedNft.length > 0) {
-  //   percent += 10 * userStakedNft.length;
-  // }
+  if (userStakedNft.length > 0) {
+    percent += 10 * userStakedNft.length;
+  }
   const userNftBalance = useGetUserNFT(lockedCollection);
   const ScNftBalance = useGetScNFT(vouchersCollection, contracts.lockGraou);
   //const ScNftBalance: any = [];
@@ -166,13 +163,13 @@ export const CollectionsLayout = () => {
         </div>
       </div>
 
-      {/* {userStakedNft.length > 0 && (
+      {userStakedNft.length > 0 && (
         <ActionUnlockAll
           text={'Unlock'}
           disabled={false}
           nonces={userStakedNft}
         />
-      )} */}
+      )}
       {!hasPendingTransactions && mint > 0 && minted?.identifer != '' ? (
         <>
           {minted?.media?.[0]?.url ? (
@@ -273,7 +270,7 @@ export const CollectionsLayout = () => {
                         />
                       </div>
                       <div style={{ width: '100px', margin: 'auto' }}>
-                        {/* {userStakedNft.includes(item?.nonce.toString()) ? (
+                        {userStakedNft.includes(item?.nonce.toString()) ? (
                           <>
                             {ScNftBalance.length > 0 ? (
                               <Button style={{ width: '100px' }}>
@@ -339,7 +336,7 @@ export const CollectionsLayout = () => {
                               </>
                             )}
                           </>
-                        )} */}
+                        )}
                       </div>
                     </div>
                   ))}

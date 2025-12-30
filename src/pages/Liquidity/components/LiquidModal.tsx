@@ -207,12 +207,16 @@ const LiquidModal = (props: any) => {
                           {first_token.identifier}
                         </div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={new BigNumber(
-                              first_pool.first_token_amount
-                            ).toFixed()}
-                            data-testid='balance'
-                          />
+                          {Number(
+                            new BigNumber(
+                              first_pool.first_token_amount.toString()
+                            )
+                              .dividedBy(10 ** first_decimals)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
                         </div>
                       </div>
                       <div className='DetailsInfo'>
@@ -220,10 +224,16 @@ const LiquidModal = (props: any) => {
                           {second_token.identifier}
                         </div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={first_pool.second_token_amount.toString()}
-                            data-testid='balance'
-                          />
+                          {Number(
+                            new BigNumber(
+                              first_pool.second_token_amount.toString()
+                            )
+                              .dividedBy(10 ** second_decimals)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
                         </div>
                       </div>
                       <div className='DetailsInfo'>
@@ -276,15 +286,35 @@ const LiquidModal = (props: any) => {
                           {second_token.identifier.split('-')[0]}
                         </div>
                         <div className='ValueDetailsInfo'>
-                          <FormatAmount
-                            value={first_pool.first_token_amount.toString()}
+                          {Number(
+                            new BigNumber(
+                              first_pool.first_token_amount.toString()
+                            )
+                              .dividedBy(10 ** first_decimals)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
+                          {/* <FormatAmount
+                            value={first_pool.first_token_amount.toFixed()}
                             data-testid='balance'
-                          />{' '}
+                          />{' '} */}
                           :{' '}
-                          <FormatAmount
-                            value={first_pool.second_token_amount.toString()}
+                          {Number(
+                            new BigNumber(
+                              first_pool.second_token_amount.toString()
+                            )
+                              .dividedBy(10 ** second_decimals)
+                              .toFixed(2)
+                          ).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
+                          {/* <FormatAmount
+                            value={first_pool.second_token_amount.toFixed()}
                             data-testid='balance'
-                          />
+                          /> */}
                         </div>
                       </div>
                       <div className='DetailsInfo'>

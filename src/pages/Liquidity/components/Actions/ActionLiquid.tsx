@@ -99,8 +99,8 @@ export const ActionLiquid = ({
   };
 
   const stakeAllowed =
-    first_balance >= first_amount &&
-    second_balance >= second_amount &&
+    first_balance.isGreaterThanOrEqualTo(first_amount) &&
+    second_balance.isGreaterThanOrEqualTo(second_amount) &&
     !hasPendingTransactions;
 
   return (
