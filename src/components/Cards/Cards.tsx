@@ -196,6 +196,23 @@ export const Cards = () => {
 
       const data = await query.getNetworkStakeStatistics();
 
+      // Fallback/Patch for QueueSize issues
+      if (!data.QueueSize || Number(data.QueueSize) === 0) {
+        try {
+          // Directly fetch from API to get waitingValidators
+          const explicitStats = await axios.get(
+            `${local_network.apiAddress}/stake`
+          );
+          if (explicitStats.data && explicitStats.data.waitingValidators) {
+            // Patch the data object - handle potential type constraints or simply assign
+            // @ts-ignore
+            data.QueueSize = explicitStats.data.waitingValidators;
+          }
+        } catch (e) {
+          console.error('Failed to patch QueueSize', e);
+        }
+      }
+
       dispatch({
         type: 'getTotalNetworkStake',
         totalNetworkStake: {

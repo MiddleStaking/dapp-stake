@@ -37,65 +37,137 @@ const calculateAnnualPercentage = ({
   const allActiveNodes = blsKeys.filter(
     (key: any) => decodeString(key) === 'staked'
   ).length;
-  if (allActiveNodes <= 0) {
-    return '0.00';
-  }
 
-  const epochDurationInSeconds =
-    (networkConfig.RoundDuration / 1000) * networkConfig.RoundsPerEpoch;
+  // Safe access helpers
+  const getProp = (obj: any, key: string) =>
+    obj?.[key] ?? obj?.[key.charAt(0).toLowerCase() + key.slice(1)] ?? 0;
+
+  const roundDuration = getProp(networkConfig, 'RoundDuration');
+  const roundsPerEpoch = getProp(networkConfig, 'RoundsPerEpoch');
+  const epochNumber = getProp(networkStatus, 'EpochNumber');
+
+  const epochDurationInSeconds = (roundDuration / 1000) * roundsPerEpoch;
   const secondsInYear = 365 * 24 * 3600;
-  const epochsInYear = secondsInYear / epochDurationInSeconds;
+  const epochsInYear =
+    epochDurationInSeconds > 0 ? secondsInYear / epochDurationInSeconds : 0;
+
   const inflationRate =
     yearSettings.find(
-      (x) => x.year === Math.floor(networkStatus.EpochNumber / epochsInYear) + 1
+      (x) => x.year === Math.floor(epochNumber / epochsInYear) + 1
     )?.maximumInflation || 0;
+
   const rewardsPerEpoch = Math.max(
-    (inflationRate * genesisTokenSupply) / epochsInYear,
+    epochsInYear > 0 ? (inflationRate * genesisTokenSupply) / epochsInYear : 0,
     feesInEpoch
   );
+
   const rewardsPerEpochWithoutProtocolSustainability =
     (1 - protocolSustainabilityRewards) * rewardsPerEpoch;
-  const topUpRewardsLimit =
-    networkConfig.TopUpFactor * rewardsPerEpochWithoutProtocolSustainability;
 
-  const networkBaseStake = networkStake.ActiveValidators * stakePerNode;
-  const networkTotalStake = parseInt(denominateValue(networkStatus.Balance));
+  const topUpFactor = getProp(networkConfig, 'TopUpFactor');
+  const topUpRewardsLimit =
+    topUpFactor * rewardsPerEpochWithoutProtocolSustainability;
+
+  const activeValidators = getProp(networkStake, 'ActiveValidators') || 0;
+  const totalValidators = getProp(networkStake, 'TotalValidators') || 0;
+  const queueSize = getProp(networkStake, 'QueueSize') || 0;
+  const networkBalance = getProp(networkStatus, 'Balance'); // Balance is usually PascalCase in proxy, but check both
+
+  const networkBaseStake = activeValidators * stakePerNode;
+  // Handle BigNumber or string for Balance
+  const networkTotalStake = parseInt(
+    denominateValue(networkBalance.toString())
+  );
+
   const networkTopUpStake =
     networkTotalStake -
-    networkStake.TotalValidators * stakePerNode -
-    networkStake.QueueSize * stakePerNode;
-  const topUpReward =
-    ((2 * topUpRewardsLimit) / Math.PI) *
-    Math.atan(
-      networkTopUpStake /
-        (2 *
-          parseInt(
-            denominateValue(networkConfig.TopUpRewardsGradientPoint.toFixed())
-          ))
-    );
+    totalValidators * stakePerNode -
+    queueSize * stakePerNode;
+
+  const topUpGradient = getProp(networkConfig, 'TopUpRewardsGradientPoint');
+  const topUpGradientVal =
+    typeof topUpGradient === 'object' ? topUpGradient.toFixed() : topUpGradient;
+
+  const topUpDenominator =
+    2 * parseInt(denominateValue(new String(topUpGradientVal).toString()));
+
+  let topUpAtanArg = 0;
+  if (topUpDenominator !== 0) {
+    topUpAtanArg = networkTopUpStake / topUpDenominator;
+  } else if (networkTopUpStake > 0) {
+    topUpAtanArg = Infinity;
+  } else if (networkTopUpStake < 0) {
+    topUpAtanArg = -Infinity;
+  }
+
+  const topUpRewardRaw =
+    ((2 * topUpRewardsLimit) / Math.PI) * Math.atan(topUpAtanArg);
+
+  // If calculation resulted in NaN (e.g. 0/0 where our checks somehow missed or other inputs were NaN), fallback to 0
+  const topUpReward = isNaN(topUpRewardRaw) ? 0 : topUpRewardRaw;
 
   const baseReward = rewardsPerEpochWithoutProtocolSustainability - topUpReward;
   const validatorTotalStake = parseInt(denominateValue(activeStake));
+
+  // Checks if we should use theoretical calculation (if no stake or no active nodes)
+  const isTheoreticalCalculation =
+    validatorTotalStake === 0 || allActiveNodes === 0;
+
+  const effectiveValidatorTotalStake = isTheoreticalCalculation
+    ? stakePerNode
+    : validatorTotalStake;
+  const effectiveAllActiveNodes = isTheoreticalCalculation ? 1 : allActiveNodes;
+
   const actualNumberOfNodes = Math.min(
-    Math.floor(validatorTotalStake / stakePerNode),
-    allActiveNodes
+    Math.floor(effectiveValidatorTotalStake / stakePerNode),
+    effectiveAllActiveNodes
   );
   const validatorBaseStake = actualNumberOfNodes * stakePerNode;
 
+  // For theoretical calculation, use effective nodes count for top up rewards distribution logic
+  const effectiveAllNodes =
+    isTheoreticalCalculation && allNodes === 0 ? 1 : allNodes;
+
   const validatorTopUpStake =
-    ((validatorTotalStake - allNodes * stakePerNode) / allNodes) *
-    allActiveNodes;
+    effectiveAllNodes > 0
+      ? Math.max(
+          0,
+          ((effectiveValidatorTotalStake - effectiveAllNodes * stakePerNode) /
+            effectiveAllNodes) *
+            effectiveAllActiveNodes
+        )
+      : 0;
+
   const validatorTopUpReward =
     networkTopUpStake > 0
       ? (validatorTopUpStake / networkTopUpStake) * topUpReward
       : 0;
+
+  const safeNetworkBaseStake = networkBaseStake === 0 ? 1 : networkBaseStake;
+
   const validatorBaseReward =
-    (validatorBaseStake / networkBaseStake) * baseReward;
+    (validatorBaseStake / safeNetworkBaseStake) * baseReward;
+
+  if (effectiveValidatorTotalStake === 0) {
+    return '0.00';
+  }
+
   const anualPercentageRate =
     (epochsInYear * (validatorTopUpReward + validatorBaseReward)) /
-    validatorTotalStake;
+    effectiveValidatorTotalStake;
+
+  const safeServiceFee = isNaN(serviceFee) ? 0 : serviceFee;
+
   const annuallPercentageRateTotal =
-    anualPercentageRate * 100 - anualPercentageRate * 100 * (serviceFee / 100);
+    anualPercentageRate * 100 -
+    anualPercentageRate * 100 * (safeServiceFee / 100);
+
+  if (
+    isNaN(annuallPercentageRateTotal) ||
+    !isFinite(annuallPercentageRateTotal)
+  ) {
+    return '0.00';
+  }
 
   return annuallPercentageRateTotal.toFixed(2).toString();
 };
