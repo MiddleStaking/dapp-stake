@@ -6,10 +6,15 @@ import { useGetUserNFT } from 'pages/CollectionDetail/components/Actions/helpers
 import { useGetCollectionInformations } from 'pages/Collections/components/Actions/helpers';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import { PoolAddCollection } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollection';
+import { PoolAddCollectionV2 } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollectionV2';
 import AccordionWrap from './AccordionWrap';
 import { useGetUserRewards, useGetCollectionRewards } from './Actions/helpers';
+import { useGetUserRewardsV2 } from './Actions/helpers/useGetUserRewardsV2';
+import { useGetCollectionRewardsV2 } from './Actions/helpers/useGetCollectionRewardsV2';
 import { useGetUserESDT } from 'pages/Earn/components/Actions/helpers/useGetUserESDT';
 import { useGetUserStakedNft } from './Actions/helpers/useGetUserStakedNft';
+// import { useGetUserStakedNftV2 } from './Actions/helpers/useGetUserStakedNftV2';
+import { useCheckIsV2 } from 'pages/Collections/components/Actions/helpersApi/useCheckIsV2';
 import { ModalJump } from './Modal/ModalJump';
 
 export const CollectionsLayout = () => {
@@ -23,10 +28,70 @@ export const CollectionsLayout = () => {
   const [openModalJump, setOpenModalJump] = useState(false);
   const [nftsJump, setNftsJump] = useState<any>('');
 
-  const collectionRewards = useGetCollectionRewards(url ? url : '');
-  const allRewardsForUser = useGetUserRewards(address, url ? url : '');
+  /* V2 Detection Logic */
+  const isV2 = useCheckIsV2(url);
+
+  // V1 Hooks
+  const collectionRewardsV1 = useGetCollectionRewards(url ? url : '');
+  const allRewardsForUserV1 = useGetUserRewards(address, url ? url : '');
+  const userStakedNftV1 = useGetUserStakedNft(address);
+
+  // V2 Hooks
+  // const collectionRewardsV2 = useGetCollectionRewardsV2(url ? url : '');
+  // const allRewardsForUserV2 = useGetUserRewardsV2(address, url ? url : '');
+  // const userStakedNftV2 = useGetUserStakedNftV2(address);
+
+  // Unified Data
+  // Tag V1 data
+  const collectionRewardsV1Tagged = Array.isArray(collectionRewardsV1)
+    ? collectionRewardsV1.map((item: any) => ({ ...item, isV2: false }))
+    : [];
+  const allRewardsForUserV1Tagged = Array.isArray(allRewardsForUserV1)
+    ? allRewardsForUserV1.map((item: any) => ({ ...item, isV2: false }))
+    : [];
+  // For userStakedNft, items are inside.
+  // V1 structure: { staked_nft: {...}, current_block: ... }
+  // We attach isV2 to the wrapper or the staked_nft?
+  // Accordion accesses item.staked_nft.pool_id.
+  // AccordionWRAP constructs user_pools from userStakedNft.
+  // We need to know which version the staked nft belongs to.
+  const userStakedNftV1Tagged = Array.isArray(userStakedNftV1)
+    ? userStakedNftV1.map((item: any) => ({
+        ...item,
+        isV2: false,
+        staked_nft: { ...item.staked_nft, isV2: false }
+      }))
+    : [];
+
+  // Tag V2 data
+  // const collectionRewardsV2Tagged = Array.isArray(collectionRewardsV2)
+  //   ? collectionRewardsV2.map((item: any) => ({ ...item, isV2: true }))
+  //   : [];
+  // const allRewardsForUserV2Tagged = Array.isArray(allRewardsForUserV2)
+  //   ? allRewardsForUserV2.map((item: any) => ({ ...item, isV2: true }))
+  //   : [];
+  // const userStakedNftV2Tagged = Array.isArray(userStakedNftV2)
+  //   ? userStakedNftV2.map((item: any) => ({
+  //       ...item,
+  //       isV2: true,
+  //       staked_nft: { ...item.staked_nft, isV2: true }
+  //     }))
+  //   : [];
+
+  // Merge
+  const collectionRewards = [
+    ...collectionRewardsV1Tagged
+    // ...collectionRewardsV2Tagged
+  ];
+  const allRewardsForUser = [
+    ...allRewardsForUserV1Tagged
+    // ...allRewardsForUserV2Tagged
+  ];
+  const userStakedNft = [
+    ...userStakedNftV1Tagged /* ...userStakedNftV2Tagged */
+  ];
+
   const userNftBalance = useGetUserNFT(url ? url : '');
-  const userStakedNft = useGetUserStakedNft(address);
   const getCollectionInformations = useGetCollectionInformations(
     url ? url : ''
   );
@@ -107,12 +172,18 @@ export const CollectionsLayout = () => {
             //  className='col-12'
             style={{ width: '44px' }}
           >
-            {address && (
-              <PoolAddCollection
-                userEsdtBalance={userEsdtBalance}
-                address={address}
-              />
-            )}
+            {address &&
+              (isV2 ? (
+                <PoolAddCollectionV2
+                  userEsdtBalance={userEsdtBalance}
+                  address={address}
+                />
+              ) : (
+                <PoolAddCollection
+                  userEsdtBalance={userEsdtBalance}
+                  address={address}
+                />
+              ))}
             {openModalJump && (
               <ModalJump
                 getCollectionInformations={getCollectionInformations}
@@ -145,6 +216,7 @@ export const CollectionsLayout = () => {
           userNftBalance={userNftBalance}
           userStakedNft={userStakedNft}
           getCollectionInformations={getCollectionInformations}
+          isV2={isV2}
         />
       ) : (
         <div

@@ -13,19 +13,31 @@ import {
   useGetNetworkConfig,
   useGetAccountInfo
 } from 'lib';
-import { contractNftStake } from 'config';
+import { contractNftStake, contractNftStakeV2 } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
 export const ActionClaimPools = ({
   user_pools,
   buttonWidth,
-  bottomHeight
+  bottomHeight,
+  isV2
 }: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
 
   const transactions = useGetPendingTransactions();
-  const hasPendingTransactions = transactions.length > 0;
+  // Check if any pending transaction is a claimRewards transaction for one of our pools
+  const hasPendingTransactions = transactions.some((t: any) => {
+    const data = t.data || '';
+    return user_pools.some((pool: any) => {
+      const poolId = pool.pool_id !== undefined ? pool.pool_id : pool;
+      const payload = 'claimRewards@' + bigToHex(BigInt(poolId));
+      return (
+        data.toString().includes(payload) ||
+        (typeof data === 'string' && atob(data).includes(payload))
+      );
+    });
+  });
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
@@ -34,13 +46,19 @@ export const ActionClaimPools = ({
   const sendClaimTransaction = async () => {
     const transactions: Transaction[] = [];
 
-    for (const pool_id of user_pools) {
+    for (const pool of user_pools) {
+      const pool_id = pool.pool_id !== undefined ? pool.pool_id : pool; // Handle object or primitive
+      // If pool is object, use its isV2. If primitive, fallback to prop isV2
+      const isPoolV2 = pool.isV2 !== undefined ? pool.isV2 : isV2;
+
       const payload = 'claimRewards@' + bigToHex(BigInt(pool_id));
       transactions.push(
         new Transaction({
           value: BigInt(0),
           data: new TextEncoder().encode(payload),
-          receiver: new Address(contractNftStake),
+          receiver: new Address(
+            isPoolV2 ? contractNftStakeV2 : contractNftStake
+          ),
           gasLimit: BigInt('6000000'),
 
           gasPrice: BigInt(GAS_PRICE),
@@ -93,37 +111,25 @@ export const ActionClaimPools = ({
             data-testid='balance'
             digits={2}
           /> */}
-        {!hasPendingTransactions ? (
-          <>
-            {address && (
-              <Button
-                fontSize='10px'
-                buttonHeight={bottomHeight}
-                disabled={user_pools?.length == 0}
-                buttonWidth={buttonWidth}
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text={'Claim ' + user_pools?.length + ' pools'}
-                onClick={sendClaimTransaction}
-              />
-            )}
-          </>
-        ) : (
-          <>
-            {' '}
+        <>
+          {address && (
             <Button
               fontSize='10px'
               buttonHeight={bottomHeight}
+              disabled={user_pools?.length == 0}
               buttonWidth={buttonWidth}
               borderRadius={40}
               background={['#BD37EC', '#1F67FF']}
               borderColor={'black'}
-              text='Processing'
-              disabled={true}
+              text={
+                hasPendingTransactions
+                  ? 'Processing...'
+                  : 'Claim ' + user_pools?.length + ' pools'
+              }
+              onClick={sendClaimTransaction}
             />
-          </>
-        )}
+          )}
+        </>
       </>
       {/* )} */}
     </div>

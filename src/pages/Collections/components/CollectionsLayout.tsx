@@ -10,10 +10,13 @@ import { useGetCollections } from './Actions/helpers';
 import { useGetUserESDT } from 'pages/Earn/components/Actions/helpers/useGetUserESDT';
 import { useGetCollectionsApi } from './Actions/helpersApi';
 import CardOfCollection from './CardOfCollection';
+import { PoolAddCollectionV2 } from './Modal/AddCollection/PoolAddCollectionV2';
 import { PoolAddCollection } from './Modal/AddCollection/PoolAddCollection';
 import HexagoneNFT from './hexagoneNFT';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';
+// import { useGetCollectionsV2 } from './Actions/helpersApi/useGetCollectionsV2';
+
 export const CollectionsLayout = () => {
   const { setHeaderMenu } = React.useContext(HeaderMenuContext);
   const [mySearch, setMySearch] = React.useState('');
@@ -23,6 +26,52 @@ export const CollectionsLayout = () => {
   const stakedCollections: string[] = useGetCollections();
 
   const callCollectionApi: any[] = useGetCollectionsApi();
+  // const v2Collections: any[] = useGetCollectionsV2();
+
+  // Temporarily disabled V2 — using V1 API only
+  const combinedCollections = (callCollectionApi || []).map((c: any) => ({
+    ...c,
+    isV2: false,
+    isV1: true
+  }));
+
+  // // Combine lists: V2 first, then V1 (stakedCollections from SC)
+  // // stakedCollections is string[], so we map it to { identifier: string }
+  // const rawCollections = [
+  //   ...(v2Collections || []).map((c) => ({ ...c, isV2: true })),
+  //   ...(stakedCollections || []).map((id) => ({
+  //     identifier: id,
+  //     rewards: [],
+  //     media: { url: '', fileType: 'image' },
+  //     isV2: false
+  //   }))
+  // ];
+
+  // // Merge duplicates based on identifier
+  // const collectionsMap = new Map();
+  // for (const item of rawCollections) {
+  //   if (!item.identifier) continue;
+  //   const existing = collectionsMap.get(item.identifier);
+  //   if (existing) {
+  //     const merged = {
+  //       ...existing,
+  //       ...item,
+  //       rewards: [...(existing.rewards || []), ...(item.rewards || [])],
+  //       isV2: existing.isV2 || item.isV2,
+  //       isV1:
+  //         (existing.isV1 !== undefined ? existing.isV1 : !existing.isV2) ||
+  //         item.isV2 === false
+  //     };
+  //     collectionsMap.set(item.identifier, merged);
+  //   } else {
+  //     collectionsMap.set(item.identifier, {
+  //       ...item,
+  //       isV1: !item.isV2
+  //     });
+  //   }
+  // }
+  // const combinedCollections = Array.from(collectionsMap.values());
+
   const userStakedNft = useGetUserStakedNft(address);
 
   //for unbond nft with no more pool in array
@@ -139,10 +188,16 @@ export const CollectionsLayout = () => {
           </div>
           <div className='centered-element'>
             {address && (
-              <PoolAddCollection
-                userEsdtBalance={userEsdtBalance}
-                address={address}
-              />
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <PoolAddCollection
+                  userEsdtBalance={userEsdtBalance}
+                  address={address}
+                />
+                <PoolAddCollectionV2
+                  userEsdtBalance={userEsdtBalance}
+                  address={address}
+                />
+              </div>
             )}
           </div>
           <div className='centered-element'>
@@ -298,13 +353,16 @@ export const CollectionsLayout = () => {
         </div> */}
 
         {/* end div Vouchers */}
-        {callCollectionApi &&
-          callCollectionApi
+        {combinedCollections &&
+          combinedCollections
             .filter((item) => {
               return (
-                item.identifier
+                item.identifier &&
+                typeof item.identifier === 'string' &&
+                (item.identifier
                   .toLowerCase()
-                  .includes(mySearch.toLowerCase()) || mySearch == ''
+                  .includes(mySearch.toLowerCase()) ||
+                  mySearch == '')
               );
             })
             .map((item) => (

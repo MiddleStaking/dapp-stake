@@ -58,7 +58,7 @@ const Countdown: React.FC<CountdownProps> = ({ totalSeconds }) => {
   }
 
   return (
-    <div
+    <span
       style={{
         textAlign: 'center',
         display: 'flex',
@@ -69,7 +69,7 @@ const Countdown: React.FC<CountdownProps> = ({ totalSeconds }) => {
     >
       <SandClock />
       {computeTime()}
-    </div>
+    </span>
   );
 };
 

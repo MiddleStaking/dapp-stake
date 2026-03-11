@@ -23,7 +23,7 @@ export const useGetNft = (
       setNft(storage);
       return;
     }
-    if (nonce < 1 || !identifier) {
+    if (nonce < 1 || isNaN(nonce) || !identifier) {
       setNft([]);
       return;
     }

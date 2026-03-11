@@ -13,6 +13,8 @@ import { useGetNft } from 'pages/Collections/components/Actions/helpers/useGetNf
 import HexagoneNFT from 'pages/Collections/components/hexagoneNFT';
 import HexagoneGroupe from 'pages/Collections/components/Modal/AddCollection/hexagoneGroupe';
 import { PoolAddCollection } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollection';
+import { PoolAddCollectionV2 } from 'pages/Collections/components/Modal/AddCollection/PoolAddCollectionV2';
+import ModalEditPoolV2 from 'pages/Collections/components/Modal/EditPool/ModalEditPoolV2';
 import { useGetESDTInformations } from 'pages/Earn/components/Actions/helpers';
 import notFound from '../../../../../../assets/img/notfoundc.svg';
 
@@ -27,6 +29,7 @@ interface CardPoolrops {
   setOpenModalJump: any;
   setNftsJump: any;
   collectionRewards: any;
+  isV2?: boolean;
 }
 
 const Accordion: FC<CardPoolrops> = ({
@@ -39,10 +42,12 @@ const Accordion: FC<CardPoolrops> = ({
   getCollectionInformations,
   setOpenModalJump,
   setNftsJump,
-  collectionRewards
+  collectionRewards,
+  isV2
 }) => {
   const [nFtCanStake, setNFtCanStake] = useState([]);
   const [showMoal, setShowMoal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [myTokenStakedNumber, setMyTokenStakedNumber] = useState(0);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -124,6 +129,15 @@ const Accordion: FC<CardPoolrops> = ({
           showMoal={showMoal}
           setShowMoal={setShowMoal}
           nft={nft}
+          isV2={isV2}
+        />
+      )}
+      {showEditModal && (
+        <ModalEditPoolV2
+          show={showEditModal}
+          setShow={setShowEditModal}
+          onClose={() => setShowEditModal(false)}
+          collectionReward={collectionReward}
         />
       )}
       <div className='pool-details_Collection'>
@@ -273,6 +287,37 @@ const Accordion: FC<CardPoolrops> = ({
                     Speed : {collectionReward?.speed?.toString() + ' '}
                     days
                   </div>
+                  {isV2 &&
+                    collectionReward?.creator &&
+                    address &&
+                    collectionReward.creator.toString() === address && (
+                      <div
+                        onClick={() => setShowEditModal(true)}
+                        style={{
+                          cursor: 'pointer',
+                          background: '#BD37EC',
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          fontSize: '10px',
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        Edit V2
+                      </div>
+                    )}
+                  {isV2 && (
+                    <div>
+                      Accepted Nonces :{' '}
+                      {collectionReward?.nonces &&
+                      collectionReward.nonces.length > 0
+                        ? collectionReward.nonces.some(
+                            (n: any) => n.toString() === '0'
+                          )
+                          ? 'All'
+                          : collectionReward.nonces.join(', ')
+                        : 'All'}
+                    </div>
+                  )}
                   <div
                     style={{
                       display: 'flex',
@@ -337,11 +382,22 @@ const Accordion: FC<CardPoolrops> = ({
                         buttonHeight='31px'
                         onClick={() => {
                           const canStake = userNftBalance
-                            .filter(
-                              (item: any) =>
+                            .filter((item: any) => {
+                              if (isV2 && collectionReward?.nonces) {
+                                return (
+                                  collectionReward.nonces.length === 0 ||
+                                  collectionReward.nonces.some(
+                                    (n: any) =>
+                                      n.toString() === item.nonce.toString() ||
+                                      n.toString() === '0'
+                                  )
+                                );
+                              }
+                              return (
                                 item.nonce == collectionReward?.nonce ||
                                 collectionReward?.nonce == BigInt(0)
-                            )
+                              );
+                            })
                             .map((item: any) => item);
 
                           setNFtCanStake(canStake);
@@ -349,11 +405,22 @@ const Accordion: FC<CardPoolrops> = ({
                           setHeaderMenu(false);
                         }}
                         disabled={
-                          userNftBalance.filter(
-                            (item: any) =>
+                          userNftBalance.filter((item: any) => {
+                            if (isV2 && collectionReward?.nonces) {
+                              return (
+                                collectionReward.nonces.length === 0 ||
+                                collectionReward.nonces.some(
+                                  (n: any) =>
+                                    n.toString() === item.nonce.toString() ||
+                                    n.toString() === '0'
+                                )
+                              );
+                            }
+                            return (
                               item.nonce == collectionReward?.nonce ||
                               collectionReward?.nonce == BigInt(0)
-                          ).length === 0
+                            );
+                          }).length === 0
                         }
 
                         // rightHtml={
@@ -377,6 +444,7 @@ const Accordion: FC<CardPoolrops> = ({
                       rewardsAmount={allRewardsForUser}
                       Availablerewards={Availablerewards}
                       pool_id={collectionReward?.pool_id}
+                      isV2={isV2}
                     />
                   </div>
                 </div>
@@ -418,30 +486,65 @@ const Accordion: FC<CardPoolrops> = ({
                       minimumFractionDigits: 0,
                       maximumFractionDigits: rdecimals
                     })}
-                    {address && (
-                      <PoolAddCollection
-                        border={false}
-                        widthSvg={10}
-                        paddingAroundSvg={'1px 1px 1px 1px'}
-                        userEsdtBalance={userEsdtBalance}
-                        address={address}
-                        Vesting={Number(collectionReward?.vesting?.toString())}
-                        Unbounding={Number(
-                          collectionReward?.unbounding?.toString()
-                        )}
-                        Speed={Number(collectionReward?.speed?.toString())}
-                        Nonce={
-                          collectionReward.nonce
-                            ? Number(collectionReward.nonce)
-                            : 0
-                        }
-                        SelectReward={
-                          collectionReward?.identifier
-                            ? collectionReward?.identifier
-                            : ''
-                        }
-                      />
-                    )}
+                    {address &&
+                      (isV2 ? (
+                        <PoolAddCollectionV2
+                          border={false}
+                          widthSvg={10}
+                          paddingAroundSvg={'1px 1px 1px 1px'}
+                          userEsdtBalance={userEsdtBalance}
+                          address={address}
+                          Vesting={Number(
+                            collectionReward?.vesting?.toString()
+                          )}
+                          Unbounding={Number(
+                            collectionReward?.unbounding?.toString()
+                          )}
+                          Speed={Number(collectionReward?.speed?.toString())}
+                          Nonce={
+                            collectionReward.nonces &&
+                            collectionReward.nonces.length > 0
+                              ? collectionReward.nonces.some(
+                                  (n: any) => n.toString() === '0'
+                                )
+                                ? '' // If 0 is present, it means all nonces, so empty string? Or maybe we shouldn't prefill? User said "if defined". If 0, it means "All", so maybe empty string is correct (no restriction).
+                                : collectionReward.nonces.join(', ')
+                              : collectionReward.nonce
+                              ? Number(collectionReward.nonce)
+                              : 0
+                          }
+                          SelectReward={
+                            collectionReward?.identifier
+                              ? collectionReward?.identifier
+                              : ''
+                          }
+                        />
+                      ) : (
+                        <PoolAddCollection
+                          border={false}
+                          widthSvg={10}
+                          paddingAroundSvg={'1px 1px 1px 1px'}
+                          userEsdtBalance={userEsdtBalance}
+                          address={address}
+                          Vesting={Number(
+                            collectionReward?.vesting?.toString()
+                          )}
+                          Unbounding={Number(
+                            collectionReward?.unbounding?.toString()
+                          )}
+                          Speed={Number(collectionReward?.speed?.toString())}
+                          Nonce={
+                            collectionReward.nonce
+                              ? Number(collectionReward.nonce)
+                              : 0
+                          }
+                          SelectReward={
+                            collectionReward?.identifier
+                              ? collectionReward?.identifier
+                              : ''
+                          }
+                        />
+                      ))}
                   </div>
                   <div
                     style={{
@@ -475,7 +578,9 @@ const Accordion: FC<CardPoolrops> = ({
                       my rewards :{' '}
                       {Number(
                         new BigNumber(
-                          Availablerewards ? Availablerewards[0] : 0
+                          Availablerewards && Availablerewards.length > 0
+                            ? Availablerewards[0]
+                            : 0
                         )
                           .dividedBy(10 ** rdecimals)
                           .toFixed()
@@ -532,6 +637,7 @@ const Accordion: FC<CardPoolrops> = ({
                 pool={collectionReward?.pool_id}
                 unbounding={collectionReward?.unbounding}
                 staked_balance={userStakedNft}
+                isV2={isV2}
               />
             )}
           </div>

@@ -13,31 +13,40 @@ import {
   useGetNetworkConfig,
   useGetAccountInfo
 } from 'lib';
-import { contractNftStake } from 'config';
+import { contractNftStake, contractNftStakeV2 } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from './../../../../components/Design';
 export const ActionClaimRewards = ({
   pool_id,
   buttonWidth,
   bottomHeight,
-  Availablerewards
+  Availablerewards,
+  isV2
 }: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
 
+  const payload = 'claimRewards@' + bigToHex(BigInt(pool_id));
   const transactions = useGetPendingTransactions();
-  const hasPendingTransactions = transactions.length > 0;
+  const hasPendingTransactions = transactions.some((t: any) => {
+    // Check if transaction data matches the payload (handle potentially different data formats)
+    const data = t.data || '';
+    // Decode if it's base64 (common in some response formats) or just check string
+    return (
+      data.toString().includes(payload) ||
+      (typeof data === 'string' && atob(data).includes(payload))
+    );
+  });
 
   const /*transactionSessionId*/ [, setTransactionSessionId] = useState<
       string | null
     >(null);
 
   const sendClaimTransaction = async () => {
-    const payload = 'claimRewards@' + bigToHex(BigInt(pool_id));
     const transaction = new Transaction({
       value: BigInt(0),
       data: new TextEncoder().encode(payload),
-      receiver: new Address(contractNftStake),
+      receiver: new Address(isV2 ? contractNftStakeV2 : contractNftStake),
       gasLimit: BigInt('6000000'),
 
       gasPrice: BigInt(GAS_PRICE),
@@ -81,39 +90,23 @@ export const ActionClaimRewards = ({
             data-testid='balance'
             digits={2}
           /> */}
-        {!hasPendingTransactions ? (
-          <>
-            {address && (
-              <Button
-                fontSize='10px'
-                buttonHeight={bottomHeight}
-                disabled={
-                  Availablerewards == undefined || Availablerewards == 0
-                }
-                buttonWidth={buttonWidth}
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text='Claim my rewards'
-                onClick={sendClaimTransaction}
-              />
-            )}
-          </>
-        ) : (
-          <>
-            {' '}
+        <>
+          {address && (
             <Button
               fontSize='10px'
               buttonHeight={bottomHeight}
+              disabled={Availablerewards == undefined || Availablerewards == 0}
               buttonWidth={buttonWidth}
               borderRadius={40}
               background={['#BD37EC', '#1F67FF']}
               borderColor={'black'}
-              text='Processing'
-              disabled={true}
+              text={
+                hasPendingTransactions ? 'Processing...' : 'Claim my rewards'
+              }
+              onClick={sendClaimTransaction}
             />
-          </>
-        )}
+          )}
+        </>
       </>
       {/* )} */}
     </div>

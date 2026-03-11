@@ -13,11 +13,11 @@ import {
   useGetNetworkConfig,
   useGetAccountInfo
 } from 'lib';
-import { contractNftStake } from 'config';
+import { contractNftStake, contractNftStakeV2 } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from '../../../../components/Design';
 
-export const Actionfinalize = ({ nft_id, text, disabled }: any) => {
+export const Actionfinalize = ({ nft_id, text, disabled, isV2 }: any) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
 
@@ -32,7 +32,7 @@ export const Actionfinalize = ({ nft_id, text, disabled }: any) => {
     const transaction = new Transaction({
       value: BigInt('0'),
       data: new TextEncoder().encode(payload),
-      receiver: new Address(contractNftStake),
+      receiver: new Address(isV2 ? contractNftStakeV2 : contractNftStake),
       gasLimit: BigInt('6000000'),
 
       gasPrice: BigInt(GAS_PRICE),

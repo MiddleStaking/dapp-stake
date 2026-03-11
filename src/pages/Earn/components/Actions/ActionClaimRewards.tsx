@@ -66,30 +66,18 @@ export const ActionClaimRewards = ({
     <div className='center' style={{ width: '100%' }}>
       {rewardsAmount !== undefined && rewardsAmount > 0 && (
         <>
-          {!hasPendingTransactions ? (
-            <>
-              <Button
-                buttonWidth='100%'
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text='Claim my rewards'
-                onClick={sendClaimTransaction}
-              />
-            </>
-          ) : (
-            <>
-              {' '}
-              <Button
-                buttonWidth='100%'
-                borderRadius={40}
-                background={['#BD37EC', '#1F67FF']}
-                borderColor={'black'}
-                text='Processing'
-                disabled={true}
-              />
-            </>
-          )}
+          <>
+            <Button
+              buttonWidth='100%'
+              borderRadius={40}
+              background={['#BD37EC', '#1F67FF']}
+              borderColor={'black'}
+              text={
+                hasPendingTransactions ? 'Processing...' : 'Claim my rewards'
+              }
+              onClick={sendClaimTransaction}
+            />
+          </>
         </>
       )}
     </div>

@@ -9,6 +9,9 @@ interface IFormatAmountProps
   extends Partial<MvxFormatAmountPropsType>,
     WithClassnameType {
   value: string;
+  decimals?: number;
+  digits?: number;
+  showLabel?: boolean;
 }
 
 export const FormatAmount = (props: IFormatAmountProps) => {

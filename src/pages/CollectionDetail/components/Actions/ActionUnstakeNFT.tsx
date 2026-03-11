@@ -3,22 +3,32 @@ import { useState } from 'react';
 import { useGetPendingTransactions } from 'lib';
 import { signAndSendTransactions } from 'helpers';
 import {
-  AbiRegistry,
   Address,
   GAS_PRICE,
-  SmartContractTransactionsFactory,
   Transaction,
-  TransactionsFactoryConfig,
-  useGetAccount,
-  useGetNetworkConfig,
-  useGetAccountInfo
+  useGetAccountInfo,
+  useGetNetworkConfig
 } from 'lib';
 
-import { contractNftStake } from 'config';
+import { contractNftStake, contractNftStakeV2 } from 'config';
 import bigToHex from 'helpers/bigToHex';
 import { Button } from '../../../../components/Design';
 
-export const ActionUnstakeNFT = ({ nft_id, text, disabled }: any) => {
+interface ActionUnstakeNFTProps {
+  nft_id?: string;
+  nft_ids?: string[]; // Support for multiple IDs
+  text: React.ReactNode;
+  disabled: boolean;
+  isV2?: boolean;
+}
+
+export const ActionUnstakeNFT = ({
+  nft_id,
+  nft_ids,
+  text,
+  disabled,
+  isV2
+}: ActionUnstakeNFTProps) => {
   const { network } = useGetNetworkConfig();
   const { address } = useGetAccountInfo();
 
@@ -29,12 +39,26 @@ export const ActionUnstakeNFT = ({ nft_id, text, disabled }: any) => {
     >(null);
 
   const sendClaimTransaction = async () => {
-    const payload = 'unstake@' + bigToHex(BigInt(nft_id));
+    let payload = 'unstake';
+    let count = 0;
+
+    if (nft_ids && nft_ids.length > 0) {
+      nft_ids.forEach((id) => {
+        payload += '@' + bigToHex(BigInt(id));
+      });
+      count = nft_ids.length;
+    } else if (nft_id) {
+      payload += '@' + bigToHex(BigInt(nft_id));
+      count = 1;
+    } else {
+      return; // Nothing to unstake
+    }
+
     const transaction = new Transaction({
       value: BigInt(0),
       data: new TextEncoder().encode(payload),
-      receiver: new Address(contractNftStake),
-      gasLimit: BigInt('8000000'),
+      receiver: new Address(isV2 ? contractNftStakeV2 : contractNftStake),
+      gasLimit: BigInt('8000000') + BigInt(count * 500000), // Dynamic gas
 
       gasPrice: BigInt(GAS_PRICE),
       chainID: network.chainId,

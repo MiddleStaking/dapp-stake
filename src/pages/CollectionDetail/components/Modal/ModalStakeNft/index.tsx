@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Button } from 'components/Design';
-import DropdownMenu from 'components/Design/DropdownMenu';
 import Input from 'components/Design/Input';
 import { useWindowDimensions } from 'components/DimensionScreen';
 import toHex from 'helpers/toHex';
@@ -12,14 +10,18 @@ import './ModalStakeNft.scss';
 
 export const ModalStakeNft = (props: any) => {
   const [qty, setQty] = React.useState(1);
-  const [currentIndex, setCurrentIndex] = React.useState<number>(0);
   const [openAccordions, setOpenAccordions] = useState([false]);
+  // Use state for MULTIPLE selected items
+  const [selectedTokens, setSelectedTokens] = React.useState<any[]>([]);
+  // Store quantities for each token: { [identifier]: amount }
+  const [quantities, setQuantities] = React.useState<{ [key: string]: number }>(
+    {}
+  );
 
   const ModalRef: any = useRef(null);
 
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
-      // Si le menu est ouvert et le clic est en dehors du menu, fermez-le
       if (
         props.showMoal &&
         ModalRef.current &&
@@ -28,26 +30,24 @@ export const ModalStakeNft = (props: any) => {
         props.setShowMoal(false);
       }
     };
-
     document.addEventListener('mousedown', checkIfClickedOutside);
-
     return () => {
-      // Nettoyez l'écouteur lorsque le composant se démonte
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
   }, [props.showMoal]);
 
-  const [stoken, setStoken] = React.useState<any>([]);
   const { width } = useWindowDimensions();
 
+  // Initialize selection
   useEffect(() => {
-    if (width <= 670) {
-      setStoken([props.userNFTBalance[0]]);
+    if (props.userNFTBalance.length > 0 && selectedTokens.length === 0) {
+      const first = props.userNFTBalance[0];
+      setSelectedTokens([first]);
+      // Default quantity for first item is max balance (or we could use 1)
+      setQuantities({ [first.identifier]: Number(first.balance) });
+      setQty(Number(first.balance)); // Sync bottom input
     }
-    if (props.userNFTBalance.length == 1) {
-      setStoken([props.userNFTBalance[0]]);
-    }
-  }, [width]);
+  }, [props.userNFTBalance]);
 
   const toggleAccordion = (index: number) => {
     const newOpenAccordions = [...openAccordions];
@@ -56,61 +56,77 @@ export const ModalStakeNft = (props: any) => {
   };
 
   function handleQtyChange(value: any) {
-    const max = Number(stoken[0]?.balance);
-    if (value > 0 && value < max + 1) {
-      setQty(value);
-    }
-    if (value > max) {
-      setQty(max);
-    }
+    // Only allow quantity change if SINGLE selection (Bottom input)
+    if (selectedTokens.length !== 1) return;
+
+    const token = selectedTokens[0];
+    const max = Number(token?.balance);
+    let newVal = value;
+    if (value > max) newVal = max;
+    if (value < 1) newVal = 1;
+
+    setQty(newVal);
+    // Update the dict as well
+    setQuantities((prev) => ({ ...prev, [token.identifier]: newVal }));
   }
 
-  const handleBeforeClick = () => {
-    const myCurrentIndex = props.userNFTBalance.findIndex(
-      (item: any) => item.identifier === stoken[0]?.identifier
-    );
+  const handleItemQtyChange = (identifier: string, value: any, max: number) => {
+    let newVal = value;
+    if (value > max) newVal = max;
+    if (value < 1) newVal = 1;
 
-    if (myCurrentIndex > 0) {
-      const previousItem = props.userNFTBalance[myCurrentIndex - 1];
-      setCurrentIndex(myCurrentIndex - 1);
-      setStoken([previousItem]);
+    setQuantities((prev) => ({ ...prev, [identifier]: newVal }));
+
+    // If this is the only selected item, sync bottom input too
+    if (
+      selectedTokens.length === 1 &&
+      selectedTokens[0].identifier === identifier
+    ) {
+      setQty(newVal);
     }
   };
 
-  const handleAfterClick = () => {
-    const myCurrentIndex = props.userNFTBalance.findIndex(
-      (item: any) => item.identifier === stoken[0]?.identifier
+  // Toggle selection for a token
+  const toggleSelection = (token: any) => {
+    const isSelected = selectedTokens.some(
+      (t) => t.identifier === token.identifier
     );
+    if (isSelected) {
+      setSelectedTokens(
+        selectedTokens.filter((t) => t.identifier !== token.identifier)
+      );
+      // Optional: remove from quantities state, but not strictly needed
+    } else {
+      setSelectedTokens([...selectedTokens, token]);
+      // Initialize quantity to MAX balance by default when selected
+      setQuantities((prev) => ({
+        ...prev,
+        [token.identifier]: Number(token.balance)
+      }));
+    }
+  };
 
-    if (myCurrentIndex < props.userNFTBalance.length - 1) {
-      const previousItem = props.userNFTBalance[myCurrentIndex + 1];
-      setCurrentIndex(myCurrentIndex + 1);
-      setStoken([previousItem]);
+  const handleSelectAll = (e: any) => {
+    if (e.target.checked) {
+      setSelectedTokens([...props.userNFTBalance]);
+      // Set all to max balance
+      const newQuantities: any = {};
+      props.userNFTBalance.forEach((t: any) => {
+        newQuantities[t.identifier] = Number(t.balance);
+      });
+      setQuantities(newQuantities);
+    } else {
+      setSelectedTokens([]);
     }
   };
 
   return (
     <div className='centerStakeModal_Collection'>
-      <div
-        // style={{
-        //   minHeight: '470px'
-        // }}
-        ref={ModalRef}
-        className='backgroundStakeModal_Collection'
-      >
+      <div ref={ModalRef} className='backgroundStakeModal_Collection'>
         <div className='modalStakeModal_Collection'>
           <div className='contentStakeModal_Collection'>
             <div className='modalLabelStakeModal_Collection'>Stake Nft</div>
             <div className='wrapperTT'>
-              <div
-                className='arrow arrow-before'
-                onClick={handleBeforeClick}
-                style={{
-                  cursor: currentIndex > 0 ? 'pointer' : 'default',
-                  filter: currentIndex <= 0 ? 'grayscale(0.80)' : 'none'
-                }}
-              ></div>
-
               <div
                 style={{
                   display: 'flex',
@@ -119,57 +135,38 @@ export const ModalStakeNft = (props: any) => {
                   margin: '30px 0px'
                 }}
               >
-                {stoken[0]?.media && stoken.length == 1 ? (
+                {selectedTokens.length === 1 && selectedTokens[0]?.media ? (
                   <HexagoneNFT
                     format={
-                      stoken[0]?.media[0]?.fileType == 'video/mp4'
+                      selectedTokens[0]?.media[0]?.fileType == 'video/mp4'
                         ? 'video/mp4'
                         : 'image'
                     }
-                    url={
-                      props.userNFTBalance.length != 0
-                        ? stoken[0]?.media[0]?.url
-                        : ''
-                    }
+                    url={selectedTokens[0]?.media[0]?.url}
                     width={200}
                     withBorder={true}
                     borderWidth={2.5}
                     borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
                     withShadow={true}
                   />
-                ) : props.userNFTBalance.length != 0 ? (
-                  <HexagoneGroupe collectionInfo={props.userNFTBalance} />
+                ) : selectedTokens.length > 1 ? (
+                  <div style={{ textAlign: 'center' }}>
+                    <HexagoneGroupe
+                      collectionInfo={selectedTokens}
+                      width={100}
+                    />
+                    <div style={{ marginTop: '10px', color: 'white' }}>
+                      {selectedTokens.length} items selected
+                    </div>
+                  </div>
+                ) : props.userNFTBalance.length > 0 ? (
+                  <div style={{ color: 'white' }}>Select items below</div>
                 ) : (
-                  <HexagoneNFT
-                    format={
-                      stoken[0]?.media[0]?.fileType == 'video/mp4'
-                        ? 'video/mp4'
-                        : 'image'
-                    }
-                    url={''}
-                    width={200}
-                    withBorder={true}
-                    borderWidth={2.5}
-                    borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                    withShadow={true}
-                  />
+                  <div style={{ color: 'white' }}>No NFTs found</div>
                 )}
               </div>
-              <div
-                className='arrow arrow-after'
-                onClick={handleAfterClick}
-                style={{
-                  cursor:
-                    currentIndex < props.userNFTBalance.length - 1
-                      ? 'pointer'
-                      : 'default',
-                  filter:
-                    currentIndex >= props.userNFTBalance.length - 1
-                      ? 'grayscale(0.80)'
-                      : 'none'
-                }}
-              ></div>
             </div>
+
             {props.collectionReward.nonce > 0 ? (
               <a
                 style={{ color: 'white', display: 'flex' }}
@@ -210,39 +207,137 @@ export const ModalStakeNft = (props: any) => {
                       Select Nft :
                     </div>
                     <div className='ValueDetailsInfo_black_Collection'>
-                      <DropdownMenu
-                        BoxShadowActive={false}
-                        BoxShadowColor='transparent'
-                        BoxShadowActiveColor='0 0 24px 0 '
-                        inputHeight={'15px'}
-                        inputWidth='200px'
-                        borderRadius='54'
-                        hasBorder={false}
-                        borderColor='#695885'
-                        borderRadiusOptions='5px'
-                        options={
-                          props.userNFTBalance
-                            ? props.userNFTBalance.map((item: any) => ({
-                                text: item.identifier,
-                                value: item
-                              }))
-                            : []
-                        }
-                        defaultValue={
-                          props.userNFTBalance.length == 1 ||
-                          stoken[0]?.identifier
-                            ? stoken[0]?.identifier
-                            : 'select nft'
-                        }
-                        disableOption={false}
-                        onSelect={function (value: any): void {
-                          setStoken([value]);
-                          const newIndex = props.userNFTBalance.findIndex(
-                            (item: any) => item.identifier === value.identifier
-                          );
-                          setCurrentIndex(newIndex);
+                      {/* Multi-Select List */}
+                      <div
+                        style={{
+                          maxHeight: '150px',
+                          overflowY: 'auto',
+                          width: '260px', // Wider to fit input
+                          border: '1px solid #695885',
+                          borderRadius: '5px',
+                          padding: '5px',
+                          backgroundColor: 'rgba(0,0,0,0.2)'
                         }}
-                      />
+                      >
+                        {props.userNFTBalance &&
+                          props.userNFTBalance.length > 0 && (
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '2px 0',
+                                borderBottom: '1px solid #444',
+                                marginBottom: '5px'
+                              }}
+                            >
+                              <input
+                                type='checkbox'
+                                checked={
+                                  selectedTokens.length ===
+                                    props.userNFTBalance.length &&
+                                  props.userNFTBalance.length > 0
+                                }
+                                onChange={handleSelectAll}
+                                style={{ marginRight: '5px' }}
+                              />
+                              <span
+                                style={{ fontSize: '12px', color: 'white' }}
+                              >
+                                Select All
+                              </span>
+                            </div>
+                          )}
+
+                        {props.userNFTBalance ? (
+                          props.userNFTBalance.map((item: any) => {
+                            const isSelected = selectedTokens.some(
+                              (t) => t.identifier === item.identifier
+                            );
+                            const balance = Number(item.balance);
+                            return (
+                              <div
+                                key={item.identifier}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  padding: '4px 0',
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flex: 1
+                                  }}
+                                  onClick={() => toggleSelection(item)}
+                                >
+                                  <input
+                                    type='checkbox'
+                                    checked={isSelected}
+                                    readOnly
+                                    style={{ marginRight: '5px' }}
+                                  />
+                                  <span
+                                    style={{
+                                      fontSize: '12px',
+                                      color: 'white',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      maxWidth: '120px'
+                                    }}
+                                    title={item.identifier}
+                                  >
+                                    {item.identifier}
+                                  </span>
+                                </div>
+                                {isSelected && balance > 1 && (
+                                  <div onClick={(e) => e.stopPropagation()}>
+                                    <input
+                                      type='number'
+                                      value={
+                                        quantities[item.identifier] || balance
+                                      }
+                                      onChange={(e) =>
+                                        handleItemQtyChange(
+                                          item.identifier,
+                                          Number(e.target.value),
+                                          balance
+                                        )
+                                      }
+                                      style={{
+                                        width: '60px',
+                                        height: '20px',
+                                        fontSize: '11px',
+                                        background: '#2a1b3d',
+                                        border: '1px solid #695885',
+                                        color: 'white',
+                                        borderRadius: '4px',
+                                        paddingLeft: '4px'
+                                      }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: '10px',
+                                        color: '#888',
+                                        marginLeft: '2px'
+                                      }}
+                                    >
+                                      /{balance}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <div style={{ color: 'white', fontSize: '12px' }}>
+                            No items
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <div
@@ -276,112 +371,113 @@ export const ModalStakeNft = (props: any) => {
                       openAccordions[0] ? 'open' : ''
                     }`}
                   >
-                    You can select one of your SFT or NFT inside your wallet and
-                    stake it.
+                    You can select one or multiple SFTs or NFTs inside your
+                    wallet and stake them (Multi-Stake).
                   </div>
                 </div>
               </div>
 
-              {stoken[0]?.balance > 1 && (
-                <div className='pool-details_StakeModal_black_Collection'>
-                  <div className='GroupeDetails_StakeModal_black_input_Collection'>
-                    <div className='PoolDetails_StakeModal_black_Collection'>
-                      <div className='DetailsInfo_black_Collection'>
-                        <div className='LabelDetailsInfo_black_Collection'>
-                          Quantity :
-                        </div>
-                        <div>
-                          <Input
-                            inputHeight='25px'
-                            inputWidth='179px'
-                            borderRadius={6}
-                            hasBorder={true}
-                            BoxShadowActive={false}
-                            hasBorderActive={true}
-                            background={'transparent'}
-                            value={qty}
-                            onInputChange={handleQtyChange}
-                            type='number'
-                            placeholder={'number'}
-                            fontSize={14}
-                          />
+              {selectedTokens.length === 1 &&
+                selectedTokens[0]?.balance > 1 && (
+                  <div className='pool-details_StakeModal_black_Collection'>
+                    <div className='GroupeDetails_StakeModal_black_input_Collection'>
+                      <div className='PoolDetails_StakeModal_black_Collection'>
+                        <div className='DetailsInfo_black_Collection'>
+                          <div className='LabelDetailsInfo_black_Collection'>
+                            Quantity :
+                          </div>
+                          <div>
+                            <Input
+                              inputHeight='25px'
+                              inputWidth='179px'
+                              borderRadius={6}
+                              hasBorder={true}
+                              BoxShadowActive={false}
+                              hasBorderActive={true}
+                              background={'transparent'}
+                              value={qty}
+                              onInputChange={handleQtyChange}
+                              type='number'
+                              placeholder={'number'}
+                              fontSize={14}
+                            />
+                          </div>
+                          <div
+                            className='svgAccordeons'
+                            onClick={() => toggleAccordion(3)}
+                          >
+                            <svg
+                              width={'16px'}
+                              height={'16px'}
+                              viewBox='0 0 16 16'
+                              fill='none'
+                              xmlns='http://www.w3.org/2000/svg'
+                              style={{
+                                transform: openAccordions[3]
+                                  ? 'rotate(180deg)'
+                                  : 'none',
+                                transition: 'transform 0.3s ease'
+                              }}
+                            >
+                              <path
+                                fillRule='evenodd'
+                                clipRule='evenodd'
+                                d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
+                                fill={openAccordions[3] ? 'green' : '#fff'}
+                              />
+                            </svg>
+                          </div>
                         </div>
                         <div
-                          className='svgAccordeons'
-                          onClick={() => toggleAccordion(3)}
+                          className={`accordion-content ${
+                            openAccordions[3] ? 'open' : ''
+                          }`}
                         >
-                          <svg
-                            width={'16px'}
-                            height={'16px'}
-                            viewBox='0 0 16 16'
-                            fill='none'
-                            xmlns='http://www.w3.org/2000/svg'
-                            style={{
-                              transform: openAccordions[3]
-                                ? 'rotate(180deg)'
-                                : 'none',
-                              transition: 'transform 0.3s ease'
-                            }}
-                          >
-                            <path
-                              fillRule='evenodd'
-                              clipRule='evenodd'
-                              d='M2.96967 5.21967C3.26256 4.92678 3.73744 4.92678 4.03033 5.21967L8 9.18934L11.9697 5.21967C12.2626 4.92678 12.7374 4.92678 13.0303 5.21967C13.3232 5.51256 13.3232 5.98744 13.0303 6.28033L8.53033 10.7803C8.23744 11.0732 7.76256 11.0732 7.46967 10.7803L2.96967 6.28033C2.67678 5.98744 2.67678 5.51256 2.96967 5.21967Z'
-                              fill={openAccordions[3] ? 'green' : '#fff'}
-                            />
-                          </svg>
+                          Only for SFT. This is the Quantity you want to stake
+                          in one time.
                         </div>
-                      </div>
-                      <div
-                        className={`accordion-content ${
-                          openAccordions[3] ? 'open' : ''
-                        }`}
-                      >
-                        Only for SFT. This is the Quantity you want to stake in
-                        one time. Keep in mind that it is not possible to do
-                        partial unstake at this time.
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
+
             <div className='pool-details_StakeModal_Collection'>
               <div className='GroupeDetails_StakeModal_Collection'>
-                {stoken.length == 1 ? (
+                {selectedTokens.length === 1 ? (
                   <div className='PoolDetails_StakeModal_Collection'>
                     <div className='DetailsInfo_Collection'>
                       <div className='LabelDetailsInfo_Collection'>
                         royalties
                       </div>
                       <div className='ValueDetailsInfo_Collection'>
-                        {stoken[0]?.royalties}
+                        {selectedTokens[0]?.royalties}
                       </div>
                     </div>
                     <div className='DetailsInfo_Collection'>
                       <div className='LabelDetailsInfo_Collection'>name</div>
                       <div className='ValueDetailsInfo_Collection'>
-                        {stoken[0]?.name}
+                        {selectedTokens[0]?.name}
                       </div>
                     </div>
                     <div className='DetailsInfo_Collection'>
                       <div className='LabelDetailsInfo_Collection'>nonce</div>
                       <div className='ValueDetailsInfo_Collection'>
-                        {stoken[0]?.nonce}
+                        {selectedTokens[0]?.nonce}
                       </div>
                     </div>
-                    {stoken[0]?.tags && (
+                    {selectedTokens[0]?.tags && (
                       <div className='DetailsInfo_Collection'>
                         <div className='LabelDetailsInfo_Collection'>tags</div>
                         <div className='ValueDetailsInfo_Collection'>
-                          {stoken[0]?.tags[0]?.length == 1 &&
-                          stoken[0]?.tags[0] == ''
+                          {selectedTokens[0]?.tags[0]?.length == 1 &&
+                          selectedTokens[0]?.tags[0] == ''
                             ? 'no tags'
-                            : stoken[0]?.tags
+                            : selectedTokens[0]?.tags
                                 ?.slice(
                                   0,
-                                  stoken[0]?.tags?.length < 3
-                                    ? stoken[0]?.tags?.length
+                                  selectedTokens[0]?.tags?.length < 3
+                                    ? selectedTokens[0]?.tags?.length
                                     : 3
                                 )
                                 .map((tag: string) => tag + ' ')}
@@ -391,7 +487,7 @@ export const ModalStakeNft = (props: any) => {
                     <div className='DetailsInfo_Collection'>
                       <div className='LabelDetailsInfo_Collection'>type</div>
                       <div className='ValueDetailsInfo_Collection'>
-                        {stoken[0]?.type}
+                        {selectedTokens[0]?.type}
                       </div>
                     </div>
                   </div>
@@ -399,22 +495,17 @@ export const ModalStakeNft = (props: any) => {
                   <div
                     style={{
                       width: '100%',
-                      textAlign: 'center'
+                      textAlign: 'center',
+                      color: 'white',
+                      padding: '20px'
                     }}
                   >
-                    {props.collectionReward.nonce > 0 && (
-                      <> No matching NFT in wallet</>
-                    )}
-
-                    {props.collectionReward.nonce > 0 && props.nft?.media && (
-                      <HexagoneNFT
-                        format={props.nft?.media[0]?.fileType}
-                        url={props.nft?.media[0]?.url}
-                        width={200}
-                        withBorder={true}
-                        borderWidth={1}
-                        borderColor='linear-gradient(to bottom, #1f67ff, #5e5ffe, #8356fa, #a249f4, #bd37ec)'
-                      />
+                    {selectedTokens.length > 1 ? (
+                      <div>
+                        {selectedTokens.length} items selected for staking.
+                      </div>
+                    ) : (
+                      <div>Select NFTs to view details</div>
                     )}
                   </div>
                 )}
@@ -435,11 +526,14 @@ export const ModalStakeNft = (props: any) => {
 
               <div className='bottomModal'>
                 <ActionStakeNft
-                  stakedNFT={stoken[0]?.collection}
-                  user_fund={qty}
+                  // Pass the full array for multi-stake with correct quantities
+                  selectedTokens={selectedTokens.map((t) => ({
+                    token: t,
+                    amount: quantities[t.identifier] || 1 // Fallback to 1 if missing
+                  }))}
                   pool_id={props.pool_id}
-                  nft_nonce={stoken[0]?.nonce}
-                  disabled={stoken.length < 1}
+                  disabled={selectedTokens.length < 1}
+                  isV2={props.isV2}
                 />
               </div>
             </div>

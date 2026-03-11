@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios'; // Importez Axios
+import { environment } from 'config';
 
 export const useGetCollectionsApi = () => {
   const [stakedTokens, setStakedTokens] = useState<string[]>([]);
 
   const getStakedTokens = async () => {
+    if (environment !== 'mainnet') {
+      setStakedTokens([]);
+      return;
+    }
     try {
       const response = await axios.get('https://test.mvx.fr/collections');
 

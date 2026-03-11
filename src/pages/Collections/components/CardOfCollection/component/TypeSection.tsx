@@ -154,6 +154,21 @@ const TypeSection: FC<TypeSectionProps> = ({
           <div style={title}>
             <div style={earnMex}>
               {collection?.identifier.split('-')[0]}
+              {collection?.isV2 && (
+                <span
+                  style={{
+                    fontSize: '10px',
+                    background: '#BD37EC',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    marginLeft: '8px',
+                    color: 'white',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  V2
+                </span>
+              )}
               {verified
                 .filter((a) => {
                   return a.c === collection?.identifier && a.s === 'verified';

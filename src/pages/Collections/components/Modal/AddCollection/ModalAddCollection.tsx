@@ -968,56 +968,6 @@ const ModalAddCollection = (props: ModalProps) => {
                       )}
                     </div>
                   ))}
-              {testgetStakedTokens &&
-                testgetStakedTokens.filter(
-                  (pool) =>
-                    pool.identifier === rtoken &&
-                    pool.speed == BigInt(speedNumber) &&
-                    pool.nonce == BigInt(nonceNumber) &&
-                    pool.vesting == BigInt(vestingTime) &&
-                    pool.unbounding == BigInt(unboundingTime)
-                ).length === 0 && (
-                  <div className='groupCredits'>
-                    Creating this pool will cost you {credits.toString()}{' '}
-                    credits.
-                    <br />
-                    You have {user_credits.toString()} credits left.{' '}
-                    <a
-                      className='text-white'
-                      href='#'
-                      onClick={() => setBuyCredits(!buyCredits)}
-                    >
-                      <u>Buy more credits with EGLD</u>
-                    </a>
-                    {buyCredits && (
-                      <div style={{ border: 'solid', padding: '20px' }}>
-                        1 EGLD = {credit_value} credits <br />
-                        <Input
-                          inputHeight='40px'
-                          inputWidth='179px'
-                          borderColor='rgb(105, 88, 133)'
-                          value={buyAmount
-                            .toString()
-                            .replace(/^0+(?=[^.])/, '')}
-                          onInputChange={handleBuyAmountChange}
-                          type='number'
-                          placeholder={''}
-                          fontSize={14}
-                        />{' '}
-                        <FormatAmount
-                          value={eBalance.toString()}
-                          data-testid='staked'
-                        />
-                        <br />
-                        Get {Math.floor(buyAmount * credit_value)} credits
-                        <ActionBuyCredit
-                          e_balance={eBalance}
-                          user_fund={bigBuyAmount}
-                        />{' '}
-                      </div>
-                    )}
-                  </div>
-                )}
               <div className='AmountInputGroupe'>
                 <div className='FormatAmountStaked'>
                   <Input

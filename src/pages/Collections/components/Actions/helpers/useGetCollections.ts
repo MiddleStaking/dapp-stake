@@ -37,8 +37,13 @@ export const useGetCollections = () => {
       localStorage.getItem('staked_collections_expire')
     );
     const storage = localStorage.getItem('staked_collections');
-    const tok = storage?.split(',');
-    setStakedTokens(tok ? tok : []);
+    let tok: string[] = [];
+    try {
+      tok = storage ? JSON.parse(storage) : [];
+    } catch (e) {
+      tok = [];
+    }
+    setStakedTokens(tok);
     if (time.getTime() < expire_test) {
       return;
     }

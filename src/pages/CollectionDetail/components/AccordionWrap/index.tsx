@@ -18,6 +18,7 @@ interface CardPoolrops {
   userEsdtBalance: any;
   setOpenModalJump: any;
   setNftsJump: any;
+  isV2?: boolean;
 }
 
 const AccordionWrap: FC<CardPoolrops> = ({
@@ -31,7 +32,8 @@ const AccordionWrap: FC<CardPoolrops> = ({
   setNftsJump,
   setOpenModalJump,
   collection_identifier,
-  getCollectionInformations
+  getCollectionInformations,
+  isV2
 }) => {
   const pools_id: any[] = [];
   for (const pools of collectionRewards) {
@@ -51,10 +53,16 @@ const AccordionWrap: FC<CardPoolrops> = ({
         item?.staked_nft?.unbound == 0 &&
         item?.staked_nft?.identifier == collection_identifier
     )
-    .map((item: any) => Number(item.staked_nft.pool_id))
+    .map((item: any) => ({
+      pool_id: Number(item.staked_nft.pool_id),
+      isV2: item.isV2 // Use the tag we added in CollectionDetailLayout
+    }))
     .filter(
-      (value: string, index: number, self: string[]) =>
-        self.indexOf(value) === index
+      (value: any, index: number, self: any[]) =>
+        index ===
+        self.findIndex(
+          (t) => t.pool_id === value.pool_id && t.isV2 === value.isV2
+        )
     );
   return (
     <div className='AccordeonsCards' key={uniqueKey}>
@@ -70,20 +78,13 @@ const AccordionWrap: FC<CardPoolrops> = ({
             buttonWidth='120px'
             bottomHeight={'30px'}
             user_pools={user_pools}
+            isV2={isV2}
           />
         </div>
         {collection_identifier == 'DINOVOX-cb2297' && (
           <p className='alert alert-dark'>
             Dino&apos;s staking in this app is not official. Staking dinos may
             disqualify your nft for later rewards based on holding time.
-          </p>
-        )}
-
-        {!verified.some((item) => item.c === collection_identifier) && (
-          <p className='alert alert-danger'>
-            Dyor : Collection listing is permissionless. Anyone can create a
-            rewarding pool. We did not managed to verify this collection at this
-            time. Proceed with care.
           </p>
         )}
 
@@ -153,6 +154,7 @@ const AccordionWrap: FC<CardPoolrops> = ({
                       collectionReward={item}
                       userStakedNft={userStakedNft}
                       getCollectionInformations={getCollectionInformations}
+                      isV2={item.isV2}
                     />
                   </div>
                 ))}

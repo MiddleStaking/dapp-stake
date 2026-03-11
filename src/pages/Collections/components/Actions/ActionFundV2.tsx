@@ -18,7 +18,7 @@ import bigToHex from 'helpers/bigToHex';
 import toHex from 'helpers/toHex';
 import { Button } from './../../../../components/Design';
 
-export const ActionFund = ({
+export const ActionFundV2 = ({
   stakedToken,
   rewardedToken,
   user_fund,
@@ -39,6 +39,16 @@ export const ActionFund = ({
     >(null);
 
   const sendFundTransaction = async () => {
+    // Parse nonce string into array of hex strings
+    const nonceList = nonce
+      .toString()
+      .split(',')
+      .map((n: string) => n.trim())
+      .filter((n: string) => n !== '');
+    const noncePayload = nonceList
+      .map((n: string) => toHex(Number(n)))
+      .join('@');
+
     const payload =
       'ESDTTransfer@' +
       Buffer.from(rewardedToken, 'utf8').toString('hex') +
@@ -49,13 +59,13 @@ export const ActionFund = ({
       '@' +
       Buffer.from(stakedToken, 'utf8').toString('hex') +
       '@' +
-      toHex(speed) +
+      toHex(speed * 86400) +
       '@' +
-      toHex(nonce) +
+      toHex(vesting * 86400) +
       '@' +
-      toHex(vesting) +
-      '@' +
-      toHex(unbounding);
+      toHex(unbounding * 86400) +
+      (noncePayload ? '@' + noncePayload : '');
+
     const transaction = new Transaction({
       value: BigInt(0),
       data: new TextEncoder().encode(payload),
@@ -71,9 +81,9 @@ export const ActionFund = ({
     const sessionId = await signAndSendTransactions({
       transactions: [transaction],
       transactionsDisplayInfo: {
-        processingMessage: 'Processing Fund transaction',
-        errorMessage: 'An error has occured Fund',
-        successMessage: 'Fund transaction successful'
+        processingMessage: 'Processing V2 Fund transaction',
+        errorMessage: 'An error has occured V2 Fund',
+        successMessage: 'V2 Fund transaction successful'
       }
     });
     if (sessionId != null) {
@@ -90,7 +100,7 @@ export const ActionFund = ({
                 buttonWidth='100%'
                 borderRadius={40}
                 background={['#BD37EC', '#1F67FF']}
-                text='Lock tokens'
+                text='Lock tokens (V2)'
                 onClick={sendFundTransaction}
                 disabled={user_fund == 0 || stakedToken === '' || !agreement}
               />
