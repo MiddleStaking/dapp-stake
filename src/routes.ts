@@ -14,6 +14,10 @@ import {
   Earn,
   Swap,
   Liquidity,
+  AddLiquidity,
+  RemoveLiquidity,
+  Pools,
+  CreatePool,
   Collections,
   CollectionDetail,
   Graou,
@@ -36,6 +40,10 @@ export const routeNames = {
   tokenomics2: '/tokenomics2',
   rewards2: '/rewards2',
   liquidity: '/liquidity',
+  addLiquidity: '/liquidity/add',
+  removeLiquidity: '/liquidity/remove',
+  pools: '/liquidity/pools',
+  createPool: '/liquidity/create',
   collections: '/collections',
   graou: '/graou',
   admin: '/admin'
@@ -104,6 +112,30 @@ export const routes: RouteWithTitleType[] = [
     path: routeNames.liquidity,
     title: 'Liquidity',
     component: Liquidity,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.addLiquidity,
+    title: 'Add Liquidity',
+    component: AddLiquidity,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.removeLiquidity,
+    title: 'Remove Liquidity',
+    component: RemoveLiquidity,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.pools,
+    title: 'Pools',
+    component: Pools,
+    authenticatedRoute: false
+  },
+  {
+    path: routeNames.createPool,
+    title: 'Create Pool',
+    component: CreatePool,
     authenticatedRoute: false
   },
   {

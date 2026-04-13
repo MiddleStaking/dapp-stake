@@ -1,25 +1,77 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .group:hover .group-hover\:block {
-    display: block;
-    text-decoration: underline;
-  }
+/* ─── Middle Staking Button ─────────────────────────────────────────────── */
+.dinoButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  margin: 0;
+
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-font-smoothing: antialiased;
+
+  background: linear-gradient(135deg, #634ACB 0%, #BD37EC 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+
+  box-shadow: 0 2px 12px rgba(99, 74, 203, 0.4);
+  transition: opacity 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+  cursor: pointer;
 }
 
-.mx-transactions > td {
-  @apply p-2;
+.dinoButton:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(189, 55, 236, 0.45);
 }
 
-.mx-transactions td > span,
-.mx-transactions td > div {
-  @apply flex w-max;
+.dinoButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(99, 74, 203, 0.3);
 }
 
-.mx-transactions td > div > a {
-  @apply text-blue-600;
-} */
+.dinoButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.dinoButton.orange {
+  background: linear-gradient(135deg, #9333ea 0%, #BD37EC 100%);
+  color: #ffffff;
+}
+
+.dinoButton.orange:hover {
+  opacity: 0.9;
+  box-shadow: 0 6px 20px rgba(189, 55, 236, 0.45);
+}
+
+/* ─── MS Card ────────────────────────────────────────────────────────────── */
+.ms-card {
+  background:
+    linear-gradient(0deg, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
+  border: 1px solid #695885;
+  border-radius: 12px;
+}
+
+.ms-card-rewards {
+  background: var(--linear-primary-light,
+    linear-gradient(156.86deg, rgba(189, 55, 236, 0.26) 0%, rgba(31, 103, 255, 0.00) 100%),
+    linear-gradient(to left, rgba(99, 74, 203, 0.32), rgba(99, 74, 203, 0.32)));
+  border: 1px solid #695885;
+  border-radius: 12px;
+}

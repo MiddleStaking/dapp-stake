@@ -10,6 +10,17 @@ export const vouchersCollection = 'SFT-221ca7';
 export const lockedCollection = 'TOKENTICKE-38b075';
 export const midGiftToken = 'MIDGIFT-bf25b7';
 export const wegld_identifier = 'WEGLD-a28c59';
+export const swap_api = 'https://devnet-dex.dinovox.com/api/v1';
+export const factoryContractAddress =
+  'erd1qqqqqqqqqqqqqpgqyd60ute93z4r69j7a3wuv93vxqzrj0as4zkqp854xr';
+export const routerContract =
+  'erd1qqqqqqqqqqqqqpgqk3esgdyks8hdysactlckn8mdpzaw7xuv4zkq5qph3y';
+export const BATCH_TRANSACTIONS_SC = {
+  egld_wEGLD: {
+    contract: 'erd1qqqqqqqqqqqqqpgqpv09kfzry5y4sj05udcngesat07umyj70n4sa2c0rp',
+    data: 'wrapEgld'
+  }
+};
 
 export const scOwner =
   'erd12stex47hwg0hvx8cfvukj3y3ugs7dm0686k3wasycffexva6ch9s7tvj29';

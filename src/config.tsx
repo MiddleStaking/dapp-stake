@@ -11,6 +11,16 @@ export const vouchersCollection = 'VOUCHERS-e6045e';
 export const dinoblock = 'DINOBLOCK-652073';
 export const dinobadge = 'DINOBLOCK-652073';
 export const wegld_identifier = 'WEGLD-bd4d79';
+export const swap_api = 'https://dex.dinovox.com/api/v1';
+export const factoryContractAddress = '';
+export const routerContract =
+  'erd1qqqqqqqqqqqqqpgqk3esgdyks8hdysactlckn8mdpzaw7xuv4zkq5qph3y';
+export const BATCH_TRANSACTIONS_SC = {
+  egld_wEGLD: {
+    contract: 'erd1qqqqqqqqqqqqqpgqpv09kfzry5y4sj05udcngesat07umyj70n4sa2c0rp',
+    data: 'wrapEgld'
+  }
+};
 
 export const midGiftToken = 'MIDGIFT-bf25b7';
 export const scOwner =
