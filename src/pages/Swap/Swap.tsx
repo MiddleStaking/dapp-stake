@@ -365,15 +365,15 @@ export const Swap = () => {
       await signAndSendTransactions({
         transactions: [transaction],
         transactionsDisplayInfo: {
-          processingMessage: 'Swap en cours…',
-          errorMessage: 'Le swap a échoué',
-          successMessage: 'Swap réussi !',
+          processingMessage: 'Swap in progress…',
+          errorMessage: 'Swap failed',
+          successMessage: 'Swap successful!',
         },
       });
       setAmountIn('');
       setQuote(null);
     } catch (err: any) {
-      setTxError(err?.message ?? 'Erreur lors du swap');
+      setTxError(err?.message ?? 'Swap error');
     } finally {
       setIsSending(false);
     }
@@ -456,15 +456,15 @@ export const Swap = () => {
       await signAndSendTransactions({
         transactions: [transaction],
         transactionsDisplayInfo: {
-          processingMessage: isWrap ? 'Wrap en cours…' : 'Unwrap en cours…',
-          errorMessage: isWrap ? 'Le wrap a échoué' : "L'unwrap a échoué",
-          successMessage: isWrap ? 'Wrap réussi !' : 'Unwrap réussi !',
+          processingMessage: isWrap ? 'Wrapping…' : 'Unwrapping…',
+          errorMessage: isWrap ? 'Wrap failed' : 'Unwrap failed',
+          successMessage: isWrap ? 'Wrap successful!' : 'Unwrap successful!',
         },
       });
 
       setAmountIn('');
     } catch (err: any) {
-      setTxError(err?.message ?? 'Erreur');
+      setTxError(err?.message ?? 'Error');
     } finally {
       setIsSending(false);
     }
@@ -474,7 +474,7 @@ export const Swap = () => {
   return (
     <PageTemplate
       title="Swap"
-      subtitle='Échangez vos tokens MultiversX'
+      subtitle='Swap your MultiversX tokens'
       breadcrumbItems={[
         { label: 'Home', path: '/' },
         { label: 'Swap', path: '/swap' },
@@ -500,26 +500,26 @@ export const Swap = () => {
                   onClick={() => navigate(RouteNamesEnum.liquidity)}
                   className="flex-1 xs:flex-initial px-4 sm:px-6 py-2 text-sm font-bold rounded-lg text-white/40 hover:text-white transition-all hover:bg-white/10"
                 >
-                  Liquidité
+                  Liquidity
                 </button>
               </div>
             </div>
           }
-          description="Échangez vos tokens en utilisant les pools de liquidité DinoVox"
+          description="Swap your tokens using DinoVox liquidity pools"
         >
           <div className="space-y-2 mt-4">
             {/* ---- Token In ---- */}
             <div className="rounded-2xl border border-[#695885]/40 bg-black/30 p-4">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-white/40">
-                  Vous envoyez
+                  You send
                 </p>
                 {address && tokenInBalanceDisplay && (
                   <button
                     onClick={handleMax}
                     className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#BD37EC] hover:text-purple-300 transition-colors"
                   >
-                    <span className="text-white/40">Balance :</span>
+                    <span className="text-white/40">Balance:</span>
                     {tokenInBalanceDisplay}
                     <span className="bg-purple-900/40 text-purple-300 px-1.5 py-0.5 rounded text-[9px] font-bold">
                       MAX
@@ -553,7 +553,7 @@ export const Swap = () => {
               </div>
               {insufficientBalance && (
                 <p className="mt-2 text-[10px] font-semibold text-red-500 text-right">
-                  Solde insuffisant
+                  Insufficient balance
                 </p>
               )}
             </div>
@@ -572,17 +572,17 @@ export const Swap = () => {
             <div className="rounded-2xl border border-[#695885]/40 bg-black/30 p-4">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-white/40">
-                  Vous recevez
+                  You receive
                 </p>
                 <div className="flex items-center gap-2">
                   {quoteLoading && (
                     <span className="text-[10px] text-white/40 animate-pulse uppercase tracking-wider">
-                      Calcul…
+                      Calculating…
                     </span>
                   )}
                   {address && tokenOutBalanceDisplay && (
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-white/40">
-                      Balance : <span className="text-[#BD37EC]">{tokenOutBalanceDisplay}</span>
+                      Balance: <span className="text-[#BD37EC]">{tokenOutBalanceDisplay}</span>
                     </span>
                   )}
                 </div>
@@ -609,7 +609,7 @@ export const Swap = () => {
             {/* ---- Wrap/Unwrap info ---- */}
             {isWrapUnwrap && !!amountIn && Number(amountIn) > 0 && (
               <div className="rounded-2xl border border-purple-500/30 bg-purple-900/20 px-4 py-3 text-sm text-purple-300">
-                {isWrap ? '⚡ Conversion 1:1 — EGLD → WEGLD via le contrat de wrap' : '⚡ Conversion 1:1 — WEGLD → EGLD via le contrat de unwrap'}
+                {isWrap ? '⚡ 1:1 conversion — EGLD → WEGLD via the wrap contract' : '⚡ 1:1 conversion — WEGLD → EGLD via the unwrap contract'}
               </div>
             )}
 
@@ -700,7 +700,7 @@ export const Swap = () => {
                       <div className="mt-2 flex flex-col gap-2 rounded-lg bg-red-900/20 border border-red-800/50 px-3 py-2 text-xs text-red-400">
                         <div className="flex items-start gap-2">
                           <span className="mt-0.5 shrink-0">⚠</span>
-                          <span>Cette route a un fort impact de prix — vous payez ce token plus cher que son prix de marché. Essayez de réduire le montant échangé pour un meilleur taux.</span>
+                          <span>This route has a high price impact — you are paying more than the market price for this token. Try reducing the amount for a better rate.</span>
                         </div>
                         {firstDinoHop && (() => {
                           const a = firstDinoHop.tokenIn;
@@ -711,7 +711,7 @@ export const Swap = () => {
                               onClick={() => navigate(`${RouteNamesEnum.addLiquidity}?tokenA=${tokenA}&tokenB=${tokenB}`)}
                               className="self-start underline font-semibold hover:text-red-300 transition"
                             >
-                              Ajouter de la liquidité sur cette paire →
+                              Add liquidity on this pair →
                             </button>
                           );
                         })()}
@@ -738,7 +738,7 @@ export const Swap = () => {
                   </div>
                 </div>
                 <div className="pt-2 border-t border-[#695885]/30 flex items-center justify-between">
-                  <span className="text-white/50">Minimum reçu</span>
+                  <span className="text-white/50">Minimum received</span>
                   <span className="font-semibold text-white">
                     {new BigNumber(applySlippage(quote.amountOut, slippage).toString())
                       .shiftedBy(-(tokenOut?.decimals ?? 18))
@@ -763,21 +763,21 @@ export const Swap = () => {
               className="dinoButton w-full !py-3 text-base disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {!address
-                ? 'Connectez votre wallet'
+                ? 'Connect your wallet'
                 : isSending
-                ? 'Signature…'
+                ? 'Signing…'
                 : !tokenIn || !tokenOut
-                ? 'Sélectionnez les tokens'
+                ? 'Select tokens'
                 : !amountIn || Number(amountIn) <= 0
-                ? 'Entrez un montant'
+                ? 'Enter an amount'
                 : insufficientBalance
-                ? 'Solde insuffisant'
+                ? 'Insufficient balance'
                 : quoteLoading
-                ? 'Calcul en cours…'
+                ? 'Calculating…'
                 : isWrapUnwrap
-                ? isWrap ? 'Wrapper' : 'Unwrapper'
+                ? isWrap ? 'Wrap' : 'Unwrap'
                 : quoteError
-                ? 'Quote indisponible'
+                ? 'Quote unavailable'
                 : 'Swap'}
             </button>
           </div>

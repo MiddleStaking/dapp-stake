@@ -197,7 +197,7 @@ export const CreatePool = () => {
                   value={tokenX} onChange={(e) => setTokenX(e.target.value)} disabled={tokensLoading || !!existingPool}
                 >
                   <option value="">Sélectionner</option>
-                  {(hubTokens.length > 0 ? hubTokens : tokens).filter((t) => t.identifier !== tokenY).map((t) => (
+                  {hubTokens.filter((t) => t.identifier !== tokenY).map((t) => (
                     <option key={t.identifier} value={t.identifier}>{t.ticker} ({t.identifier})</option>
                   ))}
                 </select>
