@@ -1344,10 +1344,10 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@dinovox/mx-swap-widget@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@dinovox/mx-swap-widget/-/mx-swap-widget-0.1.4.tgz#6f6a949c03795912a91c917020ece192579a3d99"
-  integrity sha512-VEqhFnA1NPo7bQmyj1Y6YjdoVJuYwcu94kv1uXb0H1mZX9bU2OwTLcrCg01xcY9ZaTOtfhXtMZ7TdyoaMgWGaw==
+"@dinovox/mx-swap-widget@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@dinovox/mx-swap-widget/-/mx-swap-widget-0.1.6.tgz#36e1d280fc88503679b3719e78c8e830da9b67c2"
+  integrity sha512-hOSHLOnYyH4WZaQH/P1rT5OGIa+Yg22Lc9pwIIkSJ0xYvKl7XNw6kLuaq4qxy7Xpabo7J78wichTThXQd4yQLw==
 
 "@emotion/unitless@^0.10.0":
   version "0.10.0"
