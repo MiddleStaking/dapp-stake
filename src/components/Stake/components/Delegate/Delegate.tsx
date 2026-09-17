@@ -9,7 +9,7 @@ import { object } from 'yup';
 import { Action, Submit } from 'components/Action';
 import { delegateValidator } from 'components/Stake//helpers/delegationValidators';
 import useStakeData, { ActionCallbackType } from 'components/Stake/hooks';
-import { local_network } from 'config';
+import { local_network, disableStakeActions } from 'config';
 
 import { denominated } from 'helpers/denominate';
 
@@ -21,17 +21,18 @@ export const Delegate = () => {
   const pending = useGetPendingTransactions();
   const hasPendingTransactions = pending.length > 0;
   const { limit, balance, maxed } = getStakingLimits();
+  const isDisabled = hasPendingTransactions || disableStakeActions;
 
   return (
     <div className={`${styles.wrapper} delegate-wrapper`}>
       <Action
         title='Delegate Now'
         description={`Select the amount of ${local_network.egldLabel} you want to delegate.`}
-        disabled={hasPendingTransactions}
+        disabled={isDisabled}
         trigger={
           <div
             className={classNames(styles.trigger, {
-              [styles.disabled]: hasPendingTransactions
+              [styles.disabled]: isDisabled
             })}
           >
             Delegate

@@ -55,6 +55,10 @@ interface globalFetchesType {
     key: string;
     handler: () => Promise<string>;
   };
+  getUserClaimableRewards: {
+    key: string;
+    handler: () => Promise<string>;
+  };
   getNetworkConfig: {
     key: string;
     handler: () => Promise<any>;
@@ -111,6 +115,11 @@ const useGlobalData = () => {
         name: 'getBlsKeysStatus',
         inputs: [{ name: 'addr', type: 'Address' }],
         outputs: [{ name: 'keys', type: 'variadic<bytes>', multi_result: true }]
+      },
+      {
+        name: 'getClaimableRewards',
+        inputs: [{ name: 'address', type: 'Address' }],
+        outputs: [{ name: 'rewards', type: 'BigUint' }]
       }
     ]
   });
@@ -287,6 +296,22 @@ const useGlobalData = () => {
           }
 
           return userStake.toFixed();
+        } catch (error) {
+          return Promise.reject(error);
+        }
+      }
+    },
+    getUserClaimableRewards: {
+      key: 'userClaimableRewards',
+      handler: async (): Promise<string> => {
+        try {
+          const response = await controller.query({
+            contract: contractAddress,
+            function: 'getClaimableRewards',
+            arguments: [new AddressValue(new Address(address))]
+          });
+
+          return response[0] ? new BigNumber(response[0]).toFixed() : '0';
         } catch (error) {
           return Promise.reject(error);
         }

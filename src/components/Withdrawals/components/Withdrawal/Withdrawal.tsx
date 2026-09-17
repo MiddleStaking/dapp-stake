@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import { MultiversX } from 'assets/MultiversX';
-import { local_network } from 'config';
+import { local_network, disableStakeActions } from 'config';
 import { UndelegateStakeListType } from 'context/state';
 import useTransaction from 'helpers/useTransaction';
 
@@ -74,9 +74,12 @@ export const Withdrawal = (props: UndelegateStakeListType) => {
 
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${network.apiAddress}/economics`, {
-          cancelToken: source.token
-        });
+        const { data } = await axios.get(
+          `${local_network.apiAddress}/economics`,
+          {
+            cancelToken: source.token
+          }
+        );
 
         const amount = parseFloat(value.replace(',', '')) * data.price;
 
@@ -117,7 +120,7 @@ export const Withdrawal = (props: UndelegateStakeListType) => {
 
         <div className={styles.data}>
           <span className={styles.value}>
-            {value} {network.egldLabel}
+            {value} {local_network.egldLabel}
           </span>
 
           <span className={styles.amount}>${fiat}</span>
@@ -132,9 +135,17 @@ export const Withdrawal = (props: UndelegateStakeListType) => {
         )}
 
         <button
-          onClick={onWithdraw}
+          onClick={
+            counter > 0 || hasPendingTransactions || disableStakeActions
+              ? undefined
+              : onWithdraw
+          }
+          disabled={
+            counter > 0 || hasPendingTransactions || disableStakeActions
+          }
           className={classNames(styles.withdraw, {
-            [styles.disabled]: counter > 0 || hasPendingTransactions
+            [styles.disabled]:
+              counter > 0 || hasPendingTransactions || disableStakeActions
           })}
         >
           <FontAwesomeIcon icon={faMinus} /> <span>Withdraw</span>

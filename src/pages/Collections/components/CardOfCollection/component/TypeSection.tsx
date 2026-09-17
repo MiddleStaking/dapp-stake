@@ -248,7 +248,7 @@ const TypeSection: FC<TypeSectionProps> = ({
             >
               <HexagoneNFT
                 format={collection?.media?.fileType}
-                url={collection?.media.url}
+                url={collection?.media?.url}
                 width={100}
                 withBorder={true}
                 borderWidth={2.5}

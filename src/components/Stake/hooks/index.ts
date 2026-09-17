@@ -1,23 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-
-import {
-  Address,
-  AddressValue,
-  Query,
-  ContractFunction,
-  decodeBigNumber,
-  DevnetEntrypoint,
-  Abi
-} from '@multiversx/sdk-core';
-
 import { useGetAccountInfo } from 'lib';
-import { useGetPendingTransactions } from 'lib';
-import { useGetSuccessfulTransactions } from 'lib';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import BigNumber from 'bignumber.js';
 
-import { local_network, minDust } from 'config';
-import { useDispatch, useGlobalContext } from 'context';
+import { minDust } from 'config';
+import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 import getPercentage from 'helpers/getPercentage';
 import { nominateValToHex } from 'helpers/nominate';
@@ -29,19 +14,9 @@ export interface DelegationPayloadType {
 }
 
 const useStakeData = () => {
-  const dispatch = useDispatch();
-  const [check, setCheck] = useState(true);
-
-  const { account, address } = useGetAccountInfo();
+  const { account } = useGetAccountInfo();
   const { sendTransaction } = useTransaction();
-  const pending = useGetPendingTransactions();
-  const hasPendingTransactions = !!useGetPendingTransactions()?.length;
-  const prevHasPending = useRef(hasPendingTransactions);
-
-  const successfulTransactions = useGetSuccessfulTransactions();
-  const hasSuccessfulTransactions = successfulTransactions.length > 0;
-  const { contractDetails, userClaimableRewards, totalActiveStake } =
-    useGlobalContext();
+  const { contractDetails, totalActiveStake } = useGlobalContext();
 
   const onDelegate =
     (callback: ActionCallbackType) =>
@@ -147,89 +122,6 @@ const useStakeData = () => {
       limit: ''
     };
   };
-  const entrypoint = new DevnetEntrypoint({ url: local_network.apiAddress });
-  const abi = Abi.create({
-    endpoints: [
-      {
-        name: 'getClaimableRewards',
-        inputs: [{ name: 'address', type: 'Address' }],
-        outputs: [{ name: 'rewards', type: 'BigUint' }]
-      }
-    ]
-  });
-  const controller = entrypoint.createSmartContractController(abi);
-
-  const getUserClaimableRewards = async (): Promise<void> => {
-    setCheck(false);
-
-    dispatch({
-      type: 'getUserClaimableRewards',
-      userClaimableRewards: {
-        status: 'loading',
-        data: null,
-        error: null
-      }
-    });
-
-    try {
-      const contractAddress = Address.newFromBech32(
-        local_network.delegationContract
-      );
-      const res: any = await controller.query({
-        contract: contractAddress,
-        function: 'getClaimableRewards',
-        arguments: [new AddressValue(new Address(address))]
-      });
-
-      dispatch({
-        type: 'getUserClaimableRewards',
-        userClaimableRewards: {
-          status: 'loaded',
-          error: null,
-          data: res[0] ? new BigNumber(res[0]) : new BigNumber(0)
-        }
-      });
-    } catch (error) {
-      dispatch({
-        type: 'getUserClaimableRewards',
-        userClaimableRewards: {
-          status: 'error',
-          data: null,
-          error
-        }
-      });
-    }
-  };
-
-  const fetchClaimableRewards = () => {
-    if (!userClaimableRewards.data) {
-      getUserClaimableRewards();
-    }
-  };
-
-  const reFetchClaimableRewards = () => {
-    if (check) {
-      getUserClaimableRewards();
-      setCheck(false);
-    }
-  };
-
-  // useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
-  useEffect(reFetchClaimableRewards, [
-    hasSuccessfulTransactions,
-    successfulTransactions
-  ]);
-
-  useEffect(() => {
-    if (prevHasPending.current && !hasPendingTransactions) {
-      setCheck(true);
-
-      // return () => {
-      //   setCheck(false);
-      // };
-    }
-    prevHasPending.current = hasPendingTransactions;
-  }, [hasPendingTransactions]);
 
   return {
     onDelegate,

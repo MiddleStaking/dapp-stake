@@ -7,7 +7,7 @@ import { object } from 'yup';
 import { Action, Submit } from 'components/Action';
 import { undelegateValidator } from 'components/Stake//helpers/delegationValidators';
 import useStakeData, { ActionCallbackType } from 'components/Stake/hooks';
-import { local_network } from 'config';
+import { local_network, disableStakeActions } from 'config';
 import { useGlobalContext } from 'context';
 
 import { denominated } from 'helpers/denominate';
@@ -21,17 +21,18 @@ export const Undelegate = () => {
   const { onUndelegate } = useStakeData();
   const pending = useGetPendingTransactions();
   const hasPendingTransactions = pending.length > 0;
+  const isDisabled = hasPendingTransactions || disableStakeActions;
 
   return (
     <div className={classNames(styles.wrapper, 'undelegate-wrapper')}>
       <Action
         title='Undelegate Now'
         description={`Select the amount of ${local_network.egldLabel} you want to undelegate.`}
-        disabled={hasPendingTransactions}
+        disabled={isDisabled}
         trigger={
           <div
             className={classNames(styles.trigger, {
-              [styles.disabled]: pending
+              [styles.disabled]: isDisabled
             })}
           >
             Undelegate

@@ -72,6 +72,19 @@ export const defaultPairs = [
 export const stakingContract =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyhllllsv4k7x2';
 
+/**
+ * Temporary maintenance switch for the delegation dashboard.
+ * When true, "Claim Now" and "Redelegate" are disabled and the
+ * maintenance message below is shown instead.
+ */
+export const disableClaimAndRedelegate = true;
+export const claimAndRedelegateMaintenanceMessage =
+  'Claiming and redelegating rewards are temporarily disabled for maintenance. Please check back in a few days.';
+
+export const disableStakeActions = true;
+export const stakeActionsMaintenanceMessage =
+  'Delegating, undelegating and withdrawing are temporarily disabled for maintenance. Please check back in a few days.';
+
 export const dAppName = 'Middle Staking';
 // Generate your own WalletConnect 2 ProjectId here: https://cloud.walletconnect.com/app
 // export const walletConnectV2ProjectId = '9b1a9564f91cb659ffe21b73d5c4e2d8';

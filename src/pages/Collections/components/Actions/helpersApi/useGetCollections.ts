@@ -6,7 +6,9 @@ export const useGetCollectionsApi = () => {
 
   const getStakedTokens = async () => {
     try {
-      const response = await axios.get('https://test.mvx.fr/collections');
+      const response = await axios.get(
+        'https://claim.dinovox.com/mid/legacyv1/collections'
+      );
 
       if (response.status === 200 && response.data) {
         const tokens = response.data;

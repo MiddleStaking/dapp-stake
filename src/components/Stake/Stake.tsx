@@ -5,7 +5,13 @@ import { useGetPendingTransactions } from 'lib';
 import classNames from 'classnames';
 
 import { MultiversX } from 'assets/MultiversX';
-import { local_network } from 'config';
+import {
+  local_network,
+  disableClaimAndRedelegate,
+  claimAndRedelegateMaintenanceMessage,
+  disableStakeActions,
+  stakeActionsMaintenanceMessage
+} from 'config';
 import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 
@@ -30,6 +36,7 @@ interface PanelType {
   value: string;
   disabled: boolean;
   actions: ActionType[];
+  maintenanceMessage?: string;
 }
 
 export const Stake = () => {
@@ -53,7 +60,7 @@ export const Stake = () => {
       color: '#2044F5',
       title: 'Active Delegation',
       value: denominated(userActiveStake.data || '...', { addCommas: false }),
-      disabled: false,
+      disabled: disableStakeActions,
       actions: [
         {
           render: <Undelegate />,
@@ -63,7 +70,10 @@ export const Stake = () => {
           render: <Delegate />,
           label: 'Delegate'
         }
-      ]
+      ],
+      maintenanceMessage: disableStakeActions
+        ? stakeActionsMaintenanceMessage
+        : undefined
     },
     {
       subicon: <FontAwesomeIcon icon={faGift} />,
@@ -76,7 +86,10 @@ export const Stake = () => {
             .toFixed(4)
         ).toLocaleString(undefined, { minimumFractionDigits: 4 }) || '...'
       }`,
-      disabled: !userClaimableRewards.data || userClaimableRewards.data === '0',
+      disabled:
+        disableClaimAndRedelegate ||
+        !userClaimableRewards.data ||
+        userClaimableRewards.data === '0',
       actions: [
         {
           transaction: onClaimRewards(() => false),
@@ -86,7 +99,10 @@ export const Stake = () => {
           transaction: onRedelegate(() => false),
           label: 'Redelegate'
         }
-      ]
+      ],
+      maintenanceMessage: disableClaimAndRedelegate
+        ? claimAndRedelegateMaintenanceMessage
+        : undefined
     }
   ];
 
@@ -165,7 +181,12 @@ export const Stake = () => {
                       key={action.label}
                       type='button'
                       style={{ background: iteratee ? panel.color : '#303234' }}
-                      onClick={action.transaction}
+                      onClick={
+                        panel.disabled || hasPendingTransactions
+                          ? undefined
+                          : action.transaction
+                      }
+                      disabled={panel.disabled || hasPendingTransactions}
                       className={classNames(styles.action, {
                         [styles.disabled]:
                           panel.disabled || hasPendingTransactions
@@ -176,6 +197,12 @@ export const Stake = () => {
                   )
                 )}
               </div>
+
+              {panel.maintenanceMessage && (
+                <div className={styles.maintenance}>
+                  {panel.maintenanceMessage}
+                </div>
+              )}
             </div>
           ))}
         </div>
